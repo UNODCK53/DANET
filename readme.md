@@ -10,6 +10,7 @@ puede encontrar todo lo relacionado a este host en  [DANET website](http://danet
 
 **Equipo Unidad de Informción.**
 
+Juan Pablo Ardila
 Cristian Castañeda, 
 William Galvis, 
 Rafael Vargas, 
