@@ -13,7 +13,6 @@ puede encontrar todo lo relacionado a este host en  [DANET website](http://danet
 Juan Pablo Ardila
 Cristian Castañeda, 
 William Galvis, 
-Rafael Vargas, 
 Gabriel Rojas
 
 ### Terminos de Licenciamiento
