@@ -76,10 +76,10 @@ return array(
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
-			'host'     => 'localhost',
-			'database' => 'SAI',
-			'username' => 'sa',
-			'password' => 'Giuliano2009',
+			'host'     => 'UNODCSQLUI\GEO',
+			'database' => 'DABASE',
+			'username' => 'danet',
+			'password' => 'Unodc2015',
 			'prefix'   => '',
 		),
 

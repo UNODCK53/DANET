@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'America/Bogota',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return array(
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'es',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'fallback_locale' => 'en',
+	'fallback_locale' => 'es',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return array(
 	|
 	*/
 
-	'key' => 'XRMSEKbyBKsrN7gBlZlAgQpoCXvnuxuv',
+	'key' => 'FF3Jxbn4VklJBlr18I5xDBaNRj2Ej5PM',
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 

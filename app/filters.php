@@ -39,12 +39,12 @@ Route::filter('auth', function()
 	{
 		if (Request::ajax())
 		{
-			//Si no esta autentixcado nos redirige a la portada
+			//Si no esta autenticado nos redirige a la portada
 			return Response::make('portada', 401);
 		}
 		else
 		{
-			return Redirect::guest('portada');
+			return Redirect::guest('/');
 		}
 	}
 });
@@ -99,24 +99,55 @@ Route::filter('grupo1', function()
 		return Redirect::to('principal');
 	}
 });
+
 //Filtro para el nivel de usuario administrador(=1)
-Route::filter('rol1', function ()
+Route::filter('level1', function ()
 {
    if (Auth::user()->level!="1")
    {
-   	//Si no pertenece al rol "1" nos envia a principal
+   	//Si no pertenece al level "1" nos envia a principal
    	 return Redirect::to('principal');
    }
    	
 });
 
 //Filtro para el nivel de usuario general(=2)
-Route::filter('rol2', function ()
+Route::filter('level2', function ()
 {
    if (Auth::user()->level!="2")
    {
-   	//Si no pertenece al role "2" nos envia a principal
+   	//Si no pertenece al levele "2" nos envia a principal
    	 return Redirect::to('principal');
    }
    	
+});
+
+//Filtro del grupo 2
+Route::filter('grupo2', function()
+{
+	if (Auth::user()->grupo!="2")
+	{
+		//Si no pertenece al grupo "1" nos envia a principal
+		return Redirect::to('principal');
+	}
+});
+//Filtro para el nivel de usuario general(=3)
+Route::filter('level3', function ()
+{
+   if (Auth::user()->level!="3")
+   {
+   	//Si no pertenece al levele "2" nos envia a principal
+   	 return Redirect::to('principal');
+   }
+   	
+});
+
+//Filtro del grupo 3
+Route::filter('grupo3', function()
+{
+	if (Auth::user()->grupo!="3")
+	{
+		//Si no pertenece al grupo "1" nos envia a principal
+		return Redirect::to('principal');
+	}
 });

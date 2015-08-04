@@ -27,7 +27,20 @@
         background-color: #f5f5f5;
       }
   </style>
+  <!-- librerias JavaScript que se utilizan en la pagina -->
+  <script src="assets/js/jquery-1.11.2.js"></script>
+  <script src="assets/js/bootstrap.js"></script>
+  <script src="assets/js/jquery-ui.js"></script>
   
+  @if (Session::has('login_errors'))
+    <script>
+      
+      $(document).ready(function(){
+        $("#loginModal").modal('show');
+      });
+
+    </script>
+  @endif
 
 </head>
 <body>
@@ -118,7 +131,7 @@
 
     <div class="row">
     
-        <div class="col-xs-12">
+        <div>
           <br />
           <h2><p class="text-center">10 años apoyando el cambio</p></h2>
           <br />
@@ -252,13 +265,13 @@
           <!--<form class="form center-block">-->
             <form class="form center-block" id="loginform" action="login" method="post">
               @if (Session::has('login_errors'))
-                <p style='color:#FB1D1D' >El nombre de usuario o la contraseña no son correctos.</p>
+                <p class="bg-danger">El nombre de usuario o la contraseña no son correctos.</p>
 
-                @elseif (Session::has('usuario_inactivo'))
-                <p style='color:#FB1D1D' >El usuario está inactivo.</p>
-                @else
+              @elseif (Session::has('usuario_inactivo'))
+                <p class="bg-danger">El usuario está inactivo.</p>
+              @else
                 <p>Introduzca usuario y contraseña.</p>
-                @endif
+              @endif
 
 
             <div class="form-group">
@@ -284,10 +297,8 @@
 
 <!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 -->
-  <script src="assets/js/jquery-1.11.2.js"></script>
-  <script src="assets/js/bootstrap.js"></script>
-  <script src="assets/js/jquery-ui.js"></script>
-  <script src="assets/js/login.js"></script>
+  
 
+<script src="assets/js/login.js"></script>
 </body>
 </html>

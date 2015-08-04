@@ -12,6 +12,10 @@
 			
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+			<link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css">
+			<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datepicker.css">
+			
+			
 
 			<style>
 			    #sha{
@@ -60,7 +64,22 @@
 				  }
 
 			</style>
+
   		@show
+  		@section('js')
+			<!-- librerias JavaScript que se utilizan en la pagina -->
+			<script src="assets/js/jquery-1.11.2.js"></script>
+			<script src="assets/js/bootstrap.js"></script> 
+			<script src="assets/js/jquery.dataTables.min.js"></script>
+			<script src="assets/js/dataTables.bootstrap.js"></script>
+			<script src="assets/js/bootstrap-datepicker.js"></script>
+			<script src="assets/js/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
+		@show
+		@section('scripthead')
+
+
+		@show
+
 </head>
 <body>
 <!--comienza la cabecera-->
@@ -106,21 +125,170 @@
 
 <!--texto-->
 @section('menu1')
+<!--Segundo contenedor menu secundario-->
+<div class="container-fluid">
+    <div class="row" id="menu-sec">
+        <!--Menu secundario es visible en sm lg-->
+        <div class="col-sm-12 col-sm-offset-1 visible-sm visible-md  col-md-8 col-md-offset-2 visible-lg col-lg-9 col-lg-offset-3">
+            <ul class="nav nav-pills ">
+                <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
+                <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
+                @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
+                <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCION <span class="caret"></span></a>
+                    
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#">Monitoreo Integrado</a></li>
+                      <li><a href="#">GME</a></li>
+                      <li><a href="#">Proyectos Productivos</a></li>
+                      <li><a href="#">Catatumbo</a></li>
+                      <li><a href="#">SAI</a></li>
+                      <li><a href="#">Saldo a Diciembre</a></li>
+                    </ul>
+                </li>
 
+                <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href='vista2'>Consulta de encuestas</a></li>
+                      <li><a href="#">Indicadores de recolección</a></li>
+                    </ul>
+                </li>
+                <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href='vista1'>Crear misión</a></li>
+                      <li><a href="#">Cargar track</a></li>
+                    </ul>
+                </li> 
+                <li role="menu"><a href="#" class="enlace-menu">HISTORIA</a></li>
+                <li role="menu"><a href="#" class="enlace-menu">GME</a></li>
+                  @else
+                @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+
+                @if(((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) && (Auth::user()->level=="1"))<!--Oculta la opción tierras si no es el administrador-->
+                <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General</a></li>
+                      <li id="tierrasconsultaproceso"><a href="consulta_por_proceso">Consulta por Proceso</a></li>
+                      <li class="divider"></li>
+                      
+                      <li><a align="center"><b>Reportes</b></a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Numero de Procesos</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Area Levantada</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Responsable Juridico</a></li>
+
+                      <li class="divider"></li>
+                      <li><a align="center"><b>Pocesos</b></a></li>
+                        <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span>Carga Inicial</a></li>
+                        <li id="tierrascargaproceso"><a href="<?=URL::to('estudio_juridico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estudio Juridico</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Adjuntar Documentos</a></li>
+
+                      <li class="divider"></li>
+                      <li><a href="#">Mapas</a></li>
+                    </ul>
+                </li> 
+                  @else
+                @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+
+            </ul>
+            
+        </div>  
+            
+           <!--Menu compacto es visible en xs -->   
+        <div class="col-xs-12 visible-xs">
+          
+          <nav class="navbar navbar-default" >
+            <div class="container">
+        
+            <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+
+                  </button>
+                  <a id="iniciomenupeq" class="navbar-brand " href="principal"><small><strong> INICIO</strong></small></a>
+              </div>
+
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                  <!-- Lista desplegable de menu con submenu -->
+                @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
+                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCION <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Monitoreo Integrado</a></li>
+                        <li><a href="#">GME</a></li>
+                        <li><a href="#">Proyectos Productivos</a></li>
+                        <li><a href="#">Catatumbo</a></li>
+                        <li><a href="#">SAI</a></li>
+                        <li><a href="#">Saldo a Diciembre</a></li>
+                      </ul>
+                  </li>
+
+                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href='vista2'>Consulta de encuestas</a></li>
+                        <li><a href="#">Indicadores de recolección</a></li>
+                      </ul>
+                  </li>
+                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href='vista1'>Crear misión</a></li>
+                        <li><a href="#">Cargar track</a></li>
+                      </ul>
+                  </li>                
+
+                  <li><a href="#" class="enlace-menu">HISTORIA</a></li>
+                  <li><a href="#" class="enlace-menu">GME</a></li>
+                    @else
+                  @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+
+                  @if(((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) && (Auth::user()->level=="1"))<!--Oculta la opción tierras si no es el administrador-->
+                  <li class="dropdown"><a id="tierrasmenupeq"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a id="tierrascongenmenupeq" href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General</a></li>
+                      <li><a id="tierrasconpromenupeq"href="consulta_por_proceso">Consulta por Proceso</a></li>
+                      <li class="divider"></li>
+                      
+                      <li><a align="center"><b>Reportes</b></a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Numero de Procesos</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Area Levantada</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Responsable Juridico</a></li>
+
+                      <li class="divider"></li>
+                      <li><a align="center"><b>Pocesos</b></a></li>
+                        <li><a id="tierrascarinimenupeq" href="<?=URL::to('carga_inicial'); ?>"> <span class="glyphicon glyphicon-ok"></span> Carga Inicial</a></li>
+                        <li><a id="tierrasestjurmenupeq" href="<?=URL::to('estudio_juridico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estudio Juridico</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
+                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Adjuntar Documentos</a></li>
+
+                      <li class="divider"></li>
+                      <li><a href="#">Mapas</a></li>
+                    </ul>
+                  </li>  
+                    @else
+                  @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+                </ul><!-- fin de menu con submenu -->
+                
+                
+              </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+          </nav>
+      
+        </div>
+    </div>
+</div>
+ <!--Fin del segundo contenedor-->  
 @show
 
 @section('contenedorgeneral1')
-<!--tercer contenedor pie de página-->
-	<div class="container" id="sha">
-		<div class="row">
 
-	      
-@show
-
-@section('contenedorgeneral2')	       
-	    </div>
-	</div>
-	<!--Fin del tercer contenedor--> 
 @show
 
 @section('piedepagina')
@@ -149,14 +317,6 @@
  <!--Fin del quinto contenedor-->  
 @show
 
-
-@section('js')
-	<!-- librerias JavaScript que se utilizan en la pagina -->
-  <script src="assets/js/jquery-1.11.2.js"></script>
-  <script src="assets/js/bootstrap.js"></script>
-  <script src="assets/js/jquery-ui.js"></script>
-  <script src="assets/js/login.js"></script>
-@show
 </body>
 </html>
 
