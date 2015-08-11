@@ -32,7 +32,7 @@
   <script src="assets/js/bootstrap.js"></script>
   <script src="assets/js/jquery-ui.js"></script>
   
-  @if (Session::has('login_errors'))
+  @if ((Session::has('login_errors'))or(Session::has('usuario_inactivo')) )
     <script>
       
       $(document).ready(function(){
@@ -41,6 +41,7 @@
 
     </script>
   @endif
+
 
 </head>
 <body>

@@ -19,6 +19,7 @@ Route::get('/', function()
 //nos dirige a al contlevelador encargado de hacer la verificacion del login
 Route::post('login','UserLogin@user');
 
+
 //ruta para cerrar sesión y nos redirige a la portada
 Route::get('logout', function()
 { 
@@ -72,6 +73,7 @@ Route::group(array('before' => 'auth'), function()
 
 	//Ruta del home si se encuentra autenticado
 	Route::get('principal', function(){return View::make('principal');});
+  Route::post('cambiopass','UserLogin@cambiar');
 });
 
 // ruta al controlador restfull donde esta toda la informacion de tierras

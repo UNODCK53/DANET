@@ -246,26 +246,26 @@
 
           });
 
-          $('#example').dataTable();
-          var tabla="";
+          var table = $('#example').DataTable();
           
           $('#example tbody').on('click', 'tr', function () {
-              $("#btnedijuri").prop('disabled', false);
-              
-              $("#"+tabla).removeClass("active");
-              var name = $('td', this).eq(2).text();
-              //alert( 'You clicked on '+name+' row' );
-              $(this).addClass("active");
-              //console.log(tabla, name);
-              //tabla=name;
-              $("#modnp").val($('td', this).eq(0).text());
-              $("#modvereda").val($('td', this).eq(1).text());
-              $("#modnompred").val($('td', this).eq(2).text());
-              $("#moddirnoti").val($('td', this).eq(3).text());
-              $("#modnombre").val($('td', this).eq(4).text());
-              $("#modcedula").val($('td', this).eq(5).text());
-              $("#modtelefono").val($('td', this).eq(6).text());
-              $("#modarea").val($('td', this).eq(7).text());
+              if ( $(this).hasClass('active') ) {
+                $(this).removeClass('active');
+                $("#btnedijuri").prop('disabled', true);
+              }
+              else {
+                table.$('tr.active').removeClass('active');
+                $(this).addClass('active');
+                $("#btnedijuri").prop('disabled', false);
+                $("#modnp").val($('td', this).eq(0).text());
+                $("#modvereda").val($('td', this).eq(1).text());
+                $("#modnompred").val($('td', this).eq(2).text());
+                $("#moddirnoti").val($('td', this).eq(3).text());
+                $("#modnombre").val($('td', this).eq(4).text());
+                $("#modcedula").val($('td', this).eq(5).text());
+                $("#modtelefono").val($('td', this).eq(6).text());
+                $("#modarea").val($('td', this).eq(7).text());
+              }
           });     
       });
 
