@@ -102,6 +102,13 @@ class TierrasController extends BaseController {
 	    return Input::get('proceso');
 	    //View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arrayconcepto' => $arrayconcepto));
 
+	}	
+	public function ListadoProcesogral()
+	{
+		//consulta para retornar los procesos por abogado
+		$arrayproceso = DB::select("SELECT t.id_proceso, Sum(CASE WHEN t.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN t.id_estado = '2' THEN (CASE WHEN t.conceptojuridico >= '7' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN t.id_estado = '3' THEN 1 ELSE 0 END) as radicado,	Sum(CASE WHEN t.id_estado = '4' THEN 1 ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN t.id_estado = '5' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN t.id_estado = '6' THEN 1 ELSE 0 END) as registroorip FROM (SELECT MODTIERRAS_PROCESTADO.id_proceso, MODTIERRAS_PROCESTADO.id_estado, MODTIERRAS_PROCESO.conceptojuridico, MODTIERRAS_PROCESO.respjuridico FROM [MODTIERRAS_PROCESTADO] JOIN [MODTIERRAS_PROCESO] ON MODTIERRAS_PROCESTADO.id_proceso=MODTIERRAS_PROCESO.id_proceso) as t group by t.id_proceso");
+				//return $arrayproceso;
+		return View::make('modulotierras.consultageneral', array('arrayproceso' => $arrayproceso));
 	}
 	public function ListadoLevtopo()
 	{
@@ -121,8 +128,7 @@ class TierrasController extends BaseController {
        		return Redirect::route('levantamiento_topografico')->with('status', 'ok_estatus');
     	}
     	return Redirect::route('levantamiento_topografico')->with('status', 'error_estatus');
-    	
-	}
+    }
 }
 
 ?>
