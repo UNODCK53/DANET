@@ -264,7 +264,9 @@
                 $("#modtelefono").val($('td', this).eq(6).text());
                 $("#modarea").val($('td', this).eq(7).text());
               }
-          });       
+
+          });               
+
       });
 
     </script>
