@@ -60,7 +60,7 @@ Route::group(array('before' => 'auth'), function()
           Route::group(array('before' => 'level1'), function()
           {
               //melleva a la vista de consulta general de tierras
-              Route::get('consulta_general_tierras',function(){return View::make('modulotierras/consultageneral');});
+              Route::get('consulta_general_tierras','TierrasController@ListadoProcesogral');
               //melleva a la vista de consulta por proceso de tierras
               Route::get('consulta_por_proceso',function(){return View::make('modulotierras/consultaporproceso');});
               // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
