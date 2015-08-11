@@ -181,7 +181,7 @@
                       <li><a align="center"><b>Pocesos</b></a></li>
                         <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span>Carga Inicial</a></li>
                         <li id="tierrascargaproceso"><a href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
+                        <li id="tierraslevtopo"><a href="<?=URL::to('levantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Adjuntar Documentos</a></li>
 
                       <li class="divider"></li>
@@ -265,7 +265,7 @@
                       <li><a align="center"><b>Pocesos</b></a></li>
                         <li><a id="tierrascarinimenupeq" href="<?=URL::to('carga_inicial'); ?>"> <span class="glyphicon glyphicon-ok"></span> Carga Inicial</a></li>
                         <li><a id="tierrasestjurmenupeq" href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
+                        <li><a id="tierraslevtopmenupeq" href="<?=URL::to('levantamiento_topografico'); ?>"><span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Adjuntar Documentos</a></li>
 
                       <li class="divider"></li>

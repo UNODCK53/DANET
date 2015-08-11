@@ -67,6 +67,8 @@ Route::group(array('before' => 'auth'), function()
                Route::get('carga_inicial','TierrasController@ListadoProini');
                // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
                Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
+               //melleva a la vista de levantamiento topografico
+              Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
           });
 
      });

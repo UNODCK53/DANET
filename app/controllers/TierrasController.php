@@ -13,9 +13,10 @@ class TierrasController extends BaseController {
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
 		$arrayproini = DB::select('SELECT DISTINCT * FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
 		$arrayconcepto = DB::select('select * from MODTIERRAS_CONCEPTO');
-		//return View::make('modulotierras.consultageneral')->with('arrayproini',$arrayproini, 'arrayconcepto',$arrayconcepto);
-		//return View::make('modulotierras.consultageneral')->with('resultado', $resultado);
-		return View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arrayconcepto' => $arrayconcepto));
+		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users where grupo=3 and level=3');
+		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);
+
+		return View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arraydombobox' => $arraydombobox));
 	}
 	public function getCrearProceso()
 	{
@@ -56,9 +57,7 @@ class TierrasController extends BaseController {
 		}
 		else{
 			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
-		}
-
-		
+		}		
 		//consulta a la tabla de MODTIERRAS_PROCESO
 		$idmaximo2 =  DB::table('MODTIERRAS_PROCESO')->max('OBJECTID');
 		DB::table('MODTIERRAS_PROCESTADO')->insert(
@@ -86,9 +85,6 @@ class TierrasController extends BaseController {
 			else{
 	          	return Redirect::to('carga_inicial')->with('status', 'error_estatus');
 	      	}
-	    
-	    
-
 	}
 	public function ListadoProceso()
 	{
@@ -106,7 +102,27 @@ class TierrasController extends BaseController {
 	    return Input::get('proceso');
 	    //View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arrayconcepto' => $arrayconcepto));
 
-	}	
+	}
+	public function ListadoLevtopo()
+	{
+		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
+		$arraylevtopo = DB::select('SELECT * FROM MODTIERRAS_PROCESO where conceptojuridico < 7 and requiererespgeo=1 and respgeografico ='.Auth::user()->id );
+		
+		//return $arraylevtopo;
+		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo));
+	}
+	public function postAdjuntarLevtopo()
+	{
+		//ruta donde se va a crear los procesos
+		$path = public_path().'/procesos/'.Input::get('modnp').'/';
+
+		if(Input::hasFile('modmapa')) {
+    		Input::File('modmapa')->move($path,Input::File('modmapa'));
+       		return Redirect::route('levantamiento_topografico')->with('status', 'ok_estatus');
+    	}
+    	return Redirect::route('levantamiento_topografico')->with('status', 'error_estatus');
+    	
+	}
 }
 
 ?>

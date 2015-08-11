@@ -125,7 +125,7 @@
           $( "#tierrascargaproceso" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Estudio Juridico</strong>");
+          $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Procesos Adjudicados</strong>");
 
 
           var table = $('#example').DataTable();

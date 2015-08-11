@@ -42,23 +42,22 @@
       @if($status=='ok_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> El proceso fue creado con exito</div>
+      <i class="bg-success"></i> Se adjuntaron documentos al proceso con exito</div>
       <div class="col-sm-1"></div>
       @endif
       @if($status=='error_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-danger"></i> El proceso NO fue creado</div>
+      <i class="bg-danger"></i> NO se adjuntaron los documentos al proceso</div>
       <div class="col-sm-1"></div>
       @endif
-
     </div>
 
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">  
         <!-- Standard button -->
-        <button id="btnedijuri" title="Presione para activar el estudio juridico" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Editar Proceso</button>
+        <button id="btnlevtopo" title="Presione para adjuntar documentos al proceso" disabled="disabled" data-target="#levtopoModal"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Documentos</button>
         
       </div>
       <div class="col-sm-1"></div>
@@ -72,24 +71,26 @@
           <thead>  
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
-              <th class="text-center">Estudio Juridico</th>
-              <th class="text-center">Levantamiento Topografico</th>
-              <th class="text-center">Radicado</th>
-              <th class="text-center">Visita de Inspeccion Ocular</th>
-              <th class="text-center">Resultado Procesal</th>
-              <th class="text-center">Registro ORIP</th>              
+              <th class="text-center">Vereda</th>
+              <th class="text-center">Nombre del predio</th>              
+              <th class="text-center">Nombre</th>
+              <th class="text-center">Cedula</th>
+              <th class="text-center">Area Predio Formalizada</td>
             </tr>
           </thead>
           <tbody>
-            @foreach($arrayproceso as $pro)
-              <tr id="{{$pro->id_proceso}}"> 
+            @foreach($arraylevtopo as $pro)
+              <tr id="{{$pro->id_proceso}}">
                 <td >{{$pro->id_proceso}}</td>
-                @if($pro->estudiojuridico==1)<td align="center"><p style="display:none;">{{$pro->estudiojuridico}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->estudiojuridico}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
-                @if($pro->levantamientotopografico==1)<td align="center"><p style="display:none;">{{$pro->levantamientotopografico}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @elseif ($pro->levantamientotopografico==0) <td align="center"><p style="display:none;">{{$pro->levantamientotopografico}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$pro->levantamientotopografico}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:Orange"></span></td> @endif
-                @if($pro->radicado==1)<td align="center"><p style="display:none;">{{$pro->radicado}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->radicado}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
-                @if($pro->visitainspeccionocular==1)<td align="center"><p style="display:none;">{{$pro->visitainspeccionocular}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->visitainspeccionocular}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
-                @if($pro->resultadoprocesal==1)<td align="center"><p style="display:none;">{{$pro->resultadoprocesal}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->resultadoprocesal}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
-                @if($pro->registroorip==1)<td align="center"><p style="display:none;">{{$pro->registroorip}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->registroorip}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif                                               
+                <td >{{$pro->vereda}}</td>
+                <td >{{$pro->nombrepredio}}</td>                
+                <td >{{$pro->nombre}}</td>
+                <td >{{$pro->cedula}}</td>                
+                @if ($pro->areapredioformalizada==NULL)
+                <td >0</td>
+                @elseif ($pro->areapredioformalizada<>NULL)
+                <td >{{$pro->areapredioformalizada}}</td>
+                @endif
               </tr>
             @endforeach
           </tbody>
@@ -100,106 +101,37 @@
     </div>
   </div> 
 <!--edijuri modal-->
-<div id="edijuriModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="levtopoModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><strong>Edición Juridica</strong></h4>
+        <h4 class="modal-title"><strong>Cargue de Información Topografica</strong></h4>
 
       </div>
       <div class="modal-body">
         
-        <form role="form" action="tierras/crear-proceso" method="get" id="formEdit">
+        <form role="form" action="tierras/adjuntar-levtopo" method="get" id="formEdit">
           <div class="form-group">
             <label for="Proceso" class="control-label">NP:</label>
             <input id="modnp" type="text" class="form-control" name="modnp" readonly >
           </div>
           <div class="form-group">
-            <label for="proceso" class="control-label">Concepto juridico:</label>
-            <select id="modconcpjuri" class="form-control" name="modconcpjuri">
-                <option value="" selected="selected">Por favor seleccione</option>
-             @foreach($arrayconcepto as $concep)
-                <option value="{{$concep->id_concepto}}">{{$concep->subconcepto}}</option>              
-              @endforeach              
-            </select>
+            <label for="proceso" class="control-label">Adjuntar MAPA:</label>
+            <input id="modmapa" type="file" class="form-control" name="modmapa" required>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Observacion concepto juridico:</label>
-            <textarea id="modobsconcjuri" class="form-control" name="modobsconcjuri"></textarea>
+            <label for="proceso" class="control-label">Adjuntar SHP:</label>
+            <input id="modshp" type="file" class="form-control" name="modshp" required>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Area predio a formalizar:</label>
-            <input id="modarea" type="text" class="form-control" name="modarea">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Latitud:</label>
-            <input id="modlat" type="text" class="form-control" name="modlat" value="0">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Longitud:</label>
-            <input id="modlong" type="text" class="form-control" name="modlong" value="0">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Fecha inspeccion ocular:</label>
-            <div class="input-group date" id="datepicker">
-                <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" readonly>
-                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Viable:</label><br>
-            <input type="radio" name="modviable" id="respoviasi" value="1"> SI
-            <input type="radio" name="modviable" id="respoviano" value="2"> NO
-
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Observacion viabilidad:</label>
-            <textarea id="modobsviab" name="modobsviab" class="form-control"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Requiere responsable Geografico:</label><br>
-            <input type="radio" name="modradiorespogeo" id="respogeosi" value="1"> SI
-            <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Responsable Geografico:</label>
-            <select id="modrepogeo" class="form-control" name="modrepogeo">
-                <option value="" selected="selected">Por favor seleccione</option>
-            
-                <option value="1">rellenapor arreglo</option>
-                <option value="2">rellenapor arreglo2</option>
-            
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Vereda:</label>
-            <input id="modvereda" type="text" class="form-control" name="modvereda">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Nombre del predio:</label>
-            <input id="modnompred" type="text" class="form-control" name="modnompred">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Direccion para notificacion:</label>
-            <input id="moddirnoti" type="text" class="form-control" name="moddirnoti">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Nombre:</label>
-            <input id="modnombre" type="text" class="form-control" name="modnombre">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Cedula:</label>
-            <input id="modcedula" type="number" class="form-control" name="modcedula">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Telefono:</label>
-            <input id="modtelefono" type="number" class="form-control" name="modtelefono">
-          </div>
+            <label for="proceso" class="control-label">Adjuntar TABLA:</label>
+            <input id="modtabla" type="file" class="form-control" name="modtabla" required>
+          </div>         
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Confirmar Estudio Juridico</button>
+        <button type="submit" class="btn btn-primary">Adjuntar Documentos</button>
       </div>
         </form>
     </div><!-- /.modal-content -->
@@ -249,20 +181,14 @@
           $('#example tbody').on('click', 'tr', function () {
               if ( $(this).hasClass('active') ) {
                 $(this).removeClass('active');
-                $("#btnedijuri").prop('disabled', true);
+                $("#btnlevtopo").prop('disabled', true);
               }
-              else {
+              else { 
                 table.$('tr.active').removeClass('active');
                 $(this).addClass('active');
-                $("#btnedijuri").prop('disabled', false);
+                $("#btnlevtopo").prop('disabled', false);
                 $("#modnp").val($('td', this).eq(0).text());
-                $("#modvereda").val($('td', this).eq(1).text());
-                $("#modnompred").val($('td', this).eq(2).text());
-                $("#moddirnoti").val($('td', this).eq(3).text());
-                $("#modnombre").val($('td', this).eq(4).text());
-                $("#modcedula").val($('td', this).eq(5).text());
-                $("#modtelefono").val($('td', this).eq(6).text());
-                $("#modarea").val($('td', this).eq(7).text());
+               
               }
           });       
       });

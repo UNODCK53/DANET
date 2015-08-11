@@ -125,7 +125,7 @@
             <label for="proceso" class="control-label">Concepto juridico:</label>
             <select id="modconcpjuri" class="form-control" name="modconcpjuri" required>
                 <option value="" selected="selected">Por favor seleccione</option>
-             @foreach($arrayconcepto as $concep)
+             @foreach($arraydombobox[0] as $concep)
                 <option value="{{$concep->id_concepto}}">{{$concep->subconcepto}}</option>              
               @endforeach              
             </select>
@@ -166,10 +166,9 @@
             <label for="Proceso" class="control-label">Responsable Geografico:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo">
                 <option value="" selected="selected">Por favor seleccione</option>
-            
-                <option value="1">rellenapor arreglo</option>
-                <option value="2">rellenapor arreglo2</option>
-            
+              @foreach($arraydombobox[1] as $geo)
+                <option value="{{$geo->id}}">{{$geo->name}}</option>              
+              @endforeach            
             </select>
           </div>
           <div class="form-group">
