@@ -1,4 +1,4 @@
- @if(Auth::check())<!--muestra el contenido de la página si esta autenticado-->
+@if(Auth::check())<!--muestra el contenido de la página si esta autenticado-->
  <!--agrega la pagina maestra-->
 @extends('layouts.master')
 <!--agrega seccion titulo por si se quiere cambiar el titulo de la pestaña-->
@@ -34,7 +34,7 @@
   <div class="container" id="sha">
   <!--aca se escribe el codigo-->
     <div class="row">
-      <h1 class="text-center text-primary">ESTUDIO JURIDICO</h1>
+      <h1 class="text-center text-primary">LEVANTAMIENTO TOPOGRAFICO</h1>
     </div>
 
     <div class="row">
@@ -72,44 +72,24 @@
           <thead>  
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
-              <th class="text-center">Concepto Juridico</th>
-              <th class="text-center">Observacion concepto juridico</th>
-              <th class="text-center">Area predio formalizada</th>
-              <th class="text-center">Longitud</th>
-              <th class="text-center">Latitud</th>
-              <th class="text-center">Fecha de inspeccion ocular</th>
-              <th class="text-center">Viabilidad</td>
-              <th class="text-center">Observacion viabilidad</td>
-              <th class="text-center">Requiere responsable geografico</td>
-              <th class="text-center">Responsable geografico</td>
-              <th class="text-center">Vereda</td>
-              <th class="text-center">Nombre del predio</td>
-              <th class="text-center">Direccion de notificacion</td>
-              <th class="text-center">Nombre</td>
-              <th class="text-center">Cedula</td>
-              <th class="text-center">Telefono</td>
+              <th class="text-center">Estudio Juridico</th>
+              <th class="text-center">Levantamiento Topografico</th>
+              <th class="text-center">Radicado</th>
+              <th class="text-center">Visita de Inspeccion Ocular</th>
+              <th class="text-center">Resultado Procesal</th>
+              <th class="text-center">Registro ORIP</th>              
             </tr>
           </thead>
           <tbody>
             @foreach($arrayproceso as $pro)
-              <tr id="{{$pro->id_proceso}}">
+              <tr id="{{$pro->id_proceso}}"> 
                 <td >{{$pro->id_proceso}}</td>
-                <td >{{$pro->conceptojuridico}}</td>
-                <td >{{$pro->obsconceptojuridico}}</td>
-                <td >{{$pro->areapredioformalizada}}</td>
-                <td >{{$pro->longitud}}</td>
-                <td >{{$pro->latitud}}</td>
-                <td >{{$pro->fechainspeccionocular}}</td>
-                <td >{{$pro->viabilidad}}</td>
-                <td >{{$pro->obsviabilidad}}</td>
-                <td >{{$pro->requiererespgeo}}</td>
-                <td >{{$pro->respgeografico}}</td>
-                <td >{{$pro->vereda}}</td>
-                <td >{{$pro->nombrepredio}}</td>
-                <td >{{$pro->direccionnotificacion}}</td>
-                <td >{{$pro->nombre}}</td>
-                <td >{{$pro->cedula}}</td>
-                <td >{{$pro->telefono}}</td>                
+                @if($pro->estudiojuridico==1)<td align="center"><p style="display:none;">{{$pro->estudiojuridico}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->estudiojuridico}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
+                @if($pro->levantamientotopografico==1)<td align="center"><p style="display:none;">{{$pro->levantamientotopografico}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @elseif ($pro->levantamientotopografico==0) <td align="center"><p style="display:none;">{{$pro->levantamientotopografico}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$pro->levantamientotopografico}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:Orange"></span></td> @endif
+                @if($pro->radicado==1)<td align="center"><p style="display:none;">{{$pro->radicado}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->radicado}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
+                @if($pro->visitainspeccionocular==1)<td align="center"><p style="display:none;">{{$pro->visitainspeccionocular}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->visitainspeccionocular}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
+                @if($pro->resultadoprocesal==1)<td align="center"><p style="display:none;">{{$pro->resultadoprocesal}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->resultadoprocesal}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif
+                @if($pro->registroorip==1)<td align="center"><p style="display:none;">{{$pro->registroorip}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$pro->registroorip}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @endif                                               
               </tr>
             @endforeach
           </tbody>
@@ -264,27 +244,27 @@
 
           });
 
-          $('#example').dataTable();
-          var tabla="";
-          
+          var table = $('#example').DataTable();
+
           $('#example tbody').on('click', 'tr', function () {
-              $("#btnedijuri").prop('disabled', false);
-              
-              $("#"+tabla).removeClass("active");
-              var name = $('td', this).eq(2).text();
-              //alert( 'You clicked on '+name+' row' );
-              $(this).addClass("active");
-              //console.log(tabla, name);
-              //tabla=name;
-              $("#modnp").val($('td', this).eq(0).text());
-              $("#modvereda").val($('td', this).eq(1).text());
-              $("#modnompred").val($('td', this).eq(2).text());
-              $("#moddirnoti").val($('td', this).eq(3).text());
-              $("#modnombre").val($('td', this).eq(4).text());
-              $("#modcedula").val($('td', this).eq(5).text());
-              $("#modtelefono").val($('td', this).eq(6).text());
-              $("#modarea").val($('td', this).eq(7).text());
-          });     
+              if ( $(this).hasClass('active') ) {
+                $(this).removeClass('active');
+                $("#btnedijuri").prop('disabled', true);
+              }
+              else {
+                table.$('tr.active').removeClass('active');
+                $(this).addClass('active');
+                $("#btnedijuri").prop('disabled', false);
+                $("#modnp").val($('td', this).eq(0).text());
+                $("#modvereda").val($('td', this).eq(1).text());
+                $("#modnompred").val($('td', this).eq(2).text());
+                $("#moddirnoti").val($('td', this).eq(3).text());
+                $("#modnombre").val($('td', this).eq(4).text());
+                $("#modcedula").val($('td', this).eq(5).text());
+                $("#modtelefono").val($('td', this).eq(6).text());
+                $("#modarea").val($('td', this).eq(7).text());
+              }
+          });       
       });
 
     </script>

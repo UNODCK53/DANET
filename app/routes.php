@@ -65,7 +65,7 @@ Route::group(array('before' => 'auth'), function()
               // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
                Route::get('carga_inicial','TierrasController@ListadoProini');
                // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
-               Route::get('estudio_juridico','TierrasController@ListadoProceso');
+               Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
           });
 
      });

@@ -58,7 +58,7 @@
       <div class="col-sm-1"></div>
       <div class="col-sm-10">  
         <!-- Standard button -->
-        <button id="btnedijuri" title="Presione para activar el estudio juridico" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Edición Jurídica</button>
+        <button id="btnedijuri" title="Presione para adjudicarse el proceso" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Adjudicarse proceso</button>
         
       </div>
       <div class="col-sm-1"></div>
@@ -91,7 +91,11 @@
                 <td >{{$pro->nombre}}</td>
                 <td >{{$pro->cedula}}</td>
                 <td >{{$pro->telefono}}</td>
+                @if ($pro->areaprediopreliminar==NULL)
+                <td >0</td>
+                @elseif ($pro->areaprediopreliminar<>NULL)
                 <td >{{$pro->areaprediopreliminar}}</td>
+                @endif
               </tr>
             @endforeach
           </tbody>
@@ -142,13 +146,7 @@
             <label for="Proceso" class="control-label">Longitud:</label>
             <input id="modlong" type="text" class="form-control" name="modlong" value="0">
           </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Fecha inspeccion ocular:</label>
-            <div class="input-group date" id="datepicker">
-                <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" readonly>
-                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-            </div>
-          </div>
+          
           <div class="form-group">
             <label for="Proceso" class="control-label">Viable:</label><br>
             <input type="radio" name="modviable" id="respoviasi" value="1"> SI
@@ -232,7 +230,7 @@
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrascarinimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Carga Inicial</strong>");
-
+          $( "#mensajeestatus" ).fadeOut(5000);
           // para el calendario interno
           $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
@@ -246,27 +244,27 @@
 
           });
 
-          $('#example').dataTable();
-          var tabla="";
-          
+          var table = $('#example').DataTable();
+
           $('#example tbody').on('click', 'tr', function () {
-              $("#btnedijuri").prop('disabled', false);
-              
-              $("#"+tabla).removeClass("active");
-              var name = $('td', this).eq(2).text();
-              //alert( 'You clicked on '+name+' row' );
-              $(this).addClass("active");
-              //console.log(tabla, name);
-              //tabla=name;
-              $("#modnp").val($('td', this).eq(0).text());
-              $("#modvereda").val($('td', this).eq(1).text());
-              $("#modnompred").val($('td', this).eq(2).text());
-              $("#moddirnoti").val($('td', this).eq(3).text());
-              $("#modnombre").val($('td', this).eq(4).text());
-              $("#modcedula").val($('td', this).eq(5).text());
-              $("#modtelefono").val($('td', this).eq(6).text());
-              $("#modarea").val($('td', this).eq(7).text());
-          });     
+              if ( $(this).hasClass('active') ) {
+                $(this).removeClass('active');
+                $("#btnedijuri").prop('disabled', true);
+              }
+              else {
+                table.$('tr.active').removeClass('active');
+                $(this).addClass('active');
+                $("#btnedijuri").prop('disabled', false);
+                $("#modnp").val($('td', this).eq(0).text());
+                $("#modvereda").val($('td', this).eq(1).text());
+                $("#modnompred").val($('td', this).eq(2).text());
+                $("#moddirnoti").val($('td', this).eq(3).text());
+                $("#modnombre").val($('td', this).eq(4).text());
+                $("#modcedula").val($('td', this).eq(5).text());
+                $("#modtelefono").val($('td', this).eq(6).text());
+                $("#modarea").val($('td', this).eq(7).text());
+              }
+          });       
       });
 
     </script>

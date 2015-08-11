@@ -166,7 +166,7 @@
                 @if(((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) && (Auth::user()->level=="1"))<!--Oculta la opción tierras si no es el administrador-->
                 <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General</a></li>
+                      <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
                       <li id="tierrasconsultaproceso"><a href="consulta_por_proceso">Consulta por Proceso</a></li>
                       <li class="divider"></li>
                       
@@ -180,7 +180,7 @@
                       <li class="divider"></li>
                       <li><a align="center"><b>Pocesos</b></a></li>
                         <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span>Carga Inicial</a></li>
-                        <li id="tierrascargaproceso"><a href="<?=URL::to('estudio_juridico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estudio Juridico</a></li>
+                        <li id="tierrascargaproceso"><a href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Adjuntar Documentos</a></li>
 
@@ -250,7 +250,7 @@
                   @if(((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) && (Auth::user()->level=="1"))<!--Oculta la opción tierras si no es el administrador-->
                   <li class="dropdown"><a id="tierrasmenupeq"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a id="tierrascongenmenupeq" href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General</a></li>
+                      <li><a id="tierrascongenmenupeq" href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
                       <li><a id="tierrasconpromenupeq"href="consulta_por_proceso">Consulta por Proceso</a></li>
                       <li class="divider"></li>
                       
@@ -264,7 +264,7 @@
                       <li class="divider"></li>
                       <li><a align="center"><b>Pocesos</b></a></li>
                         <li><a id="tierrascarinimenupeq" href="<?=URL::to('carga_inicial'); ?>"> <span class="glyphicon glyphicon-ok"></span> Carga Inicial</a></li>
-                        <li><a id="tierrasestjurmenupeq" href="<?=URL::to('estudio_juridico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estudio Juridico</a></li>
+                        <li><a id="tierrasestjurmenupeq" href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Adjuntar Documentos</a></li>
 
