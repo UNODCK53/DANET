@@ -121,13 +121,15 @@ class TierrasController extends BaseController {
 	public function postAdjuntarLevtopo()
 	{
 		//ruta donde se va a crear los procesos
-		$path = public_path().'/procesos/'.Input::get('modnp').'/';
+		$path = public_path().'\procesos';
 
 		if(Input::hasFile('modmapa')) {
-    		Input::File('modmapa')->move($path,Input::File('modmapa'));
-       		return Redirect::route('levantamiento_topografico')->with('status', 'ok_estatus');
+			$ext = Input::file('modmapa')->getClientOriginalExtension();
+    		Input::file('modmapa')->move($path,"mapa.".$ext);
+       		return Redirect::to('levantamiento_topografico')->with('status', 'ok_estatus');
     	}
-    	return Redirect::route('levantamiento_topografico')->with('status', 'error_estatus');
+    	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
+
     }
 }
 

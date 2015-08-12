@@ -111,22 +111,22 @@
       </div>
       <div class="modal-body">
         
-        <form role="form" action="tierras/adjuntar-levtopo" method="get" id="formEdit">
+        <form role="form" action="tierras/adjuntar-levtopo" method="post" id="formEdit" enctype="multipart/form-data">
           <div class="form-group">
             <label for="Proceso" class="control-label">NP:</label>
             <input id="modnp" type="text" class="form-control" name="modnp" readonly >
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Adjuntar MAPA:</label>
-            <input id="modmapa" type="file" class="form-control" name="modmapa" required>
+            <input id="modmapa" type="file" class="form-control" name="modmapa" required accept=".pdf" >
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Adjuntar SHP:</label>
-            <input id="modshp" type="file" class="form-control" name="modshp" required>
+            <input id="modshp" type="file" class="form-control" name="modshp" >
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Adjuntar TABLA:</label>
-            <input id="modtabla" type="file" class="form-control" name="modtabla" required>
+            <input id="modtabla" type="file" class="form-control" name="modtabla" >
           </div>         
       </div>
       <div class="modal-footer">
