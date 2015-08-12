@@ -149,26 +149,26 @@
           
           <div class="form-group">
             <label for="Proceso" class="control-label">Viable:</label><br>
-            <input type="radio" name="modviable" id="respoviasi" value="1"> SI
+            <input type="radio" name="modviable" id="respoviasi" value="1" checked> SI
             <input type="radio" name="modviable" id="respoviano" value="2"> NO
 
           </div>
-          <div class="form-group">
+          <div class="form-group" id="obsvial">
             <label for="Proceso" class="control-label">Observacion viabilidad:</label>
             <textarea id="modobsviab" name="modobsviab" class="form-control"></textarea>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Requiere responsable Geografico:</label><br>
+            <label for="Proceso" class="control-label" >Requiere responsable Geografico:</label><br>
             <input type="radio" name="modradiorespogeo" id="respogeosi" value="1"> SI
-            <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
+            <input type="radio" name="modradiorespogeo" id="respogeono" value="2"checked> NO<br>
           </div>
-          <div class="form-group">
+          <div class="form-group" id="respongeo">
             <label for="Proceso" class="control-label">Responsable Geografico:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo">
                 <option value="" selected="selected">Por favor seleccione</option>
               @foreach($arraydombobox[1] as $geo)
                 <option value="{{$geo->id}}">{{$geo->name}}</option>              
-              @endforeach            
+              @endforeach
             </select>
           </div>
           <div class="form-group">
@@ -223,6 +223,26 @@
   @parent
     <script>
       $(document).ready(function() {
+        //modal-responsable geográfico
+        $("#respongeo").hide();
+        $('#respogeosi').click(function(){
+          $("#respongeo").show();
+        });
+        $('#respogeono').click(function(){
+          $("#respongeo").hide();
+          $("#modrepogeo").val("");
+        });
+        //cierra modal responsable geografico
+        //modal-viable y vialidad
+        $('#respoviano').click(function(){
+          $("#obsvial").hide();
+          $("#modobsviab").val("");
+        });
+        $('#respoviasi').click(function(){
+          $("#obsvial").show();
+        });
+        //cierra-modal-viable y vialidad
+
           //para que los menus pequeño y grande funcione
           $( "#tierras" ).addClass("active");
           $( "#tierrascargainicial" ).addClass("active");

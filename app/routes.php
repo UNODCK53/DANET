@@ -81,4 +81,3 @@ Route::group(array('before' => 'auth'), function()
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
 Route::get('vista3',function(){return View::make('vista3');});
-Route::controller('images','TierrasController');

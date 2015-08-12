@@ -119,25 +119,15 @@ class TierrasController extends BaseController {
 		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo));
 	}
 	public function postAdjuntarLevtopo()
-	{
-		$fileInput =Input::file('file');
-		//return $fileInput;
-		
-		if (input::hasFile('file')) {
-			$path = public_path().'\procesos';
-			//return $fileInput;
-			if ($fileInput->move($path,'hola'.$fileInput->guessExtension)) {
-    			return Redirect::to('levantamiento_topografico')->with('status', 'ok_estatus');	
-    		}
-		}		
-    	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');    	
-    }
-    public function postDropzone(){
+	{		
+		$path = public_path().'\procesos';
 
-    	$file = Input::file('file');
-    	$dir = public_path().'\procesos';
-    	//return $file;
-    	$subir = $file->move($dir,'hola'.$fileInput->guessExtension);
+		if(Input::hasFile('modmapa')) {
+			$ext = Input::file('modmapa')->getClientOriginalExtension();
+    		Input::file('modmapa')->move($path,"mapa.".$ext);
+       		return Redirect::to('levantamiento_topografico')->with('status', 'ok_estatus');
+    	}
+    	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
     }
 }
 
