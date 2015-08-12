@@ -120,14 +120,24 @@ class TierrasController extends BaseController {
 	}
 	public function postAdjuntarLevtopo()
 	{
-		//ruta donde se va a crear los procesos
-		$path = public_path().'/procesos/'.Input::get('modnp').'/';
+		$fileInput =Input::file('file');
+		//return $fileInput;
+		
+		if (input::hasFile('file')) {
+			$path = public_path().'\procesos';
+			//return $fileInput;
+			if ($fileInput->move($path,'hola'.$fileInput->guessExtension)) {
+    			return Redirect::to('levantamiento_topografico')->with('status', 'ok_estatus');	
+    		}
+		}		
+    	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');    	
+    }
+    public function postDropzone(){
 
-		if(Input::hasFile('modmapa')) {
-    		Input::File('modmapa')->move($path,Input::File('modmapa'));
-       		return Redirect::route('levantamiento_topografico')->with('status', 'ok_estatus');
-    	}
-    	return Redirect::route('levantamiento_topografico')->with('status', 'error_estatus');
+    	$file = Input::file('file');
+    	$dir = public_path().'\procesos';
+    	//return $file;
+    	$subir = $file->move($dir,'hola'.$fileInput->guessExtension);
     }
 }
 

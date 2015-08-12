@@ -8,10 +8,14 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
+
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
   @parent
+  {{HTML::style('assets/css/dropzone.css')}}
+  {{HTML::script('assets/js/dropzone.js')}}
+  
 
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
@@ -99,7 +103,17 @@
       <div class="col-sm-1"></div>
       </br>
     </div>
+
+
+        <form action="tierras/adjuntar-levtopo" method="post" enctype="multipart/form-data">
+  <input type="file" name="file" />
+  <button type="submit" class="btn btn-primary">Adjuntar Documentos</button>
+</form>
   </div> 
+
+
+
+  
 <!--edijuri modal-->
 <div id="levtopoModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -110,8 +124,8 @@
 
       </div>
       <div class="modal-body">
-        
-        <form role="form" action="tierras/adjuntar-levtopo" method="get" id="formEdit">
+       
+        <form role="form" action="tierras/adjuntar-levtopo" method="post" id="formEdit">
           <div class="form-group">
             <label for="Proceso" class="control-label">NP:</label>
             <input id="modnp" type="text" class="form-control" name="modnp" readonly >
@@ -122,11 +136,11 @@
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Adjuntar SHP:</label>
-            <input id="modshp" type="file" class="form-control" name="modshp" required>
+            <input id="modshp" type="file" class="form-control" name="modshp">
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Adjuntar TABLA:</label>
-            <input id="modtabla" type="file" class="form-control" name="modtabla" required>
+            <input id="modtabla" type="file" class="form-control" name="modtabla">
           </div>         
       </div>
       <div class="modal-footer">
@@ -134,6 +148,8 @@
         <button type="submit" class="btn btn-primary">Adjuntar Documentos</button>
       </div>
         </form>
+   
+        
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
@@ -155,6 +171,8 @@
 @section('js')
   @parent
     <script>
+    
+
       $(document).ready(function() {
           //para que los menus pequeño y grande funcione
           $( "#tierras" ).addClass("active");
@@ -162,6 +180,7 @@
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Estudio Juridico</strong>");
+          $( "#mensajeestatus" ).fadeOut(5000);
 
           // para el calendario interno
           $('#datepicker').datepicker({
@@ -192,7 +211,7 @@
               }
           });       
       });
-
+    Dropzone.options.myDropzone={autoProcessQueue: true,};
     </script>
 @stop
 
