@@ -107,12 +107,9 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"><strong>Cargue de Información Topografica</strong></h4>
-
       </div>
       <div class="modal-body">
-
-        <form role="form" action="tierras/adjuntar-levtopo" class= 'dropzone' method="post" id="formEdit" enctype="multipart/form-data">
-
+        <form role="form" action="tierras/adjuntar-levtopo" method="post" id="formEdit" enctype="multipart/form-data">
           <div class="form-group">
             <label for="Proceso" class="control-label">NP:</label>
             <input id="modnp" type="text" class="form-control" name="modnp" readonly >
@@ -135,8 +132,6 @@
         <button type="submit" class="btn btn-primary">Adjuntar Documentos</button>
       </div>
         </form>
-   
-        
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>

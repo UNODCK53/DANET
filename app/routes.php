@@ -65,10 +65,12 @@ Route::group(array('before' => 'auth'), function()
       Route::get('procesos_adjudicados_edicion',function(){return View::make('modulotierras/procesosadjudicadosedicion');});
       //melleva a la vista de levantamiento topografico
       Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
+      Route::get('excelcar','TierrasController@Excelcarini');
     });
 
   });
 
+    
 	//Ruta del home si se encuentra autenticado
 	Route::get('principal', function(){return View::make('principal');});
   Route::post('cambiopass','UserLogin@cambiar');

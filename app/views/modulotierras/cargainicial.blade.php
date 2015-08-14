@@ -56,11 +56,11 @@
 
     <div class="row">
       <div class="col-sm-1"></div>
-      <div class="col-sm-10">  
+      <div class="col-sm-9">  
         <!-- Standard button -->
         <button id="btnedijuri" title="Presione para adjudicarse el proceso" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Adjudicarse proceso</button>
-        
       </div>
+      <div class="col-sm-1"><a href='excelcar'><img class="img-responsive" src='assets/img/excel.png'></img></a></div>
       <div class="col-sm-1"></div>
     </div>
     <div class="row">

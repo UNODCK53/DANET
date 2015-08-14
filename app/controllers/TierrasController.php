@@ -150,13 +150,34 @@ class TierrasController extends BaseController {
     	}
     	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
     }
+    public function Excelcarini()
+	{	
+		Excel::create('Procesos iniciales',function($excel)
+		{
+			$excel->sheet('Tierras',function($sheet)
+			{
+				$data = array();
+				$results = DB::select('SELECT DISTINCT id_proceso, vereda, nombrepredio, direccionnotificacion, nombre, cedula, telefono, areaprediopreliminar FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
+				foreach ($results as $result) {
+				$data[] = (array)$result;
+				}  	
+				$sheet->with($data);
+				$sheet->freezeFirstRow();
+				$sheet->setAutoFilter();
+				$sheet->cells('A1:H1', function($cells) {
+			    	$cells->setBackground('#dadae3');
+				});
+			})->download('xlsx');
+		});
+    }
     public function getEditarProceso()
 	{
 		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.Input::get('proceso'));  
 	   
 	   return View::make('modulotierras.procesosadjudicadosedicion');
 	   //return $arrayproceso;
-	}	
+	}
+
 }
 
 ?>
