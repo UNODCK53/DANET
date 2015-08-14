@@ -69,6 +69,8 @@ Route::group(array('before' => 'auth'), function()
                Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
                //melleva a la vista de levantamiento topografico
               Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
+              Route::get('excelcar','TierrasController@Excelcarini');
+
           });
 
      });
