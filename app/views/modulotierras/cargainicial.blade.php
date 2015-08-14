@@ -250,6 +250,7 @@
           $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrascarinimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Carga Inicial</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
+          
           // para el calendario interno
           $('#datepicker').datepicker({
             format: "yyyy-mm-dd",

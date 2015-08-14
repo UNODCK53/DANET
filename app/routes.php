@@ -31,8 +31,6 @@ Route::get('logout', function()
 //Rutas para activar los controladores
 Route::controller('tierras','TierrasController');
 
-
-
 //para ingresar a las siguientes rutas se tiene que estar autenticado:
 Route::group(array('before' => 'auth'), function()
 {
@@ -48,30 +46,28 @@ Route::group(array('before' => 'auth'), function()
 		Route::group(array('before' => 'level2'), function()
      	{
      		Route::get('/vista2',function(){return View::make('vista2');});
-     	});
+    });
+  });
 
+  //solo pueden acceder los miembros del grupo dos a las siguientes vistas:
+  Route::group(array('before' => 'grupo3' || 'grupo1'), function(){
+    //solo acceden los q tienen permiso level 1 dentro del grupo 1 y 3
+    Route::group(array('before' => 'level1'), function(){
+      //melleva a la vista de consulta general de tierras
+      Route::get('consulta_general_tierras','TierrasController@ListadoProcesogral');
+      //melleva a la vista de consulta por proceso de tierras
+      Route::get('consulta_por_proceso',function(){return View::make('modulotierras/consultaporproceso');});
+      // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
+      Route::get('carga_inicial','TierrasController@ListadoProini');
+      // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
+      Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
+      //melleva a la vista de edicion del proceso seleccionado
+      Route::get('procesos_adjudicados_edicion',function(){return View::make('modulotierras/procesosadjudicadosedicion');});
+      //melleva a la vista de levantamiento topografico
+      Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
+    });
 
-     });
-
-     //solo pueden acceder los miembros del grupo dos a las siguientes vistas:
-     Route::group(array('before' => 'grupo3' || 'grupo1'), function()
-     {
-          //solo acceden los q tienen permiso level 1 dentro del grupo 1 y 3
-          Route::group(array('before' => 'level1'), function()
-          {
-              //melleva a la vista de consulta general de tierras
-              Route::get('consulta_general_tierras','TierrasController@ListadoProcesogral');
-              //melleva a la vista de consulta por proceso de tierras
-              Route::get('consulta_por_proceso',function(){return View::make('modulotierras/consultaporproceso');});
-              // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
-               Route::get('carga_inicial','TierrasController@ListadoProini');
-               // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
-               Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
-               //melleva a la vista de levantamiento topografico
-              Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
-          });
-
-     });
+  });
 
 	//Ruta del home si se encuentra autenticado
 	Route::get('principal', function(){return View::make('principal');});

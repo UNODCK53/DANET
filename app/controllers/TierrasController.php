@@ -50,7 +50,7 @@ class TierrasController extends BaseController {
 		);
 		
 		//ruta donde se va a crear los procesos
-		$path = public_path().'/procesos/'.Input::get('modnp').'/';
+		$path = public_path().'\procesos\\'.Input::get('modnp');
 		// creacion de carpeta dependiendo del nombre del proceso
 		if (File::exists($path)){
 						
@@ -96,13 +96,6 @@ class TierrasController extends BaseController {
 		//return $arrayproceso;
 		return View::make('modulotierras.procesosadjudicados', array('arrayproceso' => $arrayproceso), array('arrayconcepto' => $arrayconcepto));
 	}
-	public function getEditarProceso()
-	{
-		   
-	    return Input::get('proceso');
-	    //View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arrayconcepto' => $arrayconcepto));
-
-	}	
 	public function ListadoProcesogral()
 	{
 		//consulta para retornar los procesos por abogado
@@ -113,22 +106,57 @@ class TierrasController extends BaseController {
 	public function ListadoLevtopo()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
-		$arraylevtopo = DB::select('SELECT * FROM MODTIERRAS_PROCESO where conceptojuridico < 7 and requiererespgeo=1 and respgeografico ='.Auth::user()->id );
+		$arraylevtopo = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE requiererespgeo=1 and respgeografico ='.Auth::user()->id.' AND NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESTADO WHERE MODTIERRAS_PROCESO.id_proceso=MODTIERRAS_PROCESTADO.id_proceso AND MODTIERRAS_PROCESTADO.id_estado=2)' );
 		
 		//return $arraylevtopo;
 		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo));
 	}
 	public function postAdjuntarLevtopo()
 	{		
-		$path = public_path().'\procesos';
+		$path = public_path().'\procesos\\'.Input::get('modnp');
+		// creacion de carpeta dependiendo del nombre del proceso
+		if (File::exists($path)){
+						
+		}
+		else{
+			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
+		}
 
-		if(Input::hasFile('modmapa')) {
-			$ext = Input::file('modmapa')->getClientOriginalExtension();
-    		Input::file('modmapa')->move($path,"mapa.".$ext);
+		if((Input::hasFile('modmapa')) and (Input::hasFile('modshp')) and (Input::hasFile('modtabla'))) {
+
+			Input::file('modmapa')->move($path,Input::get('modnp').'_LT_MAPA.'.Input::file('modmapa')->getClientOriginalExtension());
+    		Input::file('modshp')->move($path,Input::get('modnp').'_LT_SHP.'.Input::file('modshp')->getClientOriginalExtension());
+    		Input::file('modtabla')->move($path,Input::get('modnp').'_LT_TABLA.'.Input::file('modtabla')->getClientOriginalExtension());
+
+    		$fecha = date("Y-m-d H:i:s");
+    		DB::table('MODTIERRAS_PROCESTADO')->insert(
+		    	array(
+		    		'id_proceso' => Input::get('modnp'),
+		    		'id_estado' => 2,
+		    		'created_at' => $fecha,
+	    			'updated_at' => $fecha
+		    	)
+			);
+			DB::table('MODTIERRAS_PROCDOCUMENTOS')->insert(
+		    	array(
+		    		'id_proceso' => Input::get('modnp'),
+		    		'id_documento' => 2,
+		    		'rutadocu' => $path.'\\'.Input::get('modnp').'_LT_MAPA.'.Input::file('modmapa')->getClientOriginalExtension(),
+		    		'created_at' => $fecha,
+	    			'updated_at' => $fecha
+		    	)
+			);	
        		return Redirect::to('levantamiento_topografico')->with('status', 'ok_estatus');
     	}
     	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
     }
+    public function getEditarProceso()
+	{
+		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.Input::get('proceso'));  
+	   
+	   return View::make('modulotierras.procesosadjudicadosedicion');
+	   //return $arrayproceso;
+	}	
 }
 
 ?>
