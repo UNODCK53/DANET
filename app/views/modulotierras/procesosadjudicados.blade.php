@@ -57,7 +57,7 @@
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
-      <form role="form" action="tierras/editar-proceso" method="get" id="formEdit">  
+      <form role="form" action="tierras/editar-proceso" method="post" id="formEdit">
         <!-- Standard button -->
         <button id="btnedipro" title="Presione para activar la edicion del estudio juridico" disabled="disabled" type="submit" type="button" class="btn btn-primary">Editar Proceso</button>
         <input id="proceso" type="hidden" class="form-control" name="proceso">

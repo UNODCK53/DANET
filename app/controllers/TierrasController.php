@@ -170,13 +170,24 @@ class TierrasController extends BaseController {
 			})->download('xlsx');
 		});
     }
-    public function getEditarProceso()
+    public function postEditarProceso()
 	{
-		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.Input::get('proceso'));  
-	   
-	   return View::make('modulotierras.procesosadjudicadosedicion');
-	   //return $arrayproceso;
+		Session::put('procesoi',Input::get('proceso'));
+		return Redirect::to('datosproces');
 	}
+
+	public function Datosprocesos()
+	{
+		$idpro=(Session::get('procesoi'));
+		if($idpro==''){
+			return Redirect::to('procesos_adjudicados');
+		}
+		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.$idpro);
+		Session::forget('procesoi');
+		return View::make('modulotierras.procesosadjudicadosedicion', array('arrayproceso' => $arrayproceso));
+	}
+
+
 
 }
 

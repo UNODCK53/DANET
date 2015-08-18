@@ -34,6 +34,8 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
       <div class="row">
+        
+        
         <h1 class="text-center text-primary">EDICION PROCESO NP:</h1>
       </div>
        <hr>       
@@ -41,6 +43,13 @@
         <div class="col-sm-1"></div>               
         <div class="col-sm-10">
         <h3 class="text-primary">EDICION GENERAL:</h3>
+                
+        @foreach($arrayproceso as $pro)
+              <tr id="{{$pro->id_proceso}}"> 
+                <td >{{$pro->id_proceso}}</td>
+                <td >{{$pro->conceptojuridico}}</td>
+              </tr>
+        @endforeach
         
         <form role="form" action="tierras/crear-proceso" method="get" id="formEdit">
           <div class="form-group">

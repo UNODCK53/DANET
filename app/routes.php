@@ -61,10 +61,11 @@ Route::group(array('before' => 'auth'), function()
       Route::get('carga_inicial','TierrasController@ListadoProini');
       // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
       Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
-      //melleva a la vista de edicion del proceso seleccionado
-      Route::get('procesos_adjudicados_edicion',function(){return View::make('modulotierras/procesosadjudicadosedicion');});
+      //ruta controlador consulta datos para procesoso adjudicados edicion
+      Route::get('datosproces','TierrasController@Datosprocesos');
       //melleva a la vista de levantamiento topografico
       Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
+      //Controlador para exportar a excel la tabla de procesos iniciales
       Route::get('excelcar','TierrasController@Excelcarini');
     });
 
