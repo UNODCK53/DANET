@@ -199,10 +199,11 @@ class TierrasController extends BaseController {
 	}
 	public function postProgramajax()
 	{
-		//$id=(Input::get('valor'));
-		$arrayproini = DB::select('SELECT * FROM MODTIERRAS_PROCESOINICIAL WHERE id_proceso='.Input::get('valor'));		
-		
-		return Response::json_encode($arrayproini);
+		$id=(Input::get('valor'));
+		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
+		$arrayproini = DB::select('SELECT * FROM MODTIERRAS_PROCESOINICIAL WHERE id_proceso='.Input::get('valor'));
+		return Response::json($arrayproini);
+
 	}
 
 

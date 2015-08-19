@@ -527,21 +527,12 @@
                 data: {valor: $('#modrepogeo').val()},
                 dataType:'json',
                 success:function(data){
-                    console.log(data.nombre)
-                        //alert(data.nombre);
-
-                    
-                        //$('#nombre').val(data.nombre);
-
+                    $('#modnombre').val(data[0].nombre);
                 },
                 error:function(){
                     alert('error');
-
                 }
-
             });
-
-        //$('#modnombre').val($('#modrepogeo').val());
         });
     });
 
