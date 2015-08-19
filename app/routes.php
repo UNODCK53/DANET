@@ -62,7 +62,7 @@ Route::group(array('before' => 'auth'), function()
       // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
       Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
       //ruta controlador consulta datos para procesoso adjudicados edicion
-      Route::get('datosproces','TierrasController@Datosprocesos');
+      Route::get('procesos_adjudicados_editar','TierrasController@Datosprocesos');
       //melleva a la vista de levantamiento topografico
       Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
       //Controlador para exportar a excel la tabla de procesos iniciales
@@ -79,4 +79,7 @@ Route::group(array('before' => 'auth'), function()
 
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
-Route::get('vista3',function(){return View::make('vista3');});
+
+//Route::get('vista3',function(){return View::make('vista3');});
+Route::get('vista3','TierrasController@PruebaPro');
+

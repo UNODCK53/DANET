@@ -173,7 +173,7 @@ class TierrasController extends BaseController {
     public function postEditarProceso()
 	{
 		Session::put('procesoi',Input::get('proceso'));
-		return Redirect::to('datosproces');
+		return Redirect::to('procesos_adjudicados_editar');
 	}
 
 	public function Datosprocesos()
@@ -183,8 +183,26 @@ class TierrasController extends BaseController {
 			return Redirect::to('procesos_adjudicados');
 		}
 		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.$idpro);
+		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users where grupo=3 and level=3');
+		$arrayconcepto = DB::select('select * from MODTIERRAS_CONCEPTO');
+		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);		
 		Session::forget('procesoi');
-		return View::make('modulotierras.procesosadjudicadosedicion', array('arrayproceso' => $arrayproceso));
+
+		return View::make('modulotierras.procesosadjudicadosedicion', array('arrayproceso' => $arrayproceso), array('arraydombobox' => $arraydombobox));
+	}
+	public function PruebaPro()
+	{
+		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
+		$arrayproini = DB::select('SELECT DISTINCT * FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
+		
+		return View::make('vista3', array('arrayproini' => $arrayproini));
+	}
+	public function postProgramajax()
+	{
+		//$id=(Input::get('valor'));
+		$arrayproini = DB::select('SELECT * FROM MODTIERRAS_PROCESOINICIAL WHERE id_proceso='.Input::get('valor'));		
+		
+		return Response::json_encode($arrayproini);
 	}
 
 

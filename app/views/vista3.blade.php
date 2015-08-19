@@ -18,64 +18,8 @@
 	</script>
 </head>
 <body>
-<div class="container">
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-
-			<div class="navbar-header">
-			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ejemplo">
-			        <span class="sr-only">Toggle navigation</span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			      </button>
-			      <a class="navbar-brand" href="#">Tutorial</a>
-			</div>
-
-
-			
-				    <div class="collapse navbar-collapse" id="ejemplo">
-				      <ul class="nav navbar-nav">
-				        <li class="active"><a href="#">Inicio</a></li>
-				        <li><a href="#">Contactos</a></li>
-
-				        <li class="dropdown">
-				          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-				          <ul class="dropdown-menu" role="menu">
-				            <li><a href="#">Action</a></li>
-				            <li><a href="#">Another action</a></li>
-				            <li><a href="#">Something else here</a></li>
-				            <li class="divider"></li>
-				            <li><a href="#">Separated link</a></li>
-				            <li class="divider"></li>
-				            <li><a href="#">One more separated link</a></li>
-				          </ul>
-				        </li>
-				      </ul>
-				      
-
-				      <ul class="nav navbar-nav navbar-right">
-				        <li><a href="#">Link</a></li>
-				        <li class="dropdown">
-				          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-				          <ul class="dropdown-menu" role="menu">
-				            <li><a href="#">Action</a></li>
-				            <li><a href="#">Another action</a></li>
-				            <li><a href="#">Something else here</a></li>
-				            <li class="divider"></li>
-				            <li><a href="#">Separated link</a></li>
-				          </ul>
-				        </li>
-				      </ul>
-				    </div>
-				      
-
-
-
-		</div>
-  
-	</nav>
-
+<div class="container">	
+    <br>
 	<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -558,67 +502,53 @@
             </tr>
         </tbody>
     </table>
-    <?php $status=Session::get('status'); 
-    echo $status;
-    ?>
+    <br>
+    <label for="Proceso" class="control-label">Responsable Geografico:</label>
+    <select id="modrepogeo" class="form-control" name="modrepogeo">
+        <option value="" selected="selected">Por favor seleccione</option>
+       @foreach($arrayproini as $pro)
+            <option value="{{$pro->id_proceso}}">{{$pro->id_proceso}}</option>              
+        @endforeach
+    </select>
+    <button id="run" type="button" class="btn btn-default">correr ajax</button>
+    <br>
+    <label for="Proceso" class="control-label">Nombre:</label>
+    <input id="modnombre" type="text" class="form-control" name="modnombre">
+    
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><strong>Edición Juridica</strong></h4>
+    
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#run").click(function(){
+            var datos = ($('#modrepogeo').val());
+            $.ajax({
+                url:"tierras/programajax",
+                type:"POST",
+                data: {valor: $('#modrepogeo').val()},
+                dataType:'json',
+                success:function(data){
+                    console.log(data.nombre)
+                        //alert(data.nombre);
 
-      </div>
-      <div class="modal-body">
-        
-        <form role="form" action="tierras/admin-profile" method="get" id="formEdit">
-          <div class="form-group">
-            <label for="Proceso" class="control-label">NP:</label>
-            <input id="modnp" type="text" class="form-control" id="np" disabled>
-          </div>
-          <div class="form-group">
-            <label for="proceso" class="control-label">Concepto juridico:</label>
-            <select id="modconcpjuri" class="form-control">
-                <option value="" selected="selected">Por favor seleccione</option>
                     
-            </select>
-          </div>
-          
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Vereda:</label>
-            <input id="modvereda" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Nombre del predio:</label>
-            <input id="modnompred" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Direccion para notificacion:</label>
-            <input id="moddirnoti" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Nombre:</label>
-            <input id="modnombre" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Cedula:</label>
-            <input id="modcedula" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="Proceso" class="control-label">Telefono:</label>
-            <input id="modtelefono" type="text" class="form-control">
-          </div>
-        
+                        //$('#nombre').val(data.nombre);
 
+                },
+                error:function(){
+                    alert('error');
 
+                }
 
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Confirmar Estudio Juridico</button>
-        </form>
-      </div>
+            });
 
+        //$('#modnombre').val($('#modrepogeo').val());
+        });
+    });
 
+</script>
+      
+
+</div>
 	
 	<script src="assets/js/bootstrap.js"></script>
 	<script src="assets/js/jquery.dataTables.min.js"></script>

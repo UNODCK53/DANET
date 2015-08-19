@@ -123,7 +123,7 @@
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Concepto juridico:</label>
-            <select id="modconcpjuri" class="form-control" name="modconcpjuri" required>
+            <select id="modconcpjuri" class="form-control" name="modconcpjuri" readonly>
                 <option value="" selected="selected">Por favor seleccione</option>
              @foreach($arraydombobox[0] as $concep)
                 <option value="{{$concep->id_concepto}}">{{$concep->subconcepto}}</option>              
