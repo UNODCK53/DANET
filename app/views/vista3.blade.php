@@ -503,37 +503,55 @@
         </tbody>
     </table>
     <br>
-    <label for="Proceso" class="control-label">Responsable Geografico:</label>
+    <label for="Proceso" class="control-label">Concepto Juridico:</label>
     <select id="modrepogeo" class="form-control" name="modrepogeo">
         <option value="" selected="selected">Por favor seleccione</option>
-       @foreach($arrayproini as $pro)
+        @foreach($arrayproini as $pro)
             <option value="{{$pro->id_proceso}}">{{$pro->id_proceso}}</option>              
         @endforeach
     </select>
-    <button id="run" type="button" class="btn btn-default">correr ajax</button>
     <br>
-    <label for="Proceso" class="control-label">Nombre:</label>
-    <input id="modnombre" type="text" class="form-control" name="modnombre">
+    <label id="nombreti" for="Proceso" class="control-label">Nombre:</label>
+    <input id="modnombre" type="text" class="form-control" name="modnombre" >
     
 
     
 <script type="text/javascript">
+ $("#modnombre").hide();
+ $("#nombreti").hide();
     $(document).ready(function(){
-        $("#run").click(function(){
+        //Ajax prueba para buscar nombre beneficiario del proceso
+        $("#modrepogeo").change(function(){
             var datos = ($('#modrepogeo').val());
-            $.ajax({
-                url:"tierras/programajax",
-                type:"POST",
-                data: {valor: $('#modrepogeo').val()},
-                dataType:'json',
-                success:function(data){
-                    $('#modnombre').val(data[0].nombre);
-                },
-                error:function(){
-                    alert('error');
-                }
-            });
+            if (datos =="")
+            {
+                $("#modnombre").hide();
+                $("#nombreti").hide();
+            }
+            else{
+                $.ajax({
+                    url:"tierras/programajax",
+                    type:"POST",
+                    data: {valor: $('#modrepogeo').val()},
+                    dataType:'json',
+                    success:function(data){
+                        $("#modnombre").show();
+                        $("#nombreti").show();
+                        if(data[0][0].nombre==null){
+                            $('#modnombre').val('No hay dato');    
+                        }
+                        else{
+                            $('#modnombre').val(data[0][0].nombre);
+                        }
+                    },
+                    error:function(){
+                        alert('error');
+                    }
+                });
+            }
         });
+        //Termina Ajax prueva
+        
     });
 
 </script>

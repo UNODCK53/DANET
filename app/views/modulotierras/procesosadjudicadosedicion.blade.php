@@ -59,11 +59,14 @@
             <label for="proceso" class="control-label">Concepto juridico:</label>
             <input id="modconcpjuri" type="text" class="form-control" name="modconcpjuri" value='{{$pro->conceptojuridico}}' readonly>
             @foreach($arraydombobox[0] as $concep)
-                {{$concep->id_concepto}}
-                {{$concep->subconcepto}}
+
             @endforeach
+
+            {{$arraydombobox[0][2]->id_concepto}}
+
+
             
-            <?php print_r($arraydombobox);?>
+
 
             <input id="modconcpjuri" type="text" class="form-control" name="modconcpjuri" value='{{$concep->subconcepto}}' readonly>
           </div>

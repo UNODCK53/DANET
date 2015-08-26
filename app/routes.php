@@ -34,52 +34,52 @@ Route::controller('tierras','TierrasController');
 //para ingresar a las siguientes rutas se tiene que estar autenticado:
 Route::group(array('before' => 'auth'), function()
 {
-	//solo pueden acceder los miembros del grupo uno a las siguientes vistas:
-	Route::group(array('before' => 'grupo1'), function()
-     {
-     	//solo puede ingresar el level 1 a la vista 1
-     	Route::group(array('before' => 'level1'), function()
-     	{
-     		Route::get('/vista1',function(){return View::make('vista1');});
-     	});
-     	//solo pueden ingresar los leveles 1 y 2 a la vista 2
-		Route::group(array('before' => 'level2'), function()
-     	{
-     		Route::get('/vista2',function(){return View::make('vista2');});
-    });
-  });
+    //Ruta del home si se encuentra autenticado
+    Route::get('principal', function(){return View::make('principal');});
+    Route::post('cambiopass','UserLogin@cambiar');
 
-  //solo pueden acceder los miembros del grupo dos a las siguientes vistas:
-  Route::group(array('before' => 'grupo3' || 'grupo1'), function(){
-    //solo acceden los q tienen permiso level 1 dentro del grupo 1 y 3
-    Route::group(array('before' => 'level1'), function(){
-      //melleva a la vista de consulta general de tierras
-      Route::get('consulta_general_tierras','TierrasController@ListadoProcesogral');
-      //melleva a la vista de consulta por proceso de tierras
-      Route::get('consulta_por_proceso',function(){return View::make('modulotierras/consultaporproceso');});
-      // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
-      Route::get('carga_inicial','TierrasController@ListadoProini');
-      // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
-      Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
-      //ruta controlador consulta datos para procesoso adjudicados edicion
-      Route::get('procesos_adjudicados_editar','TierrasController@Datosprocesos');
-      //melleva a la vista de levantamiento topografico
-      Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
-      //Controlador para exportar a excel la tabla de procesos iniciales
-      Route::get('excelcar','TierrasController@Excelcarini');
-    });
+  Route::group(array('before'=>'cargainicial'), function(){
+    // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
+    Route::get('carga_inicial','TierrasController@ListadoProini');
+    //Controlador para exportar a excel la tabla de procesos iniciales
+    Route::get('excelcar','TierrasController@Excelcarini');
+    // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
+    Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
+    //ruta controlador consulta datos para procesoso adjudicados edicion
+    Route::get('procesos_adjudicados_editar','TierrasController@Datosprocesos');
 
   });
 
+  Route::group(array('before'=>'accesogen'), function(){
+    //melleva a la vista de consulta general de tierras
+    Route::get('consulta_general_tierras','TierrasController@ListadoProcesogral');
+    //Ruta para elaborar grafica de reporte juridico
+    Route::get('reporte_responsable_juridico', 'TierrasController@ResponsableJuridico');
+    //Ruta para elaborar grafica de levantamiento topograficos requeridos
+    Route::get('reporte_lavantamiento_topografico', 'TierrasController@RLevantamientoTopogragfico');
+    //Ruta para el visor de mapas
+    Route::get('mapas', function(){return View::make('modulotierras/mapas');});
     
-	//Ruta del home si se encuentra autenticado
-	Route::get('principal', function(){return View::make('principal');});
-  Route::post('cambiopass','UserLogin@cambiar');
+  });
+
+  Route::group(array('before'=>'levgeografico'), function(){
+    //melleva a la vista de levantamiento topografico
+    Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
+      
+  });    
+    	
 });
 
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
-
 //Route::get('vista3',function(){return View::make('vista3');});
-Route::get('vista3','TierrasController@PruebaPro');
-
+    Route::get('vista3','TierrasController@PruebaPro');
+  Route::group(array('before' => 'grupo1'), function()
+  {
+    //solo puede ingresar el level 1 a la vista 1
+    Route::group(array('before' => 'level1'), function()
+      {
+        Route::get('/vista1',function(){return View::make('vista1');});
+      });
+       
+  });

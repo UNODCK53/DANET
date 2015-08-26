@@ -1,4 +1,4 @@
- @if(Auth::check())<!--muestra el contenido de la página si esta autenticado-->
+@if(Auth::check())<!--muestra el contenido de la página si esta autenticado-->
  <!--agrega la pagina maestra-->
 @extends('layouts.master')
 <!--agrega seccion titulo por si se quiere cambiar el titulo de la pestaña-->
@@ -8,11 +8,11 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
+
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
   @parent
-
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -30,43 +30,28 @@
 @stop
 <!--CONTENEDOR GENERAL-->
 @section('contenedorgeneral1')
-  @parent
-  <!--tercer contenedor pie de página-->
+  @parent  
+<!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
-    <!--aca se escribe el codigo-->
-    consulta por proceso
-    <br/>
+<!--aca se escribe el codigo-->
+mapas
+<br/>
 
 
 
 
-    <br/>
-    consulta proceso    
- 
-    </div>
-  
-  <!--Fin del tercer contenedor--> 
-  
-    <div class="row">
-    <!--aca se escribe el codigo-->
-    segundo row2
-    <br/>
 
 
+<br/>
+mapas
 
-
-    <br/>
-    segundo row2    
- 
+<!--fin del codigo-->    
     </div>
   </div>
-  <!--Fin del tercer contenedor--> 
+<!--Fin del tercer contenedor--> 
 
-<!--fin del codigo-->
 @stop
-
-
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
@@ -82,17 +67,19 @@
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
-   <script>
+    <script>
+    
+
       $(document).ready(function() {
           //para que los menus pequeño y grande funcione
           $( "#tierras" ).addClass("active");
-          $( "#tierrasconsultaproceso" ).addClass("active");
+          $( "#tierrasmapas" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrasconpromenupeq" ).html("<strong>Consulta por Proceso</strong>");
-
+          $( "#tierrasmapasmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Mapas</strong>");
+               
       });
-
+    
     </script>
 @stop
 

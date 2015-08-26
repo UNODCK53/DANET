@@ -90,64 +90,97 @@ Route::filter('csrf', function()
 	}
 });
 
-//Filtro del grupo 1
-Route::filter('grupo1', function()
+Route::filter('cargainicial', function ()
 {
-	if (Auth::user()->grupo!="1")
-	{
-		//Si no pertenece al grupo "1" nos envia a principal
-		return Redirect::to('principal');
-	}
-});
-
-//Filtro para el nivel de usuario administrador(=1)
-Route::filter('level1', function ()
-{
-   if (Auth::user()->level!="1")
+   if (Auth::user()->grupo=="1")
    {
    	//Si no pertenece al level "1" nos envia a principal
-   	 return Redirect::to('principal');
+   	 if (Auth::user()->level!="1")
+   	 {
+   	//Si no pertenece al level "2" nos envia a principal
+   	 	return Redirect::to('principal');
+   	 }
    }
-   	
-});
-
-//Filtro para el nivel de usuario general(=2)
-Route::filter('level2', function ()
-{
-   if (Auth::user()->level!="2")
+   
+   elseif (Auth::user()->grupo=="3")
    {
-   	//Si no pertenece al levele "2" nos envia a principal
-   	 return Redirect::to('principal');
+   	//Si no pertenece al level "1" nos envia a principal
+   	 if (Auth::user()->level!="1")
+   	 {
+   	//Si no pertenece al level "2" nos envia a principal
+   	 	if (Auth::user()->level!="2")
+   	 	{
+   	//Si no pertenece al level "2" nos envia a principal
+   	 		return Redirect::to('principal');
+   	 	}
+   	 }
    }
-   	
+   else{
+   	return Redirect::to('principal');
+   }
 });
 
-//Filtro del grupo 2
-Route::filter('grupo2', function()
+
+Route::filter('accesogen', function ()
 {
-	if (Auth::user()->grupo!="2")
-	{
-		//Si no pertenece al grupo "1" nos envia a principal
-		return Redirect::to('principal');
-	}
-});
-//Filtro para el nivel de usuario general(=3)
-Route::filter('level3', function ()
-{
-   if (Auth::user()->level!="3")
+   if (Auth::user()->grupo=="1")
    {
-   	//Si no pertenece al levele "2" nos envia a principal
-   	 return Redirect::to('principal');
+   	//Si no pertenece al level "1" nos envia a principal
+   	 if (Auth::user()->level!="1")
+   	 {
+   	//Si no pertenece al level "2" nos envia a principal
+   	 	return Redirect::to('principal');
+   	 }
    }
-   	
+   
+   elseif (Auth::user()->grupo=="3")
+   {
+   	//Si no pertenece al level "1" nos envia a principal
+   	 if (Auth::user()->level!="1")
+   	 {
+   	//Si no pertenece al level "2" nos envia a principal
+   	 	if (Auth::user()->level!="2")
+   	 	{
+   	//Si no pertenece al level "2" nos envia a principal
+   	 		if (Auth::user()->level!="3")
+   	 		{
+   	//Si no pertenece al level "2" nos envia a principal
+   	 			if (Auth::user()->level!="4")
+   	 			{
+   	//Si no pertenece al level "2" nos envia a principal
+   	 				return Redirect::to('principal');
+   	 			}
+   	 		}
+   	 	}
+   	 }
+   }
+   else{
+   	return Redirect::to('principal');
+   }
 });
 
-//Filtro del grupo 3
-Route::filter('grupo3', function()
+Route::filter('levgeografico', function ()
 {
-	if (Auth::user()->grupo!="3")
-	{
-		//Si no pertenece al grupo "1" nos envia a principal
-		return Redirect::to('principal');
-	}
+   if (Auth::user()->grupo=="1")
+   {
+   	//Si no pertenece al level "1" nos envia a principal
+   	 if (Auth::user()->level!="1")
+   	 {
+   	//Si no pertenece al level "2" nos envia a principal
+   	 	return Redirect::to('principal');
+   	 }
+   }
+   
+   elseif (Auth::user()->grupo=="3")
+   {
+   	//Si no pertenece al level "1" nos envia a principal
+   	 if (Auth::user()->level!="3")
+   	 {
+   	//Si no pertenece al level "2" nos envia a principal
+   	 	return Redirect::to('principal');
+   	 }
+   }
+   else{
+   	return Redirect::to('principal');
+   }
 });

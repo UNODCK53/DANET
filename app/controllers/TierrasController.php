@@ -202,8 +202,42 @@ class TierrasController extends BaseController {
 		$id=(Input::get('valor'));
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
 		$arrayproini = DB::select('SELECT * FROM MODTIERRAS_PROCESOINICIAL WHERE id_proceso='.Input::get('valor'));
-		return Response::json($arrayproini);
+		$arrayconcepto = DB::select('select * from MODTIERRAS_CONCEPTO');
+		$arrayconsul=array($arrayproini,$arrayconcepto);
+		return Response::json($arrayconsul);
 
+	}
+
+	public function ResponsableJuridico()
+	{
+		$arrayrj = DB::table('MODTIERRAS_PROCESO')
+		->join('users', 'users.id','=','MODTIERRAS_PROCESO.respjuridico')
+		->where('users.level','=',2)
+		->where('users.grupo','=',3)
+		->select('users.name',DB::raw('count(*) as y, users.name'))
+		->groupBy('users.name')
+		->get();
+		return View::make('modulotierras.reporresponsablejuridico', array('arrayrj' => $arrayrj));
+	}
+
+	public function RLevantamientoTopogragfico()
+	{
+		$arraylt = DB::table('MODTIERRAS_PROCESO')
+		->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
+		->groupBy('requiererespgeo')
+		->get();
+		//return $arraylt;
+		return View::make('modulotierras.reporlevantamientotopografico', array('arraylt' => $arraylt));
+	}
+
+	public function ReporAreaLevantada()
+	{
+		$arrayal = DB::table('MODTIERRAS_PROCESO')
+		->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
+		->groupBy('requiererespgeo')
+		->get();
+		//return $arraylt;
+		return View::make('modulotierras.reporarealevan', array('arraylt' => $arrayal));
 	}
 
 
