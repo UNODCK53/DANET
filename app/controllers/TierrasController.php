@@ -306,22 +306,41 @@ class TierrasController extends BaseController {
 
 			if(Input::hasFile('modpdf')) {
 			    	Input::file('modpdf')->move($path,Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension());
-
-					$fecha = date("Y-m-d H:i:s");
-					$sql = 0;
+			    	$fecha = date("Y-m-d H:i:s");
 					if (Input::get('modocu')==23) {
-						$sql = "UPDATE MODTIERRAS_PROCESTADO SET id_estado = ".Input::get('modnp').", updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and (id_estado=3 OR id_estado=4)";
-					} elseif(Input::get('modocu')==24) {
-						$sql = "UPDATE MODTIERRAS_PROCESTADO SET id_estado = ".Input::get('modnp').", updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and (id_estado=6 OR id_estado=7 OR id_estado=8)";
-					}elseif(Input::get('modocu')==25) {
-						$sql = "UPDATE MODTIERRAS_PROCESTADO SET id_estado = ".Input::get('modnp').", updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and id_estado=9";
+						DB::table('MODTIERRAS_PROCESTADO')
+				            ->where('id_proceso', '=', Input::get('modnp'))
+				            ->where(function($query)
+				            {
+				                $query->orWhere('id_estado', '=', 3)
+				                      ->orWhere('id_estado', '=', 4);
+				            })
+			            ->update(array('id_estado'=>Input::get('modnp'), 'updated_at'=>$fecha));
 					}
+					elseif(Input::get('modocu')==24) {
+						DB::table('MODTIERRAS_PROCESTADO')
+				            ->where('id_proceso', '=', Input::get('modnp'))
+				            ->where(function($query)
+				            {
+				                $query->orWhere('id_estado', '=', 6)
+				                      ->orWhere('id_estado', '=', 7)
+				                      ->orWhere('id_estado', '=', 8);
+				            })
+			            ->update(array('id_estado'=>Input::get('modnp'), 'updated_at'=>$fecha));
+					}
+					elseif(Input::get('modocu')==25) {
+						DB::table('MODTIERRAS_PROCESTADO')
+				            ->where('id_proceso', '=', Input::get('modnp'))
+				            ->where('id_estado', '=', 9)
+			            ->update(array('id_estado'=>Input::get('modnp'), 'updated_at'=>$fecha));
+					}
+					DB::table('MODTIERRAS_PROCDOCUMENTOS')
+				            ->where('id_proceso', '=', Input::get('modnp'))
+				            ->where('id_documento', '=', Input::get('modocu'))
+			            ->update(array('updated_at'=>$fecha));
 
-					DB::statement($sql);
-		    		$sql2 = "UPDATE MODTIERRAS_PROCDOCUMENTOS SET updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and id_documento =".Input::get('modocu');
-		    		DB::statement($sql2);
-					return Redirect::to('procesos_adjudicados')->with('documentosanexos', $procesiid);
-				}			
+		    		return Redirect::to('procesos_adjudicados')->with('documentosanexos', $procesiid);
+				}
 				return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_estatus');
 		}			
     }
@@ -396,23 +415,21 @@ class TierrasController extends BaseController {
 		//return $arraylt;
 		return View::make('modulotierras.reporarealevan', array('arraylt' => $arrayal));
 	}
+
 	public function getDownloadfile(){
         //PDF file is stored under project/public/download/info.pdf
         $path = public_path().'\procesos\\'.Input::get('modnp').'\ ';
-
-
         if ((Input::get('moddownload')=='_LT_MAPA.pdf') OR (Input::get('moddownload')=='_LT_SHP.rar')) {
-        	
         	$file = $path.Input::get('modnp').Input::get('moddownload');        	
         	return Response::download($file);
-
-        } else {
+        } 
+        else {
         	$arraydocuruta = DB::select('SELECT rutadocu FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso = '.Input::get('modnp').'AND id_documento = '.Input::get('moddownload'));        	
         	$file = $arraydocuruta[0]->rutadocu;
         	return Response::download($file);
         }       
-        
-	}
+    }
+
 }
 
 ?>
