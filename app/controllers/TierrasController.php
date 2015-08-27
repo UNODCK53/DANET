@@ -315,7 +315,7 @@ class TierrasController extends BaseController {
 				                $query->orWhere('id_estado', '=', 3)
 				                      ->orWhere('id_estado', '=', 4);
 				            })
-			            ->update(array('id_estado'=>Input::get('modnp'), 'updated_at'=>$fecha));
+			            ->update(array('id_estado'=>Input::get('modsubestado'), 'updated_at'=>$fecha));
 					}
 					elseif(Input::get('modocu')==24) {
 						DB::table('MODTIERRAS_PROCESTADO')
@@ -326,13 +326,13 @@ class TierrasController extends BaseController {
 				                      ->orWhere('id_estado', '=', 7)
 				                      ->orWhere('id_estado', '=', 8);
 				            })
-			            ->update(array('id_estado'=>Input::get('modnp'), 'updated_at'=>$fecha));
+			            ->update(array('id_estado'=>Input::get('modsubestado'), 'updated_at'=>$fecha));
 					}
 					elseif(Input::get('modocu')==25) {
 						DB::table('MODTIERRAS_PROCESTADO')
 				            ->where('id_proceso', '=', Input::get('modnp'))
 				            ->where('id_estado', '=', 9)
-			            ->update(array('id_estado'=>Input::get('modnp'), 'updated_at'=>$fecha));
+			            ->update(array('id_estado'=>Input::get('modsubestado'), 'updated_at'=>$fecha));
 					}
 					DB::table('MODTIERRAS_PROCDOCUMENTOS')
 				            ->where('id_proceso', '=', Input::get('modnp'))
@@ -418,7 +418,7 @@ class TierrasController extends BaseController {
 
 	public function getDownloadfile(){
         //PDF file is stored under project/public/download/info.pdf
-        $path = public_path().'\procesos\\'.Input::get('modnp').'\ ';
+        $path = public_path().'\procesos\\'.Input::get('modnp').'\\';
         if ((Input::get('moddownload')=='_LT_MAPA.pdf') OR (Input::get('moddownload')=='_LT_SHP.rar')) {
         	$file = $path.Input::get('modnp').Input::get('moddownload');        	
         	return Response::download($file);

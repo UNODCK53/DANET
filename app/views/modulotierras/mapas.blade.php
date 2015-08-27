@@ -42,8 +42,6 @@ mapas
           <center><img src="assets/img/mapa.png" class="img-responsive"></center>
 </div> 
 
-
-
 <br/>
 mapas
 
