@@ -86,10 +86,41 @@ class TierrasController extends BaseController {
 	          	return Redirect::to('carga_inicial')->with('status', 'error_estatus');
 	      	}
 	}
+	public function getEditarProceso()
+	{
+		$fecha = date("Y-m-d H:i:s");
+		$procesiid = Input::get('modnp');
+		
+  		// insertar campos a la tabla
+	    DB::table('MODTIERRAS_PROCESO')->where('id_proceso', Input::get('modnp'))->update(	    	
+		    array(
+		    		'id_proceso' => Input::get('modnp'),
+		    		'conceptojuridico' => Input::get('modconcpjuri'),
+		    		'obsconceptojuridico' => Input::get('modobsconcjuri'),
+		    	  	'areapredioformalizada' => Input::get('modarea'),
+		    	  	'longitud' => Input::get('modlong'),
+		    	  	'latitud' => Input::get('modlat'),
+	    			'viabilidad' => Input::get('modviable'),
+	    			'obsviabilidad' => Input::get('modobsviab'),
+	    			'respjuridico' => Auth::user()->id,
+	    			'requiererespgeo' => Input::get('modradiorespogeo'),
+	    			'respgeografico' => Input::get('modrepogeo'),
+	    			'updated_at' => $fecha,
+	    			'vereda' => Input::get('modvereda'),
+	    			'nombrepredio' => Input::get('modnompred'),
+	    			'direccionnotificacion' => Input::get('moddirnoti'),
+	    			'nombre' => Input::get('modnombre'),
+	    			'cedula' => Input::get('modcedula'),
+	    			'telefono' => Input::get('modtelefono')	    			
+		    )					
+		);
+		return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
+	      	
+	}
 	public function ListadoProceso()
 	{
 		//consulta para retornar los procesos por abogado
-		$arrayproceso = DB::select("SELECT t.id_proceso, Sum(CASE WHEN t.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN t.id_estado = '2' THEN (CASE WHEN t.conceptojuridico >= '7' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN t.id_estado = '3' THEN 1 ELSE 0 END) as radicado,	Sum(CASE WHEN t.id_estado = '4' THEN 1 ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN t.id_estado = '5' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN t.id_estado = '6' THEN 1 ELSE 0 END) as registroorip FROM (SELECT MODTIERRAS_PROCESTADO.id_proceso, MODTIERRAS_PROCESTADO.id_estado, MODTIERRAS_PROCESO.conceptojuridico, MODTIERRAS_PROCESO.respjuridico FROM [MODTIERRAS_PROCESTADO] JOIN [MODTIERRAS_PROCESO] ON MODTIERRAS_PROCESTADO.id_proceso=MODTIERRAS_PROCESO.id_proceso) as t where t.respjuridico = ".Auth::user()->id." group by t.id_proceso");
+		$arrayproceso = DB::select("SELECT t.id_proceso, Sum(CASE WHEN t.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN t.id_estado = '2' THEN (CASE WHEN t.conceptojuridico >= '7' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN t.id_estado = '3' OR t.id_estado = '4' THEN 1 ELSE 0 END) as radicado,	Sum(CASE WHEN t.id_estado = '5' THEN 1 ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN t.id_estado = '6' OR t.id_estado = '7' OR t.id_estado = '8' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN t.id_estado = '9' THEN 1 ELSE 0 END) as registroorip	FROM (SELECT MODTIERRAS_PROCESTADO.id_proceso, MODTIERRAS_PROCESTADO.id_estado, MODTIERRAS_PROCESO.conceptojuridico, MODTIERRAS_PROCESO.respjuridico FROM [MODTIERRAS_PROCESTADO] JOIN [MODTIERRAS_PROCESO] ON MODTIERRAS_PROCESTADO.id_proceso=MODTIERRAS_PROCESO.id_proceso) as t where t.respjuridico = ".Auth::user()->id." group by t.id_proceso");
 		
 		$arrayconcepto = DB::select('select * from MODTIERRAS_CONCEPTO');
 		
@@ -141,7 +172,7 @@ class TierrasController extends BaseController {
 		    	array(
 		    		'id_proceso' => Input::get('modnp'),
 		    		'id_documento' => 2,
-		    		'rutadocu' => $path.'\\'.Input::get('modnp').'_LT_MAPA.'.Input::file('modmapa')->getClientOriginalExtension(),
+		    		'rutadocu' => $path.'\\'.Input::get('modnp').'_LT_TABLA.'.Input::file('modtabla')->getClientOriginalExtension(),
 		    		'created_at' => $fecha,
 	    			'updated_at' => $fecha
 		    	)
@@ -183,13 +214,139 @@ class TierrasController extends BaseController {
 			return Redirect::to('procesos_adjudicados');
 		}
 		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.$idpro);
-		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users where grupo=3 and level=3');
-		$arrayconcepto = DB::select('select * from MODTIERRAS_CONCEPTO');
-		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);		
+		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3');
+		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
+		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
+		$arrayprocestado = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '.$idpro);
+		$arrayprocdocu = DB::select('SELECT * FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso = '.$idpro);
+		
+		
+		$arraydocumento = DB::table('MODTIERRAS_CONCEPDOCUMENTO')
+		->where ('MODTIERRAS_CONCEPDOCUMENTO.id_concepto','=', $arrayproceso[0]->conceptojuridico)
+		->where ('MODTIERRAS_CONCEPDOCUMENTO.requieredocu','=','1')
+		->join('MODTIERRAS_DOCUMENTOS', 'MODTIERRAS_DOCUMENTOS.id_documento','=','MODTIERRAS_CONCEPDOCUMENTO.id_documento')
+		->select('MODTIERRAS_DOCUMENTOS.id_documento', 'MODTIERRAS_DOCUMENTOS.concepto','MODTIERRAS_DOCUMENTOS.avredocu')		
+		->get();
+
+		
+		
+		$arraydombobox= array($arrayconcepto, $arrayrespgeografico, $arraydocumento, $arrayestado, $arrayprocestado, $arrayprocdocu);		
 		Session::forget('procesoi');
 
 		return View::make('modulotierras.procesosadjudicadosedicion', array('arrayproceso' => $arrayproceso), array('arraydombobox' => $arraydombobox));
 	}
+	public function postAdjuntarDocu()
+	{		
+		$path = public_path().'\procesos\\'.Input::get('modnp');
+		$arrayprocdocu = DB::select('SELECT avredocu FROM MODTIERRAS_DOCUMENTOS WHERE id_documento ='.Input::get('modocu'));
+		$procesiid = Input::get('modnp');
+		// creacion de carpeta dependiendo del nombre del proceso
+		
+		if (File::exists($path)){
+						
+		}
+		else{
+			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
+		}
+
+		//aca comienza los controladores para adjuntar documentos		
+		$arraydocurevision = DB::select('SELECT * FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_documento ='.Input::get('modocu').' AND id_proceso ='.Input::get('modnp'));
+		
+		
+		if (empty($arraydocurevision)) {
+			if (Input::get('modsubestado') != 0) {
+			    if(Input::hasFile('modpdf')) {
+			    	Input::file('modpdf')->move($path,Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension());
+
+					$fecha = date("Y-m-d H:i:s");
+		    		DB::table('MODTIERRAS_PROCESTADO')->insert(
+				    	array(
+				    		'id_proceso' => Input::get('modnp'),
+				    		'id_estado' => Input::get('modsubestado'),
+				    		'created_at' => $fecha,
+			    			'updated_at' => $fecha
+				    	)
+					);
+					DB::table('MODTIERRAS_PROCDOCUMENTOS')->insert(
+				    	array(
+				    		'id_proceso' => Input::get('modnp'),
+				    		'id_documento' => Input::get('modocu'),
+				    		'rutadocu' => $path.'\\'.Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension(),
+				    		'created_at' => $fecha,
+			    			'updated_at' => $fecha
+				    	)
+					);
+					return Redirect::to('procesos_adjudicados')->with('documentosanexos', $procesiid);
+				}			
+				return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_estatus');
+			}
+			elseif (Input::get('modsubestado') == 0) {
+				if(Input::hasFile('modpdf')) {
+			    	Input::file('modpdf')->move($path,Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension());
+
+					$fecha = date("Y-m-d H:i:s");
+
+					DB::table('MODTIERRAS_PROCDOCUMENTOS')->insert(
+				    	array(
+				    		'id_proceso' => Input::get('modnp'),
+				    		'id_documento' => Input::get('modocu'),
+				    		'rutadocu' => $path.'\\'.Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension(),
+				    		'created_at' => $fecha,
+			    			'updated_at' => $fecha
+				    	)
+					);
+					return Redirect::to('procesos_adjudicados')->with('documentosanexos', $procesiid);
+				}			
+				return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_doc');	
+			}
+			else {
+			    return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_doc');	
+			}
+		} else {			
+
+			if(Input::hasFile('modpdf')) {
+			    	Input::file('modpdf')->move($path,Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension());
+
+					$fecha = date("Y-m-d H:i:s");
+					$sql = 0;
+					if (Input::get('modocu')==23) {
+						$sql = "UPDATE MODTIERRAS_PROCESTADO SET id_estado = ".Input::get('modnp').", updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and (id_estado=3 OR id_estado=4)";
+					} elseif(Input::get('modocu')==24) {
+						$sql = "UPDATE MODTIERRAS_PROCESTADO SET id_estado = ".Input::get('modnp').", updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and (id_estado=6 OR id_estado=7 OR id_estado=8)";
+					}elseif(Input::get('modocu')==25) {
+						$sql = "UPDATE MODTIERRAS_PROCESTADO SET id_estado = ".Input::get('modnp').", updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and id_estado=9";
+					}
+
+					DB::statement($sql);
+		    		$sql2 = "UPDATE MODTIERRAS_PROCDOCUMENTOS SET updated_at = ".$fecha." where id_proceso = ".Input::get('modnp')." and id_documento =".Input::get('modocu');
+		    		DB::statement($sql2);
+					return Redirect::to('procesos_adjudicados')->with('documentosanexos', $procesiid);
+				}			
+				return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_estatus');
+		}			
+    }
+    public function getEditarProceso2()
+	{
+		$fecha = date("Y-m-d H:i:s");
+		$procesiid = Input::get('modnp');
+		
+  		// insertar campos a la tabla
+	    DB::table('MODTIERRAS_PROCESO')->where('id_proceso', Input::get('modnp'))->update(	    	
+		    array(
+		    		'fechainspeccionocular' => Input::get('modfechaocular')	    			
+		    )					
+		);
+		DB::table('MODTIERRAS_PROCESTADO')->insert(
+			    	array(
+			    		'id_proceso' => Input::get('modnp'),
+			    		'id_estado' => 5,
+			    		'created_at' => $fecha,
+		    			'updated_at' => $fecha
+			    	)
+		);
+		return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
+	      	
+	}    
 	public function PruebaPro()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
@@ -239,9 +396,23 @@ class TierrasController extends BaseController {
 		//return $arraylt;
 		return View::make('modulotierras.reporarealevan', array('arraylt' => $arrayal));
 	}
+	public function getDownloadfile(){
+        //PDF file is stored under project/public/download/info.pdf
+        $path = public_path().'\procesos\\'.Input::get('modnp').'\ ';
 
 
+        if ((Input::get('moddownload')=='_LT_MAPA.pdf') OR (Input::get('moddownload')=='_LT_SHP.rar')) {
+        	
+        	$file = $path.Input::get('modnp').Input::get('moddownload');        	
+        	return Response::download($file);
 
+        } else {
+        	$arraydocuruta = DB::select('SELECT rutadocu FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso = '.Input::get('modnp').'AND id_documento = '.Input::get('moddownload'));        	
+        	$file = $arraydocuruta[0]->rutadocu;
+        	return Response::download($file);
+        }       
+        
+	}
 }
 
 ?>

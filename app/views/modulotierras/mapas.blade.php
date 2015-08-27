@@ -38,8 +38,9 @@
 mapas
 <br/>
 
-
-
+<div class="col-xs-12">
+          <center><img src="assets/img/mapa.png" class="img-responsive"></center>
+</div> 
 
 
 

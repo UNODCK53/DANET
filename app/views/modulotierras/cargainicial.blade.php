@@ -123,7 +123,7 @@
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Concepto juridico:</label>
-            <select id="modconcpjuri" class="form-control" name="modconcpjuri" readonly>
+            <select id="modconcpjuri" "Seleccione el concepto" class="form-control" name="modconcpjuri" required>
                 <option value="" selected="selected">Por favor seleccione</option>
              @foreach($arraydombobox[0] as $concep)
                 <option value="{{$concep->id_concepto}}">{{$concep->subconcepto}}</option>              
@@ -136,15 +136,15 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Area predio a formalizar:</label>
-            <input id="modarea" type="text" class="form-control" name="modarea">
+            <input id="modarea" type="number" class="form-control" name="modarea">
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Latitud:</label>
-            <input id="modlat" type="text" class="form-control" name="modlat" value="0">
+            <input id="modlat" type="number" class="form-control" name="modlat" value="0">
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Longitud:</label>
-            <input id="modlong" type="text" class="form-control" name="modlong" value="0">
+            <input id="modlong" type="number" class="form-control" name="modlong" value="0">
           </div>
           
           <div class="form-group">

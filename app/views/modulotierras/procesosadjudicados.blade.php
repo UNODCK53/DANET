@@ -51,6 +51,26 @@
       <i class="bg-danger"></i> El proceso NO fue extualizado</div>
       <div class="col-sm-1"></div>
       @endif
+      <?php $actualizar=Session::get('actualizar');?>
+      @if($actualizar!='')
+      <div class="col-sm-1"></div>    
+      <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+      <i class="bg-success"></i> El proceso {{$actualizar}} quedo actualizado con exito </div>
+      <div class="col-sm-1"></div>
+      @endif
+      <?php $documentosanexos=Session::get('documentosanexos'); ?>
+      @if($documentosanexos!='')
+      <div class="col-sm-1"></div>    
+      <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+      <i class="bg-success"></i> Al proceso {{$documentosanexos}} se le adjunto con exito el documento</div>
+      <div class="col-sm-1"></div>
+      @endif
+      @if($documentosanexos=='error_doc')
+      <div class="col-sm-1"></div>    
+      <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+      <i class="bg-danger"></i> El documento NO se adjunto</div>
+      <div class="col-sm-1"></div>
+      @endif
 
     </div>
 
@@ -126,6 +146,7 @@
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Procesos Adjudicados</strong>");
+          $( "#mensajeestatus" ).fadeOut(5000);
 
 
           var table = $('#example').DataTable();
