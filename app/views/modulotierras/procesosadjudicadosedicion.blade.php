@@ -131,6 +131,17 @@
         <div class="col-sm-1"></div>
       </div>
       <hr>
+      <div class="row">
+          <div class="col-sm-1"></div>               
+            <div class="col-sm-10">
+            <h3 class="text-primary">ANEXAR DOCUMENTOS REQUIRDOS PARA EL PROCESO:</h3>
+            <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Anexar documentos</button>
+         
+                   
+            </div> 
+          <div class="col-sm-1"></div>        
+        </div>
+        <hr>
 @foreach($arraydombobox[4] as $estadoproceso)
   @if ($estadoproceso->id_estado == 2 )
     @if ($pro->conceptojuridico <= 6) 
@@ -265,14 +276,13 @@
       <hr>          
   @endif
 @endforeach
-
       <blockquote>
-      <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar no obli</button>
+      
       <input id="idestado" type = 'hidden' name="idestado" value='{{$estadoproceso->id_estado}}'>
         @if ($estadoproceso->id_estado ==9)
           <p>Grandioso el proceso finalizo con exito.</p>
         @elseif ($estadoproceso->id_estado <=8)
-          <p>usted tiene pendiente realizar los siguientes procesos {{$arraydombobox[3][$estadoproceso->id_estado]->estado}}.</p>
+          <p>Usted tiene pendiente realizar los siguientes procesos {{$arraydombobox[3][$estadoproceso->id_estado]->estado}}.</p>
         @endif        
       </blockquote>
 
@@ -475,11 +485,12 @@
 
         if({{$pro->viabilidad}} == '1'){
             $('#respoviasi').prop('checked', 'true');
-             $("#obsvial").show();
+             $("#obsvial").hide();
+             $("#obsvial").val("");
           }
           else{
             $('#respoviano').prop('checked', 'true');
-             $("#obsvial").hide();
+            $("#obsvial").show();
           } 
 
         if({{$pro->requiererespgeo}} == '1'){
@@ -503,16 +514,14 @@
         //cierra modal responsable geografico
 
         $('#respoviano').click(function(){
+          $("#obsvial").show();
+        });
+        $('#respoviasi').click(function(){
           $("#obsvial").hide();
           $("#modobsviab").val("");
         });
-        $('#respoviasi').click(function(){
-          $("#obsvial").show();
-        });
          $('#btndocuobliradicado').click(function(){
           $("#idestado").val(23);
-          
-
         });
          $('#btndocuobliresproc').click(function(){
           $("#idestado").val(24);
@@ -533,7 +542,7 @@
           $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
             language: "es",
-            startDate: "2015-01-01",
+            startDate: "2014-11-01",
             endDate: "today",
             todayBtn: "linked",
             orientation: "bottom auto",

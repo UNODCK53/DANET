@@ -136,15 +136,15 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Area predio a formalizar:</label>
-            <input id="modarea" type="number" class="form-control" name="modarea">
+            <input id="modarea" type="number" step="any" class="form-control" name="modarea">
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Latitud:</label>
-            <input id="modlat" type="number" class="form-control" name="modlat" value="0">
+            <input id="modlat" type="number" step="any" class="form-control" name="modlat" value="0">
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Longitud:</label>
-            <input id="modlong" type="number" class="form-control" name="modlong" value="0">
+            <input id="modlong" type="number" step="any" class="form-control" name="modlong" value="0">
           </div>
           
           <div class="form-group">
@@ -225,6 +225,7 @@
       $(document).ready(function() {
         //modal-responsable geográfico
         $("#respongeo").hide();
+        $("#obsvial").hide();
         $('#respogeosi').click(function(){
           $("#respongeo").show();
         });
@@ -235,11 +236,12 @@
         //cierra modal responsable geografico
         //modal-viable y vialidad
         $('#respoviano').click(function(){
-          $("#obsvial").hide();
-          $("#modobsviab").val("");
+          $("#obsvial").show();
+          
         });
         $('#respoviasi').click(function(){
-          $("#obsvial").show();
+          $("#obsvial").hide();
+          $("#modobsviab").val("");
         });
         //cierra-modal-viable y vialidad
 

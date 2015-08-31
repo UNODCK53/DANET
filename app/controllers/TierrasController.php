@@ -130,7 +130,7 @@ class TierrasController extends BaseController {
 	public function ListadoProcesogral()
 	{
 		//consulta para retornar los procesos por abogado
-		$arrayproceso = DB::select("SELECT t.id_proceso, Sum(CASE WHEN t.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN t.id_estado = '2' THEN (CASE WHEN t.conceptojuridico >= '7' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN t.id_estado = '3' THEN 1 ELSE 0 END) as radicado,	Sum(CASE WHEN t.id_estado = '4' THEN 1 ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN t.id_estado = '5' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN t.id_estado = '6' THEN 1 ELSE 0 END) as registroorip FROM (SELECT MODTIERRAS_PROCESTADO.id_proceso, MODTIERRAS_PROCESTADO.id_estado, MODTIERRAS_PROCESO.conceptojuridico, MODTIERRAS_PROCESO.respjuridico FROM [MODTIERRAS_PROCESTADO] JOIN [MODTIERRAS_PROCESO] ON MODTIERRAS_PROCESTADO.id_proceso=MODTIERRAS_PROCESO.id_proceso) as t group by t.id_proceso");
+		$arrayproceso = DB::select("SELECT t.id_proceso, Sum(CASE WHEN t.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN t.id_estado = '2' THEN (CASE WHEN t.conceptojuridico >= '7' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN t.id_estado = '3' OR t.id_estado = '4' THEN 1 ELSE 0 END) as radicado,	Sum(CASE WHEN t.id_estado = '5' THEN 1 ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN t.id_estado = '6' OR t.id_estado = '7' OR t.id_estado = '8' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN t.id_estado = '9' THEN 1 ELSE 0 END) as registroorip FROM (SELECT MODTIERRAS_PROCESTADO.id_proceso, MODTIERRAS_PROCESTADO.id_estado, MODTIERRAS_PROCESO.conceptojuridico, MODTIERRAS_PROCESO.respjuridico FROM [MODTIERRAS_PROCESTADO] JOIN [MODTIERRAS_PROCESO] ON MODTIERRAS_PROCESTADO.id_proceso=MODTIERRAS_PROCESO.id_proceso) as t group by t.id_proceso");
 				//return $arrayproceso;
 		return View::make('modulotierras.consultageneral', array('arrayproceso' => $arrayproceso));
 	}
@@ -355,15 +355,31 @@ class TierrasController extends BaseController {
 		    		'fechainspeccionocular' => Input::get('modfechaocular')	    			
 		    )					
 		);
-		DB::table('MODTIERRAS_PROCESTADO')->insert(
+
+		$estadocambio = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO where id_proceso ='.Input::get('modnp').' and id_estado = 5' );
+
+		if (empty($estadocambio)) {
+			DB::table('MODTIERRAS_PROCESTADO')->insert(
 			    	array(
 			    		'id_proceso' => Input::get('modnp'),
 			    		'id_estado' => 5,
 			    		'created_at' => $fecha,
 		    			'updated_at' => $fecha
 			    	)
-		);
-		return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
+			);
+			return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
+		} 
+		else {
+			DB::table('MODTIERRAS_PROCESTADO')
+				            ->where('id_proceso', '=', Input::get('modnp'))
+				            ->where('id_estado', '=', 5)
+			            ->update(array('updated_at'=>$fecha));
+			return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
+		}
+
+		return "ERROR";
+		
+		
 	      	
 	}    
 	public function PruebaPro()
