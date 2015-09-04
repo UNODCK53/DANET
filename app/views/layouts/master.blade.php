@@ -173,7 +173,7 @@
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Numero de Procesos</a></li>
                         <li id="reporlevtop"><a href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Area Levantada</a></li>
+                        <li id="reporarearepor"><a href="<?=URL::to('reporte_area_levantada'); ?>"> <span class="glyphicon glyphicon-ok"></span> Area Levantada</a></li>
                         <li id="reporresponsjuri"><a href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Juridico</a></li>
 
                       <li class="divider"></li>
@@ -258,7 +258,7 @@
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Numero de Procesos</a></li>
                         <li><a id="tierrasreporlevtopmenupeq" href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topografico</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-ok"></span> Area Levantada</a></li>
+                        <li><a id="tierrasreporarearepormenupeq" href="<?=URL::to('reporte_area_levantada'); ?>"> <span class="glyphicon glyphicon-ok"></span> Area Levantada</a></li>
                         <li><a id="tierrasreporesjurimenupeq" href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Juridico</a></li>
 
                       <li class="divider"></li>

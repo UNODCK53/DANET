@@ -397,7 +397,6 @@ class TierrasController extends BaseController {
 		$arrayconcepto = DB::select('select * from MODTIERRAS_CONCEPTO');
 		$arrayconsul=array($arrayproini,$arrayconcepto);
 		return Response::json($arrayconsul);
-
 	}
 
 	public function ResponsableJuridico()
@@ -424,12 +423,35 @@ class TierrasController extends BaseController {
 
 	public function ReporAreaLevantada()
 	{
-		$arrayal = DB::table('MODTIERRAS_PROCESO')
-		->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
-		->groupBy('requiererespgeo')
+		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
+		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
+		->select('nom_dpto','cod_dpto')
+		->groupBy('nom_dpto','cod_dpto')
 		->get();
-		//return $arraylt;
-		return View::make('modulotierras.reporarealevan', array('arraylt' => $arrayal));
+		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like','52%')->sum('areaprediopreliminar');
+		$arrayapf = DB::table('MODTIERRAS_PROCESO')->sum('areapredioformalizada');
+		$arraytotal = array($arraydpto,array($arrayapp),array($arrayapf));
+		//return $arraytotal;
+		return View::make('modulotierras.reporareareportada', array('arraydpto' => $arraydpto), array('arraytotal' => $arraytotal));
+	}
+
+	public function postReporarealevantadampio()
+	{
+		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->sum('areaprediopreliminar');
+		$arrayapf = DB::table('MODTIERRAS_PROCESO')->sum('areapredioformalizada');
+		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
+		$arrayt=array($arraympio, $arrayapf);
+		return Response::json($arrayt);
+	}
+
+	public function postReporarealevantadavda()
+	{
+		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->sum('areaprediopreliminar');
+		$arrayapf = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->sum('areapredioformalizada');
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		$arrayt=array($arrayvda, $arrayapp,$arrayapf);
+		return Response::json($arrayt);
+		
 	}
 
 	public function getDownloadfile(){
@@ -446,6 +468,41 @@ class TierrasController extends BaseController {
         }       
     }
 
+    public function Generarpfd(){
+
+    	$arraytp = DB::table('MODTIERRAS_PROCESO')->count();
+    	$fecha = date("Y/m/d");
+    	$hora = date("H:i");
+    	//PDF file is stored under project/public/download/info.pdf
+        Fpdf::AddPage();
+        Fpdf::SetFont('Arial', 'B', 16);
+		//inserto la cabecera poniendo una imagen dentro de una celda
+		Fpdf::Cell(100,10,Fpdf::Image('./assets/img/unodc.png',30,10,50),0,0,'C');
+		//Fpdf::Line(35,64,190,64);
+		Fpdf::Ln(7);
+		//Fpdf::Write(5,"To find out what's new in this tutorial, click ");
+		Fpdf::Cell(100,30,"La Unidad de Informacion certifica el siguiente numero de procesos");//.$campodb['nombre']);
+		//Fpdf::Line(35,74,190,74);
+		Fpdf::Ln(7);
+		Fpdf::Cell(100,40,"Numero de procesos: ".$arraytp);//. $campodb['direccion']);
+		//Fpdf::Line(35,84,190,84);
+		Fpdf::Ln(7);
+		Fpdf::Cell(90,50,"Fecha de elaboracion de Informe: ".$fecha);//.$campodb['telefono']));
+		//Fpdf::Line(35,94,190,94);
+		Fpdf::Ln(7);
+		Fpdf::Cell(100,60,"Hora de elaboracion de Informe: ".$hora);//.$campodb['ordenador']);
+		//Fpdf::Line(35,104,190,104);
+		Fpdf::Ln(9);
+		Fpdf::SetFont('Arial','B',10);
+	 	Fpdf::Ln(2);
+
+		Fpdf::SetFont('Arial','',8);
+        Fpdf::Output();
+        exit;
+    }
+
+    
 }
 
 ?>
+

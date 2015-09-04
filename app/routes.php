@@ -38,6 +38,7 @@ Route::group(array('before' => 'auth'), function()
     Route::get('principal', function(){return View::make('principal');});
     Route::post('cambiopass','UserLogin@cambiar');
 
+
   Route::group(array('before'=>'cargainicial'), function(){
     // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
     Route::get('carga_inicial','TierrasController@ListadoProini');
@@ -57,8 +58,13 @@ Route::group(array('before' => 'auth'), function()
     Route::get('reporte_responsable_juridico', 'TierrasController@ResponsableJuridico');
     //Ruta para elaborar grafica de levantamiento topograficos requeridos
     Route::get('reporte_lavantamiento_topografico', 'TierrasController@RLevantamientoTopogragfico');
+    //Ruta para elaborar grafica de area levantada
+    Route::get('reporte_area_levantada', 'TierrasController@ReporAreaLevantada');
     //Ruta para el visor de mapas
     Route::get('mapas', function(){return View::make('modulotierras/mapas');});
+    //Ruta para generar pdf
+    Route::get('despdf','TierrasController@Generarpfd');
+    
     
   });
 

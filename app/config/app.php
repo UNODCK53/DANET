@@ -122,6 +122,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Maatwebsite\Excel\ExcelServiceProvider',
+		'Anouar\Fpdf\FpdfServiceProvider',
 		
 	),
 
@@ -190,6 +191,7 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Excel' 		  => 'Maatwebsite\Excel\Facades\Excel',
+		'Fpdf'    		  => 'Anouar\Fpdf\Facades\Fpdf',
 
 
 	),

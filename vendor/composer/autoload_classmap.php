@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Anouar\\Fpdf\\Facades\\Fpdf' => $vendorDir . '/anouar/fpdf/src/Anouar/Fpdf/Facades/Fpdf.php',
+    'Anouar\\Fpdf\\Fpdf' => $vendorDir . '/anouar/fpdf/src/Anouar/Fpdf/Fpdf.php',
+    'Anouar\\Fpdf\\FpdfServiceProvider' => $vendorDir . '/anouar/fpdf/src/Anouar/Fpdf/FpdfServiceProvider.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
     'Boris\\Boris' => $vendorDir . '/d11wtq/boris/lib/Boris/Boris.php',
     'Boris\\CLIOptionsHandler' => $vendorDir . '/d11wtq/boris/lib/Boris/CLIOptionsHandler.php',
