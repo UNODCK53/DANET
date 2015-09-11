@@ -77,7 +77,7 @@
           </div>          
           <div class="form-group">
             <label for="Proceso" class="control-label">Viable:</label><br>
-            <input type="radio" name="modviable" id="respoviasi" value="1" > SI
+            <input type="radio" name="modviable" id="respoviasi" value="1"> SI
             <input type="radio" name="modviable" id="respoviano" value="2"> NO
           </div>
           <div class="form-group" id="obsvial">
@@ -86,8 +86,9 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label" >Requiere responsable Geografico:</label><br>
-            <input type="radio" name="modradiorespogeo" id="respogeosi" value="1"> SI
-            <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
+            <input type="radio" name="modradiorespogeo1" id="respogeosi" value="1" disabled='disabled'> SI
+            <input type="radio" name="modradiorespogeo1" id="respogeono" value="2"checked disabled='disabled'> NO<br>
+            <input type='hidden' name='modradiorespogeo' id='modradiorespogeo' value='{{$pro->requiererespgeo}}'>
           </div>
           <div class="form-group" id="respongeo">
             <label for="Proceso" class="control-label">Responsable Geografico:</label>
@@ -131,16 +132,44 @@
         <div class="col-sm-1"></div>
       </div>
       <hr>
+      <blockquote>
+        <p align="justify">Por favor adjuntar los siguientes documentos para poder terminar el proceso: </p>
+        <p align="justify">
+          @foreach($arraydombobox[2] as $docunecesario)
+              <?php $encontro=0; ?>
+              @foreach($arraydombobox[5] as $docucargado)                  
+                @if ($docunecesario->id_documento == $docucargado->id_documento)
+                  <?php $encontro=1; ?>
+                @endif                  
+              @endforeach
+              @if ($encontro==0)
+                {{$docunecesario->concepto}}{{','}}
+              @endif                  
+          @endforeach
+        </p>        
+      </blockquote>
+
+      <?php $uno=0; ?>
       <div class="row">
           <div class="col-sm-1"></div>               
             <div class="col-sm-10">
             <h3 class="text-primary">ANEXAR DOCUMENTOS REQUIRDOS PARA EL PROCESO:</h3>
-            <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Anexar documentos</button>
-         
-                   
+            <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
+                  <div class="col-sm-12 form-group">            
+                    <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
+        @foreach($arraydombobox[5] as $procdocu)
+        @if (($procdocu->id_documento != 23) and ($procdocu->id_documento != 24) and ($procdocu->id_documento != 25) and ($procdocu->id_documento != 2))
+                    <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='{{$procdocu->id_documento}}'>
+                    <spam>{{$procdocu->concepto}}</spam><br>
+        @endif
+        @endforeach    
+                  </div>
+            </form>      
+            <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Anexar documentos</button>        
             </div> 
           <div class="col-sm-1"></div>        
         </div>
+
         <hr>
 @foreach($arraydombobox[4] as $estadoproceso)
   @if ($estadoproceso->id_estado == 2 )
@@ -153,18 +182,21 @@
             <div class="col-sm-1 form-group">            
             <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
             <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='_LT_MAPA.pdf'>
+            <spam>Mapa</spam>
             </div>
             </form>
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
             <div class="col-sm-1 form-group">            
             <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
             <input id="moddownload" type="image" name="moddownload" src="assets/img/rar.png" value='_LT_SHP.rar'>
+            <spam>SHP</spam>
             </div>
             </form>
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
             <div class="col-sm-1 form-group">            
             <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
             <input id="moddownload" type="image" name="moddownload" src="assets/img/excel.png" value='2'>
+            <spam>Coordenadas</spam>
             </div>
             </form>            
         </div>
@@ -188,9 +220,9 @@
             <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
             <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='23'>
             </div>
-            </form>
+            </form>            
             <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal1"  data-toggle="modal" type="button" class="btn btn-primary">Editar Radicado</button>
-          @else          
+          @else                    
           <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal1"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Radicado</button>
           @endif
                   
@@ -207,7 +239,7 @@
                 <form role="form" action="tierras/editar-proceso2" method="get" id="formEdit">
                   <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}' readonly>
                   <div class="input-group date" id="datepicker">                      
-                      <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '{{$pro->fechainspeccionocular}}' readonly>
+                      <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '{{$pro->fechainspeccionocular}}' required>
                       <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                   </div>
                   <br>
@@ -265,10 +297,12 @@
             <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
             <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='25'>
             </div>
-            </form>
-            <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Editar Registro ORIP</button>
-          @else          
-          <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Registro ORIP</button>
+            </form>         
+            <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Editar Registro ORIP</button>                       
+          @else
+            @if (count($arraydombobox[5])==((count($arraydombobox[2]))-1))
+              <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Registro ORIP</button>
+            @endif
           @endif          
           </div> 
         <div class="col-sm-1"></div>        
@@ -276,17 +310,16 @@
       <hr>          
   @endif
 @endforeach
-      <blockquote>
-      
+      <blockquote>      
       <input id="idestado" type = 'hidden' name="idestado" value='{{$estadoproceso->id_estado}}'>
         @if ($estadoproceso->id_estado ==9)
-          <p>Grandioso el proceso finalizo con exito.</p>
-        @elseif ($estadoproceso->id_estado <=8)
-          <p>Usted tiene pendiente realizar los siguientes procesos {{$arraydombobox[3][$estadoproceso->id_estado]->estado}}.</p>
-        @endif        
+          <p>El proceso a finalizo con exito.</p>
+        @elseif ($estadoproceso->id_estado <=5)
+          <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][$estadoproceso->id_estado]->estado}}</strong></u> para cambiar el estado al proceso .</p>
+        @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
+          <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u> para activar el boton de cargue de documento ORIP necesita cargar todos los documentacion del proceso.</p>
+        @endif
       </blockquote>
-
-
       <!--ajuntar modal-->
       <div id="docModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -367,6 +400,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Adjuntar Documento</button>
+              
             </div>
               </form>
           </div><!-- /.modal-content -->
@@ -455,8 +489,6 @@
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div>
-
-
   <!--finaliza el codigo dentro de este contenedor-->
   </div>
 @stop
@@ -476,10 +508,10 @@
 @section('js')
   @parent
     <script>
+      
+      
 
-
-      $(document).ready(function() {
-        
+      $(document).ready(function() {   
         
         $("#modrepogeo").val("{{$pro->respgeografico}}");
 
@@ -528,7 +560,7 @@
         });
         $('#btndocuobliregorip').click(function(){
           $("#idestado").val(25);
-        });
+        });      
 
         //para que los menus pequeño y grande funcione
         $( "#tierras" ).addClass("active");

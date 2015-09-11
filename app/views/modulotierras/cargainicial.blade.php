@@ -151,7 +151,6 @@
             <label for="Proceso" class="control-label">Viable:</label><br>
             <input type="radio" name="modviable" id="respoviasi" value="1" checked> SI
             <input type="radio" name="modviable" id="respoviano" value="2"> NO
-
           </div>
           <div class="form-group" id="obsvial">
             <label for="Proceso" class="control-label">Observacion viabilidad:</label>
@@ -159,8 +158,9 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label" >Requiere responsable Geografico:</label><br>
-            <input type="radio" name="modradiorespogeo" id="respogeosi" value="1"> SI
-            <input type="radio" name="modradiorespogeo" id="respogeono" value="2"checked> NO<br>
+            <input type="radio" name="modradiorespogeo1" id="respogeosi" value="1" disabled='disabled'> SI
+            <input type="radio" name="modradiorespogeo1" id="respogeono" value="2"checked disabled='disabled'> NO<br>
+            <input type='hidden' name='modradiorespogeo' id='modradiorespogeo'>
           </div>
           <div class="form-group" id="respongeo">
             <label for="Proceso" class="control-label">Responsable Geografico:</label>
@@ -242,6 +242,23 @@
         $('#respoviasi').click(function(){
           $("#obsvial").hide();
           $("#modobsviab").val("");
+        });
+        $('#modconcpjuri').change(function(){
+            //alert($('#modconcpjuri').val());
+            if ($('#modconcpjuri').val()>=7) {
+              //alert('mayor a 7');
+              $('#respogeono').prop( "checked", true );
+              $('#respongeo').hide();
+              $('#modrepogeo').val("");
+              $('#modradiorespogeo').val(2);  
+            }
+            else{
+              //alert('menor a 7');
+              $('#respogeosi').prop( "checked", true );
+              $('#respongeo').show();
+              $('#modradiorespogeo').val(1);  
+            };
+            
         });
         //cierra-modal-viable y vialidad
 

@@ -8,11 +8,24 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+        <style>          
+          #map {
+            width: 100%;
+            height: 600px;
+            margin:0 auto 0 auto;
+            position: relative;
+            top: 1%;
+           
+            
+            }
+      </style>
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
   @parent
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.3/esri-leaflet.js"></script>
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -34,20 +47,25 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
+    <br>
 <!--aca se escribe el codigo-->
-mapas
-<br/>
+        <div class="col-md-12">  
+            <div id="map"></div>
+            <script>
+            var map = L.map('map').setView([4.5, -74.1], 6);
+            L.esri.basemapLayer("Gray").addTo(map);
+            //L.esri.dynamicMapLayer("http://services.nationalmap.gov/arcgis/rest/services/3DEPElevationIndex/MapServer/0", { opacity : 1}).addTo(map);
+            var servicioarcgis = new L.esri.FeatureLayer("http://arcgisserver.unodc.org.co/arcgis/rest/services/prueba/MyMapService/MapServer/0").addTo(map);
+            </script>
+        </div>
 
-<div class="col-xs-12">
-          <center><img src="assets/img/mapa.png" class="img-responsive"></center>
-</div> 
-
-<br/>
-mapas
-
+        
+    
 <!--fin del codigo-->    
     </div>
+    <br>    
   </div>
+
 <!--Fin del tercer contenedor--> 
 
 @stop

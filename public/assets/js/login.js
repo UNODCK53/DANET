@@ -24,7 +24,6 @@ $(document).ready(function(){
 		}
 		
 		
-		
     });
 
     $('#username, #password').on('keyup',function(){

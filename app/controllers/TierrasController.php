@@ -218,7 +218,7 @@ class TierrasController extends BaseController {
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
 		$arrayprocestado = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '.$idpro);
-		$arrayprocdocu = DB::select('SELECT * FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso = '.$idpro);
+		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT [id_proceso],[id_documento] FROM [DABASE].[sde].[MODTIERRAS_PROCDOCUMENTOS] where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
 		
 		
 		$arraydocumento = DB::table('MODTIERRAS_CONCEPDOCUMENTO')
@@ -226,9 +226,7 @@ class TierrasController extends BaseController {
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.requieredocu','=','1')
 		->join('MODTIERRAS_DOCUMENTOS', 'MODTIERRAS_DOCUMENTOS.id_documento','=','MODTIERRAS_CONCEPDOCUMENTO.id_documento')
 		->select('MODTIERRAS_DOCUMENTOS.id_documento', 'MODTIERRAS_DOCUMENTOS.concepto','MODTIERRAS_DOCUMENTOS.avredocu')		
-		->get();
-
-		
+		->get();	
 		
 		$arraydombobox= array($arrayconcepto, $arrayrespgeografico, $arraydocumento, $arrayestado, $arrayprocestado, $arrayprocdocu);		
 		Session::forget('procesoi');
