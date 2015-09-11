@@ -57,7 +57,7 @@
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
-      <form role="form" action="tierras/consultar-proceso" method="get" id="formconsulpro">  
+      <form role="form" action="tierras/consulta-proceso" method="post" id="formconsulpro">
         <!-- Standard button -->
         <button id="btnconsulpro" title="Presione para consultar el estudio juridico" disabled="disabled" type="submit" type="button" class="btn btn-primary">Consultar Proceso</button>
         <input id="proceso" type="hidden" class="form-control" name="proceso">

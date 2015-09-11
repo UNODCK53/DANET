@@ -8,7 +8,6 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
@@ -61,163 +60,258 @@
     <div class="row">
       <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
     </div>
-
-
 <br/>
-
 <!--fin del codigo-->    
-    
   </div>
 <!--Fin del tercer contenedor--> 
-
 @stop
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
-
 @stop
-
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-
 @stop
-
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="assets/js/highcharts/highcharts.js"></script>
+<script src="assets/js/highcharts/exporting.js"></script>
     <script>
-    
-
-
-
-      $(document).ready(function() {
-
-          $( "#tierras" ).addClass("active");
-          $( "#reporarearepor" ).addClass("active");
-          $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrasreporarearepormenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Area Levantada</strong>");
-          $( "#mensajeestatus" ).fadeOut(5000);
-
-
-        $("#labelmpio").hide();
-        $("#selmpio").hide();
-        $("#labelvda").hide();
-        $("#selvda").hide();
-         
-          $("#seldpto").change(function(){
-            var datos = ($('#seldpto').val());
-            
-                $.ajax({
-                    url:"tierras/reporarealevantadampio",
-                    type:"POST",
-                    data: {dpto: $('#seldpto').val()},
-                    dataType:'json',
-                    success:function(data1){
-                        $("#labelmpio").show();
-                        $("#selmpio").show();
-                        $("#selmpio").empty();
-                        $("#selmpio").append("<option value=''>Por favor seleccione</option>");
-                        $.each(data1[0], function(nom,datos){
-                          
-                        $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
-                        });
-                    },
-                    error:function(){
-                        alert('error');
+    $(function(){
+      $('#container').highcharts({
+        chart:{
+          type:'pie',
+          options3d:{enabled:true,alpha:45,beta:0}
+        },
+        title:{text:'Área formalizada Nacional'},
+        tooltip:{pointFormat:'{series.name}:<b>{point.percentage:.1f} %</b>'},
+        plotOptions:{
+          pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+            dataLabels:{
+              enabled:true,
+              format:'<b>{point.name}</b>:{point.y:.2f} ha',
+              style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+            }
+          }
+        },
+        series:[{
+          name: "Área",
+          colorByPoint: true,
+          data:[            
+            {{'["Área total preliminar",'.$arraytotal[0].'],'}}
+            {{'["Área total formalizada",'.$arraytotal[1].']'}} 
+          ]
+        }]
+      });
+    });//Termina function highchart
+    $(document).ready(function() {
+      $("#tierras").addClass("active");
+      $("#tierrasreporarearepor").addClass("active");
+      $("#iniciomenupeq").html("<small> INICIO</small>");
+      $("#tierrasmenupeq").html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
+      $("#tierrasreporarearepormenupeq").html("<strong><span class='glyphicon glyphicon-ok'></span>Area Levantada</strong>");
+      $("#mensajeestatus").fadeOut(5000);
+      $("#labelmpio").hide();
+      $("#selmpio").hide();
+      $("#labelvda").hide();
+      $("#selvda").hide();
+      $("#seldpto").change(function(){
+        if((($('#seldpto').val()=='')&&($('#selmpio').val()!=''))||(($('#seldpto').val()=='')&&($('#selmpio').val()=='')))
+        {
+          location.reload();
+        }
+        else{
+          $.ajax({url:"tierras/reporarealevantadampio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+            success:function(data1){
+              $("#labelmpio").show();
+              $("#selmpio").show();
+              $("#selmpio").empty();
+              $("#selvda").empty();
+              $("#selvda").hide();
+              $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1[0], function(nom,datos){
+                $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+              });
+              $('#container').highcharts({
+                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                },
+                title:{text:'Área formalizada Departamental'},
+                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'
+                },
+                plotOptions:{
+                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
+                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
-                });//Termina Ajax prueva
-          });//Termina chage seldpto
-
-          $("#selmpio").change(function(){
-                $.ajax({
-                    url:"tierras/reporarealevantadavda",
-                    type:"POST",
-                    data: {mpio: $('#selmpio').val()},
-                    dataType:'json',
-                    success:function(data){
-                        $("#labelvda").show();
-                        $("#selvda").show();
-                        $("#selvda").empty();
-                        $("#selvda").append("<option value=''>Por favor seleccione</option>");
-                        [].forEach.call(data[0],function(datos){
-                            $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
-                        });
-                        //console.log(valores)
-                        $('#container').highcharts({
-                          chart: {
-                              plotBackgroundColor: null,
-                              plotBorderWidth: null,
-                              plotShadow: false,
-                              type: 'pie'
-                          },
-                          title: {
-                              text: 'Área formalizada'
-                          },
-                          tooltip: {
-                              pointFormat: '{series.name}: <b>{point.percentage:.1f} %</b>'
-                          },
-                          plotOptions: {
-                              pie: {
-                                  allowPointSelect: true,
-                                  cursor: 'pointer',
-                                  dataLabels: {
-                                      enabled: true,
-                                      format: '<b>{point.name}</b>:{point.y:.2f} ha',
-                                      style: {
-                                          color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                      }
-                                  }
-                              }
-                          },
-                          series: [{
-                              name: "Área",
-                              colorByPoint: true,
-                              data: [{name: "Área total preliminar",
-                                      y: Number(data[1])},
-                                      {name: "Área total formalizada",
-                                      y: Number(data[2])}
-                                    ]
-                          }]
-                        });
-                    },
-                    error:function(){
-                        alert('error');
+                  }
+                },
+                series:[{
+                  name:"Área",
+                  colorByPoint: true,
+                  data: [{name: "Área total preliminar",
+                    y: Number(data1[1])},
+                    {name: "Área total formalizada",
+                    y: Number(data1[2])}]
+                }]
+              });//Termina highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage seldpto
+      $("#selmpio").change(function(){
+        if($('#selmpio').val()=='')
+        {
+          $.ajax({url:"tierras/reporarealevantadampio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+            success:function(data1){
+              $("#labelmpio").show();
+              $("#selmpio").show();
+              $("#selmpio").empty();
+              $("#selvda").empty();
+              $("#selvda").hide();
+              $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1[0], function(nom,datos){
+                $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+              });
+              $('#container').highcharts({
+                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                },
+                title:{text:'Área formalizada Departamental'},
+                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'
+                },
+                plotOptions:{
+                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
+                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
-                });//Termina Ajax prueva
-          });//Termina chage selmpio
-
-          ("#selvda").change(function(){
-            
-                $.ajax({
-                    url:"tierras/reporarealevantadavda",
-                    type:"POST",
-                    data: {vda: $('#selvda').val()},
-                    dataType:'json',
-                    success:function(data3){
-                        $.each(data3, function sd(nom,datos){
-                        $("#selvd").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
-                        al = datos.cod_unodc;
-                        });
-                    },
-                    error:function(){
-                        alert('error');
+                  }
+                },
+                series:[{
+                  name:"Área",
+                  colorByPoint: true,
+                  data: [{name: "Área total preliminar",
+                    y: Number(data1[1])},
+                    {name: "Área total formalizada",
+                    y: Number(data1[2])}]
+                }]
+              });//Termina highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+        else{
+          $.ajax({url:"tierras/reporarealevantadavda",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
+            success:function(data){
+              $("#labelvda").show();
+              $("#selvda").show();
+              $("#selvda").empty();
+              $("#selvda").append("<option value=''>Por favor seleccione</option>");
+              [].forEach.call(data[0],function(datos){
+                $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+              });
+              //console.log(valores)
+              $('#container').highcharts({
+                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                },
+                title:{text:'Área formalizada Municipal'},
+                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'},
+                plotOptions:{
+                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
+                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
-                });//Termina Ajax prueva
-          });//Termina chage seldpto
-
-
-          //para que los menus pequeño y grande funcione
-          
-
-      });//Termina document ready
-
+                  }
+                },
+                series:[{
+                  name: "Área",
+                  colorByPoint:true,
+                  data: [{name:"Área total preliminar",
+                    y:Number(data[1]),
+                    sliced:true,
+                    selected:true},
+                    {name:"Área total formalizada",
+                    y:Number(data[2])}]
+                }]
+              });//Termina highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina change selmpio
+      $("#selvda").change(function(){
+        if($('#selvda').val()=='')
+        {
+          $.ajax({url:"tierras/reporarealevantadavda",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
+            success:function(data){
+              $("#labelvda").show();
+              $("#selvda").show();
+              $("#selvda").empty();
+              $("#selvda").append("<option value=''>Por favor seleccione</option>");
+              [].forEach.call(data[0],function(datos){
+                $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+              });
+              //console.log(valores)
+              $('#container').highcharts({
+                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                },
+                title:{text:'Área formalizada Municipal'},
+                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'},
+                plotOptions:{
+                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
+                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                    }
+                  }
+                },
+                series:[{
+                  name: "Área",
+                  colorByPoint:true,
+                  data: [{name:"Área total preliminar",
+                    y:Number(data[1]),
+                    sliced:true,
+                    selected:true},
+                    {name:"Área total formalizada",
+                    y:Number(data[2])}]
+                }]
+              });//Termina highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+        else{
+          $.ajax({url:"tierras/reporarealevantadavdadet",type:"POST",data:{vda:$('#selvda').val()},dataType:'json',
+            success:function(data3){
+              $('#container').highcharts({
+                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                },
+                title:{text:'Área formalizada Veredal'},
+                tooltip:{pointFormat:'{series.name}:<b>{point.percentage:.1f} %</b>'},
+                plotOptions:{
+                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
+                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                    }
+                  }
+                },
+                series:[{
+                  name:"Área",
+                  colorByPoint:true,
+                  data:[{name:"Área total preliminar",
+                    y:Number(data3[0]),
+                    sliced:true,
+                    selected:true},
+                    {name:"Área total formalizada",
+                    y:Number(data3[1])}]
+                }]
+              });//Termina highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina change selvda
+    });//Termina document ready
     </script>
 @stop
-
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->
-
-

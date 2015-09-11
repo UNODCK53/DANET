@@ -344,6 +344,7 @@ class TierrasController extends BaseController {
 				return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_estatus');
 		}			
     }
+
     public function getEditarProceso2()
 	{
 		$fecha = date("Y-m-d H:i:s");
@@ -355,9 +356,7 @@ class TierrasController extends BaseController {
 		    		'fechainspeccionocular' => Input::get('modfechaocular')	    			
 		    )					
 		);
-
 		$estadocambio = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO where id_proceso ='.Input::get('modnp').' and id_estado = 5' );
-
 		if (empty($estadocambio)) {
 			DB::table('MODTIERRAS_PROCESTADO')->insert(
 			    	array(
@@ -376,19 +375,16 @@ class TierrasController extends BaseController {
 			            ->update(array('updated_at'=>$fecha));
 			return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
 		}
-
 		return "ERROR";
-		
-		
-	      	
-	}    
+	}  
+
 	public function PruebaPro()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
 		$arrayproini = DB::select('SELECT DISTINCT * FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
-		
 		return View::make('vista3', array('arrayproini' => $arrayproini));
 	}
+
 	public function postProgramajax()
 	{
 		$id=(Input::get('valor'));
@@ -428,19 +424,19 @@ class TierrasController extends BaseController {
 		->select('nom_dpto','cod_dpto')
 		->groupBy('nom_dpto','cod_dpto')
 		->get();
-		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like','52%')->sum('areaprediopreliminar');
+		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->sum('areaprediopreliminar');
 		$arrayapf = DB::table('MODTIERRAS_PROCESO')->sum('areapredioformalizada');
-		$arraytotal = array($arraydpto,array($arrayapp),array($arrayapf));
+		$arraytotal = array($arrayapp,$arrayapf);
 		//return $arraytotal;
 		return View::make('modulotierras.reporareareportada', array('arraydpto' => $arraydpto), array('arraytotal' => $arraytotal));
 	}
 
 	public function postReporarealevantadampio()
 	{
-		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->sum('areaprediopreliminar');
-		$arrayapf = DB::table('MODTIERRAS_PROCESO')->sum('areapredioformalizada');
+		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->sum('areaprediopreliminar');
+		$arrayapf = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->sum('areapredioformalizada');
 		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
-		$arrayt=array($arraympio, $arrayapf);
+		$arrayt=array($arraympio, $arrayapp, $arrayapf);
 		return Response::json($arrayt);
 	}
 
@@ -449,9 +445,165 @@ class TierrasController extends BaseController {
 		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->sum('areaprediopreliminar');
 		$arrayapf = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->sum('areapredioformalizada');
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
-		$arrayt=array($arrayvda, $arrayapp,$arrayapf);
+		$arrayt=array($arrayvda, $arrayapp, $arrayapf);
 		return Response::json($arrayt);
-		
+	}
+
+	public function postReporarealevantadavdadet()
+	{
+		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->sum('areaprediopreliminar');
+		$arrayapf = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->sum('areapredioformalizada');
+		$arrayt=array($arrayapp, $arrayapf);
+		return Response::json($arrayt);
+	}
+
+	public function ReporEstado()
+	{
+		//Consultas para obtener el número de procesos por estado y son viables
+		$arraestadosorder= DB::select('SELECT estado FROM
+										(SELECT id_estado, estado, ROW_NUMBER() OVER( PARTITION BY estado ORDER BY Id_estado) as rn
+										FROM [DABASE].[sde].[MODTIERRAS_ESTADO]) as rep
+										WHERE rn = 1
+										order by id_estado asc');
+		for($i=0; $i<count($arraestadosorder); $i++){
+			$arraypro1[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 1  GROUP BY estado, viabilidad");
+			if(empty($arraypro1[$i])){$arrayvial1[$i] = "0";}
+				else{$arrayvial1[$i]=$arraypro1[$i][0]->total;}
+			$arraypro2[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 2  GROUP BY estado, viabilidad");
+			if(empty($arraypro2[$i])){$arrayvial2[$i] = "0";}
+				else{$arrayvial2[$i]=$arraypro2[$i][0]->total;}
+		}
+		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
+		->select('nom_dpto','cod_dpto')
+		->groupBy('nom_dpto','cod_dpto')
+		->get();
+		$arrayvial=array($arrayvial1,$arrayvial2,$arraestadosorder);
+		return View::make('modulotierras.reporestado',array('arraydpto' => $arraydpto),array('arrayvial' => $arrayvial));
+	}
+
+	public function postReporestadompio()
+	{
+		//Consultas para obtener el número de procesos por estado y son viables
+		$arraestadosorder= DB::select('SELECT estado FROM
+										(SELECT id_estado, estado, ROW_NUMBER() OVER( PARTITION BY estado ORDER BY Id_estado) as rn
+										FROM [DABASE].[sde].[MODTIERRAS_ESTADO]) as rep
+										WHERE rn = 1
+										order by id_estado asc');
+		for($i=0; $i<count($arraestadosorder); $i++){
+			$arraypro1[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+										 where MODTIERRAS_PROCESO.vereda like '".Input::get('dpto')."%'
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 1  GROUP BY estado, viabilidad");
+			if(empty($arraypro1[$i])){$arrayvial1[$i] = 0;}
+				else{$arrayvial1[$i]=(int)$arraypro1[$i][0]->total;}
+			$arraypro2[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+										 where MODTIERRAS_PROCESO.vereda like '".Input::get('dpto')."%'
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 2  GROUP BY estado, viabilidad");
+			if(empty($arraypro2[$i])){$arrayvial2[$i] = 0;}
+				else{$arrayvial2[$i]=(int)$arraypro2[$i][0]->total;}
+		}
+		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
+		$arrayvial=array($arraympio,$arrayvial1,$arrayvial2);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporestadovda()
+	{
+		//Consultas para obtener el número de procesos por estado y son viables
+		$arraestadosorder= DB::select('SELECT estado FROM
+										(SELECT id_estado, estado, ROW_NUMBER() OVER( PARTITION BY estado ORDER BY Id_estado) as rn
+										FROM [DABASE].[sde].[MODTIERRAS_ESTADO]) as rep
+										WHERE rn = 1
+										order by id_estado asc');
+		for($i=0; $i<count($arraestadosorder); $i++){
+			$arraypro1[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+										 where MODTIERRAS_PROCESO.vereda like '".Input::get('mpio')."%'
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 1  GROUP BY estado, viabilidad");
+			if(empty($arraypro1[$i])){$arrayvial1[$i] = 0;}
+				else{$arrayvial1[$i]=(int)$arraypro1[$i][0]->total;}
+			$arraypro2[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+										 where MODTIERRAS_PROCESO.vereda like '".Input::get('mpio')."%'
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 2  GROUP BY estado, viabilidad");
+			if(empty($arraypro2[$i])){$arrayvial2[$i] = 0;}
+				else{$arrayvial2[$i]=(int)$arraypro2[$i][0]->total;}
+		}
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		$arrayvial=array($arrayvda,$arrayvial1,$arrayvial2);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporestadovdadet()
+	{
+		//Consultas para obtener el número de procesos por estado y son viables
+		$arraestadosorder= DB::select('SELECT estado FROM
+										(SELECT id_estado, estado, ROW_NUMBER() OVER( PARTITION BY estado ORDER BY Id_estado) as rn
+										FROM [DABASE].[sde].[MODTIERRAS_ESTADO]) as rep
+										WHERE rn = 1
+										order by id_estado asc');
+		for($i=0; $i<count($arraestadosorder); $i++){
+			$arraypro1[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+										 where MODTIERRAS_PROCESO.vereda like '".Input::get('vda')."%'
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 1  GROUP BY estado, viabilidad");
+			if(empty($arraypro1[$i])){$arrayvial1[$i] = 0;}
+				else{$arrayvial1[$i]=(int)$arraypro1[$i][0]->total;}
+			$arraypro2[$i] = DB::select("SELECT count(estado.id_estado)as total, MODTIERRAS_ESTADO.estado as estado, estado.viabilidad as viabilidad FROM(
+									select CASE WHEN estadosunidos.id_estado = 2 and MODTIERRAS_PROCESO.conceptojuridico >= 7 THEN 1 ELSE estadosunidos.id_estado END AS id_estado,
+									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
+									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
+										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
+										 where MODTIERRAS_PROCESO.vereda like '".Input::get('vda')."%'
+										)as estado
+									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
+									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 2  GROUP BY estado, viabilidad");
+			if(empty($arraypro2[$i])){$arrayvial2[$i] = 0;}
+				else{$arrayvial2[$i]=(int)$arraypro2[$i][0]->total;}
+		}
+		$arrayvial=array($arrayvial1,$arrayvial2);
+		return Response::json($arrayvial);
 	}
 
 	public function getDownloadfile(){
@@ -459,17 +611,17 @@ class TierrasController extends BaseController {
         $path = public_path().'\procesos\\'.Input::get('modnp').'\\';
         if ((Input::get('moddownload')=='_LT_MAPA.pdf') OR (Input::get('moddownload')=='_LT_SHP.rar')) {
         	$file = $path.Input::get('modnp').Input::get('moddownload');        	
-        	return Response::download($file);
+       	return Response::download($file);
         } 
         else {
         	$arraydocuruta = DB::select('SELECT rutadocu FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso = '.Input::get('modnp').'AND id_documento = '.Input::get('moddownload'));        	
         	$file = $arraydocuruta[0]->rutadocu;
-        	return Response::download($file);
+       	return Response::download($file);
         }       
     }
 
-    public function Generarpfd(){
-
+    public function Generarpfd()
+    {
     	$arraytp = DB::table('MODTIERRAS_PROCESO')->count();
     	$fecha = date("Y/m/d");
     	$hora = date("H:i");
@@ -500,8 +652,11 @@ class TierrasController extends BaseController {
         Fpdf::Output();
         exit;
     }
-
-    
+     public function postConsultaProceso()
+	{
+		return 'Controller consultar proceso vista: http://localhost/DANET/public/consultar_proceso';
+		
+	}
 }
 
 ?>

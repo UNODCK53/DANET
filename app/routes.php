@@ -60,10 +60,14 @@ Route::group(array('before' => 'auth'), function()
     Route::get('reporte_lavantamiento_topografico', 'TierrasController@RLevantamientoTopogragfico');
     //Ruta para elaborar grafica de area levantada
     Route::get('reporte_area_levantada', 'TierrasController@ReporAreaLevantada');
+    //Ruta para elaborar grafica de reporte por estado
+    Route::get('reporte_estado', 'TierrasController@ReporEstado');
     //Ruta para el visor de mapas
     Route::get('mapas', function(){return View::make('modulotierras/mapas');});
     //Ruta para generar pdf
     Route::get('despdf','TierrasController@Generarpfd');
+    //Ruta para consulta por proceso
+    Route::get('consultar_proceso', function(){return View::make('modulotierras/consultarproceso');});
     
     
   });

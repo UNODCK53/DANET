@@ -8,7 +8,6 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
@@ -35,45 +34,35 @@
   <div class="container" id="sha">
     <div class="row">
 <!--aca se escribe el codigo-->
-
-
 <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-
-
-
 <!--fin del codigo-->    
     </div>
   </div>
 <!--Fin del tercer contenedor--> 
-
 @stop
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
-
 @stop
-
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-
 @stop
-
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
-  <script src="http://code.highcharts.com/highcharts.js"></script>
-  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="assets/js/highcharts/highcharts.js"></script>
+<script src="assets/js/highcharts/exporting.js"></script>
     <script>
-
     $(function () {
-
     $('#container').highcharts({
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45,
+                beta: 0
+            }
         },
         title: {
             text: 'Procesos con levatamiento topográfico'
@@ -85,6 +74,7 @@
             pie: {
                 allowPointSelect: true,
                 cursor: 'pointer',
+                depth: 35,
                 dataLabels: {
                     enabled: true,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
@@ -100,7 +90,8 @@
             data: [
             @foreach($arraylt as $arraygra)
             @if($arraygra->requiererespgeo == 1)
-               {{'{name:'}}{{'"Si requiere"'}}{{',y:'}}{{$arraygra->y}}{{'},'}}
+               {{'{name:'}}{{'"Si requiere"'}}{{',y:'}}{{$arraygra->y}}{{','}}sliced: true,
+                    selected: true{{'},'}}
             @else
                {{'{name:'}}{{'"No requiere"'}}{{',y:'}}{{$arraygra->y}}{{'},'}}
             @endif
@@ -109,21 +100,14 @@
         }]
     });
 });
-
       $(document).ready(function() {
-        
           //para que los menus pequeño y grande funcione
           $( "#tierras" ).addClass("active");
-          $( "#reporlevtop" ).addClass("active");
+          $( "#tierrasreporlevtop" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrasreporlevtopmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Levantamiento Topografico</strong>");
-          
-
-     
       });
-    
     </script>
 @stop
-
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->
