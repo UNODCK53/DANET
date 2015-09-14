@@ -92,38 +92,33 @@
     <div class="row">
      
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-      <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-      <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-      <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-      </ol>
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
 
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner">
-        <div class="item active">
-            <img src="assets/img/about-carousel-1.jpg" alt="Gmail en todo tipo de dispositivos">
-          <div class="carousel-caption">
-           
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+          <div class="item active">
+              <img src="assets/img/about-carousel-1.jpg" alt="Gmail en todo tipo de dispositivos">
+            <div class="carousel-caption">
+             
+            </div>
           </div>
+          <div class="item">
+            <img src="assets/img/about-carousel-2.jpg" alt="Mensajes por tipo para organizarte mejor">
+            <div class="carousel-caption">
+             
+            </div>
+          </div>
+          <div class="item">
+            <img src="assets/img/about-carousel-3.jpg" alt="chatea con un compañero o llama por teléfono">
+            <div class="carousel-caption"></div>
+          </div>    
+        </div>  
       </div>
-    <div class="item">
-      <img src="assets/img/about-carousel-2.jpg" alt="Mensajes por tipo para organizarte mejor">
-      <div class="carousel-caption">
-       
-      </div>
-    </div>
-    <div class="item">
-      <img src="assets/img/about-carousel-3.jpg" alt="chatea con un compañero o llama por teléfono">
-      <div class="carousel-caption">
-        
-      </div>
-    </div>
-    
-  </div>
-
-  
-  </div>
     </div>
 </div>    
 <!--fin del tercer contenedor-->
