@@ -19,7 +19,40 @@
 @stop 
 <!--agrega el Primer Contenerdor  de logo y cabecera el boton de inicio se agrega por aca-->
 @section('contenidocabecera1')
-  @parent
+  <div class="container-fluid well" id="containercabecera">
+  <img id="logos" src="assets/img/Logos.png" class="logo" hidden>
+    <div class="row" id="cabecera">
+      <!--Columna logo con imágen-->
+      <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
+        <img src="assets/img/unodc.png" class="logo">
+          </div>
+        <!--espaciado para que en xs queden separado logo y boton-->
+      <div class="col-xs-4 visible-xs">
+      </div>
+      <div class="col-lg-6 visible-lg">
+      </div>
+      <!--columna botón crear cuenta solo es visible en xs-->
+      <div class="col-xs-5 visible-xs">
+        <ul class="nav nav-pills ">
+          <li role="menu" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{Auth::user()->name}} {{Auth::user()->last_name}}<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a tabindex="-1" href="logout"><i class="icon-off"></i> Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!--columna link y boton solo son visibles en sm md lg-->
+      <div class="col-sm-3 col-sm-offset-3 visible-sm visible-md visible-lg col-md-3 col-md-offset-3 col-lg-3 col-lg-offset-3">
+        <ul class="nav nav-pills ">
+          <li role="menu" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{Auth::user()->name}} {{Auth::user()->last_name}}<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a tabindex="-1" href="logout"><i class="icon-off"></i> Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>        
+    </div>
+</div>
 @stop
 <!--agrega el menu a la pagina-->
 @section('menu1')
@@ -83,7 +116,6 @@
 @section('js')
   @parent
   <script src="assets/js/highcharts/highcharts.js"></script>
-  
   <script>
   $(function () {
     $('#container').highcharts({
@@ -122,12 +154,18 @@
       $('#btimpr').hide();
       $("#firmapro").show();
       $('#piedepagina').hide();
-      $('#sha').attr({'style':'border:ridge 1px'});
+      $('#cabecera').hide();
+      $('#sha').attr({style:"border:ridge 1px"});
+      $('#logos').show();
+      document.title = 'Reporte Tierras';
       print();
       $("#firmapro").hide();
       $('#btimpr').show();
       $('#piedepagina').show();
-      $('#sha').removeAttr({'style':'border:ridge 1px'});
+      $('#logos').hide();
+      $('#cabecera').show();
+      $('#sha').removeAttr("style");
+      document.title = 'SAI version2';
     });
   });
   </script>
