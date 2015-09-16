@@ -78,9 +78,7 @@
                   dataLabels: {
                       enabled: true,
                       format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                      style: {
-                          color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                      }
+                      style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'}
                   }
               }
           },
@@ -89,7 +87,7 @@
               colorByPoint: true,
               data: [
               @foreach($arrayrj as $arraygra)
-              {{'{name:'}}{{'"'.$arraygra->name.'"'}}{{',y:'}}{{$arraygra->y}}{{','}}sliced: true{{'},'}}
+              {{'{name:'}}{{'"'.$arraygra->name.'"'}}{{',y:'}}{{$arraygra->y}}{{','}}{{'},'}}
               @endforeach
               ]
           }]

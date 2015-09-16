@@ -35,10 +35,9 @@
       @endif      
     </div>
   </div>
-
+  @if(Auth::user()->grupo=="3")
   <div class="container" id="sha">
       <div class="row">
-       
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
@@ -46,19 +45,16 @@
           <li data-target="#carousel-example-generic" data-slide-to="1"></li>
           <li data-target="#carousel-example-generic" data-slide-to="2"></li>
           </ol>
-
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
             <div class="item active">
                 <img src="assets/img/DANET_T1.jpg" alt="Gmail en todo tipo de dispositivos">
               <div class="carousel-caption">
-               
               </div>
             </div>
             <div class="item">
               <img src="assets/img/DANET_T2.jpg" alt="Mensajes por tipo para organizarte mejor">
               <div class="carousel-caption">
-               
               </div>
             </div>                
           </div>  
@@ -77,17 +73,15 @@
             <p class="lead text-justify" >Dado el volumen de las situaciones de informalidad y el contexto de la protección patrimonial, se busca fomentar los <strong>múltiples beneficios</strong> que representa la formalización para las familias, los entes territoriales y el Estado en general.</p>
             <p class="lead text-justify" >El Desarrollo Alternativo, como estrategia eficaz y eficiente, requiere enfoques económicos, sociales, políticos y ambientales. El desarrollo debe ser integral y sostenible, y considerar el <strong>desarrollo humano como elemento central</strong> en el proceso de intervención.</p>
             <p class="lead text-justify" >En la estrategia de Desarrollo Alternativo se ha incluido el programa de Formalización de Tierras que busca <strong>mitigar los impactos negativos</strong> causados por <em>fenómenos</em><strong>*</strong> que chocan con los principios del desarrollo social, económico y con el mandato constitucional. La estrategia es adelantada por el <strong>Ministerio de Justicia y del Derecho, la Unidad Administrativa para la Consolidación Territorial y la Oficina de las Naciones Unidas contra la Droga y el Delito</strong>.</p>            
-            
         </div>
         <div class="col-sm-1"></div>
-        
       </div>
       <hr>
       <blockquote>
-          <p class="text-justify"><strong>*</strong>La informalidad en la tenencia de tierras, la presencia de actores armados ilegales, los cultivos ilícitos, la producción, comercialización y consumo de drogas ilícitas, la inequidad en la distribución y uso del suelo, las expectativas del dinero fácil, el desplazamiento masivo, la falta de vías de acceso y la minería ilegal, entre otros, son factores que han intensificado la precaria situación de los pobladores rurales.</p>
-        </blockquote>
+        <p class="text-justify"><strong>*</strong>La informalidad en la tenencia de tierras, la presencia de actores armados ilegales, los cultivos ilícitos, la producción, comercialización y consumo de drogas ilícitas, la inequidad en la distribución y uso del suelo, las expectativas del dinero fácil, el desplazamiento masivo, la falta de vías de acceso y la minería ilegal, entre otros, son factores que han intensificado la precaria situación de los pobladores rurales.</p>
+      </blockquote>
   </div> 
-
+  @endif
 
   <!--cambiarpass modal-->
   <div id="cambiarpass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

@@ -58,7 +58,10 @@
       <div class="col-sm-1"></div>
     </div>
     <div class="row">
-      <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+      <br>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10" id="container" style="min-width: 310px; height: 400px; max-width: auto; margin: 0 auto"></div>
+      <div class="col-sm-1"></div>
     </div>
   <br/>
 <!--fin del codigo-->
@@ -101,7 +104,7 @@
             '<td style="padding:0"><b>{point.y:.0f} Procesos</b></td></tr>',
         footerFormat:'</table>'
       },
-      plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
+      plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}', style:{textShadow:''}}}},
       series:[{
         name:'Viable',data:[
         @foreach($arrayvial[0] as $arraydat1)
@@ -164,7 +167,7 @@
                     '<td style="padding:0"><b>{point.y:.0f} Procesos</b></td></tr>',
                 footerFormat:'</table>'
               },
-              plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
+              plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}', style:{textShadow:''}}}},
               series:[
                 {name:'Viable',
                  data:data1[1]
@@ -212,7 +215,7 @@
                   '<td style="padding:0"><b>{point.y:.0f} Procesos</b></td></tr>',
               footerFormat:'</table>'
             },
-            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
+            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}', style:{textShadow:''}}}},
             series:[
               {name:'Viable',
                data:data1[1]
@@ -256,7 +259,7 @@
                   '<td style="padding:0"><b>{point.y:.0f} Procesos</b></td></tr>',
               footerFormat:'</table>'
             },
-            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
+            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}', style:{textShadow:''}}}},
             series:[
               {name:'Viable',
                data:data[1]
@@ -303,7 +306,7 @@
                   '<td style="padding:0"><b>{point.y:.0f} Procesos</b></td></tr>',
               footerFormat:'</table>'
             },
-            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
+            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}', style:{textShadow:''}}}},
             series:[
               {name:'Viable',
                data:data[1]
@@ -339,7 +342,7 @@
                   '<td style="padding:0"><b>{point.y:.0f} Procesos</b></td></tr>',
               footerFormat:'</table>'
             },
-            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
+            plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}', style:{textShadow:''}}}},
             series:[
               {name:'Viable',
                data:data[0]

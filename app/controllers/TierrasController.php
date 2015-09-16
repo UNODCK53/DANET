@@ -618,6 +618,18 @@ class TierrasController extends BaseController {
         }       
     }
 
+    public function ReporNumPro()
+	{
+		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
+		->join('MODTIERRAS_CONCEPTO', 'MODTIERRAS_CONCEPTO.id_concepto','=','MODTIERRAS_PROCESO.conceptojuridico')
+		->select('MODTIERRAS_CONCEPTO.subconcepto as name',DB::raw('count(MODTIERRAS_PROCESO.conceptojuridico) as y'))
+		->groupBy('MODTIERRAS_CONCEPTO.subconcepto')
+		->get();
+		$numpro = DB::table('MODTIERRAS_PROCESO')->count('conceptojuridico');
+		//return $numpro;
+		return View::make('modulotierras.repornumproc', array('arraynumpro' => $arraynumpro),array('numpro' => $numpro));
+	}
+
     public function Generarpfd()
     {
     	$arraytp = DB::table('MODTIERRAS_PROCESO')->count();

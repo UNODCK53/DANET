@@ -58,7 +58,8 @@
       <div class="col-sm-1"></div>
     </div>
     <div class="row">
-      <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+      <br>
+      <div id="container" style="min-width: 400px; height: 400px; max-width: 650px; margin: 0 auto"></div>
     </div>
 <br/>
 <!--fin del codigo-->    
@@ -91,8 +92,8 @@
           pie:{allowPointSelect:true,cursor:'pointer',depth:35,
             dataLabels:{
               enabled:true,
-              format:'<b>{point.name}</b>:{point.y:.2f} ha',
-              style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+              format:'<b>{point.name}</b>: {point.y:.2f} ha',
+              style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
             }
           }
         },
@@ -142,8 +143,8 @@
                 },
                 plotOptions:{
                   pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
-                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
+                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
                   }
                 },
@@ -183,8 +184,8 @@
                 },
                 plotOptions:{
                   pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
-                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
+                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
                   }
                 },
@@ -219,8 +220,8 @@
                 tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'},
                 plotOptions:{
                   pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
-                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
+                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
                   }
                 },
@@ -229,7 +230,6 @@
                   colorByPoint:true,
                   data: [{name:"Área total preliminar",
                     y:Number(data[1]),
-                    sliced:true,
                     selected:true},
                     {name:"Área total formalizada",
                     y:Number(data[2])}]
@@ -257,11 +257,11 @@
                 chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
                 },
                 title:{text:'Área formalizada Municipal'},
-                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'},
+                tooltip:{pointFormat:'{series.name}:<b>{point.percentage:.1f} %</b>'},
                 plotOptions:{
                   pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
-                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
+                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
                   }
                 },
@@ -270,7 +270,6 @@
                   colorByPoint:true,
                   data: [{name:"Área total preliminar",
                     y:Number(data[1]),
-                    sliced:true,
                     selected:true},
                     {name:"Área total formalizada",
                     y:Number(data[2])}]
@@ -290,8 +289,8 @@
                 tooltip:{pointFormat:'{series.name}:<b>{point.percentage:.1f} %</b>'},
                 plotOptions:{
                   pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>:{point.y:.2f} ha',
-                      style:{color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
+                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
                     }
                   }
                 },
@@ -300,7 +299,6 @@
                   colorByPoint:true,
                   data:[{name:"Área total preliminar",
                     y:Number(data3[0]),
-                    sliced:true,
                     selected:true},
                     {name:"Área total formalizada",
                     y:Number(data3[1])}]
