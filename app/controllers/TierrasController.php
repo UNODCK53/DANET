@@ -181,6 +181,7 @@ class TierrasController extends BaseController {
     	}
     	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
     }
+
     public function Excelcarini()
 	{	
 		Excel::create('Procesos iniciales',function($excel)
@@ -201,12 +202,12 @@ class TierrasController extends BaseController {
 			})->download('xlsx');
 		});
     }
-    public function postEditarProceso()
+	public function postEditarProceso()
 	{
 		Session::put('procesoi',Input::get('proceso'));
 		return Redirect::to('procesos_adjudicados_editar');
 	}
-
+	
 	public function Datosprocesos()
 	{
 		$idpro=(Session::get('procesoi'));
@@ -343,7 +344,7 @@ class TierrasController extends BaseController {
 		}			
     }
 
-    public function getEditarProceso2()
+	public function getEditarProceso2()
 	{
 		$fecha = date("Y-m-d H:i:s");
 		$procesiid = Input::get('modnp');
@@ -382,7 +383,6 @@ class TierrasController extends BaseController {
 		$arrayproini = DB::select('SELECT DISTINCT * FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
 		return View::make('vista3', array('arrayproini' => $arrayproini));
 	}
-
 	public function postProgramajax()
 	{
 		$id=(Input::get('valor'));
@@ -392,7 +392,7 @@ class TierrasController extends BaseController {
 		$arrayconsul=array($arrayproini,$arrayconcepto);
 		return Response::json($arrayconsul);
 	}
-
+	
 	public function ResponsableJuridico()
 	{
 		$arrayrj = DB::table('MODTIERRAS_PROCESO')
@@ -404,7 +404,6 @@ class TierrasController extends BaseController {
 		->get();
 		return View::make('modulotierras.reporresponsablejuridico', array('arrayrj' => $arrayrj));
 	}
-
 	public function RLevantamientoTopogragfico()
 	{
 		$arraylt = DB::table('MODTIERRAS_PROCESO')
@@ -414,7 +413,6 @@ class TierrasController extends BaseController {
 		//return $arraylt;
 		return View::make('modulotierras.reporlevantamientotopografico', array('arraylt' => $arraylt));
 	}
-
 	public function ReporAreaLevantada()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
@@ -428,7 +426,6 @@ class TierrasController extends BaseController {
 		//return $arraytotal;
 		return View::make('modulotierras.reporareareportada', array('arraydpto' => $arraydpto), array('arraytotal' => $arraytotal));
 	}
-
 	public function postReporarealevantadampio()
 	{
 		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->sum('areaprediopreliminar');
@@ -437,7 +434,6 @@ class TierrasController extends BaseController {
 		$arrayt=array($arraympio, $arrayapp, $arrayapf);
 		return Response::json($arrayt);
 	}
-
 	public function postReporarealevantadavda()
 	{
 		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->sum('areaprediopreliminar');
@@ -446,7 +442,6 @@ class TierrasController extends BaseController {
 		$arrayt=array($arrayvda, $arrayapp, $arrayapf);
 		return Response::json($arrayt);
 	}
-
 	public function postReporarealevantadavdadet()
 	{
 		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->sum('areaprediopreliminar');
@@ -454,7 +449,6 @@ class TierrasController extends BaseController {
 		$arrayt=array($arrayapp, $arrayapf);
 		return Response::json($arrayt);
 	}
-
 	public function ReporEstado()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -493,7 +487,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvial1,$arrayvial2,$arraestadosorder);
 		return View::make('modulotierras.reporestado',array('arraydpto' => $arraydpto),array('arrayvial' => $arrayvial));
 	}
-
 	public function postReporestadompio()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -530,7 +523,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arraympio,$arrayvial1,$arrayvial2);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporestadovda()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -567,7 +559,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvda,$arrayvial1,$arrayvial2);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporestadovdadet()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -603,7 +594,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvial1,$arrayvial2);
 		return Response::json($arrayvial);
 	}
-
 	public function getDownloadfile(){
         //PDF file is stored under project/public/download/info.pdf
         $path = public_path().'\procesos\\'.Input::get('modnp').'\\';
@@ -617,8 +607,7 @@ class TierrasController extends BaseController {
        	return Response::download($file);
         }       
     }
-
-    public function ReporNumPro()
+	public function ReporNumPro()
 	{
 		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
 		->join('MODTIERRAS_CONCEPTO', 'MODTIERRAS_CONCEPTO.id_concepto','=','MODTIERRAS_PROCESO.conceptojuridico')
@@ -629,40 +618,13 @@ class TierrasController extends BaseController {
 		//return $numpro;
 		return View::make('modulotierras.repornumproc', array('arraynumpro' => $arraynumpro),array('numpro' => $numpro));
 	}
-
-    public function Generarpfd()
+	public function Generarpfd()
     {
     	$arraytp = DB::table('MODTIERRAS_PROCESO')->count();
-    	$fecha = date("Y/m/d");
-    	$hora = date("H:i");
     	//PDF file is stored under project/public/download/info.pdf
-        Fpdf::AddPage();
-        Fpdf::SetFont('Arial', 'B', 16);
-		//inserto la cabecera poniendo una imagen dentro de una celda
-		Fpdf::Cell(100,10,Fpdf::Image('./assets/img/unodc.png',30,10,50),0,0,'C');
-		//Fpdf::Line(35,64,190,64);
-		Fpdf::Ln(7);
-		//Fpdf::Write(5,"To find out what's new in this tutorial, click ");
-		Fpdf::Cell(100,30,"La Unidad de Informacion certifica el siguiente numero de procesos");//.$campodb['nombre']);
-		//Fpdf::Line(35,74,190,74);
-		Fpdf::Ln(7);
-		Fpdf::Cell(100,40,"Numero de procesos: ".$arraytp);//. $campodb['direccion']);
-		//Fpdf::Line(35,84,190,84);
-		Fpdf::Ln(7);
-		Fpdf::Cell(90,50,"Fecha de elaboracion de Informe: ".$fecha);//.$campodb['telefono']));
-		//Fpdf::Line(35,94,190,94);
-		Fpdf::Ln(7);
-		Fpdf::Cell(100,60,"Hora de elaboracion de Informe: ".$hora);//.$campodb['ordenador']);
-		//Fpdf::Line(35,104,190,104);
-		Fpdf::Ln(9);
-		Fpdf::SetFont('Arial','B',10);
-	 	Fpdf::Ln(2);
-
-		Fpdf::SetFont('Arial','',8);
-        Fpdf::Output();
-        exit;
+    	return View::make('pdf', array('arraytp' => $arraytp));
     }
-     public function postConsultaProceso()
+	public function postConsultaProceso()
 	{
 		return 'Controller consultar proceso vista: http://localhost/DANET/public/consultar_proceso';
 		
@@ -670,4 +632,3 @@ class TierrasController extends BaseController {
 }
 
 ?>
-

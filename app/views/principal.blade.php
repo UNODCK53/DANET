@@ -35,7 +35,29 @@
       @endif      
     </div>
   </div>
-  @if(Auth::user()->grupo=="3")
+  @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
+  <div class="container" id="sha">
+      <div class="row">
+      <!--Texto del contenido-->
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <h1 class="text-center text-primary">Contexto de la política de Erradicación</h1>
+            <p class="lead text-justify" >La Unidad Administrativa Especial para la Consolidación Territorial a través de la Dirección de Programas contra Cultivos Ilícitos (DPCI), desarrolla acciones de erradicación y post erradicación a través de la armonización y  coordinación de la Estrategia de Erradicación Manual Forzosa y de la Estrategia de Desarrollo Alternativo, organizadas con el propósito de promover la transición económica y social de los territorios de las regiones focalizadas por la Política Nacional de Consolidación y Reconstrucción Territorial y los afectados por cultivos ilícitos.</p>
+            <p class="lead text-justify" >En Colombia se han implementado diversas formas de lucha contra los cultivos ilícitos y las drogas ilegales, tales como la erradicación manual que presenta las siguientes modalidades:</p>
+            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Voluntaria, y</ul>
+            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Forzosa.</ul>
+            <p class="lead text-justify" >La Erradicación Manual Forzosa a su vez presenta dos modalidades: i) Erradicación Manual Forzosa con los Grupos Móviles de Erradicación (GME) y ii) Erradicación Manual forzosa en tercera modalidad (Soldado a Soldado) la cual es realizada por la Fuerza Pública en sus constantes desplazamientos.</p> 
+            <p class="lead text-justify" >La Estrategia de Erradicación Manual Forzosa con los Grupos Móviles de Erradicación se determina a partir de las condiciones de seguridad de los territorios a intervenir y de los resultados del proceso de coordinación y articulación con la Fuerza Pública, y consiste en eliminar la totalidad de los cultivos ilícitos a través de los Grupos Móviles de Erradicación (GME).</p>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+      <hr>
+      <blockquote>
+        <p class="text-justify"><strong>Fuente</strong>: <br>MANUAL OPERATIVO GRUPOS MOVILES DE ERRADICACIÓN - GME <br>DIRECCIÓN DE PROGRAMAS CONTRA CULTIVOS ILÍCITOS GRUPO DE ERRADICACIÓN <br>BOGOTÁ, D.C. Enero 23 de 2015</p>
+      </blockquote>
+  </div> 
+  @endif
+  @if((Auth::user()->grupo=="3") OR (Auth::user()->grupo=="1"))
   <div class="container" id="sha">
       <div class="row">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -66,7 +88,7 @@
       <!--Texto del contenido-->
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <h1 class="text-center">Formalización de Tierras</h1>
+            <h1 class="text-center text-primary">Formalización de Tierras</h1>
             <p class="lead text-justify" >Este programa <strong>brinda sostenibilidad y garantía en las intervenciones</strong> realizadas por los organismos multilaterales y el Estado. También transforma la problemática generada por la siembra de cultivos ilícitos, con un alcance social más amplio al <strong>mejorar la calidad de vida</strong> para las familias con la posibilidad de acceso a créditos y fuentes de financiamiento.</p>
             <p class="lead text-justify" >La formalización valoriza los municipios y las tierras colombianas, genera y protege el patrimonio de sus pobladores y además fomenta la cohesión social.</p>
             <p class="lead text-justify" >El gobierno colombiano, con el apoyo de la Cooperación Internacional, facilita los procesos de formalización de tierras, considerando que es un asunto de <strong>interés privado</strong> de cada familia campesina, pero también de <strong>interés público</strong>.</p> 
@@ -82,7 +104,7 @@
       </blockquote>
   </div> 
   @endif
-
+  
   <!--cambiarpass modal-->
   <div id="cambiarpass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">

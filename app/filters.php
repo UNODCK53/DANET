@@ -184,3 +184,40 @@ Route::filter('levgeografico', function ()
    	return Redirect::to('principal');
    }
 });
+Route::filter('accesogme', function ()
+{
+   if (Auth::user()->grupo=="1")
+   {
+      //Si no pertenece al level "1" nos envia a principal
+       if (Auth::user()->level!="1")
+       {
+      //Si no pertenece al level "2" nos envia a principal
+         return Redirect::to('principal');
+       }
+   }
+   
+   elseif (Auth::user()->grupo=="2")
+   {
+      //Si no pertenece al level "1" nos envia a principal
+       if (Auth::user()->level!="1")
+       {
+      //Si no pertenece al level "2" nos envia a principal
+         if (Auth::user()->level!="2")
+         {
+      //Si no pertenece al level "2" nos envia a principal
+            if (Auth::user()->level!="3")
+            {
+      //Si no pertenece al level "2" nos envia a principal
+               if (Auth::user()->level!="4")
+               {
+      //Si no pertenece al level "2" nos envia a principal
+                  return Redirect::to('principal');
+               }
+            }
+         }
+       }
+   }
+   else{
+      return Redirect::to('principal');
+   }
+});

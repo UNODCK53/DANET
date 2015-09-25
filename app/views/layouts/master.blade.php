@@ -148,7 +148,7 @@
 
                 <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href='vista2'>Consulta de encuestas</a></li>
+                      <li><a href='reporte'>Consulta de encuestas</a></li>
                       <li><a href="#">Indicadores de recolección</a></li>
                     </ul>
                 </li>
@@ -159,38 +159,46 @@
                     </ul>
                 </li> 
                 <li role="menu"><a href="#" class="enlace-menu">HISTORIA</a></li>
-                <li role="menu"><a href="#" class="enlace-menu">GME</a></li>
-                  @else
-                @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
-
-                @if(((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) && (Auth::user()->level=="1") || (Auth::user()->level=="2")||(Auth::user()->level=="3")||(Auth::user()->level=="4"))<!--Oculta la opción tierras si no es el administrador-->
-                <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                      <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
-                      <li class="divider"></li>
-                      
-                      <li><a align="center"><b>Reportes</b></a></li>
-                        <li id="tierrasreporestado"><a href="<?=URL::to('reporte_estado'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
-                        <li id="tierrasrepornumproc"><a href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Número de Procesos</a></li>
-                        <li id="tierrasreporlevtop"><a href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
-                        <li id="tierrasreporarearepor"><a href="<?=URL::to('reporte_area_levantada'); ?>"> <span class="glyphicon glyphicon-ok"></span> Área Levantada</a></li>
-                        <li id="tierrasreporresponsjuri"><a href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Jurídico</a></li>
-
-                      <li class="divider"></li>
-                      <li><a align="center"><b>Pocesos</b></a></li>
-                        @if(Auth::user()->level=="2"||(Auth::user()->level=="1"))
-                        <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span>Carga Inicial</a></li>
-                        <li id="tierrascargaproceso"><a href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
-                        @endif
-                        @if((Auth::user()->level=="3")||(Auth::user()->level=="1"))
-                        <li id="tierraslevtopo"><a href="<?=URL::to('levantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
-                        @endif
+                @endif<!--Finaliza Ocultar la opción si no es el administrador-->
+                @if((Auth::user()->grupo=="1") || (Auth::user()->grupo=="2"))<!--Oculta la opción si no es el administrador o gupo2-->
+                <li id="GME" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li id="gmevalcert"><a href='validacion_certificacion'>Validación y Certificacion</a></li>
+                        <li id="gmemetodologia"><a href="metodologia_gme">Metodología</a></li>
+                        <li id="gmedisterradi"><a href="distribucion_gme">Distribución de la erradicación (Mapa)</a></li>
+                        <li id="gmeinformes"><a href="informes_gme">Informes</a></li>
+                      </ul>
+                  </li>
+                @endif
+                @if((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) <!--Oculta la opción tierras si no es el administrador-->
+                  @if((Auth::user()->level=="1") || (Auth::user()->level=="2")||(Auth::user()->level=="3")||(Auth::user()->level=="4"))
+                  <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
+                        <li class="divider"></li>
                         
-                      <li class="divider"></li>
-                      <li id="tierrasmapas"><a href="<?=URL::to('mapas'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapas</a></li>
-                    </ul>
-                </li> 
-                  @else
+                        <li><a align="center"><b>Reportes</b></a></li>
+                          <li id="tierrasreporestado"><a href="<?=URL::to('reporte_estado'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
+                          <li id="tierrasrepornumproc"><a href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Número de Procesos</a></li>
+                          <li id="tierrasreporlevtop"><a href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
+                          <li id="tierrasreporarearepor"><a href="<?=URL::to('reporte_area_levantada'); ?>"> <span class="glyphicon glyphicon-ok"></span> Área Levantada</a></li>
+                          <li id="tierrasreporresponsjuri"><a href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Jurídico</a></li>
+
+                        <li class="divider"></li>
+                        <li><a align="center"><b>Procesos</b></a></li>
+                          @if(Auth::user()->level=="2"||(Auth::user()->level=="1"))
+                          <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span>Carga Inicial</a></li>
+                          <li id="tierrascargaproceso"><a href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
+                          @endif
+                          @if((Auth::user()->level=="3")||(Auth::user()->level=="1"))
+                          <li id="tierraslevtopo"><a href="<?=URL::to('levantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
+                          @endif
+                          
+                        <li class="divider"></li>
+                        <li id="tierrasmapas"><a href="<?=URL::to('mapas'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapas</a></li>
+                      </ul>
+                  </li>
+                  @endif                  
                 @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
 
             </ul>
@@ -233,7 +241,7 @@
 
                   <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href='vista2'>Consulta de encuestas</a></li>
+                        <li><a href='reporte'>Consulta de encuestas</a></li>
                         <li><a href="#">Indicadores de recolección</a></li>
                       </ul>
                   </li>
@@ -245,12 +253,20 @@
                   </li>                
 
                   <li><a href="#" class="enlace-menu">HISTORIA</a></li>
-                  <li><a href="#" class="enlace-menu">GME</a></li>
-                    @else
-                  @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
-
-                  @if(((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) && (Auth::user()->level=="1") || (Auth::user()->level=="2")||(Auth::user()->level=="3")||(Auth::user()->level=="4"))<!--Oculta la opción tierras si no es el administrador-->
-                  <li class="dropdown"><a id="tierrasmenupeq"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
+                  @endif<!--Finaliza Ocultar la opción si no es el administrador-->
+                  @if((Auth::user()->grupo=="1") || (Auth::user()->grupo=="2"))<!--Oculta la opción si no es el administrador o gupo2-->
+                  <li class="dropdown"><a id="gmemenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a id="gmevalcertmenupeq" href='validacion_certificacion'>Validación y Certificacion</a></li>
+                        <li><a id="gmemetodologiamenupeq" href="metodologia_gme">Metodología</a></li>
+                        <li><a id="gmedisterradimenupeq" href="distribucion_gme">Distribución de la erradicación (Mapa)</a></li>
+                        <li><a id="gmeinformesmenupeq" href="informes_gme">Informes</a></li>
+                      </ul>
+                  </li>                  
+                  @endif
+                @if((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) <!--Oculta la opción tierras si no es el administrador-->
+                  @if((Auth::user()->level=="1") || (Auth::user()->level=="2")||(Auth::user()->level=="3")||(Auth::user()->level=="4"))
+                  <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a id="tierrascongenmenupeq" href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
                       <li class="divider"></li>
@@ -263,7 +279,7 @@
                         <li><a id="tierrasreporesjurimenupeq" href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Jurídico</a></li>
 
                       <li class="divider"></li>
-                      <li><a align="center"><b>Pocesos</b></a></li>
+                      <li><a align="center"><b>Procesos</b></a></li>
                         @if(Auth::user()->level=="2"||(Auth::user()->level=="1"))
                         <li><a id="tierrascarinimenupeq" href="<?=URL::to('carga_inicial'); ?>"> <span class="glyphicon glyphicon-ok"></span> Carga Inicial</a></li>
                         <li><a id="tierrasestjurmenupeq" href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
@@ -275,8 +291,8 @@
                       <li><a id="tierrasmapasmenupeq" href="<?=URL::to('mapas'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapas</a></li>
                     </ul>
                   </li>  
-                    @else
-                  @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+                  @endif
+                @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
                 </ul><!-- fin de menu con submenu -->
                 
                 

@@ -74,11 +74,11 @@
               <th class="text-center">Proceso</th>
               <th class="text-center">Vereda</th>
               <th class="text-center">Nombre del predio</th>
-              <th class="text-center">Direccion Notificacion</th>
+              <th class="text-center">Dirección Notificación</th>
               <th class="text-center">Nombre</th>
-              <th class="text-center">Cedula</th>
+              <th class="text-center">Cédula</th>
               <th class="text-center">Telefono</th>
-              <th class="text-center">Area Preliminar</td>
+              <th class="text-center">Área Preliminar</td>
             </tr>
           </thead>
           <tbody>
