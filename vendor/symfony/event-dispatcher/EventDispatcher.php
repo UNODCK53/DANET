@@ -33,7 +33,9 @@ class EventDispatcher implements EventDispatcherInterface
     private $sorted = array();
 
     /**
-     * {@inheritdoc}
+     * @see EventDispatcherInterface::dispatch()
+     *
+     * @api
      */
     public function dispatch($eventName, Event $event = null)
     {
@@ -44,23 +46,21 @@ class EventDispatcher implements EventDispatcherInterface
         $event->setDispatcher($this);
         $event->setName($eventName);
 
-        if ($listeners = $this->getListeners($eventName)) {
-            $this->doDispatch($listeners, $eventName, $event);
+        if (!isset($this->listeners[$eventName])) {
+            return $event;
         }
+
+        $this->doDispatch($this->getListeners($eventName), $eventName, $event);
 
         return $event;
     }
 
     /**
-     * {@inheritdoc}
+     * @see EventDispatcherInterface::getListeners()
      */
     public function getListeners($eventName = null)
     {
         if (null !== $eventName) {
-            if (!isset($this->listeners[$eventName])) {
-                return array();
-            }
-
             if (!isset($this->sorted[$eventName])) {
                 $this->sortListeners($eventName);
             }
@@ -78,7 +78,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @see EventDispatcherInterface::hasListeners()
      */
     public function hasListeners($eventName = null)
     {
@@ -86,7 +86,9 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @see EventDispatcherInterface::addListener()
+     *
+     * @api
      */
     public function addListener($eventName, $listener, $priority = 0)
     {
@@ -95,7 +97,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @see EventDispatcherInterface::removeListener()
      */
     public function removeListener($eventName, $listener)
     {
@@ -111,7 +113,9 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @see EventDispatcherInterface::addSubscriber()
+     *
+     * @api
      */
     public function addSubscriber(EventSubscriberInterface $subscriber)
     {
@@ -129,7 +133,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @see EventDispatcherInterface::removeSubscriber()
      */
     public function removeSubscriber(EventSubscriberInterface $subscriber)
     {
@@ -173,7 +177,9 @@ class EventDispatcher implements EventDispatcherInterface
     {
         $this->sorted[$eventName] = array();
 
-        krsort($this->listeners[$eventName]);
-        $this->sorted[$eventName] = call_user_func_array('array_merge', $this->listeners[$eventName]);
+        if (isset($this->listeners[$eventName])) {
+            krsort($this->listeners[$eventName]);
+            $this->sorted[$eventName] = call_user_func_array('array_merge', $this->listeners[$eventName]);
+        }
     }
 }

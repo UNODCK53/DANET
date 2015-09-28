@@ -66,7 +66,7 @@ Route::group(array('before' => 'auth'), function()
     Route::get('reporte_numero_proceso', 'TierrasController@ReporNumPro');
     //Ruta para el visor de mapas
     Route::get('mapas', function(){return View::make('modulotierras/mapas');});
-    //Ruta controlador para generar pdf
+    //Ruta para generar pdf
     Route::get('despdf','TierrasController@Generarpfd');
     //Ruta para consulta por proceso
     Route::get('consultar_proceso', function(){return View::make('modulotierras/consultarproceso');});
