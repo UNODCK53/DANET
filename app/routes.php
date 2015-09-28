@@ -78,14 +78,36 @@ Route::group(array('before' => 'auth'), function()
     //melleva a la vista de levantamiento topografico
     Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
       
-  });    
-    	
+  });
+  
+  Route::group(array('before'=>'accesogme'), function(){
+   //rutas para modulo de GME accesogme
+    Route::get('validacion_certificacion', function(){return View::make('modulogme/validacionycertificacionemf');});  
+    Route::get('metodologia_gme', function(){return View::make('modulogme/metodologiavalidacioncertificacionemf');});
+    Route::get('distribucion_gme', function(){return View::make('modulogme/distribucionemf');});
+    Route::get('informes_gme', function(){return View::make('modulogme/informestrimestralesemf');});
+  //termina rutas para modulo de GME
+  });
+
+    //rutas para modulo de SISCADI 
+
+  Route::post('depto', 'SiscadiController@showDepto');
+  Route::post('muni', 'SiscadiController@showMuni');
+  Route::post('monit', 'SiscadiController@showMonitor');
+
+  Route::get('reporte', 'SiscadiController@reporte_encuesta');
+  Route::post('pdfa', 'SiscadiController@repote_mision');
+  Route::post('general', 'SiscadiController@repote_general');
+  Route::post('monitor', 'SiscadiController@repote_monitor');
+  //termina rutas para modulo de SISCADI    
+
+
 });
 
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
 //Route::get('vista3',function(){return View::make('vista3');});
-    Route::get('vista3','TierrasController@PruebaPro');
+  Route::get('vista3','TierrasController@PruebaPro');
   Route::group(array('before' => 'grupo1'), function()
   {
     //solo puede ingresar el level 1 a la vista 1
