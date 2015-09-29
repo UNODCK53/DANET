@@ -98,8 +98,8 @@
           $( "#tierras" ).addClass("active");
           $( "#tierrasreporresponsjuri" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrasreporesjurimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Responsable Juridico</strong>");
+          $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
+          $( "#tierrasreporesjurimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Responsable Jurídico</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
       });
     </script>

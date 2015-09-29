@@ -89,8 +89,8 @@
     $( "#tierras" ).addClass("active");
     $( "#tierrasreporlevtop" ).addClass("active");
     $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-    $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-    $( "#tierrasreporlevtopmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Levantamiento Topografico</strong>");
+    $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
+    $( "#tierrasreporlevtopmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Levantamiento Topográfico</strong>");
   });
   </script>
 @stop

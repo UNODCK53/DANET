@@ -92,7 +92,7 @@
           $( "#tierras" ).addClass("active");
           $( "#tierrasmapas" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
+          $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrasmapasmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Mapas</strong>");
                
       });

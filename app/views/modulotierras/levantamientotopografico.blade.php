@@ -34,7 +34,7 @@
   <div class="container" id="sha">
   <!--aca se escribe el codigo-->
     <div class="row">
-      <h1 class="text-center text-primary">LEVANTAMIENTO TOPOGRAFICO</h1>
+      <h1 class="text-center text-primary">LEVANTAMIENTO TOPOGRÁFICO</h1>
     </div>
 
     <div class="row">
@@ -42,7 +42,7 @@
       @if($status=='ok_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> Se adjuntaron documentos al proceso con exito</div>
+      <i class="bg-success"></i> Se adjuntarón documentos al proceso con éxito</div>
       <div class="col-sm-1"></div>
       @endif
       @if($status=='error_estatus')
@@ -74,8 +74,8 @@
               <th class="text-center">Vereda</th>
               <th class="text-center">Nombre del predio</th>              
               <th class="text-center">Nombre</th>
-              <th class="text-center">Cedula</th>
-              <th class="text-center">Area Predio Formalizada</td>
+              <th class="text-center">Cédula</th>
+              <th class="text-center">Área Predio Formalizada</td>
             </tr>
           </thead>
           <tbody>
@@ -106,7 +106,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><strong>Cargue de Información Topografica</strong></h4>
+        <h4 class="modal-title"><strong>Cargue de Información Topográfica</strong></h4>
       </div>
       <div class="modal-body">
         <form role="form" action="tierras/adjuntar-levtopo" method="post" id="formEdit" enctype="multipart/form-data">
@@ -159,8 +159,8 @@
           $( "#tierras" ).addClass("active");
           $( "#tierraslevtopo" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierraslevtopmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Levantamiento Topografico</strong>");
+          $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
+          $( "#tierraslevtopmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Levantamiento Topográfico</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
 
           // para el calendario interno

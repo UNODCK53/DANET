@@ -37,13 +37,13 @@
         @foreach($arrayproceso as $pro)
 
         @endforeach              
-        <h1 class="text-center text-primary">EDICION PROCESO NP:{{$pro->id_proceso}}</h1>
+        <h1 class="text-center text-primary">EDICIÓN PROCESO NP:{{$pro->id_proceso}}</h1>
       </div>
        <hr>       
       <div class="row">      
         <div class="col-sm-1"></div>               
         <div class="col-sm-10">
-        <h3 class="text-primary">EDICION GENERAL:</h3>      
+        <h3 class="text-primary">EDICIÓN GENERAL:</h3>      
         
         <form role="form" action="tierras/editar-proceso" method="get" id="formEdit">
           <div class="form-group">
@@ -51,7 +51,7 @@
             <input id="modnp" type="text" class="form-control" name="modnp"  value='{{$pro->id_proceso}}' readonly>
           </div>
           <div class="form-group">
-            <label for="proceso" class="control-label">Concepto juridico:</label>
+            <label for="proceso" class="control-label">Concepto jurídico:</label>
             <input id="modconcpjuri" type="hidden" class="form-control" name="modconcpjuri" value='{{$pro->conceptojuridico}}'>
             @foreach($arraydombobox[0] as $concep)
               @if($pro->conceptojuridico==$concep->id_concepto)
@@ -60,11 +60,11 @@
             @endforeach
             </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Observacion concepto juridico:</label>
+            <label for="Proceso" class="control-label">Observación concepto jurídico:</label>
             <textarea id="modobsconcjuri" class="form-control" name="modobsconcjuri">{{$pro->obsconceptojuridico}}</textarea>
           </div>
           <div class="col-sm-4 form-group">
-            <label for="Proceso" class="control-label">Area predio a formalizar:</label>
+            <label for="Proceso" class="control-label">Área predio a formalizar:</label>
             <input id="modarea" type="number" step="any" class="form-control" name="modarea" value='{{$pro->areapredioformalizada}}' >
           </div>
           <div class="col-sm-4 form-group">
@@ -81,17 +81,17 @@
             <input type="radio" name="modviable" id="respoviano" value="2"> NO
           </div>
           <div class="form-group" id="obsvial">
-            <label for="Proceso" class="control-label">Observacion viabilidad:</label>
+            <label for="Proceso" class="control-label">Observación viabilidad:</label>
             <textarea id="modobsviab" name="modobsviab" class="form-control">{{$pro->obsviabilidad}}</textarea>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label" >Requiere responsable Geografico:</label><br>
+            <label for="Proceso" class="control-label" >Requiere responsable Geográfico:</label><br>
             <input type="radio" name="modradiorespogeo1" id="respogeosi" value="1" disabled='disabled'> SI
             <input type="radio" name="modradiorespogeo1" id="respogeono" value="2"checked disabled='disabled'> NO<br>
             <input type='hidden' name='modradiorespogeo' id='modradiorespogeo' value='{{$pro->requiererespgeo}}'>
           </div>
           <div class="form-group" id="respongeo">
-            <label for="Proceso" class="control-label">Responsable Geografico:</label>
+            <label for="Proceso" class="control-label">Responsable Geográfico:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo">
                 <option value="" selected="selected">Por favor seleccione</option>
                 @foreach($arraydombobox[1] as $geo)
@@ -108,7 +108,7 @@
             <input id="modnompred" type="text" class="form-control" name="modnompred" value='{{$pro->nombrepredio}}'>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Direccion para notificacion:</label>
+            <label for="Proceso" class="control-label">Dirección para notificación:</label>
             <input id="moddirnoti" type="text" class="form-control" name="moddirnoti" value='{{$pro->direccionnotificacion}}'>
           </div>
           <div class="form-group">
@@ -116,16 +116,16 @@
             <input id="modnombre" type="text" class="form-control" name="modnombre" value='{{$pro->nombre}}'>
           </div>
           <div class="col-sm-6 form-group">
-            <label for="Proceso" class="control-label">Cedula:</label>
+            <label for="Proceso" class="control-label">Cédula:</label>
             <input id="modcedula" type="number" class="form-control" name="modcedula" value='{{$pro->cedula}}'>
           </div>
           <div class="col-sm-6 form-group">
-            <label for="Proceso" class="control-label">Telefono:</label>
+            <label for="Proceso" class="control-label">Teléfono:</label>
             <input id="modtelefono" type="number" class="form-control" name="modtelefono" value='{{$pro->telefono}}'>
           </div>
           <div class="form-group text-right">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Guardar Edicion General</button>
+            <button type="submit" class="btn btn-primary">Guardar Edición General</button>
           </div>
         </form>          
         </div>              
@@ -177,7 +177,7 @@
       <div class="row">
         <div class="col-sm-1"></div>               
         <div class="col-sm-10">
-            <h3 class="text-primary">LEVANTAMIENTO TOPOGRAFICO:</h3>
+            <h3 class="text-primary">LEVANTAMIENTO TOPOGRÁFICO:</h3>
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
             <div class="col-sm-1 form-group">            
             <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
@@ -235,7 +235,7 @@
       <div class="row">
         <div class="col-sm-1"></div>               
           <div class="col-sm-10">
-          <h3 class="text-primary">VISITA DE INSPECCION OCULAR:</h3>                  
+          <h3 class="text-primary">VISITA DE INSPECCIÓN:</h3>                  
                 <form role="form" action="tierras/editar-proceso2" method="get" id="formEdit">
                   <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}' readonly>
                   <div class="input-group date" id="datepicker">                      
@@ -313,11 +313,11 @@
       <blockquote>      
       <input id="idestado" type = 'hidden' name="idestado" value='{{$estadoproceso->id_estado}}'>
         @if ($estadoproceso->id_estado ==9)
-          <p>El proceso a finalizo con exito.</p>
+          <p>El proceso finalizó con éxito.</p>
         @elseif ($estadoproceso->id_estado <=5)
           <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][$estadoproceso->id_estado]->estado}}</strong></u> para cambiar el estado al proceso .</p>
         @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
-          <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u> para activar el boton de cargue de documento ORIP necesita cargar todos los documentacion del proceso.</p>
+          <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u> para activar el boton de cargue de documento ORIP necesita cargar todos los documentos del proceso.</p>
         @endif
       </blockquote>
       <!--ajuntar modal-->
@@ -566,7 +566,7 @@
         $( "#tierras" ).addClass("active");
         $( "#tierrascargaproceso" ).addClass("active");
         $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-        $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
+        $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
         $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Procesos Adjudicados</strong>");
         
         var table = $('#levtopo').DataTable();

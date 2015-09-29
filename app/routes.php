@@ -69,7 +69,7 @@ Route::group(array('before' => 'auth'), function()
     //Ruta para generar pdf
     Route::get('despdf','TierrasController@Generarpfd');
     //Ruta para consulta por proceso
-    Route::get('consultar_proceso', function(){return View::make('modulotierras/consultarproceso');});
+    Route::get('consultar_proceso', 'TierrasController@ConsultaDetallada');
     
     
   });

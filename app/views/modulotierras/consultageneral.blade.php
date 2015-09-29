@@ -38,31 +38,14 @@
       <h1 class="text-center text-primary">PROCESOS TOTALES<br><div id="odometer" class="odometer" style="font-size: 35px">0</div>
     </div>
     <div class="row">
-      <?php $status=Session::get('status'); ?>
-      @if($status=='ok_estatus')
-      <div class="col-sm-1"></div>    
-      <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> El proceso actualizado con exito</div>
       <div class="col-sm-1"></div>
-      @endif
-      @if($status=='error_estatus')
-      <div class="col-sm-1"></div>    
-      <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-danger"></i> El proceso NO fue extualizado</div>
-      <div class="col-sm-1"></div>
-      @endif
-
-    </div>
-
-    <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-10">
       <form role="form" action="tierras/consulta-proceso" method="post" id="formconsulpro">
-        <!-- Standard button -->
-        <button id="btnconsulpro" title="Presione para consultar el estudio juridico" disabled="disabled" type="submit" type="button" class="btn btn-primary">Consultar Proceso</button>
-        <input id="proceso" type="hidden" class="form-control" name="proceso">
-      </div>
-      <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+          <!-- Standard button -->
+          <button id="btnconsulpro" title="Presione para consultar el estudio juridico" disabled="disabled" type="submit" type="button" class="btn btn-primary">Consultar Proceso</button>
+          <input id="proceso" type="hidden" class="form-control" name="proceso">
+        </div>
+        <div class="col-sm-1"></div>
     </div>
     <div class="row">
     <!--Listado de Procesos Iniciales para edicion -->
@@ -73,10 +56,10 @@
           <thead>  
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
-              <th class="text-center">Estudio Juridico</th>
-              <th class="text-center">Levantamiento Topografico</th>
+              <th class="text-center">Estudio Jurídico</th>
+              <th class="text-center">Levantamiento Topográfico</th>
               <th class="text-center">Radicado</th>
-              <th class="text-center">Visita de Inspeccion Ocular</th>
+              <th class="text-center">Visita de Inspección Ocular</th>
               <th class="text-center">Resultado Procesal</th>
               <th class="text-center">Registro ORIP</th>              
             </tr>
@@ -105,57 +88,42 @@
     </div>
   </div>
 @stop
-
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
-
 @stop
-
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-
 @stop
-
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
     <script>
       $(document).ready(function() {
-
         setTimeout(function(){
         odometer.innerHTML = $("#consulta").val();
         }, 1000);
-
-          //para que los menus pequeño y grande funcione
-          $( "#tierras" ).addClass("active");
-          $( "#tierrasconsultageneral" ).addClass("active");
-          $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrascongenmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Consulta General y/o Consulta por Proceso</strong>");
-
-
-          var table = $('#example').DataTable();
-
-          $('#example tbody').on('click', 'tr', function () {
-              if ( $(this).hasClass('active') ) {
-                $(this).removeClass('active');
-                $("#btnconsulpro").prop('disabled', true);
-              }
-              else {
-                table.$('tr.active').removeClass('active');
-                $(this).addClass('active');
-                $("#btnconsulpro").prop('disabled', false);
-                $( "#proceso" ).val($('td', this).eq(0).text());
-                
-              }
-              
-          });       
+        //para que los menus pequeño y grande funcione
+        $( "#tierras" ).addClass("active");
+        $( "#tierrasconsultageneral" ).addClass("active");
+        $( "#iniciomenupeq" ).html("<small> INICIO</small>");
+        $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
+        $( "#tierrascongenmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Consulta General y/o Consulta por Proceso</strong>");
+        var table = $('#example').DataTable();
+        $('#example tbody').on('click', 'tr', function(){
+          if ( $(this).hasClass('active') ) {
+            $(this).removeClass('active');
+            $("#btnconsulpro").prop('disabled', true);
+          }
+          else {
+            table.$('tr.active').removeClass('active');
+            $(this).addClass('active');
+            $("#btnconsulpro").prop('disabled', false);
+            $( "#proceso" ).val($('td', this).eq(0).text());
+          }
+        });       
       });
-
     </script>
-    
 @stop
-
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

@@ -34,7 +34,7 @@
   <div class="container" id="sha">
   <!--aca se escribe el codigo-->
     <div class="row">
-      <h1 class="text-center text-primary">RELACION DE PROCESOS ADJUDICADOS</h1>
+      <h1 class="text-center text-primary">RELACIÓN DE PROCESOS ADJUDICADOS</h1>
     </div>
 
     <div class="row">
@@ -42,7 +42,7 @@
       @if($status=='ok_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> El proceso actualizado con exito</div>
+      <i class="bg-success"></i> El proceso actualizado con éxito</div>
       <div class="col-sm-1"></div>
       @endif
       @if($status=='error_estatus')
@@ -55,20 +55,20 @@
       @if($actualizar!='')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> El proceso {{$actualizar}} quedo actualizado con exito </div>
+      <i class="bg-success"></i> El proceso {{$actualizar}} quedo actualizado con éxito </div>
       <div class="col-sm-1"></div>
       @endif
       <?php $documentosanexos=Session::get('documentosanexos'); ?>
       @if($documentosanexos!='')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> Al proceso {{$documentosanexos}} se le adjunto con exito el documento</div>
+      <i class="bg-success"></i> Al proceso {{$documentosanexos}} se le adjunto con éxito el documento</div>
       <div class="col-sm-1"></div>
       @endif
       @if($documentosanexos=='error_doc')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-danger"></i> El documento NO se adjunto</div>
+      <i class="bg-danger"></i> El documento NO se adjuntó</div>
       <div class="col-sm-1"></div>
       @endif
 
@@ -93,10 +93,10 @@
           <thead>  
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
-              <th class="text-center">Estudio Juridico</th>
-              <th class="text-center">Levantamiento Topografico</th>
+              <th class="text-center">Estudio Jurídico</th>
+              <th class="text-center">Levantamiento Topográfico</th>
               <th class="text-center">Radicado</th>
-              <th class="text-center">Visita de Inspeccion Ocular</th>
+              <th class="text-center">Visita de Inspección</th>
               <th class="text-center">Resultado Procesal</th>
               <th class="text-center">Registro ORIP</th>              
             </tr>
@@ -144,7 +144,7 @@
           $( "#tierras" ).addClass("active");
           $( "#tierrascargaproceso" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
+          $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Procesos Adjudicados</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
 

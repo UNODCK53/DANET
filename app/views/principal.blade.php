@@ -30,7 +30,7 @@
       @if(Session::has('cambiopassok'))
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> La contraseña fue cambiadad con éxito</div>
+      <i class="bg-success"></i> La contraseña fue cambiada con éxito</div>
       <div class="col-sm-1"></div>
       @endif      
     </div>
@@ -53,7 +53,7 @@
       </div>
       <hr>
       <blockquote>
-        <p class="text-justify"><strong>Fuente</strong>: <br>MANUAL OPERATIVO GRUPOS MOVILES DE ERRADICACIÓN - GME <br>DIRECCIÓN DE PROGRAMAS CONTRA CULTIVOS ILÍCITOS GRUPO DE ERRADICACIÓN <br>BOGOTÁ, D.C. Enero 23 de 2015</p>
+        <p class="text-justify"><strong>Fuente</strong>: <br>MANUAL OPERATIVO GRUPOS MÓVILES DE ERRADICACIÓN - GME <br>DIRECCIÓN DE PROGRAMAS CONTRA CULTIVOS ILÍCITOS GRUPO DE ERRADICACIÓN <br>BOGOTÁ, D.C. Enero 23 de 2015</p>
       </blockquote>
   </div> 
   @endif

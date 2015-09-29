@@ -18,6 +18,7 @@ class TierrasController extends BaseController {
 
 		return View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arraydombobox' => $arraydombobox));
 	}
+
 	public function getCrearProceso()
 	{
 		//consulta a la tabla de MODTIERRAS_PROCESO
@@ -53,7 +54,6 @@ class TierrasController extends BaseController {
 		$path = public_path().'\procesos\\'.Input::get('modnp');
 		// creacion de carpeta dependiendo del nombre del proceso
 		if (File::exists($path)){
-						
 		}
 		else{
 			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
@@ -117,6 +117,7 @@ class TierrasController extends BaseController {
 		return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
 	      	
 	}
+
 	public function ListadoProceso()
 	{
 		//consulta para retornar los procesos por abogado
@@ -127,6 +128,7 @@ class TierrasController extends BaseController {
 		//return $arrayproceso;
 		return View::make('modulotierras.procesosadjudicados', array('arrayproceso' => $arrayproceso), array('arrayconcepto' => $arrayconcepto));
 	}
+
 	public function ListadoProcesogral()
 	{
 		//consulta para retornar los procesos por abogado
@@ -134,6 +136,7 @@ class TierrasController extends BaseController {
 				//return $arrayproceso;
 		return View::make('modulotierras.consultageneral', array('arrayproceso' => $arrayproceso));
 	}
+
 	public function ListadoLevtopo()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
@@ -142,6 +145,7 @@ class TierrasController extends BaseController {
 		//return $arraylevtopo;
 		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo));
 	}
+
 	public function postAdjuntarLevtopo()
 	{		
 		$path = public_path().'\procesos\\'.Input::get('modnp');
@@ -181,6 +185,7 @@ class TierrasController extends BaseController {
     	}
     	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
     }
+
     public function Excelcarini()
 	{	
 		Excel::create('Procesos iniciales',function($excel)
@@ -201,6 +206,7 @@ class TierrasController extends BaseController {
 			})->download('xlsx');
 		});
     }
+
     public function postEditarProceso()
 	{
 		Session::put('procesoi',Input::get('proceso'));
@@ -233,6 +239,7 @@ class TierrasController extends BaseController {
 
 		return View::make('modulotierras.procesosadjudicadosedicion', array('arrayproceso' => $arrayproceso), array('arraydombobox' => $arraydombobox));
 	}
+	
 	public function postAdjuntarDocu()
 	{		
 		$path = public_path().'\procesos\\'.Input::get('modnp');
@@ -604,7 +611,8 @@ class TierrasController extends BaseController {
 		return Response::json($arrayvial);
 	}
 
-	public function getDownloadfile(){
+	public function getDownloadfile()
+	{
         //PDF file is stored under project/public/download/info.pdf
         $path = public_path().'\procesos\\'.Input::get('modnp').'\\';
         if ((Input::get('moddownload')=='_LT_MAPA.pdf') OR (Input::get('moddownload')=='_LT_SHP.rar')) {
@@ -633,41 +641,38 @@ class TierrasController extends BaseController {
     public function Generarpfd()
     {
     	$arraytp = DB::table('MODTIERRAS_PROCESO')->count();
-    	$fecha = date("Y/m/d");
-    	$hora = date("H:i");
-    	//PDF file is stored under project/public/download/info.pdf
-        Fpdf::AddPage();
-        Fpdf::SetFont('Arial', 'B', 16);
-		//inserto la cabecera poniendo una imagen dentro de una celda
-		Fpdf::Cell(100,10,Fpdf::Image('./assets/img/unodc.png',30,10,50),0,0,'C');
-		//Fpdf::Line(35,64,190,64);
-		Fpdf::Ln(7);
-		//Fpdf::Write(5,"To find out what's new in this tutorial, click ");
-		Fpdf::Cell(100,30,"La Unidad de Informacion certifica el siguiente numero de procesos");//.$campodb['nombre']);
-		//Fpdf::Line(35,74,190,74);
-		Fpdf::Ln(7);
-		Fpdf::Cell(100,40,"Numero de procesos: ".$arraytp);//. $campodb['direccion']);
-		//Fpdf::Line(35,84,190,84);
-		Fpdf::Ln(7);
-		Fpdf::Cell(90,50,"Fecha de elaboracion de Informe: ".$fecha);//.$campodb['telefono']));
-		//Fpdf::Line(35,94,190,94);
-		Fpdf::Ln(7);
-		Fpdf::Cell(100,60,"Hora de elaboracion de Informe: ".$hora);//.$campodb['ordenador']);
-		//Fpdf::Line(35,104,190,104);
-		Fpdf::Ln(9);
-		Fpdf::SetFont('Arial','B',10);
-	 	Fpdf::Ln(2);
-
-		Fpdf::SetFont('Arial','',8);
-        Fpdf::Output();
-        exit;
+    	return View::make('pdf',array('arraytp' => $arraytp));
     }
-     public function postConsultaProceso()
+
+    public function postConsultaProceso()
 	{
-		return 'Controller consultar proceso vista: http://localhost/DANET/public/consultar_proceso';
-		
+		Session::put('procesoi',Input::get('proceso'));
+		return Redirect::to('consultar_proceso');
 	}
+
+    public function ConsultaDetallada()
+	{
+		$idpro=(Session::get('procesoi'));
+		if($idpro==''){
+			return Redirect::to('consulta_general_tierras');
+		}
+		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.$idpro);
+		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3');
+		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
+		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
+		$arrayprocestado = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '.$idpro);
+		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT [id_proceso],[id_documento] FROM [DABASE].[sde].[MODTIERRAS_PROCDOCUMENTOS] where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
+		$arraydocumento = DB::table('MODTIERRAS_CONCEPDOCUMENTO')
+		->where ('MODTIERRAS_CONCEPDOCUMENTO.id_concepto','=', $arrayproceso[0]->conceptojuridico)
+		->where ('MODTIERRAS_CONCEPDOCUMENTO.requieredocu','=','1')
+		->join('MODTIERRAS_DOCUMENTOS', 'MODTIERRAS_DOCUMENTOS.id_documento','=','MODTIERRAS_CONCEPDOCUMENTO.id_documento')
+		->select('MODTIERRAS_DOCUMENTOS.id_documento', 'MODTIERRAS_DOCUMENTOS.concepto','MODTIERRAS_DOCUMENTOS.avredocu')		
+		->get();	
+		$arraydombobox= array($arrayconcepto, $arrayrespgeografico, $arraydocumento, $arrayestado, $arrayprocestado, $arrayprocdocu);		
+		Session::forget('procesoi');
+		return View::make('modulotierras.consultarproceso', array('arrayproceso' => $arrayproceso), array('arraydombobox' => $arraydombobox));
+	}
+
+	
 }
-
 ?>
-

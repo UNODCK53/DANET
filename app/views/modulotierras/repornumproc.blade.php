@@ -147,7 +147,7 @@
     $( "#tierras" ).addClass("active");
     $( "#tierrasrepornumproc" ).addClass("active");
     $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-    $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
+    $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
     $( "#tierrasrepornumprocmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Número de procesos</strong>");
     $( "#mensajeestatus" ).fadeOut(5000);
     $('#btimpr').click(function(){

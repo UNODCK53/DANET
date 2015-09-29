@@ -111,8 +111,8 @@
       $("#tierras").addClass("active");
       $("#tierrasreporarearepor").addClass("active");
       $("#iniciomenupeq").html("<small> INICIO</small>");
-      $("#tierrasmenupeq").html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-      $("#tierrasreporarearepormenupeq").html("<strong><span class='glyphicon glyphicon-ok'></span>Area Levantada</strong>");
+      $("#tierrasmenupeq").html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
+      $("#tierrasreporarearepormenupeq").html("<strong><span class='glyphicon glyphicon-ok'></span>Área Levantada</strong>");
       $("#mensajeestatus").fadeOut(5000);
       $("#labelmpio").hide();
       $("#selmpio").hide();

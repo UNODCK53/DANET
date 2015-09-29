@@ -134,7 +134,7 @@
                 <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
                 <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
                 @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
-                <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCION <span class="caret"></span></a>
+                <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCIÓN <span class="caret"></span></a>
                     
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="#">Monitoreo Integrado</a></li>
@@ -163,7 +163,7 @@
                 @if((Auth::user()->grupo=="1") || (Auth::user()->grupo=="2"))<!--Oculta la opción si no es el administrador o gupo2-->
                 <li id="GME" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li id="gmevalcert"><a href='validacion_certificacion'>Validación y Certificacion</a></li>
+                        <li id="gmevalcert"><a href='validacion_certificacion'>Validación y Certificación</a></li>
                         <li id="gmemetodologia"><a href="metodologia_gme">Metodología</a></li>
                         <li id="gmedisterradi"><a href="distribucion_gme">Distribución de la erradicación (Mapa)</a></li>
                         <li id="gmeinformes"><a href="informes_gme">Informes</a></li>
@@ -172,7 +172,7 @@
                 @endif
                 @if((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) <!--Oculta la opción tierras si no es el administrador-->
                   @if((Auth::user()->level=="1") || (Auth::user()->level=="2")||(Auth::user()->level=="3")||(Auth::user()->level=="4"))
-                  <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
+                  <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO TIERRAS<span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
                         <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
                         <li class="divider"></li>
@@ -228,7 +228,7 @@
                 <ul class="nav navbar-nav">
                   <!-- Lista desplegable de menu con submenu -->
                 @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
-                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCION <span class="caret"></span></a>
+                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCIÓN <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Monitoreo Integrado</a></li>
                         <li><a href="#">GME</a></li>
@@ -257,7 +257,7 @@
                   @if((Auth::user()->grupo=="1") || (Auth::user()->grupo=="2"))<!--Oculta la opción si no es el administrador o gupo2-->
                   <li class="dropdown"><a id="gmemenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a id="gmevalcertmenupeq" href='validacion_certificacion'>Validación y Certificacion</a></li>
+                        <li><a id="gmevalcertmenupeq" href='validacion_certificacion'>Validación y Certificación</a></li>
                         <li><a id="gmemetodologiamenupeq" href="metodologia_gme">Metodología</a></li>
                         <li><a id="gmedisterradimenupeq" href="distribucion_gme">Distribución de la erradicación (Mapa)</a></li>
                         <li><a id="gmeinformesmenupeq" href="informes_gme">Informes</a></li>
@@ -266,7 +266,7 @@
                   @endif
                 @if((Auth::user()->grupo=="3")||(Auth::user()->grupo=="1")) <!--Oculta la opción tierras si no es el administrador-->
                   @if((Auth::user()->level=="1") || (Auth::user()->level=="2")||(Auth::user()->level=="3")||(Auth::user()->level=="4"))
-                  <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MODULO TIERRAS<span class="caret"></span></a>
+                  <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO TIERRAS<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a id="tierrascongenmenupeq" href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
                       <li class="divider"></li>
@@ -326,7 +326,7 @@
 <!--quinto contenedor-->  
 <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá - Colombia</p></small></div>
+      <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá D.C. - Colombia</p></small></div>
           
     </div>
 

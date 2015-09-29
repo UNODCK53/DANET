@@ -42,7 +42,7 @@
       @if($status=='ok_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> El proceso fue creado con exito</div>
+      <i class="bg-success"></i> El proceso fue creado con éxito</div>
       <div class="col-sm-1"></div>
       @endif
       @if($status=='error_estatus')
@@ -77,7 +77,7 @@
               <th class="text-center">Dirección Notificación</th>
               <th class="text-center">Nombre</th>
               <th class="text-center">Cédula</th>
-              <th class="text-center">Telefono</th>
+              <th class="text-center">Teléfono</th>
               <th class="text-center">Área Preliminar</td>
             </tr>
           </thead>
@@ -122,7 +122,7 @@
             <input id="modnp" type="text" class="form-control" name="modnp" readonly >
           </div>
           <div class="form-group">
-            <label for="proceso" class="control-label">Concepto juridico:</label>
+            <label for="proceso" class="control-label">Concepto jurídico:</label>
             <select id="modconcpjuri" "Seleccione el concepto" class="form-control" name="modconcpjuri" required>
                 <option value="" selected="selected">Por favor seleccione</option>
              @foreach($arraydombobox[0] as $concep)
@@ -131,11 +131,11 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Observacion concepto juridico:</label>
+            <label for="Proceso" class="control-label">Observación concepto jurídico:</label>
             <textarea id="modobsconcjuri" class="form-control" name="modobsconcjuri"></textarea>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Area predio a formalizar:</label>
+            <label for="Proceso" class="control-label">Área predio a formalizar:</label>
             <input id="modarea" type="number" step="any" class="form-control" name="modarea">
           </div>
           <div class="form-group">
@@ -153,17 +153,17 @@
             <input type="radio" name="modviable" id="respoviano" value="2"> NO
           </div>
           <div class="form-group" id="obsvial">
-            <label for="Proceso" class="control-label">Observacion viabilidad:</label>
+            <label for="Proceso" class="control-label">Observación viabilidad:</label>
             <textarea id="modobsviab" name="modobsviab" class="form-control"></textarea>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label" >Requiere responsable Geografico:</label><br>
+            <label for="Proceso" class="control-label" >Requiere responsable Geográfico:</label><br>
             <input type="radio" name="modradiorespogeo1" id="respogeosi" value="1" disabled='disabled'> SI
             <input type="radio" name="modradiorespogeo1" id="respogeono" value="2"checked disabled='disabled'> NO<br>
             <input type='hidden' name='modradiorespogeo' id='modradiorespogeo'>
           </div>
           <div class="form-group" id="respongeo">
-            <label for="Proceso" class="control-label">Responsable Geografico:</label>
+            <label for="Proceso" class="control-label">Responsable Geográfico:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo">
                 <option value="" selected="selected">Por favor seleccione</option>
               @foreach($arraydombobox[1] as $geo)
@@ -180,7 +180,7 @@
             <input id="modnompred" type="text" class="form-control" name="modnompred">
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Direccion para notificacion:</label>
+            <label for="Proceso" class="control-label">Dirección para notificación:</label>
             <input id="moddirnoti" type="text" class="form-control" name="moddirnoti">
           </div>
           <div class="form-group">
@@ -188,17 +188,17 @@
             <input id="modnombre" type="text" class="form-control" name="modnombre">
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Cedula:</label>
+            <label for="Proceso" class="control-label">Cédula:</label>
             <input id="modcedula" type="number" class="form-control" name="modcedula">
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Telefono:</label>
+            <label for="Proceso" class="control-label">Teléfono:</label>
             <input id="modtelefono" type="number" class="form-control" name="modtelefono">
           </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Confirmar Estudio Juridico</button>
+        <button type="submit" class="btn btn-primary">Confirmar Estudio Jurídico</button>
       </div>
         </form>
     </div><!-- /.modal-content -->
@@ -266,7 +266,7 @@
           $( "#tierras" ).addClass("active");
           $( "#tierrascargainicial" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
+          $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrascarinimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Carga Inicial</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
           
