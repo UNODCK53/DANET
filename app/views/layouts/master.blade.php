@@ -4,15 +4,20 @@
 	<meta charset="UTF-8">
 	<title>
 		@section('titulo')
-			SAI version2
+			Monitoreo a Desarrollo Alternativo UNODC 
 		@show
 	</title>
 		@section('cabecera')
 			<meta charset="UTF-8">
 			
 			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+
+			<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+      
+
 			<link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="assets/css/responsive.bootstrap.min.css">
+
 			<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datepicker.css">
 			
 			
@@ -68,10 +73,13 @@
   		@show
   		@section('js')
 			<!-- librerias JavaScript que se utilizan en la pagina -->
-			<script src="assets/js/jquery-1.11.2.js"></script>
-			<script src="assets/js/bootstrap.js"></script> 
+			<script src="assets/js/jquery-1.11.3.min.js"></script>
+			<script src="assets/js/bootstrap.min.js"></script>
+       
 			<script src="assets/js/jquery.dataTables.min.js"></script>
-			<script src="assets/js/dataTables.bootstrap.js"></script>
+			<script src="assets/js/dataTables.bootstrap.min.js"></script>
+      <script src="assets/js/dataTables.responsive.min.js"></script>
+
 			<script src="assets/js/bootstrap-datepicker.js"></script>
 			<script src="assets/js/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
 		@show

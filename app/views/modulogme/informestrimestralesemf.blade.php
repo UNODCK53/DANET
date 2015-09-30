@@ -31,75 +31,108 @@
 <!--CONTENEDOR GENERAL-->
 @section('contenedorgeneral1')
   @parent  
-<!--tercer contenedor pie de página-->
+<!--tercer contenedor pie de página-->  
   <div class="container" id="sha">
-  <br>
     <div class="row">
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="assets/docgme/Informe_GME_2012.png" alt="hola mundo">          
-          <div class="caption">
-            <h3 class="text-center text-primary">Informe GME 2012 Final</h3>            
-            <p class="text-right"><a href="assets/docgme/Informe_GME_2012.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a></p>
-          </div>
-        </div>
-      </div>      
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="assets/docgme/Informe_GME_2013_Fase_I_V1.png" alt="hola mundo">          
-          <div class="caption">
-            <h3 class="text-center text-primary">Informe GME 2013 Fase I</h3>            
-            <p class="text-right"><a href="assets/docgme/Informe_GME_2013_Fase_I_V1.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a></p>
-          </div>
-        </div>
+        <!--Texto del contenido-->
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <h1 class="text-center text-primary">Informes de certificación a la erradicación GME</h1>
+        <br>
+        <p class="lead text-justify" >A continuación puede descargar los informes trimestrales y anuales de validación a la erradicación manual forzosa 
+        adelantada por los Grupos Móviles de Erradicación. </p>            
       </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="assets/docgme/Informe GME 2013_Fase II.png" alt="hola mundo">          
-          <div class="caption">
-            <h3 class="text-center text-primary">Informe GME 2013 Fase II</h3>            
-            <p class="text-right"><a href="assets/docgme/Informe GME 2013_Fase II.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="assets/docgme/Informe_GME_2013_Fase_III.png" alt="hola mundo">          
-          <div class="caption">
-            <h3 class="text-center text-primary">Informe GME 2013 Fase III</h3>            
-            <p class="text-right"><a href="assets/docgme/Informe_GME_2013_Fase_III.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="assets/docgme/Informe_GME_2013.png" alt="hola mundo">          
-          <div class="caption">
-            <h3 class="text-center text-primary">Informe GME 2013 Final</h3>            
-            <p class="text-right"><a href="assets/docgme/Informe_GME_2013.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a></p>
-          </div>
-        </div>
-      </div>      
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="assets/docgme/Informe_Fase_I_GME_2014.png" alt="hola mundo">          
-          <div class="caption">
-            <h3 class="text-center text-primary">Informe GME Fase I 2014</h3>            
-            <p class="text-right"><a href="assets/docgme/Informe_Fase_I_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="assets/docgme/Informe_Fase_II_GME_2014.png" alt="hola mundo">          
-          <div class="caption">
-            <h3 class="text-center text-primary">Informe GME Fase II 2014</h3>            
-            <p class="text-right"><a href="assets/docgme/Informe_Fase_II_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a></p>
-          </div>
-        </div>
-      </div>  
+      <div class="col-sm-1"></div>
     </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <div class="col-sm-6 col-md-4">
+        <img  src="assets/docgme/InformeFinal_GME_2014.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME 2014 Final</h4>
+            <span class="col-xs-1">
+              <a href="assets/docgme/InformeFinal_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>      
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_Fase_III_GME_2014.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME Fase III 2014</h4>
+            <span class="col-xs-1">
+              <a href="assets/docgme/Informe_Fase_III_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>      
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_Fase_II_GME_2014.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME Fase II 2014</h4>
+            <span class="col-xs-1">
+              <a href="assets/docgme/Informe_Fase_II_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_Fase_I_GME_2014.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME Fase I 2014</h4>
+            <span class="col-xs-1 ">
+              <a href="assets/docgme/Informe_Fase_I_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_GME_2013.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME 2013 Final</h4>
+            <span class="col-xs-1 ">
+              <a href="assets/docgme/Informe_GME_2013.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_GME_2013_Fase_III.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME Fase III 2013</h4>
+            <span class="col-xs-1 ">
+              <a href="assets/docgme/Informe_GME_2013_Fase_III.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_GME_2012.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME Fase II 2013</h4>
+            <span class="col-xs-1 ">
+              <a href="assets/docgme/Informe_GME_2013_Fase_II.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_GME_2013_Fase_I_V1.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME Fase I 2013</h4>
+            <span class="col-xs-1 ">
+              <a href="assets/docgme/Informe_GME_2013_Fase_I_V1.pdf" class="glyphicon glyphicon-download-alt btn btn-primary text-right" role="button"></a>
+            </span>
+          </div>        
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <img src="assets/docgme/Informe_GME_2012.png">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME 2012 Final</h4>
+            <span class="col-xs-1 ">
+              <a href="assets/docgme/Informe_GME_2012.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>
+    </div>
+    <div class="col-sm-1"></div>    
   </div>
+</div>
 @stop
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
