@@ -34,7 +34,7 @@
   <div class="container" id="sha">
   <!--aca se escribe el codigo-->
     <div class="row">
-      <h1 class="text-center text-primary">RELACION DE PROCESOS ADJUDICADOS</h1>
+      <h1 class="text-center text-primary">RELACIÓN DE PROCESOS ADJUDICADOS</h1>
     </div>
 
     <div class="row">
@@ -89,16 +89,16 @@
       </br>
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10" >
-        <table id="example" class="table table-striped table-bordered table-hover" cellspacing="100" width="100%">
-          <thead>  
+        <table id="tablaresumen" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+          <thead>
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
-              <th class="text-center">Estudio Juridico</th>
-              <th class="text-center">Levantamiento Topografico</th>
+              <th class="text-center">Estudio Jurídico</th>
+              <th class="text-center">Levantamiento Topográfico</th>
               <th class="text-center">Radicado</th>
-              <th class="text-center">Visita de Inspeccion Ocular</th>
+              <th class="text-center">Visita de Inspección Ocular</th>
               <th class="text-center">Resultado Procesal</th>
-              <th class="text-center">Registro ORIP</th>              
+              <th class="text-center">Registro ORIP</th>
             </tr>
           </thead>
           <tbody>
@@ -149,9 +149,9 @@
           $( "#mensajeestatus" ).fadeOut(5000);
 
 
-          var table = $('#example').DataTable();
+          var table = $('#tablaresumen').DataTable();
 
-          $('#example tbody').on('click', 'tr', function () {
+          $('#tablaresumen tbody').on('click', 'tr', function () {
               if ( $(this).hasClass('active') ) {
                 $(this).removeClass('active');
                 $("#btnedipro").prop('disabled', true);

@@ -69,7 +69,7 @@
       </br>
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10" >
-        <table id="example" class="table table-striped table-bordered table-hover" cellspacing="100" width="100%">
+        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
           <thead>  
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>

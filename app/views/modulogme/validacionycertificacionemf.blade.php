@@ -37,7 +37,7 @@
       <!--Texto del contenido-->
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <h1 class="text-center text-primary">Validación Y Certificación De La Erradicación Manual Forzosa</h1>
+            <h1 class="text-center text-primary">Validación y certificación de la Erradicación Manual Forzosa</h1>
             <br>
             <p class="lead text-justify" >La Unidad Administrativa Especial para la Consolidación Territorial – UACT a través del Programa contra Cultivos Ilícitos, suscribe un convenio o contrato con UNODC, quien actúa como  un organismo neutral, que realiza la validación de la información recolectada por los Apoyos Zonales con la que se registra la erradicación manual forzosa de cultivos ilícitos que desarrollan los GME.</p>
             <p class="lead text-justify" >Este monitoreo permite a UNODC efectuar la caracterización de los lotes erradicados, así como la validación y certificación de las áreas intervenidas en cada zona donde se realice la operación.</p>

@@ -35,9 +35,15 @@
   <div class="container" id="sha">
     <div class="row">
 <!--aca se escribe el codigo-->
-<iframe src="http://geoapic7.unodc.org.co/catalogo_mapas/visores/Intervencion_GME/GME.html"  height="800" width="100%" frameborder="0"></iframe>
-
-
+      <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+        <br>
+        <blockquote>
+          <p class="lead text-justify">El mapa interactivo muestra la distribución territorial de la Erradicación Manual Forzosa adelantada por los Grupos Móviles de Erradicación (GME). La información de erradicacion se presenta a nivel departamental y municipal  y es contrastada con la información del censo de cultivos de coca realizado por UNODC. </p> 
+        </blockquote>
+        </div>
+      <div class="col-sm-1"></div>          
+      <iframe src="http://geoapic7.unodc.org.co/catalogo_mapas/visores/Intervencion_GME/GME.html"  height="800" width="100%" frameborder="0"></iframe>
 <!--fin del codigo-->    
     </div>
   </div>
