@@ -59,7 +59,7 @@
               <th class="text-center">Estudio Jurídico</th>
               <th class="text-center">Levantamiento Topográfico</th>
               <th class="text-center">Radicado</th>
-              <th class="text-center">Visita de Inspección Ocular</th>
+              <th class="text-center">Visita de Inspección</th>
               <th class="text-center">Resultado Procesal</th>
               <th class="text-center">Registro ORIP</th>              
             </tr>

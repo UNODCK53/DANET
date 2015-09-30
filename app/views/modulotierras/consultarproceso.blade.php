@@ -129,15 +129,15 @@
       <p align="justify">Documentos que faltan por adjuntar para poder terminar el proceso: </p>
       <p align="justify">
         @foreach($arraydombobox[2] as $docunecesario)
-            <?php $encontro=0; ?>
-            @foreach($arraydombobox[5] as $docucargado)                  
-              @if($docunecesario->id_documento == $docucargado->id_documento)
-                <?php $encontro=1; ?>
-              @endif                  
-            @endforeach
-            @if($encontro==0)
-              {{$docunecesario->concepto.','}}
+          <?php $encontro=0; ?>
+          @foreach($arraydombobox[5] as $docucargado)                  
+            @if($docunecesario->id_documento == $docucargado->id_documento)
+              <?php $encontro=1; ?>
             @endif                  
+          @endforeach
+          @if($encontro==0)
+            {{$docunecesario->concepto.','}}
+          @endif
         @endforeach
       </p>        
     </blockquote>
