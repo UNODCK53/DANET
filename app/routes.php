@@ -16,6 +16,9 @@ Route::get('/', function()
 	return View::make('portada');
 });
 
+Route::controller('password', 'RemindersController');
+Route::get('forgotpassword', 'RemindersController@getRemind');
+
 //nos dirige a al contlevelador encargado de hacer la verificacion del login
 Route::post('login','UserLogin@user');
 
@@ -48,6 +51,9 @@ Route::group(array('before' => 'auth'), function()
     Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
     //ruta controlador consulta datos para procesoso adjudicados edicion
     Route::get('procesos_adjudicados_editar','TierrasController@Datosprocesos');
+    //Ruta para solicitar el cambio de password
+
+   
 
   });
 

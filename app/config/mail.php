@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+	'from' => array('address' => 'postmaster@sandboxaa377cc60b81440abfc0f6c4ffe11beb.mailgun.org', 'name' => 'soporteDANET'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => 'postmaster@sandboxaa377cc60b81440abfc0f6c4ffe11beb.mailgun.org',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => null,
+	'password' => 0321456987,
 
 	/*
 	|--------------------------------------------------------------------------

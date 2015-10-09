@@ -656,7 +656,25 @@ class TierrasController extends BaseController {
 		if($idpro==''){
 			return Redirect::to('consulta_general_tierras');
 		}
-		$arrayproceso = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.$idpro);
+		$arrayproceso = DB::table('MODTIERRAS_PROCESO')
+		->where ('id_proceso','=',$idpro)
+		->select('OBJECTID','id_proceso','conceptojuridico','obsconceptojuridico','areapredioformalizada','longitud','latitud','fechainspeccionocular','viabilidad','obsviabilidad','respjuridico'
+      ,'requiererespgeo'
+      ,'respgeografico'
+      ,'created_at'
+      ,'updated_at'
+      ,'vereda'
+      ,'nombrepredio'
+      ,'direccionnotificacion'
+      ,'nombre'
+      ,'cedula'
+      ,'telefono'
+      ,'Shape')
+		->get();
+
+
+
+		select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.$idpro);
 		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3');
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
