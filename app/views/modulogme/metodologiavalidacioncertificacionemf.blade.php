@@ -48,13 +48,13 @@
                       Diseño de los formularios de recolección de información: UNODC diseña e implementa la captura digital a través herramientas basadas en dispositivos móviles (Open Data Kit –ODK-, GeoODK, ArcGIS Online) los formularios de captura de información en campo, basado en las funcionalidades requeridas por UACT y GME.
                     </div>
                     <div class="media-right media-middle">                      
-                        <img data-holder-rendered="true" src="assets/docgme/1_diseño_formulario.png" class="media-object">                      
+                        <img data-holder-rendered="true" src="assets/docgme/1_diseño_formulario.png" width="200" height="200" class="media-object">                      
                     </div>  
                 </div>
             </ul>
             <ul class="lead text-justify" > 
               <div class="media">
-                    <div class="media-left media-middle">                      
+                    <div class="media-left media-middle img-responsive">                      
                         <img data-holder-rendered="true" src="assets/docgme/2_configuracion_gps.png" class="media-object">                      
                     </div>
                     <div class="media-body media-middle">
