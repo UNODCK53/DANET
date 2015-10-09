@@ -28,14 +28,7 @@
 			      -moz-box-shadow:    0px 0px 18px 0px rgba(48, 50, 50, 0.48);
 			      box-shadow:         0px 0px 18px 0px rgba(48, 50, 50, 0.48);
 			    }
-
-
-			    .img-responsive{
-			      -webkit-filter: none;
-			    }
-			    .img-responsive:hover{
-			      -webkit-filter: grayscale(100%);
-			    }
+			    
 			    .modal-content {
 			      max-width: 340px;
 			      margin: 0 auto;
@@ -157,7 +150,7 @@
                 <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a href='reporte'>Consulta de encuestas</a></li>
-                      <li><a href="#">Indicadores de recolección</a></li>
+                      <li><a href="siscadi_indicadores">Indicadores de recolección</a></li>
                     </ul>
                 </li>
                 <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>
@@ -250,7 +243,7 @@
                   <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
                         <li><a href='reporte'>Consulta de encuestas</a></li>
-                        <li><a href="#">Indicadores de recolección</a></li>
+                        <li><a href="siscadi_indicadores">Indicadores de recolección</a></li>
                       </ul>
                   </li>
                   <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>

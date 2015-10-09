@@ -35,8 +35,20 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     
+<div class="row">
 <!--aca se escribe el codigo-->
-<!--formulario para reporte de mision-->
+<div class="col-sm-1"></div>
+<div class="col-sm-10">
+  <h1 class="text-center text-primary">Reportes de encuestas digitales realizadas por Desarrollo alternativo</h1>
+  <p class="lead text-justify" >Este módulo permite consultar y generar reportes de las encuentas digitales realizadas en Desarrollo Alternativo según las siguientes opciones:</p>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte por misión:</span> Este reporte se utiliza principalmente para generar las actas de entrega de encuestas por misión. Cuantifica las encuestas realizadas tanto a Beneficiarios como para Comités</ul>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte general:</span> Genera un excel para el total de encuestas realizadas, beneficiarios y comités, durante una intervención específica y las clasifica por departamento y  muncipios </ul>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte por monitor:</span>Este reporte sirve como control para los monitores. Muestra el total de encuestas realizadas por cada monitor según el municipio en el cual trabajó</ul>            
+</div>
+
+ <div class="col-sm-1"></div> 
+   </div>  
+
 <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 text-left" style="padding-top: 25px;padding-bottom: 25px;">
           <h3>Reporte por misión:</h3>Seleccione los siguientes datos para generar el reporte de encuestas almacenadas en base de datos por misión

@@ -95,7 +95,7 @@
             <select id="modrepogeo" class="form-control" name="modrepogeo">
                 <option value="" selected="selected">Por favor seleccione</option>
                 @foreach($arraydombobox[1] as $geo)
-                <option value="{{$geo->id}}">{{$geo->name}}</option>              
+                <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>              
                 @endforeach              
             </select>
           </div>
@@ -315,7 +315,7 @@
         @if ($estadoproceso->id_estado ==9)
           <p>El proceso finalizó con éxito.</p>
         @elseif ($estadoproceso->id_estado <=5)
-          <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][$estadoproceso->id_estado]->estado}}</strong></u> para cambiar el estado al proceso .</p>
+          <p>El proceso debe continuar al siguiente estado <u><strong>{{$arraydombobox[3][$estadoproceso->id_estado]->estado}}</strong></u>.</p>
         @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
           <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u> para activar el boton de cargue de documento ORIP necesita cargar todos los documentos del proceso.</p>
         @endif

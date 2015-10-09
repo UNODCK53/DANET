@@ -167,7 +167,7 @@
             <select id="modrepogeo" class="form-control" name="modrepogeo">
                 <option value="" selected="selected">Por favor seleccione</option>
               @foreach($arraydombobox[1] as $geo)
-                <option value="{{$geo->id}}">{{$geo->name}}</option>              
+                <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>              
               @endforeach
             </select>
           </div>

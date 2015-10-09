@@ -30,6 +30,7 @@ Route::get('logout', function()
 
 //Rutas para activar los controladores
 Route::controller('tierras','TierrasController');
+Route::controller('siscadi','SiscadiController'); 
 
 //para ingresar a las siguientes rutas se tiene que estar autenticado:
 Route::group(array('before' => 'auth'), function()
@@ -99,6 +100,7 @@ Route::group(array('before' => 'auth'), function()
   Route::post('pdfa', 'SiscadiController@repote_mision');
   Route::post('general', 'SiscadiController@repote_general');
   Route::post('monitor', 'SiscadiController@repote_monitor');
+  Route::get('siscadi_indicadores', 'SiscadiController@siscadi_indicadores');
   //termina rutas para modulo de SISCADI    
 
 
