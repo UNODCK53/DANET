@@ -147,10 +147,10 @@
                     </ul>
                 </li>
 
-                <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
+                <li class="dropdown"id="siscadi" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href='reporte'>Consulta de encuestas</a></li>
-                      <li><a href="siscadi_indicadores">Indicadores de recolección</a></li>
+                      <li id="reportesiscadi"><a  href='reporte'>Consulta de encuestas</a></li>
+                      <li id="indicadoressiscadi"><a href="siscadi_indicadores">Indicadores de recolección</a></li>
                     </ul>
                 </li>
                 <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>
@@ -240,10 +240,10 @@
                       </ul>
                   </li>
 
-                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
+                  <li class="dropdown"><a id="siscadimenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href='reporte'>Consulta de encuestas</a></li>
-                        <li><a href="siscadi_indicadores">Indicadores de recolección</a></li>
+                        <li><a id="reportesiscadimenupeq" href='reporte'>Consulta de encuestas</a></li>
+                        <li><a id="indicadoressiscadimenupeq"  href="siscadi_indicadores">Indicadores de recolección</a></li>
                       </ul>
                   </li>
                   <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>

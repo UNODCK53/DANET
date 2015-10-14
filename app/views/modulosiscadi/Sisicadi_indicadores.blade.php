@@ -39,9 +39,9 @@
 <div class="col-sm-1"></div>
 <div class="col-sm-10">
   <h1 class="text-center text-primary">Indicadores de encuestas digitales realizadas por Desarrollo alternativo</h1>
-  <p class="lead text-justify" >Permite cuantificar de manera rápida y dinímica las encuestas digitales realizadas en Desarrollo alternativo según las siguientes opciones:</p>
-  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores generales:</span> Esta opción permite conocer diferentes tipos de datos que van desde la totalidad de encuestas realizadas en todo Desarrollo Alternativo, o filtrado por alguna intervención específica hasta indicadores administrativos</ul>
-  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores por monitor:</span> Muestra las encuentras digitales realzidas para un monitor en específico en los mismos niveles que los indicadores generales</ul>            
+  <p class="lead text-justify" >Permite cuantificar de manera rápida y dinámica las encuestas digitales realizadas en Desarrollo Alternativo según las siguientes opciones:</p>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores generales:</span> Esta opción permite conocer diferentes tipos de datos que van desde la totalidad de encuestas realizadas en todo Desarrollo Alternativo, filtrado por alguna intervención específica o hasta la cuantificación de indicadores administrativos</ul>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores por monitor:</span> Muestra las encuestas digitales realizadas por cada monitor en cada intervención de Desarrollo Alternativo</ul>            
 </div>
  <div class="col-sm-1"></div> 
    </div>  
@@ -220,7 +220,7 @@
         $('#container').highcharts({
           chart:{type:'column'},
           title:{text:'Encuestas realizadas en misiones de Desarrollo Alternativo'},
-         subtitle:{text:'Ditribución según año de Intervencion '},
+         subtitle:{text:'Distribución según año de Intervención '},
           xAxis:{
             categories:[
               @foreach($arrayintercount[0] as $arraydat3)
@@ -233,7 +233,7 @@
           tooltip:{
             formatter: function () {
                     return ' En la intervención <b>' + this.key +
-                        '</b> <br>se realizaron <b>' + this.y + '</b> encuentas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                        '</b> <br>se realizaron <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -298,7 +298,7 @@
                 tooltip:{
                   formatter: function () {
                           return ' En la misión de <b>' + this.key +
-                              '</b> <br>se realizaron <b>' + this.y + '</b> encuentas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                              '</b> <br>se realizaron <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                       }
                   
                 },
@@ -328,7 +328,7 @@
         $('#container').highcharts({
           chart:{type:'column'},
           title:{text:'Encuestas realizadas en misiones de Desarrollo Alternativo'},
-         subtitle:{text:'Ditribución según año de Intervencion '},
+         subtitle:{text:'Distribución según año de Intervención '},
           xAxis:{
             categories:[
               @foreach($arrayintercount[0] as $arraydat3)
@@ -341,7 +341,7 @@
           tooltip:{
             formatter: function () {
                     return ' En la intervención <b>' + this.key +
-                        '</b> <br>se realizaron <b>' + this.y + '</b> encuentas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                        '</b> <br>se realizaron <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -457,7 +457,7 @@
                 tooltip:{
                   formatter: function () {
                           return ' En la misión de <b>' + this.key +
-                              '</b> <br>se realizaron <b>' + this.y + '</b> encuentas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                              '</b> <br>se realizaron <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                       }
                   
                 },
@@ -666,7 +666,7 @@
 
            tooltip: {
               formatter: function () {
-                return 'El monitor:<b> ' + this.series.xAxis.categories[this.point.x] + '</b>  <br>realizo <b>' +
+                return 'El monitor:<b> ' + this.series.xAxis.categories[this.point.x] + '</b>  <br>realizó <b>' +
                   this.point.value + '</b> encuestas a ' + this.series.yAxis.categories[this.point.y] + '</b>';
               }
             },
@@ -789,7 +789,7 @@
           yAxis:{min:0,title:{text:'Número de encuestas'}},
           tooltip:{
             formatter: function () {
-                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuentas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -891,7 +891,7 @@
         },
         tooltip: {
             headerFormat: 'En el departamento de <b>{point.x}</b><br/>',
-            pointFormat: 'realizó {point.y} encuentas a {series.name} <br> Total de general: {point.stackTotal} encuentas <br> '
+            pointFormat: 'realizó {point.y} encuestas a {series.name} <br> Total general: {point.stackTotal} encuestas <br> '
         },
         plotOptions: {
             column: {
@@ -909,7 +909,7 @@
             name: 'Beneficiarios',
             data: data1.arraydptocountbene
         }, {
-            name: 'Comites',
+            name: 'Comités',
             data: data1.arraydptocountcomi
         }]
     });
@@ -962,7 +962,7 @@
           yAxis:{min:0,title:{text:'Número de encuestas'}},
           tooltip:{
             formatter: function () {
-                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuentas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -1035,7 +1035,7 @@
         },
         tooltip: {
             headerFormat: 'En el municipio de <b>{point.x}</b><br/>',
-            pointFormat: 'realizó {point.y} encuentas a {series.name} <br> Total de general: {point.stackTotal} encuentas <br> '
+            pointFormat: 'realizó {point.y} encuestas a {series.name} <br> Total general: {point.stackTotal} encuestas <br> '
         },
         plotOptions: {
             column: {
@@ -1053,7 +1053,7 @@
             name: 'Beneficiarios',
             data: data1.arraympiocountbene
         }, {
-            name: 'Comites',
+            name: 'Comités',
             data: data1.arraympiocountcomi
         }]
     });
@@ -1129,7 +1129,7 @@
         },
         tooltip: {
             headerFormat: 'En el departamento de <b>{point.x}</b><br/>',
-            pointFormat: 'realizó {point.y} encuentas a {series.name} <br> Total de general: {point.stackTotal} encuentas <br> '
+            pointFormat: 'realizó {point.y} encuestas a {series.name} <br> Total general: {point.stackTotal} encuestas <br> '
         },
         plotOptions: {
             column: {
@@ -1147,7 +1147,7 @@
             name: 'Beneficiarios',
             data: data1.arraydptocountbene
         }, {
-            name: 'Comites',
+            name: 'Comités',
             data: data1.arraydptocountcomi
         }]
     });
@@ -1212,7 +1212,7 @@
         },
         tooltip: {
             headerFormat: 'En el departamento de <b>{point.x}</b><br/>',
-            pointFormat: 'realizó {point.y} encuentas a {series.name} <br> Total de general: {point.stackTotal} encuentas <br> '
+            pointFormat: 'realizó {point.y} encuestas a {series.name} <br> Total general: {point.stackTotal} encuestas <br> '
         },
         plotOptions: {
             column: {
@@ -1230,7 +1230,7 @@
             name: 'Beneficiarios',
             data: data1.arrayvdacountbene
         }, {
-            name: 'Comites',
+            name: 'Comités',
             data: data1.arrayvdacountcomi
         }]
     });
@@ -1305,7 +1305,7 @@
         },
         tooltip: {
             headerFormat: 'En el departamento de <b>{point.x}</b><br/>',
-            pointFormat: 'realizó {point.y} encuentas a {series.name} <br> Total de general: {point.stackTotal} encuentas <br> '
+            pointFormat: 'realizó {point.y} encuestas a {series.name} <br> Total general: {point.stackTotal} encuestas <br> '
         },
         plotOptions: {
             column: {
@@ -1323,7 +1323,7 @@
             name: 'Beneficiarios',
             data: data1.arraympiocountbene
         }, {
-            name: 'Comites',
+            name: 'Comités',
             data: data1.arraympiocountcomi
         }]
     });
@@ -1401,7 +1401,7 @@ $('#container').highcharts({
         },
         tooltip: {
       headerFormat: '<span style="font-size:11px"></span>',
-      pointFormat: 'Por <span style="color:{point.color}"><strong>{point.name}</strong></span> hay <br><b>{point.y} </b> situaciones reportadas<br/>'
+      pointFormat: 'En <span style="color:{point.color}"><strong>{point.name}</strong></span> hay <br><b>{point.y} </b> encuestas reportadas<br/>'
     },
     legend: {
       align: 'left',
@@ -1512,7 +1512,7 @@ $('#container').highcharts({
         },
         tooltip: {
             headerFormat: 'En el departamento de <b>{point.x}</b><br/>',
-            pointFormat: 'realizó {point.y} encuentas a {series.name} <br> Total de general: {point.stackTotal} encuentas <br> '
+            pointFormat: 'realizó {point.y} encuestas a {series.name} <br> Total de general: {point.stackTotal} encuestas <br> '
         },
         plotOptions: {
             column: {
@@ -1544,7 +1544,14 @@ $('#container').highcharts({
 
        });//Termina chage seldptomoni
 
+  
 
+    //para que los menus pequeño y grande funcione
+          $( "#siscadi" ).addClass("active");
+          $( "#indicadoressiscadi" ).addClass("active");
+          $( "#iniciomenupeq" ).html("<small> INICIO</small>");
+          $( "#siscadimenupeq" ).html("<strong>SISCADI<span class='caret'></span></strong>");
+          $( "#indicadoressiscadimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Indicadores de recolección</strong>");
 
     });
     </script>

@@ -4,36 +4,71 @@ class SiscadiController extends BaseController {
 
 	public function reporte_encuesta()
 	{
-		return  View::make('modulosiscadi.Sisicadi_encuesta');
+		//Consultas para obtener las posibles intervenciones
+		$arrayinter=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener las intervenciones de a partir de los codigos almacenados en las encuestas
+			->select('intervencion')
+			->groupBy('intervencion')
+			->orderBy('intervencion')
+			->get();
+
+		return  View::make('modulosiscadi.Sisicadi_encuesta',array('arrayinter' => $arrayinter));
 	}
 	
-	public function showDepto() //Funcion que ejecuta la consulta de departamento para las encuetas digitales
-	{
-		$data=Input::all();//trae y agrega a $data todos los input del fromulario
-		$mision=$data['mision'];
-		$inter=$data['inter'];
-		$piloto=$data['piloto'];
-		$monitor=$data['monitor'];
-		$categories_depto=array();
-		$categories_depto2=array();
-		$version="";
-		$campo_depto="";
-		
 
-		if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
-			$tabla=DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join
+	public function postSiscadirepmision()
+	{
+
+		//Consultas para obtener los tipos de mision segun la intervencion 
+		$arraymision = DB::table('MODSISCADI_ENCUESTAS')
+		->Join('MODSISCADI_MISION','MODSISCADI_ENCUESTAS.mision','=','MODSISCADI_MISION.mision')
+		->WHERE('MODSISCADI_ENCUESTAS.intervencion','=',Input::get('intervencion'))
+		->select('MODSISCADI_MISION.mision','MODSISCADI_MISION.nom_mision')
+		->groupBy('MODSISCADI_MISION.mision')
+		->groupBy('MODSISCADI_MISION.nom_mision')
+		->get();
+			
+
+		return  Response::json(array('arraymision'=>$arraymision));
+				
+
+	}
+
+	public function postSiscadireppiloto()
+	{
+
+		//Consultas para obtener los tipos de mision segun los datos selccionados 
+		$arraypiloto = DB::table('MODSISCADI_ENCUESTAS')
+		->WHERE('intervencion','=',Input::get('intervencion'))
+		->WHERE('mision','=',Input::get('mision'))
+		->select('piloto')
+		->groupBy('piloto')
+		->groupBy('piloto')
+		->get();
+			
+
+		return  Response::json(array('arraypiloto'=>$arraypiloto));
+				
+
+	}
+
+	public function postSiscadirepdpto()
+	{
+
+$monitor=Input::get('monitor');
+if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
+			$arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join
 									(select MUNICIPIOS.COD_DPTO from MUNICIPIOS join 
 										(SELECT MODSISCADI_VEREDAS.COD_DANE
- 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC where MODSISCADI_VEREDAS.intervencion='".$inter."' and  MODSISCADI_ENCUESTAS.cod_monitor='".$monitor."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' group By MODSISCADI_VEREDAS.COD_DANE) as muni 
+ 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.cod_monitor='".Input::get('monitor')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni 
  										on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto 
  									on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO order by DEPARTAMENTOS.NOM_DPTO asc"); //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas
 		
 		
 		}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
-			$tabla=DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join
+			$arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join
 									(select MUNICIPIOS.COD_DPTO from MUNICIPIOS join 
 										(SELECT MODSISCADI_VEREDAS.COD_DANE
- 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' group By MODSISCADI_VEREDAS.COD_DANE) as muni 
+ 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni 
  										on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto 
  									on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO order by DEPARTAMENTOS.NOM_DPTO asc"); //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas
 			
@@ -41,91 +76,65 @@ class SiscadiController extends BaseController {
 		}
 		
 
-		
-		foreach($tabla as $category):// crea arreglo con dos atributos cod_depto y el nombre
-			$categories_depto=array('cod_depto'=>$category->COD_DPTO,'nom_depto'=>$category->NOM_DPTO);
-			array_push($categories_depto2,$categories_depto);
-		endforeach;
-		
-		return  Response::json($categories_depto2);//retorna al .js los codigos y nombre de los departamentos que estan en las encuestas
-		
-		
+		return  Response::json(array('arraydpto'=>$arraydpto));
+				
 
 	}
-	
-	public function showMuni()//Funcion que ejecuta la consulta de municipios para las encuetas digitales
-	{
-		$data=Input::all();//trae y agrega a $data todos los input del fromulario
-		$mision=$data['mision'];
-		$inter=$data['inter'];
-		$id=$data['id'];
-		$piloto=$data['piloto'];
-		$monitor=$data['monitor'];
-		$categories_muni=array();
-		$categories_muni2=array();
-		$version="";
-		$campo_muni="";
 
-		
-		if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
-			$tabla=DB::select("select MUNICIPIOS.COD_DANE,MUNICIPIOS.NOM_MPIO from MUNICIPIOS join 
+	public function postSiscadirepmpio()
+	{
+
+$monitor=Input::get('monitor');
+if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
+			
+		//Consultas para obtener los municipios segun los datos selccionados 
+		$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join
+									(select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join 
 										(SELECT MODSISCADI_VEREDAS.COD_DANE
- 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC where MODSISCADI_VEREDAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.cod_monitor='".$monitor."'  and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."'  group By MODSISCADI_VEREDAS.COD_DANE) as muni 
- 										on MUNICIPIOS.COD_DANE= muni.COD_DANE where MUNICIPIOS.COD_DPTO ='".$id."' group by MUNICIPIOS.COD_DANE, MUNICIPIOS.NOM_MPIO order by MUNICIPIOS.NOM_MPIO asc" ); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas
+ 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.cod_monitor='".Input::get('monitor')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni 
+ 										on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto 
+ 									on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas
 		
 		
 		}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
-			$tabla=DB::select("select MUNICIPIOS.COD_DANE,MUNICIPIOS.NOM_MPIO from MUNICIPIOS join 
+			
+		//Consultas para obtener los municipios segun los datos selccionados 
+		$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join
+									(select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join 
 										(SELECT MODSISCADI_VEREDAS.COD_DANE
- 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."'  group By MODSISCADI_VEREDAS.COD_DANE) as muni 
- 										on MUNICIPIOS.COD_DANE= muni.COD_DANE where MUNICIPIOS.COD_DPTO ='".$id."' group by MUNICIPIOS.COD_DANE, MUNICIPIOS.NOM_MPIO order by MUNICIPIOS.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas
+ 											 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni 
+ 										on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto 
+ 									on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas
 			
-	}
+	
+		}
+
+			
+
+		return  Response::json(array('arraymuni'=>$arraymuni));
 				
-		foreach($tabla as $category):// crea arreglo con dos atributos cod_dane y el nombre del municipio
-			$categories_muni=array('cod_dane'=>$category->COD_DANE,'nom_muni'=>$category->NOM_MPIO);
-			array_push($categories_muni2,$categories_muni);
-		endforeach;
-		
-		return  Response::json($categories_muni2);//retorna al .js los codigos y nombre de los municipios que estan en las encuestas
 
 	}
-	
-	
-	public function showMonitor() //Funcion que ejecuta la consulta de departamento para las encuetas digitales
-	{
-		$data=Input::all();//trae y agrega a $data todos los input del fromulario
-		$mision=$data['mision'];
-		$inter=$data['inter'];
-		$piloto=$data['piloto'];
-		
-		$categories_depto=array();
-		$categories_depto2=array();
 
-			
-		$tabla=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
-			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
-			->where('MODSISCADI_ENCUESTAS.mision',$mision)
-			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+	public function postSiscadirepmoni()
+	{
+
+		$arraymoni=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas
+			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->where('MODSISCADI_ENCUESTAS.intervencion',Input::get('intervencion'))
+			->where('MODSISCADI_ENCUESTAS.mision',Input::get('mision'))
+			->where('MODSISCADI_ENCUESTAS.piloto',Input::get('piloto'))
 			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
 			->groupBy('MODSISCADI_MONITOR.cod_monitor')
 			->groupBy('MODSISCADI_MONITOR.nom_monitor')
 			->orderBy('MODSISCADI_MONITOR.nom_monitor')
 			->get();
 			
-		;
-		foreach($tabla as $category):// crea arreglo con dos atributos cod_depto y el nombre
-			$categories_depto=array('cod_moni'=>$category->cod_monitor,'nom_moni'=>$category->nom_monitor);
-			array_push($categories_depto2,$categories_depto);
-		endforeach;
-		
-		return  Response::json($categories_depto2);//retorna al .js los codigos y nombre de los departamentos que estan en las encuestas
-		
-		
+
+		return  Response::json(array('arraymoni'=>$arraymoni));
+				
 
 	}
-	
-	
 	
 	
 	public function repote_mision()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de mision
@@ -399,7 +408,7 @@ class SiscadiController extends BaseController {
 			}
 
 
-        Fpdf::Output();
+        Fpdf::Output($muni[0]["muni"].'_'.$depto[0]["depto"].'_'.$tipo.'.pdf','D');
         exit;
 	
 	}
@@ -762,7 +771,7 @@ class SiscadiController extends BaseController {
 			}
 
 
-        Fpdf::Output();
+        Fpdf::Output($muni[0]["muni"].'_'.$depto[0]["depto"].'_'.$tipo.'.pdf','D');
         exit;	
 
 
