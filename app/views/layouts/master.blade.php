@@ -28,12 +28,6 @@
 			      -moz-box-shadow:    0px 0px 18px 0px rgba(48, 50, 50, 0.48);
 			      box-shadow:         0px 0px 18px 0px rgba(48, 50, 50, 0.48);
 			    }
-			    
-			    .modal-content {
-			      max-width: 340px;
-			      margin: 0 auto;
-			      background-color: #f5f5f5;
-			    }
 
 				 .enlace-sesion{
 				    margin-right:11px;
@@ -52,8 +46,7 @@
 				  #menu-sec{
 				    
 				    border-bottom:1px #EEEEEE solid;  
-				  }
-				  
+				  }			  
 				  
 				  .menu-footer{
 				    font-size:11px;
@@ -193,6 +186,7 @@
                           @endif
                           @if((Auth::user()->level=="3")||(Auth::user()->level=="1"))
                           <li id="tierraslevtopo"><a href="<?=URL::to('levantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
+                          <li id="tierrascoord"><a href="<?=URL::to('coordenadas_edicion'); ?>"> <span class="glyphicon glyphicon-ok"></span> Edición de Coordenadas</a></li>
                           @endif
                           
                         <li class="divider"></li>
@@ -287,6 +281,7 @@
                         @endif
                         @if(Auth::user()->level=="3"||(Auth::user()->level=="1"))
                         <li><a id="tierraslevtopmenupeq" href="<?=URL::to('levantamiento_topografico'); ?>"><span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
+                        <li><a id="tierrascoordmenupeq" href="<?=URL::to('coordenadas_edicion'); ?>"><span class="glyphicon glyphicon-ok"></span> Edición de Coordenadas</a></li>
                         @endif
                       <li class="divider"></li>
                       <li><a id="tierrasmapasmenupeq" href="<?=URL::to('mapas'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapas</a></li>

@@ -381,13 +381,6 @@ class TierrasController extends BaseController {
 			return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
 		}
 		return "ERROR";
-	}  
-
-	public function PruebaPro()
-	{
-		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
-		$arrayproini = DB::select('SELECT DISTINCT * FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
-		return View::make('vista3', array('arrayproini' => $arrayproini));
 	}
 
 	public function postProgramajax()
@@ -658,23 +651,9 @@ class TierrasController extends BaseController {
 		}
 		$arrayproceso = DB::table('MODTIERRAS_PROCESO')
 		->where ('id_proceso','=',$idpro)
-		->select('OBJECTID','id_proceso','conceptojuridico','obsconceptojuridico','areapredioformalizada','longitud','latitud','fechainspeccionocular','viabilidad','obsviabilidad','respjuridico'
-      ,'requiererespgeo'
-      ,'respgeografico'
-      ,'created_at'
-      ,'updated_at'
-      ,'vereda'
-      ,'nombrepredio'
-      ,'direccionnotificacion'
-      ,'nombre'
-      ,'cedula'
-      ,'telefono'
-      ,'Shape')
+		->select('OBJECTID','id_proceso','conceptojuridico','obsconceptojuridico','areapredioformalizada','longitud','latitud','fechainspeccionocular','viabilidad','obsviabilidad','respjuridico','requiererespgeo','respgeografico','created_at','updated_at','vereda','nombrepredio','direccionnotificacion','nombre','cedula','telefono','Shape')
 		->get();
-
-
-
-		select('SELECT * FROM MODTIERRAS_PROCESO WHERE id_proceso='.$idpro);
+		
 		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3');
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
@@ -689,6 +668,30 @@ class TierrasController extends BaseController {
 		$arraydombobox= array($arrayconcepto, $arrayrespgeografico, $arraydocumento, $arrayestado, $arrayprocestado, $arrayprocdocu);		
 		Session::forget('procesoi');
 		return View::make('modulotierras.consultarproceso', array('arrayproceso' => $arrayproceso), array('arraydombobox' => $arraydombobox));
+	}
+
+	public function PruebaPro()
+	{
+		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
+		$arrayproini = DB::select('SELECT DISTINCT * FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
+		return View::make('vista3', array('arrayproini' => $arrayproini));
+	}
+
+	public function UpdateProcesogeo()
+	{
+		/*USP_TIERRAS_UPDATEPROCESOGEO
+		$id_proceso = '524180270794';		
+		$arrayclallprocedimiento = DB::statement("exec USP_TIERRAS_UPDATEPROCESOGEO $id_proceso");		
+		return ['false','true'][(int)$arrayclallprocedimiento];
+		*/
+
+		//consulta para retornar los procesos para modificacion de coordenadas
+		$arrayproccoord = DB::select("SELECT id_proceso, longitud, latitud, viabilidad, vereda, respcoordmodif , updatedcoord FROM MODTIERRAS_PROCESO");
+				
+		return View::make('modulotierras.coordenadas', array('arrayproccoord' => $arrayproccoord));
+	}
+	public function postCoordenadasEdicion()
+	{
 	}
 
 	
