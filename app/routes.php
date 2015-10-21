@@ -116,6 +116,13 @@ Route::group(array('before' => 'auth'), function()
 //Route::get('vista3','TierrasController@Listado');
 //Route::get('vista3',function(){return View::make('vista3');});
   Route::get('vista3','TierrasController@PruebaPro');
+
+  Route::get('coordenadas_edicion','TierrasController@UpdateProcesogeo');
+
+//permite acceso a las vistas del modulo de documentos
+  Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
+  Route::get('consulta_docu', function(){return View::make('modulodocumentos/consultadocumentos');});
+  
   Route::group(array('before' => 'grupo1'), function()
   {
     //solo puede ingresar el level 1 a la vista 1
