@@ -153,8 +153,8 @@
       <div id="container_label" class="col-sm-4" style="min-width: 310px; height: 400px;">
             <h3 class="text-center text-primary">Línea base {{ $todo[4]}}</h3>
             <p class="text-justify">En la intervención {{ $todo[4]}} se han realizado un total de {{$todo[6][0]}}  encuestas desde el {{$todo[5][0][0]}} hasta {{$todo[5][0][1]}} distribuida en {{$todo[7][0]}} departamentos y {{$todo[8][0]}} municipios<p>
-            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuentas realizadas por depratamento</ul>
-            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas por municipio para el departamento en cuestión</ul>            
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuestas realizadas por departamento en línea base</ul>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas de línea base por municipio para el departamento en cuestión</ul>            
       </div>
       <div class="col-sm-1"></div>
     </div>
@@ -167,8 +167,8 @@
       <div id="container2_label" class="col-sm-4" style="min-width: 310px; height: 400px;">
             <h3 class="text-center text-primary">Seguimiento {{ $todo[4]}}</h3>
             <p class="text-justify">En la intervención {{ $todo[4]}} se han realizado un total de {{$todo[6][1]}}  encuestas desde el {{$todo[5][1][0]}} hasta {{$todo[5][1][1]}} distribuida en {{$todo[7][1]}} departamentos y {{$todo[8][1]}} municipios<p>
-            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuentas realizadas por depratamento</ul>
-            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas por municipio para el departamento en cuestión</ul>            
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuestas realizadas por departamento en Seguimineto</ul>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas de Seguimineto por municipio para el departamento en cuestión</ul>            
       </div>
       <div class="col-sm-1"></div>
     </div>
@@ -180,8 +180,8 @@
       <div id="container3_label" class="col-sm-4" style="min-width: 310px; height: 400px;">
             <h3 class="text-center text-primary">Línea final {{ $todo[4]}}</h3>
             <p class="text-justify">En la intervención {{ $todo[4]}} se han realizado un total de {{$todo[6][2]}}  encuestas desde el {{$todo[5][2][0]}} hasta {{$todo[5][2][1]}} distribuida en {{$todo[7][2]}} departamentos y {{$todo[8][2]}} municipios<p>
-            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuentas realizadas por depratamento</ul>
-            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas por municipio para el departamento en cuestión</ul>            
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuestas realizadas por departamento en línea final</ul>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas de línea final por municipio para el departamento en cuestión</ul>            
 
       </div>
       <div class="col-sm-1"></div>
@@ -256,7 +256,7 @@
     $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama al controlador siscadi/siscadimision que trae los valores necesario para la grafica
           success:function(data1){
           
-$.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {  
+$.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson) {  
   Highcharts.setOptions({
     lang: {
         drillUpText: '◁ Regresar a <br>datos nacionales'
@@ -281,7 +281,7 @@ $.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -298,7 +298,7 @@ $.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
@@ -418,7 +418,7 @@ $.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -435,7 +435,7 @@ $.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
@@ -557,7 +557,7 @@ $.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -574,7 +574,7 @@ $.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
