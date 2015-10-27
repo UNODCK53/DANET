@@ -13,9 +13,8 @@
 //Ruta del index
 Route::get('/', function()
 {
-	return View::make('portada');
+  return View::make('portada');
 });
-
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
 
