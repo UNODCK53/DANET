@@ -35,6 +35,30 @@
       @endif      
     </div>
   </div>
+  <!--Div bienvenida DANET-->
+  <div class="container" id="sha">
+      <div class="row">
+      <!--Texto del contenido-->
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <h1 class="text-center text-primary">Bienvenido a DANET</h1>
+            <h1 class="text-center text-primary">Una aplicación diseñada para usted.</h1>
+            <p class="lead text-justify">El DANET es un espacio diseñado para la transferencia de información de los proyectos de Desarrollo Alternativo. Sirve como sistema de gestión y permite tener indicadores de la información. Gracias a esto, es posible que usted tenga acceso a:</p>
+            @if((Auth::user()->grupo=="3") OR (Auth::user()->grupo=="1"))
+            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de tierras</ul>
+            @endif
+            @if((Auth::user()->grupo=="5") OR (Auth::user()->grupo=="1"))
+            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de documentos</ul>
+            @endif
+            @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
+            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> GME</ul>
+            @endif
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+      <hr>
+  </div> 
+  <!--fin div bienvenida-->
   @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
   <div class="container" id="sha">
       <div class="row">
@@ -162,11 +186,14 @@
           if ( password1.match(/^([a-z]+[0-9]+)|([0-9]+[a-z]+)/i) ) {
             _this.parent().removeClass('has-error');
             $( "#b" ).hide();
+            $('#password2').prop('disabled', false);
           }
           else{
             _this.parent().addClass('has-error');
             $('#b').text("La contraseña debe tener letras y un números");
-            $( "#b" ).show(100); 
+            $( "#b" ).show(100);
+            $('#password2').prop('disabled', true);
+
           }
         });
   

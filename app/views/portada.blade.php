@@ -52,7 +52,7 @@
     <div class="row">
       <!--Columna logo con imágen-->
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
-      <img src="assets/img/unodc.png" class="logo">
+      <img src="assets/img/unodc.png" class="logo" alt="logounodc">
         </div>
       <!--espaciado para que en xs queden separado logo y boton-->
     <div class="col-xs-4 visible-xs">
@@ -72,7 +72,30 @@
     </div>
 </div>
 <!--Fin del primer contenedor-->
-
+<!--Inicio mensaje solicitud de password-->
+<div class="row">
+  <?php $status=Session::get('status');?> 
+  @if($status=='reminders.sent')
+  <div class="col-sm-1"></div>
+  <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+  <i class="bg-success"></i>La solicitud fue enviada con éxito</div>
+  <div class="col-sm-1"></div>
+  @endif
+  @if($status=='reminders.reset')
+  <div class="col-sm-1"></div>
+  <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+  <i class="bg-success"></i>La contraseña fue creada con éxito</div>
+  <div class="col-sm-1"></div>
+  @endif
+  <?php $error=Input::get('error');?>
+  @if($error)
+  <div class="col-sm-1"></div>
+  <div id = "mensajeestatus" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+  <i class="bg-danger"></i>La solicitud expiró o ya fue utilizada</div>
+  <div class="col-sm-1"></div>
+  @endif
+</div>
+<!--Fin mensaje solicitud de password-->
 <!--Segundo contenedor -->
 <div class="container-fluid">
     <div class="row" id="menu-sec">
@@ -138,7 +161,7 @@
     <div class="row">
       <!--imagen responsive-->
       <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_Gestion.png" class="img-responsive"></center>
+          <center><img src="assets/img/Circulo_Gestion.png" class="img-responsive" alt="circulogestion"></center>
       </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -151,7 +174,7 @@
         
         <!--imagen responsive-->
         <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_SAI.png" class="img-responsive"></center>
+          <center><img src="assets/img/Circulo_SAI.png" class="img-responsive" alt="circulosai"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -167,7 +190,7 @@
     <div class="row">
       <!--imagen responsive-->
       <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_SISCADI.png" width="184" height="184" class="img-responsive"></center>
+          <center><img src="assets/img/Circulo_SISCADI.png" width="184" height="184" class="img-responsive" alt="cirsiscadi"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -178,7 +201,7 @@
         </div>
         <!--imagen responsive-->
         <div id="imagen1" class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_Donde_estamos.png" class="img-responsive"></center>
+          <center><img src="assets/img/Circulo_Donde_estamos.png" class="img-responsive" alt="cirdondeestamos"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -194,7 +217,7 @@
     <div class="row">
       <!--imagen responsive-->
        <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_10.png" width="184" height="184" class="img-responsive"></center>
+          <center><img src="assets/img/Circulo_10.png" width="184" height="184" class="img-responsive" alt="cir10"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -205,7 +228,7 @@
         </div>
         <!--imagen responsive-->
         <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_GME.png" class="img-responsive"></center>
+          <center><img src="assets/img/Circulo_GME.png" class="img-responsive" alt="gme"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -256,7 +279,7 @@
   <div class="modal-content" id="loginbox">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h2 class="text-center"><img src="assets/img/avatar_2x.png" class="img-circle"><br>Ingreso</h2>
+          <h2 class="text-center"><img src="assets/img/avatar_2x.png" class="img-circle" alt="avatar"><br>Ingreso</h2>
       </div>
       <div class="modal-body">
           <!--<form class="form center-block">-->
@@ -278,9 +301,9 @@
               <input class="form-control input-lg" id="password" placeholder="Contraseña" type="password" name="password">
             </div>
             <div class="form-group">
-              <input class="btn btn-primary btn-lg btn-block" value="Acceder" type="submit">
-              
+              <input class="btn btn-primary btn-lg btn-block" value="Acceder" type="submit">              
             </div>
+            <a href='forgotpassword'>Crear/restaurar contraseña</a>
           </form>
       </div>
       <div class="modal-footer">
@@ -297,5 +320,10 @@
   
 
 <script src="assets/js/login.js"></script>
+<script>
+  $(document).ready(function() {
+    $( "#mensajeestatus" ).fadeOut(5000);
+  });
+</script>
 </body>
 </html>

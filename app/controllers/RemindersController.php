@@ -19,13 +19,16 @@ class RemindersController extends Controller {
 	 */
 	public function postRemind()
 	{
-		switch ($response = Password::remind(Input::only('email')))
+		switch ($response = Password::remind(Input::only('email'), function($message)
+			{
+				$message->subject('Cambiar contraseña DANET');
+			}))
 		{
 			case Password::INVALID_USER:
 				return Redirect::back()->with('error', Lang::get($response));
 
 			case Password::REMINDER_SENT:
-				return Redirect::back()->with('status', Lang::get($response));
+				return Redirect::to('/')->with('status', Lang::get($response));
 		}
 	}
 
@@ -56,6 +59,7 @@ class RemindersController extends Controller {
 		$response = Password::reset($credentials, function($user, $password)
 		{
 			$user->password = Hash::make($password);
+			$user->pass_check=1;
 
 			$user->save();
 		});
@@ -64,12 +68,22 @@ class RemindersController extends Controller {
 		{
 			case Password::INVALID_PASSWORD:
 			case Password::INVALID_TOKEN:
+				return Redirect::to('/')->with('error', Lang::get($response));
 			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
+				return Redirect::to('/')->with('error', Lang::get($response));
 
 			case Password::PASSWORD_RESET:
-				return Redirect::to('/');
+				return Redirect::to('/')->with('status', Lang::get($response));
 		}
+	}
+
+	public function postEmail()
+	{
+		$email= DB::table('password_reminders')
+		->where('token','=',Input::get('token'))
+		->select('email')
+		->get();
+		return Response::json($email);
 	}
 
 }

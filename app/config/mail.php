@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => 'smtp.gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'port' => 587,
+	'port' => 465,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'postmaster@sandboxaa377cc60b81440abfc0f6c4ffe11beb.mailgun.org', 'name' => 'soporteDANET'),
+	'from' => array('address' => 'soporte.danet@gmail.com', 'name' => 'Soporte DANET'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return array(
 	|
 	*/
 
-	'encryption' => 'tls',
+	'encryption' => 'ssl',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'postmaster@sandboxaa377cc60b81440abfc0f6c4ffe11beb.mailgun.org',
+	'username' => 'soporte.danet@gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 0321456987,
+	'password' => 'Unodc2015+',
 
 	/*
 	|--------------------------------------------------------------------------

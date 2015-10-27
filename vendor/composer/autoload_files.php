@@ -9,7 +9,8 @@ return array(
     $vendorDir . '/ircmaxell/password-compat/lib/password.php',
     $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
     $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Random.php',
-    $vendorDir . '/guzzlehttp/streams/src/functions.php',
+    $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
+    $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
     $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
-    $vendorDir . '/guzzlehttp/guzzle/src/functions.php',
+    $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
 );
