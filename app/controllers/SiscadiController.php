@@ -800,12 +800,71 @@ public function siscadi_indicadores()
 
 		$arrayintercount=array($arrayintercountbene,$arrayintercountcomi);
 
+		
+
 		//consulta para traer los años de intervencion en la tabla de encuestas
 		$arrayintervencion = DB::table('MODSISCADI_ENCUESTAS')
 		->select('intervencion')
 		->groupBy('intervencion')
 		->get();
 
+
+		$intervencion = DB::table('MODSISCADI_ENCUESTAS')
+			->max('intervencion');
+
+
+
+		$mision = DB::table('MODSISCADI_MISION')
+			->select('mision')
+			->get();
+
+
+		for($i=0; $i<count($mision); $i++){
+
+			//crea arreglo con el numero encuestas por departamento
+			$cuenta[$i] = DB::select(" select sum(comite.Comite+Bene.Beneficiarios)as value from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='".$mision[$i]->mision."' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='".$mision[$i]->mision."' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene	
+
+						on comite.COD_DPTO=Bene.COD_DPTO ");
+			if(empty($cuenta[$i])){$cuenta_todos[$i] = "0";}
+				else{$cuenta_todos[$i]=(int)$cuenta[$i][0]->value;}
+
+
+
+			//crea arreglo con el numero de departamentos que tienen encuestas	
+			$deptos[$i] = DB::select("select SUBSTRING(cod_unodc,1,2)as deptos FROM MODSISCADI_ENCUESTAS where mision='".$mision[$i]->mision."' and intervencion='".$intervencion."' group by SUBSTRING(cod_unodc,1,2)");
+			$cuenta_deptos[$i]=(int)count($deptos[$i]);
+
+			//crea arreglo con el numero de municipios que tienen encuestas
+			$munis[$i] = DB::select("select SUBSTRING(cod_unodc,1,5)as deptos FROM MODSISCADI_ENCUESTAS where mision='".$mision[$i]->mision."' and intervencion='".$intervencion."' group by SUBSTRING(cod_unodc,1,5)");
+			$cuenta_munis[$i]=(int)count($munis[$i]);
+
+			//crea arreglo conel intervalo de fechas en los que se realzaron las encuestas
+			$fecha[$i] = DB::select("select FORMAT(max(fecha),'dd/MM/yyyy') as fecha_final,FORMAT(min(fecha),'dd/MM/yyyy') as fecha_inicial FROM MODSISCADI_ENCUESTAS where FORMAT(fecha,'yyyy')>2013 and mision='".$mision[$i]->mision."'");
+	
+				if(empty($fecha[$i][0]->fecha_inicial)){
+					$fechas_todos[$i][0] = "NA";
+					$fechas_todos[$i][1] = "NA";
+
+				}
+				else{
+					$fechas_todos[$i][0]=$fecha[$i][0]->fecha_inicial;
+					$fechas_todos[$i][1]=$fecha[$i][0]->fecha_final;
+				}
+
+			}	
 
 		//Consultas para obtener label del monitores
 		$arraymonitor=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de monitores de a partir de los codigos almacenados en las encuestas
@@ -817,18 +876,240 @@ public function siscadi_indicadores()
 			->orderBy('MODSISCADI_MONITOR.nom_monitor')
 			->get();
 
-		$moni_inter=array($arrayintervencion,$arraymonitor);
 
 
-		$arraydptocount = DB::select("select  DEPARTAMENTOS.NOM_DPTO,sum(depto.sum_tipo)  as num from DEPARTAMENTOS join
-						(select MUNICIPIOS.COD_DPTO,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
-							(SELECT MODSISCADI_VEREDAS.COD_DANE,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
-									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='2015'  and MODSISCADI_ENCUESTAS.intervencion='2015' and MODSISCADI_ENCUESTAS.piloto='No' and MODSISCADI_ENCUESTAS.cod_monitor='147' group By MODSISCADI_VEREDAS.COD_DANE) as muni 
-								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto 
-							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.NOM_DPTO");
+		$arraydptocount = DB::select(" select bene.COD_DPTO,(comite.Comite+Bene.Beneficiarios)as total,bene.NOM_DPTO from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='2015' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='2015' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite 
 
-		return  View::make('modulosiscadi.Sisicadi_indicadores',array('moni_inter' => $moni_inter), array('arrayintercount' => $arrayintercount));
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='2015' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='2015' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene	
+
+						on comite.COD_DPTO=Bene.COD_DPTO order By bene.NOM_DPTO asc");
+$grafica=array();				
+foreach($arraydptocount as $category):// crea arreglo con dos atributos cod_depto y el nombre
+					$categories_4['COD_DPTO']=$category->COD_DPTO;
+					$categories_4['value']=(int)$category->total;
+					$categories_4['name']=$category->NOM_DPTO;
+					array_push($grafica,$categories_4);
+				endforeach;	
+
+$todo=array($arrayintervencion,$arraymonitor,$arrayintercountbene,$arrayintercountcomi,$intervencion,$fechas_todos,$cuenta_todos,$cuenta_deptos,$cuenta_munis);
+
+		return  View::make('modulosiscadi.Sisicadi_indicadores',array('todo' => $todo));
 	}
+
+
+public function postSiscadiidmapa()
+	{
+
+		
+
+		$intervencion = DB::table('MODSISCADI_ENCUESTAS')
+			->max('intervencion');
+
+		$mision = DB::table('MODSISCADI_MISION')
+			->select('mision')
+			->get();
+
+		for($i=0; $i<count($mision); $i++){
+			$cuenta[$i] = DB::select(" select sum(comite.Comite+Bene.Beneficiarios)as value from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='".$mision[$i]->mision."' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='".$mision[$i]->mision."' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene	
+
+						on comite.COD_DPTO=Bene.COD_DPTO ");// arrgelo con los datos de encuestas por departamento 
+
+			if(empty($cuenta[$i])){$cuenta_todos[$i] = "0";}
+				else{$cuenta_todos[$i]=(int)$cuenta[$i][0]->value;}
+
+			}
+
+
+
+//Codigo para  grafica de mision "linea base" mision="p"
+
+$arraygrafica_p_depto = DB::select(" select bene.COD_DPTO,bene.NOM_DPTO as name,(comite.Comite+Bene.Beneficiarios)as value from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene	
+
+						on comite.COD_DPTO=Bene.COD_DPTO order By bene.NOM_DPTO asc");// arrgelo con los datos de encuestas por departamento 
+
+$grafica_p_depto=array();				
+foreach($arraygrafica_p_depto as $category):// crea arreglo con dos atributos cod_depto, el nombre y encuestas
+					$categories_4['COD_DPTO']=$category->COD_DPTO;
+					$categories_4['value']=(int)$category->value;
+					$categories_4['nombre']=$category->name;
+					array_push($grafica_p_depto,$categories_4);
+				endforeach;	
+
+ $arraygrafica_p_muni = DB::select(" select bene.COD_DPTO,(comite.Comite+Bene.Beneficiarios)as value,bene.COD_DANE,bene.NOM_MPIO as name, bene.NOM_DPTO from  (select  DEPARTAMENTOS.COD_DPTO,depto.NOM_MPIO, depto.COD_DANE, DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.COD_DANE,MUNICIPIOS.NOM_MPIO, muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo,muni.COD_DANE,MUNICIPIOS.NOM_MPIO) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,depto.NOM_MPIO,depto.COD_DANE) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,depto.COD_DANE,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,MUNICIPIOS.NOM_MPIO,muni.COD_DANE,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo,MUNICIPIOS.NOM_MPIO,muni.COD_DANE) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,depto.NOM_MPIO,depto.COD_DANE) as Bene	
+
+						on comite.COD_DANE=Bene.COD_DANE order By bene.NOM_DPTO asc	");// arrgelo con los datos de encuestas por municipio 
+
+$grafica_p_muni=array();				
+foreach($arraygrafica_p_muni as $category):// crea arreglo con dos atributos cod_dane, el nombre y encuestas
+					$categories_5['COD_DANE']=$category->COD_DANE;
+					$categories_5['value']=(int)$category->value;
+					$categories_5['name']=$category->name;
+					array_push($grafica_p_muni,$categories_5);
+				endforeach;			
+
+
+//Codigo para  grafica de mision "Seguimiento" mision="s"
+
+$arraygrafica_s_depto = DB::select(" select bene.COD_DPTO,bene.NOM_DPTO as name,(comite.Comite+Bene.Beneficiarios)as value from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='s' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='s' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene	
+
+						on comite.COD_DPTO=Bene.COD_DPTO order By bene.NOM_DPTO asc");// arrgelo con los datos de encuestas por departamento 
+
+$grafica_s_depto=array();				
+foreach($arraygrafica_s_depto as $category):// crea arreglo con dos atributos cod_depto, el nombre y encuestas
+					$categories_4['COD_DPTO']=$category->COD_DPTO;
+					$categories_4['value']=(int)$category->value;
+					$categories_4['nombre']=$category->name;
+					array_push($grafica_s_depto,$categories_4);
+				endforeach;	
+
+ $arraygrafica_s_muni = DB::select(" select bene.COD_DPTO,(comite.Comite+Bene.Beneficiarios)as value,bene.COD_DANE,bene.NOM_MPIO as name, bene.NOM_DPTO from  (select  DEPARTAMENTOS.COD_DPTO,depto.NOM_MPIO, depto.COD_DANE, DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.COD_DANE,MUNICIPIOS.NOM_MPIO, muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='s' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo,muni.COD_DANE,MUNICIPIOS.NOM_MPIO) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,depto.NOM_MPIO,depto.COD_DANE) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,depto.COD_DANE,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,MUNICIPIOS.NOM_MPIO,muni.COD_DANE,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='s' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo,MUNICIPIOS.NOM_MPIO,muni.COD_DANE) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,depto.NOM_MPIO,depto.COD_DANE) as Bene	
+
+						on comite.COD_DANE=Bene.COD_DANE order By bene.NOM_DPTO asc	");// arrgelo con los datos de encuestas por municipio 
+
+$grafica_s_muni=array();				
+foreach($arraygrafica_s_muni as $category):// crea arreglo con dos atributos cod_dane, el nombre y encuestas
+					$categories_5['COD_DANE']=$category->COD_DANE;
+					$categories_5['value']=(int)$category->value;
+					$categories_5['name']=$category->name;
+					array_push($grafica_s_muni,$categories_5);
+				endforeach;		
+
+
+//Codigo para  grafica de mision "Linea final" mision="f"
+
+$arraygrafica_f_depto = DB::select(" select bene.COD_DPTO,bene.NOM_DPTO as name,(comite.Comite+Bene.Beneficiarios)as value from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='f' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='f' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene	
+
+						on comite.COD_DPTO=Bene.COD_DPTO order By bene.NOM_DPTO asc");// arrgelo con los datos de encuestas por departamento 
+
+$grafica_f_depto=array();				
+foreach($arraygrafica_f_depto as $category):// crea arreglo con dos atributos cod_depto, el nombre y encuestas
+					$categories_4['COD_DPTO']=$category->COD_DPTO;
+					$categories_4['value']=(int)$category->value;
+					$categories_4['nombre']=$category->name;
+					array_push($grafica_f_depto,$categories_4);
+				endforeach;	
+
+ $arraygrafica_f_muni = DB::select(" select bene.COD_DPTO,(comite.Comite+Bene.Beneficiarios)as value,bene.COD_DANE,bene.NOM_MPIO as name, bene.NOM_DPTO from  (select  DEPARTAMENTOS.COD_DPTO,depto.NOM_MPIO, depto.COD_DANE, DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.COD_DANE,MUNICIPIOS.NOM_MPIO, muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='f' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo,muni.COD_DANE,MUNICIPIOS.NOM_MPIO) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,depto.NOM_MPIO,depto.COD_DANE) as comite 
+
+						full join
+							(select  DEPARTAMENTOS.COD_DPTO,depto.COD_DANE,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join
+						(select MUNICIPIOS.COD_DPTO,muni.tipo,MUNICIPIOS.NOM_MPIO,muni.COD_DANE,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join 
+							(SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo
+									 FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='f' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni 
+								on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo,MUNICIPIOS.NOM_MPIO,muni.COD_DANE) as depto 
+							on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,depto.NOM_MPIO,depto.COD_DANE) as Bene	
+
+						on comite.COD_DANE=Bene.COD_DANE order By bene.NOM_DPTO asc	");// arrgelo con los datos de encuestas por municipio 
+
+$grafica_f_muni=array();				
+foreach($arraygrafica_f_muni as $category):// crea arreglo con dos atributos cod_dane, el nombre y encuestas
+					$categories_5['COD_DANE']=$category->COD_DANE;
+					$categories_5['value']=(int)$category->value;
+					$categories_5['name']=$category->name;
+					array_push($grafica_f_muni,$categories_5);
+				endforeach;						
+
+		return Response::json(array('intervencion'=>$intervencion,'cuenta_todos'=>$cuenta_todos,'Linea_base_depto'=>$grafica_p_depto,'Linea_base_muni'=>$grafica_p_muni,'Seguimiento_depto'=>$grafica_s_depto,'Seguimiento_muni'=>$grafica_s_muni,'Linea_final_depto'=>$grafica_f_depto,'Linea_final_muni'=>$grafica_f_muni));
+
+
+	}
+
+
+
 
 public function postSiscadiinter()
 	{
@@ -938,7 +1219,7 @@ foreach($arraydpto as $category):// crea arreglo con dos atributos cod_depto y e
 
 
 //se crea el vector "grafica"  que contiene la esctructura necesaria para generar la grafica
-$grafcia=array();			
+$grafica=array();			
 for ($i = 0; $i < count($categories_depto2); $i++){
 $suma=0;
 	foreach($arraygrafica as $category):// crea arreglo con dos atributosde arraygrafica y con la estructura para la grafica
@@ -955,7 +1236,7 @@ $suma=0;
 			$Comi['parent']='id_'.$i;
 			$Comi['value']=(int)$category->Comite;
 			$suma=$category->Comite + $category->Beneficiarios;
-			array_push($grafcia,$Bene,$Comi);
+			array_push($grafica,$Bene,$Comi);
 
 }
 
@@ -965,12 +1246,11 @@ $suma=0;
 			$depto['id']='id_'.$i;
 			$depto['name']=$categories_depto2[$i];
 			$depto['value']=$suma;
-			array_push($grafcia,$depto);
-}
+			array_push($grafica,$depto);
+}			
 
 
-$arrayintercount=array($categories_depto2,$arraygrafica);
-		return Response::json(array('arraydpto'=>$arraydpto,'arraymision'=>$arraymision,'grafica'=>$grafcia));
+		return Response::json(array('arraydpto'=>$arraydpto,'arraymision'=>$arraymision,'grafica'=>$grafica));
 
 
 	}
