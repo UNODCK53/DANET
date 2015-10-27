@@ -571,7 +571,7 @@
         
         var table = $('#levtopo').DataTable();
         // para el calendario interno
-          $('#datepicker').datepicker({
+        $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
             language: "es",
             startDate: "2014-11-01",
@@ -581,7 +581,7 @@
             autoclose: true,
             todayHighlight: true
 
-          });
+        });
                
       });
     

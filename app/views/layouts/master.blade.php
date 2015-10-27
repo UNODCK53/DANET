@@ -196,6 +196,13 @@
                   @endif                  
                 @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
 
+                  <li class="dropdown" id="documentos" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li id="carguedocumenu"><a  href="<?=URL::to('cargue_docu'); ?>">Cargue de documentos</a></li>
+                      <li id=""><a href="">Consulta de documentos</a></li>
+                      <li id=""><a href="">Reportes de documentos</a></li>
+                    </ul>
+                  </li>
             </ul>
             
         </div>  
@@ -289,6 +296,15 @@
                   </li>  
                   @endif
                 @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+                
+                  <li class="dropdown"id="documentosmenupeq" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a id="carguedocumenupeq" href="<?=URL::to('cargue_docu'); ?>">Cargue de documentos</a></li>
+                      <li><a id="" href="">Consulta de documentos</a></li>
+                      <li><a id="" href="">Reportes de documentos</a></li>
+                    </ul>
+                  </li>
+
                 </ul><!-- fin de menu con submenu -->
                 
                 

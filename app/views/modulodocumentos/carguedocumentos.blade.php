@@ -33,103 +33,115 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
+     <?php $status=Session::get('status'); ?>
+      
+      @if($status=='ok_estatus')
+      <br>
+      <div class="col-sm-1"></div>    
+      <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+      <i class="bg-success"></i>El documento fue cargado con éxito</div>
+      <div class="col-sm-1"></div>
+      @endif
+      @if($status=='error_estatus')
+      <br>
+      <div class="col-sm-1"></div>    
+      <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+      <i class="bg-danger"></i> El documento NO fue cargado</div>
+      <div class="col-sm-1"></div>
+      @endif
+    </div>
+    <div class="row">
       <!--Texto del contenido-->
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
             <h3 class="text-center text-primary">CARGUE DE DOCUMENTOS</h3>
-            <br>            
+            <br>
 
-            <form role="form" action="tierras/editar-proceso" method="get" id="formEdit">
+            <form role="form" action="documentos/adjuntar-docu" method="post" id="formEdit" enctype="multipart/form-data">
               <div class="form-group">
-                <label for="Proceso" class="control-label">NP:</label>
-                <input id="modnp" type="text" class="form-control" name="modnp"  value='{{$pro->id_proceso}}' readonly>
-              </div>
-              <div class="form-group">
-                <label for="proceso" class="control-label">Concepto jurídico:</label>
-                <input id="modconcpjuri" type="hidden" class="form-control" name="modconcpjuri" value='{{$pro->conceptojuridico}}'>
-                @foreach($arraydombobox[0] as $concep)
-                  @if($pro->conceptojuridico==$concep->id_concepto)
-                    <input id="modconcpjuri2" type="text" class="form-control" name="modconcpjuri2" value='{{$concep->subconcepto}}' readonly>
-                  @endif
-                @endforeach
-                </div>
-              <div class="form-group">
-                <label for="Proceso" class="control-label">Observación concepto jurídico:</label>
-                <textarea id="modobsconcjuri" class="form-control" name="modobsconcjuri">{{$pro->obsconceptojuridico}}</textarea>
-              </div>
-              <div class="col-sm-4 form-group">
-                <label for="Proceso" class="control-label">Área predio a formalizar:</label>
-                <input id="modarea" type="number" step="any" class="form-control" name="modarea" value='{{$pro->areapredioformalizada}}' >
-              </div>
-              <div class="col-sm-4 form-group">
-                <label for="Proceso" class="control-label">Latitud:</label>
-                <input id="modlat" type="number" step="any" class="form-control" name="modlat" value='{{$pro->latitud}}' >
-              </div>
-              <div class="col-sm-4 form-group">
-                <label for="Proceso" class="control-label">Longitud:</label>
-                <input id="modlong" type="number" step="any" class="form-control" name="modlong" value='{{$pro->longitud}}' >
-              </div>          
-              <div class="form-group">
-                <label for="Proceso" class="control-label">Viable:</label><br>
-                <input type="radio" name="modviable" id="respoviasi" value="1"> SI
-                <input type="radio" name="modviable" id="respoviano" value="2"> NO
-              </div>
-              <div class="form-group" id="obsvial">
-                <label for="Proceso" class="control-label">Observación viabilidad:</label>
-                <textarea id="modobsviab" name="modobsviab" class="form-control">{{$pro->obsviabilidad}}</textarea>
-              </div>
-              <div class="form-group">
-                <label for="Proceso" class="control-label" >Requiere responsable Geográfico:</label><br>
-                <input type="radio" name="modradiorespogeo1" id="respogeosi" value="1" disabled='disabled'> SI
-                <input type="radio" name="modradiorespogeo1" id="respogeono" value="2"checked disabled='disabled'> NO<br>
-                <input type='hidden' name='modradiorespogeo' id='modradiorespogeo' value='{{$pro->requiererespgeo}}'>
-              </div>
-              <div class="form-group" id="respongeo">
-                <label for="Proceso" class="control-label">Responsable Geográfico:</label>
-                <select id="modrepogeo" class="form-control" name="modrepogeo">
+                <label for="carguedocu" class="control-label">Categoria:</label>
+                <select id="selectcategoria" class="form-control" name="selectcategoria" required="true">
                     <option value="" selected="selected">Por favor seleccione</option>
-                    @foreach($arraydombobox[1] as $geo)
-                    <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>              
+                    @foreach($arrayiniciales[0] as $catego)
+                    <option value="{{$catego->id_categoria}}">{{$catego->categoria}}</option>              
                     @endforeach              
                 </select>
               </div>
-              <div class="form-group">
-                <label for="Proceso" class="control-label">Vereda:</label>
-                <input id="modvereda" type="text" class="form-control" name="modvereda" value='{{$pro->vereda}}'>
+              <div class="form-group" id="estrategia">
+                <label for="carguedocu" class="control-label">Estrategia:</label>
+                <select id="selectestrategia" class="form-control" name="selectestrategia">
+                    <option value="" selected="selected">Por favor seleccione</option>
+                    @foreach($arrayiniciales[1] as $estrate)
+                    <option value="{{$estrate->id_estrategia}}">{{$estrate->estrategia}}</option>              
+                    @endforeach              
+                </select>
               </div>
-              <div class="form-group">
-                <label for="Proceso" class="control-label">Nombre del predio:</label>
-                <input id="modnompred" type="text" class="form-control" name="modnompred" value='{{$pro->nombrepredio}}'>
+              <div class="form-group" id="carguedocumento">
+                <label id="tipodocu" for="carguedocu" class="control-label">Tipo de documento:</label>
+                <select id="selectipodocu" class="form-control" name="selectipodocu" required="true">                                 
+                </select>
               </div>
-              <div class="form-group">
-                <label for="Proceso" class="control-label">Dirección para notificación:</label>
-                <input id="moddirnoti" type="text" class="form-control" name="moddirnoti" value='{{$pro->direccionnotificacion}}'>
+              <div class="form-group" id="carguedocumento">
+                <label id="tipodocu" for="carguedocu" class="control-label">Momento:</label>
+                <select id="selecmomento" class="form-control" name="selecmomento">                    
+                </select>
               </div>
-              <div class="form-group">
-                <label for="Proceso" class="control-label">Nombre:</label>
-                <input id="modnombre" type="text" class="form-control" name="modnombre" value='{{$pro->nombre}}'>
+              <div class="form-group" id="carguedocumento">
+                <label id="tipodocu" for="carguedocu" class="control-label">Autor del documento:</label>
+                <select id="selectautor" class="form-control" name="selectautor">
+                    <option value="" selected="selected">Por favor seleccione</option>
+                    @foreach($arrayiniciales[3] as $autor)
+                    <option value="{{$autor->id_autor}}">{{$autor->autor}}</option>              
+                    @endforeach                                 
+                </select>
               </div>
-              <div class="col-sm-6 form-group">
-                <label for="Proceso" class="control-label">Cédula:</label>
-                <input id="modcedula" type="number" class="form-control" name="modcedula" value='{{$pro->cedula}}'>
+              <div class="form-group" id="carguedocumento">
+                <label id="tipodocu" for="carguedocu" class="control-label">Fecha del documento:</label>
+                <div class="input-group date" id="datepicker">                      
+                  <input id="selectfechadocu" type="text" class="form-control" name="selectfechadocu">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
+                </div>
               </div>
-              <div class="col-sm-6 form-group">
-                <label for="Proceso" class="control-label">Teléfono:</label>
-                <input id="modtelefono" type="number" class="form-control" name="modtelefono" value='{{$pro->telefono}}'>
+              <div class="form-group" id="carguedocumento">
+                <label id="tipodocu" for="carguedocu" class="control-label">Referencia geográfica:</label>
+                <select id="selecunigeo" class="form-control" name="selecunigeo">
+                    <option value="" selected="selected">Por favor seleccione</option>
+                    @foreach($arrayiniciales[2] as $unigeo)
+                    <option value="{{$unigeo->id_ugeo}}">{{$unigeo->unidgeo}}</option>              
+                    @endforeach                                 
+                </select>
               </div>
-              <div class="form-group text-right">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <div class="form-group" id="refegeo">
+                <label id="tipodocu" for="carguedocu" class="control-label">Departamento:</label>
+                    <select id="selecdepto" class="form-control" name="selecdepto">
+                      <option value="" selected="selected">Por favor seleccione</option>
+                      @foreach($arrayiniciales[4] as $depto)
+                        <option value="{{$depto->COD_DPTO}}">{{$depto->NOM_DPTO}}</option>              
+                      @endforeach
+                    </select>                    
+              </div>
+              <div class="form-group" id="divmpio">
+                
+              </div>
+              <div class="form-group"  id="carguedocumento">                  
+                  <label for="carguedocu" class="control-label">Adjuntar documento:</label>
+                  <input id="filedocu" type="file" class="form-control" name="filedocu" required accept=".pdf">
+              </div>   
+              <hr>           
+              <div class="form-group text-right"  id="carguedocumento">                
                 <button type="submit" class="btn btn-primary">Guardar Edición General</button>
               </div>
-            </form>
-
-
-
+              </form>            
         </div>
       <div class="col-sm-1"></div>
     </div>
-      <hr>
   </div>
+
+
+
+              
+
+              
 <!--Fin del tercer contenedor--> 
 
 @stop
@@ -153,16 +165,106 @@
 
       $(document).ready(function() {
           //para que los menus pequeño y grande funcione
-          $( "#tierras" ).addClass("active");
-          $( "#tierraslevtopo" ).addClass("active");
+          $( "#documentos" ).addClass("active");
+          $( "#carguedocumenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Estudio Juridico</strong>");
+          $( "#documentosmenupeq" ).html("<strong>MODULO DOCUMENTOS<span class='caret'></span></strong>");
+          $( "#carguedocumenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Cargue documentos</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
 
-     
+
+
+          $('#datepicker').datepicker({
+            format: "yyyy-mm-dd",
+            language: "es",
+            startDate: "2010-01-01",
+            endDate: "today",
+            todayBtn: "linked",
+            orientation: "auto",
+            autoclose: true,
+            todayHighlight: true
+
+           });
+
+          $("#refegeo").hide();
+          $("#estrategia").hide();
+          //para cargar el select de tipo de categoria
+          $("#selectcategoria").change(function(){
+            if ($('#selectcategoria').val() == 1) {
+              $("#selectestrategia").val("");
+              $("#estrategia").show();
+              $("#selectestrategia").prop('required',true);
+            }
+            else {
+              $("#selectestrategia").val("");
+              $("#estrategia").hide();
+              $("#selectestrategia").prop('required',false);
+            }
+
+            $.ajax({url:"documentos/subcategoria",type:"POST",data:{categoria:$('#selectcategoria').val()},dataType:'json',
+              success:function(data){
+
+                  $("#selectipodocu").empty();
+                  //console.log(data);
+                  $("#selectipodocu").append("<option value=''>Por favor seleccione</option>");
+                    [].forEach.call(data[0],function(datos){
+                      $("#selectipodocu").append("<option value=\""+datos.id_tipo+"\">"+datos.tipo+"</option>");
+                    });
+
+                  $("#selecmomento").empty();
+                  //console.log(data);
+                  $("#selecmomento").append("<option value=''>Por favor seleccione</option>");                   
+                    [].forEach.call(data[1],function(datos1){
+                      $("#selecmomento").append("<option value=\""+datos1.id_momento+"\">"+datos1.momento+"</option>");
+                    });
+                     
+              },
+              error:function(){alert('error');}
+            });//Termina Ajax 
+          });   
+          $("#selecunigeo").change(function(){              
+              if ($('#selecunigeo').val() == 2) {
+                  $('#selecdepto').val("");
+                  $("#refegeo").show();
+                  $("#divmpio").hide();
+                  $("#selecdepto").prop('required',true);
+                  
+              } else if ($('#selecunigeo').val() == 3) {
+                  $('#selecdepto').val("");
+                  $("#divmpio").empty();
+                  $("#refegeo").show();
+                  $("#divmpio").show();
+                  $("#selecdepto").prop('required',true);
+                  
+              } else {
+                 $("#refegeo").hide();
+                 $("#divmpio").hide();
+                 $("#selecdepto").prop('required',false);
+                 
+
+              }
+          });
+          $("#selecdepto").change(function(){
+            
+            $.ajax({url:"documentos/submpio",type:"POST",data:{depto:$('#selecdepto').val()},dataType:'json',
+              success:function(data){
+                  $("#selecmpio").empty();
+                  $("#divmpio").empty();
+                                 
+                  $("#divmpio").append('<label id="tipodocu" for="carguedocu" class="control-label">Municipio:</label><br>');
+                    [].forEach.call(data,function(datos){                      
+                      $('#divmpio').append('<input type="checkbox" value='+datos.COD_DANE+'> '+datos.NOM_MPIO.toLowerCase()+'<br>');
+                    });                  
+                     
+              },
+              error:function(){alert('error');}
+            });//Termina Ajax
+          });
+          
       });
     </script>
 @stop
 
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->
+
+                               

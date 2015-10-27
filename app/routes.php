@@ -33,7 +33,8 @@ Route::get('logout', function()
 
 //Rutas para activar los controladores
 Route::controller('tierras','TierrasController');
-Route::controller('siscadi','SiscadiController'); 
+Route::controller('siscadi','SiscadiController');
+Route::controller('documentos','DocumentosController'); 
 
 //para ingresar a las siguientes rutas se tiene que estar autenticado:
 Route::group(array('before' => 'auth'), function()
@@ -120,7 +121,10 @@ Route::group(array('before' => 'auth'), function()
   Route::get('coordenadas_edicion','TierrasController@UpdateProcesogeo');
 
 //permite acceso a las vistas del modulo de documentos
-  Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
+  
+  //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
+  Route::get('cargue_docu', 'DocumentosController@CarguedocuInicio');
+
   Route::get('consulta_docu', function(){return View::make('modulodocumentos/consultadocumentos');});
   
   Route::group(array('before' => 'grupo1'), function()
