@@ -69,7 +69,7 @@
         <label id="labelintervencion" for="Proceso" class="control-label">Intervención:</label>
           <select id="selintervencion" class="form-control" name="selintervencion">
               <option value="" selected="selected">Por favor seleccione</option>
-              @foreach($moni_inter[0] as $pro)
+              @foreach($todo[0] as $pro)
                   <option value="{{$pro->intervencion}}">{{$pro->intervencion}}</option>
               @endforeach
           </select>
@@ -83,7 +83,7 @@
         <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
           <select id="seldpto" class="form-control" name="seldpto">
           </select>
-      </div> 
+      </div>  
       <div class="col-sm-2">
         <label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
           <select id="selmpio" class="form-control" name="selmpio">
@@ -99,7 +99,7 @@
         <label id="labelmonitor" for="Proceso" class="control-label">Monitor:</label>
          <select id="selmonitor" class="form-control" name="selmonitor">
               <option value="" selected="selected">Por favor seleccione</option>
-              @foreach($moni_inter[1] as $pro)
+              @foreach($todo[1] as $pro)
                   <option value="{{$pro->cod_monitor}}">{{$pro->nom_monitor}}</option>
               @endforeach
           </select>
@@ -137,10 +137,57 @@
       <div class="col-sm-1"></div>    
     </div> 
     <br>
+
     <div class="row">
-      <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+      <br>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10" id="container" style="min-width: 310px; height: 400px; max-width: auto; margin: 0 auto"></div>
+      <div class="col-sm-1"></div>
     </div>
-  <br/>
+
+    <div id="hr1"><hr></div>
+
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div id="container1" class="col-sm-6" style="min-width: 310px; height: 400px;"></div>
+      <div id="container_label" class="col-sm-4" style="min-width: 310px; height: 400px;">
+            <h3 class="text-center text-primary">Línea base {{ $todo[4]}}</h3>
+            <p class="text-justify">En la intervención {{ $todo[4]}} se han realizado un total de {{$todo[6][0]}}  encuestas desde el {{$todo[5][0][0]}} hasta {{$todo[5][0][1]}} distribuida en {{$todo[7][0]}} departamentos y {{$todo[8][0]}} municipios<p>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuentas realizadas por depratamento</ul>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas por municipio para el departamento en cuestión</ul>            
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+
+    <div id="hr2"><hr></div>
+
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div id="container2" class="col-sm-6" style="min-width: 310px; height: 400px;"></div>
+      <div id="container2_label" class="col-sm-4" style="min-width: 310px; height: 400px;">
+            <h3 class="text-center text-primary">Seguimiento {{ $todo[4]}}</h3>
+            <p class="text-justify">En la intervención {{ $todo[4]}} se han realizado un total de {{$todo[6][1]}}  encuestas desde el {{$todo[5][1][0]}} hasta {{$todo[5][1][1]}} distribuida en {{$todo[7][1]}} departamentos y {{$todo[8][1]}} municipios<p>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuentas realizadas por depratamento</ul>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas por municipio para el departamento en cuestión</ul>            
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    
+   <div id="hr3"><hr></div>
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div id="container3" class="col-sm-6" style="min-width: 310px; height: 400px;"><hr></div>
+      <div id="container3_label" class="col-sm-4" style="min-width: 310px; height: 400px;">
+            <h3 class="text-center text-primary">Línea final {{ $todo[4]}}</h3>
+            <p class="text-justify">En la intervención {{ $todo[4]}} se han realizado un total de {{$todo[6][2]}}  encuestas desde el {{$todo[5][2][0]}} hasta {{$todo[5][2][1]}} distribuida en {{$todo[7][2]}} departamentos y {{$todo[8][2]}} municipios<p>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala nacional:</span> El visor permite ver el número total de encuentas realizadas por depratamento</ul>
+            <ul class="text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Escala departamental:</span> Al dar click sobre un departamento en específico, el visor muestra el número de encuestas por municipio para el departamento en cuestión</ul>            
+
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+ <div id="hr4"><hr></div>
+
 <!--fin del codigo-->
     </div>
 <!--Fin del tercer contenedor--> 
@@ -166,6 +213,15 @@
   <script src="assets/js/highcharts/exporting.js"></script>
   <script src="assets/js/highcharts/heatmap.js"></script>
   <script src="assets/js/highcharts/treemap.js"></script>
+  <script src="assets/js/highcharts/drilldown.js"></script>
+  <script src="assets/js/highcharts/highmaps.js"></script>
+  <script src="assets/js/highcharts/data.js"></script>
+  <script src="assets/js/highcharts/map.js"></script>
+
+
+
+
+
   <script>
  
 
@@ -179,6 +235,7 @@
     $("#selmision").hide();    
     $("#labeldpto").hide();
     $("#seldpto").hide();
+    $("#container").hide();
 
     $("#labelmonitor").hide();
     $("#selmonitor").hide();
@@ -195,6 +252,445 @@
 
 
 
+   
+    $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama al controlador siscadi/siscadimision que trae los valores necesario para la grafica
+          success:function(data1){
+          
+$.getJSON('assets/geojson/dptos_geo.geojson', function (geojson) {  
+  Highcharts.setOptions({
+    lang: {
+        drillUpText: '◁ Regresar a <br>datos nacionales'
+    }
+});
+
+    var data = Highcharts.geojson(geojson);
+                            small = $('#container').width() < 400;                                                                                                             
+    // Set drilldown pointers
+    $.each(data, function (i) {
+        this.drilldown = this.properties['COD_DPTO'];//asigna al geojson la propieada del drilldown con el codigo DEPTO
+    });
+
+    // grafica de liena base
+    $('#container1').highcharts('Map', {
+        chart : {
+            events: {
+                drilldown: function (e) {//función que hace el drilldown con el evento click
+
+                    if (!e.seriesOptions) {
+                        var chart = this,
+                            mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
+                            // Handle error, the timeout is cleared on success
+                            fail = setTimeout(function () {// validador de las capasexistentes por municipio
+                                if (! 'assets/geojson/'+mapKey+'.geojson') {
+                                    chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
+
+                                    fail = setTimeout(function () {
+                                        chart.hideLoading();
+                                    }, 6000);
+                                }
+                            }, 8000);
+
+                        // Show the spinner
+                        chart.showLoading('<i class="icon-spinner icon-spin icon-3x"></i>'); // Font Awesome spinner
+
+                        // Load the drilldown map
+
+                        $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
+                        success:function(data1){
+          
+                          $.getJSON('assets/geojson/'+mapKey+'.geojson', function (geojsonmuni) {
+
+                            
+                              var data2 = Highcharts.geojson(geojsonmuni);
+
+                              $.each(data2, function (i) {
+                                  this.name = this.properties['NOM_MPIO'];//asigna al geojson la propieada del nombre  con el NOM_MPIO
+
+                              });
+                              
+                             
+                              // Hide loading and add series
+                              chart.hideLoading();
+                              clearTimeout(fail);
+                              chart.addSeriesAsDrilldown(e.point, {/// creacion de la seire para los municipios segun seleccion del departamento
+
+                                  name: 'Datos municipal',
+                                  data: data1.Linea_base_muni,
+                                  mapData: data2,//carga el geojson municipal
+                                   joinBy: ['COD_DANE', 'COD_DANE'],//realzia un join enttre el geojson y la consulta ajax
+                                   tooltip: {
+                                      pointFormat: 'En {point.name} se realziaron {point.value} encuestas'
+                                  },
+                                  dataLabels: {
+                                      enabled: true,
+                                      format: '{point.name}'
+                                  }
+                              });
+                          });
+                        }});
+                    }
+                    this.setTitle({ text: 'Línea base. '+e.point.value+' encuestas realizadas' }, { text: 'Departamento de  '+e.point.nombre });
+
+                },
+
+                drillup: function () {
+                    this.setTitle({ text: 'Línea Base. '+data1.cuenta_todos[0]+' encuestas realizadas'}, { text: 'Intervención '+ data1.intervencion});
+
+
+                }
+            }
+        },
+
+        title : {
+            text : 'Línea Base. '+data1.cuenta_todos[0]+' encuestas realizadas'
+        },
+
+        subtitle: {
+            text: 'Intervención '+ data1.intervencion,
+           
+        },
+
+        legend: small ? {} : {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'middle',
+            itemMarginTop: 80,
+        },
+
+        colorAxis: {
+            min: 0,
+        },
+
+        mapNavigation: {
+            enabled: true
+
+        },
+
+        plotOptions: {
+            map: {
+                states: {
+                    hover: {
+                        color: '#EEDD66'
+                    }
+                }
+            }
+        },
+
+        series : [{
+            data : data1.Linea_base_depto,
+            mapData: data,//carga el geojson nacional
+                joinBy: ['COD_DPTO', 'COD_DPTO'],//realzia un join enttre el geojson y la consulta ajax
+            name: 'Intervención '+ data1.intervencion,
+             tooltip: {
+                    pointFormat: 'En {point.properties.NOM_DPTO} se realziaron {point.value} encuestas'
+                },
+            dataLabels: {
+                enabled: true,
+                format: '{point.properties.NOM_DPTO}'
+            }
+        }],
+
+        drilldown: {
+            //series: drilldownSeries,
+            activeDataLabelStyle: {
+                color: '#FFFFFF',
+                textDecoration: 'none',
+                textShadow: '0 0 3px #000000'
+            },
+            drillUpButton: {
+                relativeTo: 'spacingBox',
+                position: {
+                    x: 0,
+                    y: 300
+                }
+            }
+        }
+    });
+  
+   // grafica de seguimiento
+  $('#container2').highcharts('Map', {
+        chart : {
+            events: {
+                drilldown: function (e) {//función que hace el drilldown con el evento click
+
+                    if (!e.seriesOptions) {
+                        var chart = this,
+                            mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
+                            // Handle error, the timeout is cleared on success
+                            fail = setTimeout(function () {// validador de las capasexistentes por municipio
+                                if (! 'assets/geojson/'+mapKey+'.geojson') {
+                                    chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
+
+                                    fail = setTimeout(function () {
+                                        chart.hideLoading();
+                                    }, 6000);
+                                }
+                            }, 8000);
+
+                        // Show the spinner
+                        chart.showLoading('<i class="icon-spinner icon-spin icon-3x"></i>'); // Font Awesome spinner
+
+                        // Load the drilldown map
+
+                        $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
+                        success:function(data1){
+          
+                          $.getJSON('assets/geojson/'+mapKey+'.geojson', function (geojsonmuni) {
+
+                            
+                              var data2 = Highcharts.geojson(geojsonmuni);
+
+                              $.each(data2, function (i) {
+                                  this.name = this.properties['NOM_MPIO'];//asigna al geojson la propieada del nombre  con el NOM_MPIO
+
+                              });
+                              
+                             
+                              // Hide loading and add series
+                              chart.hideLoading();
+                              clearTimeout(fail);
+                              chart.addSeriesAsDrilldown(e.point, {/// creacion de la seire para los municipios segun seleccion del departamento
+
+                                  name: 'Datos municipal',
+                                  data: data1.Seguimiento_muni,
+                                  mapData: data2,//carga el geojson municipal
+                                   joinBy: ['COD_DANE', 'COD_DANE'],//realzia un join enttre el geojson y la consulta ajax
+                                   tooltip: {
+                                      pointFormat: 'En {point.name} se realziaron {point.value} encuestas'
+                                  },
+                                  dataLabels: {
+                                      enabled: true,
+                                      format: '{point.name}'
+                                  }
+                              });
+                          });
+                        }});
+                    }
+
+
+                    this.setTitle( { text: 'Seguimiento. '+e.point.value+' encuestas realizadas' }, { text: 'Departamento de  '+e.point.nombre });
+
+                },
+
+                drillup: function () {
+                    this.setTitle({ text: 'Seguimiento.  '+data1.cuenta_todos[1]+'  encuestas realizadas' }, { text: 'Intervención '+ data1.intervencion, });
+
+
+                }
+            }
+        },
+
+        title : {
+            text : 'Seguimiento. '+data1.cuenta_todos[1]+' encuestas realizadas'
+        },
+
+        subtitle: {
+            text: 'Intervención '+ data1.intervencion,
+           
+        },
+
+        legend: small ? {} : {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'middle',
+            itemMarginTop: 80,
+        },
+
+        colorAxis: {
+            min: 0
+        },
+
+        mapNavigation: {
+            enabled: true,
+            
+        },
+
+        plotOptions: {
+            map: {
+                states: {
+                    hover: {
+                        color: '#EEDD66'
+                    }
+                }
+            }
+        },
+
+        series : [{
+            data : data1.Seguimiento_depto,
+            mapData: data,//carga el geojson nacional
+                joinBy: ['COD_DPTO', 'COD_DPTO'],//realzia un join enttre el geojson y la consulta ajax
+            name: 'Intervención '+ data1.intervencion,
+             tooltip: {
+                    pointFormat: 'En {point.properties.NOM_DPTO} se realziaron {point.value} encuestas'
+                },
+            dataLabels: {
+                enabled: true,
+                format: '{point.properties.NOM_DPTO}'
+            }
+        }],
+
+        drilldown: {
+            //series: drilldownSeries,
+            activeDataLabelStyle: {
+                color: '#FFFFFF',
+                textDecoration: 'none',
+                textShadow: '0 0 3px #000000'
+            },
+            drillUpButton: {
+                relativeTo: 'spacingBox',
+                position: {
+                    x: 0,
+                    y: 300
+                }
+            }
+        }
+    });
+  
+   // grafica de Linea final
+  $('#container3').highcharts('Map', {
+        chart : {
+            events: {
+                drilldown: function (e) {//función que hace el drilldown con el evento click
+
+                    if (!e.seriesOptions) {
+                        var chart = this,
+                            mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
+                            // Handle error, the timeout is cleared on success
+                            fail = setTimeout(function () {// validador de las capasexistentes por municipio
+                                if (! 'assets/geojson/'+mapKey+'.geojson') {
+                                    chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
+
+                                    fail = setTimeout(function () {
+                                        chart.hideLoading();
+                                    }, 6000);
+                                }
+                            }, 8000);
+
+                        // Show the spinner
+                        chart.showLoading('<i class="icon-spinner icon-spin icon-3x"></i>'); // Font Awesome spinner
+
+                        // Load the drilldown map
+
+                        $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
+                        success:function(data1){
+          
+                          $.getJSON('assets/geojson/'+mapKey+'.geojson', function (geojsonmuni) {
+
+                            
+                              var data2 = Highcharts.geojson(geojsonmuni);
+
+                              $.each(data2, function (i) {
+                                  this.name = this.properties['NOM_MPIO'];//asigna al geojson la propieada del nombre  con el NOM_MPIO
+
+                              });
+                              
+                             
+                              // Hide loading and add series
+                              chart.hideLoading();
+                              clearTimeout(fail);
+                              chart.addSeriesAsDrilldown(e.point, {/// creacion de la seire para los municipios segun seleccion del departamento
+
+                                  name: 'Datos municipal',
+                                  data: data1.Linea_final_muni,
+                                  mapData: data2,//carga el geojson municipal
+                                   joinBy: ['COD_DANE', 'COD_DANE'],//realzia un join enttre el geojson y la consulta ajax
+                                   tooltip: {
+                                      pointFormat: 'En {point.name} se realziaron {point.value} encuestas'
+                                  },
+                                  dataLabels: {
+                                      enabled: true,
+                                      format: '{point.name}'
+                                  }
+                              });
+                          });
+                        }});
+                    }
+
+
+                    this.setTitle({ text: 'Línea final. '+e.point.value+' encuestas realizadas'}, { text: 'Departamento de  '+e.point.nombre });
+
+                },
+
+                drillup: function () {
+                    this.setTitle({ text: 'Línea final. '+data1.cuenta_todos[2]+' encuestas realizadas'}, { text: 'Intervención '+ data1.intervencion,});
+
+
+                }
+            }
+        },
+
+        title : {
+            text : 'Línea final. '+data1.cuenta_todos[2]+' encuestas realizadas'
+        },
+
+        subtitle: {
+            text: 'Intervención '+ data1.intervencion,
+           
+        },
+
+        legend: small ? {} : {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'middle',
+            itemMarginTop: 80,
+        },
+
+        colorAxis: {
+            min: 0
+        },
+
+        mapNavigation: {
+            enabled: true,
+           
+        },
+
+        plotOptions: {
+            map: {
+                states: {
+                    hover: {
+                        color: '#EEDD66'
+                    }
+                }
+            }
+        },
+
+        series : [{
+            data : data1.Linea_final_depto,
+            mapData: data,//carga el geojson nacional
+                joinBy: ['COD_DPTO', 'COD_DPTO'],//realzia un join enttre el geojson y la consulta ajax
+            name: 'Intervención '+ data1.intervencion,
+             tooltip: {
+                    pointFormat: 'En {point.properties.NOM_DPTO} se realziaron {point.value} encuestas'
+                },
+            dataLabels: {
+                enabled: true,
+                format: '{point.properties.NOM_DPTO}'
+            }
+        }],
+
+        drilldown: {
+            //series: drilldownSeries,
+            activeDataLabelStyle: {
+                color: '#FFFFFF',
+                textDecoration: 'none',
+                textShadow: '0 0 3px #000000'
+            },
+            drillUpButton: {
+                relativeTo: 'spacingBox',
+                position: {
+                    x: 0,
+                    y: 300
+                }
+            }
+        }
+    });
+});
+            
+       //Termina function highchart
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax prueva
+
 
     //grafica segun indicador      
       $('input:radio[name=indicador]').change(function() {
@@ -203,6 +699,7 @@
 
        if(indi=='1')
       {// inicializa la grafica si se escoge el tipo de indicador general, y solo muestra los input de "general"
+        $("#selintervencion").val("");
         $("#labelintervencion").show();
         $("#selintervencion").show();
         $("#labelmonitor").hide();
@@ -217,13 +714,33 @@
         $("#seldptomoni").hide();
         $("#labelvdamoni").hide();
         $("#selvdamoni").hide();
+        $("#container").empty();
+        $("#container").show();
+        $("#container1").hide();
+        $("#container2").hide();
+        $("#container3").hide();
+        $("#container_label").hide();
+        $("#container2_label").hide();
+        $("#container3_label").hide();
+        $("#hr1").hide();
+        $("#hr2").hide();
+        $("#hr3").hide();
+        $("#hr4").hide();
+
+ 
+        
+
+       
+
+
+    
         $('#container').highcharts({
           chart:{type:'column'},
           title:{text:'Encuestas realizadas en misiones de Desarrollo Alternativo'},
          subtitle:{text:'Distribución según año de Intervención '},
           xAxis:{
             categories:[
-              @foreach($arrayintercount[0] as $arraydat3)
+              @foreach($todo[2] as $arraydat3)
                 {{'"'.$arraydat3->intervencion.' ",'}}
               @endforeach
             ],
@@ -240,12 +757,12 @@
           plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
           series:[{
             name:'Beneficiarios',data:[
-            @foreach($arrayintercount[0] as $arraydat1)
+            @foreach($todo[2] as $arraydat1)
               {{$arraydat1->num_intervencion.','}}
             @endforeach
             ]},
             {name:'Comités',data:[
-            @foreach($arrayintercount[1] as $arraydat2)
+            @foreach($todo[3] as $arraydat2)
               {{$arraydat2->num_intervencion.','}}
             @endforeach
             ]}
@@ -255,6 +772,7 @@
         // inicializa solo muestra los input de "Monitor"
         $("#labelmonitor").show();
         $("#selmonitor").show();
+        $("#selmonitor").val("");
         $("#labelintervencion").hide();
         $("#selintervencion").hide();
         $("#labelmpio").hide();
@@ -264,6 +782,20 @@
         $("#labeldpto").hide();
         $("#seldpto").hide();
         $("#container").empty();
+        $("#container").show();
+        $("#container1").hide();
+        $("#container2").hide();
+        $("#container3").hide();
+        $("#container_label").hide();
+        $("#container2_label").hide();
+        $("#container3_label").hide();
+        $("#hr1").hide();
+        $("#hr2").hide();
+        $("#hr3").hide();
+        $("#hr4").hide();
+   
+
+        
             
       }
        });//Termina chage seldpto
@@ -281,6 +813,10 @@
              $("#selmision").empty();
             $("#selmpio").empty();
              $("#seldpto").empty();
+              $("#labelmpio").hide();
+              $("#selmpio").hide();
+              $("#labeldpto").hide();
+              $("#seldpto").hide();
             $("#selmision").append("<option value=''>Por favor seleccione</option>");
             $.each(data1[0], function(nom,datos){
               $("#selmision").append("<option value=\""+datos.mision+"\">"+datos.nom_mision+"</option>");
@@ -331,7 +867,7 @@
          subtitle:{text:'Distribución según año de Intervención '},
           xAxis:{
             categories:[
-              @foreach($arrayintercount[0] as $arraydat3)
+              @foreach($todo[2] as $arraydat3)
                 {{'"'.$arraydat3->intervencion.' ",'}}
               @endforeach
             ],
@@ -348,12 +884,12 @@
           plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}'}}},
           series:[{
             name:'Beneficiarios',data:[
-            @foreach($arrayintercount[0] as $arraydat1)
+            @foreach($todo[2] as $arraydat1)
               {{$arraydat1->num_intervencion.','}}
             @endforeach
             ]},
             {name:'Comités',data:[
-            @foreach($arrayintercount[1] as $arraydat2)
+            @foreach($todo[3] as $arraydat2)
               {{$arraydat2->num_intervencion.','}}
             @endforeach
             ]}
@@ -372,11 +908,14 @@
             $("#labeldpto").show();
             $("#seldpto").show(); 
             $("#seldpto").empty();
+            $("#selmpio").hide();
+            $("#labelmpio").hide();
             $("#seldpto").append("<option value=''>Por favor seleccione</option>");
             $.each(data1.arraydpto, function(nom,datos){
               $("#seldpto").append("<option value=\""+datos.COD_DPTO+"\">"+datos.NOM_DPTO+"</option>");
             });
 
+//grafica de cajas por departamento
             $('#container').highcharts({//funcion qu crea la grafica
               
               chart: {
@@ -489,6 +1028,7 @@
           success:function(data1){
             $("#selmpio").show();
             $("#labelmpio").show(); 
+             $("#selmpio").empty();
             $("#selmpio").append("<option value=''>Por favor seleccione</option>");
             $.each(data1.arraymuni, function(nom,datos){
               $("#selmpio").append("<option value=\""+datos.COD_DANE+"\">"+datos.NOM_MPIO+"</option>");
@@ -552,6 +1092,8 @@
             $("#labeldpto").show();
             $("#seldpto").show(); 
             $("#seldpto").empty();
+            $("#selmpio").hide();
+            $("#labelmpio").hide(); 
             $("#seldpto").append("<option value=''>Por favor seleccione</option>");
             $.each(data1.arraydpto, function(nom,datos){
               $("#seldpto").append("<option value=\""+datos.COD_DPTO+"\">"+datos.NOM_DPTO+"</option>");
@@ -941,6 +1483,7 @@
         $("#seldptomoni").hide();
         $("#labelvdamoni").hide();
         $("#selvdamoni").hide();
+        $("#selmpiomoni").hide();
 
     $.ajax({url:"siscadi/siscadiidmonitor",type:"POST",data:{monitor:$('#selmonitor').val()},dataType:'json',//llama al controlador siscadi/siscadiidmonitor que trae los valores necesario para la 
           success:function(data1){

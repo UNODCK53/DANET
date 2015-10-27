@@ -48,6 +48,9 @@
  <div class="col-sm-1"></div> 
    </div>  
 
+
+<div  class="col-sm-12"><hr></div>
+
 <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 text-left" style="padding-top: 25px;padding-bottom: 25px;">
           <h3>Reporte por misión:</h3>Seleccione los siguientes datos para generar el reporte de encuestas almacenadas en base de datos por misión
@@ -126,7 +129,7 @@
           </div>  
         </div>
       </form> 
-    
+     <div  class="col-sm-12"><hr></div>   
    <!-- formualrio de reporte general-->   
 
 <div class="row">
@@ -184,7 +187,7 @@
             <input  class="form-control btn btn-primary btn-sm" type="submit" value="Reporte de entrega por misión" id="formulairo_gen" >
           </div>  
         </div>
-      
+          <div  class="col-sm-12"><hr></div>
       </form> 
 
 <!-- formualrio de reporte por monitor-->   
@@ -285,7 +288,7 @@
             <input  class="form-control btn btn-primary btn-sm" type="submit" value="Reporte de entrega por misión" id="formulairo_moni" >
           </div>  
         </div>
-        
+            <div  class="col-sm-12"><hr></div>
         
       </form> 
 
