@@ -37,28 +37,32 @@
   </div>
   <!--Div bienvenida DANET-->
   <div class="container" id="sha">
-      <div class="row">
-      <!--Texto del contenido-->
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <h1 class="text-center text-primary">Bienvenido a DANET</h1>
-            <h1 class="text-center text-primary">Una aplicación diseñada para usted.</h1>
-            <p class="lead text-justify">El DANET es un espacio diseñado para la transferencia de información de los proyectos de Desarrollo Alternativo. Sirve como sistema de gestión y permite tener indicadores de la información. Gracias a esto, es posible que usted tenga acceso a:</p>
-            @if((Auth::user()->grupo=="3") OR (Auth::user()->grupo=="1"))
-            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de tierras</ul>
-            @endif
-            @if((Auth::user()->grupo=="5") OR (Auth::user()->grupo=="1"))
-            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de documentos</ul>
-            @endif
-            @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
-            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> GME</ul>
-            @endif
-        </div>
-        <div class="col-sm-1"></div>
+    <div class="row">
+    <!--Texto del contenido-->
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <br>
+        <h2 class="text-center text-primary">Bienvenido al espacio web de Desarrollo Alternativo</h2>
+        <br>
+        <p class="lead text-justify">El DANET es un espacio diseñado para la transferencia de información y apoyo a los proyectos de Desarrollo Alternativo. Sirve como sistema de gestión y permite tener indicadores de la información. Gracias a esto, usted tiene acceso a:</p>
+        <address>
+        @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
+        <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> GME</ul><h4>
+        @endif
+        @if((Auth::user()->grupo=="3") OR (Auth::user()->grupo=="1"))
+        <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de tierras</ul></h4>
+        @endif
+        @if((Auth::user()->grupo=="5") OR (Auth::user()->grupo=="1"))
+        <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de documentos</ul></h4>
+        @endif
+        </address>
+        <br>
       </div>
-      <hr>
+      <div class="col-sm-1"></div>
+    </div>
   </div> 
   <!--fin div bienvenida-->
+  <br>
   @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
   <div class="container" id="sha">
       <div class="row">
@@ -68,8 +72,8 @@
             <h1 class="text-center text-primary">Contexto de la política de Erradicación</h1>
             <p class="lead text-justify" >La Unidad Administrativa Especial para la Consolidación Territorial a través de la Dirección de Programas contra Cultivos Ilícitos (DPCI), desarrolla acciones de erradicación y post erradicación a través de la armonización y  coordinación de la Estrategia de Erradicación Manual Forzosa y de la Estrategia de Desarrollo Alternativo, organizadas con el propósito de promover la transición económica y social de los territorios de las regiones focalizadas por la Política Nacional de Consolidación y Reconstrucción Territorial y los afectados por cultivos ilícitos.</p>
             <p class="lead text-justify" >En Colombia se han implementado diversas formas de lucha contra los cultivos ilícitos y las drogas ilegales, tales como la erradicación manual que presenta las siguientes modalidades:</p>
-            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Voluntaria, y</ul>
-            <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Forzosa.</ul>
+            <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Voluntaria, y</ul></h4>
+            <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Forzosa.</ul></h4><br>
             <p class="lead text-justify" >La Erradicación Manual Forzosa a su vez presenta dos modalidades: i) Erradicación Manual Forzosa con los Grupos Móviles de Erradicación (GME) y ii) Erradicación Manual forzosa en tercera modalidad (Soldado a Soldado) la cual es realizada por la Fuerza Pública en sus constantes desplazamientos.</p> 
             <p class="lead text-justify" >La Estrategia de Erradicación Manual Forzosa con los Grupos Móviles de Erradicación se determina a partir de las condiciones de seguridad de los territorios a intervenir y de los resultados del proceso de coordinación y articulación con la Fuerza Pública, y consiste en eliminar la totalidad de los cultivos ilícitos a través de los Grupos Móviles de Erradicación (GME).</p>
         </div>
@@ -77,13 +81,15 @@
       </div>
       <hr>
       <blockquote>
-        <p class="text-justify"><strong>Fuente</strong>: <br>MANUAL OPERATIVO GRUPOS MÓVILES DE ERRADICACIÓN - GME <br>DIRECCIÓN DE PROGRAMAS CONTRA CULTIVOS ILÍCITOS GRUPO DE ERRADICACIÓN <br>BOGOTÁ, D.C. Enero 23 de 2015</p>
+        <p class="text-justify"><strong>Fuente</strong>: <br>Manual Operatvo Ggrupos Móviles de Erradicación - GME <br>Dirección de Programas Contra Cultivos Ilícitos Grupo de Erradicación <br>Bogotá, D.C. Enero 23 de 2015</p>
       </blockquote>
   </div> 
+  <br><!--Agregar al penúltimo div para el salto contenedores-->
   @endif
   @if((Auth::user()->grupo=="3") OR (Auth::user()->grupo=="1"))
   <div class="container" id="sha">
       <div class="row">
+        <h1 class="text-center text-primary">Formalización de Tierras</h1>
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
@@ -112,7 +118,7 @@
       <!--Texto del contenido-->
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <h1 class="text-center text-primary">Formalización de Tierras</h1>
+            <br>
             <p class="lead text-justify" >Este programa <strong>brinda sostenibilidad y garantía en las intervenciones</strong> realizadas por los organismos multilaterales y el Estado. También transforma la problemática generada por la siembra de cultivos ilícitos, con un alcance social más amplio al <strong>mejorar la calidad de vida</strong> para las familias con la posibilidad de acceso a créditos y fuentes de financiamiento.</p>
             <p class="lead text-justify" >La formalización valoriza los municipios y las tierras colombianas, genera y protege el patrimonio de sus pobladores y además fomenta la cohesión social.</p>
             <p class="lead text-justify" >El gobierno colombiano, con el apoyo de la Cooperación Internacional, facilita los procesos de formalización de tierras, considerando que es un asunto de <strong>interés privado</strong> de cada familia campesina, pero también de <strong>interés público</strong>.</p> 
@@ -126,7 +132,7 @@
       <blockquote>
         <p class="text-justify"><strong>*</strong>La informalidad en la tenencia de tierras, la presencia de actores armados ilegales, los cultivos ilícitos, la producción, comercialización y consumo de drogas ilícitas, la inequidad en la distribución y uso del suelo, las expectativas del dinero fácil, el desplazamiento masivo, la falta de vías de acceso y la minería ilegal, entre otros, son factores que han intensificado la precaria situación de los pobladores rurales.</p>
       </blockquote>
-  </div> 
+  </div>
   @endif
   
   <!--cambiarpass modal-->
