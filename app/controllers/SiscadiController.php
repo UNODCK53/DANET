@@ -137,7 +137,7 @@ if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve
 	}
 	
 	
-	public function repote_mision()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de mision
+	public function getRepotemision()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de mision
 	{
 		$data=Input::all();//trae y agrega a $data todos los input del fromulario reporte_encuentas_mision
 		$mision=$data['mision'];
@@ -413,7 +413,7 @@ if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve
 	
 	}
 	
-	public function repote_general()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de general
+	public function getRepotegeneral()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de general
 	
 	{
 		$data=Input::all();//trae y agrega a $data todos los input del fromulario reporte_encuentas_general
@@ -482,7 +482,7 @@ if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve
 
 	}
 	
-	public function repote_monitor()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de mision
+	public function getRepotemonitor()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de mision
 	{
 		$data=Input::all();//trae y agrega a $data todos los input del fromulario reporte_encuentas_mision
 		$mision=$data['mision_moni'];

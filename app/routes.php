@@ -98,14 +98,7 @@ Route::group(array('before' => 'auth'), function()
 
     //rutas para modulo de SISCADI 
 
-  Route::post('depto', 'SiscadiController@showDepto');
-  Route::post('muni', 'SiscadiController@showMuni');
-  Route::post('monit', 'SiscadiController@showMonitor');
-
-  Route::get('reporte', 'SiscadiController@reporte_encuesta');
-  Route::post('pdfa', 'SiscadiController@repote_mision');
-  Route::post('general', 'SiscadiController@repote_general');
-  Route::post('monitor', 'SiscadiController@repote_monitor');
+  Route::get('siscadi_encuentas', 'SiscadiController@reporte_encuesta');
   Route::get('siscadi_indicadores', 'SiscadiController@siscadi_indicadores');
   //termina rutas para modulo de SISCADI    
 

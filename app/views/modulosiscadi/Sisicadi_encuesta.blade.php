@@ -57,8 +57,7 @@
         </div>
       </div>
       
-  
-      {{ Form::open(array('action' => 'SiscadiController@repote_mision','method' => 'POST','name' => 'reporte_encuentas_mision')) }}
+	<form role="form" action="siscadi/repotemision" method="get" id="reporte_encuentas_mision">
         
         <div class="form-group">
           <div class="row">
@@ -137,8 +136,7 @@
           <h3>Reporte general:</h3>Seleccione los siguientes datos para generar el reporte general de encuestas almacenadas en base de datos
         </div>
       </div>
-
-      {{ Form::open(array('action' => 'SiscadiController@repote_general','method' => 'POST','name' => 'reporte_encuentas_general')) }}
+	<form role="form" action="siscadi/repotegeneral" method="get" id="reporte_encuentas_general">
         
         <div class="form-group">
           <div class="row">
@@ -198,9 +196,7 @@
         </div>
       </div>
       
-  
-      {{ Form::open(array('action' => 'SiscadiController@repote_monitor','method' => 'POST','name' => 'reporte_encuentas_monitor')) }}
-        
+	<form role="form" action="siscadi/repotemonitor" method="get" id="reporte_encuentas_monitor">        
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-3">

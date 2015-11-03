@@ -256,7 +256,7 @@
     $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama al controlador siscadi/siscadimision que trae los valores necesario para la grafica
           success:function(data1){
           
-$.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson) {  
+$.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {  
   Highcharts.setOptions({
     lang: {
         drillUpText: '◁ Regresar a <br>datos nacionales'
@@ -281,7 +281,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.js') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -298,7 +298,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.js', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
@@ -418,7 +418,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.js') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -435,7 +435,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.js', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
@@ -557,7 +557,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.js') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -574,7 +574,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.js', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
