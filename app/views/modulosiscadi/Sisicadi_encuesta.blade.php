@@ -57,8 +57,7 @@
         </div>
       </div>
       
-  
-      {{ Form::open(array('action' => 'SiscadiController@repote_mision','method' => 'POST','name' => 'reporte_encuentas_mision')) }}
+	<form role="form" action="siscadi/repotemision" method="get" id="reporte_encuentas_mision">
         
         <div class="form-group">
           <div class="row">
@@ -137,8 +136,7 @@
           <h3>Reporte general:</h3>Seleccione los siguientes datos para generar el reporte general de encuestas almacenadas en base de datos
         </div>
       </div>
-
-      {{ Form::open(array('action' => 'SiscadiController@repote_general','method' => 'POST','name' => 'reporte_encuentas_general')) }}
+	<form role="form" action="siscadi/repotegeneral" method="get" id="reporte_encuentas_general">
         
         <div class="form-group">
           <div class="row">
@@ -146,7 +144,7 @@
               <label for="intervencion">Intervención:</label>
             </div>  
             <div class="col-sm-4" >
-              <select class="form-control" id="intervencion_gen" name="intervencion_gen" title="Seleccione uno" onchange="general(),borrar(this)" required> 
+              <select class="form-control" id="intervencion_gen" name="intervencion_gen" title="Seleccione uno"  required> 
                 <option value=''>Seleccione uno</option>;
                 @foreach($arrayinter as $pro)
                   <option value="{{$pro->intervencion}}">{{$pro->intervencion}}</option>
@@ -162,7 +160,7 @@
               <label for="mision"id="labelmision_gen">Tipo de misón:</label>
             </div>  
             <div class="col-sm-4" >
-              <select  class="form-control" id="mision_gen" name="mision_gen" title="Seleccione uno" onchange="general()" required> 
+              <select  class="form-control" id="mision_gen" name="mision_gen" title="Seleccione uno" required> 
               </select> 
             </div>              
           </div>  
@@ -198,9 +196,7 @@
         </div>
       </div>
       
-  
-      {{ Form::open(array('action' => 'SiscadiController@repote_monitor','method' => 'POST','name' => 'reporte_encuentas_monitor')) }}
-        
+	<form role="form" action="siscadi/repotemonitor" method="get" id="reporte_encuentas_monitor">        
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-3">
@@ -671,7 +667,7 @@
             $("#formulairo_moni").hide();
             $("#monitor").append("<option value=''>Por favor seleccione</option>");
             $.each(data1.arraymoni, function(nom,datos){
-              $("#monitor").append("<option value=\""+datos.cod_monitor+"\">"+datos.nom_monitor+"</option>");
+              $("#monitor").append("<option value=\""+datos.id+"\">"+datos.name+" "+datos.last_name+"</option>");
             });
 
           },
