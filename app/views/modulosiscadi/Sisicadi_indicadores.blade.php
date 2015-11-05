@@ -100,7 +100,7 @@
          <select id="selmonitor" class="form-control" name="selmonitor">
               <option value="" selected="selected">Por favor seleccione</option>
               @foreach($todo[1] as $pro)
-                  <option value="{{$pro->cod_monitor}}">{{$pro->nom_monitor}}</option>
+                  <option value="{{$pro->id}}">{{$pro->name}} {{$pro->last_name}}</option>
               @endforeach
           </select>
       </div>
@@ -256,7 +256,7 @@
     $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama al controlador siscadi/siscadimision que trae los valores necesario para la grafica
           success:function(data1){
           
-$.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson) {  
+$.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {  
   Highcharts.setOptions({
     lang: {
         drillUpText: '◁ Regresar a <br>datos nacionales'
@@ -281,7 +281,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.js') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -298,7 +298,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.js', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
@@ -418,7 +418,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.js') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -435,7 +435,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.js', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
@@ -557,7 +557,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                             mapKey =   e.point.drilldown + '_geo',//variable con el nombre de la capa geojson por municipio segun seleccion de deprtamento (e.point.drilldown). las capas se llama COO_DEPTO_geo
                             // Handle error, the timeout is cleared on success
                             fail = setTimeout(function () {// validador de las capasexistentes por municipio
-                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson') {
+                                if (! 'assets/geojson/SISCADI/SISCADI_'+mapKey+'.js') {
                                     chart.showLoading('<i class="icon-frown"></i> Failed loading ' + e.point.name);
 
                                     fail = setTimeout(function () {
@@ -574,7 +574,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
                         $.ajax({url:"siscadi/siscadiidmapa",type:"POST",dataType:'json',//llama nuevamente al controlador siscadi/siscadimision dado que si no se hace esto, la grafica mantiene los municipios seleccionados en anteriores drilldown 
                         success:function(data1){
           
-                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.geojson', function (geojsonmuni) {
+                          $.getJSON('assets/geojson/SISCADI/SISCADI_'+mapKey+'.js', function (geojsonmuni) {
 
                             
                               var data2 = Highcharts.geojson(geojsonmuni);
@@ -1163,13 +1163,13 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
 
  $.ajax({url:"siscadi/siscadimoni",type:"POST",data:{mision:$('#selmision').val(),intervencion:$('#selintervencion').val(),departamento:$('#seldpto').val(),municipio:$('#selmpio').val()},dataType:'json',
           success:function(data1){
+			  
             label=data1;
           }
         });
 
         $.ajax({url:"siscadi/siscadimpio",type:"POST",data:{mision:$('#selmision').val(),intervencion:$('#selintervencion').val(),departamento:$('#seldpto').val(),municipio:$('#selmpio').val()},dataType:'json',
           success:function(data1){
-
         $('#container').highcharts({//funcion qu crea la grafica
             
             chart: {
@@ -1321,7 +1321,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
 
         $('#container').highcharts({
           chart:{type:'column'},
-          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en misiones de Desarrollo Alternativo'},
+          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en misiones de Desarrollo Alternativo'},
          
           xAxis:{
             categories:[""]
@@ -1331,7 +1331,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
           yAxis:{min:0,title:{text:'Número de encuestas'}},
           tooltip:{
             formatter: function () {
-                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                    return data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -1404,7 +1404,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en la intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en la intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución departamental '},
@@ -1495,7 +1495,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
 
         $('#container').highcharts({
           chart:{type:'column'},
-          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en misiones de Desarrollo Alternativo'},
+          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en misiones de Desarrollo Alternativo'},
         
           xAxis:{
             categories:[""]
@@ -1505,7 +1505,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
           yAxis:{min:0,title:{text:'Número de encuestas'}},
           tooltip:{
             formatter: function () {
-                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                    return data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -1549,7 +1549,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+  '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución municipal '},
@@ -1643,7 +1643,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en la intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+  '<br>en la intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución departamental '},
@@ -1726,7 +1726,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
             type: 'column'
         },
         title: {
-            text:  'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text:  'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+'<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución veredal '},
@@ -1819,7 +1819,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.geojson', function (geojson)
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución municipal '},
@@ -1928,7 +1928,7 @@ $('#container').highcharts({
             type: 'pie'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>vereda  '+ data1.arrayvda[0].NOM_TERR+', '+ data1.arraymuni[0].NOM_MPIO+'- '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>vereda  '+ data1.arrayvda[0].NOM_TERR+', '+ data1.arraymuni[0].NOM_MPIO+'- '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
         },
          subtitle:{text:'Según distribución por tipo de misión '},
         yAxis: {
@@ -2027,7 +2027,7 @@ $('#container').highcharts({
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+'<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
         },
         subtitle:{text:'Según distribución veredal '},
         xAxis: {

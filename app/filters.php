@@ -90,134 +90,282 @@ Route::filter('csrf', function()
 	}
 });
 
-Route::filter('cargainicial', function ()
+//Filtros tierras
+Route::filter('consulgentierras', function ()
 {
-   if (Auth::user()->grupo=="1")
-   {
-   	//Si no pertenece al level "1" nos envia a principal
-   	 if (Auth::user()->level!="1")
-   	 {
-   	//Si no pertenece al level "2" nos envia a principal
-   	 	return Redirect::to('principal');
-   	 }
-   }
-   
-   elseif (Auth::user()->grupo=="3")
-   {
-   	//Si no pertenece al level "1" nos envia a principal
-   	 if (Auth::user()->level!="1")
-   	 {
-   	//Si no pertenece al level "2" nos envia a principal
-   	 	if (Auth::user()->level!="2")
-   	 	{
-   	//Si no pertenece al level "2" nos envia a principal
-   	 		return Redirect::to('principal');
-   	 	}
-   	 }
-   }
-   else{
-   	return Redirect::to('principal');
-   }
-});
-
-
-Route::filter('accesogen', function ()
-{
-   if (Auth::user()->grupo=="1")
-   {
-   	//Si no pertenece al level "1" nos envia a principal
-   	 if (Auth::user()->level!="1")
-   	 {
-   	//Si no pertenece al level "2" nos envia a principal
-   	 	return Redirect::to('principal');
-   	 }
-   }
-   
-   elseif (Auth::user()->grupo=="3")
-   {
-   	//Si no pertenece al level "1" nos envia a principal
-   	 if (Auth::user()->level!="1")
-   	 {
-   	//Si no pertenece al level "2" nos envia a principal
-   	 	if (Auth::user()->level!="2")
-   	 	{
-   	//Si no pertenece al level "2" nos envia a principal
-   	 		if (Auth::user()->level!="3")
-   	 		{
-   	//Si no pertenece al level "2" nos envia a principal
-   	 			if (Auth::user()->level!="4")
-   	 			{
-   	//Si no pertenece al level "2" nos envia a principal
-   	 				return Redirect::to('principal');
-   	 			}
-   	 		}
-   	 	}
-   	 }
-   }
-   else{
-   	return Redirect::to('principal');
-   }
-});
-
-Route::filter('levgeografico', function ()
-{
-   if (Auth::user()->grupo=="1")
-   {
-   	//Si no pertenece al level "1" nos envia a principal
-   	 if (Auth::user()->level!="1")
-   	 {
-   	//Si no pertenece al level "2" nos envia a principal
-   	 	return Redirect::to('principal');
-   	 }
-   }
-   
-   elseif (Auth::user()->grupo=="3")
-   {
-   	//Si no pertenece al level "1" nos envia a principal
-   	 if (Auth::user()->level!="3")
-   	 {
-   	//Si no pertenece al level "2" nos envia a principal
-   	 	return Redirect::to('principal');
-   	 }
-   }
-   else{
-   	return Redirect::to('principal');
-   }
-});
-Route::filter('accesogme', function ()
-{
-   if (Auth::user()->grupo=="1")
-   {
-      //Si no pertenece al level "1" nos envia a principal
-       if (Auth::user()->level!="1")
-       {
-      //Si no pertenece al level "2" nos envia a principal
-         return Redirect::to('principal');
-       }
-   }
-   
-   elseif (Auth::user()->grupo=="2")
-   {
-      //Si no pertenece al level "1" nos envia a principal
-       if (Auth::user()->level!="1")
-       {
-      //Si no pertenece al level "2" nos envia a principal
-         if (Auth::user()->level!="2")
-         {
-      //Si no pertenece al level "2" nos envia a principal
-            if (Auth::user()->level!="3")
-            {
-      //Si no pertenece al level "2" nos envia a principal
-               if (Auth::user()->level!="4")
-               {
-      //Si no pertenece al level "2" nos envia a principal
-                  return Redirect::to('principal');
-               }
-            }
-         }
-       }
-   }
-   else{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
       return Redirect::to('principal');
    }
 });
+
+Route::filter('reporestadotierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1201")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('repornumtierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1202")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('reporlevtopotierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1203")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('reporarealevtierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1204")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('consulresjuritierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('cargainicialtierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('procesosadjudicadostierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1302")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('levgeograficotierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1304")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('editcoortierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1305")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
+Route::filter('consmapfierras', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1306")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza filtros tierras
+//Fitros módulo de GME
+Route::filter('valcertGME', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="2101")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('metodologiaGME', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="2102")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('distGME', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="2103")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('informesGME', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="2104")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza fitros módulo de GME
+//Inicia filtros módulo SISCADI
+Route::filter('ConsencSISCADI', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="3101")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('indicarecoSISCADI', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="3102")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza filtros módulo SISCADI
+//Inicia filtros módulo Documentos
+Route::filter('cargueDOCUMENTOS', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('consulDOCUMENTOS', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('reporDOCUMENTOS', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza filtros módulo Documentos

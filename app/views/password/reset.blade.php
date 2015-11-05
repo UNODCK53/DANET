@@ -52,7 +52,6 @@
 <!--Fin del segundo contenedor-->   
 <!--Cuardo contenedor contenido-->    
 <div class="container" id="sha">
-
   <div class="row">
     <br/>
       <h2><p class="text-center">Establecer contraseña</p></h2>
@@ -62,8 +61,12 @@
       <form class="form center-block" id="cambiar_pass" action="{{ action('RemindersController@postReset') }}" method="post">
         <input id="token" type="hidden" name="token" value="{{ $token }}">
         <div class="form-group">
-          <input class="form-control input-lg" id="email" placeholder="e-mail" type="email" name="email" readonly>
-          <span class="label label-info" id="c"></span>
+          E-mail:
+          <input class="form-control input-lg" id="email" placeholder="e-mail" type="email" name="email" readonly>          
+        </div>
+        <div class="form-group">
+          Usuario:
+          <input class="form-control input-lg" id="username" placeholder="Usuario" type="text" name="username" readonly>
         </div>
         <div class="form-group">
           <input class="form-control input-lg" id="password1" placeholder="Nueva contraseña" type="password" name="password">
@@ -84,7 +87,6 @@
   </div>
 </div>
 <!--Fin del cuarto contenedor-->
-
 <!--Quinto contenedor pie de página-->
 <div class="container-fluid well">
   <div class="row">
@@ -105,81 +107,61 @@
 </div>
 <!--Fin del sexto contenedor-->  
 <script>
-      $(document).ready(function() {
-        //para que los menus pequeño y grande funcione
-        $( "#menuprincipal" ).addClass("active");
-        $( "#mensajeestatus" ).fadeOut(5000); 
-        $("#btcambiarpass").prop('disabled', true);
-        $.ajax({url:"../../password/email",type:"POST",data:{token:$('#token').val()},dataType:'json',
-          success:function(data){
-            if(data==''){
-              $("#cambiar_pass").submit();
-            }
-            else{
-              $('#email').val(data[0].email);
-            }
-          },
-          error:function(){alert('error');}
-        });//Termina Ajax
-        $('#password1').keyup(function(){
-          var _this = $('#password1');
-          var password1 = $('#password1').val();
-          _this.parent().removeClass('has-info');
-          if ( password1.match(/^([a-z]+[0-9]+)|([0-9]+[a-z]+)/i) ) {
-            _this.parent().removeClass('has-error');
-            $( "#b" ).hide();
-            $('#password2').prop('disabled', false);
-          }
-          else{
-            _this.parent().addClass('has-error');
-            $('#b').text("La contraseña debe ser alfanúmerica");
-            $( "#b" ).show(100); 
-            $('#password2').prop('disabled', true);
-          }
-        });
-        $('#password2').keyup(function(){
-          var password1 = $('#password1').val();
-          var password2 = $('#password2').val();
-          $("#btcambiarpass").prop('disabled', true); 
-          var _this = $('#password2');
-          _this.parent().removeClass('has-error');
-          if(password1 != password2 && password2 != ''){
-            _this.parent().addClass('has-error');
-          }
-          else{
-            if(password2.charAt(0) == ' '){
-            _this.parent().addClass('has-error');
-            $("#btcambiarpass").prop('disabled', true); 
-            }
-            else{
-              if(_this.val() == ''){
-              _this.parent().addClass('has-error');
-              $("#btcambiarpass").prop('disabled', true); 
-              }
-              else{
-              $("#btcambiarpass").prop('disabled', false);
-              }
-            } 
-          }
-        });
-        $('#password1').focus(function(){
-          $("#btcambiarpass").prop('disabled', true);
-          $( "#a" ).hide();
-          $('#password1').val("");
-          $('#password2').val("");
-
-        });
-        $('#password2').focus(function(){
-          var password1 = $('#password1').val();
-          $('#password2').val("");
-          if((password1.length < 6) && (password1.length >0)){
-            $("#password1").addClass('has-error');
-            $('#a').text("La contraseña no puede tener menos de 5 caracteres");
-            $( "#a" ).show(100); 
-            $('#password1').val("");
-          }
-        });
+  $(document).ready(function() {
+    //para que los menus pequeño y grande funcione
+    $( "#menuprincipal" ).addClass("active");
+    $( "#mensajeestatus" ).fadeOut(5000); 
+    $("#btcambiarpass").prop('disabled', true);
+    $('#password2').prop('disabled', true);
+    $.ajax({url:"../../password/email",type:"POST",data:{token:$('#token').val()},dataType:'json',
+      success:function(data){
+        if(data==''){
+          $("#cambiar_pass").submit();
+        }
+        else{
+          $('#email').val(data[0].email);
+          $('#username').val(data[0].username);
+        }
+      },
+      error:function(){alert('error');}
+    });//Termina Ajax
+    $('#password1').keyup(function(){
+      var _this = $('#password1');
+      var password1 = $('#password1').val();
+      _this.parent().removeClass('has-info');
+      if ( password1.match(/^(?=^.{8,}$)([a-z]+[0-9]+)|([0-9]+[a-z]+)/i) ) {
+        _this.parent().removeClass('has-error');
+        $( "#b" ).hide();
+        $('#password2').prop('disabled', false);
+      }
+      else{
+        _this.parent().addClass('has-error');
+        $('#b').text("La contraseña debe ser alfanúmerica y debe tener mínimo 8 caracteres");
+        $( "#b" ).show(100); 
+        $('#password2').prop('disabled', true);
+      }
     });
-    </script>
+    $('#password2').keyup(function(){
+      var password1 = $('#password1').val();
+      var password2 = $('#password2').val();
+      $("#btcambiarpass").prop('disabled', true); 
+      var _this = $('#password2');
+      _this.parent().removeClass('has-error');
+      if(password1 == password2){
+        $("#btcambiarpass").prop('disabled', false); 
+      }
+      else{
+        _this.parent().addClass('has-error');
+        $("#btcambiarpass").prop('disabled', true); 
+      }
+    });
+    $('#password1').focus(function(){
+      $("#btcambiarpass").prop('disabled', true);
+      $('#password1').val("");
+      $('#password2').val("");
+      $('#password2').prop('disabled', true);
+    });
+  });
+</script>
 </body>
 </html>

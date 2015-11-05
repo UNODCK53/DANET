@@ -87,7 +87,7 @@
   <i class="bg-success"></i>La contraseña fue creada con éxito</div>
   <div class="col-sm-1"></div>
   @endif
-  <?php $error=Input::get('error');?>
+  <?php $error=Session::get('error');?>
   @if($error)
   <div class="col-sm-1"></div>
   <div id = "mensajeestatus" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>

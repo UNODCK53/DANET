@@ -13,8 +13,12 @@ class UserLogin extends Basecontroller
 		{
 			$my_id = Auth::user()->estado;
 			$my_check = Auth::user()->pass_check;
-			
 			if ($my_id==1){
+				$acc = DB::table('acceso')
+				->where ('id_user','=', Auth::user()->id)
+				->select('id_vista', 'acces')		
+				->get();
+				Session::put('acc',$acc);
 				if ($my_check==1){
 				return Redirect::to('principal');
 				}

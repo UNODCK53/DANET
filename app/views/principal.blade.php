@@ -1,5 +1,4 @@
- 
- <!--agrega la pagina maestra-->
+<!--agrega la pagina maestra-->
 @extends('layouts.master')
 <!--agrega seccion titulo por si se quiere cambiar el titulo de la pestaña-->
 @section('titulo')
@@ -8,8 +7,6 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-   
-
 @stop
  <!--agrega el Primer Contenerdor  de logo y cabecera el boton de inicio se agrega por aca-->
 @section('contenidocabecera1')
@@ -69,7 +66,7 @@
       <!--Texto del contenido-->
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <h1 class="text-center text-primary">Contexto de la política de Erradicación</h1>
+            <h1 class="text-center text-primary">Erradicación Manual Forzosa</h1>
             <p class="lead text-justify" >La Unidad Administrativa Especial para la Consolidación Territorial a través de la Dirección de Programas contra Cultivos Ilícitos (DPCI), desarrolla acciones de erradicación y post erradicación a través de la armonización y  coordinación de la Estrategia de Erradicación Manual Forzosa y de la Estrategia de Desarrollo Alternativo, organizadas con el propósito de promover la transición económica y social de los territorios de las regiones focalizadas por la Política Nacional de Consolidación y Reconstrucción Territorial y los afectados por cultivos ilícitos.</p>
             <p class="lead text-justify" >En Colombia se han implementado diversas formas de lucha contra los cultivos ilícitos y las drogas ilegales, tales como la erradicación manual que presenta las siguientes modalidades:</p>
             <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Voluntaria, y</ul></h4>
@@ -134,7 +131,6 @@
       </blockquote>
   </div>
   @endif
-  
   <!--cambiarpass modal-->
   <div id="cambiarpass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -163,8 +159,6 @@
       </div>
     </div>
   </div>
-
-
   <!--Fin del tercer contenedor--> 
 @stop
 <!--Cierra el CONTENEDOR GENERAL-->
@@ -182,71 +176,47 @@
       $(document).ready(function() {
         //para que los menus pequeño y grande funcione
         $( "#menuprincipal" ).addClass("active");
-        $( "#mensajeestatus" ).fadeOut(5000); 
+        $( "#mensajeestatus" ).fadeOut(5000);
+        $('#password2').prop('disabled', true);
+        $("#btcambiarpass").prop('disabled', true);
         //valida cambio de contraseña
-
         $('#password1').keyup(function(){
           var _this = $('#password1');
           var password1 = $('#password1').val();
           _this.parent().removeClass('has-info');
-          if ( password1.match(/^([a-z]+[0-9]+)|([0-9]+[a-z]+)/i) ) {
+          if ( password1.match(/^(?=^.{8,}$)([a-z]+[0-9]+)|([0-9]+[a-z]+)/i) ) {
             _this.parent().removeClass('has-error');
             $( "#b" ).hide();
             $('#password2').prop('disabled', false);
           }
           else{
             _this.parent().addClass('has-error');
-            $('#b').text("La contraseña debe tener letras y un números");
-            $( "#b" ).show(100);
+            $('#b').text("La contraseña debe ser alfanúmerica y debe tener mínimo 8 caracteres");
+            $( "#b" ).show(100); 
             $('#password2').prop('disabled', true);
-
           }
         });
-  
         $('#password2').keyup(function(){
           var password1 = $('#password1').val();
           var password2 = $('#password2').val();
           $("#btcambiarpass").prop('disabled', true); 
           var _this = $('#password2');
           _this.parent().removeClass('has-error');
-          if(password1 != password2 && password2 != ''){
-            _this.parent().addClass('has-error');
+          if(password1 == password2){
+            $("#btcambiarpass").prop('disabled', false); 
           }
           else{
-            if(password2.charAt(0) == ' '){
             _this.parent().addClass('has-error');
             $("#btcambiarpass").prop('disabled', true); 
-            }
-            else{
-              if(_this.val() == ''){
-              _this.parent().addClass('has-error');
-              $("#btcambiarpass").prop('disabled', true); 
-              }
-              else{
-              $("#btcambiarpass").prop('disabled', false);
-              }
-            } 
           }
         });
         $('#password1').focus(function(){
           $("#btcambiarpass").prop('disabled', true);
-          $( "#a" ).hide();
           $('#password1').val("");
           $('#password2').val("");
-
-        });
-        $('#password2').focus(function(){
-          var password1 = $('#password1').val();
-          $('#password2').val("");
-          if((password1.length < 6) && (password1.length >0)){
-            $("#password1").addClass('has-error');
-            $('#a').text("La contraseña no puede tener menos de 5 caracteres");
-            $( "#a" ).show(100); 
-            $('#password1').val("");
-          }
+          $('#password2').prop('disabled', true);
         });
     });
-
     </script>
     <?php //$cambiar=Session::get('cambiar_pass'); ?>
     @if(Session::has('cambiar_pass'))
@@ -256,6 +226,4 @@
       });
     </script>
     @endif
-
 @stop
-

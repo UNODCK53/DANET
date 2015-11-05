@@ -41,7 +41,6 @@ class RemindersController extends Controller {
 	public function getReset($token = null)
 	{
 		if (is_null($token)) App::abort(404);
-
 		return View::make('password.reset')->with('token', $token);
 	}
 
@@ -55,15 +54,12 @@ class RemindersController extends Controller {
 		$credentials = Input::only(
 			'email', 'password', 'password_confirmation', 'token'
 		);
-
 		$response = Password::reset($credentials, function($user, $password)
 		{
 			$user->password = Hash::make($password);
 			$user->pass_check=1;
-
 			$user->save();
 		});
-
 		switch ($response)
 		{
 			case Password::INVALID_PASSWORD:
@@ -71,19 +67,20 @@ class RemindersController extends Controller {
 				return Redirect::to('/')->with('error', Lang::get($response));
 			case Password::INVALID_USER:
 				return Redirect::to('/')->with('error', Lang::get($response));
-
 			case Password::PASSWORD_RESET:
 				return Redirect::to('/')->with('status', Lang::get($response));
 		}
 	}
-
 	public function postEmail()
 	{
-		$email= DB::table('password_reminders')
-		->where('token','=',Input::get('token'))
-		->select('email')
-		->get();
+		$email= DB::table('users')
+        ->join('password_reminders', function($join)
+        {
+            $join->on('users.email', '=', 'password_reminders.email')
+                 ->where('password_reminders.token', '=', Input::get('token'));
+        })
+		->select('users.username', 'users.email')
+        ->get();
 		return Response::json($email);
 	}
-
 }
