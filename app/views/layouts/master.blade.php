@@ -123,7 +123,7 @@
 <div class="container-fluid">
     <div class="row" id="menu-sec">
         <!--Menu secundario es visible en sm lg-->
-        <div class="col-sm-12 col-sm-offset-1 visible-sm visible-md  col-md-8 col-md-offset-2 visible-lg col-lg-9 col-lg-offset-3">
+        <div class="col-sm-12 col-sm-offset-1 visible-sm visible-md  col-md-8 col-md-offset-2 visible-lg col-lg-9 col-lg-offset-2">
             <ul class="nav nav-pills ">
                 <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
                 <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
@@ -296,8 +296,8 @@
                   </li>  
                   @endif
                 @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
-                
-                  <li class="dropdown"id="documentosmenupeq" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
+                <li class="dropdown"><a id="gmemenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
+                <li class="dropdown"><a id="documentosmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a id="carguedocumenupeq" href="<?=URL::to('cargue_docu'); ?>">Cargue de documentos</a></li>
                       <li><a id="" href="">Consulta de documentos</a></li>

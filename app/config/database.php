@@ -77,7 +77,7 @@ return array(
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
 			'host'     => 'UNODCSQLUI\GEO',
-			'database' => 'DABASE',
+			'database' => 'DABASE1',
 			'username' => 'danet',
 			'password' => 'Unodc2015',
 			'prefix'   => '',

@@ -66,6 +66,11 @@
                     <option value="{{$catego->id_categoria}}">{{$catego->categoria}}</option>              
                     @endforeach              
                 </select>
+              </div>              
+              <div class="form-group" id="carguedocumento">
+                <label id="tipodocu" for="carguedocu" class="control-label">Tipo de documento:</label>
+                <select id="selectipodocu" class="form-control" name="selectipodocu" required="true">                                 
+                </select>
               </div>
               <div class="form-group" id="estrategia">
                 <label for="carguedocu" class="control-label">Estrategia:</label>
@@ -76,12 +81,12 @@
                     @endforeach              
                 </select>
               </div>
-              <div class="form-group" id="carguedocumento">
-                <label id="tipodocu" for="carguedocu" class="control-label">Tipo de documento:</label>
-                <select id="selectipodocu" class="form-control" name="selectipodocu" required="true">                                 
+              <div class="form-group" id="bloquemodalidad">
+                <label for="carguedocu" class="control-label">Bloque o Modalidad:</label>
+                <select id="selectbloque" class="form-control" name="selectbloque">                               
                 </select>
               </div>
-              <div class="form-group" id="carguedocumento">
+              <div class="form-group" id="momento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Momento:</label>
                 <select id="selecmomento" class="form-control" name="selecmomento">                    
                 </select>
@@ -104,7 +109,7 @@
               </div>
               <div class="form-group" id="carguedocumento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Referencia geográfica:</label>
-                <select id="selecunigeo" class="form-control" name="selecunigeo">
+                <select id="selecunigeo" class="form-control" name="selecunigeo" required="true">
                     <option value="" selected="selected">Por favor seleccione</option>
                     @foreach($arrayiniciales[2] as $unigeo)
                     <option value="{{$unigeo->id_ugeo}}">{{$unigeo->unidgeo}}</option>              
@@ -121,7 +126,7 @@
                     </select>                    
               </div>
               <div class="form-group" id="divmpio">
-                
+                  
               </div>
               <div class="form-group"  id="carguedocumento">                  
                   <label for="carguedocu" class="control-label">Adjuntar documento:</label>
@@ -185,58 +190,130 @@
             todayHighlight: true
 
            });
-
+          $('#selectcategoria').val("");
+          $('#selecunigeo').val("");
+          $('#filedocu').val("");
+          $('#selectautor').val("");
+          $('#selectfechadocu').val("");                    
           $("#refegeo").hide();
           $("#estrategia").hide();
+          $("#bloquemodalidad").hide();
+          $("#momento").hide();
+          
+          
           //para cargar el select de tipo de categoria
           $("#selectcategoria").change(function(){
             if ($('#selectcategoria').val() == 1) {
               $("#selectestrategia").val("");
-              $("#estrategia").show();
+              $("#selecmomento").val("");
+              $("#selectbloque").val(""); 
+              $("#selectipodocu").val("");
+              $("#selectautor").val("");
+              $("#selectfechadocu").val("");
+              $("#selecunigeo").val("");
+              $('#selecdepto').val("");
+              $("#divmpio").empty();
+              $("#divmpio").hide();                            
+              $("#estrategia").show(1000);
+              $("#bloquemodalidad").show(1000);
+              $("#momento").show(1000);
+              $("#refegeo").hide(1000);
+              $("#selecdepto").prop('required',false);
               $("#selectestrategia").prop('required',true);
-            }
-            else {
+              $("#selectbloque").prop('required',true); 
+              $("#selecmomento").prop('required',true);
+            } else if ($('#selectcategoria').val() == 2) {
+                $("#selectestrategia").val("");                                
+                $("#selectbloque").val("");                
+                $("#selecmomento").val("");
+                $("#selectautor").val("");
+                $("#selectfechadocu").val("");
+                $("#selecunigeo").val("");
+                $('#selecdepto').val("");
+                $("#divmpio").empty();
+                $("#divmpio").hide();                
+                $("#estrategia").hide(1000);
+                $("#bloquemodalidad").hide(1000);
+                $("#momento").show(1000);
+                $("#refegeo").hide(1000);
+                $("#selecdepto").prop('required',false);
+                $("#selectbloque").prop('required',false);
+                $("#selectestrategia").prop('required',false);
+                $("#selecmomento").prop('required',true);
+            } else {
               $("#selectestrategia").val("");
-              $("#estrategia").hide();
+              $("#selecmomento").val("");
+              $("#selectbloque").val("");
+              $("#selectautor").val("");
+              $("#selectfechadocu").val("");
+              $("#selecunigeo").val("");
+              $('#selecdepto').val("");
+              $("#divmpio").empty();
+              $("#divmpio").hide();              
+              $("#estrategia").hide(1000);
+              $("#bloquemodalidad").hide(1000);
+              $("#refegeo").hide(1000);
+              $("#momento").hide(1000);
+              $("#selecdepto").prop('required',false);
               $("#selectestrategia").prop('required',false);
+              $("#selecmomento").prop('required',false);
+              $("#selectbloque").prop('required',false);
             }
+            if ($('#selectcategoria').val() != "") {
+              $.ajax({url:"documentos/subcategoria",type:"POST",data:{categoria:$('#selectcategoria').val()},dataType:'json',
+                success:function(data){
 
-            $.ajax({url:"documentos/subcategoria",type:"POST",data:{categoria:$('#selectcategoria').val()},dataType:'json',
-              success:function(data){
+                    $("#selectipodocu").empty();
+                    //console.log(data);
+                    $("#selectipodocu").append("<option value=''>Por favor seleccione</option>");
+                      [].forEach.call(data[0],function(datos){
+                        $("#selectipodocu").append("<option value=\""+datos.id_tipo+"\">"+datos.tipo+"</option>");
+                      });
 
-                  $("#selectipodocu").empty();
-                  //console.log(data);
-                  $("#selectipodocu").append("<option value=''>Por favor seleccione</option>");
-                    [].forEach.call(data[0],function(datos){
-                      $("#selectipodocu").append("<option value=\""+datos.id_tipo+"\">"+datos.tipo+"</option>");
-                    });
+                    $("#selecmomento").empty();
+                    //console.log(data);
+                    $("#selecmomento").append("<option value=''>Por favor seleccione</option>");                   
+                      [].forEach.call(data[1],function(datos1){
+                        $("#selecmomento").append("<option value=\""+datos1.id_momento+"\">"+datos1.momento+"</option>");
+                      });
+                       
+                },
+                error:function(){alert('error');}
+              });//Termina Ajax 
+            };
+          });
+          $("#selectestrategia").change(function(){              
+             $.ajax({url:"documentos/selbloque",type:"POST",data:{estrategia:$('#selectestrategia').val()},dataType:'json',
+                success:function(data){
 
-                  $("#selecmomento").empty();
-                  //console.log(data);
-                  $("#selecmomento").append("<option value=''>Por favor seleccione</option>");                   
-                    [].forEach.call(data[1],function(datos1){
-                      $("#selecmomento").append("<option value=\""+datos1.id_momento+"\">"+datos1.momento+"</option>");
-                    });
-                     
-              },
-              error:function(){alert('error');}
-            });//Termina Ajax 
-          });   
+                    $("#selectbloque").empty();
+                    console.log(data);
+                    $("#selectbloque").append("<option value=''>Por favor seleccione</option>");
+                      [].forEach.call(data,function(datos2){
+                        $("#selectbloque").append("<option value=\""+datos2.id_bloque+"\">"+datos2.bloque_modalidad+"</option>");
+                      });                       
+                },
+                error:function(){alert('error');}
+              });//Termina Ajax 
+          });
+
           $("#selecunigeo").change(function(){              
               if ($('#selecunigeo').val() == 2) {
+                  $("#divmpio").empty();
                   $('#selecdepto').val("");
-                  $("#refegeo").show();
-                  $("#divmpio").hide();
+                  $("#refegeo").show(1000);
+                  $("#divmpio").hide(1000);
                   $("#selecdepto").prop('required',true);
                   
               } else if ($('#selecunigeo').val() == 3) {
-                  $('#selecdepto').val("");
                   $("#divmpio").empty();
-                  $("#refegeo").show();
-                  $("#divmpio").show();
+                  $('#selecdepto').val("");                  
+                  $("#refegeo").show(1000);
+                  $("#divmpio").show();                  
                   $("#selecdepto").prop('required',true);
                   
               } else {
+                 $("#divmpio").empty();
                  $("#refegeo").hide();
                  $("#divmpio").hide();
                  $("#selecdepto").prop('required',false);
@@ -248,12 +325,10 @@
             
             $.ajax({url:"documentos/submpio",type:"POST",data:{depto:$('#selecdepto').val()},dataType:'json',
               success:function(data){
-                  $("#selecmpio").empty();
-                  $("#divmpio").empty();
-                                 
-                  $("#divmpio").append('<label id="tipodocu" for="carguedocu" class="control-label">Municipio:</label><br>');
-                    [].forEach.call(data,function(datos){                      
-                      $('#divmpio').append('<input type="checkbox" value='+datos.COD_DANE+'> '+datos.NOM_MPIO.toLowerCase()+'<br>');
+                  $("#divmpio").empty();                                
+                  $("#divmpio").append('<label id="tipodocu" for="carguedocu" class="control-label">Municipio(s):</label><br>');
+                    [].forEach.call(data,function(datos3){                      
+                      $('#divmpio').append('<input id="selectmpios" type="checkbox" name="selectmpios[]" value='+datos3.COD_DANE+'> '+datos3.NOM_MPIO+'<br>');
                     });                  
                      
               },
