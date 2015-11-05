@@ -100,7 +100,7 @@
          <select id="selmonitor" class="form-control" name="selmonitor">
               <option value="" selected="selected">Por favor seleccione</option>
               @foreach($todo[1] as $pro)
-                  <option value="{{$pro->cod_monitor}}">{{$pro->nom_monitor}}</option>
+                  <option value="{{$pro->id}}">{{$pro->name}} {{$pro->last_name}}</option>
               @endforeach
           </select>
       </div>
@@ -1163,13 +1163,13 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
 
  $.ajax({url:"siscadi/siscadimoni",type:"POST",data:{mision:$('#selmision').val(),intervencion:$('#selintervencion').val(),departamento:$('#seldpto').val(),municipio:$('#selmpio').val()},dataType:'json',
           success:function(data1){
+			  
             label=data1;
           }
         });
 
         $.ajax({url:"siscadi/siscadimpio",type:"POST",data:{mision:$('#selmision').val(),intervencion:$('#selintervencion').val(),departamento:$('#seldpto').val(),municipio:$('#selmpio').val()},dataType:'json',
           success:function(data1){
-
         $('#container').highcharts({//funcion qu crea la grafica
             
             chart: {
@@ -1321,7 +1321,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
 
         $('#container').highcharts({
           chart:{type:'column'},
-          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en misiones de Desarrollo Alternativo'},
+          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en misiones de Desarrollo Alternativo'},
          
           xAxis:{
             categories:[""]
@@ -1331,7 +1331,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
           yAxis:{min:0,title:{text:'Número de encuestas'}},
           tooltip:{
             formatter: function () {
-                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                    return data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -1404,7 +1404,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en la intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en la intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución departamental '},
@@ -1495,7 +1495,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
 
         $('#container').highcharts({
           chart:{type:'column'},
-          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en misiones de Desarrollo Alternativo'},
+          title:{text:'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en misiones de Desarrollo Alternativo'},
         
           xAxis:{
             categories:[""]
@@ -1505,7 +1505,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
           yAxis:{min:0,title:{text:'Número de encuestas'}},
           tooltip:{
             formatter: function () {
-                    return data1.arraymonitor[0].nom_monitor+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
+                    return data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ ' a realizado <b>' + this.y + '</b> encuestas a  <span style="color:'+this.series.color+'">'+this.series.name +'</span>';
                 }
             
           },
@@ -1549,7 +1549,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+  '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución municipal '},
@@ -1643,7 +1643,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en la intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+  '<br>en la intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución departamental '},
@@ -1726,7 +1726,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
             type: 'column'
         },
         title: {
-            text:  'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text:  'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+'<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución veredal '},
@@ -1819,7 +1819,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>en departamento de '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
             
         },
         subtitle:{text:'Según distribución municipal '},
@@ -1928,7 +1928,7 @@ $('#container').highcharts({
             type: 'pie'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>vereda  '+ data1.arrayvda[0].NOM_TERR+', '+ data1.arraymuni[0].NOM_MPIO+'- '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+ '<br>vereda  '+ data1.arrayvda[0].NOM_TERR+', '+ data1.arraymuni[0].NOM_MPIO+'- '+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
         },
          subtitle:{text:'Según distribución por tipo de misión '},
         yAxis: {
@@ -2027,7 +2027,7 @@ $('#container').highcharts({
             type: 'column'
         },
         title: {
-            text: 'Encuestas realizadas por '+data1.arraymonitor[0].nom_monitor+ '<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
+            text: 'Encuestas realizadas por '+data1.arraymonitor[0].name+ ' '+data1.arraymonitor[0].last_name+'<br>en  '+ data1.arraymuni[0].NOM_MPIO+'-'+ data1.arraydpto[0].NOM_DPTO+'. Intervención '+$('#selintervencionmoni').val()
         },
         subtitle:{text:'Según distribución veredal '},
         xAxis: {

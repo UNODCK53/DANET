@@ -120,14 +120,15 @@ if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve
 	{
 
 		$arraymoni=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')
 			->where('MODSISCADI_ENCUESTAS.intervencion',Input::get('intervencion'))
 			->where('MODSISCADI_ENCUESTAS.mision',Input::get('mision'))
 			->where('MODSISCADI_ENCUESTAS.piloto',Input::get('piloto'))
-			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
-			->groupBy('MODSISCADI_MONITOR.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
-			->orderBy('MODSISCADI_MONITOR.nom_monitor')
+			->select('users.id','users.name','users.last_name')
+			->groupBy('users.id')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->orderBy('users.name')
 			->get();
 			
 
@@ -576,16 +577,17 @@ if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve
 		$monitores=array();//arrelo donde se almacenara el codigo y nombre de las veredas a las cuales se realziaron encuestas a comites en el municipio seleccionado 
 		$monitores2=array();
 		$tabla_monitor=DB::table('MODSISCADI_ENCUESTAS')	//crea la consulta para obtener el nombre del monitor (tabla core)		
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')//join entre tabla dominio y tabla core de beneficiarios 
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')//join entre tabla dominio y tabla core de beneficiarios 
 			->where('MODSISCADI_ENCUESTAS.cod_monitor','=', $monitor)//selecciona las veredas para el codigo de municipio ingresado
-			->select('MODSISCADI_ENCUESTAS.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
+			->select('MODSISCADI_ENCUESTAS.cod_monitor','users.name','users.last_name')
 			->groupBy('MODSISCADI_ENCUESTAS.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
 			->get();
 			
 		foreach($tabla_monitor as $category):// crea arreglo con el nombre del monitor
-			$monitores2=array('cod_monitor'=>$category->cod_monitor,'nom_monitor'=>$category->nom_monitor);
-			$monitores3 = $category->nom_monitor;	
+			$monitores2=array('cod_monitor'=>$category->cod_monitor,'nom_monitor'=>$category->name." ".$category->last_name);
+			$monitores3 = $category->name." ".$category->last_name;	
 		endforeach;	
 
 		$fecha_reporte=date("d")."/". date("m")."/".date("Y"); //variable con la fecha de hoy
@@ -868,12 +870,13 @@ public function siscadi_indicadores()
 
 		//Consultas para obtener label del monitores
 		$arraymonitor=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de monitores de a partir de los codigos almacenados en las encuestas
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')
 			->where('MODSISCADI_ENCUESTAS.piloto','=','No')
-			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
-			->groupBy('MODSISCADI_MONITOR.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
-			->orderBy('MODSISCADI_MONITOR.nom_monitor')
+			->select('users.id','users.name','users.last_name')
+			->groupBy('users.id')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->orderBy('users.name')
 			->get();
 
 
@@ -1354,7 +1357,7 @@ $arrayintercount=array($categories_muni2,$arraygrafica);
 
 
 //consulta para traer los monitores según datos del formulario
-$arraymoni=DB::select("select MODSISCADI_MONITOR.cod_monitor,MODSISCADI_MONITOR.nom_monitor from MODSISCADI_ENCUESTAS join MODSISCADI_MONITOR on MODSISCADI_ENCUESTAS.cod_monitor = MODSISCADI_MONITOR.cod_monitor where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."'  and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='No'and SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".Input::get('municipio')."' group by MODSISCADI_MONITOR.cod_monitor,MODSISCADI_MONITOR.nom_monitor order by MODSISCADI_MONITOR.nom_monitor");
+$arraymoni=DB::select("select users.id as cod_monitor,users.name,users.last_name, CONCAT (users.name,users.last_name)as nom_monitor from MODSISCADI_ENCUESTAS join users on MODSISCADI_ENCUESTAS.cod_monitor = users.id where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."'  and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='No'and SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".Input::get('municipio')."' group by users.id,users.name,users.last_name order by users.name"); 
 
 $categories_moni2=array();	
 $Label=array();	
@@ -1369,7 +1372,7 @@ $Label=array();
 
 			$arraygrafica= DB::select(" select moni_comi.cod_monitor,moni_comi.nom_monitor,moni_comi.num_comi,benefi.num_bene from
   (select moni.cod_monitor,moni.nom_monitor,comite.num_comi from
-  (select MODSISCADI_MONITOR.cod_monitor,MODSISCADI_MONITOR.nom_monitor from MODSISCADI_ENCUESTAS join MODSISCADI_MONITOR on MODSISCADI_ENCUESTAS.cod_monitor = MODSISCADI_MONITOR.cod_monitor where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."'  and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='No'and SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".Input::get('municipio')."' group by MODSISCADI_MONITOR.cod_monitor,MODSISCADI_MONITOR.nom_monitor) as moni
+  (select  users.id as cod_monitor,users.name,users.last_name, CONCAT (users.name,users.last_name)as nom_monitor from MODSISCADI_ENCUESTAS join users on MODSISCADI_ENCUESTAS.cod_monitor = users.id where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."'  and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='No'and SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".Input::get('municipio')."' group by users.id,users.name,users.last_name) as moni
   full join 
   (SELECT [cod_monitor],COUNT([cod_monitor]) as num_comi
   FROM [DABASE].[sde].[MODSISCADI_ENCUESTAS] where  MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."'  and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.piloto='No'and SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".Input::get('municipio')."' group by cod_monitor) as comite
@@ -1439,7 +1442,7 @@ public function postSiscadimoni()
 				->get();		
 		
 		//consulta para traer los monitores según datos del formulario
-		$arraymoni=DB::select("select MODSISCADI_MONITOR.cod_monitor,MODSISCADI_MONITOR.nom_monitor from MODSISCADI_ENCUESTAS join MODSISCADI_MONITOR on MODSISCADI_ENCUESTAS.cod_monitor = MODSISCADI_MONITOR.cod_monitor where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."'  and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='No'and SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".Input::get('municipio')."' group by MODSISCADI_MONITOR.cod_monitor,MODSISCADI_MONITOR.nom_monitor order by MODSISCADI_MONITOR.nom_monitor");
+		$arraymoni=DB::select("select users.id as cod_monitor,users.name,users.last_name,CONCAT(users.name,users.last_name) as nom_monitor from MODSISCADI_ENCUESTAS join users on MODSISCADI_ENCUESTAS.cod_monitor = users.id where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."'  and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='No'and SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".Input::get('municipio')."' group by users.id,users.name,users.last_name order by users.name");
 
 		$categories_1=array();	
 		$moni=array();	
@@ -1500,13 +1503,14 @@ public function postSiscadiidmonitor()
 
 		//Consultas para obtener label del monitores
 		$arraymonitor=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de monitores de a partir de los codigos almacenados en las encuestas
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')
 			->where('MODSISCADI_ENCUESTAS.piloto','=','No')
 			->WHERE('MODSISCADI_ENCUESTAS.cod_monitor','=',Input::get('monitor'))
-			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
-			->groupBy('MODSISCADI_MONITOR.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
-			->orderBy('MODSISCADI_MONITOR.nom_monitor')
+			->select('users.id','users.name','users.last_name')
+			->groupBy('users.id')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->orderBy('users.name')
 			->get();
 
 		
@@ -1534,15 +1538,15 @@ $arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO f
 
 		//Consultas para obtener label del monitores
 		$arraymonitor=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de monitores de a partir de los codigos almacenados en las encuestas
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')
 			->where('MODSISCADI_ENCUESTAS.piloto','=','No')
 			->WHERE('MODSISCADI_ENCUESTAS.cod_monitor','=',Input::get('monitor'))
-			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
-			->groupBy('MODSISCADI_MONITOR.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
-			->orderBy('MODSISCADI_MONITOR.nom_monitor')
+			->select('users.id','users.name','users.last_name')
+			->groupBy('users.id')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->orderBy('users.name')
 			->get();
-
 		
 	
 
@@ -1622,13 +1626,14 @@ $arraympio = DB::select("select MUNICIPIOS.COD_DANE,MUNICIPIOS.NOM_MPIO from MUN
 
 		//Consultas para obtener label del monitores
 		$arraymonitor=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de monitores de a partir de los codigos almacenados en las encuestas
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')
 			->where('MODSISCADI_ENCUESTAS.piloto','=','No')
 			->WHERE('MODSISCADI_ENCUESTAS.cod_monitor','=',Input::get('monitor'))
-			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
-			->groupBy('MODSISCADI_MONITOR.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
-			->orderBy('MODSISCADI_MONITOR.nom_monitor')
+			->select('users.id','users.name','users.last_name')
+			->groupBy('users.id')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->orderBy('users.name')
 			->get();
 
 		
@@ -1709,15 +1714,15 @@ $arrayvda = DB::select("SELECT MODSISCADI_VEREDAS.COD_UNODC,MODSISCADI_VEREDAS.N
 
 		//Consultas para obtener label del monitores
 		$arraymonitor=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de monitores de a partir de los codigos almacenados en las encuestas
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')
 			->where('MODSISCADI_ENCUESTAS.piloto','=','No')
 			->WHERE('MODSISCADI_ENCUESTAS.cod_monitor','=',Input::get('monitor'))
-			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
-			->groupBy('MODSISCADI_MONITOR.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
-			->orderBy('MODSISCADI_MONITOR.nom_monitor')
+			->select('users.id','users.name','users.last_name')
+			->groupBy('users.id')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->orderBy('users.name')
 			->get();
-
 		
 	
 
@@ -1785,13 +1790,14 @@ public function postSiscadiidmonivda()
 
 		//Consultas para obtener label del monitores
 		$arraymonitor=DB::table('MODSISCADI_ENCUESTAS') //crea la consulta para obtener el nombre de monitores de a partir de los codigos almacenados en las encuestas
-			->Join('MODSISCADI_MONITOR','MODSISCADI_ENCUESTAS.cod_monitor','=','MODSISCADI_MONITOR.cod_monitor')
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')
 			->where('MODSISCADI_ENCUESTAS.piloto','=','No')
 			->WHERE('MODSISCADI_ENCUESTAS.cod_monitor','=',Input::get('monitor'))
-			->select('MODSISCADI_MONITOR.cod_monitor','MODSISCADI_MONITOR.nom_monitor')
-			->groupBy('MODSISCADI_MONITOR.cod_monitor')
-			->groupBy('MODSISCADI_MONITOR.nom_monitor')
-			->orderBy('MODSISCADI_MONITOR.nom_monitor')
+			->select('users.id','users.name','users.last_name')
+			->groupBy('users.id')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->orderBy('users.name')
 			->get();
 			
 	

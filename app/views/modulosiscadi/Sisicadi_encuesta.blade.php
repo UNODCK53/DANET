@@ -144,7 +144,7 @@
               <label for="intervencion">Intervención:</label>
             </div>  
             <div class="col-sm-4" >
-              <select class="form-control" id="intervencion_gen" name="intervencion_gen" title="Seleccione uno" onchange="general(),borrar(this)" required> 
+              <select class="form-control" id="intervencion_gen" name="intervencion_gen" title="Seleccione uno"  required> 
                 <option value=''>Seleccione uno</option>;
                 @foreach($arrayinter as $pro)
                   <option value="{{$pro->intervencion}}">{{$pro->intervencion}}</option>
@@ -160,7 +160,7 @@
               <label for="mision"id="labelmision_gen">Tipo de misón:</label>
             </div>  
             <div class="col-sm-4" >
-              <select  class="form-control" id="mision_gen" name="mision_gen" title="Seleccione uno" onchange="general()" required> 
+              <select  class="form-control" id="mision_gen" name="mision_gen" title="Seleccione uno" required> 
               </select> 
             </div>              
           </div>  
@@ -667,7 +667,7 @@
             $("#formulairo_moni").hide();
             $("#monitor").append("<option value=''>Por favor seleccione</option>");
             $.each(data1.arraymoni, function(nom,datos){
-              $("#monitor").append("<option value=\""+datos.cod_monitor+"\">"+datos.nom_monitor+"</option>");
+              $("#monitor").append("<option value=\""+datos.id+"\">"+datos.name+" "+datos.last_name+"</option>");
             });
 
           },
