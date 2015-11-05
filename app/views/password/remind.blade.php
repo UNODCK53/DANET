@@ -99,15 +99,19 @@
 </div>
 <!--Fin del sexto contenedor-->  
 <script>
-      $(document).ready(function() {
-        //para que los menus pequeño y grande funcione
-        $( "#menuprincipal" ).addClass("active");
-        $('#email').val("");
-        $( "#a" ).fadeOut(5000);
-        $('#email').focus(function(){
-        $( "#a" ).hide();
-        });
+  $(document).ready(function() {
+    //para que los menus pequeño y grande funcione
+    $( "#menuprincipal" ).addClass("active");
+    $('#email').val("");
+    $( "#a" ).fadeOut(5000);
+    $('#email').focus(function(){
+      $( "#a" ).hide();
     });
+    $('#btenviaremail').click(function(){
+      $('#btenviaremail').val("Enviando...");
+      $('#btenviaremail').prop('disabled', true);
+    });
+  });
 </script>
 </body>
 </html>
