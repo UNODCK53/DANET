@@ -57,24 +57,25 @@
     <h2><p class="text-center">Solicitud para establecer su contraseña</p></h2>
     <br/>
     <div class="col-sm-3"></div>
-	<div class="col-sm-6">
-		<form action="{{ action('RemindersController@postRemind') }}" method="POST">
-	    	<div class="form-group">
-			    <input class="form-control input-lg" id="email" placeholder="Escriba aquí su e-mail" type="email" name="email" required>
-			    <?php $error=Session::get('error'); ?> 
-			    @if ($error)
-			    <span class="label label-danger" id="a">Su e-mail no se encuentra registrado</span>
-			    @endif
-			</div>
-			<div class="form-group">
-				<input class="btn btn-primary" id="btenviaremail" value="Enviar solicitud" type="submit">
-				<br/>
-			</div>
-		</form>
-	<br>
-	</div>
-	<div class="col-sm-3"></div>
- 	</div>
+  <div class="col-sm-6">
+    <form action="{{ action('RemindersController@postRemind') }}" method="POST">
+        <div class="form-group">
+          <input class="form-control input-lg" id="email" placeholder="Escriba aquí su e-mail" type="email" name="email" required>
+          <?php $error=Session::get('error'); ?> 
+          @if ($error)
+          <span class="label label-danger" id="a">Su e-mail no se encuentra registrado</span>
+          @endif
+      </div>
+      <div class="form-group">
+        <input class="btn btn-primary" id="btenviaremail" value="Enviar solicitud" type="submit">
+        <span class="label label-info" id="b">Enviando solicitud</span>
+        <br/>
+      </div>
+    </form>
+  <br>
+  </div>
+  <div class="col-sm-3"></div>
+  </div>
   </div>
 </div>
 <!--Fin del cuarto contenedor-->
@@ -101,15 +102,26 @@
 <script>
   $(document).ready(function() {
     //para que los menus pequeño y grande funcione
-    $( "#menuprincipal" ).addClass("active");
+    $( "#b" ).hide();
     $('#email').val("");
+  $('#btenviaremail').prop('disabled', true);
     $( "#a" ).fadeOut(5000);
-    $('#email').focus(function(){
-      $( "#a" ).hide();
+    $('#email').keyup(function(){
+    var _this = $('#email');
+    var email = $('#email').val();
+    if ( email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i) ) {
+      $('#btenviaremail').prop('disabled', false);
+      _this.parent().removeClass('has-error');
+    }
+    else{
+       _this.parent().addClass('has-error');
+      $('#btenviaremail').prop('disabled', true);
+    }
     });
     $('#btenviaremail').click(function(){
-      $('#btenviaremail').val("Enviando...");
-      $('#btenviaremail').prop('disabled', true);
+  document.getElementById("email").readOnly = true;
+      $('#btenviaremail').hide();
+      $( "#b" ).show();
     });
   });
 </script>

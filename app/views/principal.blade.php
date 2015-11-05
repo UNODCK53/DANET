@@ -66,7 +66,7 @@
       <!--Texto del contenido-->
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <h1 class="text-center text-primary">Contexto de la política de Erradicación</h1>
+            <h1 class="text-center text-primary">Erradicación Manual Forzosa</h1>
             <p class="lead text-justify" >La Unidad Administrativa Especial para la Consolidación Territorial a través de la Dirección de Programas contra Cultivos Ilícitos (DPCI), desarrolla acciones de erradicación y post erradicación a través de la armonización y  coordinación de la Estrategia de Erradicación Manual Forzosa y de la Estrategia de Desarrollo Alternativo, organizadas con el propósito de promover la transición económica y social de los territorios de las regiones focalizadas por la Política Nacional de Consolidación y Reconstrucción Territorial y los afectados por cultivos ilícitos.</p>
             <p class="lead text-justify" >En Colombia se han implementado diversas formas de lucha contra los cultivos ilícitos y las drogas ilegales, tales como la erradicación manual que presenta las siguientes modalidades:</p>
             <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> La Erradicación Manual Voluntaria, y</ul></h4>

@@ -25,9 +25,9 @@ Route::post('login','UserLogin@user');
 //ruta para cerrar sesión y nos redirige a la portada
 Route::get('logout', function()
 { 
-	Auth::logout();
-	return Redirect::to('/');
- 
+	Session::forget('acc');
+  Auth::logout();
+	return Redirect::to('/'); 
 });
 
 //Rutas para activar los controladores
@@ -38,70 +38,59 @@ Route::controller('documentos','DocumentosController');
 //para ingresar a las siguientes rutas se tiene que estar autenticado:
 Route::group(array('before' => 'auth'), function()
 {
-    //Ruta del home si se encuentra autenticado
-    Route::get('principal', function(){return View::make('principal');});
-    Route::post('cambiopass','UserLogin@cambiar');
-
-
-  Route::group(array('before'=>'cargainicial'), function(){
+  //Ruta del home si se encuentra autenticado
+  Route::get('principal', function(){return View::make('principal');});
+  Route::post('cambiopass','UserLogin@cambiar');
+  //Rutas módulo de tierras
+  Route::group(array('before'=>'consulgentierras'), function(){
+    //melleva a la vista de consulta general de tierras
+    Route::get('consulta_general_tierras','TierrasController@ListadoProcesogral');
+    //Ruta para consulta por proceso
+    Route::get('consultar_proceso', 'TierrasController@ConsultaDetallada');
+  });
+  Route::get('reporte_estado', array('before' => 'reporestadotierras', 'uses' => 'TierrasController@ReporEstado'));
+  Route::group(array('before'=>'repornumtierras'), function(){
+    //Ruta para elaborar reporte por numero de proceso
+    Route::get('reporte_numero_proceso', 'TierrasController@ReporNumPro');
+    //Ruta para generar pdf
+    Route::get('despdf','TierrasController@Generarpfd');
+  });
+  Route::get('reporte_lavantamiento_topografico', array('before' => 'reporlevtopotierras', 'uses' => 'TierrasController@RLevantamientoTopogragfico'));
+  Route::get('reporte_area_levantada', array('before' => 'reporarealevtierras', 'uses' => 'TierrasController@ReporAreaLevantada'));
+  Route::get('reporte_responsable_juridico', array('before' => 'consulresjuritierras', 'uses' => 'TierrasController@ResponsableJuridico'));
+  Route::group(array('before'=>'cargainicialtierras'), function(){
     // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
     Route::get('carga_inicial','TierrasController@ListadoProini');
     //Controlador para exportar a excel la tabla de procesos iniciales
     Route::get('excelcar','TierrasController@Excelcarini');
+  });
+  Route::group(array('before'=>'procesosadjudicadostierras'), function(){
     // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproceso
     Route::get('procesos_adjudicados','TierrasController@ListadoProceso');
     //ruta controlador consulta datos para procesoso adjudicados edicion
     Route::get('procesos_adjudicados_editar','TierrasController@Datosprocesos');
     //Ruta para solicitar el cambio de password
-
-   
-
   });
-
-  Route::group(array('before'=>'accesogen'), function(){
-    //melleva a la vista de consulta general de tierras
-    Route::get('consulta_general_tierras','TierrasController@ListadoProcesogral');
-    //Ruta para elaborar grafica de reporte juridico
-    Route::get('reporte_responsable_juridico', 'TierrasController@ResponsableJuridico');
-    //Ruta para elaborar grafica de levantamiento topograficos requeridos
-    Route::get('reporte_lavantamiento_topografico', 'TierrasController@RLevantamientoTopogragfico');
-    //Ruta para elaborar grafica de area levantada
-    Route::get('reporte_area_levantada', 'TierrasController@ReporAreaLevantada');
-    //Ruta para elaborar grafica de reporte por estado
-    Route::get('reporte_estado', 'TierrasController@ReporEstado');
-    //Ruta para elaborar reporte por numero de proceso
-    Route::get('reporte_numero_proceso', 'TierrasController@ReporNumPro');
-    //Ruta para el visor de mapas
-    Route::get('mapas', function(){return View::make('modulotierras/mapas');});
-    //Ruta para generar pdf
-    Route::get('despdf','TierrasController@Generarpfd');
-    //Ruta para consulta por proceso
-    Route::get('consultar_proceso', 'TierrasController@ConsultaDetallada');
-    
-    
-  });
-
-  Route::group(array('before'=>'levgeografico'), function(){
-    //melleva a la vista de levantamiento topografico
-    Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
-      
-  });
-  
-  Route::group(array('before'=>'accesogme'), function(){
-   //rutas para modulo de GME accesogme
-    Route::get('validacion_certificacion', function(){return View::make('modulogme/validacionycertificacionemf');});  
-    Route::get('metodologia_gme', function(){return View::make('modulogme/metodologiavalidacioncertificacionemf');});
-    Route::get('distribucion_gme', function(){return View::make('modulogme/distribucionemf');});
-    Route::get('informes_gme', function(){return View::make('modulogme/informestrimestralesemf');});
-  //termina rutas para modulo de GME
-  });
-
-    //rutas para modulo de SISCADI 
-
+  Route::get('levantamiento_topografico', array('before' => 'levgeograficotierras', 'uses' => 'TierrasController@ListadoLevtopo'));
+  //Ruta para edición de coordenadas
+  Route::get('coordenadas_edicion', array('before' => 'editcoortierras', 'uses' => 'TierrasController@UpdateProcesogeo'));
+  //Ruta para el visor de mapas
+  Route::get('mapas', array('before'=>'consmapfierras', function(){return View::make('modulotierras/mapas');}));
+  //Termina Rutas módulo tierras
+  //Rutas módulo GME
+  //Rutas para Validación de certificación
+  Route::get('validacion_certificacion', array('before'=>'valcertGME', function(){return View::make('modulogme/validacionycertificacionemf');}));
+  //Ruta Metodología GME
+  Route::get('metodologia_gme', array('before'=>'metodologiaGME', function(){return View::make('modulogme/metodologiavalidacioncertificacionemf');}));
+  //Ruta Distribución GME
+  Route::get('distribucion_gme', array('before'=>'distGME', function(){return View::make('modulogme/distribucionemf');}));
+  //Ruta Informes GME
+  Route::get('informes_gme', array('before'=>'informesGME', function(){return View::make('modulogme/informestrimestralesemf');}));
+  //termina rutas para módulo de GME
+  //rutas para modulo de SISCADI 
   Route::post('depto', 'SiscadiController@showDepto');
   Route::post('muni', 'SiscadiController@showMuni');
   Route::post('monit', 'SiscadiController@showMonitor');
-
   Route::get('reporte', 'SiscadiController@reporte_encuesta');
   Route::post('pdfa', 'SiscadiController@repote_mision');
   Route::post('general', 'SiscadiController@repote_general');
@@ -110,14 +99,16 @@ Route::group(array('before' => 'auth'), function()
   //termina rutas para modulo de SISCADI    
 
 
-});
+
+
+});//Cierra rutas para usuarios autenticados
 
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
 //Route::get('vista3',function(){return View::make('vista3');});
   Route::get('vista3','TierrasController@PruebaPro');
 
-  Route::get('coordenadas_edicion','TierrasController@UpdateProcesogeo');
+  
 
 //permite acceso a las vistas del modulo de documentos
   
