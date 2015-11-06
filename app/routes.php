@@ -87,16 +87,14 @@ Route::group(array('before' => 'auth'), function()
   //Ruta Informes GME
   Route::get('informes_gme', array('before'=>'informesGME', function(){return View::make('modulogme/informestrimestralesemf');}));
   //termina rutas para módulo de GME
-
-    //rutas para modulo de SISCADI 
-
-  Route::get('siscadi_encuentas', 'SiscadiController@reporte_encuesta');
-
-  Route::get('siscadi_indicadores', 'SiscadiController@siscadi_indicadores');
-  //termina rutas para modulo de SISCADI    
-
-
-
+  //rutas para modulo de SISCADI
+  Route::get('siscadi_encuentas', array('before' => 'ConsencSISCADI', 'uses' => 'SiscadiController@reporte_encuesta'));
+  Route::get('siscadi_indicadores', array('before' => 'indicarecoSISCADI', 'uses' => 'SiscadiController@siscadi_indicadores'));  
+  //termina rutas para modulo de SISCADI 
+  //Rutas para módulo de Docuementos
+  Route::get('cargue_docu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@CarguedocuInicio'));  
+  Route::get('consulta_docu', array('before'=>'consulDOCUMENTOS', function(){return View::make('modulodocumentos/consultadocumentos');}));
+  //Termina rutas para el módulo de Documentos
 
 });//Cierra rutas para usuarios autenticados
 
@@ -105,15 +103,12 @@ Route::group(array('before' => 'auth'), function()
 //Route::get('vista3',function(){return View::make('vista3');});
   Route::get('vista3','TierrasController@PruebaPro');
 
-  
+
 
 //permite acceso a las vistas del modulo de documentos
   
   //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
-  Route::get('cargue_docu', 'DocumentosController@CarguedocuInicio');
 
-  Route::get('consulta_docu', function(){return View::make('modulodocumentos/consultadocumentos');});
-  
   Route::group(array('before' => 'grupo1'), function()
   {
     //solo puede ingresar el level 1 a la vista 1
@@ -121,5 +116,5 @@ Route::group(array('before' => 'auth'), function()
       {
         Route::get('/vista1',function(){return View::make('vista1');});
       });
-       
+
   });
