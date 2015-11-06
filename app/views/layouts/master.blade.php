@@ -231,7 +231,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
           </li>
         @endif        
         @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumap)) <!--Oculta la opción tierras si no es el administrador-->
+          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)) <!--Oculta la opción tierras si no es el administrador-->
           <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO TIERRAS<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               @if($menucongral)
@@ -363,7 +363,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
               </li>                  
               @endif
               @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-                ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumap)) <!--Oculta la opción tierras si no es el administrador-->
+                ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)) <!--Oculta la opción tierras si no es el administrador-->
                 <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO TIERRAS<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     @if($menucongral)
