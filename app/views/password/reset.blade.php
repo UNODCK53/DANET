@@ -24,7 +24,7 @@
       }
   </style>
   <!-- librerias JavaScript que se utilizan en la pagina -->
-  <script src="../../assets/js/jquery-1.11.2.js"></script>
+  <script src="../../assets/js/jquery-1.11.3.min.js"></script>
   <script src="../../assets/js/bootstrap.js"></script>
   <script src="../../assets/js/jquery-ui.js"></script>
 </head>
@@ -64,8 +64,10 @@
           E-mail:
           <input class="form-control input-lg" id="email" placeholder="e-mail" type="email" name="email" readonly>          
         </div>
-        <div class="form-group">
-          Usuario:
+        <div class="form-group has-warning has-feedback">
+    <h4>
+    <span class="label label-warning">
+          Usuario para inicio de sesión: </span></h4>
           <input class="form-control input-lg" id="username" placeholder="Usuario" type="text" name="username" readonly>
         </div>
         <div class="form-group">
@@ -113,7 +115,7 @@
     $( "#mensajeestatus" ).fadeOut(5000); 
     $("#btcambiarpass").prop('disabled', true);
     $('#password2').prop('disabled', true);
-    $.ajax({url:"../../password/email",type:"POST",data:{token:$('#token').val()},dataType:'json',
+  $.ajax({url:"../../password/email",type:"POST",data:{token:$('#token').val()},dataType:'json',
       success:function(data){
         if(data==''){
           $("#cambiar_pass").submit();
@@ -131,13 +133,13 @@
       _this.parent().removeClass('has-info');
       if ( password1.match(/^(?=^.{8,}$)([a-z]+[0-9]+)|([0-9]+[a-z]+)/i) ) {
         _this.parent().removeClass('has-error');
-        $( "#b" ).hide();
+        $("#b").hide();
         $('#password2').prop('disabled', false);
       }
       else{
         _this.parent().addClass('has-error');
         $('#b').text("La contraseña debe ser alfanúmerica y debe tener mínimo 8 caracteres");
-        $( "#b" ).show(100); 
+        $("#b").show(100); 
         $('#password2').prop('disabled', true);
       }
     });

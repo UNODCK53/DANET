@@ -21,6 +21,41 @@
 <!--CONTENEDOR GENERAL-->
 @section('contenedorgeneral1')
   @parent
+<?php $acc=(Session::get('acc')); ?>
+<?php
+//variables menú Tierras
+$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;
+$menucargaini=false;$menuprocadj=false;$menulevtopo=false;$menucoor=false;$menumaps=false;
+//variables menú GME
+$menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugmeinformes=false;
+//variables menú Siscadi
+$menureportesiscadi=false;$menuindicadoressiscadi=false;
+//variables menú Documentos
+$menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
+//foreach para habilitar las variables para la presentación de cada módulo
+foreach($acc as $acceso){
+  if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){$menucongral= true;}
+  if(($acceso->id_vista=="1201")&&($acceso->acces=="1")){$menuestadoproc=true;}
+  if(($acceso->id_vista=="1202")&&($acceso->acces=="1")){$menurepnumpro=true;}
+  if(($acceso->id_vista=="1203")&&($acceso->acces=="1")){$menureplevtopo=true;}
+  if(($acceso->id_vista=="1204")&&($acceso->acces=="1")){$menureparealev=true;}
+  if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){$menureprespjuri=true;}
+  if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){$menucargaini=true;}
+  if(($acceso->id_vista=="1302")&&($acceso->acces=="1")){$menuprocadj=true;}
+  if(($acceso->id_vista=="1304")&&($acceso->acces=="1")){$menulevtopo=true;}
+  if(($acceso->id_vista=="1305")&&($acceso->acces=="1")){$menucoor=true;}
+  if(($acceso->id_vista=="1306")&&($acceso->acces=="1")){$menumaps=true;}
+  if(($acceso->id_vista=="2101")&&($acceso->acces=="1")){$menugmevalcert=true;}
+  if(($acceso->id_vista=="2102")&&($acceso->acces=="1")){$menugmemetodologia=true;}
+  if(($acceso->id_vista=="2103")&&($acceso->acces=="1")){$menugmedisterradi=true;}
+  if(($acceso->id_vista=="2104")&&($acceso->acces=="1")){$menugmeinformes=true;}
+  if(($acceso->id_vista=="3101")&&($acceso->acces=="1")){$menureportesiscadi=true;}
+  if(($acceso->id_vista=="3102")&&($acceso->acces=="1")){$menuindicadoressiscadi=true;}
+  if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){$menucarguedocu=true;}
+  if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){$menuconsuldocu=true;}
+  if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){$menurepordocu=true;}
+ }
+ ?>
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
@@ -43,13 +78,14 @@
         <br>
         <p class="lead text-justify">El DANET es un espacio diseñado para la transferencia de información y apoyo a los proyectos de Desarrollo Alternativo. Sirve como sistema de gestión y permite tener indicadores de la información. Gracias a esto, usted tiene acceso a:</p>
         <address>
-        @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
+        @if(($menugmevalcert) || ($menugmemetodologia) || ($menugmedisterradi) || ($menugmeinformes))
         <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> GME</ul><h4>
         @endif
-        @if((Auth::user()->grupo=="3") OR (Auth::user()->grupo=="1"))
+        @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
+          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps))
         <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de tierras</ul></h4>
         @endif
-        @if((Auth::user()->grupo=="5") OR (Auth::user()->grupo=="1"))
+        @if(($menucarguedocu) || ($menuconsuldocu) || ($menurepordocu))
         <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de documentos</ul></h4>
         @endif
         </address>
@@ -60,7 +96,7 @@
   </div> 
   <!--fin div bienvenida-->
   <br>
-  @if((Auth::user()->grupo=="2") OR (Auth::user()->grupo=="1"))
+  @if(($menugmevalcert) || ($menugmemetodologia) || ($menugmedisterradi) || ($menugmeinformes))
   <div class="container" id="sha">
       <div class="row">
       <!--Texto del contenido-->
@@ -78,12 +114,13 @@
       </div>
       <hr>
       <blockquote>
-        <p class="text-justify"><strong>Fuente</strong>: <br>Manual Operatvo Ggrupos Móviles de Erradicación - GME <br>Dirección de Programas Contra Cultivos Ilícitos Grupo de Erradicación <br>Bogotá, D.C. Enero 23 de 2015</p>
+        <p class="text-justify"><strong>Fuente</strong>: <br>Manual Operatvo Grupos Móviles de Erradicación - GME <br>Dirección de Programas Contra Cultivos Ilícitos Grupo de Erradicación <br>Bogotá, D.C. Enero 23 de 2015</p>
       </blockquote>
   </div> 
   <br><!--Agregar al penúltimo div para el salto contenedores-->
   @endif
-  @if((Auth::user()->grupo=="3") OR (Auth::user()->grupo=="1"))
+  @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
+          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps))
   <div class="container" id="sha">
       <div class="row">
         <h1 class="text-center text-primary">Formalización de Tierras</h1>

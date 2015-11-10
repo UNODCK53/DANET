@@ -34,7 +34,7 @@
   <div class="row">
     <!--Columna logo con imágen-->
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
-      <img src="../../assets/img/unodc.png" class="logo">
+      <a href="<?=URL::to('/'); ?>"><img src="../../assets/img/unodc.png" class="logo" alt="logounodc"></a>
     </div>
     <!--columna link y boton solo son visibles en sm md lg-->
   </div>
@@ -103,23 +103,19 @@
   $(document).ready(function() {
     //para que los menus pequeño y grande funcione
     $( "#b" ).hide();
-    $('#email').val("");
-  $('#btenviaremail').prop('disabled', true);
     $( "#a" ).fadeOut(5000);
     $('#email').keyup(function(){
-    var _this = $('#email');
-    var email = $('#email').val();
-    if ( email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i) ) {
-      $('#btenviaremail').prop('disabled', false);
-      _this.parent().removeClass('has-error');
-    }
-    else{
-       _this.parent().addClass('has-error');
-      $('#btenviaremail').prop('disabled', true);
-    }
+      var _this = $('#email');
+      var email = $('#email').val();
+      if ( email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i) ) {
+        _this.parent().removeClass('has-error');
+      }
+      else{
+      _this.parent().addClass('has-error');
+      }
     });
     $('#btenviaremail').click(function(){
-  document.getElementById("email").readOnly = true;
+      document.getElementById("email").readOnly = true;
       $('#btenviaremail').hide();
       $( "#b" ).show();
     });
