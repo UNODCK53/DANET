@@ -7,8 +7,8 @@ class DocumentosController extends BaseController {
 		$this->beforeFilter('auth');  //bloqueo de acceso
 	}
 	public function CarguedocuInicio()
-	{
-		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)) {
+	{    
+		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6)) AND (Auth::user()->level==1)) {
 			//retornamos las categorias apenas entramos a la vista de cargue documentos
 			$categoria = DB::table('MODDOCUMENTOS_CATEGORIA')		
 			->select('id_categoria', 'categoria')
@@ -29,26 +29,20 @@ class DocumentosController extends BaseController {
 				if ($i != count($accesoescritura)-1) {
 					$tipodocu= $tipodocu.' OR ';
 				}
-			}			
-            $tipodocu= $tipodocu.' group by id_categoria';
+			}
 
-			$tipoducuselect = DB::select($tipodocu);
-		
-		
+            $tipodocu= $tipodocu.' group by id_categoria';
+			$tipoducuselect = DB::select($tipodocu);		
 
 			$categoriaselect='SELECT id_categoria, categoria FROM MODDOCUMENTOS_CATEGORIA WHERE';
 			for ($i=0; $i < count($tipoducuselect); $i++) { 
-				$categoriaselect= $categoriaselect.' id_categoria = '.$accesoescritura[$i]->id_tipodocu;
+				$categoriaselect= $categoriaselect.' id_categoria = '.$tipoducuselect[$i]->id_categoria;
 				if ($i != count($tipoducuselect)-1) {
 					$categoriaselect= $categoriaselect.' OR ';
 				}
 			}
-			$categoria = DB::select($categoriaselect);					
+			$categoria = DB::select($categoriaselect);
 		}
-		
-		$estrategia = DB::table('ESTRATEGIA_INTERVENCION')		
-		->select('id_estrategia', 'estrategia')		
-		->get();		
 
 		$unidadgeo = DB::table('MODDOCUMENTOS_UNIGEO')		
 		->select('id_ugeo', 'unidgeo')
@@ -62,18 +56,17 @@ class DocumentosController extends BaseController {
 		->select('COD_DPTO', 'NOM_DPTO')		
 		->get();		
 
-		$arrayiniciales=array($categoria, $estrategia, $unidadgeo, $autor, $depto);	
+		$arrayiniciales=array($categoria, $unidadgeo, $autor, $depto);	
 
-		return View::make('modulodocumentos.carguedocumentos', array('arrayiniciales' => $arrayiniciales));
-		
-		
+		return View::make('modulodocumentos.carguedocumentos', array('arrayiniciales' => $arrayiniciales));		
 	}	
-	public function postSubcategoria()
+	public function postSubcategorias()
 	{
 		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)) {
 			$subcategoria = DB::table('MODDOCUMENTOS_TIPODOCU')		
 			->where('id_categoria','=',Input::get('categoria'))
-			->select('id_tipo', 'id_categoria', 'tipo')		
+			->select('id_tipo', 'id_categoria', 'tipo')	
+			->orderby ('tipo')	
 			->get();
 		} else {
 
@@ -83,7 +76,7 @@ class DocumentosController extends BaseController {
 			->where ('carga','=','1')
 			->get();
 
-			$tipodocu='SELECT id_tipo, id_categoria, tipo FROM MODDOCUMENTOS_TIPODOCU WHERE ' ;
+			$tipodocu='SELECT id_tipo, id_categoria, tipo FROM MODDOCUMENTOS_TIPODOCU WHERE ( ' ;
 			for ($i=0; $i < count($accesoescritura); $i++) { 
 				$tipodocu= $tipodocu.' id_tipo = '.$accesoescritura[$i]->id_tipodocu;
 				if ($i != count($accesoescritura)-1) {
@@ -91,26 +84,44 @@ class DocumentosController extends BaseController {
 				}
 			}			
             
-            $tipodocu= $tipodocu.'AND id_categoria ='.Input::get('categoria');
-			$subcategoria = DB::select($tipodocu);			
-		}		
+            $tipodocu= $tipodocu.') AND id_categoria ='.Input::get('categoria');
+			$subcategoria = DB::select($tipodocu);						
+		}
 
-		$momento = DB::table('MODDOCUMENTOS_MOMENTO')		
+		$proyecto = DB::table('MODDOCUMENTOS_PROYECTO')		
 		->where('id_categoria','=',Input::get('categoria'))
-		->select('id_momento', 'id_categoria', 'momento')		
+		->select('id_proyecto')		
 		->get();
 
-		$arrayajax=array($subcategoria, $momento);		
-		return Response::json($arrayajax);
+		$contraparte = DB::table('MODDOCUMENTOS_CONTRAPARTE')		
+		->where('id_categoria','=',Input::get('categoria'))
+		->select('id_contraparte', 'contrapate')		
+		->get();
+
+		$estrategia = DB::table('MODDOCUMENTOS_CATEGESTRAT')
+		->where('id_categoria','=',Input::get('categoria'))		
+		->select('id_estrategia', 'estrategia')		
+		->get();
+
+		$arrayajax=array($proyecto, $contraparte, $subcategoria, $estrategia);		
+		return Response::json($arrayajax);		
+		
 	}
 
-	public function postSelbloque()
+	public function postSelbloqmodmomen()
 	{
-		$arrayajax2 = DB::table('BLOQUE_MODALIDAD')		
+		$bloquemod = DB::table('BLOQUE_MODALIDAD')		
 		->where('id_estrategia','=',Input::get('estrategia'))
 		->select('id_bloque', 'bloque_modalidad')			
-		->get();			
-		return Response::json($arrayajax2);
+		->get();
+		
+		$momento = DB::table('MODDOCUMENTOS_MOMENTO')		
+		->where('id_estrategia','=',Input::get('estrategia'))
+		->select('id_momento', 'momento')		
+		->get();
+
+		$arrayajax2=array($bloquemod, $momento);
+		return Response::json($arrayajax2);	
 	}
 	public function postSubmpio()
 	{
@@ -176,14 +187,8 @@ class DocumentosController extends BaseController {
     		$fecha = date("Y-m-d H:i:s");
 			$idmaximo =  DB::table('MODDOCUMENTOS_MASTERDOCU')->max('id_documento');
 			
-			if (Input::get('selectcategoria')== 1) {
-				$nombredocumento = $categoria[0]->siglas_categoria.'_'.$tipodocu[0]->siglas_categoria.'_'.Input::get('selectestrategia').'_'.Input::get('selectbloque').'_'.Input::get('selecmomento').'_'.($idmaximo+1).'.'.Input::file('filedocu')->getClientOriginalExtension();
-			} else if ((Input::get('selectestrategia')=='') AND (Input::get('selectcategoria')== 2)) {			
-				$nombredocumento = $categoria[0]->siglas_categoria.'_'.$tipodocu[0]->siglas_categoria.'_'.Input::get('selecmomento').'_'.($idmaximo+1).'.'.Input::file('filedocu')->getClientOriginalExtension();
-			} else {
-				$nombredocumento = Input::file('filedocu')->getClientOriginalName();
-			}
-
+			$nombredocumento = ($idmaximo+1).'_'.Input::file('filedocu')->getClientOriginalName();
+			
 			Input::file('filedocu')->move($path3,$nombredocumento);
     		
     		DB::table('MODDOCUMENTOS_MASTERDOCU')->insert(
@@ -199,7 +204,9 @@ class DocumentosController extends BaseController {
 		    		'bloque' => Input::get('selectbloque'),
 		    		'ruta' => $path3,
 		    		'fechacarguedocu' => $fecha,		    				    		
-	    			'usercargue' => Auth::user()->id
+	    			'usercargue' => Auth::user()->id,
+	    			'proyecto' => Input::get('proyecto'),
+	    			'contraparte' => Input::get('contraparte')
 		    	)
 			);
     		if (Input::get('selecunigeo')==3) {

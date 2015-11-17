@@ -66,36 +66,47 @@
                     <option value="{{$catego->id_categoria}}">{{$catego->categoria}}</option>              
                     @endforeach              
                 </select>
+              </div>
+            <div id="proyectocontraparte">
+              <div class="form-group">
+                <label for="carguedocu" class="control-label">Proyecto:</label>
+                <select id="selectproyecto" class="form-control" name="selectproyecto" required="true">                                  
+                </select>
+              </div>
+              <div class="form-group">              
+                <label for="carguedocu" class="control-label">Contraparte:</label>
+                <select id="selectcontraparte" class="form-control" name="selectcontraparte" required="true">                                  
+                </select>
               </div>              
-              <div class="form-group" id="carguedocumento">
+            </div>
+            <div class="form-group">              
                 <label id="tipodocu" for="carguedocu" class="control-label">Tipo de documento:</label>
                 <select id="selectipodocu" class="form-control" name="selectipodocu" required="true">                                 
                 </select>
               </div>
-              <div class="form-group" id="estrategia">
+            <div id="estrategia">
+              <div class="form-group">              
                 <label for="carguedocu" class="control-label">Estrategia:</label>
-                <select id="selectestrategia" class="form-control" name="selectestrategia">
-                    <option value="" selected="selected">Por favor seleccione</option>
-                    @foreach($arrayiniciales[1] as $estrate)
-                    <option value="{{$estrate->id_estrategia}}">{{$estrate->estrategia}}</option>              
-                    @endforeach              
+                <select id="selectestrategia" class="form-control" name="selectestrategia" required="true">                                
                 </select>
               </div>
+
               <div class="form-group" id="bloquemodalidad">
                 <label for="carguedocu" class="control-label">Bloque o Modalidad:</label>
-                <select id="selectbloque" class="form-control" name="selectbloque">                               
+                <select id="selectbloque" class="form-control" name="selectbloque" required="true">                               
                 </select>
               </div>
               <div class="form-group" id="momento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Momento:</label>
-                <select id="selecmomento" class="form-control" name="selecmomento">                    
+                <select id="selecmomento" class="form-control" name="selecmomento" required="true">                    
                 </select>
               </div>
+            </div>
               <div class="form-group" id="carguedocumento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Autor del documento:</label>
                 <select id="selectautor" class="form-control" name="selectautor">
                     <option value="" selected="selected">Por favor seleccione</option>
-                    @foreach($arrayiniciales[3] as $autor)
+                    @foreach($arrayiniciales[2] as $autor)
                     <option value="{{$autor->id_autor}}">{{$autor->autor}}</option>              
                     @endforeach                                 
                 </select>
@@ -103,7 +114,7 @@
               <div class="form-group" id="carguedocumento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Fecha del documento:</label>
                 <div class="input-group date" id="datepicker">                      
-                  <input id="selectfechadocu" type="text" class="form-control" name="selectfechadocu">
+                  <input id="selectfechadocu" type="text" class="form-control" name="selectfechadocu" required="true">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                 </div>
               </div>
@@ -111,7 +122,7 @@
                 <label id="tipodocu" for="carguedocu" class="control-label">Referencia geográfica:</label>
                 <select id="selecunigeo" class="form-control" name="selecunigeo" required="true">
                     <option value="" selected="selected">Por favor seleccione</option>
-                    @foreach($arrayiniciales[2] as $unigeo)
+                    @foreach($arrayiniciales[1] as $unigeo)
                     <option value="{{$unigeo->id_ugeo}}">{{$unigeo->unidgeo}}</option>              
                     @endforeach                                 
                 </select>
@@ -120,7 +131,7 @@
                 <label id="tipodocu" for="carguedocu" class="control-label">Departamento:</label>
                     <select id="selecdepto" class="form-control" name="selecdepto">
                       <option value="" selected="selected">Por favor seleccione</option>
-                      @foreach($arrayiniciales[4] as $depto)
+                      @foreach($arrayiniciales[3] as $depto)
                         <option value="{{$depto->COD_DPTO}}">{{$depto->NOM_DPTO}}</option>              
                       @endforeach
                     </select>                    
@@ -177,8 +188,6 @@
           $( "#carguedocumenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Cargue documentos</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
 
-
-
           $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
             language: "es",
@@ -189,108 +198,87 @@
             autoclose: true,
             todayHighlight: true
 
-           });
+           });         
+          
           $('#selectcategoria').val("");
           $('#selecunigeo').val("");
           $('#filedocu').val("");
           $('#selectautor').val("");
           $('#selectfechadocu').val("");                    
           $("#refegeo").hide();
-          $("#estrategia").hide();
-          $("#bloquemodalidad").hide();
-          $("#momento").hide();
-          
           
           //para cargar el select de tipo de categoria
-          $("#selectcategoria").change(function(){
-            if ($('#selectcategoria').val() == 1) {
-              $("#selectestrategia").val("");
-              $("#selecmomento").val("");
-              $("#selectbloque").val(""); 
-              $("#selectipodocu").val("");
-              $("#selectautor").val("");
-              $("#selectfechadocu").val("");
-              $("#selecunigeo").val("");
-              $('#selecdepto').val("");
-              $("#divmpio").empty();
-              $("#divmpio").hide();                            
-              $("#estrategia").show(1000);
-              $("#bloquemodalidad").show(1000);
-              $("#momento").show(1000);
-              $("#refegeo").hide(1000);
-              $("#selecdepto").prop('required',false);
-              $("#selectestrategia").prop('required',true);
-              $("#selectbloque").prop('required',true); 
-              $("#selecmomento").prop('required',true);
-            } else if ($('#selectcategoria').val() == 2) {
-                $("#selectestrategia").val("");                                
-                $("#selectbloque").val("");                
-                $("#selecmomento").val("");
-                $("#selectautor").val("");
-                $("#selectfechadocu").val("");
-                $("#selecunigeo").val("");
-                $('#selecdepto').val("");
-                $("#divmpio").empty();
-                $("#divmpio").hide();                
-                $("#estrategia").hide(1000);
+          $("#selectcategoria").change(function(){            
+            if ($('#selectcategoria').val() == 8) {               
                 $("#bloquemodalidad").hide(1000);
-                $("#momento").show(1000);
-                $("#refegeo").hide(1000);
-                $("#selecdepto").prop('required',false);
                 $("#selectbloque").prop('required',false);
-                $("#selectestrategia").prop('required',false);
-                $("#selecmomento").prop('required',true);
-            } else {
-              $("#selectestrategia").val("");
-              $("#selecmomento").val("");
-              $("#selectbloque").val("");
-              $("#selectautor").val("");
-              $("#selectfechadocu").val("");
-              $("#selecunigeo").val("");
-              $('#selecdepto').val("");
-              $("#divmpio").empty();
-              $("#divmpio").hide();              
-              $("#estrategia").hide(1000);
-              $("#bloquemodalidad").hide(1000);
-              $("#refegeo").hide(1000);
-              $("#momento").hide(1000);
-              $("#selecdepto").prop('required',false);
-              $("#selectestrategia").prop('required',false);
-              $("#selecmomento").prop('required',false);
-              $("#selectbloque").prop('required',false);
+            }else{
+              $("#bloquemodalidad").show(1000);
+              $("#selectbloque").prop('required',true);
             }
+            if ($('#selectcategoria').val() >= 14) {               
+                $("#proyectocontraparte").hide(1000);
+                $("#selectproyecto,#selectcontraparte, #selectbloque").prop('required',false);
+            }else{
+              $("#proyectocontraparte").show(1000);
+              $("#selectproyecto,#selectcontraparte").prop('required',true);
+            }
+            if ((($('#selectcategoria').val() <= 11) && ($('#selectcategoria').val() >= 9)) || ($('#selectcategoria').val() == 14) || ($('#selectcategoria').val() == 15)) {
+                $("#estrategia").hide(1000);
+                $("#selectestrategia, #selecmomento, #selectbloque").prop('required',false);                
+            }else{
+              $("#estrategia").show(1000);
+              $("#selectestrategia, #selecmomento").prop('required',true);
+            }
+                 
             if ($('#selectcategoria').val() != "") {
-              $.ajax({url:"documentos/subcategoria",type:"POST",data:{categoria:$('#selectcategoria').val()},dataType:'json',
+              $.ajax({url:"documentos/subcategorias",type:"POST",data:{categoria:$('#selectcategoria').val()},dataType:'json',
                 success:function(data){
 
-                    $("#selectipodocu").empty();
-                    //console.log(data);
-                    $("#selectipodocu").append("<option value=''>Por favor seleccione</option>");
-                      [].forEach.call(data[0],function(datos){
-                        $("#selectipodocu").append("<option value=\""+datos.id_tipo+"\">"+datos.tipo+"</option>");
-                      });
-
+                    $("#selectbloque").empty();
                     $("#selecmomento").empty();
+                    $("#selectproyecto").empty();
                     //console.log(data);
-                    $("#selecmomento").append("<option value=''>Por favor seleccione</option>");                   
+                    $("#selectproyecto").append("<option value=''>Por favor seleccione</option>");
+                      [].forEach.call(data[0],function(datos){
+                        $("#selectproyecto").append("<option value=\""+datos.id_proyecto+"\">"+datos.id_proyecto+"</option>");
+                      }); 
+                    $("#selectcontraparte").empty();                    
+                    $("#selectcontraparte").append("<option value=''>Por favor seleccione</option>");
                       [].forEach.call(data[1],function(datos1){
-                        $("#selecmomento").append("<option value=\""+datos1.id_momento+"\">"+datos1.momento+"</option>");
+                        $("#selectcontraparte").append("<option value=\""+datos1.id_contraparte+"\">"+datos1.contrapate+"</option>");
                       });
-                       
+                    $("#selectipodocu").empty();                    
+                    $("#selectipodocu").append("<option value=''>Por favor seleccione</option>");
+                      [].forEach.call(data[2],function(datos2){
+                        $("#selectipodocu").append("<option value=\""+datos2.id_tipo+"\">"+datos2.tipo+"</option>");
+                      });
+                      $("#selectestrategia").empty();                    
+                    $("#selectestrategia").append("<option value=''>Por favor seleccione</option>");
+                      [].forEach.call(data[3],function(datos3){
+                        $("#selectestrategia").append("<option value=\""+datos3.id_estrategia+"\">"+datos3.estrategia+"</option>");
+                      });
+                      
+                      
                 },
                 error:function(){alert('error');}
               });//Termina Ajax 
             };
           });
           $("#selectestrategia").change(function(){              
-             $.ajax({url:"documentos/selbloque",type:"POST",data:{estrategia:$('#selectestrategia').val()},dataType:'json',
+             $.ajax({url:"documentos/selbloqmodmomen",type:"POST",data:{estrategia:$('#selectestrategia').val()},dataType:'json',
                 success:function(data){
 
                     $("#selectbloque").empty();
-                    console.log(data);
+                    //console.log(data);
                     $("#selectbloque").append("<option value=''>Por favor seleccione</option>");
-                      [].forEach.call(data,function(datos2){
-                        $("#selectbloque").append("<option value=\""+datos2.id_bloque+"\">"+datos2.bloque_modalidad+"</option>");
+                      [].forEach.call(data[0],function(datos){
+                        $("#selectbloque").append("<option value=\""+datos.id_bloque+"\">"+datos.bloque_modalidad+"</option>");
+                      });
+                    $("#selecmomento").empty();
+                    $("#selecmomento").append("<option value=''>Por favor seleccione</option>");
+                      [].forEach.call(data[1],function(datos1){
+                        $("#selecmomento").append("<option value=\""+datos1.id_momento+"\">"+datos1.momento+"</option>");
                       });                       
                 },
                 error:function(){alert('error');}

@@ -224,7 +224,7 @@ class TierrasController extends BaseController {
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
 		$arrayprocestado = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '.$idpro);
-		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT [id_proceso],[id_documento] FROM [DABASE].[sde].[MODTIERRAS_PROCDOCUMENTOS] where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
+		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT id_proceso,id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
 		
 		
 		$arraydocumento = DB::table('MODTIERRAS_CONCEPDOCUMENTO')
@@ -460,7 +460,7 @@ class TierrasController extends BaseController {
 		//Consultas para obtener el número de procesos por estado y son viables
 		$arraestadosorder= DB::select('SELECT estado FROM
 										(SELECT id_estado, estado, ROW_NUMBER() OVER( PARTITION BY estado ORDER BY Id_estado) as rn
-										FROM [DABASE].[sde].[MODTIERRAS_ESTADO]) as rep
+										FROM MODTIERRAS_ESTADO) as rep
 										WHERE rn = 1
 										order by id_estado asc');
 		for($i=0; $i<count($arraestadosorder); $i++){
@@ -499,7 +499,7 @@ class TierrasController extends BaseController {
 		//Consultas para obtener el número de procesos por estado y son viables
 		$arraestadosorder= DB::select('SELECT estado FROM
 										(SELECT id_estado, estado, ROW_NUMBER() OVER( PARTITION BY estado ORDER BY Id_estado) as rn
-										FROM [DABASE].[sde].[MODTIERRAS_ESTADO]) as rep
+										FROM MODTIERRAS_ESTADO) as rep
 										WHERE rn = 1
 										order by id_estado asc');
 		for($i=0; $i<count($arraestadosorder); $i++){
@@ -536,7 +536,7 @@ class TierrasController extends BaseController {
 		//Consultas para obtener el número de procesos por estado y son viables
 		$arraestadosorder= DB::select('SELECT estado FROM
 										(SELECT id_estado, estado, ROW_NUMBER() OVER( PARTITION BY estado ORDER BY Id_estado) as rn
-										FROM [DABASE].[sde].[MODTIERRAS_ESTADO]) as rep
+										FROM MODTIERRAS_ESTADO) as rep
 										WHERE rn = 1
 										order by id_estado asc');
 		for($i=0; $i<count($arraestadosorder); $i++){
@@ -658,7 +658,7 @@ class TierrasController extends BaseController {
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
 		$arrayprocestado = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '.$idpro);
-		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT [id_proceso],[id_documento] FROM [DABASE].[sde].[MODTIERRAS_PROCDOCUMENTOS] where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
+		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT id_proceso, id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
 		$arraydocumento = DB::table('MODTIERRAS_CONCEPDOCUMENTO')
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.id_concepto','=', $arrayproceso[0]->conceptojuridico)
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.requieredocu','=','1')
