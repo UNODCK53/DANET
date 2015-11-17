@@ -42,13 +42,13 @@
       @if($status=='ok_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> El proceso actualizado con éxito</div>
+      <i class="bg-success"></i> El proceso fue actualizado con éxito</div>
       <div class="col-sm-1"></div>
       @endif
       @if($status=='error_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-danger"></i> El proceso NO fue extualizado</div>
+      <i class="bg-danger"></i> El proceso NO fue actualizado</div>
       <div class="col-sm-1"></div>
       @endif
       <?php $actualizar=Session::get('actualizar');?>

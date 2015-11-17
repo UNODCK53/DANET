@@ -74,9 +74,12 @@ Route::group(array('before' => 'auth'), function()
   Route::get('levantamiento_topografico', array('before' => 'levgeograficotierras', 'uses' => 'TierrasController@ListadoLevtopo'));
   //Ruta para edición de coordenadas
   Route::get('coordenadas_edicion', array('before' => 'editcoortierras', 'uses' => 'TierrasController@UpdateProcesogeo'));
+  Route::get('mod_coordenadas', array('before' => 'editcoortierras', 'uses' => 'TierrasController@EditCoordenadas'));
+  
   //Ruta para el visor de mapas
   Route::get('mapas', array('before'=>'consmapfierras', function(){return View::make('modulotierras/mapas');}));
   //Termina Rutas módulo tierras
+  
   //Rutas módulo GME
   //Rutas para Validación de certificación
   Route::get('validacion_certificacion', array('before'=>'valcertGME', function(){return View::make('modulogme/validacionycertificacionemf');}));
@@ -87,13 +90,16 @@ Route::group(array('before' => 'auth'), function()
   //Ruta Informes GME
   Route::get('informes_gme', array('before'=>'informesGME', function(){return View::make('modulogme/informestrimestralesemf');}));
   //termina rutas para módulo de GME
+  
   //rutas para modulo de SISCADI
   Route::get('siscadi_encuentas', array('before' => 'ConsencSISCADI', 'uses' => 'SiscadiController@reporte_encuesta'));
   Route::get('siscadi_indicadores', array('before' => 'indicarecoSISCADI', 'uses' => 'SiscadiController@siscadi_indicadores'));  
   //termina rutas para modulo de SISCADI 
+  
   //Rutas para módulo de Docuementos
   Route::get('cargue_docu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@CarguedocuInicio'));  
   Route::get('consulta_docu', array('before'=>'consulDOCUMENTOS', function(){return View::make('modulodocumentos/consultadocumentos');}));
+  Route::get('repor_docu', array('before'=>'reporDOCUMENTOS', function(){return View::make('modulodocumentos/reportedocumentos');}));
   //Termina rutas para el módulo de Documentos
 
 });//Cierra rutas para usuarios autenticados

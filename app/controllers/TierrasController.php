@@ -679,21 +679,43 @@ class TierrasController extends BaseController {
 
 	public function UpdateProcesogeo()
 	{
-		/*USP_TIERRAS_UPDATEPROCESOGEO
-		$id_proceso = '524180270794';		
-		$arrayclallprocedimiento = DB::statement("exec USP_TIERRAS_UPDATEPROCESOGEO $id_proceso");		
-		return ['false','true'][(int)$arrayclallprocedimiento];
-		*/
-
-		//consulta para retornar los procesos para modificacion de coordenadas
 		$arrayproccoord = DB::select("SELECT id_proceso, longitud, latitud, viabilidad, vereda, respcoordmodif , updatedcoord FROM MODTIERRAS_PROCESO");
-				
 		return View::make('modulotierras.coordenadas', array('arrayproccoord' => $arrayproccoord));
 	}
+
 	public function postCoordenadasEdicion()
 	{
+		Session::put('procesoi',Input::get('proceso'));		
+		return Redirect::to('mod_coordenadas');
 	}
 
-	
+	public function EditCoordenadas()
+	{
+		$idpro=(Session::get('procesoi'));
+		if($idpro==''){
+			return Redirect::to('coordenadas_edicion');
+		}
+		$arrayapp = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->select('id_proceso','longitud', 'latitud')->get();
+		Session::forget('procesoi');
+		return View::make('modulotierras.coordenadasedit', array('arrayapp' => $arrayapp));
+	}
+
+	public function postGuardarCoordenadas()
+	{
+		$dat[0]=Input::get('idpro');
+		
+		if(Input::get('nortesur')==2){
+			$dat[2]=Input::get('latgrados')-Input::get('latminutos')/60 -Input::get('latsegundos')/3600;
+		}
+		else{
+			$dat[2]=Input::get('latgrados')+Input::get('latminutos')/60 +Input::get('latsegundos')/3600;	
+		}
+		$dat[1]=Input::get('longrados')-Input::get('lonminutos')/60 -Input::get('lonsegundos')/3600;
+		DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$dat[0])->update(array('longitud'=>$dat[1],'latitud'=>$dat[2], 'updatedcoord'=>date("Y-m-d H:i:s") ));
+		/*USP_TIERRAS_UPDATEPROCESOGEO*/
+		$arrayclallprocedimiento = DB::statement("exec USP_TIERRAS_UPDATEPROCESOGEO $dat[0]");
+		return Redirect::to('coordenadas_edicion')->with('status',['false','true'][(int)$arrayclallprocedimiento]);
+	}
+
 }
 ?>

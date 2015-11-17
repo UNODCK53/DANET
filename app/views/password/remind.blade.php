@@ -54,7 +54,7 @@
 <div class="container" id="sha">
   <div class="row">
     <br/>
-    <h2><p class="text-center">Solicitud para establecer su contraseña</p></h2>
+    <h2><p class="text-center">Solicitud para nueva contraseña</p></h2>
     <br/>
     <div class="col-sm-3"></div>
   <div class="col-sm-6">
@@ -68,7 +68,7 @@
       </div>
       <div class="form-group">
         <input class="btn btn-primary" id="btenviaremail" value="Enviar solicitud" type="submit">
-        <span class="label label-info" id="b">Enviando solicitud</span>
+        <h4><span class="label label-info" id="b"></span></h4>
         <br/>
       </div>
     </form>
@@ -118,6 +118,8 @@
       document.getElementById("email").readOnly = true;
       $('#btenviaremail').hide();
       $( "#b" ).show();
+      $('#b').text("Enviando solicitud");
+
     });
   });
 </script>

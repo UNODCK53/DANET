@@ -8,7 +8,6 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
  @parent
-
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')  
@@ -34,54 +33,119 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
-<!--aca se escribe el codigo-->
-vista1
-<br/>
-
-
-
-
-
-
-<br/>
-vista1
-
-<!--fin del codigo-->    
+      <h3 class="text-center text-primary">CONSULTA DE DOCUMENTOS</h3>
+      <br/>
     </div>
+    <form role="form" action="#" method="post" id="formCons" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-sm-4">        
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10" id="sha">
+            <!--aca se escribe el codigo-->
+            <div class="form-group">
+              <br/>
+              <label for="carguedocu" class="control-label"> Departamento:</label><br>
+              <input type="checkbox" name="doc" value="1"> Documento LB 2012<br>
+              <input type="checkbox" name="doc" value="1"> Documento SG 2012<br>
+              <input type="checkbox" name="doc" value="1"> Informes Rápidos SG 2012<br>
+            </div>
+            <br>
+          </div>
+          <div class="col-sm-1"></div>
+          <!--fin del codigo-->
+        </div>
+        <div class="col-sm-4">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10" id="sha">
+          <!--aca se escribe el codigo-->
+            <br/>
+            <div class="form-group">
+              <label for="carguedocu" class="control-label"> Departamento:</label>
+              <select id="" class="form-control" name="">
+                <option value="" selected="selected">Por favor seleccione</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="carguedocu" class="control-label"> Municipio:</label>
+              <select id="" class="form-control" name="">
+                <option value="" selected="selected">Por favor seleccione</option>
+              </select>
+            </div>
+            <br/>
+          <!--fin del codigo-->    
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+        <div class="col-sm-4">        
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10" id="sha">
+          <!--aca se escribe el codigo-->
+            <br/>
+            <div class="form-group">
+              <label for="carguedocu" class="control-label"> Año:</label>
+              <select id="" class="form-control" name="">
+                <option value="" selected="selected">Por favor seleccione</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="carguedocu" class="control-label"> Mes:</label>
+              <select id="" class="form-control" name="">
+                <option value="" selected="selected">Por favor seleccione</option>
+              </select>
+            </div>
+            <br/>
+          <!--fin del codigo-->    
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group text-center"  id="carguedocumento">
+          <br/>
+          <button type="submit" class="btn btn-primary">Consultar Documentos seleccionados</button>
+        </div>
+      </div>
+    </form>
+    <!-- AQUI FOREACH PARA MOSTRAR LOS DOCUMENTOS DE LA CONSULTA-->
+    <div class="row" id="dosselec">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10" id="sha">
+        <br/>
+        445
+        <br/>
+        <br/>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    <br/>
+    <!-- AQUI END FOREACH PARA MOSTRAR LOS DOCUMENTOS DE LA CONSULTA-->
   </div>
-<!--Fin del tercer contenedor--> 
+  
 
+<!--Fin del tercer contenedor--> 
 @stop
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
-
 @stop
-
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-
 @stop
-
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
     <script>
-    
-
-      $(document).ready(function() {
-          //para que los menus pequeño y grande funcione
-          $( "#tierras" ).addClass("active");
-          $( "#tierraslevtopo" ).addClass("active");
-          $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Estudio Juridico</strong>");
-          $( "#mensajeestatus" ).fadeOut(5000);
-
-     
-      });    
+      $(document).ready(function(){
+        //para que los menus pequeño y grande funcione
+        $("#documentos").addClass("active");
+        $("#consultadocumenu").addClass("active");
+        $("#iniciomenupeq").html("<small> INICIO</small>");
+        $("#documentosmenupeq").html("<strong>MÓDULO DOCUMENTOS<span class='caret'></span></strong>");
+        $("#consultadocumenupeq").html("<strong><span class='glyphicon glyphicon-ok'></span>Consulta de documentos</strong>");
+        $("#mensajeestatus").fadeOut(5000);
+        $("#dosselec").hide();
+      });
     </script>
 @stop
-
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

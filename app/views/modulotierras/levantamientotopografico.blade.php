@@ -42,7 +42,7 @@
       @if($status=='ok_estatus')
       <div class="col-sm-1"></div>    
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-      <i class="bg-success"></i> Se adjuntarón documentos al proceso con éxito</div>
+      <i class="bg-success"></i> Se adjuntarón los documentos al proceso con éxito</div>
       <div class="col-sm-1"></div>
       @endif
       @if($status=='error_estatus')

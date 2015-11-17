@@ -2,91 +2,83 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Monitoreo a Desarrollo Alternativo UNODC</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="http://danet.unodc.org.co/assets/css/bootstrap.css">
-  <style>
-      #sha{
-        -webkit-box-shadow: 0px 0px 18px 0px rgba(48, 50, 50, 0.48);
-        -moz-box-shadow:    0px 0px 18px 0px rgba(48, 50, 50, 0.48);
-        box-shadow:         0px 0px 18px 0px rgba(48, 50, 50, 0.48);
-      }
-      .img-responsive{
-        -webkit-filter: none;
-      }
-      .img-responsive:hover{
-        -webkit-filter: grayscale(100%);
-      }
-      .modal-content {
-        max-width: 340px;
-        margin: 0 auto;
-        background-color: #f5f5f5;
-      }
-  </style>
-  <!-- librerias JavaScript que se utilizan en la pagina -->
-  <script src="http://danet.unodc.org.co/assets/js/bootstrap.js"></script>
- </head>
+</head>
 <body>
-<!--Primer Contenerdor logo y botón iniciar sesion-->  
-<div class="container-fluid well">
-  <div class="row">
-    <!--Columna logo con imágen-->
-    <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
-      <img src="http://danet.unodc.org.co/assets/img/unodc.png" class="logo">
-    </div>
-    <!--columna link y boton solo son visibles en sm md lg-->
-  </div>
-</div>
-<!--Fin del primer contenedor-->
-<!--Segundo contenedor -->
-<div class="container-fluid">
-  <div class="row" id="menu-sec">
-    <!--espacio para en menu-->
-    <div class="col-sm-12 col-sm-offset-1 visible-sm visible-md  col-md-8 col-md-offset-2 visible-lg col-lg-9 col-lg-offset-3">
-      </br></br>      
-    </div>  
-    <!--fin del espacio para el segundo menu-->   
-  </div>
-<!--Fin del segundo contenedor-->   
-<!--Cuardo contenedor contenido-->    
-<div class="container" id="sha">
-
-  <div class="row">
-    <br/>
-      <h2><p class="text-center">Establecer contraseña</p></h2>
-    <br/>
-    <div class="col-sm-3"></div>
-      <div class="col-sm-6">
-      <div>
-      		Para restaurar/crear la contraseña, complete los campos del siguiente link: {{ URL::to('password/reset', array($token)) }}.<br/>
-			Este link expirará en {{ Config::get('auth.reminder.expire', 60) }} minutos.
-		</div>
-      </div>
-      <div class="col-sm-3"></div>
-    </div>
-  </div>
-</div>
-<!--Fin del cuarto contenedor-->
-
-<!--Quinto contenedor pie de página-->
-<div class="container-fluid well">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-lg-offset-3">
-      <br />
-      <br />
-    </div>
-  </div>
-</div>
-<!--Fin del quinto contenedor-->
-<!--Sexto contenedor-->  
-<div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá - Colombia</p></small>
-      </div>
-    </div>
-  <br/><br/>
-</div>
-<!--Fin del sexto contenedor-->  
-
+  <table style="font-family:arial,helvetica,sans-serif;background-color:#f5f5f5;color:#333333;max-width:700px" align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+      <tr>
+        <td width="10px"></td>
+        <td>
+          <table style="color:#999999;font-size:10px" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td height="20">
+                </td>
+              </tr>
+              <tr>
+                <td valign="bottom" width="30">
+                </td>
+                <td valign="bottom">
+                  <a style="color:#0192b5;text-decoration:none" href="http://danet.unodc.org.co"_blank">
+                  <img style="display:block" src="http://danet.unodc.org.co/assets/img/unodc.png"CToWUd">
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td height="12">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table align="center" cellpadding="0" cellspacing="0" width="616">
+            <tbody>
+              <tr>
+                <td style="color:#333333;padding:20px;font-size:12px;border-right-color:#eaeae3;border-left-color:#eaeae3;border-right-width:1px;border-left-width:1px;border-right-style:solid;border-left-style:solid;background-color:white" bgcolor="white" width="616">
+                  <table align="center" cellpadding="0" cellspacing="0" width="574">
+                    <tbody>
+                      <tr>
+                        <td valign="top" width="470">
+                          <span style="font-size:22px;font-weight:bold">Hola</span>
+                          <br><br>
+                          <div style="font-family:arial,helvetica,sans-serif;font-size:12px;line-height:18px;">
+                            Recibimos una solicitud de nueva contraseña.
+                            <br><br>
+                            Para restaurar/crear la contraseña, complete los campos 
+                            del siguiente link: {{ URL::to('password/reset', array($token)) }}.<br/><br/>
+                            Este link expirará en {{ Config::get('auth.reminder.expire', 60) }} minutos.
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table style="color:#999999;font-size:10px;text-align:left;width:100%" align="center" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <td height="10">
+                </td>
+              </tr>
+              <tr>
+                <td width="32">
+                </td>
+                <td style="text-align:left">
+                  Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá - Colombia</p>
+                </td>
+              </tr>
+              <tr>
+                <td height="20">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td width="10px">
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

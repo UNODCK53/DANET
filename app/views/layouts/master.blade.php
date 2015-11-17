@@ -174,7 +174,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 <div class="container-fluid">
   <div class="row" id="menu-sec">
     <!--Menu secundario es visible en sm lg-->
-    <div class="col-sm-2"></div>
+    <div class="col-sm-2 "></div>
     <div class="col-sm-9 text-center text-primary visible-sm visible-md visible-lg ">
       <ul class="nav nav-pills ">
         <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
@@ -279,20 +279,20 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
         <li class="dropdown" id="documentos" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             @if($menucarguedocu)
-            <li id="carguedocumenu"><a  href="<?=URL::to('cargue_docu'); ?>">Cargue de documentos</a></li>
+            <li id="carguedocumenu"><a  href="<?=URL::to('cargue_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Cargue de documentos</a></li>
             @endif
             @if($menuconsuldocu)
-            <li id=""><a href="">Consulta de documentos</a></li>
+            <li id="consultadocumenu"><a href="<?=URL::to('consulta_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Consulta de documentos</a></li>
             @endif
             @if($menurepordocu)
-            <li id=""><a href="">Reportes de documentos</a></li>
+            <li id="repordocumenu"><a href="<?=URL::to('repor_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Reporte de documentos</a></li>
             @endif
           </ul>
         </li>
         @endif
       </ul>
     </div>
-    <div class="col-sm-2"></div>  
+    <div class="col-sm-1"></div>  
     <!--Menu compacto es visible en xs -->   
     <div class="col-xs-12 visible-xs">
       <nav class="navbar navbar-default" >
@@ -408,33 +408,25 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                 </li>  
               @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
               @if(($menucarguedocu) || ($menuconsuldocu) || ($menurepordocu))
-              <li class="dropdown"id="documentosmenupeq" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
+              <li class="dropdown"><a id="documentosmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   @if($menucarguedocu)
-                  <li><a id="carguedocumenupeq" href="<?=URL::to('cargue_docu'); ?>">Cargue de documentos</a></li>
+                  <li><a id="carguedocumenupeq" href="<?=URL::to('cargue_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargue de documentos</a></li>
                   @endif
                   @if($menuconsuldocu)
-                  <li><a id="" href="">Consulta de documentos</a></li>
+                  <li><a id="consultadocumenupeq" href="<?=URL::to('consulta_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta de documentos</a></li>
                   @endif
-                @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
-                <li class="dropdown"><a id="gmemenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
-                <li class="dropdown"><a id="documentosmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a id="carguedocumenupeq" href="<?=URL::to('cargue_docu'); ?>">Cargue de documentos</a></li>
-                      <li><a id="" href="">Consulta de documentos</a></li>
-                      <li><a id="" href="">Reportes de documentos</a></li>
-                    </ul>
-                  </li>
-
-                </ul><!-- fin de menu con submenu -->
-                
-                
-              </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-          </nav>
-      
-        </div>
-
+                  @if($menurepordocu)
+                  <li><a id="repordocumenupeq" href="<?=URL::to('repor_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Reporte de documentos</a></li>
+                  @endif
+                </ul>
+              </li>
+              @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+            </ul><!-- fin de menu con submenu -->
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+      </div>
     </div>
   </div>
 </div>
