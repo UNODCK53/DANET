@@ -119,7 +119,7 @@
           </div>
           <div class="form-group" id="respongeo">
             <label for="Proceso" class="control-label">Responsable Geográfico:</label>
-            <select id="modrepogeo" class="form-control" name="modrepogeo" required>
+            <select id="modrepogeo" class="form-control" name="modrepogeo" >
                 <option value="" selected="selected">Por favor seleccione</option>
                 @foreach($arraydombobox[1] as $geo)
                 <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>
@@ -162,7 +162,6 @@
             <input id="modtelefono" type="number" class="form-control" name="modtelefono" value='{{$pro->telefono}}'>
           </div>
           <div class="form-group text-right">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Guardar Edición General</button>
           </div>
         </form>
@@ -603,7 +602,7 @@
 
         //Viabilidad
         if({{$pro->viabilidad}} == '1'){
-            $('#respoviasi').prop('checked', true);
+            $('#respoviasi').prop('checked', 'true');
              $("#obsvial").hide();
              $("#obsvial").val("");
         }
@@ -625,15 +624,12 @@
         if({{$pro->requiererespgeo}} == '1'){
           $('#respogeosi').prop("checked", true);
           $("#respongeo").show();
-          if({{$pro->respgeografico}} == '0'){
-            $("#modrepogeo").val("");
-          }
-          else{}
         }
         else{
           $('#respogeono').prop("checked", true);
           $("#respongeo").hide();
         }
+        
         $('#respogeosi').click(function(){
           $("#respongeo").show();
           $("#modrepogeo").prop('required','true');
