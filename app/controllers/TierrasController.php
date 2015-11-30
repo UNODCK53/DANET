@@ -79,6 +79,16 @@ class TierrasController extends BaseController {
 	    			'updated_at' => $fecha
 		    )
 		);
+		if (Input::get('modradiorespogeo')=='2'){
+		DB::table('MODTIERRAS_PROCESTADO')->insert(
+		    array(
+		    		'id_proceso' => Input::get('modnp'),
+		    		'id_estado' => 2,
+		    		'created_at' => $fecha,
+	    			'updated_at' => $fecha
+		    )
+		);
+		}
 	
 		//compara si efectivamente ingreso el registro a la tabla MODTIERRAS_PROCESO y retorna una variable a la vista
 	 		if ($idmaximo < $idmaximo2){

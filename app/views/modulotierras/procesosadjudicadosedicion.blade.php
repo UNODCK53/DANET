@@ -276,18 +276,19 @@
       </div>
       <hr>
     @endif
+    <?php $rad=0; ?>
 @foreach($arraydombobox[4] as $estadoproceso)
   @if ($estadoproceso->id_estado >= 2)
-    <? $rad = true; ?>
+    <?php $rad = 1; ?>
   @else
-    <? $rad = false; ?>
+    <?php $rad = 0; ?>  
   @endif
 @endforeach
-  @if($rad=true)
+  @if($rad == 1 )
        <div class="row">
         <div class="col-sm-1"></div>
           <div id = 'radicado' class="col-sm-10">
-          <h3 class="text-primary">RADICADO:</h3>
+          <h3 class="text-primary">RADICADO:</h3>          
         <?php $uno=0; ?>
         @foreach($arraydombobox[5] as $procdocu)
           @if ($procdocu->id_documento == 23)
@@ -624,12 +625,14 @@
         if({{$pro->requiererespgeo}} == '1'){
           $('#respogeosi').prop("checked", true);
           $("#respongeo").show();
+          if({{$pro->respgeografico}} == '0'){
+            $("#modrepogeo").val("");
+          }
         }
         else{
           $('#respogeono').prop("checked", true);
           $("#respongeo").hide();
         }
-        
         $('#respogeosi').click(function(){
           $("#respongeo").show();
           $("#modrepogeo").prop('required','true');
