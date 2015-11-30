@@ -1,4 +1,4 @@
- @if(Auth::check())<!--muestra el contenido de la página si esta autenticado-->
+@if(Auth::check())<!--muestra el contenido de la página si esta autenticado-->
  <!--agrega la pagina maestra-->
 @extends('layouts.master')
 <!--agrega seccion titulo por si se quiere cambiar el titulo de la pestaña-->
@@ -12,7 +12,6 @@
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
   @parent
-
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -30,33 +29,31 @@
 @stop
 <!--CONTENEDOR GENERAL-->
 @section('contenedorgeneral1')
-  @parent  
+  @parent
   <div class="container" id="sha">
   <!--aca se escribe el codigo-->
     <div class="row">
       <h1 class="text-center text-primary">PROCESOS INICIALES</h1>
     </div>
-    
     <div class="row">
       <?php $status=Session::get('status'); ?>
       @if($status=='ok_estatus')
-      <div class="col-sm-1"></div>    
+      <div class="col-sm-1"></div>
       <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
       <i class="bg-success"></i> El proceso fue creado con éxito</div>
       <div class="col-sm-1"></div>
       @endif
       @if($status=='error_estatus')
-      <div class="col-sm-1"></div>    
+      <div class="col-sm-1"></div>
       <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
       <i class="bg-danger"></i> El proceso NO fue creado</div>
       <div class="col-sm-1"></div>
       @endif
-
+      <?php $status=0; ?>
     </div>
-
     <div class="row">
       <div class="col-sm-1"></div>
-      <div class="col-sm-9">  
+      <div class="col-sm-9">
         <!-- Standard button -->
         <button id="btnedijuri" title="Presione para adjudicarse el proceso" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Adjudicarse proceso</button>
       </div>
@@ -69,7 +66,7 @@
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10" >
         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-          <thead>  
+          <thead>
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
               <th class="text-center">Vereda</th>
@@ -85,7 +82,7 @@
             @foreach($arrayproini as $pro)
               <tr id="{{$pro->id_proceso}}">
                 <td >{{$pro->id_proceso}}</td>
-                <td >{{$pro->vereda}}</td>
+                <td >{{$pro->nombre1}}</td>
                 <td >{{$pro->nombrepredio}}</td>
                 <td >{{$pro->direccionnotificacion}}</td>
                 <td >{{$pro->nombre}}</td>
@@ -94,7 +91,7 @@
                 @if ($pro->areaprediopreliminar==NULL)
                 <td >0</td>
                 @elseif ($pro->areaprediopreliminar<>NULL)
-                <td >{{$pro->areaprediopreliminar}}</td>
+                <td >{{(double)$pro->areaprediopreliminar}}</td>
                 @endif
               </tr>
             @endforeach
@@ -112,22 +109,20 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"><strong>Edición Juridica</strong></h4>
-
       </div>
       <div class="modal-body">
-        
         <form role="form" action="tierras/crear-proceso" method="get" id="formEdit">
           <div class="form-group">
             <label for="Proceso" class="control-label">NP:</label>
-            <input id="modnp" type="text" class="form-control" name="modnp" readonly >
+            <input id="modnp" type="number" class="form-control" name="modnp" readonly >
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Concepto jurídico:</label>
             <select id="modconcpjuri" "Seleccione el concepto" class="form-control" name="modconcpjuri" required>
                 <option value="" selected="selected">Por favor seleccione</option>
              @foreach($arraydombobox[0] as $concep)
-                <option value="{{$concep->id_concepto}}">{{$concep->subconcepto}}</option>              
-              @endforeach              
+                <option value="{{$concep->id_concepto}}">{{$concep->subconcepto}}</option>
+              @endforeach
             </select>
           </div>
           <div class="form-group">
@@ -135,18 +130,21 @@
             <textarea id="modobsconcjuri" class="form-control" name="modobsconcjuri"></textarea>
           </div>
           <div class="form-group">
+            <label for="Proceso" class="control-label">Área preliminar:</label>
+            <input id="modarea" type="number" step="any" class="form-control" name="modarea" readonly>
+          </div>
+          <div class="form-group">
             <label for="Proceso" class="control-label">Área predio a formalizar:</label>
-            <input id="modarea" type="number" step="any" class="form-control" name="modarea">
+            <input id="modareafor" type="number" step="any" class="form-control" name="modareafor">
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Latitud:</label>
-            <input id="modlat" type="number" step="any" class="form-control" name="modlat" value="0">
+            <input id="modlat" type="number" step="any" class="form-control" name="modlat" value="0" readonly>
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Longitud:</label>
-            <input id="modlong" type="number" step="any" class="form-control" name="modlong" value="0">
+            <input id="modlong" type="number" step="any" class="form-control" name="modlong" value="0" readonly>
           </div>
-          
           <div class="form-group">
             <label for="Proceso" class="control-label">Viable:</label><br>
             <input type="radio" name="modviable" id="respoviasi" value="1" checked> SI
@@ -158,22 +156,37 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label" >Requiere responsable Geográfico:</label><br>
-            <input type="radio" name="modradiorespogeo1" id="respogeosi" value="1" disabled='disabled'> SI
-            <input type="radio" name="modradiorespogeo1" id="respogeono" value="2"checked disabled='disabled'> NO<br>
-            <input type='hidden' name='modradiorespogeo' id='modradiorespogeo'>
+            <input type="radio" name="modradiorespogeo" id="respogeosi" value="1" checked> SI
+            <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
           </div>
           <div class="form-group" id="respongeo">
             <label for="Proceso" class="control-label">Responsable Geográfico:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo">
                 <option value="" selected="selected">Por favor seleccione</option>
               @foreach($arraydombobox[1] as $geo)
-                <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>              
+                <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>
               @endforeach
             </select>
           </div>
           <div class="form-group">
+            <label for="Proceso" class="control-label" >Requiere visita de inspección:</label><br>
+            <input type="radio" name="modradiovisinsp" id="visinspsi" value="1" checked> SI
+            <input type="radio" name="modradiovisinsp" id="visinspno" value="2"> NO<br>
+          </div>
+          <div class="form-group">
+            <label for="proceso" class="control-label">Departamento:</label>
+            <select id="moddpto" "Seleccione el departamento" class="form-control" name="moddpto" required>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="proceso" class="control-label">Municipio:</label>
+            <select id="modmpio" "Seleccione el municipio" class="form-control" name="modmpio" required>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="Proceso" class="control-label">Vereda:</label>
-            <input id="modvereda" type="text" class="form-control" name="modvereda">
+            <select id="modvereda" "Seleccione la vereda" class="form-control" name="modvereda" required>
+            </select>
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Nombre del predio:</label>
@@ -205,110 +218,142 @@
   </div><!-- /.modal-dialog -->
 </div>
 @stop
-
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
-
 @stop
-
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-
 @stop
-
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
     <script>
-      $(document).ready(function() {
-        //modal-responsable geográfico
-        $("#respongeo").hide();
+      $(document).ready(function(){
+        //modal-responsable geográfico 
         $("#obsvial").hide();
         $('#respogeosi').click(function(){
           $("#respongeo").show();
+          $("#modrepogeo").prop('required', true);
         });
         $('#respogeono').click(function(){
           $("#respongeo").hide();
           $("#modrepogeo").val("");
+          $("#modrepogeo").prop('required', false);
         });
         //cierra modal responsable geografico
         //modal-viable y vialidad
         $('#respoviano').click(function(){
           $("#obsvial").show();
-          
         });
         $('#respoviasi').click(function(){
           $("#obsvial").hide();
           $("#modobsviab").val("");
         });
-        $('#modconcpjuri').change(function(){
-            //alert($('#modconcpjuri').val());
-            if ($('#modconcpjuri').val()>=7) {
-              //alert('mayor a 7');
-              $('#respogeono').prop( "checked", true );
-              $('#respongeo').hide();
-              $('#modrepogeo').val("");
-              $('#modradiorespogeo').val(2);  
-            }
-            else{
-              //alert('menor a 7');
-              $('#respogeosi').prop( "checked", true );
-              $('#respongeo').show();
-              $('#modradiorespogeo').val(1);  
-            };
-            
+        //para que los menus pequeño y grande funcione
+        $( "#tierras" ).addClass("active");
+        $( "#tierrascargainicial" ).addClass("active");
+        $( "#iniciomenupeq" ).html("<small> INICIO</small>");
+        $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
+        $( "#tierrascarinimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Carga Inicial</strong>");
+        $( "#mensajeestatus" ).fadeOut(5000);
+        // para el calendario interno
+        $('#datepicker').datepicker({
+          format: "yyyy-mm-dd",
+          language: "es",
+          startDate: "2015-01-01",
+          endDate: "today",
+          todayBtn: "linked",
+          orientation: "bottom auto",
+          autoclose: true,
+          todayHighlight: true
         });
-        //cierra-modal-viable y vialidad
-
-          //para que los menus pequeño y grande funcione
-          $( "#tierras" ).addClass("active");
-          $( "#tierrascargainicial" ).addClass("active");
-          $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
-          $( "#tierrascarinimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Carga Inicial</strong>");
-          $( "#mensajeestatus" ).fadeOut(5000);
-          
-          // para el calendario interno
-          $('#datepicker').datepicker({
-            format: "yyyy-mm-dd",
-            language: "es",
-            startDate: "2015-01-01",
-            endDate: "today",
-            todayBtn: "linked",
-            orientation: "bottom auto",
-            autoclose: true,
-            todayHighlight: true
-
-          });
-
-          var table = $('#example').DataTable();
-
-          $('#example tbody').on('click', 'tr', function () {
-              if ( $(this).hasClass('active') ) {
-                $(this).removeClass('active');
-                $("#btnedijuri").prop('disabled', true);
-              }
-              else {
-                table.$('tr.active').removeClass('active');
-                $(this).addClass('active');
-                $("#btnedijuri").prop('disabled', false);
-                $("#modnp").val($('td', this).eq(0).text());
-                $("#modvereda").val($('td', this).eq(1).text());
-                $("#modnompred").val($('td', this).eq(2).text());
-                $("#moddirnoti").val($('td', this).eq(3).text());
-                $("#modnombre").val($('td', this).eq(4).text());
-                $("#modcedula").val($('td', this).eq(5).text());
-                $("#modtelefono").val($('td', this).eq(6).text());
-                $("#modarea").val($('td', this).eq(7).text());
-              }
-
-          });               
-
-      });
-
+        var table = $('#example').DataTable();
+        $('#example tbody').on('click', 'tr', function () {
+          if ( $(this).hasClass('active') ) {
+            $(this).removeClass('active');
+            $("#btnedijuri").prop('disabled', true);
+          }
+          else {
+            table.$('tr.active').removeClass('active');
+            $(this).addClass('active');
+            $("#btnedijuri").prop('disabled', false);
+            $("#moddpto").empty();
+            $("#modmpio").empty();
+            $("#modvereda").empty();
+            var num =($('td', this).eq(0).text());
+            $.ajax({url:"tierras/listadoproinimodal",type:"POST",data:{numerpro:$('td', this).eq(0).text()},dataType:'json',
+              success:function(data){
+                $("#modnp").val(data[0][0].id_proceso);
+                $("#modnompred").val(data[0][0].nombrepredio);
+                $("#moddirnoti").val(data[0][0].direccionnotificacion);
+                $("#modnombre").val(data[0][0].nombre);
+                $("#modcedula").val(data[0][0].cedula);
+                $("#modtelefono").val(data[0][0].telefono);
+                if(data[0][0].areaprediopreliminar==null){
+                  $("#modarea").val(0);
+                }
+                else{
+                  $("#modarea").val(Number(data[0][0].areaprediopreliminar));
+                }
+                if($("#modareafor").val()==""){
+                  $("#modareafor").val(0);
+                }
+                $.each(data[1], function(nom,datos){
+                  $("#moddpto").append("<option value=\""+datos.cod_dpto+"\">"+datos.nom_dpto+"</option>");
+                });
+                $("#moddpto").val(data[0][0].COD_DPTO);
+                $.ajax({url:"tierras/reporarealevantadampio",type:"POST",data:{dpto:$('#moddpto').val()},dataType:'json',
+                  success:function(data1){
+                    $.each(data1[0], function(nom,datos1){
+                      $("#modmpio").append("<option value=\""+datos1.cod_mpio+"\">"+datos1.nom_mpio+"</option>");
+                    });
+                    $("#modmpio").val(data[0][0].COD_MPIO);
+                    $.ajax({url:"tierras/reporarealevantadavda",type:"POST",data:{mpio:$('#modmpio').val()},dataType:'json',
+                      success:function(data2){
+                        $.each(data2[0], function(nom,datos2){
+                          $("#modvereda").append("<option value=\""+datos2.cod_unodc+"\">"+datos2.nombre1+"</option>");
+                        });
+                        $("#modvereda").val(data[0][0].COD_UNODC);
+                      },
+                      error:function(){alert('error');}
+                    });//Termina Ajax vereda
+                  },
+                  error:function(){alert('error');}
+                });//Termina Ajax mpio
+              },
+              error:function(){alert('error');}
+            });//Termina Ajax listadoproini
+          }
+        });//Termina tbody
+        $("#moddpto").change(function(){
+          $("#modmpio").empty();
+          $("#modvereda").empty();
+          $.ajax({url:"tierras/reporarealevantadampio",type:"POST",data:{dpto:$('#moddpto').val()},dataType:'json',
+            success:function(data1){
+              $("#modmpio").append("<option value=''>Por favor seleccione</option>");
+              $("#modvereda").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1[0], function(nom,datos){
+                $("#modmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+              });
+            },
+            error:function(){alert('error');}
+          });//Termina reporarealevantadampio
+        });//Termina chage moddpto
+        $("#modmpio").change(function(){
+          $("#modvereda").empty();
+          $.ajax({url:"tierras/reporarealevantadavda",type:"POST",data:{mpio:$('#modmpio').val()},dataType:'json',
+            success:function(data1){
+              $("#modvereda").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1[0], function(nom,datos){
+                $("#modvereda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+              });
+            },
+            error:function(){alert('error');}
+          });//Termina reporarealevantadavda
+        });//Termina change modmpio
+      });//Termina document ready
     </script>
 @stop
-
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->
