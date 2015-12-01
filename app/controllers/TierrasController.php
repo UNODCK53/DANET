@@ -34,6 +34,11 @@ class TierrasController extends BaseController {
 		//consulta a la tabla de MODTIERRAS_PROCESO
 		$idmaximo =  DB::table('MODTIERRAS_PROCESO')->max('OBJECTID');
 		$fecha = date("Y-m-d H:i:s");
+		$reqresgeo=Input::get('modradiorespogeo');
+		$respgeografico = Input::get('modrepogeo');
+		if($reqresgeo == 2){
+			$respgeografico = 0;
+		}
   		// insertar campos a la tabla
 	    DB::table('MODTIERRAS_PROCESO')->insert(
 		    array(
@@ -48,8 +53,8 @@ class TierrasController extends BaseController {
 	    			'viabilidad' => Input::get('modviable'),
 	    			'obsviabilidad' => Input::get('modobsviab'),
 	    			'respjuridico' => Auth::user()->id,
-	    			'requiererespgeo' => Input::get('modradiorespogeo'),
-	    			'respgeografico' => Input::get('modrepogeo'),
+	    			'requiererespgeo' => $reqresgeo,
+	    			'respgeografico' => $respgeografico,
 	    			'requierevisinsp' => Input::get('modradiovisinsp'),
 	    			'created_at' => $fecha,
 	    			'updated_at' => $fecha,
@@ -118,6 +123,10 @@ class TierrasController extends BaseController {
 		$fecha = date("Y-m-d H:i:s");
 		$procesiid = Input::get('modnp');
 		$reqresgeo = Input::get('modradiorespogeo');
+		$respgeografico = Input::get('modrepogeo');
+		if($reqresgeo == 2){
+			$respgeografico = 0;
+		}
   		// insertar campos a la tabla
 	    DB::table('MODTIERRAS_PROCESO')->where('id_proceso', Input::get('modnp'))->update(	    	
 		    array(
@@ -132,7 +141,7 @@ class TierrasController extends BaseController {
 	    			'obsviabilidad' => Input::get('modobsviab'),
 	    			'respjuridico' => Auth::user()->id,
 	    			'requiererespgeo' => $reqresgeo,
-	    			'respgeografico' => Input::get('modrepogeo'),
+	    			'respgeografico' => $respgeografico,
 	    			'updated_at' => $fecha,
 	    			'vereda' => Input::get('modvereda'),
 	    			'nombrepredio' => Input::get('modnompred'),

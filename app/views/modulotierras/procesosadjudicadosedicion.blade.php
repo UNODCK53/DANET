@@ -425,7 +425,7 @@
       @if ($estadoproceso->id_estado ==9)
         <p>Se adjuntaron todos los datos requeridos para el proceso.</p>
       @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
-        <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u>Registro ORIP</p>
+        <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u></p>
       @endif
       </blockquote>
       <!--ajuntar modal-->
@@ -652,7 +652,6 @@
         });
         $('#respogeono').click(function(){
           $("#respongeo").hide();
-          $("#modrepogeo").val("");
           $("#modrepogeo").prop("required",false);
         });
         //cierra responsable geografico
