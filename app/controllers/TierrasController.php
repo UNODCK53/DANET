@@ -42,6 +42,7 @@ class TierrasController extends BaseController {
 		    		'conceptojuridico' => Input::get('modconcpjuri'),
 		    		'obsconceptojuridico' => Input::get('modobsconcjuri'),
 		    	  	'areapredioformalizada' => Input::get('modareafor'),
+		    	  	'unidadareaprediofor' => Input::get('modradiounidadfor'),		    	  	
 		    	  	'longitud' => Input::get('modlong'),
 		    	  	'latitud' => Input::get('modlat'), 
 	    			'viabilidad' => Input::get('modviable'),

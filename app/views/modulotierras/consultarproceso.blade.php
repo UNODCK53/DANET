@@ -163,7 +163,7 @@
     </div>
     <hr>
     <blockquote>
-      <p align="justify">Documentos pendientes sugeridos para el proceso: </p>
+      <p align="justify">Documentos sugeridos para adjuntar al proceso: </p>
       <p align="justify">
         @foreach($arraydombobox[2] as $docunecesario)
           <?php $encontro=0; ?>
@@ -173,7 +173,10 @@
             @endif
           @endforeach
           @if($encontro==0)
-            {{$docunecesario->concepto.','}}
+            @if(($docunecesario->concepto == 'Levantamiento topográfico') and ($pro->requiererespgeo == 2))
+                @else
+                  {{$docunecesario->concepto}}{{','}}
+                @endif
           @endif
         @endforeach
       </p>
@@ -379,13 +382,23 @@
     @endforeach
     <blockquote>
       <input id="idestado" type = 'hidden' name="idestado" value='{{$estadoproceso->id_estado}}'>
-        @if ($estadoproceso->id_estado ==9)
-          <p>El proceso finalizó con éxito.</p>
-        @elseif ($estadoproceso->id_estado <=5)
-          <p>Pendiente por adjuntar <u><strong>{{$arraydombobox[3][$estadoproceso->id_estado]->estado}}</strong></u> para cambiar el estado al proceso .</p>
-        @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
-          <p>Pendiente por adjuntar<u><strong>{{$arraydombobox[3][8]->estado}}</strong></u>.</p>
-        @endif
+      @if($estadoproceso->id_estado == 1)
+        <p>Se debe adjuntar los documentos del <u><strong>Levantamiento Topográfico</strong></u>.</p>
+      @endif
+      @if($estadoproceso->id_estado == 2)
+        <p>Se debe adjuntar <u><strong>Radicado</strong></u>.</p>
+      @endif
+      @if(($estadoproceso->id_estado == 3) or ($estadoproceso->id_estado == 4))
+        <p>Se debe definir la <u><strong>Visita de Inspección</strong></u>.</p>
+      @endif
+      @if($estadoproceso->id_estado == 5)
+        <p>Se debe adjuntar <u><strong>Resultado Procesal</strong></u>.</p>
+      @endif      
+      @if ($estadoproceso->id_estado ==9)
+        <p>Se adjuntaron todos los datos requeridos para el proceso.</p>
+      @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
+        <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u>Registro ORIP</p>
+      @endif
     </blockquote>
   </div>
 @stop

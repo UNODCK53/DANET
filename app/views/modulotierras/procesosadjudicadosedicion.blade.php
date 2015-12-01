@@ -170,7 +170,7 @@
       </div>
       <hr>
       <blockquote>
-        <p align="justify">Por favor adjuntar los siguientes documentos para poder terminar el proceso: </p>
+        <p align="justify">Documentos sugeridos para adjuntar al proceso: </p>
         <p align="justify">
           @foreach($arraydombobox[2] as $docunecesario)
               <?php $encontro=0; ?>
@@ -180,7 +180,10 @@
                 @endif
               @endforeach
               @if ($encontro==0)
-                {{$docunecesario->concepto}}{{','}}
+                @if(($docunecesario->concepto == 'Levantamiento topográfico') and ($pro->requiererespgeo == 2))
+                @else
+                  {{$docunecesario->concepto}}{{','}}
+                @endif
               @endif
           @endforeach
         </p>
@@ -190,7 +193,7 @@
       <div class="row">
           <div class="col-sm-1"></div>
             <div class="col-sm-10">
-            <h3 class="text-primary">ANEXAR DOCUMENTOS REQUIRDOS PARA EL PROCESO:</h3>
+            <h3 class="text-primary">ANEXAR DOCUMENTOS SUGERIDOS PARA EL PROCESO:</h3>
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
                   <div class="col-sm-12 form-group">
                     <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
@@ -395,9 +398,9 @@
             </form>
             <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Editar Registro ORIP</button>
           @else
-            @if (count($arraydombobox[5])==((count($arraydombobox[2]))-1))
+            
               <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Registro ORIP</button>
-            @endif
+            
           @endif
           </div>
         <div class="col-sm-1"></div>
@@ -407,13 +410,23 @@
 @endforeach
       <blockquote>
       <input id="idestado" type = 'hidden' name="idestado" value='{{$estadoproceso->id_estado}}'>
-        @if ($estadoproceso->id_estado ==9)
-          <p>El proceso finalizó con éxito.</p>
-        @elseif ($estadoproceso->id_estado <=5)
-          <p>El proceso debe continuar al siguiente estado <u><strong>{{$arraydombobox[3][$estadoproceso->id_estado]->estado}}</strong></u>.</p>
-        @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
-          <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u> para activar el boton de cargue de documento ORIP necesita cargar todos los documentos del proceso.</p>
-        @endif
+      @if($estadoproceso->id_estado == 1)
+        <p>Se debe adjuntar los documentos del <u><strong>Levantamiento Topográfico</strong></u>.</p>
+      @endif
+      @if($estadoproceso->id_estado == 2)
+        <p>Se debe adjuntar <u><strong>Radicado</strong></u>.</p>
+      @endif
+      @if(($estadoproceso->id_estado == 3) or ($estadoproceso->id_estado == 4))
+        <p>Se debe definir la <u><strong>Visita de Inspección</strong></u>.</p>
+      @endif
+      @if($estadoproceso->id_estado == 5)
+        <p>Se debe adjuntar <u><strong>Resultado Procesal</strong></u>.</p>
+      @endif      
+      @if ($estadoproceso->id_estado ==9)
+        <p>Se adjuntaron todos los datos requeridos para el proceso.</p>
+      @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
+        <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u>Registro ORIP</p>
+      @endif
       </blockquote>
       <!--ajuntar modal-->
       <div id="docModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -600,7 +613,6 @@
   @parent
     <script>
       $(document).ready(function() {
-
         //Viabilidad
         if({{$pro->viabilidad}} == '1'){
             $('#respoviasi').prop('checked', 'true');

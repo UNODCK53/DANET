@@ -134,8 +134,20 @@
             <input id="modarea" type="number" step="any" class="form-control" name="modarea" readonly>
           </div>
           <div class="form-group">
+            <label for="Proceso" class="control-label" >Unidades:</label><br>
+            <input type="radio" name="modradiounidadpre" id="aunidadpreha" value="1" disabled> ha.
+            <input type="radio" name="modradiounidadpre" id="aunidadprefan" value="2" disabled> fan.
+            <input type="radio" name="modradiounidadpre" id="aunidadprem2" value="2" disabled> m2.
+          </div>
+          <div class="form-group">
             <label for="Proceso" class="control-label">Área predio a formalizar:</label>
-            <input id="modareafor" type="number" step="any" class="form-control" name="modareafor">
+            <input id="modareafor" type="number" step="any" class="form-control" name="modareafor" required>
+          </div>
+          <div class="form-group">
+            <label for="Proceso" class="control-label" >Unidades:</label><br>
+            <input type="radio" name="modradiounidadfor" id="aunidadforha" value="1" required> ha.
+            <input type="radio" name="modradiounidadfor" id="aunidadforfan" value="2" required> fan.
+            <input type="radio" name="modradiounidadfor" id="aunidadform2" value="3" required> m2.
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Latitud:</label>
@@ -161,7 +173,7 @@
           </div>
           <div class="form-group" id="respongeo">
             <label for="Proceso" class="control-label">Responsable Geográfico:</label>
-            <select id="modrepogeo" class="form-control" name="modrepogeo">
+            <select id="modrepogeo" class="form-control" name="modrepogeo" required>
                 <option value="" selected="selected">Por favor seleccione</option>
               @foreach($arraydombobox[1] as $geo)
                 <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>
@@ -296,6 +308,15 @@
                 }
                 else{
                   $("#modarea").val(Number(data[0][0].areaprediopreliminar));
+                }
+                if(data[0][0].unidadesarea=='1'){
+                  $('#aunidadpreha').prop("checked", true);
+                }
+                else if(data[0][0].unidadesarea=='2') {
+                  $('#aunidadprefan').prop("checked", true);
+                }
+                else if (data[0][0].unidadesarea=='3'){
+                  $('#aunidadprem2').prop("checked", true);
                 }
                 if($("#modareafor").val()==""){
                   $("#modareafor").val(0);
