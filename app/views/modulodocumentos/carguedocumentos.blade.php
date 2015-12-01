@@ -59,7 +59,12 @@
 
             <form role="form" action="documentos/adjuntar-docu" method="post" id="formEdit" enctype="multipart/form-data">
               <div class="form-group">
-                <label for="carguedocu" class="control-label">Categoria:</label>
+                <label for="carguedocu" class="control-label">Titulo del documento:</label>
+                <input  id = "titulo" name="titulo" class="form-control" type="text" required="true"></input>
+                
+              </div>
+              <div class="form-group">
+                <label for="carguedocu" class="control-label">Categoría:</label>
                 <select id="selectcategoria" class="form-control" name="selectcategoria" required="true">
                     <option value="" selected="selected">Por favor seleccione</option>
                     @foreach($arrayiniciales[0] as $catego)
@@ -104,12 +109,7 @@
             </div>
               <div class="form-group" id="carguedocumento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Autor del documento:</label>
-                <select id="selectautor" class="form-control" name="selectautor">
-                    <option value="" selected="selected">Por favor seleccione</option>
-                    @foreach($arrayiniciales[2] as $autor)
-                    <option value="{{$autor->id_autor}}">{{$autor->autor}}</option>              
-                    @endforeach                                 
-                </select>
+                <input id="selectautor" class="form-control" name="selectautor" required="true" placeholder="Ejemplo: UNODC"></input>
               </div>
               <div class="form-group" id="carguedocumento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Fecha del documento:</label>
@@ -131,7 +131,7 @@
                 <label id="tipodocu" for="carguedocu" class="control-label">Departamento:</label>
                     <select id="selecdepto" class="form-control" name="selecdepto">
                       <option value="" selected="selected">Por favor seleccione</option>
-                      @foreach($arrayiniciales[3] as $depto)
+                      @foreach($arrayiniciales[2] as $depto)
                         <option value="{{$depto->COD_DPTO}}">{{$depto->NOM_DPTO}}</option>              
                       @endforeach
                     </select>                    
