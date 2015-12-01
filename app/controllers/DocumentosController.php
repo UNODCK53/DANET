@@ -46,17 +46,13 @@ class DocumentosController extends BaseController {
 
 		$unidadgeo = DB::table('MODDOCUMENTOS_UNIGEO')		
 		->select('id_ugeo', 'unidgeo')
-		->get();
-
-		$autor = DB::table('MODDOCUMENTOS_AUTORDOCU')	
-		->select('id_autor', 'autor')
-		->get();
+		->get();		
 			
 		$depto = DB::table('DEPARTAMENTOS')	
 		->select('COD_DPTO', 'NOM_DPTO')		
 		->get();		
 
-		$arrayiniciales=array($categoria, $unidadgeo, $autor, $depto);	
+		$arrayiniciales=array($categoria, $unidadgeo, $depto);	
 
 		return View::make('modulodocumentos.carguedocumentos', array('arrayiniciales' => $arrayiniciales));		
 	}	
@@ -130,6 +126,7 @@ class DocumentosController extends BaseController {
 		->where('COD_DPTO','=',Input::get('depto'))
 		->select('COD_DANE', 'NOM_MPIO')
 		->groupBy ('COD_DANE', 'NOM_MPIO')
+		->OrderBy('NOM_MPIO')
 		->get();
 			
 		return Response::json($submpio);
@@ -141,15 +138,26 @@ class DocumentosController extends BaseController {
 		->select('rutadecarpeta')
 		->get();
 
-		$path=public_path().$path1[0]->rutadecarpeta;
+		if (File::exists(public_path().'\moddocs\DA')){
+			}
+			else{
+				File::makeDirectory(public_path().'\moddocs\DA',  $mode = 0777, $recursive = false);	
+		}
+		if (File::exists(public_path().'\moddocs\IMGDOCU')){
+			}
+			else{
+				File::makeDirectory(public_path().'\moddocs\IMGDOCU',  $mode = 0777, $recursive = false);	
+		}
 
-		// creacion de carpeta dependiendo del nombre del proceso
+		$path=public_path().$path1[0]->rutadecarpeta;		
+
+		// creacion de carpeta dependiendo de la categoria del documento
+		
 		if (File::exists($path)){						
 		}
 		else{
 			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
 		}
-
 
 		$categoria = DB::table('MODDOCUMENTOS_CATEGORIA')		
 		->where('id_categoria','=',Input::get('selectcategoria'))
@@ -158,6 +166,7 @@ class DocumentosController extends BaseController {
 
 		$path2 = $path.'\\'.$categoria[0]->siglas_categoria;		
 
+		// creacion de carpeta dependiendo de la subcategoria del documento
 		if (File::exists($path2)){						
 		}
 		else{
@@ -174,14 +183,15 @@ class DocumentosController extends BaseController {
 		->select('id_momento')
 		->get();
 
+		//creacion de la carpeta de categoria si es necesario
 		$path3 = $path2.'\\'.$tipodocu[0]->siglas_categoria;		
 
 		if (File::exists($path3)){						
 		}
 		else{
 			File::makeDirectory($path3,  $mode = 0777, $recursive = false);	
-		}	
-
+		}
+		//verifica si el documentos paso del cliente al servidor
 		if(Input::hasFile('filedocu')) {
 			$selectmpios=Input::get('selectmpios');		   		
     		$fecha = date("Y-m-d H:i:s");
@@ -190,9 +200,27 @@ class DocumentosController extends BaseController {
 			$nombredocumento = ($idmaximo+1).'_'.Input::file('filedocu')->getClientOriginalName();
 			
 			Input::file('filedocu')->move($path3,$nombredocumento);
-    		
+
+			//exec('CALL '.public_path().'\ImageMagick\convert.exe "'.public_path().'\master.pdf[0]"  -resize 50% -quality 50 "'.public_path().'\prueba.jpg"');
+			//exec('CALL '.public_path().'\ImageMagick\convert.exe "'.public_path().'\master.pdf[0]" -resize 215x278 "'.public_path().'\prueba.jpg"');
+
+			//se realiza el QUICKLOOK de la primera hoja del documento cargado
+			exec('CALL '.public_path().'\ImageMagick\convert.exe "'.$path3.'\\'.$nombredocumento.'[0]" "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg"');
+
+			$a=0;
+			do {				
+				if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg')) {
+					exec('CALL '.public_path().'\ImageMagick\convert.exe "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg" -resize 215x278 "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg"');
+					$a=11;						
+				} else {
+					$a=0;
+				}
+			} while ($a <= 10);
+
+    		// cargue en la tabla masterducu la informacion alfanumerica del documento
     		DB::table('MODDOCUMENTOS_MASTERDOCU')->insert(
 		    	array(
+		    		'titulo' => Input::get('titulo'), 
 		    		'fecha' => Input::get('selectfechadocu'),
 		    		'nombredocu' => $nombredocumento,
 		    		'autor' => Input::get('selectautor'),
@@ -205,10 +233,12 @@ class DocumentosController extends BaseController {
 		    		'ruta' => $path3,
 		    		'fechacarguedocu' => $fecha,		    				    		
 	    			'usercargue' => Auth::user()->id,
-	    			'proyecto' => Input::get('proyecto'),
-	    			'contraparte' => Input::get('contraparte')
+	    			'proyecto' => Input::get('selectproyecto'),
+	    			'contraparte' => Input::get('selectcontraparte')
 		    	)
 			);
+
+			//si se carga referencia geografica municipal o departamental se carga en la tabla MODDOCUMENTOS_UNIGEODEPTOMUNI esas caracteristicas mas el id del documento
     		if (Input::get('selecunigeo')==3) {
     			
     			for ($i=0; $i < count($selectmpios) ; $i++) { 
@@ -235,11 +265,24 @@ class DocumentosController extends BaseController {
 			    		'COD_DEPTO' => '00'
 			    	)
 				);
-    		}							
+    		}
+    		
+
        		return Redirect::to('cargue_docu')->with('status', 'ok_estatus');
     	}
     	return Redirect::to('cargue_docu')->with('status', 'error_estatus');
     }
+    public function postBusquedabasica()
+	{
+		//$querybusqueda='Coordinación';
+		$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo as ruta FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
+		
+		//return Redirect::route('consulta_docu',$queryresultbusbasic);
+		return Response::json($queryresultbusbasic);
+	}
+
+
+	   
     		
 }
 ?>

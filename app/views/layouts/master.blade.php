@@ -39,6 +39,7 @@
 	    color:#245DC1;
 	    margin-right:2px;
 	  }
+    
   </style>
 	@show
 	@section('js')
