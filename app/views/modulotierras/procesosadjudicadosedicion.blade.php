@@ -30,21 +30,19 @@
 @stop
 <!--CONTENEDOR GENERAL-->
 @section('contenedorgeneral1')
-  @parent  
+  @parent
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
-      <div class="row">  
+      <div class="row">
         @foreach($arrayproceso as $pro)
-
-        @endforeach              
+        @endforeach
         <h1 class="text-center text-primary">EDICIÓN PROCESO NP:{{$pro->id_proceso}}</h1>
       </div>
-       <hr>       
-      <div class="row">      
-        <div class="col-sm-1"></div>               
+       <hr>
+      <div class="row">
+        <div class="col-sm-1"></div>
         <div class="col-sm-10">
-        <h3 class="text-primary">EDICIÓN GENERAL:</h3>      
-        
+        <h3 class="text-primary">EDICIÓN GENERAL:</h3>
         <form role="form" action="tierras/editar-proceso" method="get" id="formEdit">
           <div class="form-group">
             <label for="Proceso" class="control-label">NP:</label>
@@ -58,23 +56,53 @@
                 <input id="modconcpjuri2" type="text" class="form-control" name="modconcpjuri2" value='{{$concep->subconcepto}}' readonly>
               @endif
             @endforeach
-            </div>
+          </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Observación concepto jurídico:</label>
             <textarea id="modobsconcjuri" class="form-control" name="modobsconcjuri">{{$pro->obsconceptojuridico}}</textarea>
           </div>
-          <div class="col-sm-4 form-group">
+          <div class="col-sm-3 form-group">
+            <label for="Proceso" class="control-label">Área preliminar:</label>
+            <input id="modarea" type="number" step="any" class="form-control" name="modarea" value='' readonly>
+          </div>
+          <div class="col-sm-3 form-group">
+            <label for="Proceso" class="control-label" >Unidades:</label><br>
+            <input type="radio" name="modradiounidadpre" id="aunidadpreha" value="1" disabled> ha.
+            <input type="radio" name="modradiounidadpre" id="aunidadprefan" value="2" disabled> fan.
+            <input type="radio" name="modradiounidadpre" id="aunidadprem2" value="2" disabled> m2.
+          </div>
+          <div class="col-sm-3 form-group">
             <label for="Proceso" class="control-label">Área predio a formalizar:</label>
-            <input id="modarea" type="number" step="any" class="form-control" name="modarea" value='{{$pro->areapredioformalizada}}' >
+            <input id="modareafor" type="number" step="any" class="form-control" name="modareafor" value='{{(double)$pro->areapredioformalizada}}'>
           </div>
-          <div class="col-sm-4 form-group">
+          <div class="col-sm-3 form-group">
+            <label for="Proceso" class="control-label" >Unidades:</label><br>
+            @if($pro->unidadareaprediofor==1)
+            <input type="radio" name="modradiounidadfor" id="aunidadforha" value="1" checked> ha.
+            @else
+            <input type="radio" name="modradiounidadfor" id="aunidadforha" value="1"> ha.
+            @endif
+            @if($pro->unidadareaprediofor==2)
+            <input type="radio" name="modradiounidadfor" id="aunidadforfan" value="2"checked> fan.
+            @else
+            <input type="radio" name="modradiounidadfor" id="aunidadforfan" value="2"> fan.
+            @endif
+            @if($pro->unidadareaprediofor==3)
+            <input type="radio" name="modradiounidadfor" id="aunidadform2" value="3"checked> m2.
+            @else
+            <input type="radio" name="modradiounidadfor" id="aunidadform2" value="3"> m2.
+            @endif
+          </div>
+          <div class="col-sm-6 form-group">
             <label for="Proceso" class="control-label">Latitud:</label>
-            <input id="modlat" type="number" step="any" class="form-control" name="modlat" value='{{$pro->latitud}}' >
+            <input id="modlat" type="number" step="any" class="form-control" name="modlat" value='{{(double)$pro->latitud}}'readonly>
           </div>
-          <div class="col-sm-4 form-group">
+          <div class="col-sm-6 form-group">
             <label for="Proceso" class="control-label">Longitud:</label>
-            <input id="modlong" type="number" step="any" class="form-control" name="modlong" value='{{$pro->longitud}}' >
-          </div>          
+            <input id="modlong" type="number" step="any" class="form-control" name="modlong" value='{{(double)$pro->longitud}}' readonly>
+          </div>
+          <div class="row">
+          </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Viable:</label><br>
             <input type="radio" name="modviable" id="respoviasi" value="1"> SI
@@ -86,22 +114,32 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label" >Requiere responsable Geográfico:</label><br>
-            <input type="radio" name="modradiorespogeo1" id="respogeosi" value="1" disabled='disabled'> SI
-            <input type="radio" name="modradiorespogeo1" id="respogeono" value="2"checked disabled='disabled'> NO<br>
-            <input type='hidden' name='modradiorespogeo' id='modradiorespogeo' value='{{$pro->requiererespgeo}}'>
+            <input type="radio" name="modradiorespogeo" id="respogeosi" value="1"> SI
+            <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
           </div>
           <div class="form-group" id="respongeo">
             <label for="Proceso" class="control-label">Responsable Geográfico:</label>
-            <select id="modrepogeo" class="form-control" name="modrepogeo">
+            <select id="modrepogeo" class="form-control" name="modrepogeo" >
                 <option value="" selected="selected">Por favor seleccione</option>
                 @foreach($arraydombobox[1] as $geo)
-                <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>              
-                @endforeach              
+                <option value="{{$geo->id}}">{{$geo->name}} {{$geo->last_name}}</option>
+                @endforeach
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="proceso" class="control-label">Departamento:</label>
+            <select id="moddpto" "Seleccione el departamento" class="form-control" name="moddpto" required>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="proceso" class="control-label">Municipio:</label>
+            <select id="modmpio" "Seleccione el municipio" class="form-control" name="modmpio" required>
             </select>
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Vereda:</label>
-            <input id="modvereda" type="text" class="form-control" name="modvereda" value='{{$pro->vereda}}'>
+            <select id="modvereda" "Seleccione la vereda" class="form-control" name="modvereda" required>
+            </select>
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Nombre del predio:</label>
@@ -124,88 +162,134 @@
             <input id="modtelefono" type="number" class="form-control" name="modtelefono" value='{{$pro->telefono}}'>
           </div>
           <div class="form-group text-right">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Guardar Edición General</button>
           </div>
-        </form>          
-        </div>              
+        </form>
+        </div>
         <div class="col-sm-1"></div>
       </div>
       <hr>
       <blockquote>
-        <p align="justify">Por favor adjuntar los siguientes documentos para poder terminar el proceso: </p>
+        <p align="justify">Documentos sugeridos para adjuntar al proceso: </p>
         <p align="justify">
           @foreach($arraydombobox[2] as $docunecesario)
               <?php $encontro=0; ?>
-              @foreach($arraydombobox[5] as $docucargado)                  
+              @foreach($arraydombobox[5] as $docucargado)
                 @if ($docunecesario->id_documento == $docucargado->id_documento)
                   <?php $encontro=1; ?>
-                @endif                  
+                @endif
               @endforeach
               @if ($encontro==0)
-                {{$docunecesario->concepto}}{{','}}
-              @endif                  
+                @if(($docunecesario->concepto == 'Levantamiento topográfico') and ($pro->requiererespgeo == 2))
+                @else
+                  {{$docunecesario->concepto}}{{','}}
+                @endif
+              @endif
           @endforeach
-        </p>        
+        </p>
       </blockquote>
 
       <?php $uno=0; ?>
       <div class="row">
-          <div class="col-sm-1"></div>               
+          <div class="col-sm-1"></div>
             <div class="col-sm-10">
-            <h3 class="text-primary">ANEXAR DOCUMENTOS REQUIRDOS PARA EL PROCESO:</h3>
+            <h3 class="text-primary">ANEXAR DOCUMENTOS SUGERIDOS PARA EL PROCESO:</h3>
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-                  <div class="col-sm-12 form-group">            
+                  <div class="col-sm-12 form-group">
                     <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
         @foreach($arraydombobox[5] as $procdocu)
         @if (($procdocu->id_documento != 23) and ($procdocu->id_documento != 24) and ($procdocu->id_documento != 25) and ($procdocu->id_documento != 2))
                     <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='{{$procdocu->id_documento}}'>
                     <spam>{{$procdocu->concepto}}</spam><br>
         @endif
-        @endforeach    
+        @endforeach
                   </div>
-            </form>      
-            <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Anexar documentos</button>        
-            </div> 
-          <div class="col-sm-1"></div>        
+            </form>
+            <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Anexar documentos</button>
+            </div>
+          <div class="col-sm-1"></div>
         </div>
 
         <hr>
-@foreach($arraydombobox[4] as $estadoproceso)
-  @if ($estadoproceso->id_estado == 2 )
-    @if ($pro->conceptojuridico <= 6) 
+      @foreach($arraydombobox[4] as $estadoproceso)
+        @if (($estadoproceso->id_estado == 2 )&&($arrayproceso[0]->requiererespgeo == 1))
+          @if ($pro->conceptojuridico <= 6)
+            <div class="row">
+              <div class="col-sm-1"></div>
+              <div class="col-sm-10">
+                  @if($arraydombobox[8])
+                  <h3 class="text-primary">LEVANTAMIENTO TOPOGRÁFICO:</h3>
+                  <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
+                  <div class="col-sm-1 form-group">
+                  <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
+                  <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='_LT_MAPA.pdf'>
+                  <spam>Mapa</spam>
+                  </div>
+                  </form>
+                  @endif
+                  @if($arraydombobox[6])
+                  <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
+                  <div class="col-sm-1 form-group">
+                  <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
+                  <input id="moddownload" type="image" name="moddownload" src="assets/img/rar.png" value='_LT_SHP.rar'>
+                  <spam>SHP</spam>
+                  </div>
+                  </form>
+                  @endif
+                  @if($arraydombobox[7])
+                  <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
+                  <div class="col-sm-1 form-group">
+                  <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
+                  <input id="moddownload" type="image" name="moddownload" src="assets/img/excel.png" value='2'>
+                  <spam>Coordenadas</spam>
+                  </div>
+                  </form>
+                  @endif
+              </div>
+              <div class="col-sm-1"></div>
+            </div>
+            <hr>
+          @endif
+        @endif
+      @endforeach
+      @foreach($arraydombobox[4] as $estadoproceso)
+        @if(($arraydombobox[6] == false) && ($arraydombobox[7] == false) && ($arraydombobox[8] == false)&&($arrayproceso[0]->requiererespgeo == 1) && 
+        (($estadoproceso->id_estado == 3) || ($estadoproceso->id_estado == 4)))
       <div class="row">
-        <div class="col-sm-1"></div>               
+        <div class="col-sm-1"></div>
         <div class="col-sm-10">
             <h3 class="text-primary">LEVANTAMIENTO TOPOGRÁFICO:</h3>
-            <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-            <div class="col-sm-1 form-group">            
-            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
-            <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='_LT_MAPA.pdf'>
-            <spam>Mapa</spam>
-            </div>
-            </form>
-            <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-            <div class="col-sm-1 form-group">            
-            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
-            <input id="moddownload" type="image" name="moddownload" src="assets/img/rar.png" value='_LT_SHP.rar'>
-            <spam>SHP</spam>
-            </div>
-            </form>
-            <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-            <div class="col-sm-1 form-group">            
-            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
-            <input id="moddownload" type="image" name="moddownload" src="assets/img/excel.png" value='2'>
-            <spam>Coordenadas</spam>
-            </div>
-            </form>            
+            <br>
+            <h4 >Se modificó el levantamiento topográfico y no hay documentos cargados</h4>
         </div>
-        <div class="col-sm-1"></div>        
+        <div class="col-sm-1"></div>
       </div>
       <hr>
-    @endif 
+        @endif
+      @endforeach
+    @if($arrayproceso[0]->requiererespgeo == 2)
        <div class="row">
-        <div class="col-sm-1"></div>               
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <h3 class="text-primary">LEVANTAMIENTO TOPOGRÁFICO:</h3>
+            <br>
+            <h4 >No se requiere de levantamiento topográfico</h4>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+      <hr>
+    @endif
+    <?php $rad=0; ?>
+@foreach($arraydombobox[4] as $estadoproceso)
+  @if ($estadoproceso->id_estado >= 2)
+    <?php $rad = 1; ?>
+  @else
+    <?php $rad = 0; ?>  
+  @endif
+@endforeach
+  @if($rad == 1 )
+       <div class="row">
+        <div class="col-sm-1"></div>
           <div id = 'radicado' class="col-sm-10">
           <h3 class="text-primary">RADICADO:</h3>          
         <?php $uno=0; ?>
@@ -214,75 +298,89 @@
             <?php $uno=23; ?>
           @endif
         @endforeach
-          @if ($uno == 23)          
+          @if ($uno == 23)
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-            <div class="col-sm-1 form-group">            
-            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
+            <div class="col-sm-1 form-group">
+            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
             <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='23'>
             </div>
-            </form>            
+            </form>
             <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal1"  data-toggle="modal" type="button" class="btn btn-primary">Editar Radicado</button>
-          @else                    
+          @else
           <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal1"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Radicado</button>
           @endif
-                  
-          </div> 
-        <div class="col-sm-1"></div>        
+          </div>
+        <div class="col-sm-1"></div>
       </div>
       <hr>
   @endif
-  @if (($estadoproceso->id_estado == 3) or ($estadoproceso->id_estado == 4))
+  @foreach($arraydombobox[4] as $estadoproceso)
+    @if (($estadoproceso->id_estado == 3) or ($estadoproceso->id_estado == 4))
       <div class="row">
-        <div class="col-sm-1"></div>               
+        <div class="col-sm-1"></div>
           <div class="col-sm-10">
-          <h3 class="text-primary">VISITA DE INSPECCIÓN:</h3>                  
+          <h3 class="text-primary">VISITA DE INSPECCIÓN:</h3>
                 <form role="form" action="tierras/editar-proceso2" method="get" id="formEdit">
+                  <div class="form-group">
+                    <label for="Proceso" class="control-label">Requiere inspección: </label>
+                    @if(($pro->requierevisinsp == '1') or ($pro->requierevisinsp == ''))
+                      <input type="radio" name="modradiovisinsp" id="visinspsi" value="1" checked> SI
+                    @else
+                      <input type="radio" name="modradiovisinsp" id="visinspsi" value="1"> SI
+                    @endif
+                    @if($pro->requierevisinsp == '2')
+                      <input type="radio" name="modradiovisinsp" id="visinspno" value="2" checked> NO<br>
+                    @else
+                      <input type="radio" name="modradiovisinsp" id="visinspno" value="2" > NO<br>
+                    @endif
+                  </div>
                   <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}' readonly>
-                  <div class="input-group date" id="datepicker">                      
+                  <div class="input-group date" id="datepicker">
+                    @if(($pro->requierevisinsp == '1') or ($pro->requierevisinsp == ''))
                       <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '{{$pro->fechainspeccionocular}}' required>
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
+                    @else
+                      <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '' disabled>
+                    @endif
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                   </div>
                   <br>
-                  
-                  <button type="submit" class="btn btn-primary">Guardar Fecha</button>
-                </form> 
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
           </div>
-        <div class="col-sm-1"></div>        
+        <div class="col-sm-1"></div>
       </div>
-      <hr> 
-
-  @endif
-  @if ($estadoproceso->id_estado == 5 )
+      <hr>
+    @endif
+    @if ($estadoproceso->id_estado == 5 )
       <div class="row">
-        <div class="col-sm-1"></div>               
+        <div class="col-sm-1"></div>
           <div class="col-sm-10">
           <h3 class="text-primary">RESULTADO PROCESAL:</h3>
-
         <?php $uno=0; ?>
         @foreach($arraydombobox[5] as $procdocu)
           @if ($procdocu->id_documento == 24)
             <?php $uno=24; ?>
           @endif
         @endforeach
-          @if ($uno == 24)          
+          @if ($uno == 24)
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-            <div class="col-sm-1 form-group">            
-            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
+            <div class="col-sm-1 form-group">
+            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
             <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='24'>
             </div>
             </form>
             <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal2"  data-toggle="modal" type="button" class="btn btn-primary">Editar Resultado Procesal</button>
-          @else          
+          @else
           <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal2"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Resultado Procesal</button>
           @endif
-          </div> 
-        <div class="col-sm-1"></div>        
+          </div>
+        <div class="col-sm-1"></div>
       </div>
-      <hr>          
-  @endif
-  @if (($estadoproceso->id_estado == 6) or ($estadoproceso->id_estado == 7) or ($estadoproceso->id_estado == 8))
+      <hr>
+    @endif
+    @if (($estadoproceso->id_estado == 6) or ($estadoproceso->id_estado == 7) or ($estadoproceso->id_estado == 8))
       <div class="row">
-        <div class="col-sm-1"></div>               
+        <div class="col-sm-1"></div>
           <div class="col-sm-10">
           <h3 class="text-primary">REGISTRO ORIP:</h3>
         <?php $uno=0; ?>
@@ -291,34 +389,44 @@
             <?php $uno=25; ?>
           @endif
         @endforeach
-          @if ($uno == 25)          
+          @if ($uno == 25)
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-            <div class="col-sm-1 form-group">            
-            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>            
+            <div class="col-sm-1 form-group">
+            <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
             <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='25'>
             </div>
-            </form>         
-            <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Editar Registro ORIP</button>                       
+            </form>
+            <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Editar Registro ORIP</button>
           @else
-            @if (count($arraydombobox[5])==((count($arraydombobox[2]))-1))
+            
               <button id="btndocuobliradicado" title="Presione para adjuntar documento al proceso" data-target="#docobligModal3"  data-toggle="modal" type="button" class="btn btn-primary">Adjuntar Registro ORIP</button>
-            @endif
-          @endif          
-          </div> 
-        <div class="col-sm-1"></div>        
+            
+          @endif
+          </div>
+        <div class="col-sm-1"></div>
       </div>
-      <hr>          
+      <hr>
   @endif
 @endforeach
-      <blockquote>      
+      <blockquote>
       <input id="idestado" type = 'hidden' name="idestado" value='{{$estadoproceso->id_estado}}'>
-        @if ($estadoproceso->id_estado ==9)
-          <p>El proceso finalizó con éxito.</p>
-        @elseif ($estadoproceso->id_estado <=5)
-          <p>El proceso debe continuar al siguiente estado <u><strong>{{$arraydombobox[3][$estadoproceso->id_estado]->estado}}</strong></u>.</p>
-        @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
-          <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u> para activar el boton de cargue de documento ORIP necesita cargar todos los documentos del proceso.</p>
-        @endif
+      @if($estadoproceso->id_estado == 1)
+        <p>Se debe adjuntar los documentos del <u><strong>Levantamiento Topográfico</strong></u>.</p>
+      @endif
+      @if($estadoproceso->id_estado == 2)
+        <p>Se debe adjuntar <u><strong>Radicado</strong></u>.</p>
+      @endif
+      @if(($estadoproceso->id_estado == 3) or ($estadoproceso->id_estado == 4))
+        <p>Se debe definir la <u><strong>Visita de Inspección</strong></u>.</p>
+      @endif
+      @if($estadoproceso->id_estado == 5)
+        <p>Se debe adjuntar <u><strong>Resultado Procesal</strong></u>.</p>
+      @endif      
+      @if ($estadoproceso->id_estado ==9)
+        <p>Se adjuntaron todos los datos requeridos para el proceso.</p>
+      @elseif (($estadoproceso->id_estado >=6) and ($estadoproceso->id_estado <=8))
+        <p>Usted tiene pendiente adjuntar <u><strong>{{$arraydombobox[3][8]->estado}}</strong></u>Registro ORIP</p>
+      @endif
       </blockquote>
       <!--ajuntar modal-->
       <div id="docModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -342,14 +450,14 @@
                         @if($docu->id_documento!=2 and $docu->id_documento!=23 and $docu->id_documento!=24 and $docu->id_documento!=25)
                           <option value="{{$docu->id_documento}}">{{$docu->concepto}}</option>
                         @endif
-                      @endforeach              
+                      @endforeach
                   </select>
                 </div>
                 <div class="form-group">
                   <input id="modsubestado" type="hidden" class="form-control" name="modsubestado" value='0' readonly>
                   <label for="proceso" class="control-label">Adjuntar documento:</label>
                   <input id="modpdf" type="file" class="form-control" name="modpdf" required accept=".pdf" >
-                </div>                   
+                </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -378,29 +486,29 @@
                       @foreach($arraydombobox[2] as $docu)
                         @if($docu->id_documento==23)
                           <input id="modocu" type="hidden" class="form-control" name="modocu" value='{{$docu->id_documento}}' readonly>
-                          <input id="modocu2" type="text" class="form-control" name="modocu2" value='{{$docu->concepto}}' readonly>                      
+                          <input id="modocu2" type="text" class="form-control" name="modocu2" value='{{$docu->concepto}}' readonly>
                         @endif
                       @endforeach
                 </div>
-                <div class="form-group">                         
+                <div class="form-group">
                   <select id="modsubestado" class="form-control" name="modsubestado" required>
                       <option value="" selected="selected">Por favor seleccione</option>
                       @foreach($arraydombobox[3] as $estado)
                         @if($estado->estado=='Radicado')
                           <option value="{{$estado->id_estado}}">{{$estado->subestado}}</option>
-                        @endif              
-                      @endforeach              
+                        @endif
+                      @endforeach
                   </select>
               </div>
                 <div class="form-group">
                   <label for="proceso" class="control-label">Adjuntar documento:</label>
                   <input id="modpdf" type="file" class="form-control" name="modpdf" required accept=".pdf" >
-                </div>                   
+                </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Adjuntar Documento</button>
-              
+
             </div>
               </form>
           </div><!-- /.modal-content -->
@@ -425,24 +533,24 @@
                       @foreach($arraydombobox[2] as $docu)
                         @if($docu->id_documento==24)
                           <input id="modocu" type="hidden" class="form-control" name="modocu" value='{{$docu->id_documento}}' readonly>
-                          <input id="modocu2" type="text" class="form-control" name="modocu2" value='{{$docu->concepto}}' readonly>                      
+                          <input id="modocu2" type="text" class="form-control" name="modocu2" value='{{$docu->concepto}}' readonly>
                         @endif
                       @endforeach
                 </div>
-                <div class="form-group">              
+                <div class="form-group">
                   <select id="modsubestado" class="form-control" name="modsubestado" required>
                       <option value="" selected="selected">Por favor seleccione</option>
                       @foreach($arraydombobox[3] as $estado)
                         @if($estado->estado=='Resultado procesal')
                           <option value="{{$estado->id_estado}}">{{$estado->subestado}}</option>
-                        @endif              
-                      @endforeach              
+                        @endif
+                      @endforeach
                   </select>
               </div>
                 <div class="form-group">
                   <label for="proceso" class="control-label">Adjuntar documento:</label>
                   <input id="modpdf" type="file" class="form-control" name="modpdf" required accept=".pdf" >
-                </div>                   
+                </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -471,7 +579,7 @@
                       @foreach($arraydombobox[2] as $docu)
                         @if($docu->id_documento==25)
                           <input id="modocu" type="hidden" class="form-control" name="modocu" value='{{$docu->id_documento}}' readonly>
-                          <input id="modocu2" type="text" class="form-control" name="modocu2" value='{{$docu->concepto}}' readonly>                      
+                          <input id="modocu2" type="text" class="form-control" name="modocu2" value='{{$docu->concepto}}' readonly>
                         @endif
                       @endforeach
                 </div>
@@ -479,7 +587,7 @@
                   <input id="modsubestado" type="hidden" class="form-control" name="modsubestado" value='9' readonly>
                   <label for="proceso" class="control-label">Adjuntar documento:</label>
                   <input id="modpdf" type="file" class="form-control" name="modpdf" required accept=".pdf" >
-                </div>                   
+                </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -495,63 +603,72 @@
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
-
 @stop
-
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-
 @stop
-
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
     <script>
-      
-      
-
-      $(document).ready(function() {   
-        
-        $("#modrepogeo").val("{{$pro->respgeografico}}");
-
+      $(document).ready(function() {
+        //Viabilidad
         if({{$pro->viabilidad}} == '1'){
             $('#respoviasi').prop('checked', 'true');
              $("#obsvial").hide();
              $("#obsvial").val("");
-          }
-          else{
-            $('#respoviano').prop('checked', 'true');
-            $("#obsvial").show();
-          } 
-
-        if({{$pro->requiererespgeo}} == '1'){
-            $('#respogeosi').prop('checked', 'true');
-            $("#respongeo").show();
-          }
-          else{
-            $('#respogeono').prop('checked', 'true');
-            $("#respongeo").hide();
-          } 
-
-        //modal-responsable geográfico
-
-        $('#respogeosi').click(function(){
-          $("#respongeo").show();
-        });
-        $('#respogeono').click(function(){
-          $("#respongeo").hide();
-          $("#modrepogeo").val("");
-        });
-        //cierra modal responsable geografico
-
-        $('#respoviano').click(function(){
+        }
+        else{
+          $('#respoviano').prop('checked', true);
           $("#obsvial").show();
+        }
+        $('#respoviano').click(function(){
+        $("#obsvial").show();
         });
         $('#respoviasi').click(function(){
           $("#obsvial").hide();
           $("#modobsviab").val("");
         });
+        //Cierra viabilidad
+
+        //Responsable geográfico
+        $("#modrepogeo").val("{{$pro->respgeografico}}");
+        if({{$pro->requiererespgeo}} == '1'){
+          $('#respogeosi').prop("checked", true);
+          $("#respongeo").show();
+          if({{$pro->respgeografico}} == '0'){
+            $("#modrepogeo").val("");
+          }
+        }
+        else{
+          $('#respogeono').prop("checked", true);
+          $("#respongeo").hide();
+        }
+        $('#respogeosi').click(function(){
+          $("#respongeo").show();
+          $("#modrepogeo").prop('required','true');
+          $("#modrepogeo").val("");
+        });
+        $('#respogeono').click(function(){
+          $("#respongeo").hide();
+          $("#modrepogeo").val("");
+          $("#modrepogeo").prop("required",false);
+        });
+        //cierra responsable geografico
+
+        //Requiere Vista de inspección
+        $('#visinspsi').click(function(){
+          $("#modfechaocular").prop("required", true);
+          $("#modfechaocular").prop("disabled", false);
+        });
+        $('#visinspno').click(function(){
+          $("#modnp").prop("required", false);
+          $("#modfechaocular").val("");
+          $("#modfechaocular").prop("disabled", true);
+        });
+        //Cierra Vista de inspección
+
          $('#btndocuobliradicado').click(function(){
           $("#idestado").val(23);
         });
@@ -560,8 +677,7 @@
         });
         $('#btndocuobliregorip').click(function(){
           $("#idestado").val(25);
-        });      
-
+        });
         //para que los menus pequeño y grande funcione
         $( "#tierras" ).addClass("active");
         $( "#tierrascargaproceso" ).addClass("active");
@@ -580,11 +696,80 @@
             orientation: "bottom auto",
             autoclose: true,
             todayHighlight: true
-
         });
-               
-      });
-    
+        //Cierra datapicker
+        var np = $('#modnp').val();
+        $.ajax({url:"tierras/editarprocesodatgeo",type:"POST",data:{numerpro:np},dataType:'json',
+          success:function(data){
+            if(data[2][0].areaprediopreliminar==null){
+              $("#modarea").val("0");
+            }
+            else{
+              $("#modarea").val(data[2][0].areaprediopreliminar);
+            }
+            if(data[2][0].unidadesarea=='1'){
+              $('#aunidadpreha').prop("checked", true);
+            }
+            else if(data[2][0].unidadesarea=='2') {
+              $('#aunidadprefan').prop("checked", true);
+            }
+            else if (data[2][0].unidadesarea=='3'){
+              $('#aunidadprem2').prop("checked", true);
+            }
+            $.each(data[1], function(nom,datos){
+              $("#moddpto").append("<option value=\""+datos.cod_dpto+"\">"+datos.nom_dpto+"</option>");
+            });
+            $("#moddpto").val(data[0][0].COD_DPTO);
+            $.ajax({url:"tierras/reporarealevantadampio",type:"POST",data:{dpto:$('#moddpto').val()},dataType:'json',
+              success:function(data1){
+                $.each(data1[0], function(nom,datos1){
+                  $("#modmpio").append("<option value=\""+datos1.cod_mpio+"\">"+datos1.nom_mpio+"</option>");
+                });
+                $("#modmpio").val(data[0][0].COD_MPIO);
+                $.ajax({url:"tierras/reporarealevantadavda",type:"POST",data:{mpio:$('#modmpio').val()},dataType:'json',
+                  success:function(data2){
+                    $.each(data2[0], function(nom,datos2){
+                      $("#modvereda").append("<option value=\""+datos2.cod_unodc+"\">"+datos2.nombre1+"</option>");
+                    });
+                    $("#modvereda").val(data[0][0].COD_UNODC);
+                  },
+                  error:function(){alert('error');}
+                });//Termina Ajax vereda
+              },
+              error:function(){alert('error');}
+            });//Termina Ajax mpio
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax listadoproini
+        $("#moddpto").change(function(){
+          $("#modmpio").empty();
+          $("#modvereda").empty();
+          $.ajax({url:"tierras/reporarealevantadampio",type:"POST",data:{dpto:$('#moddpto').val()},dataType:'json',
+            success:function(data1){
+              $("#modmpio").append("<option value=''>Por favor seleccione</option>");
+              $("#modvereda").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1[0], function(nom,datos){
+                $("#modmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+              });
+            },
+            error:function(){alert('error');}
+          });//Termina reporarealevantadampio
+        });//Termina chage moddpto
+        $("#modmpio").change(function(){
+          $("#modvereda").empty();
+          $.ajax({url:"tierras/reporarealevantadavda",type:"POST",data:{mpio:$('#modmpio').val()},dataType:'json',
+            success:function(data1){
+              $("#modvereda").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1[0], function(nom,datos){
+                $("#modvereda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+              });
+            },
+            error:function(){alert('error');}
+          });//Termina reporarealevantadavda
+        });//Termina change modmpio
+
+      });//Cierra document ready
+
     </script>
 @stop
 

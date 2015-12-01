@@ -68,14 +68,15 @@
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10" >
         <table id="example" class="table table-striped table-bordered table-hover" cellspacing="100" width="100%">
-          <thead>  
+          <thead>
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
               <th class="text-center">Vereda</th>
-              <th class="text-center">Nombre del predio</th>              
+              <th class="text-center">Nombre del predio</th>
               <th class="text-center">Nombre</th>
               <th class="text-center">Cédula</th>
               <th class="text-center">Área Predio Formalizada</td>
+                <th class="text-center" hidden>concepto</td>
             </tr>
           </thead>
           <tbody>
@@ -83,14 +84,15 @@
               <tr id="{{$pro->id_proceso}}">
                 <td >{{$pro->id_proceso}}</td>
                 <td >{{$pro->vereda}}</td>
-                <td >{{$pro->nombrepredio}}</td>                
+                <td >{{$pro->nombrepredio}}</td>
                 <td >{{$pro->nombre}}</td>
-                <td >{{$pro->cedula}}</td>                
+                <td >{{$pro->cedula}}</td>
                 @if ($pro->areapredioformalizada==NULL)
                 <td >0</td>
                 @elseif ($pro->areapredioformalizada<>NULL)
-                <td >{{$pro->areapredioformalizada}}</td>
+                <td >{{(double)$pro->areapredioformalizada}}</td>
                 @endif
+                <td hidden>{{$pro->conceptojuridico}}</td>
               </tr>
             @endforeach
           </tbody>
@@ -125,11 +127,12 @@
           <div class="form-group">
             <label for="proceso" class="control-label">Adjuntar TABLA:</label>
             <input id="modtabla" type="file" class="form-control" name="modtabla" required accept=".xls,.xlsx">
-          </div>         
+          </div>
+          <input id="modconcep" type="hidden" class="form-control" name="modconcep">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Adjuntar Documentos</button>
+        <button type="submit" class="btn btn-primary" id="btsumit">Adjuntar Documentos</button>
       </div>
         </form>
     </div><!-- /.modal-content -->
@@ -139,21 +142,15 @@
 <!--Cierra el CONTENEDOR GENERAL-->
 @section('contenedorgeneral2')
   @parent
-
 @stop
-
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-
 @stop
-
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
     <script>
-    
-
       $(document).ready(function() {
           //para que los menus pequeño y grande funcione
           $( "#tierras" ).addClass("active");
@@ -162,7 +159,6 @@
           $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierraslevtopmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Levantamiento Topográfico</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
-
           // para el calendario interno
           $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
@@ -173,11 +169,8 @@
             orientation: "bottom auto",
             autoclose: true,
             todayHighlight: true
-
           });
-
           var table = $('#example').DataTable();
-
           $('#example tbody').on('click', 'tr', function () {
               if ( $(this).hasClass('active') ) {
                 $(this).removeClass('active');
@@ -187,13 +180,19 @@
                 table.$('tr.active').removeClass('active');
                 $(this).addClass('active');
                 $("#btnlevtopo").prop('disabled', false);
+                var a = 0;
                 $("#modnp").val($('td', this).eq(0).text());
-               
+                a = $('td', this).eq(6).text();
+                $("#modconcep").val(a);                
+                $('#btsumit').click(function(){
+                  if(a == "6"){
+                    $("#modtabla").prop("required", false);
+                    $("#modshp").prop("required", false);
+                  }
+                });
               }
           });       
-      });
-    
+      });   
     </script>
 @stop
-
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

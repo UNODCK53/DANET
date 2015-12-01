@@ -82,8 +82,8 @@
                 @if($coordenadas->updatedcoord<>NULL)
                   <td align="center"><p style="display:none;">{{$coordenadas->updatedcoord}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$coordenadas->updatedcoord}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                 @endif
-                <td>{{$coordenadas->latitud}}</td>
-                <td>{{$coordenadas->longitud}}</td>
+                <td>{{(double)$coordenadas->latitud}}</td>
+                <td>{{(double)$coordenadas->longitud}}</td>
               </tr>
             @endforeach
           </tbody>
