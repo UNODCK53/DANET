@@ -38,7 +38,7 @@
 <!--aca se escribe el codigo-->
 <div class="col-sm-1"></div>
 <div class="col-sm-10">
-  <h1 class="text-center text-primary">Indicadores de encuestas digitales realizadas por Desarrollo alternativo</h1>
+  <h2 class="text-center text-primary">Indicadores de encuestas digitales realizadas por Desarrollo alternativo</h2>
   <p class="lead text-justify" >Permite cuantificar de manera rápida y dinámica las encuestas digitales realizadas en Desarrollo Alternativo según las siguientes opciones:</p>
   <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores generales:</span> Esta opción permite conocer diferentes tipos de datos que van desde la totalidad de encuestas realizadas en todo Desarrollo Alternativo, filtrado por alguna intervención específica o hasta la cuantificación de indicadores administrativos</ul>
   <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores por monitor:</span> Muestra las encuestas digitales realizadas por cada monitor en cada intervención de Desarrollo Alternativo</ul>            
