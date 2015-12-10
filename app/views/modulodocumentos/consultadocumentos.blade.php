@@ -39,7 +39,7 @@
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#busbasic">Búsqueda básica</a></li>
         <li><a data-toggle="tab" href="#busdetallada">Búsqueda detallada</a></li>
-        <li><a data-toggle="tab" href="#busgeo">Búsqueda geográfica</a></li>    
+        <li><a data-toggle="tab" href="#busgeo">Búsqueda geográfica</a></li> 
       </ul>
       </div>
       <div class="tab-content">
@@ -47,12 +47,12 @@
           <div class="col-sm-1"></div>
           <div class="col-sm-10">
             <h3>Búsqueda básica:</h3>
-            <p>Usted puede realizar una búsqueda por cualquier palabra que usted crea que puede estar en el título del documento, categoría, tipo de documento, autor, departamento, municipio, etc.</p>
-           
+            <p>Usted puede realizar una búsqueda por cualquier palabra que usted crea que puede estar en el título del documento, categoría, tipo de documento, autor, departamento, municipio, etc.</p>           
             <form class="form-inline text-center">
-              <input type="text" class="form-control" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar">
+              <input type="text" class="form-control" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar" required="true">
               <button id="querybusquedas" type="button" class="btn btn-primary">Búsqueda básica</button>
             </form>
+            <div id="busbasica"></div>            
           </div>
           <div class="col-sm-1"></div>
         </div>
@@ -134,14 +134,16 @@
         <div id="busgeo" class="tab-pane fade">
           <h3>Menu 2</h3>
           <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+
+                  <div class="bs-example">
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 60%;">
+                        60%
+                      </div>
+                    </div>
+                  </div>
         </div>
-        <div class="bs-example">
-    <div class="progress">
-        <div class="progress-bar" style="width: 60%;">
-            60%
-        </div>
-    </div>
-</div>    
+    
       </div>
     </div>
   
@@ -150,13 +152,11 @@
     
       <div class="row" id="dosselec">
         <div class="col-sm-1"></div>
-        <div class="col-sm-10" id="sha" >
-          <div class="row" id="espacioresultado">
-            
+        <div class="col-sm-10" id="sha">        
+          <div class="row" id="espacioresultado">            
             <div class="col-sm-1"></div>
             <div class="col-sm-10 list-group" id="resultado">
-            <!--aca se muestran los documentos que se buscaron-->
-
+            <!--aca se muestran los documentos que se buscaron--> 
 
 
 
@@ -199,22 +199,81 @@
         // activar mensaje para los tooltip
         $('[data-toggle="tooltip"]').tooltip(); 
         
-        $("#querybusquedas").click(function(){          
+        $("#querybusquedas").click(function(){        
           //alert($("#querybusqueda").val());
-          $("#espacioresultado").show();
+          
           $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
                 success:function(data){
                     console.log(data);
+                    var tamano=data.length;
+                    $("#busbasica").empty();
+                    if (tamano!=0) {
+                      $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i>Se encontraron '+tamano+' documentos en su búsqueda</div><div class="col-sm-1"></div>');  
+                    } else{
+                                                  
+                      $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i>No se encontraron documentos con esa característica</div><div class="col-sm-1"></div>');
+                    };                    
+                    $( "#mensajedocumtot" ).fadeOut(5000);
                     $("#resultado").empty();
                     $("#resultado").append('<br>');                    
+                    
                     [].forEach.call(data,function(datos){
-                        $("#resultado").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="assets/img/masterdocu.png" width="106" height="138" alt="..."></div><div class="media-body"><h4 class="media-heading">Titulo: '+datos.titulo+'</h4><p><strong>Categoría: </strong>'+datos.categoria+'</p><p><strong>Contraparte: </strong>'+datos.contraparte+'</p><p><strong>Tipo de documento: </strong>'+datos.tipo+'</p><p><strong>Estrategia: </strong>'+datos.estrategia+'</p><p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p><p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p><p><strong>Momento: </strong>'+datos.momento+'</p><p><a href="" class="btn btn-primary" role="button">Mas info...</a></p></div></div></li>');
+                      if (datos.titulo == null) {
+                        titulos = '';
+                      } else{
+                        titulos='<h4 class="media-heading">Titulo: '+datos.titulo+'</h4>';
+                      };
+                      if (datos.categoria == null) {
+                        categorias = '';
+                      } else{
+                        categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
+                      };
+                       if (datos.contraparte == null) {
+                        contrapartes = '';
+                      } else{
+                        contrapartes='<p><strong>Contraparte: </strong>'+datos.contraparte+'</p>';
+                      };
+                      if (datos.tipo == null) {
+                        tipos = '';
+                      } else{
+                        tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
+                      };
+                      if (datos.estrategia == null) {
+                        estrategias = '';
+                      } else{
+                        estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
+                      };
+                      if (datos.bloque == null) {
+                        bloques = '';
+                      } else{
+                        bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
+                      };
+                      if (datos.id_proyecto == null) {
+                        id_proyectos = '';
+                      } else{
+                        id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
+                      };
+                      if (datos.momento == null) {
+                        momentos = '';
+                      } else{
+                        momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
+                      };
+                      if (datos.imagen == null) {
+                        imagens = 'assets/img/masterdocu.png';
+                      } else{
+                        imagens= datos.imagen;
+                      };
+
+
+                      
+                      $("#resultado").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
                       });
                     
 
                 },
                 error:function(){alert('error');}
               });//Termina Ajax 
+          $("#espacioresultado").show();
         });        
       });
     </script>

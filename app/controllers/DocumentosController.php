@@ -205,6 +205,7 @@ class DocumentosController extends BaseController {
 			//exec('CALL '.public_path().'\ImageMagick\convert.exe "'.public_path().'\master.pdf[0]" -resize 215x278 "'.public_path().'\prueba.jpg"');
 
 			//se realiza el QUICKLOOK de la primera hoja del documento cargado
+			/*
 			exec('CALL '.public_path().'\ImageMagick\convert.exe "'.$path3.'\\'.$nombredocumento.'[0]" "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg"');
 
 			$a=0;
@@ -216,7 +217,7 @@ class DocumentosController extends BaseController {
 					$a=0;
 				}
 			} while ($a <= 10);
-
+			*/
     		// cargue en la tabla masterducu la informacion alfanumerica del documento
     		DB::table('MODDOCUMENTOS_MASTERDOCU')->insert(
 		    	array(
@@ -230,7 +231,7 @@ class DocumentosController extends BaseController {
 		    		'ugeo' => Input::get('selecunigeo'),
 		    		'estrategia' => Input::get('selectestrategia'),
 		    		'bloque' => Input::get('selectbloque'),
-		    		'ruta' => $path3,
+		    		'ruta' => $path3.'\\'.$nombredocumento,
 		    		'fechacarguedocu' => $fecha,		    				    		
 	    			'usercargue' => Auth::user()->id,
 	    			'proyecto' => Input::get('selectproyecto'),
@@ -274,15 +275,30 @@ class DocumentosController extends BaseController {
     }
     public function postBusquedabasica()
 	{
-		//$querybusqueda='Coordinación';
-		$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo as ruta FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
+		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)) {
+			$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo, ruta, nombredocu FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
+
+			for ($i=0; $i <= count($queryresultbusbasic)-1 ; $i++) { 
+					
+				$queryresultbusbasic[$i]->ruta=str_replace('C:\xampp\htdocs\DANET\public\\', '', $queryresultbusbasic[$i]->ruta);
+				if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$queryresultbusbasic[$i]->nombredocu.'.jpg')){
+					$queryresultbusbasic[$i]->imagen = 'moddocs/IMGDOCU/'.$queryresultbusbasic[$i]->nombredocu.'.jpg';
+					
+				}
+				else{
+					$queryresultbusbasic[$i]->imagen = null;
+				}
+			}
+					
+		}
+		else{
+			//pendiente realizar codigo para que se pueda hacer la busqueda por perfiles de usuario
+			$queryresultbusbasic='';
+		}
+
 		
-		//return Redirect::route('consulta_docu',$queryresultbusbasic);
 		return Response::json($queryresultbusbasic);
-	}
-
-
-	   
+	}	   
     		
 }
 ?>

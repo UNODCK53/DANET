@@ -14,10 +14,10 @@
         box-shadow:         0px 0px 18px 0px rgba(48, 50, 50, 0.48);
       }
       
-      .img-responsive{
+      #imagen{
         -webkit-filter: none;
       }
-      .img-responsive:hover{
+      #imagen:hover{
         -webkit-filter: grayscale(100%);
       }
 
@@ -52,7 +52,7 @@
     <div class="row">
       <!--Columna logo con imágen-->
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
-      <img src="assets/img/unodc.png" class="logo" alt="logounodc">
+      <img src="assets/img/unodc.gif" class="img-responsive" alt="logounodc">
         </div>
       <!--espaciado para que en xs queden separado logo y boton-->
     <div class="col-xs-4 visible-xs">
@@ -162,7 +162,7 @@
 	<div class="col-sm-1"></div>
       <!--imagen responsive-->
       <div class="col-sm-6">
-          <center><img src="assets/img/mantenimiento.png" class="img-responsive" alt="circulogestion"></center>
+          <center><img src="assets/img/mantenimiento.png" id="imagen" class="img-responsive" alt="circulogestion"></center>
       </div>
         <!--Texto del contenido-->
         <div class="col-sm-4">
