@@ -179,9 +179,9 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
     <div class="col-sm-9 text-center text-primary visible-sm visible-md visible-lg ">
       <ul class="nav nav-pills ">
         <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
-        <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
+        <li id="menuprincipal" role="menu"><a href="principal">Inicio</a></li>
         @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
-          <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCIÓN <span class="caret"></span></a>
+          <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ejecución <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Monitoreo Integrado</a></li>
               <li><a href="#">GME</a></li>
@@ -205,13 +205,13 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
         </li>
         @endif
          @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
-        <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>
+        <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Donde estamos<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href='vista1'>Crear misión</a></li>
             <li><a href="#">Cargar track</a></li>
           </ul>
         </li> 
-        <li role="menu"><a href="#" class="enlace-menu">HISTORIA</a></li>
+        <li role="menu"><a href="#" class="enlace-menu">Historia</a></li>
         @endif<!--Finaliza Ocultar la opción si no es el administrador-->
         @if(($menugmevalcert) || ($menugmemetodologia) || ($menugmedisterradi) || ($menugmeinformes))<!--Oculta la opción si no es el administrador o gupo2-->
         <li id="GME" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
@@ -233,7 +233,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
         @endif        
         @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
           ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)) <!--Oculta la opción tierras si no es el administrador-->
-          <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO TIERRAS<span class="caret"></span></a>
+          <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Formalización de tierras<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               @if($menucongral)
               <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
@@ -277,10 +277,10 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
           </li>
         @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
         @if(($menucarguedocu) || ($menuconsuldocu) || ($menurepordocu))
-        <li class="dropdown" id="documentos" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
+        <li class="dropdown" id="documentos" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Documentos<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             @if($menucarguedocu)
-            <li id="carguedocumenu"><a  href="<?=URL::to('cargue_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Cargue de documentos</a></li>
+            <li id="carguedocumenu"><a  href="<?=URL::to('cargue_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Cargar documentos</a></li>
             @endif
             @if($menuconsuldocu)
             <li id="consultadocumenu"><a href="<?=URL::to('consulta_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Consulta de documentos</a></li>
@@ -306,14 +306,14 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a id="iniciomenupeq" class="navbar-brand " href="principal"><small><strong> INICIO</strong></small></a>
+            <a id="iniciomenupeq" class="navbar-brand " href="principal"><small><strong> Inicio</strong></small></a>
           </div>
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <!-- Lista desplegable de menu con submenu -->
               @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">EJECUCIÓN <span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ejecución <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="#">Monitoreo Integrado</a></li>
                     <li><a href="#">GME</a></li>
@@ -337,13 +337,13 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                 </li>
               @endif
               @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DONDE ESTAMOS <span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Donde estamos<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href='vista1'>Crear misión</a></li>
                     <li><a href="#">Cargar track</a></li>
                   </ul>
                 </li>                
-                <li><a href="#" class="enlace-menu">HISTORIA</a></li>
+                <li><a href="#" class="enlace-menu">Historia</a></li>
               @endif<!--Finaliza Ocultar la opción si no es el administrador-->
               @if(($menugmevalcert) || ($menugmemetodologia) || ($menugmedisterradi) || ($menugmeinformes))
               <li class="dropdown"><a id="gmemenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
@@ -365,7 +365,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
               @endif
               @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
                 ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)) <!--Oculta la opción tierras si no es el administrador-->
-                <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO TIERRAS<span class="caret"></span></a>
+                <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Formalización de tierras<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     @if($menucongral)
                     <li><a id="tierrascongenmenupeq" href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
@@ -409,10 +409,10 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                 </li>  
               @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
               @if(($menucarguedocu) || ($menuconsuldocu) || ($menurepordocu))
-              <li class="dropdown"><a id="documentosmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MÓDULO DOCUMENTOS <span class="caret"></span></a>
+              <li class="dropdown"><a id="documentosmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Documentos<span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   @if($menucarguedocu)
-                  <li><a id="carguedocumenupeq" href="<?=URL::to('cargue_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargue de documentos</a></li>
+                  <li><a id="carguedocumenupeq" href="<?=URL::to('cargue_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar documentos</a></li>
                   @endif
                   @if($menuconsuldocu)
                   <li><a id="consultadocumenupeq" href="<?=URL::to('consulta_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta de documentos</a></li>

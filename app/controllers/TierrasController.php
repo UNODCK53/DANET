@@ -190,7 +190,6 @@ class TierrasController extends BaseController {
 		//consulta para retornar los procesos por abogado
 		$arrayproceso = DB::select("SELECT final.id_proceso,Sum(CASE WHEN final.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN final.id_estado = '2' AND final.levtopo != '2' THEN (CASE WHEN final.levtopo = '3' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN final.id_estado = '3' OR final.id_estado = '4' THEN 1 ELSE 0 END) as radicado, Sum(CASE WHEN final.id_estado = '5' AND final.fechainspeccionocular2 != '2' THEN (CASE WHEN final.fechainspeccionocular2 = '3' THEN 2 ELSE 1 END) ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN final.id_estado = '6' OR final.id_estado = '7' OR final.id_estado = '8' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN final.id_estado = '9' THEN 1 ELSE 0 END) as registroorip	 FROM (SELECT proce.id_proceso, procesta.id_estado,proce.respjuridico,proce.fechainspeccionocular2,proce.levtopo FROM( SELECT pro.id_proceso,pro.respjuridico	,Sum(CASE WHEN pro.requierevisinsp = '1' THEN (CASE WHEN pro.fechainspeccionocular != '' THEN 1 ELSE 2 END) ELSE 3 END) as fechainspeccionocular2,Sum(CASE WHEN pro.requiererespgeo = '1' THEN (CASE WHEN pro.docutopo = '1' THEN 1 ELSE 2 END) ELSE 3 END) as levtopo FROM( SELECT proceso.id_proceso ,proceso.respjuridico ,proceso.requierevisinsp ,proceso.fechainspeccionocular ,proceso.requiererespgeo,Sum(CASE WHEN prodocu.id_documento = '2' THEN 1 ELSE 0 END) as docutopo FROM (SELECT id_proceso ,id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_documento=2)as prodocu RIGHT JOIN MODTIERRAS_PROCESO as proceso ON prodocu.id_proceso=proceso.id_proceso group by proceso.id_proceso,proceso.respjuridico,proceso.requierevisinsp,proceso.fechainspeccionocular,proceso.requiererespgeo) as pro group by pro.id_proceso,pro.respjuridico) as proce JOIN MODTIERRAS_PROCESTADO as procesta ON procesta.id_proceso=proce.id_proceso) as final where final.respjuridico = ".Auth::user()->id." group by final.id_proceso");		
 		$arrayconcepto = DB::select('select * from MODTIERRAS_CONCEPTO');
-
 		//return $arrayproceso;
 		return View::make('modulotierras.procesosadjudicados', array('arrayproceso' => $arrayproceso), array('arrayconcepto' => $arrayconcepto));
 	}
@@ -199,7 +198,7 @@ class TierrasController extends BaseController {
 	{
 		//consulta para retornar los procesos por abogado
 		$arrayproceso = DB::select("SELECT final.id_proceso,Sum(CASE WHEN final.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN final.id_estado = '2' AND final.levtopo != '2' THEN (CASE WHEN final.levtopo = '3' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN final.id_estado = '3' OR final.id_estado = '4' THEN 1 ELSE 0 END) as radicado, Sum(CASE WHEN final.id_estado = '5' AND final.fechainspeccionocular2 != '2' THEN (CASE WHEN final.fechainspeccionocular2 = '3' THEN 2 ELSE 1 END) ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN final.id_estado = '6' OR final.id_estado = '7' OR final.id_estado = '8' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN final.id_estado = '9' THEN 1 ELSE 0 END) as registroorip	 FROM (SELECT proce.id_proceso, procesta.id_estado,proce.respjuridico,proce.fechainspeccionocular2,proce.levtopo FROM( SELECT pro.id_proceso,pro.respjuridico	,Sum(CASE WHEN pro.requierevisinsp = '1' THEN (CASE WHEN pro.fechainspeccionocular != '' THEN 1 ELSE 2 END) ELSE 3 END) as fechainspeccionocular2,Sum(CASE WHEN pro.requiererespgeo = '1' THEN (CASE WHEN pro.docutopo = '1' THEN 1 ELSE 2 END) ELSE 3 END) as levtopo FROM( SELECT proceso.id_proceso ,proceso.respjuridico ,proceso.requierevisinsp ,proceso.fechainspeccionocular ,proceso.requiererespgeo,Sum(CASE WHEN prodocu.id_documento = '2' THEN 1 ELSE 0 END) as docutopo FROM (SELECT id_proceso ,id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_documento=2)as prodocu RIGHT JOIN MODTIERRAS_PROCESO as proceso ON prodocu.id_proceso=proceso.id_proceso group by proceso.id_proceso,proceso.respjuridico,proceso.requierevisinsp,proceso.fechainspeccionocular,proceso.requiererespgeo) as pro group by pro.id_proceso,pro.respjuridico) as proce JOIN MODTIERRAS_PROCESTADO as procesta ON procesta.id_proceso=proce.id_proceso) as final group by final.id_proceso");
-				//return $arrayproceso;
+		//return $arrayproceso;
 		return View::make('modulotierras.consultageneral', array('arrayproceso' => $arrayproceso));
 	}
 
@@ -287,9 +286,7 @@ class TierrasController extends BaseController {
 	       		return Redirect::to('levantamiento_topografico')->with('status', 'ok_estatus');
 	    	}
 	    	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
-	    }
-
-    	
+	    }    	
     }
 
     public function Excelcarini()
@@ -552,17 +549,35 @@ class TierrasController extends BaseController {
 		->select('nom_dpto','cod_dpto')
 		->groupBy('nom_dpto','cod_dpto')
 		->get();
-		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->sum('areaprediopreliminar');
-		$arrayapf = DB::table('MODTIERRAS_PROCESO')->sum('areapredioformalizada');
+
+		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
+		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
+		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('unidadesarea','=',3)->sum('areaprediopreliminar');
+		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
+
+		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
+		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
+		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
+		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
+
+		
 		$arraytotal = array($arrayapp,$arrayapf);
-		//return $arraytotal;
+		//return $arrayapp;
 		return View::make('modulotierras.reporareareportada', array('arraydpto' => $arraydpto), array('arraytotal' => $arraytotal));
 	}
 
 	public function postReporarealevantadampio()
 	{
-		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->sum('areaprediopreliminar');
-		$arrayapf = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->sum('areapredioformalizada');
+		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
+		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
+		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
+		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
+
+		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
+		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
+		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
+		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
+
 		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->orderBy('nom_mpio','asc')->get();
 		$arrayt=array($arraympio, $arrayapp, $arrayapf);
 		return Response::json($arrayt);
@@ -570,8 +585,16 @@ class TierrasController extends BaseController {
 
 	public function postReporarealevantadavda()
 	{
-		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->sum('areaprediopreliminar');
-		$arrayapf = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->sum('areapredioformalizada');
+		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
+		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
+		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',3)->sum('areaprediopreliminar');
+		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
+
+		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
+		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
+		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
+		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
+
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->orderBy('nombre1','asc')->get();
 		$arrayt=array($arrayvda, $arrayapp, $arrayapf);
 		return Response::json($arrayt);
@@ -579,8 +602,16 @@ class TierrasController extends BaseController {
 
 	public function postReporarealevantadavdadet()
 	{
-		$arrayapp = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->sum('areaprediopreliminar');
-		$arrayapf = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->sum('areapredioformalizada');
+		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',1)->sum('areaprediopreliminar');
+		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',2)->sum('areaprediopreliminar');
+		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',3)->sum('areaprediopreliminar');
+		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
+
+		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
+		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
+		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
+		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
+
 		$arrayt=array($arrayapp, $arrayapf);
 		return Response::json($arrayt);
 	}
@@ -599,7 +630,6 @@ class TierrasController extends BaseController {
 									estadosunidos.proceso as proceso, MODTIERRAS_PROCESO.viabilidad, MODTIERRAS_PROCESO.vereda, MODTIERRAS_PROCESO.conceptojuridico
 									from(select distinct id_proceso as proceso, max(id_estado) as id_estado from MODTIERRAS_PROCESTADO group by id_proceso) as estadosunidos
 										 inner join MODTIERRAS_PROCESO on estadosunidos.proceso = MODTIERRAS_PROCESO.id_proceso
-
 										)as estado
 									inner join MODTIERRAS_ESTADO on estado.id_estado = MODTIERRAS_ESTADO.id_estado
 									WHERE MODTIERRAS_ESTADO.estado ='".$arraestadosorder[$i]->estado."' and estado.viabilidad = 1  GROUP BY estado, viabilidad");

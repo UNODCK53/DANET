@@ -35,7 +35,7 @@
   <div class="container" id="sha">
   <!--aca se escribe el codigo-->
     <div class="row">
-      <h1 class="text-center text-primary">PROCESOS TOTALES<br><div id="odometer" class="odometer" style="font-size: 35px">0</div>
+      <h2 class="text-center text-primary">PROCESOS TOTALES<br><div id="odometer" class="odometer" style="font-size: 35px">0</div>
     </div>
     <div class="row">
       <div class="col-sm-1"></div>

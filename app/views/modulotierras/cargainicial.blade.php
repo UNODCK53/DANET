@@ -33,8 +33,15 @@
   <div class="container" id="sha">
   <!--aca se escribe el codigo-->
     <div class="row">
-      <h1 class="text-center text-primary">PROCESOS INICIALES</h1>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+      <h2 class="text-center text-primary">Procesos iniciales</h2>
+          
+            <p class="lead text-justify">En esta sección se pueden encontrar todas los procesos que han sido creados en la base de datos a partir de las fichas de caracterización. Para continuar, se requiere que cada uno de los responsables jurídicos se adjudiquen los procesos.</p>
+          </div>
+      <div class="col-sm-1"></div>
     </div>
+
     <div class="row">
       <?php $status=Session::get('status'); ?>
       @if($status=='ok_estatus')
@@ -145,7 +152,7 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label" >Unidades:</label><br>
-            <input type="radio" name="modradiounidadfor" id="aunidadforha" value="1" required> ha.
+            <input type="radio" name="modradiounidadfor" id="aunidadforha" value="1" required checked> ha.
             <input type="radio" name="modradiounidadfor" id="aunidadforfan" value="2" required> fan.
             <input type="radio" name="modradiounidadfor" id="aunidadform2" value="3" required> m2.
           </div>

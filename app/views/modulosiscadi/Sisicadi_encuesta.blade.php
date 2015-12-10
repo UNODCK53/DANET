@@ -38,7 +38,9 @@
 <!--aca se escribe el codigo-->
 <div class="col-sm-1"></div>
 <div class="col-sm-10">
-  <h1 class="text-center text-primary">Reportes de encuestas digitales realizadas por Desarrollo alternativo</h1>
+  <br>
+  <h2 class="text-center text-primary">Reportes de encuestas digitales realizadas por Desarrollo alternativo</h2>
+  <br>
   <p class="lead text-justify" >Este módulo permite consultar y generar reportes de las encuestas digitales realizadas en Desarrollo Alternativo según las siguientes opciones:</p>
   <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte por misión:</span> Este reporte se utiliza principalmente para generar las actas de entrega de encuestas por misión. Cuantifica las encuestas realizadas tanto a Beneficiarios como para Comités</ul>
   <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte general:</span> Genera un excel para el total de encuestas realizadas, beneficiarios y comités, durante una intervención específica y las clasifica por departamento y  muncipios </ul>
