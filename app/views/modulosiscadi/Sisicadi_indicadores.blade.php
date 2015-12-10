@@ -38,10 +38,10 @@
 <!--aca se escribe el codigo-->
 <div class="col-sm-1"></div>
 <div class="col-sm-10">
-  <h2 class="text-center text-primary">Indicadores de encuestas digitales realizadas por Desarrollo alternativo</h2>
-  <p class="lead text-justify" >Permite cuantificar de manera rápida y dinámica las encuestas digitales realizadas en Desarrollo Alternativo según las siguientes opciones:</p>
-  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores generales:</span> Esta opción permite conocer diferentes tipos de datos que van desde la totalidad de encuestas realizadas en todo Desarrollo Alternativo, filtrado por alguna intervención específica o hasta la cuantificación de indicadores administrativos</ul>
-  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Indicadores por monitor:</span> Muestra las encuestas digitales realizadas por cada monitor en cada intervención de Desarrollo Alternativo</ul>            
+  <h2 class="text-center text-primary">Resultados de recolección de encuestas digitales realizadas en Desarrollo Alternativo</h2>
+  <p class="lead text-justify" >Esta sección presenta gráficamente los resultados del número de encuestas digitales realizadas en el monitoreo a los beneficiarios y Comités Comunitarios de Verificación y Control Social - CCVCS que hacen parte de la estrategias de Desarrollo Alternativo implementadas por la UACT en cooperación con UNODC. Las opciones de reporte son las siguientes:</p>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Resultados generales:</span> Esta opción permite conocer diferentes tipos de datos que van desde la totalidad de encuestas realizadas en todo Desarrollo Alternativo, filtrado por alguna intervención específica o hasta la cuantificación de indicadores administrativos</ul>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Resultados por monitor:</span> Muestra las encuestas digitales realizadas por cada monitor en cada intervención de Desarrollo Alternativo</ul>            
 </div>
  <div class="col-sm-1"></div> 
    </div>  
@@ -319,7 +319,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
                                   mapData: data2,//carga el geojson municipal
                                    joinBy: ['COD_DANE', 'COD_DANE'],//realzia un join enttre el geojson y la consulta ajax
                                    tooltip: {
-                                      pointFormat: 'En {point.name} se realziaron {point.value} encuestas'
+                                      pointFormat: 'En {point.name} se realizaron {point.value} encuestas'
                                   },
                                   dataLabels: {
                                       enabled: true,
@@ -382,7 +382,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
                 joinBy: ['COD_DPTO', 'COD_DPTO'],//realzia un join enttre el geojson y la consulta ajax
             name: 'Intervención '+ data1.intervencion,
              tooltip: {
-                    pointFormat: 'En {point.properties.NOM_DPTO} se realziaron {point.value} encuestas'
+                    pointFormat: 'En {point.properties.NOM_DPTO} se realizaron {point.value} encuestas'
                 },
             dataLabels: {
                 enabled: true,
@@ -456,7 +456,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
                                   mapData: data2,//carga el geojson municipal
                                    joinBy: ['COD_DANE', 'COD_DANE'],//realzia un join enttre el geojson y la consulta ajax
                                    tooltip: {
-                                      pointFormat: 'En {point.name} se realziaron {point.value} encuestas'
+                                      pointFormat: 'En {point.name} se realizaron {point.value} encuestas'
                                   },
                                   dataLabels: {
                                       enabled: true,
@@ -521,7 +521,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
                 joinBy: ['COD_DPTO', 'COD_DPTO'],//realzia un join enttre el geojson y la consulta ajax
             name: 'Intervención '+ data1.intervencion,
              tooltip: {
-                    pointFormat: 'En {point.properties.NOM_DPTO} se realziaron {point.value} encuestas'
+                    pointFormat: 'En {point.properties.NOM_DPTO} se realizaron {point.value} encuestas'
                 },
             dataLabels: {
                 enabled: true,
@@ -595,7 +595,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
                                   mapData: data2,//carga el geojson municipal
                                    joinBy: ['COD_DANE', 'COD_DANE'],//realzia un join enttre el geojson y la consulta ajax
                                    tooltip: {
-                                      pointFormat: 'En {point.name} se realziaron {point.value} encuestas'
+                                      pointFormat: 'En {point.name} se realizaron {point.value} encuestas'
                                   },
                                   dataLabels: {
                                       enabled: true,
@@ -660,7 +660,7 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
                 joinBy: ['COD_DPTO', 'COD_DPTO'],//realzia un join enttre el geojson y la consulta ajax
             name: 'Intervención '+ data1.intervencion,
              tooltip: {
-                    pointFormat: 'En {point.properties.NOM_DPTO} se realziaron {point.value} encuestas'
+                    pointFormat: 'En {point.properties.NOM_DPTO} se realizaron {point.value} encuestas'
                 },
             dataLabels: {
                 enabled: true,
@@ -2085,16 +2085,14 @@ $('#container').highcharts({
         });//Termina Ajax prueva
       }
 
-       });//Termina chage seldptomoni
-
-  
+       });//Termina chage seldptomoni 
 
     //para que los menus pequeño y grande funcione
           $( "#siscadi" ).addClass("active");
           $( "#indicadoressiscadi" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#siscadimenupeq" ).html("<strong>SISCADI<span class='caret'></span></strong>");
-          $( "#indicadoressiscadimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Indicadores de recolección</strong>");
+          $( "#indicadoressiscadimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Resultados de recolección</strong>");
 
     });
     </script>

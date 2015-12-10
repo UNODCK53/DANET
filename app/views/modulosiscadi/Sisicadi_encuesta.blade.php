@@ -39,12 +39,12 @@
 <div class="col-sm-1"></div>
 <div class="col-sm-10">
   <br>
-  <h2 class="text-center text-primary">Reportes de encuestas digitales realizadas por Desarrollo alternativo</h2>
+  <h2 class="text-center text-primary">Reportes de encuestas digitales realizadas en Desarrollo Alternativo</h2>
   <br>
-  <p class="lead text-justify" >Este módulo permite consultar y generar reportes de las encuestas digitales realizadas en Desarrollo Alternativo según las siguientes opciones:</p>
-  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte por misión:</span> Este reporte se utiliza principalmente para generar las actas de entrega de encuestas por misión. Cuantifica las encuestas realizadas tanto a Beneficiarios como para Comités</ul>
-  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte general:</span> Genera un excel para el total de encuestas realizadas, beneficiarios y comités, durante una intervención específica y las clasifica por departamento y  muncipios </ul>
-  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte por monitor:</span>Este reporte sirve como control para los monitores. Muestra el total de encuestas realizadas por cada monitor según el municipio en el cual trabajó</ul>            
+  <p class="lead text-justify" >Este módulo permite generar y consultar reportes en formato PDF del número de encuentas digitales realizadas en el monitoreo a los beneficiarios y Comités Comunitarios de Verificación y Control Social - CCVCS que hacen parte de la estrategias de Desarrollo Alternativo implementadas por la UACT en cooperación con UNODC. Las opciones de reporte son las siguientes:</p>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte por misión:</span> este reporte se utiliza principalmente para generar las actas de entrega de encuestas realizadas en las misiones de monitoreo a las estrategias de Desarrollo Alternativo. El reporte muestra las encuestas realizadas tanto a Beneficiarios como a - CCVCS.</ul>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte general:</span> genera un archivo excel para el total de encuestas realizadas (Beneficiarios y CCVCS) en una etapa de una intervención específica, discriminadas por departamento y municipio.</ul>
+  <ul class="lead text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> <span style="font-style: italic;">Reporte por monitor:</span> muestra el total de encuestas realizadas por cada monitor en una etapa de una intervención específica, discriminadas por departamento y municipio.</ul>            
 </div>
 
  <div class="col-sm-1"></div> 
@@ -55,7 +55,7 @@
 
 <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 text-left" style="padding-top: 25px;padding-bottom: 25px;">
-          <h3>Reporte por misión:</h3>Seleccione los siguientes datos para generar el reporte de encuestas almacenadas en base de datos por misión
+          <h3>Reporte por misión:</h3>Diligencie la información de los siguientes filtros para generar el reporte.
         </div>
       </div>
       
@@ -80,7 +80,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-3">
-              <label for="mision"id="labelmision">Tipo de misón:</label>
+              <label for="mision"id="labelmision">Tipo de misión:</label>
             </div>  
             <div class="col-sm-4" >
               <select  class="form-control" id="mision" name="mision" required> 
@@ -126,7 +126,7 @@
 
         <div class="form-group">
           <div class="col-sm-offset-5 col-sm-4 text-center">
-            <input  class="form-control btn btn-primary btn-sm" type="submit" target="_blank" value="Reporte de entrega por misión" id="formulairo" >
+            <input  class="form-control btn btn-primary btn-sm" type="submit" target="_blank" value="Generar reporte" id="formulairo" >
           </div>  
         </div>
       </form> 
@@ -135,7 +135,7 @@
 
 <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 text-left" style="padding-top: 25px;padding-bottom: 25px;">
-          <h3>Reporte general:</h3>Seleccione los siguientes datos para generar el reporte general de encuestas almacenadas en base de datos
+          <h3>Reporte general:</h3>Diligencie la información de los siguientes filtros para generar el reporte.
         </div>
       </div>
 	<form role="form" action="siscadi/repotegeneral" method="get" id="reporte_encuentas_general">
@@ -159,7 +159,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-3">
-              <label for="mision"id="labelmision_gen">Tipo de misón:</label>
+              <label for="mision"id="labelmision_gen">Tipo de misión:</label>
             </div>  
             <div class="col-sm-4" >
               <select  class="form-control" id="mision_gen" name="mision_gen" title="Seleccione uno" required> 
@@ -178,13 +178,11 @@
               </select> 
             </div>              
           </div>  
-        </div>
-
-        
+        </div>      
         
         <div class="form-group">
           <div class="col-sm-offset-5 col-sm-4 text-center">
-            <input  class="form-control btn btn-primary btn-sm" type="submit" value="Reporte de entrega por misión" id="formulairo_gen" >
+            <input  class="form-control btn btn-primary btn-sm" type="submit" value="Generar reporte" id="formulairo_gen" >
           </div>  
         </div>
           <div  class="col-sm-12"><hr></div>
@@ -194,7 +192,7 @@
 
   <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 text-left" style="padding-top: 25px;padding-bottom: 25px;">
-          <h3>Reporte por monitor:</h3>Seleccione los siguientes datos para generar el reporte de encuestas almacenadas en base de datos por monitor
+          <h3>Reporte por monitor:</h3>Diligencie la información de los siguientes filtros para generar el reporte.
         </div>
       </div>
       
@@ -218,7 +216,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-3">
-              <label for="mision"id="labelmision_moni">Tipo de misón:</label>
+              <label for="mision"id="labelmision_moni">Tipo de misión:</label>
             </div>  
             <div class="col-sm-4" >
               <select  class="form-control" id="mision_moni" name="mision_moni" title="Seleccione uno"  required> 
@@ -283,7 +281,7 @@
 
         <div class="form-group">
           <div class="col-sm-offset-5 col-sm-4 text-center">
-            <input  class="form-control btn btn-primary btn-sm" type="submit" value="Reporte de entrega por misión" id="formulairo_moni" >
+            <input  class="form-control btn btn-primary btn-sm" type="submit" value="Generar reporte" id="formulairo_moni" >
           </div>  
         </div>
             <div  class="col-sm-12"><hr></div>
@@ -758,7 +756,7 @@
           $( "#reportesiscadi" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#siscadimenupeq" ).html("<strong>SISCADI<span class='caret'></span></strong>");
-          $( "#reportesiscadimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Consulta de encuestas</strong>");
+          $( "#reportesiscadimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Reportes PDF</strong>");
 
           
 

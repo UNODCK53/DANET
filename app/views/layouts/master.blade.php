@@ -195,12 +195,13 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
         @if(($menureportesiscadi) || ($menuindicadoressiscadi))
         <li class="dropdown"id="siscadi" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            @if($menureportesiscadi)
-            <li id="reportesiscadi"><a  href='siscadi_encuentas'>Consulta de encuestas</a></li>
-            @endif
             @if($menuindicadoressiscadi)
-            <li id="indicadoressiscadi"><a href="siscadi_indicadores">Indicadores de recolección</a></li>
+            <li id="indicadoressiscadi"><a href="siscadi_indicadores">Resultados de recolección</a></li>
             @endif
+            @if($menureportesiscadi)
+            <li id="reportesiscadi"><a  href='siscadi_encuentas'>Reportes PDF</a></li>
+            @endif
+            
           </ul>
         </li>
         @endif
@@ -327,12 +328,13 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
               @if(($menureportesiscadi) || ($menuindicadoressiscadi))
                 <li class="dropdown"><a id="siscadimenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    @if($menureportesiscadi)
-                    <li><a id="reportesiscadimenupeq" href='siscadi_encuentas'>Consulta de encuestas</a></li>
-                    @endif
                     @if($menuindicadoressiscadi)
-                    <li><a id="indicadoressiscadimenupeq"  href="siscadi_indicadores">Indicadores de recolección</a></li>
+                    <li><a id="indicadoressiscadimenupeq"  href="siscadi_indicadores">Resultados de recolección</a></li>
                     @endif
+                    @if($menureportesiscadi)
+                    <li><a id="reportesiscadimenupeq" href='siscadi_encuentas'>Reportes PDF</a></li>
+                    @endif
+
                   </ul>
                 </li>
               @endif
