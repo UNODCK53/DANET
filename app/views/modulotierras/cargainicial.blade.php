@@ -145,7 +145,7 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label" >Unidades:</label><br>
-            <input type="radio" name="modradiounidadfor" id="aunidadforha" value="1" required> ha.
+            <input type="radio" name="modradiounidadfor" id="aunidadforha" value="1" required checked> ha.
             <input type="radio" name="modradiounidadfor" id="aunidadforfan" value="2" required> fan.
             <input type="radio" name="modradiounidadfor" id="aunidadform2" value="3" required> m2.
           </div>
