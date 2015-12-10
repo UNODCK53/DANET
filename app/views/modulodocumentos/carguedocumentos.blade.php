@@ -54,19 +54,19 @@
       <!--Texto del contenido-->
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <h3 class="text-center text-primary">CARGUE DE DOCUMENTOS</h3>
+            <h2 class="text-center text-primary">Cargar documentos</h2>
             <br>
 
             <form role="form" action="documentos/adjuntar-docu" method="post" id="formEdit" enctype="multipart/form-data">
               <div class="form-group">
-                <label for="carguedocu" class="control-label">Titulo del documento:</label>
-                <input  id = "titulo" name="titulo" class="form-control" type="text" required="true"></input>
+                <label for="carguedocu" class="control-label">Título del documento:</label>
+                <input  id = "titulo" name="titulo" class="form-control" type="text" required="true" placeholder="Ejemplo: Reporte mundial de drogas 2015"></input>
                 
               </div>
               <div class="form-group">
                 <label for="carguedocu" class="control-label">Categoría:</label>
                 <select id="selectcategoria" class="form-control" name="selectcategoria" required="true">
-                    <option value="" selected="selected">Por favor seleccione</option>
+                    <option value="" selected="selected">Seleccione el origen del documento</option>
                     @foreach($arrayiniciales[0] as $catego)
                     <option value="{{$catego->id_categoria}}">{{$catego->categoria}}</option>              
                     @endforeach              
@@ -75,7 +75,7 @@
             <div id="proyectocontraparte">
               <div class="form-group">
                 <label for="carguedocu" class="control-label">Proyecto:</label>
-                <select id="selectproyecto" class="form-control" name="selectproyecto" required="true">                                  
+                <select id="selectproyecto" class="form-control" name="selectproyecto" required="true">                                                    
                 </select>
               </div>
               <div class="form-group">              
@@ -114,14 +114,14 @@
               <div class="form-group" id="carguedocumento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Fecha del documento:</label>
                 <div class="input-group date" id="datepicker">                      
-                  <input id="selectfechadocu" type="text" class="form-control" name="selectfechadocu" required="true">
+                  <input id="selectfechadocu" type="text" class="form-control" name="selectfechadocu" required="true" placeholder="Fecha de elaboración del documento">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                 </div>
               </div>
               <div class="form-group" id="carguedocumento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Referencia geográfica:</label>
                 <select id="selecunigeo" class="form-control" name="selecunigeo" required="true">
-                    <option value="" selected="selected">Por favor seleccione</option>
+                    <option value="" selected="selected">Referencia administrativa de elaboración del documento</option>
                     @foreach($arrayiniciales[1] as $unigeo)
                     <option value="{{$unigeo->id_ugeo}}">{{$unigeo->unidgeo}}</option>              
                     @endforeach                                 
@@ -145,7 +145,7 @@
               </div>   
               <hr>           
               <div class="form-group text-right"  id="carguedocumento">                
-                <button type="submit" class="btn btn-primary">Guardar Edición General</button>
+                <button type="submit" class="btn btn-primary">Guardar documento</button>
               </div>
               </form>            
         </div>
@@ -239,27 +239,25 @@
                     $("#selecmomento").empty();
                     $("#selectproyecto").empty();
                     //console.log(data);
-                    $("#selectproyecto").append("<option value=''>Por favor seleccione</option>");
+                    $("#selectproyecto").append("<option value=''>Seleccione las siglas del proyecto</option>");
                       [].forEach.call(data[0],function(datos){
                         $("#selectproyecto").append("<option value=\""+datos.id_proyecto+"\">"+datos.id_proyecto+"</option>");
                       }); 
                     $("#selectcontraparte").empty();                    
-                    $("#selectcontraparte").append("<option value=''>Por favor seleccione</option>");
+                    $("#selectcontraparte").append("<option value=''>Seleccione el socio estratégico principal</option>");
                       [].forEach.call(data[1],function(datos1){
                         $("#selectcontraparte").append("<option value=\""+datos1.id_contraparte+"\">"+datos1.contrapate+"</option>");
                       });
                     $("#selectipodocu").empty();                    
-                    $("#selectipodocu").append("<option value=''>Por favor seleccione</option>");
+                    $("#selectipodocu").append("<option value=''>Seleccione la opción que más se adecúe al documento que esta cargando</option>");
                       [].forEach.call(data[2],function(datos2){
                         $("#selectipodocu").append("<option value=\""+datos2.id_tipo+"\">"+datos2.tipo+"</option>");
                       });
                       $("#selectestrategia").empty();                    
-                    $("#selectestrategia").append("<option value=''>Por favor seleccione</option>");
+                    $("#selectestrategia").append("<option value=''>Seleccione la estrategia de la contraparte que da sustento a la elaboración del documento</option>");
                       [].forEach.call(data[3],function(datos3){
                         $("#selectestrategia").append("<option value=\""+datos3.id_estrategia+"\">"+datos3.estrategia+"</option>");
-                      });
-                      
-                      
+                      });                     
                 },
                 error:function(){alert('error');}
               });//Termina Ajax 
@@ -271,12 +269,12 @@
 
                     $("#selectbloque").empty();
                     //console.log(data);
-                    $("#selectbloque").append("<option value=''>Por favor seleccione</option>");
+                    $("#selectbloque").append("<option value=''>Seleccione de acuerdo a la estrategia</option>");
                       [].forEach.call(data[0],function(datos){
                         $("#selectbloque").append("<option value=\""+datos.id_bloque+"\">"+datos.bloque_modalidad+"</option>");
                       });
                     $("#selecmomento").empty();
-                    $("#selecmomento").append("<option value=''>Por favor seleccione</option>");
+                    $("#selecmomento").append("<option value=''>Etapa en la cual se realiza el monitoreo</option>");
                       [].forEach.call(data[1],function(datos1){
                         $("#selecmomento").append("<option value=\""+datos1.id_momento+"\">"+datos1.momento+"</option>");
                       });                       

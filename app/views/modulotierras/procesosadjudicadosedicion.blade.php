@@ -113,12 +113,12 @@
             <textarea id="modobsviab" name="modobsviab" class="form-control">{{$pro->obsviabilidad}}</textarea>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label" >Requiere responsable Geográfico:</label><br>
+            <label for="Proceso" class="control-label" >Requiere responsable geográfico:</label><br>
             <input type="radio" name="modradiorespogeo" id="respogeosi" value="1"> SI
             <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
           </div>
           <div class="form-group" id="respongeo">
-            <label for="Proceso" class="control-label">Responsable Geográfico:</label>
+            <label for="Proceso" class="control-label">Responsable geográfico:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo" >
                 <option value="" selected="selected">Por favor seleccione</option>
                 @foreach($arraydombobox[1] as $geo)
@@ -162,7 +162,7 @@
             <input id="modtelefono" type="number" class="form-control" name="modtelefono" value='{{$pro->telefono}}'>
           </div>
           <div class="form-group text-right">
-            <button type="submit" class="btn btn-primary">Guardar Edición General</button>
+            <button type="submit" class="btn btn-primary">Guardar edición general</button>
           </div>
         </form>
         </div>

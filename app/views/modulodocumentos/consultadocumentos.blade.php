@@ -33,7 +33,7 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
-      <h3 class="text-center text-primary">CONSULTA DE DOCUMENTOS</h3>
+      <h2 class="text-center text-primary">Consulta de documentos</h2>
       <br/>
       <div class="col-sm-12">
       <ul class="nav nav-tabs">
