@@ -205,7 +205,7 @@ class DocumentosController extends BaseController {
 			//exec('CALL '.public_path().'\ImageMagick\convert.exe "'.public_path().'\master.pdf[0]" -resize 215x278 "'.public_path().'\prueba.jpg"');
 
 			//se realiza el QUICKLOOK de la primera hoja del documento cargado
-			/*
+			
 			exec('CALL '.public_path().'\ImageMagick\convert.exe "'.$path3.'\\'.$nombredocumento.'[0]" "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg"');
 
 			$a=0;
@@ -217,7 +217,7 @@ class DocumentosController extends BaseController {
 					$a=0;
 				}
 			} while ($a <= 10);
-			*/
+			
     		// cargue en la tabla masterducu la informacion alfanumerica del documento
     		DB::table('MODDOCUMENTOS_MASTERDOCU')->insert(
 		    	array(
@@ -280,7 +280,7 @@ class DocumentosController extends BaseController {
 
 			for ($i=0; $i <= count($queryresultbusbasic)-1 ; $i++) { 
 					
-				$queryresultbusbasic[$i]->ruta=str_replace('C:\xampp\htdocs\DANET\public\\', '', $queryresultbusbasic[$i]->ruta);
+				$queryresultbusbasic[$i]->ruta=str_replace(public_path().'\\', '', $queryresultbusbasic[$i]->ruta);
 				if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$queryresultbusbasic[$i]->nombredocu.'.jpg')){
 					$queryresultbusbasic[$i]->imagen = 'moddocs/IMGDOCU/'.$queryresultbusbasic[$i]->nombredocu.'.jpg';
 					

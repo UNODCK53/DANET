@@ -53,7 +53,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase I 2015</h4>
             <span class="col-xs-1">
-              <a href="assets/docgme/Informe_Fase_I_GME_2015.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_Fase_I_GME_2015.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
@@ -62,7 +62,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME 2014 Final</h4>
             <span class="col-xs-1">
-              <a href="assets/docgme/InformeFinal_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/InformeFinal_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
@@ -71,7 +71,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase IV 2014</h4>
             <span class="col-xs-1">
-              <a href="assets/docgme/Informe_Fase_IV_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_Fase_IV_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>      
@@ -80,7 +80,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase III 2014</h4>
             <span class="col-xs-1">
-              <a href="assets/docgme/Informe_Fase_III_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_Fase_III_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>      
@@ -89,7 +89,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase II 2014</h4>
             <span class="col-xs-1">
-              <a href="assets/docgme/Informe_Fase_II_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_Fase_II_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
@@ -98,7 +98,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase I 2014</h4>
             <span class="col-xs-1 ">
-              <a href="assets/docgme/Informe_Fase_I_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_Fase_I_GME_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
@@ -107,7 +107,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME 2013 Final</h4>
             <span class="col-xs-1 ">
-              <a href="assets/docgme/Informe_GME_2013.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_GME_2013.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
@@ -116,7 +116,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase III 2013</h4>
             <span class="col-xs-1 ">
-              <a href="assets/docgme/Informe_GME_2013_Fase_III.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_GME_2013_Fase_III.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
@@ -125,7 +125,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase II 2013</h4>
             <span class="col-xs-1 ">
-              <a href="assets/docgme/InformeGME2013_FaseII.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/InformeGME2013_FaseII.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
@@ -134,7 +134,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase I 2013</h4>
             <span class="col-xs-1 ">
-              <a href="assets/docgme/Informe_GME_2013_Fase_I_V1.pdf" class="glyphicon glyphicon-download-alt btn btn-primary text-right" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_GME_2013_Fase_I_V1.pdf" class="glyphicon glyphicon-download-alt btn btn-primary text-right" role="button"></a>
             </span>
           </div>        
       </div>
@@ -143,7 +143,7 @@
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME 2012 Final</h4>
             <span class="col-xs-1 ">
-              <a href="assets/docgme/Informe_GME_2012.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/docgme/Informe_GME_2012.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>        
       </div>
