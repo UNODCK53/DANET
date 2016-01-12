@@ -14,10 +14,10 @@
         box-shadow:         0px 0px 18px 0px rgba(48, 50, 50, 0.48);
       }
       
-      .img-responsive{
+      #imagen{
         -webkit-filter: none;
       }
-      .img-responsive:hover{
+      #imagen:hover{
         -webkit-filter: grayscale(100%);
       }
 
@@ -52,7 +52,7 @@
     <div class="row">
       <!--Columna logo con imágen-->
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
-      <img src="assets/img/unodc.png" class="logo" alt="logounodc">
+      <img src="assets/img/unodc.gif" class="img-responsive" alt="logounodc">
         </div>
       <!--espaciado para que en xs queden separado logo y boton-->
     <div class="col-xs-4 visible-xs">
@@ -161,7 +161,7 @@
     <div class="row">
       <!--imagen responsive-->
       <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_Gestion.png" class="img-responsive" alt="circulogestion"></center>
+          <center><img src="assets/img/Circulo_Gestion.png" id="imagen" class="img-responsive" alt="circulogestion"></center>
       </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -174,7 +174,7 @@
         
         <!--imagen responsive-->
         <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_SAI.png" class="img-responsive" alt="circulosai"></center>
+          <center><img src="assets/img/Circulo_SAI.png" id="imagen" class="img-responsive" alt="circulosai"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -190,7 +190,7 @@
     <div class="row">
       <!--imagen responsive-->
       <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_SISCADI.png" width="184" height="184" class="img-responsive" alt="cirsiscadi"></center>
+          <center><img src="assets/img/Circulo_SISCADI.png" width="184" height="184" id="imagen" class="img-responsive" alt="cirsiscadi"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -201,7 +201,7 @@
         </div>
         <!--imagen responsive-->
         <div id="imagen1" class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_Donde_estamos.png" class="img-responsive" alt="cirdondeestamos"></center>
+          <center><img src="assets/img/Circulo_Donde_estamos.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -217,7 +217,7 @@
     <div class="row">
       <!--imagen responsive-->
        <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_10.png" width="184" height="184" class="img-responsive" alt="cir10"></center>
+          <center><img src="assets/img/Circulo_10.png" width="184" height="184" id="imagen" class="img-responsive" alt="cir10"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">
@@ -228,7 +228,7 @@
         </div>
         <!--imagen responsive-->
         <div class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_GME.png" class="img-responsive" alt="gme"></center>
+          <center><img src="assets/img/Circulo_GME.png" id="imagen" class="img-responsive" alt="gme"></center>
         </div>
         <!--Texto del contenido-->
         <div class="col-xs-12 col-sm-3">

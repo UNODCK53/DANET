@@ -39,7 +39,7 @@
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#busbasic">Búsqueda básica</a></li>
         <li><a data-toggle="tab" href="#busdetallada">Búsqueda detallada</a></li>
-        <li><a data-toggle="tab" href="#busgeo">Búsqueda geográfica</a></li>    
+        <li><a data-toggle="tab" href="#busgeo">Búsqueda geográfica</a></li> 
       </ul>
       </div>
       <div class="tab-content">
@@ -48,7 +48,6 @@
           <div class="col-sm-10">
             <h3>Búsqueda básica:</h3>
             <p>Usted puede realizar una búsqueda por cualquier palabra que usted crea que puede estar en el título del documento, categoría, tipo de documento, autor, departamento, municipio, etc.</p>
-           
             <div class="form-inline text-center">
               <input type="hidden">
               <input type="text" class="form-control" onkeypress="if (event.keyCode == 13){$('#querybusquedas').trigger( 'click' );}" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar">
@@ -151,9 +150,21 @@
         <div id="busgeo" class="tab-pane fade">
           <h3>Menu 2</h3>
           <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+
+                  <div class="bs-example">
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 60%;">
+                        60%
+                      </div>
+                    </div>
+                  </div>
         </div>
+
         <div class="bs-example">
         </div>
+
+    
+
       </div>
     </div>
 <br>
@@ -161,13 +172,11 @@
     
       <div class="row" id="dosselec">
         <div class="col-sm-1"></div>
-        <div class="col-sm-10" id="sha" >
-          <div class="row" id="espacioresultado">
-            
+        <div class="col-sm-10" id="sha">        
+          <div class="row" id="espacioresultado">            
             <div class="col-sm-1"></div>
             <div class="col-sm-10 list-group" id="resultado">
-            <!--aca se muestran los documentos que se buscaron-->
-
+            <!--aca se muestran los documentos que se buscaron--> 
 
 
 
@@ -209,8 +218,9 @@
         $('[data-toggle="tooltip"]').tooltip();
         $("#querybusquedas").click(function(){
           //alert($("#querybusqueda").val());
-          $("#espacioresultado").show();
+          
           $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
+
             success:function(data){
               console.log(data);
               $("#resultado").empty();
