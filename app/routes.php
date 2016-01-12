@@ -31,6 +31,7 @@ Route::get('logout', function()
 });
 
 //Rutas para activar los controladores
+Route::controller('admin','AdminController');
 Route::controller('tierras','TierrasController');
 Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController'); 
@@ -97,8 +98,9 @@ Route::group(array('before' => 'auth'), function()
   //termina rutas para modulo de SISCADI 
   
   //Rutas para módulo de Docuementos
-  Route::get('cargue_docu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@CarguedocuInicio'));  
-  Route::get('consulta_docu', array('before'=>'consulDOCUMENTOS', function(){return View::make('modulodocumentos/consultadocumentos');}));
+  Route::get('cargue_docu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@CarguedocuInicio'));
+  Route::get('consulta_docu', array('before' => 'consulDOCUMENTOS', 'uses' => 'DocumentosController@Consultadocumentos'));
+  //Route::get('consulta_docu', array('before'=>'consulDOCUMENTOS', function(){return View::make('modulodocumentos/consultadocumentos');}));
   Route::get('repor_docu', array('before'=>'reporDOCUMENTOS', function(){return View::make('modulodocumentos/reportedocumentos');}));
   //Termina rutas para el módulo de Documentos
 
@@ -121,6 +123,7 @@ Route::group(array('before' => 'auth'), function()
     Route::group(array('before' => 'level1'), function()
       {
         Route::get('/vista1',function(){return View::make('vista1');});
+        Route::get('accvistas',function(){return View::make('admin/accesovistas');});
       });
 
   });
