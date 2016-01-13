@@ -47,13 +47,12 @@
           <div class="col-sm-1"></div>
           <div class="col-sm-10">
             <h3>Búsqueda básica:</h3>
-            <p>Usted puede realizar una búsqueda por cualquier palabra que usted crea que puede estar en el título del documento, categoría, tipo de documento, autor, departamento, municipio, etc.</p>
-            <div class="form-inline text-center">
-              <input type="hidden">
-              <input type="text" class="form-control" onkeypress="if (event.keyCode == 13){$('#querybusquedas').trigger( 'click' );}" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar">
-              <input type="hidden">
+            <p>Usted puede realizar una búsqueda por cualquier palabra que usted crea que puede estar en el título del documento, categoría, tipo de documento, autor, departamento, municipio, etc.</p>           
+            <form class="form-inline text-center">
+              <input type="text" class="form-control" onkeypress="if (event.keyCode == 13){$('#querybusquedas').trigger( 'click' );}" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar" required="true">
               <button id="querybusquedas" type="button" class="btn btn-primary">Búsqueda básica</button>
-            </div>
+            </form>
+            <div id="busbasica"></div>            
           </div>
           <div class="col-sm-1"></div>
         </div>
@@ -143,7 +142,9 @@
                 <button id="busqavan" type="button" class="btn btn-primary">Consultar documentos seleccionados</button>
                 <br/>
                 <span class="label label-warning" id="a"></span>
+                <div id="busbasica1"></div>
               </div>
+              
             </div>
           </form>
         </div>
@@ -177,9 +178,20 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-10 list-group" id="resultado">
             <!--aca se muestran los documentos que se buscaron--> 
-
-
-
+            </div>
+            <div class="col-sm-1"></div>
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+      
+      <div class="row" id="dosselec">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10" id="sha">        
+          <div class="row" id="espacioresultado1">            
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10 list-group" id="resultado1">
+            <!--aca se muestran los documentos que se buscaron--> 
             </div>
             <div class="col-sm-1"></div>
           </div>
@@ -214,63 +226,77 @@
         $("#documentosmenupeq").html("<strong>MÓDULO DOCUMENTOS<span class='caret'></span></strong>");
         $("#consultadocumenupeq").html("<strong><span class='glyphicon glyphicon-ok'></span>Consulta de documentos</strong>");
         $("#espacioresultado").hide();
+        $("#resultado").hide();
+        $("#resultado1").hide();
         // activar mensaje para los tooltip
         $('[data-toggle="tooltip"]').tooltip();
         $("#querybusquedas").click(function(){
           //alert($("#querybusqueda").val());
-          
+          $("#espacioresultado").show();
+          $("#espacioresultado1").hide();
           $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
-
             success:function(data){
               console.log(data);
+              var tamano=data.length;
+                    $("#busbasica").empty();
+                    if (tamano!=0) {
+                      $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i>Se encontraron '+tamano+' documentos en su búsqueda</div><div class="col-sm-1"></div>');  
+                    } else{
+                                                  
+                      $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i>No se encontraron documentos con esa característica</div><div class="col-sm-1"></div>');
+                    };                    
+                    $( "#mensajedocumtot" ).fadeOut(5000);
+                    $("#resultado").show();
+                    $("#resultado1").hide();
               $("#resultado").empty();
               $("#resultado").append('<br>');
               [].forEach.call(data,function(datos){
-                var txt1 ='<li class="list-group-item">'
-                +'<div class="media">'
-                +'<div class="media-left media-middle">'
-                +'<img src="assets/img/masterdocu.png" width="106" height="138" alt="...">'
-                +'</div>'
-                +'<div class="media-body"><h4 class="media-heading">Título: '+datos.titulo+'</h4>'
-                +'<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
-                if(datos.contrapate!=null){
-                  var txt2 = '<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
-                }
-                else{
-                  var txt2 = '<strong></strong>';
-                }
-                if(datos.tipo!=null){
-                  var txt3 = '<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
-                }
-                else{
-                  var txt3 = '<strong></strong>';
-                }
-                if(datos.estrategia!=null){
-                  var txt4 = '<p><strong>Estrategía: </strong>'+datos.estrategia+'</p>';
-                }
-                else{
-                  var txt4 = '<strong></strong>';
-                }
-                if(datos.bloque!=null){
-                  var txt5 = '<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
-                }
-                else{
-                  var txt5 = '<strong></strong>';
-                }
-                if(datos.id_proyecto!=null){
-                  var txt6 = '<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
-                }
-                else{
-                  var txt6 = '<strong></strong>';
-                }
-                if(datos.momento!=null){
-                  var txt7 = '<p><strong>Momento: </strong>'+datos.momento+'</p>';
-                }
-                else{
-                  var txt7 = '<strong></strong>';
-                }
-                var txtf ='<p><a href="" class="btn btn-primary" role="button">Mas info...</a></p></div></div></li>';
-                $("#resultado").append(txt1+txt2+txt3+txt4+txt5+txt6+txt7+txtf);
+                if (datos.titulo == null) {
+                        titulos = '';
+                      } else{
+                        titulos='<h4 class="media-heading">Titulo: '+datos.titulo+'</h4>';
+                      };
+                      if (datos.categoria == null) {
+                        categorias = '';
+                      } else{
+                        categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
+                      };
+                       if (datos.contraparte == null) {
+                        contrapartes = '';
+                      } else{
+                        contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
+                      };
+                      if (datos.tipo == null) {
+                        tipos = '';
+                      } else{
+                        tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
+                      };
+                      if (datos.estrategia == null) {
+                        estrategias = '';
+                      } else{
+                        estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
+                      };
+                      if (datos.bloque == null) {
+                        bloques = '';
+                      } else{
+                        bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
+                      };
+                      if (datos.id_proyecto == null) {
+                        id_proyectos = '';
+                      } else{
+                        id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
+                      };
+                      if (datos.momento == null) {
+                        momentos = '';
+                      } else{
+                        momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
+                      };
+                      if (datos.imagen == null) {
+                        imagens = 'assets/img/masterdocu.png';
+                      } else{
+                        imagens= datos.imagen;
+                      };
+                      $("#resultado").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
               });
             },
             error:function(){alert('error');}
@@ -317,70 +343,70 @@
             $('#b').fadeOut(5000);
           }
           else{
-            $("#espacioresultado").show();
+            $("#espacioresultado").hide();
+            $("#espacioresultado1").show();
             $.ajax({url:"documentos/datosbusqueda",type:"post",data:{valtipo:$('#valtipo').val(), seldpto:$('#seldpto').val(),selmpio:$('#selmpio').val(),start:$('#start').val(),end:$('#end').val(), },dataType:'json',
               success:function(data){
+                var tamano=data.length;
+                    $("#busbasica1").empty();
+                    if (tamano!=0) {
+                      $("#busbasica1").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot1" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i>Se encontraron '+tamano+' documentos en su búsqueda</div><div class="col-sm-1"></div>');  
+                    } else{
+                      $("#busbasica1").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot1" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i>No se encontraron documentos con esa característica</div><div class="col-sm-1"></div>');
+                    }
+                    $( "#mensajedocumtot1" ).fadeOut(5000);
                 console.log(data);
-                $("#resultado").empty();
-                $("#resultado").append('<br>');
+                $("#resultado").hide();
+                $("#resultado1").show();
+                $("#resultado1").empty();
+                $("#resultado1").append('<br>');
                 [].forEach.call(data,function(datos){
-        var txt1='<li class="list-group-item">'
-                  +'<div class="media">'
-                    +'<div class="media-left media-middle">'
-                      +'<img src="assets/img/masterdocu.png" width="106" height="138" alt="...">'
-                    +'</div>'
-                    +'<div class="media-body">'
-                      +'<h4 class="media-heading">Título: '+datos.titulo+'</h4>'
-                      +'<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
-                        if(datos.contrapate!=null){
-                          var txt2 = '<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
-                        }
-                        else{
-                          var txt2 = '<strong></strong>';
-                        }
-                        if(datos.tipo!=null){
-                          var txt3 = '<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
-                        }
-                        else{
-                          var txt3 = '<strong></strong>';
-                        }
-                        if(datos.estrategia!=null){
-                          var txt4 = '<p><strong>Estrategía: </strong>'+datos.estrategia+'</p>';
-                        }
-                        else{
-                          var txt4 = '<strong></strong>';
-                        }
-                        var txtm ='</div>'
-                        +'<div class="media-body">';
-                        if(datos.bloque!=null){
-                          var txt5 = '<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
-                        }
-                        else{
-                          var txt5 = '<strong></strong>';
-                        }
-                        if(datos.id_proyecto!=null){
-                          var txt6 = '<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
-                        }
-                        else{
-                          var txt6 = '<strong></strong>';
-                        }
-                        if(datos.momento!=null){
-                          var txt7 = '<p><strong>Momento: </strong>'+datos.momento+'</p>';
-                        }
-                        else{
-                          var txt7 = '<strong></strong>';
-                        }
-                        if(datos.autor!=null){
-                          var txt8 = '<p><strong>Autor: </strong>'+datos.autor+'</p>';
-                        }
-                        else{
-                          var txt8 = '<strong></strong>';
-                        }
-                      var txtf ='<p><a href="" class="btn btn-primary" role="button">Mas info...</a></p>'
-                    +'</div>'
-                  +'</div>'
-                +'</li>';
-                  $("#resultado").append(txt1+txt2+txt3+txt4+txt5+txt6+txt7+txt8+txtf);
+                  if (datos.titulo == null) {
+                        titulos = '';
+                      } else{
+                        titulos='<h4 class="media-heading">Titulo: '+datos.titulo+'</h4>';
+                      };
+                      if (datos.categoria == null) {
+                        categorias = '';
+                      } else{
+                        categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
+                      };
+                       if (datos.contrapate == null) {
+                        contrapartes = '';
+                      } else{
+                        contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
+                      };
+                      if (datos.tipo == null) {
+                        tipos = '';
+                      } else{
+                        tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
+                      };
+                      if (datos.estrategia == null) {
+                        estrategias = '';
+                      } else{
+                        estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
+                      };
+                      if (datos.bloque == null) {
+                        bloques = '';
+                      } else{
+                        bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
+                      };
+                      if (datos.id_proyecto == null) {
+                        id_proyectos = '';
+                      } else{
+                        id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
+                      };
+                      if (datos.momento == null) {
+                        momentos = '';
+                      } else{
+                        momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
+                      };
+                      if (datos.imagen == null) {
+                        imagens = 'assets/img/masterdocu.png';
+                      } else{
+                        imagens= datos.imagen;
+                      };                      
+                      $("#resultado1").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
                 });
               },
               error:function(){alert('error');}
