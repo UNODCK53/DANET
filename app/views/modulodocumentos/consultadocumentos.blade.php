@@ -236,7 +236,6 @@
           $("#espacioresultado1").hide();
           $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
             success:function(data){
-              console.log(data);
               var tamano=data.length;
                     $("#busbasica").empty();
                     if (tamano!=0) {
@@ -330,6 +329,7 @@
           language: "es",
           autoclose: true
         });//Termina datepicker
+        
         $("#busqavan").click(function(){
           //alert($("#querybusqueda").val());
           if(($('#valtipo').val()=="")&&($('#seldpto').val()=="")&&($('#selmpio').val()=="")&&($('#start').val()=="")&&($('#end').val()=="")){
@@ -345,21 +345,32 @@
           else{
             $("#espacioresultado").hide();
             $("#espacioresultado1").show();
-            $.ajax({url:"documentos/datosbusqueda",type:"post",data:{valtipo:$('#valtipo').val(), seldpto:$('#seldpto').val(),selmpio:$('#selmpio').val(),start:$('#start').val(),end:$('#end').val(), },dataType:'json',
+
+            $.ajax({url:"documentos/datosbusqueda",type:"post",data:{valtipo:$('#valtipo').val(), seldpto:$('#seldpto').val(),selmpio:$('#selmpio').val(),start:$('#start').val(),end:$('#end').val()},dataType:'json',
               success:function(data){
                 var tamano=data.length;
-                    $("#busbasica1").empty();
-                    if (tamano!=0) {
-                      $("#busbasica1").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot1" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i>Se encontraron '+tamano+' documentos en su búsqueda</div><div class="col-sm-1"></div>');  
-                    } else{
-                      $("#busbasica1").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot1" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i>No se encontraron documentos con esa característica</div><div class="col-sm-1"></div>');
-                    }
-                    $( "#mensajedocumtot1" ).fadeOut(5000);
-                console.log(data);
+                $("#busbasica1").empty();
+                if (tamano === undefined) {
+                  tamano = 0;
+                }
+                if (tamano!=0) {
+                  $("#busbasica1").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot1" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i>Se encontraron '+tamano+' documentos en su búsqueda</div><div class="col-sm-1"></div>');  
+                } else{
+                  $("#busbasica1").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot1" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i>No se encontraron documentos con esa característica</div><div class="col-sm-1"></div>');
+                }
+                $( "#mensajedocumtot1" ).fadeOut(5000);
                 $("#resultado").hide();
+                if (tamano!=0) {
                 $("#resultado1").show();
                 $("#resultado1").empty();
                 $("#resultado1").append('<br>');
+                }
+                else{
+                  $("#resultado").empty();
+                  $("#resultado").hide();
+                  $("#resultado1").empty();
+                  $("#resultado1").hide();
+                }
                 [].forEach.call(data,function(datos){
                   if (datos.titulo == null) {
                         titulos = '';
