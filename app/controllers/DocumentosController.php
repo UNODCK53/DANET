@@ -206,7 +206,7 @@ class DocumentosController extends BaseController {
 
 			//se realiza el QUICKLOOK de la primera hoja del documento cargado
 			
-			exec('CALL '.public_path().'\ImageMagick\convert.exe "'.$path3.'\\'.$nombredocumento.'[0]" "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg"');
+			/*exec('CALL '.public_path().'\ImageMagick\convert.exe "'.$path3.'\\'.$nombredocumento.'[0]" "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg"');
 
 			$a=0;
 			do {				
@@ -217,7 +217,7 @@ class DocumentosController extends BaseController {
 					$a=0;
 				}
 			} while ($a <= 10);
-			
+			*/
     		// cargue en la tabla masterducu la informacion alfanumerica del documento
     		DB::table('MODDOCUMENTOS_MASTERDOCU')->insert(
 		    	array(

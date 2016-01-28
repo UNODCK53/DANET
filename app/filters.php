@@ -176,6 +176,21 @@ Route::filter('consulresjuritierras', function ()
    }
 });
 
+Route::filter('reporgenero', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="1206")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
 Route::filter('cargainicialtierras', function ()
 {
    $acc=(Session::get('acc'));
@@ -369,3 +384,17 @@ Route::filter('reporDOCUMENTOS', function ()
    }
 });
 //Finaliza filtros módulo Documentos
+Route::filter('grupo1',function()
+{
+   $grupo=Auth::user()->grupo;
+   if($grupo!=1){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('level1',function()
+{
+   $level=Auth::user()->level;
+   if($level!=1){
+      return Redirect::to('principal');
+   }
+});

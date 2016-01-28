@@ -99,7 +99,7 @@
 <?php $acc=(Session::get('acc')); ?>
 <?php
 //variables menú Tierras
-$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;
+$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;$menurepgenero=false;
 $menucargaini=false;$menuprocadj=false;$menulevtopo=false;$menucoor=false;$menumaps=false;
 //variables menú GME
 $menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugmeinformes=false;
@@ -126,6 +126,9 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
     }
     if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){
       $menureprespjuri=true;
+    }
+    if(($acceso->id_vista=="1206")&&($acceso->acces=="1")){
+      $menurepgenero=true;
     }
     if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){
       $menucargaini=true;
@@ -233,7 +236,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
           </li>
         @endif        
         @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)) <!--Oculta la opción tierras si no es el administrador-->
+          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero)) <!--Oculta la opción tierras si no es el administrador-->
           <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Formalización de tierras<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               @if($menucongral)
@@ -256,10 +259,13 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
               @if($menureprespjuri)
               <li id="tierrasreporresponsjuri"><a href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Jurídico</a></li>
               @endif
+              @if($menurepgenero)
+              <li id="tierrasreporgenero"><a href="<?=URL::to('reporte_genero'); ?>"><span class="glyphicon glyphicon-ok"></span> Género</a></li>
+              @endif
               <li class="divider"></li>
               <li><a align="center"><b>Procesos</b></a></li>
               @if($menucargaini)
-                <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span>Carga Inicial</a></li>
+                <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span> Carga Inicial</a></li>
               @endif
               @if($menuprocadj)
                 <li id="tierrascargaproceso"><a href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
@@ -366,7 +372,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
               </li>                  
               @endif
               @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-                ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)) <!--Oculta la opción tierras si no es el administrador-->
+                ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero)) <!--Oculta la opción tierras si no es el administrador-->
                 <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Formalización de tierras<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     @if($menucongral)
@@ -388,6 +394,9 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                     @endif
                     @if($menureprespjuri)
                     <li><a id="tierrasreporesjurimenupeq" href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Jurídico</a></li>
+                    @endif
+                    @if($menurepgenero)
+                    <li><a id="tierrasreporgeneromenupeq" href="<?=URL::to('reporte_genero'); ?>"><span class="glyphicon glyphicon-ok"></span> Género</a></li>
                     @endif
                     <li class="divider"></li>
                     <li><a align="center"><b>Procesos</b></a></li>

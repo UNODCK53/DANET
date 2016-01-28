@@ -908,6 +908,29 @@ class TierrasController extends BaseController {
 		}
 		return Redirect::to('coordenadas_edicion')->with('status',$status);
 	}
+	public function Reporgenero()
+	{
+		
+		$arraygen=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->get();
+		return View::make('modulotierras.reporgenero', array('arraygen' => $arraygen));
+	}
+	
+	public function Diferenciafechas()
+	{
+		
+		$datetime1 = date_create('2015-01-01');
+		$datetime2 = date_create();
+		$diferencia = date_diff($datetime1, $datetime2);
 
+		
+		$resul=$diferencia->format('%y años, %m meses, %d días, %r%a total días');
+
+		return $resul;
+
+		return View::make('modulotierras.reporgenero', array('diferencia' => $diferencia));
+	}
 }
 ?>

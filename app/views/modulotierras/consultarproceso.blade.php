@@ -269,14 +269,16 @@
       </div>
       <hr>
     @endif
-@foreach($arraydombobox[4] as $estadoproceso)
-   @if ($estadoproceso->id_estado >= 2)
-  <? $rad = true; ?>
-  @else
-  <? $rad = false; ?>
-  @endif
-@endforeach
-  @if($rad=true)
+    <?php
+    foreach($arraydombobox[4] as $estadoproceso){
+      if($estadoproceso->id_estado >= 2){
+        $rad = true;
+      }
+      else{
+        $rad = false;
+      }
+    }
+    if($rad==true){ ?>
         <div class="row">
           <div class="col-sm-1"></div>
           <div id = 'radicado' class="col-sm-10">
@@ -289,10 +291,10 @@
             @endforeach
             @if ($uno == 23)
               <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
-              <div class="col-sm-1 form-group">
-              <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
-              <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='23'>
-              </div>
+                <div class="col-sm-1 form-group">
+                  <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
+                  <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='23'>
+                </div>
               </form>
             @else
             @endif
@@ -300,7 +302,8 @@
           <div class="col-sm-1"></div>
         </div>
         <hr>
-      @endif
+      <?php }
+      ?>
       @foreach($arraydombobox[4] as $estadoproceso)
       @if (($estadoproceso->id_estado == 3) or ($estadoproceso->id_estado == 4))
       <div class="row">

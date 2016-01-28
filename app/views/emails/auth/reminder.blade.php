@@ -44,7 +44,7 @@
                             Recibimos una solicitud de nueva contraseña.
                             <br><br>
                             Para restaurar/crear la contraseña, complete los campos 
-                            del siguiente link: {{ URL::to('password/reset', array($token)) }}.<br/><br/>
+                            del siguiente link: {{ URL::to('password/reset', array($token)) }}<br/><br/>
                             Este link expirará en {{ Config::get('auth.reminder.expire', 60) }} minutos.
                           </div>
                         </td>
