@@ -99,6 +99,7 @@ Route::group(array('before' => 'auth'), function()
   //Rutas para módulo de Docuementos
   Route::get('cargue_docu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@CarguedocuInicio'));  
   Route::get('consulta_docu', array('before'=>'consulDOCUMENTOS', function(){return View::make('modulodocumentos/consultadocumentos');}));
+  Route::get('masterdocu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@MasterDocu'));
   Route::get('repor_docu', array('before'=>'reporDOCUMENTOS', function(){return View::make('modulodocumentos/reportedocumentos');}));
   //Termina rutas para el módulo de Documentos
 

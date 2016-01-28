@@ -49,6 +49,15 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
       <div class="col-sm-6 col-md-4">
+        <img  src="assets/docgme/Informe_Fase_II_GME_2015.png" class="img-responsive">                    
+          <div class="input-group">
+            <h4 class="col-xs-10 text-center text-primary">Informe GME Fase II 2015</h4>
+            <span class="col-xs-1">
+              <a target="_blank" href="assets/docgme/Informe_Fase_II_GME_2015.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>        
+      </div>
+      <div class="col-sm-6 col-md-4">
         <img  src="assets/docgme/Informe_Fase_I_GME_2015.png" class="img-responsive">                    
           <div class="input-group">
             <h4 class="col-xs-10 text-center text-primary">Informe GME Fase I 2015</h4>
