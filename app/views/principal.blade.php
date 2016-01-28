@@ -24,7 +24,7 @@
 <?php $acc=(Session::get('acc')); ?>
 <?php
 //variables menú Tierras
-$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;
+$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;$menurepgenero=false;
 $menucargaini=false;$menuprocadj=false;$menulevtopo=false;$menucoor=false;$menumaps=false;
 //variables menú GME
 $menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugmeinformes=false;
@@ -40,6 +40,7 @@ foreach($acc as $acceso){
   if(($acceso->id_vista=="1203")&&($acceso->acces=="1")){$menureplevtopo=true;}
   if(($acceso->id_vista=="1204")&&($acceso->acces=="1")){$menureparealev=true;}
   if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){$menureprespjuri=true;}
+  if(($acceso->id_vista=="1206")&&($acceso->acces=="1")){$menurepgenero=true;}
   if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){$menucargaini=true;}
   if(($acceso->id_vista=="1302")&&($acceso->acces=="1")){$menuprocadj=true;}
   if(($acceso->id_vista=="1304")&&($acceso->acces=="1")){$menulevtopo=true;}
@@ -82,7 +83,7 @@ foreach($acc as $acceso){
         <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> GME</ul><h4>
         @endif
         @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps))
+          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero))
         <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de tierras</ul></h4>
         @endif
         @if(($menucarguedocu) || ($menuconsuldocu) || ($menurepordocu))
@@ -120,7 +121,7 @@ foreach($acc as $acceso){
   <br><!--Agregar al penúltimo div para el salto contenedores-->
   @endif
   @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps))
+          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero))
   <div class="container" id="sha">
       <div class="row">
         <h2 class="text-center text-primary">Formalización de Tierras</h2>

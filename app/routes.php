@@ -31,6 +31,7 @@ Route::get('logout', function()
 });
 
 //Rutas para activar los controladores
+Route::controller('admin','AdminController');
 Route::controller('tierras','TierrasController');
 Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController'); 
@@ -58,6 +59,7 @@ Route::group(array('before' => 'auth'), function()
   Route::get('reporte_lavantamiento_topografico', array('before' => 'reporlevtopotierras', 'uses' => 'TierrasController@RLevantamientoTopogragfico'));
   Route::get('reporte_area_levantada', array('before' => 'reporarealevtierras', 'uses' => 'TierrasController@ReporAreaLevantada'));
   Route::get('reporte_responsable_juridico', array('before' => 'consulresjuritierras', 'uses' => 'TierrasController@ResponsableJuridico'));
+  Route::get('reporte_genero', array('before' => 'reporgenero', 'uses' => 'TierrasController@Reporgenero'));
   Route::group(array('before'=>'cargainicialtierras'), function(){
     // ruta al controlador restfull donde esta toda la informacion de tierras ro al metodo listadoproini
     Route::get('carga_inicial','TierrasController@ListadoProini');
@@ -97,31 +99,27 @@ Route::group(array('before' => 'auth'), function()
   //termina rutas para modulo de SISCADI 
   
   //Rutas para módulo de Docuementos
-  Route::get('cargue_docu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@CarguedocuInicio'));  
-  Route::get('consulta_docu', array('before'=>'consulDOCUMENTOS', function(){return View::make('modulodocumentos/consultadocumentos');}));
-  Route::get('masterdocu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@MasterDocu'));
+
+  Route::get('cargue_docu', array('before' => 'cargueDOCUMENTOS', 'uses' => 'DocumentosController@CarguedocuInicio'));
+  Route::get('consulta_docu', array('before' => 'consulDOCUMENTOS', 'uses' => 'DocumentosController@Consultadocumentos'));
+  //Route::get('consulta_docu', array('before'=>'consulDOCUMENTOS', function(){return View::make('modulodocumentos/consultadocumentos');}));
   Route::get('repor_docu', array('before'=>'reporDOCUMENTOS', function(){return View::make('modulodocumentos/reportedocumentos');}));
   //Termina rutas para el módulo de Documentos
-
+Route::group(array('before' => 'grupo1|level1'), function()
+{
+  //solo puede ingresar el level 1 a la vista 1
+  Route::get('/vista1',function(){return View::make('vista1');});
+  Route::get('accvistas',function(){return View::make('admin/accesovistas');});
+  Route::get('diferencia','TierrasController@Diferenciafechas');
+});
 });//Cierra rutas para usuarios autenticados
 
-// ruta al controlador restfull donde esta toda la informacion de tierras
-//Route::get('vista3','TierrasController@Listado');
-//Route::get('vista3',function(){return View::make('vista3');});
+  // ruta al controlador restfull donde esta toda la informacion de tierras
+  //Route::get('vista3','TierrasController@Listado');
+  //Route::get('vista3',function(){return View::make('vista3');});
   Route::get('vista3','TierrasController@PruebaPro');
 
-
-
-//permite acceso a las vistas del modulo de documentos
+  //permite acceso a las vistas del modulo de documentos
   
   //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
 
-  Route::group(array('before' => 'grupo1'), function()
-  {
-    //solo puede ingresar el level 1 a la vista 1
-    Route::group(array('before' => 'level1'), function()
-      {
-        Route::get('/vista1',function(){return View::make('vista1');});
-      });
-
-  });
