@@ -139,11 +139,13 @@
               <div class="form-group" id="divmpio">
                   
               </div>
-              <div class="form-group"  id="carguedocumento">                  
+              <div class="form-group"  id="carguedocumento">
                   <label for="carguedocu" class="control-label">Adjuntar documento:</label>
                   <input id="filedocu" type="file" class="form-control" name="filedocu" required accept=".pdf">
-              </div>   
-              <hr>           
+                  <p class="text-danger">El nombre de archivo no puede contener caracteres especiales como la tílde o la letra ñ</p>
+                  <br>
+              </div>
+              <hr>
               <div class="form-group text-right"  id="carguedocumento">                
                 <button type="submit" class="btn btn-primary">Guardar documento</button>
               </div>

@@ -277,13 +277,15 @@ class DocumentosController extends BaseController {
     }
     public function postBusquedabasica()
 	{
-		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)) {
+		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6)) AND (Auth::user()->level==1)) {
 			/*USP_DOCUMENTOS_BUSCAR*/
-			$dat='%'.Input::get('querybusqueda').'%';
-			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat");
+			//$dat='%'.Input::get('querybusqueda').'%';
+			//$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat");
 
-			//$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo, ruta, nombredocu FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
-
+			/*$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo, ruta, nombredocu FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
+			*/
+			$queryresultbusbasic = DB::table('Vista_MODDOCUMENTOS_MASTERDOCU_dom')
+			->get();
 			for ($i=0; $i <= count($queryresultbusbasic)-1 ; $i++) { 
 					
 
@@ -299,37 +301,82 @@ class DocumentosController extends BaseController {
 		else{
 			//pendiente realizar codigo para que se pueda hacer la busqueda por perfiles de usuario
 			$queryresultbusbasic='';
-		}		
+		}	
+			
 		return Response::json($queryresultbusbasic);
 	}
 
 	public function Consultadocumentos()
 	{
-		$datbusqueda=DB::table('MODDOCUMENTOS_MASTERDOCU')
-		->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
-		->join('MODDOCUMENTOS_CATEGORIA','MODDOCUMENTOS_MASTERDOCU.categoria','=','MODDOCUMENTOS_CATEGORIA.id_categoria')
-		->select('MODDOCUMENTOS_MASTERDOCU.id_documento','MODDOCUMENTOS_MASTERDOCU.tipo','MODDOCUMENTOS_TIPODOCU.tipo as nombre','MODDOCUMENTOS_MASTERDOCU.categoria', 'MODDOCUMENTOS_CATEGORIA.categoria as nombrecat')
-		->get();
-		$totaltipo=DB::table('MODDOCUMENTOS_MASTERDOCU')
-		->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
-		->select(DB::raw('MODDOCUMENTOS_MASTERDOCU.tipo, MODDOCUMENTOS_TIPODOCU.tipo as nombre, count(MODDOCUMENTOS_MASTERDOCU.tipo) as totaltipo'))
-		->groupBy('MODDOCUMENTOS_MASTERDOCU.tipo', 'MODDOCUMENTOS_TIPODOCU.tipo')
-		->get();
-		$datdpto=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
-		->join('DEPARTAMENTOS','MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','=','DEPARTAMENTOS.COD_DPTO')
-		->select('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->groupBy('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->get();
-		$fmax = DB::table('MODDOCUMENTOS_MASTERDOCU')->max('fecha');
-		$fmin = DB::table('MODDOCUMENTOS_MASTERDOCU')->min('fecha');
+		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)) {
+			$datbusqueda=DB::table('MODDOCUMENTOS_MASTERDOCU')
+			->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
+			->join('MODDOCUMENTOS_CATEGORIA','MODDOCUMENTOS_MASTERDOCU.categoria','=','MODDOCUMENTOS_CATEGORIA.id_categoria')
+			->select('MODDOCUMENTOS_MASTERDOCU.id_documento','MODDOCUMENTOS_MASTERDOCU.tipo','MODDOCUMENTOS_TIPODOCU.tipo as nombre','MODDOCUMENTOS_MASTERDOCU.categoria', 'MODDOCUMENTOS_CATEGORIA.categoria as nombrecat')
+			->get();
+			$totaltipo=DB::table('MODDOCUMENTOS_MASTERDOCU')
+			->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
+			->join('MODDOCUMENTOS_CATEGORIA','MODDOCUMENTOS_MASTERDOCU.categoria','=','MODDOCUMENTOS_CATEGORIA.id_categoria')
+			->select(DB::raw('MODDOCUMENTOS_MASTERDOCU.categoria, MODDOCUMENTOS_CATEGORIA.categoria as nombrecat, MODDOCUMENTOS_MASTERDOCU.tipo, MODDOCUMENTOS_TIPODOCU.tipo as nombre, count(MODDOCUMENTOS_MASTERDOCU.tipo) as totaltipo'))
+			->groupBy('MODDOCUMENTOS_MASTERDOCU.tipo', 'MODDOCUMENTOS_TIPODOCU.tipo','MODDOCUMENTOS_MASTERDOCU.categoria','MODDOCUMENTOS_CATEGORIA.categoria')
+			->get();
+			$datdpto=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+			->join('DEPARTAMENTOS','MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','=','DEPARTAMENTOS.COD_DPTO')
+			->select('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->groupBy('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->get();
+			$fmax = DB::table('MODDOCUMENTOS_MASTERDOCU')->max('fecha');
+			$fmin = DB::table('MODDOCUMENTOS_MASTERDOCU')->min('fecha');
 
-		$fechamax=date("d-m-Y",strtotime($fmax));
-		$fechamin=date("d-m-Y",strtotime($fmin));
+			$fechamax=date("d-m-Y",strtotime($fmax));
+			$fechamin=date("d-m-Y",strtotime($fmin));
 
-		//return $datdpto;
-		//return $totaltipo;
-		//return $datbusqueda;
-		$dat=array($datbusqueda,$totaltipo,$datdpto,$fechamin,$fechamax);
-		//return $dat;
-		return View::make('modulodocumentos/consultadocumentos', array('dat' =>$dat));
+			//return $datdpto;
+			//return $totaltipo;
+			//return $datbusqueda;
+			$dat=array($datbusqueda,$totaltipo,$datdpto,$fechamin,$fechamax);
+			return View::make('modulodocumentos/consultadocumentos', array('dat' =>$dat));
+		}
+		else{
+			$accesdoc=DB::table('MODDOCUMENTOS_USERREADWRITE')
+			->where('id_user','=',Auth::user()->id)
+			->where('acceso','=',1)
+			->get();
+			if(empty($accesdoc)){
+				return View::make('principal');
+			}
+			else{
+				foreach($accesdoc as $acc){
+					if($acc->acceso==1){
+						$perdoc[]=$acc->id_tipodocu;	
+					}
+				}
+			}
+			$datbusqueda=DB::table('MODDOCUMENTOS_MASTERDOCU')
+			->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
+			->join('MODDOCUMENTOS_CATEGORIA','MODDOCUMENTOS_MASTERDOCU.categoria','=','MODDOCUMENTOS_CATEGORIA.id_categoria')
+			->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
+			->select('MODDOCUMENTOS_MASTERDOCU.id_documento','MODDOCUMENTOS_MASTERDOCU.tipo','MODDOCUMENTOS_TIPODOCU.tipo as nombre','MODDOCUMENTOS_MASTERDOCU.categoria', 'MODDOCUMENTOS_CATEGORIA.categoria as nombrecat')
+			->get();
+			$totaltipo=DB::table('MODDOCUMENTOS_MASTERDOCU')
+			->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
+			->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
+			->select(DB::raw('MODDOCUMENTOS_MASTERDOCU.tipo, MODDOCUMENTOS_TIPODOCU.tipo as nombre, count(MODDOCUMENTOS_MASTERDOCU.tipo) as totaltipo'))
+			->groupBy('MODDOCUMENTOS_MASTERDOCU.tipo', 'MODDOCUMENTOS_TIPODOCU.tipo')
+			->get();
+			$datdpto=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+			->join('DEPARTAMENTOS','MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','=','DEPARTAMENTOS.COD_DPTO')
+			->select('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->groupBy('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->get();
+			$fmax = DB::table('MODDOCUMENTOS_MASTERDOCU')->max('fecha');
+			$fmin = DB::table('MODDOCUMENTOS_MASTERDOCU')->min('fecha');
+
+			$fechamax=date("d-m-Y",strtotime($fmax));
+			$fechamin=date("d-m-Y",strtotime($fmin));
+
+			//return $datdpto;
+			//return $totaltipo;
+			//return $datbusqueda;
+			$dat=array($datbusqueda,$totaltipo,$datdpto,$fechamin,$fechamax);
+			return View::make('modulodocumentos/consultadocumentos', array('dat' =>$dat));
+		}
 	}
 
 	public function postConsultampio()
@@ -350,9 +397,8 @@ class DocumentosController extends BaseController {
 		$fechafin = Input::get('end');			
 		//$data=array($fmin,$fmax );
 		//return Response::json($data);
-		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)) {
-			
-
+		
+		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)){
 			switch(true){
 				case ((empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
 					$a="no hay datos";
@@ -361,10 +407,8 @@ class DocumentosController extends BaseController {
 				case ((empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
 					$var = explode('/',str_replace('-','/',$fechaini));
 					$fechaini= "$var[2]/$var[1]/$var[0]";
-				
 					$var1 = explode('/',str_replace('-','/',$fechafin));
 					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
-
 					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
 					->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
 					->where( 'MODDOCUMENTOS_MASTERDOCU.fecha', '>=', $fechaini)
@@ -379,7 +423,7 @@ class DocumentosController extends BaseController {
 							$docs[$i]->imagen = null;
 						}
 					}
-					return $docs;
+					return Response::json($docs);
 				break;
 				case ((!empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
 					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
@@ -395,7 +439,7 @@ class DocumentosController extends BaseController {
 							$docs[$i]->imagen = null;
 						}
 					}
-					return $docs;
+					return Response::json($docs);
 				break;
 				case ((empty($tipodoc))&&(!empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
 					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
@@ -419,7 +463,7 @@ class DocumentosController extends BaseController {
 							$docs[$i]->imagen = null;
 						}
 					}
-					return $docs;
+					return Response::json($docs);
 				break;
 				case ((empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
 					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
@@ -429,7 +473,7 @@ class DocumentosController extends BaseController {
 					->get();
 					if(empty($id_doc)){
 						$docs = 0;
-						return $docs;
+						return Response::json($docs);
 					}
 					else{
 						foreach ($id_doc as $id_d){
@@ -448,13 +492,12 @@ class DocumentosController extends BaseController {
 								$docs[$i]->imagen = null;
 							}
 						}
-						return $docs;
+						return Response::json($docs);
 					}
 				break;
 				case ((!empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
 					$var = explode('/',str_replace('-','/',$fechaini));
 					$fechaini= "$var[2]/$var[1]/$var[0]";
-				
 					$var1 = explode('/',str_replace('-','/',$fechafin));
 					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
 					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
@@ -472,12 +515,11 @@ class DocumentosController extends BaseController {
 							$docs[$i]->imagen = null;
 						}
 					}
-					return $docs;
+					return Response::json($docs);
 				break;
 				case ((empty($tipodoc))&&(!empty($dpto))&&(empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
 					$var = explode('/',str_replace('-','/',$fechaini));
 					$fechaini= "$var[2]/$var[1]/$var[0]";
-				
 					$var1 = explode('/',str_replace('-','/',$fechafin));
 					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
 					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
@@ -503,12 +545,11 @@ class DocumentosController extends BaseController {
 							$docs[$i]->imagen = null;
 						}
 					}
-					return $docs;
+					return Response::json($docs);
 				break;
 				case ((empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
 					$var = explode('/',str_replace('-','/',$fechaini));
 					$fechaini= "$var[2]/$var[1]/$var[0]";
-				
 					$var1 = explode('/',str_replace('-','/',$fechafin));
 					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
 					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
@@ -518,7 +559,7 @@ class DocumentosController extends BaseController {
 					->get();
 					if(empty($id_doc)){
 						$docs = 0;
-						return $docs;
+						return Response::json($docs);
 					}
 					else{
 						foreach ($id_doc as $id_d){
@@ -539,13 +580,12 @@ class DocumentosController extends BaseController {
 								$docs[$i]->imagen = null;
 							}
 						}
-						return $docs;
+						return Response::json($docs);
 					}
 				break;
 				case ((!empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
 					$var = explode('/',str_replace('-','/',$fechaini));
 					$fechaini= "$var[2]/$var[1]/$var[0]";
-				
 					$var1 = explode('/',str_replace('-','/',$fechafin));
 					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
 					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
@@ -555,7 +595,7 @@ class DocumentosController extends BaseController {
 					->get();
 					if(empty($id_doc)){
 						$docs = 0;
-						return $docs;
+						return Response::json($docs);
 					}
 					else{
 						foreach ($id_doc as $id_d){
@@ -577,7 +617,7 @@ class DocumentosController extends BaseController {
 								$docs[$i]->imagen = null;
 							}
 						}
-						return $docs;
+						return Response::json($docs);
 					}
 				break;
 				case ((!empty($tipodoc))&&(!empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
@@ -603,7 +643,7 @@ class DocumentosController extends BaseController {
 							$docs[$i]->imagen = null;
 						}
 					}
-					return $docs;
+					return Response::json($docs);
 					break;
 					case ((!empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
 					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
@@ -613,7 +653,7 @@ class DocumentosController extends BaseController {
 					->get();
 					if(empty($id_doc)){
 						$docs = 0;
-						return $docs;
+						return Response::json($docs);
 					}
 					else{
 						foreach ($id_doc as $id_d) {
@@ -633,21 +673,320 @@ class DocumentosController extends BaseController {
 								$docs[$i]->imagen = null;
 							}
 						}
-						return $docs;
+						return Response::json($docs);
 					}
 				break;
 			}
 		}
-		else{
-			
+		else {
+			$accesdoc=DB::table('MODDOCUMENTOS_USERREADWRITE')
+			->where('id_user','=',Auth::user()->id)
+			->where('acceso','=',1)
+			->get();
+			if(empty($accesdoc)){
+				return View::make('principal');
+			}
+			else{
+				foreach($accesdoc as $acc){
+					if($acc->acceso==1){
+						$perdoc[]=$acc->id_tipodocu;
+					}
+				}
+			}
+			//Código consulta avanzada
+			switch(true){
+				case ((empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
+					$a="no hay datos";
+					return $a;
+				break;
+				case ((empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
+					$var = explode('/',str_replace('-','/',$fechaini));
+					$fechaini= "$var[2]/$var[1]/$var[0]";
+					$var1 = explode('/',str_replace('-','/',$fechafin));
+					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
+					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+					->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+					->where( 'MODDOCUMENTOS_MASTERDOCU.fecha', '>=', $fechaini)
+					->where('MODDOCUMENTOS_MASTERDOCU.fecha','<=', $fechafin)
+					->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
+					->get();
+					for ($i=0; $i <= count($docs)-1 ; $i++){
+						$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+						if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+							$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+						}
+						else{
+							$docs[$i]->imagen = null;
+						}
+					}
+					return Response::json($docs);
+				break;
+				case ((!empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
+					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+					->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+					->where( 'MODDOCUMENTOS_MASTERDOCU.tipo', '=', $tipodoc)
+					->get();
+					for ($i=0; $i <= count($docs)-1 ; $i++){
+						$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+						if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+							$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+						}
+						else{
+							$docs[$i]->imagen = null;
+						}
+					}
+					return Response::json($docs);
+				break;
+				case ((empty($tipodoc))&&(!empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
+					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+					->where( 'COD_DEPTO', '=', $dpto)
+					->select('id_documento')
+					->groupBy('id_documento')
+					->get();
+					foreach ($id_doc as $id_d){
+						$num_id[]=$id_d->id_documento;
+					}
+					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+					->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+					->whereIn('MODDOCUMENTOS_MASTERDOCU.id_documento',$num_id)
+					->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
+					->get();
+					for ($i=0; $i <= count($docs)-1 ; $i++){
+						$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+						if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+							$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+						}
+						else{
+							$docs[$i]->imagen = null;
+						}
+					}
+					return Response::json($docs);
+				break;
+				case ((empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
+					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+					->where( 'COD_DANE', '=', $mpio)
+					->select('id_documento')
+					->groupBy('id_documento')
+					->get();
+					if(empty($id_doc)){
+						$docs = 0;
+						return Response::json($docs);
+					}
+					else{
+						foreach ($id_doc as $id_d){
+							$num_id[]=$id_d->id_documento;
+						}
+						$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+						->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+						->whereIn('MODDOCUMENTOS_MASTERDOCU.id_documento',$num_id)
+						->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
+						->get();
+						for ($i=0; $i <= count($docs)-1 ; $i++){
+							$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+							if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+								$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+							}
+							else{
+								$docs[$i]->imagen = null;
+							}
+						}
+						return Response::json($docs);
+					}
+				break;
+				case ((!empty($tipodoc))&&(empty($dpto))&&(empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
+					$var = explode('/',str_replace('-','/',$fechaini));
+					$fechaini= "$var[2]/$var[1]/$var[0]";
+				
+					$var1 = explode('/',str_replace('-','/',$fechafin));
+					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
+					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+					->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+					->where( 'MODDOCUMENTOS_MASTERDOCU.fecha', '>=', $fechaini)
+					->where('MODDOCUMENTOS_MASTERDOCU.fecha','<=', $fechafin)
+					->where( 'MODDOCUMENTOS_MASTERDOCU.tipo', '=', $tipodoc)
+					->get();
+					for ($i=0; $i <= count($docs)-1 ; $i++){
+						$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+						if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+							$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+						}
+						else{
+							$docs[$i]->imagen = null;
+						}
+					}
+					return Response::json($docs);
+				break;
+				case ((empty($tipodoc))&&(!empty($dpto))&&(empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
+					$var = explode('/',str_replace('-','/',$fechaini));
+					$fechaini= "$var[2]/$var[1]/$var[0]";
+				
+					$var1 = explode('/',str_replace('-','/',$fechafin));
+					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
+					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+					->where( 'COD_DEPTO', '=', $dpto)
+					->select('id_documento')
+					->groupBy('id_documento')
+					->get();
+					foreach ($id_doc as $id_d){
+						$num_id[]=$id_d->id_documento;
+					}
+					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+					->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+					->where( 'MODDOCUMENTOS_MASTERDOCU.fecha', '>=', $fechaini)
+					->where('MODDOCUMENTOS_MASTERDOCU.fecha','<=', $fechafin)
+					->whereIn('MODDOCUMENTOS_MASTERDOCU.id_documento',$num_id)
+					->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
+					->get();
+					for ($i=0; $i <= count($docs)-1 ; $i++){
+						$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+						if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+							$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+						}
+						else{
+							$docs[$i]->imagen = null;
+						}
+					}
+					return Response::json($docs);
+				break;
+				case ((empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
+					$var = explode('/',str_replace('-','/',$fechaini));
+					$fechaini= "$var[2]/$var[1]/$var[0]";
+				
+					$var1 = explode('/',str_replace('-','/',$fechafin));
+					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
+					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+					->where( 'COD_DANE', '=', $mpio)
+					->select('id_documento')
+					->groupBy('id_documento')
+					->get();
+					if(empty($id_doc)){
+						$docs = 0;
+						return Response::json($docs);
+					}
+					else{
+						foreach ($id_doc as $id_d){
+							$num_id[]=$id_d->id_documento;
+						}
+						$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+						->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+						->where( 'MODDOCUMENTOS_MASTERDOCU.fecha', '>=', $fechaini)
+						->where('MODDOCUMENTOS_MASTERDOCU.fecha','<=', $fechafin)
+						->whereIn('MODDOCUMENTOS_MASTERDOCU.id_documento',$num_id)
+						->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
+						->get();
+						for ($i=0; $i <= count($docs)-1 ; $i++){
+							$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+							if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+								$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+							}
+							else{
+								$docs[$i]->imagen = null;
+							}
+						}
+						return Response::json($docs);
+					}
+				break;
+				case ((!empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini > "01-01-2000")&&($fechafin > "01-01-2000")):
+					$var = explode('/',str_replace('-','/',$fechaini));
+					$fechaini= "$var[2]/$var[1]/$var[0]";
+				
+					$var1 = explode('/',str_replace('-','/',$fechafin));
+					$fechafin= "$var1[2]/$var1[1]/$var1[0]";
+					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+					->where( 'COD_DANE', '=', $mpio)
+					->select('id_documento')
+					->groupBy('id_documento')
+					->get();
+					if(empty($id_doc)){
+						$docs = 0;
+						return Response::json($docs);
+					}
+					else{
+						foreach ($id_doc as $id_d){
+							$num_id[]=$id_d->id_documento;
+						}
+						$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+						->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+						->where( 'MODDOCUMENTOS_MASTERDOCU.fecha', '>=', $fechaini)
+						->where('MODDOCUMENTOS_MASTERDOCU.fecha','<=', $fechafin)
+						->whereIn('MODDOCUMENTOS_MASTERDOCU.id_documento',$num_id)
+						->where( 'MODDOCUMENTOS_MASTERDOCU.tipo', '=', $tipodoc)
+						->get();
+						for ($i=0; $i <= count($docs)-1 ; $i++){
+							$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+							if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+								$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+							}
+							else{
+								$docs[$i]->imagen = null;
+							}
+						}
+						return Response::json($docs);
+					}
+				break;
+				case ((!empty($tipodoc))&&(!empty($dpto))&&(empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
+					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+					->where( 'COD_DEPTO', '=', $dpto)
+					->select('id_documento')
+					->groupBy('id_documento')
+					->get();
+					foreach ($id_doc as $id_d){
+						$num_id[]=$id_d->id_documento;
+					}
+					$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+					->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+					->where( 'MODDOCUMENTOS_MASTERDOCU.tipo', '=', $tipodoc)
+					->whereIn('MODDOCUMENTOS_MASTERDOCU.id_documento',$num_id)
+					->get();
+					for ($i=0; $i <= count($docs)-1 ; $i++){
+						$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+						if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+							$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+						}
+						else{
+							$docs[$i]->imagen = null;
+						}
+					}
+					return Response::json($docs);
+					break;
+					case ((!empty($tipodoc))&&(!empty($dpto))&&(!empty($mpio))&&($fechaini < "01-01-2000")&&($fechafin < "01-01-2000")):
+					$id_doc=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
+					->where( 'COD_DANE', '=', $mpio)
+					->select('id_documento')
+					->groupBy('id_documento')
+					->get();
+					if(empty($id_doc)){
+						$docs = 0;
+						return Response::json($docs);
+					}
+					else{
+						foreach ($id_doc as $id_d) {
+							$num_id[]=$id_d->id_documento;
+						}
+						$docs=DB::table('MODDOCUMENTOS_MASTERDOCU')
+						->join('Vista_MODDOCUMENTOS_MASTERDOCU_dom', 'MODDOCUMENTOS_MASTERDOCU.id_documento','=','Vista_MODDOCUMENTOS_MASTERDOCU_dom.id_documento')
+						->where( 'MODDOCUMENTOS_MASTERDOCU.tipo', '=', $tipodoc)
+						->whereIn('MODDOCUMENTOS_MASTERDOCU.id_documento',$num_id)
+						->get();
+						for ($i=0; $i <= count($docs)-1 ; $i++){
+							$docs[$i]->ruta=str_replace(public_path().'\\', '', $docs[$i]->ruta);
+							if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$docs[$i]->nombredocu.'.jpg')){
+								$docs[$i]->imagen = 'moddocs/IMGDOCU/'.$docs[$i]->nombredocu.'.jpg';
+							}
+							else{
+								$docs[$i]->imagen = null;
+							}
+						}
+						return Response::json($docs);
+					}
+				break;
+			}
 		}
-	}	
-		return Response::json($queryresultbusbasic);
 	}
 	public function MasterDocu()
 	{
 		$dat='a';
-			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat"); 
+			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat");
 			print_r($queryresultbusbasic);
 	}
     		
