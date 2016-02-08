@@ -48,11 +48,11 @@
           <div class="col-sm-10">
             <h3>Búsqueda básica:</h3>
             <p>Usted puede realizar una búsqueda por cualquier palabra que usted crea que puede estar en el título del documento, categoría, tipo de documento, autor, departamento, municipio, etc.</p>           
-            <form class="form-inline text-center">
-              <input type="text" class="form-control" onkeypress="myFunction()" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar">
+            <div class="form-inline text-center">
+              <input type="text" class="form-control" size="70" id="querybusqueda" name="querybusqueda" placeholder="Ingrese una palabra clave que quiera buscar" required="true">
               <button id="querybusquedas" type="button" class="btn btn-primary">Búsqueda básica</button>
-            </form>
-            <div id="busbasica"></div>            
+            </div>
+            <div id="busbasica"></div>      
           </div>
           <div class="col-sm-1"></div>
         </div>
@@ -68,7 +68,7 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="col-sm-1"></div>
-                <div class="col-sm-10" id="sha">
+                <div class="col-sm-11" id="sha">
                   <!--aca se escribe el codigo-->
                   <div class="form-group">
                     <br>
@@ -77,7 +77,7 @@
                       <?php $i=0; ?>
                       @foreach($dat[1] as $datos)
                       <?php $i++; ?>
-                      <button id="<?php echo $i ?>" type="button" class="btn btn-default" value="{{$datos->tipo}}" name="tipodoc">{{$datos->nombre}} <span class="badge"> {{$datos->totaltipo}}</span></button>
+                      <button id="<?php echo $i ?>" type="button" class="btn btn-default" value="{{$datos->tipo}}" name="tipodoc">{{$datos->nombrecat}} - {{$datos->nombre}} <span class="badge"> {{$datos->totaltipo}}</span></button>
                       @endforeach
                       <input type="hidden" id="valtipo"name="valtipo" value="">
                     </div>
@@ -85,7 +85,7 @@
                   </div>
                   <br>
                 </div>
-                <div class="col-sm-1"></div>
+                <!--<div class="col-sm-1"></div>-->
                 <!--fin del codigo-->
               </div>
               <div class="col-sm-4">
@@ -114,8 +114,8 @@
                 <div class="col-sm-1"></div>
               </div>
               <div class="col-sm-4">        
-                <div class="col-sm-1"></div>
-                <div class="col-sm-10" id="sha">
+                <!--<div class="col-sm-1"></div>-->
+                <div class="col-sm-11" id="sha">
                 <!--aca se escribe el codigo-->
                   <br/>
                     <label for="carguedocu" class="control-label"> Fecha:</label>
@@ -168,7 +168,7 @@
 
       </div>
     </div>
-<br>
+    <br>
     <!-- AQUI FOREACH PARA MOSTRAR LOS DOCUMENTOS DE LA CONSULTA-->
     
       <div class="row" id="dosselec">
@@ -218,24 +218,77 @@
 @section('js')
   @parent
     <script>
+      function basica(){
+        $("#espacioresultado").show();
+        $("#espacioresultado1").hide();
+        $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
+          success:function(data){
+            var tamano=data.length;
+            $("#busbasica").empty();
+            if (tamano!=0) {
+              $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i>Se encontraron '+tamano+' documentos en su búsqueda</div><div class="col-sm-1"></div>');  
+            } else{
+              $("#espacioresultado").hide();
+              $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i>No se encontraron documentos con esa característica</div><div class="col-sm-1"></div>');
+            };                    
+            $( "#mensajedocumtot" ).fadeOut(5000);
+            $("#resultado").show();
+            $("#resultado1").hide();
+            $("#resultado").empty();
+            $("#resultado").append('<br>');
+            [].forEach.call(data,function(datos){
+              if (datos.titulo == null) {
+                titulos = '';
+              } else{
+                titulos='<h4 class="media-heading">Titulo: '+datos.titulo+'</h4>';
+              };
+              if (datos.categoria == null) {
+                categorias = '';
+              } else{
+                categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
+              };
+               if (datos.contraparte == null) {
+                contrapartes = '';
+              } else{
+                contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
+              };
+              if (datos.tipo == null) {
+                tipos = '';
+              } else{
+                tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
+              };
+              if (datos.estrategia == null) {
+                estrategias = '';
+              } else{
+                estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
+              };
+              if (datos.bloque == null) {
+                bloques = '';
+              } else{
+                bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
+              };
+              if (datos.id_proyecto == null) {
+                id_proyectos = '';
+              } else{
+                id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
+              };
+              if (datos.momento == null) {
+                momentos = '';
+              } else{
+                momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
+              };
+              if (datos.imagen == null) {
+                imagens = 'assets/img/masterdocu.png';
+              } else{
+                imagens= datos.imagen;
+              };
+              $("#resultado").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
+            });
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax
+      }
 
-    function myFunction() {
-        if (event.keyCode == 13) {
-          alert($("#querybusqueda").val());
-          
-          $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
-            success:function(data){
-             
-
-              console.log(data);
-              
-            },
-            error:function(){alert('error');}
-          });//Termina Ajax
-        } else{
-          
-        };            
-    }
       $(document).ready(function(){
         //para que los menus pequeño y grande funcione
         $("#documentos").addClass("active");
@@ -249,81 +302,16 @@
         // activar mensaje para los tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
-
+        $('#querybusqueda').bind('keypress', function(e) {
+          if(e.keyCode==13){ 
+            basica();
+          }
+        });
 
         $("#querybusquedas").click(function(){
-          alert($("#querybusqueda").val());
-          $("#espacioresultado").show();
-          $("#espacioresultado1").hide();
-          $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
-            success:function(data){
-              var tamano=data.length;
-                    $("#busbasica").empty();
-                    if (tamano!=0) {
-                      $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i>Se encontraron '+tamano+' documentos en su búsqueda</div><div class="col-sm-1"></div>');  
-                    } else{
-                                                  
-                      $("#busbasica").append('<br><div class="col-sm-1"></div><div id = "mensajedocumtot" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i>No se encontraron documentos con esa característica</div><div class="col-sm-1"></div>');
-                    };                    
-                    $( "#mensajedocumtot" ).fadeOut(5000);
-                    $("#resultado").show();
-                    $("#resultado1").hide();
-              $("#resultado").empty();
-              $("#resultado").append('<br>');
+          basica();
+        });
 
-              console.log(data);
-              [].forEach.call(data,function(datos){
-                if (datos.titulo == null) {
-                        titulos = '';
-                      } else{
-                        titulos='<h4 class="media-heading">Titulo: '+datos.titulo+'</h4>';
-                      };
-                      if (datos.categoria == null) {
-                        categorias = '';
-                      } else{
-                        categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
-                      };
-                       if (datos.contraparte == null) {
-                        contrapartes = '';
-                      } else{
-                        contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
-                      };
-                      if (datos.tipo == null) {
-                        tipos = '';
-                      } else{
-                        tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
-                      };
-                      if (datos.estrategia == null) {
-                        estrategias = '';
-                      } else{
-                        estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
-                      };
-                      if (datos.bloque == null) {
-                        bloques = '';
-                      } else{
-                        bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
-                      };
-                      if (datos.id_proyecto == null) {
-                        id_proyectos = '';
-                      } else{
-                        id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
-                      };
-                      if (datos.momento == null) {
-                        momentos = '';
-                      } else{
-                        momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
-                      };
-                      if (datos.imagen == null) {
-                        imagens = 'assets/img/masterdocu.png';
-                      } else{
-                        imagens= datos.imagen;
-                      };
-                      $("#resultado").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
-              });
-            },
-            error:function(){alert('error');}
-          });//Termina Ajax
-        });//Termina querybusquedas
         <?php $i=0; ?>
         @foreach($dat[1] as $datos)
         <?php $i++; ?>;
@@ -333,6 +321,7 @@
            $('#'+<?php echo $i; ?>).addClass("active");
         });
         @endforeach
+
         $("#seldpto").change(function(){
           $.ajax({url:"documentos/consultampio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
             success:function(data1){ 
@@ -368,7 +357,6 @@
           else{
             $("#espacioresultado").hide();
             $("#espacioresultado1").show();
-
             $.ajax({url:"documentos/datosbusqueda",type:"post",data:{valtipo:$('#valtipo').val(), seldpto:$('#seldpto').val(),selmpio:$('#selmpio').val(),start:$('#start').val(),end:$('#end').val()},dataType:'json',
               success:function(data){
                 var tamano=data.length;
@@ -396,51 +384,51 @@
                 }
                 [].forEach.call(data,function(datos){
                   if (datos.titulo == null) {
-                        titulos = '';
-                      } else{
-                        titulos='<h4 class="media-heading">Titulo: '+datos.titulo+'</h4>';
-                      };
-                      if (datos.categoria == null) {
-                        categorias = '';
-                      } else{
-                        categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
-                      };
-                       if (datos.contrapate == null) {
-                        contrapartes = '';
-                      } else{
-                        contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
-                      };
-                      if (datos.tipo == null) {
-                        tipos = '';
-                      } else{
-                        tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
-                      };
-                      if (datos.estrategia == null) {
-                        estrategias = '';
-                      } else{
-                        estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
-                      };
-                      if (datos.bloque == null) {
-                        bloques = '';
-                      } else{
-                        bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
-                      };
-                      if (datos.id_proyecto == null) {
-                        id_proyectos = '';
-                      } else{
-                        id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
-                      };
-                      if (datos.momento == null) {
-                        momentos = '';
-                      } else{
-                        momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
-                      };
-                      if (datos.imagen == null) {
-                        imagens = 'assets/img/masterdocu.png';
-                      } else{
-                        imagens= datos.imagen;
-                      };                      
-                      $("#resultado1").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
+                    titulos = '';
+                  } else{
+                    titulos='<h4 class="media-heading">Titulo: '+datos.titulo+'</h4>';
+                  };
+                  if (datos.categoria == null) {
+                    categorias = '';
+                  } else{
+                    categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
+                  };
+                  if (datos.contrapate == null) {
+                    contrapartes = '';
+                  } else{
+                    contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
+                  };
+                  if (datos.tipo == null) {
+                    tipos = '';
+                  } else{
+                    tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
+                  };
+                  if (datos.estrategia == null) {
+                    estrategias = '';
+                  } else{
+                    estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
+                  };
+                  if (datos.bloque == null) {
+                    bloques = '';
+                  } else{
+                    bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
+                  };
+                  if (datos.id_proyecto == null) {
+                    id_proyectos = '';
+                  } else{
+                    id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
+                  };
+                  if (datos.momento == null) {
+                    momentos = '';
+                  } else{
+                    momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
+                  };
+                  if (datos.imagen == null) {
+                    imagens = 'assets/img/masterdocu.png';
+                  } else{
+                    imagens= datos.imagen;
+                  };                      
+                  $("#resultado1").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
                 });
               },
               error:function(){alert('error');}
