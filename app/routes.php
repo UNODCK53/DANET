@@ -111,6 +111,7 @@ Route::group(array('before' => 'grupo1|level1'), function()
   Route::get('/vista1',function(){return View::make('vista1');});
   Route::get('accvistas',function(){return View::make('admin/accesovistas');});
   Route::get('diferencia','TierrasController@Diferenciafechas');
+  
 });
 });//Cierra rutas para usuarios autenticados
 
@@ -118,7 +119,7 @@ Route::group(array('before' => 'grupo1|level1'), function()
   //Route::get('vista3','TierrasController@Listado');
   //Route::get('vista3',function(){return View::make('vista3');});
   Route::get('vista3','TierrasController@PruebaPro');
-
+  Route::get('master_docu','DocumentosController@Masterdocu');
   //permite acceso a las vistas del modulo de documentos
   
   //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});

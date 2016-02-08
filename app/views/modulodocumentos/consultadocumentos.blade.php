@@ -49,7 +49,7 @@
             <h3>Búsqueda básica:</h3>
             <p>Usted puede realizar una búsqueda por cualquier palabra que usted crea que puede estar en el título del documento, categoría, tipo de documento, autor, departamento, municipio, etc.</p>           
             <form class="form-inline text-center">
-              <input type="text" class="form-control" onkeypress="if (event.keyCode == 13){$('#querybusquedas').trigger( 'click' );}" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar" required="true">
+              <input type="text" class="form-control" onkeypress="myFunction()" size="70" id="querybusqueda" name="querybusqueda" data-toggle="tooltip" title="Ingrese una palabra clave que quiera buscar" placeholder="Ingrese una palabra clave que quiera buscar">
               <button id="querybusquedas" type="button" class="btn btn-primary">Búsqueda básica</button>
             </form>
             <div id="busbasica"></div>            
@@ -218,6 +218,24 @@
 @section('js')
   @parent
     <script>
+
+    function myFunction() {
+        if (event.keyCode == 13) {
+          alert($("#querybusqueda").val());
+          
+          $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
+            success:function(data){
+             
+
+              console.log(data);
+              
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax
+        } else{
+          
+        };            
+    }
       $(document).ready(function(){
         //para que los menus pequeño y grande funcione
         $("#documentos").addClass("active");
@@ -230,8 +248,11 @@
         $("#resultado1").hide();
         // activar mensaje para los tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
+
+
         $("#querybusquedas").click(function(){
-          //alert($("#querybusqueda").val());
+          alert($("#querybusqueda").val());
           $("#espacioresultado").show();
           $("#espacioresultado1").hide();
           $.ajax({url:"documentos/busquedabasica",type:"post",data:{querybusqueda:$('#querybusqueda').val()},dataType:'json',
@@ -249,6 +270,8 @@
                     $("#resultado1").hide();
               $("#resultado").empty();
               $("#resultado").append('<br>');
+
+              console.log(data);
               [].forEach.call(data,function(datos){
                 if (datos.titulo == null) {
                         titulos = '';

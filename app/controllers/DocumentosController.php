@@ -207,7 +207,7 @@ class DocumentosController extends BaseController {
 			//se realiza el QUICKLOOK de la primera hoja del documento cargado
 			
 			//se coloca en comentario ya que en el servidor no se puede ejecutar el ImageMagick para producir automaticamente los QuickLook
-			
+
 			/*exec('CALL '.public_path().'\ImageMagick\convert.exe "'.$path3.'\\'.$nombredocumento.'[0]" "'.public_path().'\moddocs\IMGDOCU\\'.$nombredocumento.'.jpg"');
 
 			$a=0;
@@ -279,10 +279,10 @@ class DocumentosController extends BaseController {
 	{
 		if (((Auth::user()->grupo==1) OR (Auth::user()->grupo==6))AND (Auth::user()->level==1)) {
 			/*USP_DOCUMENTOS_BUSCAR*/
-			$dat='%'.Input::get('querybusqueda').'%';
-			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat");
-
-			//$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo, ruta, nombredocu FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
+			//$dat='%'.Input::get('querybusqueda').'%';
+			//$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat");
+			
+			$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo, ruta, nombredocu FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
 
 			for ($i=0; $i <= count($queryresultbusbasic)-1 ; $i++) { 
 					
@@ -642,13 +642,13 @@ class DocumentosController extends BaseController {
 			
 		}
 	}	
-		return Response::json($queryresultbusbasic);
-	}
-	public function MasterDocu()
+
+	public function Masterdocu()
 	{
-		$dat='a';
+		$dat="'%a%'";
 			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat"); 
-			print_r($queryresultbusbasic);
+			return count($queryresultbusbasic);
+			//print_r($queryresultbusbasic);
 	}
     		
 
