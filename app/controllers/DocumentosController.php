@@ -313,14 +313,12 @@ class DocumentosController extends BaseController {
 			->join('MODDOCUMENTOS_CATEGORIA','MODDOCUMENTOS_MASTERDOCU.categoria','=','MODDOCUMENTOS_CATEGORIA.id_categoria')
 			->select('MODDOCUMENTOS_MASTERDOCU.id_documento','MODDOCUMENTOS_MASTERDOCU.tipo','MODDOCUMENTOS_TIPODOCU.tipo as nombre','MODDOCUMENTOS_MASTERDOCU.categoria', 'MODDOCUMENTOS_CATEGORIA.categoria as nombrecat')
 			->get();
-
 			$totaltipo=DB::table('MODDOCUMENTOS_MASTERDOCU')
 			->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
 			->join('MODDOCUMENTOS_CATEGORIA','MODDOCUMENTOS_MASTERDOCU.categoria','=','MODDOCUMENTOS_CATEGORIA.id_categoria')
 			->select(DB::raw('MODDOCUMENTOS_MASTERDOCU.categoria, MODDOCUMENTOS_CATEGORIA.categoria as nombrecat, MODDOCUMENTOS_MASTERDOCU.tipo, MODDOCUMENTOS_TIPODOCU.tipo as nombre, count(MODDOCUMENTOS_MASTERDOCU.tipo) as totaltipo'))
 			->groupBy('MODDOCUMENTOS_MASTERDOCU.tipo', 'MODDOCUMENTOS_TIPODOCU.tipo','MODDOCUMENTOS_MASTERDOCU.categoria','MODDOCUMENTOS_CATEGORIA.categoria')
 			->get();
-
 			$datdpto=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
 			->join('DEPARTAMENTOS','MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','=','DEPARTAMENTOS.COD_DPTO')
 			->select('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->groupBy('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->get();
@@ -334,7 +332,6 @@ class DocumentosController extends BaseController {
 			//return $totaltipo;
 			//return $datbusqueda;
 			$dat=array($datbusqueda,$totaltipo,$datdpto,$fechamin,$fechamax);
-			//return $dat;
 			return View::make('modulodocumentos/consultadocumentos', array('dat' =>$dat));
 		}
 		else{
@@ -358,15 +355,12 @@ class DocumentosController extends BaseController {
 			->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
 			->select('MODDOCUMENTOS_MASTERDOCU.id_documento','MODDOCUMENTOS_MASTERDOCU.tipo','MODDOCUMENTOS_TIPODOCU.tipo as nombre','MODDOCUMENTOS_MASTERDOCU.categoria', 'MODDOCUMENTOS_CATEGORIA.categoria as nombrecat')
 			->get();
-
 			$totaltipo=DB::table('MODDOCUMENTOS_MASTERDOCU')
 			->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_MASTERDOCU.tipo','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
-			->join('MODDOCUMENTOS_CATEGORIA','MODDOCUMENTOS_MASTERDOCU.categoria','=','MODDOCUMENTOS_CATEGORIA.id_categoria')
 			->whereIn('MODDOCUMENTOS_MASTERDOCU.tipo',$perdoc)
-			->select(DB::raw('MODDOCUMENTOS_MASTERDOCU.categoria, MODDOCUMENTOS_CATEGORIA.categoria as nombrecat, MODDOCUMENTOS_MASTERDOCU.tipo, MODDOCUMENTOS_TIPODOCU.tipo as nombre, count(MODDOCUMENTOS_MASTERDOCU.tipo) as totaltipo'))
-			->groupBy('MODDOCUMENTOS_MASTERDOCU.tipo', 'MODDOCUMENTOS_TIPODOCU.tipo','MODDOCUMENTOS_MASTERDOCU.categoria','MODDOCUMENTOS_CATEGORIA.categoria')
+			->select(DB::raw('MODDOCUMENTOS_MASTERDOCU.tipo, MODDOCUMENTOS_TIPODOCU.tipo as nombre, count(MODDOCUMENTOS_MASTERDOCU.tipo) as totaltipo'))
+			->groupBy('MODDOCUMENTOS_MASTERDOCU.tipo', 'MODDOCUMENTOS_TIPODOCU.tipo')
 			->get();
-			
 			$datdpto=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
 			->join('DEPARTAMENTOS','MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','=','DEPARTAMENTOS.COD_DPTO')
 			->select('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->groupBy('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->get();
@@ -380,7 +374,6 @@ class DocumentosController extends BaseController {
 			//return $totaltipo;
 			//return $datbusqueda;
 			$dat=array($datbusqueda,$totaltipo,$datdpto,$fechamin,$fechamax);
-			//return $dat;
 			return View::make('modulodocumentos/consultadocumentos', array('dat' =>$dat));
 		}
 	}
