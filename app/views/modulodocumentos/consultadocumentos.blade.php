@@ -247,7 +247,7 @@
               } else{
                 categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
               };
-               if (datos.contraparte == null) {
+               if (datos.contrapate == null) {
                 contrapartes = '';
               } else{
                 contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
@@ -257,22 +257,22 @@
               } else{
                 tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
               };
-              if (datos.estrategia == null) {
+              if ((datos.estrategia == null) || (datos.estrategia == 'No aplica')) {
                 estrategias = '';
               } else{
                 estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
               };
-              if (datos.bloque == null) {
+              if ((datos.id_bloque == null) || (datos.id_bloque == 'No aplica')) {
                 bloques = '';
               } else{
-                bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
+                bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.id_bloque+'</p>';
               };
-              if (datos.id_proyecto == null) {
+              if ((datos.id_proyecto == null) || (datos.id_proyecto == '')) {
                 id_proyectos = '';
               } else{
                 id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
               };
-              if (datos.momento == null) {
+              if ((datos.momento == null) || (datos.momento == 'No aplica')) {
                 momentos = '';
               } else{
                 momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
@@ -284,6 +284,7 @@
               };
               $("#resultado").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
             });
+            console.log(data);
           },
           error:function(){alert('error');}
         });//Termina Ajax
@@ -383,6 +384,7 @@
                   $("#resultado1").hide();
                 }
                 [].forEach.call(data,function(datos){
+                  
                   if (datos.titulo == null) {
                     titulos = '';
                   } else{
@@ -393,7 +395,7 @@
                   } else{
                     categorias='<p><strong>Categoría: </strong>'+datos.categoria+'</p>';
                   };
-                  if (datos.contrapate == null) {
+                   if (datos.contrapate == null) {
                     contrapartes = '';
                   } else{
                     contrapartes='<p><strong>Contraparte: </strong>'+datos.contrapate+'</p>';
@@ -403,22 +405,22 @@
                   } else{
                     tipos='<p><strong>Tipo de documento: </strong>'+datos.tipo+'</p>';
                   };
-                  if (datos.estrategia == null) {
+                  if ((datos.estrategia == null) || (datos.estrategia == 'No aplica')) {
                     estrategias = '';
                   } else{
                     estrategias='<p><strong>Estrategia: </strong>'+datos.estrategia+'</p>';
                   };
-                  if (datos.bloque == null) {
+                  if ((datos.id_bloque == null) || (datos.id_bloque == 'No aplica')) {
                     bloques = '';
                   } else{
-                    bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.bloque+'</p>';
+                    bloques='<p><strong>Bloque o Modalidad: </strong>'+datos.id_bloque+'</p>';
                   };
-                  if (datos.id_proyecto == null) {
+                  if ((datos.id_proyecto == null) || (datos.id_proyecto == '')) {
                     id_proyectos = '';
                   } else{
                     id_proyectos='<p><strong>Proyecto: </strong>'+datos.id_proyecto+'</p>';
                   };
-                  if (datos.momento == null) {
+                  if ((datos.momento == null) || (datos.momento == 'No aplica')) {
                     momentos = '';
                   } else{
                     momentos='<p><strong>Momento: </strong>'+datos.momento+'</p>';
@@ -427,7 +429,7 @@
                     imagens = 'assets/img/masterdocu.png';
                   } else{
                     imagens= datos.imagen;
-                  };                      
+                  };                   
                   $("#resultado1").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
                 });
               },

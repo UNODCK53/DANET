@@ -103,7 +103,8 @@
               </div>
               <div class="form-group" id="momento">
                 <label id="tipodocu" for="carguedocu" class="control-label">Momento:</label>
-                <select id="selecmomento" class="form-control" name="selecmomento" required="true">                    
+                <select id="selecmomento" class="form-control" name="selecmomento" required="true">   
+                  <option value=''></option>                    
                 </select>
               </div>
             </div>
@@ -220,7 +221,7 @@
             }
             if ($('#selectcategoria').val() >= 14) {               
                 $("#proyectocontraparte").hide(1000);
-                $("#selectproyecto,#selectcontraparte, #selectbloque").prop('required',false);
+                $("#selectproyecto,#selectcontraparte, #selecmomento,#selectbloque").prop('required',false);
             }else{
               $("#proyectocontraparte").show(1000);
               $("#selectproyecto,#selectcontraparte").prop('required',true);

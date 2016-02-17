@@ -22,6 +22,11 @@ class DocumentosController extends BaseController {
 			->where ('id_user','=', Auth::user()->id)
 			->where ('carga','=','1')
 			->get();
+
+			//cuando no tiene acceso tabla MODDOCUMENTOS_USERREADWRITE a la vista de cargue documento redirige a principal
+			if (empty($accesoescritura)) {
+				return Redirect::to('principal');
+			}
 		
 			$tipodocu='SELECT id_categoria FROM MODDOCUMENTOS_TIPODOCU WHERE';
 			for ($i=0; $i < count($accesoescritura); $i++) { 
@@ -221,6 +226,15 @@ class DocumentosController extends BaseController {
 			} while ($a <= 10);
 			*/
     		// cargue en la tabla masterducu la informacion alfanumerica del documento
+    		$momentox =Input::get('selecmomento');
+			if (empty($momentox)) {
+				$momentox = 'NA';
+			}
+			$selectestrategiax =Input::get('selectestrategia');
+			if (empty($selectestrategiax)) {
+				$selectestrategiax = 'NA';
+			}
+
     		DB::table('MODDOCUMENTOS_MASTERDOCU')->insert(
 		    	array(
 		    		'titulo' => Input::get('titulo'), 
@@ -229,7 +243,7 @@ class DocumentosController extends BaseController {
 		    		'autor' => Input::get('selectautor'),
 		    		'categoria' => Input::get('selectcategoria'),
 		    		'tipo' => Input::get('selectipodocu'),
-		    		'momento' => Input::get('selecmomento'),
+		    		'momento' => $momentox,
 		    		'ugeo' => Input::get('selecunigeo'),
 		    		'estrategia' => Input::get('selectestrategia'),
 		    		'bloque' => Input::get('selectbloque'),
@@ -282,9 +296,42 @@ class DocumentosController extends BaseController {
 			//$dat='%'.Input::get('querybusqueda').'%';
 			//$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat");
 
-			
+			$querybusquedax = Input::get('querybusqueda');
+
 			$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo, ruta, nombredocu FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%'");
 
+			for ($i=0; $i <= count($queryresultbusbasic)-1 ; $i++) {
+				$queryresultbusbasic[$i]->ruta=str_replace(public_path().'\\', '', $queryresultbusbasic[$i]->ruta);
+				if (File::exists(public_path().'\moddocs\IMGDOCU\\'.$queryresultbusbasic[$i]->nombredocu.'.jpg')){
+					$queryresultbusbasic[$i]->imagen = 'moddocs/IMGDOCU/'.$queryresultbusbasic[$i]->nombredocu.'.jpg';
+				}
+				else{
+					$queryresultbusbasic[$i]->imagen = null;
+				}
+			}
+		}
+		else{
+			//pendiente realizar codigo para que se pueda hacer la busqueda por perfiles de usuario
+			$accesolectura = DB::table('MODDOCUMENTOS_USERREADWRITE')
+			->select('id_tipodocu')
+			->join('MODDOCUMENTOS_TIPODOCU', 'MODDOCUMENTOS_USERREADWRITE.id_tipodocu','=', 'MODDOCUMENTOS_TIPODOCU.id_tipo')
+			->select('MODDOCUMENTOS_TIPODOCU.tipo')
+			->where ('MODDOCUMENTOS_USERREADWRITE.id_user','=', Auth::user()->id)
+			->where ('MODDOCUMENTOS_USERREADWRITE.acceso','=','1')
+			->get();
+
+
+			if(empty($accesolectura)){
+				$domlectura = 0;				
+			}
+			else{
+				foreach ($accesolectura as $domlect){
+				$domlectura[]=$domlect->tipo;
+				}
+			}
+
+			$queryresultbusbasic = DB::select("SELECT id_documento, titulo, categoria, id_proyecto, contrapate, tipo, estrategia, id_bloque, momento, autor, unidgeo, ruta, nombredocu FROM Vista_MODDOCUMENTOS_MASTERDOCU_dom where (titulo LIKE '%".Input::get('querybusqueda')."%' or categoria LIKE '%".Input::get('querybusqueda')."%' or id_proyecto LIKE '%".Input::get('querybusqueda')."%' or contrapate LIKE '%".Input::get('querybusqueda')."%' or tipo LIKE '%".Input::get('querybusqueda')."%' or estrategia LIKE '%".Input::get('querybusqueda')."%' or id_bloque LIKE '%".Input::get('querybusqueda')."%' or momento LIKE '%".Input::get('querybusqueda')."%' or autor LIKE '%".Input::get('querybusqueda')."%' or unidgeo LIKE '%".Input::get('querybusqueda')."%') AND tipo IN ("."'".implode("','", $domlectura)."'".")");
+			
 			for ($i=0; $i <= count($queryresultbusbasic)-1 ; $i++) { 
 					
 
@@ -295,11 +342,8 @@ class DocumentosController extends BaseController {
 				else{
 					$queryresultbusbasic[$i]->imagen = null;
 				}
-			}				
-		}
-		else{
-			//pendiente realizar codigo para que se pueda hacer la busqueda por perfiles de usuario
-			$queryresultbusbasic='';
+			}
+
 		}	
 			
 		return Response::json($queryresultbusbasic);
@@ -342,8 +386,8 @@ class DocumentosController extends BaseController {
 			->where('id_user','=',Auth::user()->id)
 			->where('acceso','=',1)
 			->get();
-			if(empty($accesdoc)){
-				return View::make('principal');
+			if(empty($accesdoc)){				
+				return Redirect::to('principal');
 			}
 			else{
 				foreach($accesdoc as $acc){
@@ -992,7 +1036,8 @@ class DocumentosController extends BaseController {
 
 	public function Masterdocu()
 	{
-		$dat="'%a%'";
+			
+			$dat="'%a%'";
 			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat"); 
 			return count($queryresultbusbasic);
 			//print_r($queryresultbusbasic);
