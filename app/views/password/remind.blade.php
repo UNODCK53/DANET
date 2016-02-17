@@ -27,6 +27,7 @@
   <script src="../../assets/js/jquery-1.11.2.js"></script>
   <script src="../../assets/js/bootstrap.js"></script>
   <script src="../../assets/js/jquery-ui.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <!--Primer Contenerdor logo y botón iniciar sesion-->  
@@ -66,8 +67,9 @@
           <span class="label label-danger" id="a">Su e-mail no se encuentra registrado</span>
           @endif
       </div>
+      <div class="g-recaptcha" id = "de" data-sitekey="{{$_ENV['data_site']}}"></div>
       <div class="form-group">
-        <input class="btn btn-primary" id="btenviaremail" value="Enviar solicitud" type="submit">
+        <input class="btn btn-primary" id="btenviaremail" value="Enviar solicitud" type="button">
         <h4><span class="label label-info" id="b"></span></h4>
         <br/>
       </div>
@@ -79,7 +81,6 @@
   </div>
 </div>
 <!--Fin del cuarto contenedor-->
-
 <!--Quinto contenedor pie de página-->
 <div class="container-fluid well">
   <div class="row">
@@ -102,10 +103,11 @@
 <script>
   $(document).ready(function() {
     //para que los menus pequeño y grande funcione
+    var _this = $('#email');
+    _this.parent().addClass('has-error');
     $( "#b" ).hide();
     $( "#a" ).fadeOut(5000);
     $('#email').keyup(function(){
-      var _this = $('#email');
       var email = $('#email').val();
       if ( email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i) ) {
         _this.parent().removeClass('has-error');
@@ -115,11 +117,20 @@
       }
     });
     $('#btenviaremail').click(function(){
-      document.getElementById("email").readOnly = true;
-      $('#btenviaremail').hide();
-      $( "#b" ).show();
-      $('#b').text("Enviando solicitud");
-
+      var v = grecaptcha.getResponse();
+      var email = $('#email').val();
+      if((v.length != 0 )&&(email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i))){
+        document.getElementById("email").readOnly = true;
+        $('#btenviaremail').hide();
+        $( "#b" ).show();
+        $('#b').text("Enviando solicitud");
+        $("form").submit();
+      }
+      else{    
+        $( "#b" ).show();
+        $('#b').text("Asegurese de haber seleccionado No soy un robot y el e-mail sea correcto");
+        $( "#b" ).fadeOut(5000);
+      }
     });
   });
 </script>

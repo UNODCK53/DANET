@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => true,
+	'debug' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return array(
 	|
 	*/
 
-	'key' => 'FF3Jxbn4VklJBlr18I5xDBaNRj2Ej5PM',
+	'key' => $_ENV['key_p'],
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
