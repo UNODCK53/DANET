@@ -76,10 +76,10 @@ return array(
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
-			'host'     => 'UNODCSQLUI\GEO',
-			'database' => 'DABASE1',
-			'username' => 'danet',
-			'password' => 'Unodc2015',
+			'host'     => $_ENV['db_host'],
+			'database' => $_ENV['db_database'],
+			'username' => $_ENV['db_user'],
+			'password' => $_ENV['db_password'],
 			'prefix'   => '',
 		),
 

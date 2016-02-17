@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'soporte.danet@gmail.com', 'name' => 'Soporte DANET'),
+	'from' => array('address' => $_ENV['nom_mail'], 'name' => 'Soporte DANET'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'soporte.danet@gmail.com',
+	'username' => $_ENV['nom_mail'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'Unodc2015+',
+	'password' => $_ENV['key_mail'],
 
 	/*
 	|--------------------------------------------------------------------------

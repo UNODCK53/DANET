@@ -286,7 +286,9 @@
             });
             console.log(data);
           },
-          error:function(){alert('error');}
+          error:function(){console.log('error');
+            location.reload();
+          }
         });//Termina Ajax
       }
 
@@ -433,7 +435,9 @@
                   $("#resultado1").append('<li class="list-group-item"><div class="media"><div class="media-left media-middle"><img src="'+imagens+'" width="106" height="138" alt="..."></div><div class="media-body">'+titulos+categorias+contrapartes+tipos+estrategias+bloques+id_proyectos+momentos+'</p><p><a target="_blank" href="'+datos.ruta+'" class="btn btn-primary" role="button">Ver PDF</a></p></div></div></li>');
                 });
               },
-              error:function(){alert('error');}
+              error:function(){console.log('error');
+                location.reload();
+              }
             });//Termina Ajax
           }//termina else
           $("#valtipo").val("");
