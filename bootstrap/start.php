@@ -24,11 +24,29 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment(function () {
+    $allowedEnvironments = [
+        'homestead',
+        'development',
+        'staging',
+        'production',
 
-	'local' => array('WGALVIS','CCASTANEDA'),
+    ];
 
-));
+    if (in_array(getenv('APPLICATION_ENV'), $allowedEnvironments)) {
+        return getenv('APPLICATION_ENV');
+    }
+    foreach ($allowedEnvironments as $allowedEnvironment) {
+        if (file_exists(__DIR__ . "/../.env." . $allowedEnvironment . ".php")) {
+            return $allowedEnvironment;
+        }
+    }
+    if (file_exists(__DIR__ . "/../.env.php")) {
+        return 'production';
+    }
+    throw new \Exception("Invalid environment, check configurations");
+
+});
 
 /*
 |--------------------------------------------------------------------------
