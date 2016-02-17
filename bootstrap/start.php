@@ -29,8 +29,6 @@ $env = $app->detectEnvironment(function () {
         'homestead',
         'development',
         'staging',
-        'production',
-
     ];
 
     if (in_array(getenv('APPLICATION_ENV'), $allowedEnvironments)) {

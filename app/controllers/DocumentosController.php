@@ -367,7 +367,7 @@ class DocumentosController extends BaseController {
 
 			$datdpto=DB::table('MODDOCUMENTOS_UNIGEODEPTOMUNI')
 			->join('DEPARTAMENTOS','MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','=','DEPARTAMENTOS.COD_DPTO')
-			->select('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->groupBy('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->get();
+			->select('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->groupBy('MODDOCUMENTOS_UNIGEODEPTOMUNI.COD_DEPTO','DEPARTAMENTOS.NOM_DPTO')->OrderBy('DEPARTAMENTOS.NOM_DPTO')->get();
 			$fmax = DB::table('MODDOCUMENTOS_MASTERDOCU')->max('fecha');
 			$fmin = DB::table('MODDOCUMENTOS_MASTERDOCU')->min('fecha');
 
@@ -434,6 +434,7 @@ class DocumentosController extends BaseController {
 		$mpio = DB::table('MUNICIPIOS')
 		->where('COD_DPTO','=',Input::get('dpto'))
 		->select('COD_DANE','NOM_MPIO')
+		->OrderBy('NOM_MPIO')
 		->get();
 		return Response::json($mpio);
 	}

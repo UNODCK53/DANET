@@ -120,6 +120,7 @@ Route::group(array('before' => 'grupo1|level1'), function()
   //Route::get('vista3',function(){return View::make('vista3');});
   Route::get('vista3','TierrasController@PruebaPro');
   Route::get('master_docu','DocumentosController@Masterdocu');
+  Route::get('error', function(){return View::make('error');});
   //permite acceso a las vistas del modulo de documentos
   
   //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
