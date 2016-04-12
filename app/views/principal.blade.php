@@ -32,6 +32,8 @@ $menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugm
 $menureportesiscadi=false;$menuindicadoressiscadi=false;
 //variables menú Documentos
 $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
+//variables menú geoapi
+$menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
 //foreach para habilitar las variables para la presentación de cada módulo
 foreach($acc as $acceso){
   if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){$menucongral= true;}
@@ -55,8 +57,20 @@ foreach($acc as $acceso){
   if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){$menucarguedocu=true;}
   if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){$menuconsuldocu=true;}
   if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){$menurepordocu=true;}
+  if(($acceso->id_vista=="5101")&&($acceso->acces=="1")){$menugeoapitecsaf=true;}
+  if(($acceso->id_vista=="5102")&&($acceso->acces=="1")){$menugeoapieliminreg=true;}
+  if(($acceso->id_vista=="5103")&&($acceso->acces=="1")){$menugeoapivisorterri=true;}
+  if(($acceso->id_vista=="5104")&&($acceso->acces=="1")){$menugeoapivisorbenef=true;}
+  if(($acceso->id_vista=="5105")&&($acceso->acces=="1")){$menugeoapirepordistorg=true;}
+  if(($acceso->id_vista=="5106")&&($acceso->acces=="1")){$menugeoapirepordistterri=true;}
+  if(($acceso->id_vista=="5107")&&($acceso->acces=="1")){$menugeoapirepordistlp=true;}
+  if(($acceso->id_vista=="5108")&&($acceso->acces=="1")){$menugeoapireporanalesp=true;}
+  if(($acceso->id_vista=="5109")&&($acceso->acces=="1")){$menugeoapireporregrepetidos=true;}
+  if(($acceso->id_vista=="5110")&&($acceso->acces=="1")){$menugeoapirepornovt1=true;}
+  if(($acceso->id_vista=="5111")&&($acceso->acces=="1")){$menugeoapirepornovt2=true;}
+  if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
  }
- ?>
+ ?> 
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">

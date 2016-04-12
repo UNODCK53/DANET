@@ -152,15 +152,20 @@
           <div class="form-group">
             <label for="Proceso" class="control-label">Nombre:</label>
             <input id="modnombre" type="text" class="form-control" name="modnombre" value='{{$pro->nombre}}'>
-          </div>
-          <div class="col-sm-6 form-group">
+          </div>          
+          <div class="col-sm-4 form-group">
             <label for="Proceso" class="control-label">Cédula:</label>
             <input id="modcedula" type="number" class="form-control" name="modcedula" value='{{$pro->cedula}}'>
           </div>
-          <div class="col-sm-6 form-group">
+          <div class="col-sm-4 form-group">
+            <label for="Proceso" class="control-label">Genero:</label><br>
+            <input type="radio" name="modgenero" id="modgenerom" value="1"> Masculino
+            <input type="radio" name="modgenero" id="modgenerof" value="2"> Femenino
+          </div>
+          <div class="col-sm-4 form-group">
             <label for="Proceso" class="control-label">Teléfono:</label>
             <input id="modtelefono" type="number" class="form-control" name="modtelefono" value='{{$pro->telefono}}'>
-          </div>
+          </div>                   
           <div class="form-group text-right">
             <button type="submit" class="btn btn-primary">Guardar edición general</button>
           </div>
@@ -613,6 +618,13 @@
   @parent
     <script>
       $(document).ready(function() {
+        //carga el genero 
+        if ({{$pro->genero}} == '1') {
+          $('#modgenerom').prop('checked', 'true');
+        } else {
+          $('#modgenerof').prop('checked', 'true');
+        }
+        //finaliza cargue de genero
         //Viabilidad
         if({{$pro->viabilidad}} == '1'){
             $('#respoviasi').prop('checked', 'true');

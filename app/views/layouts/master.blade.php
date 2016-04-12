@@ -62,11 +62,11 @@
 <div class="container-fluid well">
   <div class="row">
     <!--Columna logo con imágen-->
-    <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
+    <div class="col-xs-6 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
       <img src="assets/img/unodc.gif" class="img-responsive" alt="logounodc">
     </div>
     <!--espaciado para que en xs queden separado logo y boton-->
-    <div class="col-xs-4 visible-xs">
+    <div class="col-xs-1 visible-xs">
     </div>
     <div class="col-lg-6 visible-lg">
     </div>
@@ -99,7 +99,7 @@
 <?php $acc=(Session::get('acc')); ?>
 <?php
 //variables menú Tierras
-$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;$menurepgenero=false;
+$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;$menurepgenero=false;$menureptiempo=false;
 $menucargaini=false;$menuprocadj=false;$menulevtopo=false;$menucoor=false;$menumaps=false;
 //variables menú GME
 $menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugmeinformes=false;
@@ -107,71 +107,44 @@ $menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugm
 $menureportesiscadi=false;$menuindicadoressiscadi=false;
 //variables menú Documentos
 $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
+//variables menú geoapi
+$menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
 //foreach para habilitar las variables para el menú general
  foreach($acc as $acceso){
-    if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){
-      $menucongral= true;
-    }
-    if(($acceso->id_vista=="1201")&&($acceso->acces=="1")){
-      $menuestadoproc=true;
-    }
-    if(($acceso->id_vista=="1202")&&($acceso->acces=="1")){
-      $menurepnumpro=true;
-    }
-    if(($acceso->id_vista=="1203")&&($acceso->acces=="1")){
-      $menureplevtopo=true;
-    }
-    if(($acceso->id_vista=="1204")&&($acceso->acces=="1")){
-      $menureparealev=true;
-    }
-    if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){
-      $menureprespjuri=true;
-    }
-    if(($acceso->id_vista=="1206")&&($acceso->acces=="1")){
-      $menurepgenero=true;
-    }
-    if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){
-      $menucargaini=true;
-    }
-    if(($acceso->id_vista=="1302")&&($acceso->acces=="1")){
-      $menuprocadj=true;
-    }
-    if(($acceso->id_vista=="1304")&&($acceso->acces=="1")){
-      $menulevtopo=true;
-    }
-    if(($acceso->id_vista=="1305")&&($acceso->acces=="1")){
-      $menucoor=true;
-    }
-    if(($acceso->id_vista=="1306")&&($acceso->acces=="1")){
-      $menumaps=true;
-    }
-    if(($acceso->id_vista=="2101")&&($acceso->acces=="1")){
-      $menugmevalcert=true;
-    }
-    if(($acceso->id_vista=="2102")&&($acceso->acces=="1")){
-      $menugmemetodologia=true;
-    }
-    if(($acceso->id_vista=="2103")&&($acceso->acces=="1")){
-      $menugmedisterradi=true;
-    }
-    if(($acceso->id_vista=="2104")&&($acceso->acces=="1")){
-      $menugmeinformes=true;
-    }
-    if(($acceso->id_vista=="3101")&&($acceso->acces=="1")){
-      $menureportesiscadi=true;
-    }
-    if(($acceso->id_vista=="3102")&&($acceso->acces=="1")){
-      $menuindicadoressiscadi=true;
-    }
-    if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){
-      $menucarguedocu=true;
-    }
-    if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){
-      $menuconsuldocu=true;
-    }
-    if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){
-      $menurepordocu=true;
-    }
+    if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){$menucongral= true;}
+    if(($acceso->id_vista=="1201")&&($acceso->acces=="1")){$menuestadoproc=true;}
+    if(($acceso->id_vista=="1202")&&($acceso->acces=="1")){$menurepnumpro=true;}
+    if(($acceso->id_vista=="1203")&&($acceso->acces=="1")){$menureplevtopo=true;}
+    if(($acceso->id_vista=="1204")&&($acceso->acces=="1")){$menureparealev=true;}
+    if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){$menureprespjuri=true;}
+    if(($acceso->id_vista=="1206")&&($acceso->acces=="1")){$menurepgenero=true;}
+    if(($acceso->id_vista=="1207")&&($acceso->acces=="1")){$menureptiempo=true;}
+    if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){$menucargaini=true;}
+    if(($acceso->id_vista=="1302")&&($acceso->acces=="1")){$menuprocadj=true;}
+    if(($acceso->id_vista=="1304")&&($acceso->acces=="1")){$menulevtopo=true;}
+    if(($acceso->id_vista=="1305")&&($acceso->acces=="1")){$menucoor=true;}
+    if(($acceso->id_vista=="1306")&&($acceso->acces=="1")){$menumaps=true;}
+    if(($acceso->id_vista=="2101")&&($acceso->acces=="1")){$menugmevalcert=true;}
+    if(($acceso->id_vista=="2102")&&($acceso->acces=="1")){$menugmemetodologia=true;}
+    if(($acceso->id_vista=="2103")&&($acceso->acces=="1")){$menugmedisterradi=true;}
+    if(($acceso->id_vista=="2104")&&($acceso->acces=="1")){$menugmeinformes=true;}
+    if(($acceso->id_vista=="3101")&&($acceso->acces=="1")){$menureportesiscadi=true;}
+    if(($acceso->id_vista=="3102")&&($acceso->acces=="1")){$menuindicadoressiscadi=true;}
+    if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){$menucarguedocu=true;}
+    if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){$menuconsuldocu=true;}
+    if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){$menurepordocu=true;}
+    if(($acceso->id_vista=="5101")&&($acceso->acces=="1")){$menugeoapitecsaf=true;}
+    if(($acceso->id_vista=="5102")&&($acceso->acces=="1")){$menugeoapieliminreg=true;}
+    if(($acceso->id_vista=="5103")&&($acceso->acces=="1")){$menugeoapivisorterri=true;}
+    if(($acceso->id_vista=="5104")&&($acceso->acces=="1")){$menugeoapivisorbenef=true;}
+    if(($acceso->id_vista=="5105")&&($acceso->acces=="1")){$menugeoapirepordistorg=true;}
+    if(($acceso->id_vista=="5106")&&($acceso->acces=="1")){$menugeoapirepordistterri=true;}
+    if(($acceso->id_vista=="5107")&&($acceso->acces=="1")){$menugeoapirepordistlp=true;}
+    if(($acceso->id_vista=="5108")&&($acceso->acces=="1")){$menugeoapireporanalesp=true;}
+    if(($acceso->id_vista=="5109")&&($acceso->acces=="1")){$menugeoapireporregrepetidos=true;}
+    if(($acceso->id_vista=="5110")&&($acceso->acces=="1")){$menugeoapirepornovt1=true;}
+    if(($acceso->id_vista=="5111")&&($acceso->acces=="1")){$menugeoapirepornovt2=true;}
+    if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
  }
  ?>
 <!--Segundo contenedor menu secundario-->
@@ -196,74 +169,78 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
           </li>
         @endif<!--Finaliza Ocultar la opción si no es el administrador-->
         @if(($menureportesiscadi) || ($menuindicadoressiscadi))
-        <li class="dropdown"id="siscadi" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
+          <li class="dropdown"id="siscadi" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
             @if($menuindicadoressiscadi)
-            <li id="indicadoressiscadi"><a href="siscadi_indicadores">Resultados de recolección</a></li>
+              <li id="indicadoressiscadi"><a href="siscadi_indicadores">Resultados de recolección</a></li>
             @endif
             @if($menureportesiscadi)
-            <li id="reportesiscadi"><a  href='siscadi_encuentas'>Reportes PDF</a></li>
-            @endif
-            
-          </ul>
-        </li>
+              <li id="reportesiscadi"><a  href='siscadi_encuentas'>Reportes PDF</a></li>
+            @endif            
+            </ul>
+          </li>
         @endif
-         @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
-        <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Donde estamos<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href='vista1'>Crear misión</a></li>
-            <li><a href="#">Cargar track</a></li>
-          </ul>
-        </li> 
-        <li role="menu"><a href="#" class="enlace-menu">Historia</a></li>
+        @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
+          <li role="menu" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Donde estamos<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href='vista1'>Crear misión</a></li>
+              <li><a href="#">Cargar track</a></li>
+            </ul>
+          </li> 
+          <li role="menu"><a href="#" class="enlace-menu">Historia</a></li>
         @endif<!--Finaliza Ocultar la opción si no es el administrador-->
         @if(($menugmevalcert) || ($menugmemetodologia) || ($menugmedisterradi) || ($menugmeinformes))<!--Oculta la opción si no es el administrador o gupo2-->
-        <li id="GME" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
+          <li id="GME" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GME<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
             @if($menugmevalcert)
-            <li id="gmevalcert"><a href='validacion_certificacion'>Validación y Certificación</a></li>
+              <li id="gmevalcert"><a href='validacion_certificacion'>Validación y Certificación</a></li>
             @endif
             @if($menugmemetodologia)
-            <li id="gmemetodologia"><a href="metodologia_gme">Metodología</a></li>
+              <li id="gmemetodologia"><a href="metodologia_gme">Metodología</a></li>
             @endif
             @if($menugmedisterradi)
-            <li id="gmedisterradi"><a href="distribucion_gme">Distribución de la erradicación (Mapa)</a></li>
+              <li id="gmedisterradi"><a href="distribucion_gme">Distribución de la erradicación (Mapa)</a></li>
             @endif
             @if($menugmeinformes)
-            <li id="gmeinformes"><a href="informes_gme">Informes</a></li>
+              <li id="gmeinformes"><a href="informes_gme">Informes</a></li>
             @endif
-          </ul>
+            </ul>
           </li>
         @endif        
-        @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-          ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero)) <!--Oculta la opción tierras si no es el administrador-->
+        @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero)||($menureptiempo)) <!--Oculta la opción tierras si no es el administrador-->
           <li id="tierras" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Formalización de tierras<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               @if($menucongral)
-              <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
-              <li class="divider"></li>
+                <li id="tierrasconsultageneral"><a href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
+                <li class="divider"></li>
               @endif
-              <li><a align="center"><b>Reportes</b></a></li>
+              <!--espacio de reportes-->
+                <li><a align="center"><b>Reportes</b></a></li>
               @if($menuestadoproc)
-              <li id="tierrasreporestado"><a href="<?=URL::to('reporte_estado'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
+                <li id="tierrasreporestado"><a href="<?=URL::to('reporte_estado'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
               @endif
               @if($menurepnumpro)
-              <li id="tierrasrepornumproc"><a href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Número de Procesos</a></li>
+                <li id="tierrasrepornumproc"><a href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Número de Procesos</a></li>
               @endif
               @if($menureplevtopo)
-              <li id="tierrasreporlevtop"><a href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
+                <li id="tierrasreporlevtop"><a href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
               @endif
               @if($menureparealev)
-              <li id="tierrasreporarearepor"><a href="<?=URL::to('reporte_area_levantada'); ?>"> <span class="glyphicon glyphicon-ok"></span> Área Levantada</a></li>
+                <li id="tierrasreporarearepor"><a href="<?=URL::to('reporte_area_levantada'); ?>"> <span class="glyphicon glyphicon-ok"></span> Área Levantada</a></li>
               @endif
               @if($menureprespjuri)
-              <li id="tierrasreporresponsjuri"><a href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Jurídico</a></li>
+                <li id="tierrasreporresponsjuri"><a href="<?=URL::to('reporte_responsable_juridico'); ?>"><span class="glyphicon glyphicon-ok"></span> Responsable Jurídico</a></li>
               @endif
               @if($menurepgenero)
-              <li id="tierrasreporgenero"><a href="<?=URL::to('reporte_genero'); ?>"><span class="glyphicon glyphicon-ok"></span> Género</a></li>
+                <li id="tierrasreporgenero"><a href="<?=URL::to('reporte_genero'); ?>"><span class="glyphicon glyphicon-ok"></span> Género</a></li>
               @endif
-              <li class="divider"></li>
-              <li><a align="center"><b>Procesos</b></a></li>
+              @if($menureptiempo)
+                <li id="tierrasreportiempo"><a href="<?=URL::to('reporte_tiempo'); ?>"><span class="glyphicon glyphicon-ok"></span> Temporalidad de eventos</a></li>
+              @endif
+                <li class="divider"></li>
+                <!--Termina espacio de reportes-->
+                <!--espacio de procesos-->
+                <li><a align="center"><b>Procesos</b></a></li>
               @if($menucargaini)
                 <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span> Carga Inicial</a></li>
               @endif
@@ -276,31 +253,88 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
               @if($menucoor)
                 <li id="tierrascoord"><a href="<?=URL::to('coordenadas_edicion'); ?>"> <span class="glyphicon glyphicon-ok"></span> Edición de Coordenadas</a></li>
               @endif
-              <li class="divider"></li>
+                <li class="divider"></li>
+                <!--Termina espacio de procesos-->
               @if($menumaps)
-              <li id="tierrasmapas"><a href="<?=URL::to('mapas'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapas</a></li>
+                <li id="tierrasmapas"><a href="<?=URL::to('mapas'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapas</a></li>
               @endif
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
         @if(($menucarguedocu) || ($menuconsuldocu) || ($menurepordocu))
-        <li class="dropdown" id="documentos" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Documentos<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
+        <!--Oculta la opción Documentos si no es el administrador-->
+          <li class="dropdown" id="documentos" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Documentos<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
             @if($menucarguedocu)
-            <li id="carguedocumenu"><a  href="<?=URL::to('cargue_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Cargar documentos</a></li>
+              <li id="carguedocumenu"><a  href="<?=URL::to('cargue_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Cargar documentos</a></li>
             @endif
             @if($menuconsuldocu)
-            <li id="consultadocumenu"><a href="<?=URL::to('consulta_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Consulta de documentos</a></li>
+              <li id="consultadocumenu"><a  href="<?=URL::to('consulta_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Consulta de documentos</a></li>
             @endif
             @if($menurepordocu)
-            <li id="repordocumenu"><a href="<?=URL::to('repor_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Reporte de documentos</a></li>
+              <li id="repordocumenu"><a href="<?=URL::to('repor_docu'); ?>"> <span class="glyphicon glyphicon-ok"></span> Reporte de documentos</a></li>
             @endif
-          </ul>
-        </li>
-        @endif
+            </ul>
+          </li>
+        @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->
+        @if(($menugeoapitecsaf)||($menugeoapieliminreg)||($menugeoapivisorterri)||($menugeoapivisorbenef)||($menugeoapirepordistorg)||($menugeoapirepordistterri)||($menugeoapirepordistlp)||($menugeoapireporanalesp)||($menugeoapireporregrepetidos)||($menugeoapirepornovt1)||($menugeoapirepornovt2)||($menugeoapirepornovt3)) 
+        <!--Oculta la opción geoapi si no es el administrador-->
+          <li id="geoapi" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GeoApi<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <!--espacio de administracion-->
+              <li><a align="center"><b>Administración</b></a></li>
+              @if($menugeoapitecsaf)
+                <li id="geoapitecsaf"><a href="<?=URL::to('tecnicosaf'); ?>"><span class="glyphicon glyphicon-ok"></span> Técnicos SAF</a></li>              
+              @endif
+              @if($menugeoapieliminreg)
+                <li id="geoapieliminreg"><a href="#"><span class="glyphicon glyphicon-ok"></span> Eliminar Registros</a></li>
+              @endif
+                <li class="divider"></li>
+                <!--Termina espacio de administracion-->
+                <!--espacio de visores-->
+                <li><a align="center"><b>Visores Geográfico</b></a></li>
+              @if($menugeoapivisorterri)
+                <li id="geoapivisorterri"><a href="#"><span class="glyphicon glyphicon-ok"></span> Territorios</a></li>
+              @endif
+              @if($menugeoapivisorbenef)
+                <li id="geoapivisorbenef"><a href="#"> <span class="glyphicon glyphicon-ok"></span> Beneficiarios</a></li>
+              @endif
+                <li class="divider"></li>
+                <!--Termina espacio de visores-->
+                <!--espacio de reportes-->
+                <li><a align="center"><b>Reportes</b></a></li>
+              @if($menugeoapirepordistorg)
+                <li id="geoapirepordistorg"><a href="<?=URL::to('distribucion_organizacion'); ?>"> <span class="glyphicon glyphicon-ok"></span> Distribución por Organización</a></li>
+              @endif
+              @if($menugeoapirepordistterri)
+                <li id="geoapirepordistterri"><a href="#"> <span class="glyphicon glyphicon-ok"></span> Distribución Territorial</a></li>
+              @endif              
+              @if($menugeoapirepordistlp)
+                <li id="geoapirepordistlp"><a href="#"><span class="glyphicon glyphicon-ok"></span> Distribución por Línea Productiva</a></li>
+              @endif
+              @if($menugeoapireporanalesp)
+                <li id="geoapireporanalesp"><a href="#"><span class="glyphicon glyphicon-ok"></span> Análisis Espacial de los datos</a></li>
+              @endif
+              @if($menugeoapireporregrepetidos)
+                <li id="geoapireporregrepetidos"><a href="#"><span class="glyphicon glyphicon-ok"></span> Registros Repetidos</a></li>
+              @endif
+              @if($menugeoapirepornovt1)
+                <li id="geoapirepornovt1"><a href="#"><span class="glyphicon glyphicon-ok"></span> Novedades Tipo I</a></li>
+              @endif
+              @if($menugeoapirepornovt2)
+                <li id="geoapirepornovt2"><a href="#"><span class="glyphicon glyphicon-ok"></span> Novedades Tipo II</a></li>
+              @endif
+              @if($menugeoapirepornovt3)
+                <li id="geoapirepornovt3"><a href="#"><span class="glyphicon glyphicon-ok"></span> Novedades Tipo III</a></li>
+              @endif 
+              <!--Termina espacio de reportes-->
+            </ul>
+          </li>
+        @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
       </ul>
     </div>
-    <div class="col-sm-1"></div>  
+    <div class="col-sm-1"></div>
+
     <!--Menu compacto es visible en xs -->   
     <div class="col-xs-12 visible-xs">
       <nav class="navbar navbar-default" >
@@ -371,14 +405,14 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                 </ul>
               </li>                  
               @endif
-              @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)
-                ||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero)) <!--Oculta la opción tierras si no es el administrador-->
+              @if(($menucongral)||($menuestadoproc)||($menurepnumpro)||($menureplevtopo)||($menureparealev)||($menureprespjuri)||($menucargaini)||($menuprocadj)||($menulevtopo)||($menucoor)||($menumaps)||($menurepgenero)||($menureptiempo)) <!--Oculta la opción tierras si no es el administrador-->
                 <li class="dropdown"><a id="tierrasmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Formalización de tierras<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     @if($menucongral)
                     <li><a id="tierrascongenmenupeq" href="<?=URL::to('consulta_general_tierras'); ?>">Consulta General y/o Consulta por Proceso</a></li>
                     <li class="divider"></li>
                     @endif
+                    <!--espacio de reportes-->
                     <li><a align="center"><b>Reportes</b></a></li>
                     @if($menuestadoproc)
                     <li><a id="tierrasreporestadomenupeq" href="<?=URL::to('reporte_estado'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
@@ -398,7 +432,12 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                     @if($menurepgenero)
                     <li><a id="tierrasreporgeneromenupeq" href="<?=URL::to('reporte_genero'); ?>"><span class="glyphicon glyphicon-ok"></span> Género</a></li>
                     @endif
+                    @if($menureptiempo)
+                    <li><a id="tierrasreportiempomenupeq" href="<?=URL::to('reporte_tiempo'); ?>"><span class="glyphicon glyphicon-ok"></span> Temporalidad de eventos</a></li>
+                    @endif                    
                     <li class="divider"></li>
+                    <!--Termina espacio de reportes-->
+                    <!--espacio de procesos-->
                     <li><a align="center"><b>Procesos</b></a></li>
                     @if($menucargaini)
                       <li><a id="tierrascarinimenupeq" href="<?=URL::to('carga_inicial'); ?>"> <span class="glyphicon glyphicon-ok"></span> Carga Inicial</a></li>
@@ -413,6 +452,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                       <li><a id="tierrascoordmenupeq" href="<?=URL::to('coordenadas_edicion'); ?>"><span class="glyphicon glyphicon-ok"></span> Edición de Coordenadas</a></li>
                     @endif
                     <li class="divider"></li>
+                    <!--Termina espacio de procesos-->
                     @if($menumaps)
                     <li><a id="tierrasmapasmenupeq" href="<?=URL::to('mapas'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapas</a></li>
                     @endif
@@ -429,19 +469,75 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
                   <li><a id="consultadocumenupeq" href="<?=URL::to('consulta_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta de documentos</a></li>
                   @endif
                   @if($menurepordocu)
-                  <li><a id="repordocumenupeq" href="<?=URL::to('repor_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Reporte de documentos</a></li>
+                  <li><a id="repordocumenupeq" href="<?=URL::to('repor_docu'); ?>"><span class="glyphicon glyphicon-ok"></span> Reporte de documentos</a></li>                  
                   @endif
                 </ul>
               </li>
-              @endif<!--Finaliza Ocultar la opción Ejecución si no es el administrador-->
+              @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->
+
+              @if(($menugeoapitecsaf)||($menugeoapieliminreg)||($menugeoapivisorterri)||($menugeoapivisorbenef)||($menugeoapirepordistorg)||($menugeoapirepordistterri)||($menugeoapirepordistlp)||($menugeoapireporanalesp)||($menugeoapireporregrepetidos)||($menugeoapirepornovt1)||($menugeoapirepornovt2)||($menugeoapirepornovt3)) 
+              <!--Oculta la opción geoapi si no es el administrador-->                
+                <li  class="dropdown"><a id="geoapimenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GeoApi<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <!--espacio de administracion-->
+                    <li><a align="center"><b>Administración</b></a></li>
+                    @if($menugeoapitecsaf)
+                      <li><a id="geoapitecsafmenupeq" href="<?=URL::to('tecnicosaf'); ?>"><span class="glyphicon glyphicon-ok"></span> Técnicos SAF</a></li>
+                    @endif
+                    @if($menugeoapieliminreg)
+                      <li><a id="geoapieliminregmenupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Eliminar Registros</a></li>
+                    @endif
+                      <li class="divider"></li>
+                      <!--Termina espacio de administracion-->
+                      <!--espacio de visores-->
+                      <li><a align="center"><b>Visores Geográfico</b></a></li>
+                    @if($menugeoapivisorterri)
+                      <li><a id="geoapivisorterrimenupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Territorios</a></li>
+                    @endif
+                    @if($menugeoapivisorbenef)
+                      <li><a id="geoapivisorbenefmenupeq" href="#"> <span class="glyphicon glyphicon-ok"></span> Beneficiarios</a></li>
+                    @endif
+                      <li class="divider"></li>
+                      <!--Termina espacio de visores-->
+                      <!--espacio de reportes-->
+                      <li><a align="center"><b>Reportes</b></a></li>
+                    @if($menugeoapirepordistorg)
+                      <li><a id="geoapirepordistorgmenupeq" href="<?=URL::to('distribucion_organizacion'); ?>"> <span class="glyphicon glyphicon-ok"></span> Distribución por Organización</a></li>
+                    @endif
+                    @if($menugeoapirepordistterri)
+                      <li><a id="geoapirepordistterrimenupeq" href="#"> <span class="glyphicon glyphicon-ok"></span> Distribución Territorial</a></li>
+                    @endif              
+                    @if($menugeoapirepordistlp)
+                      <li><a id="geoapirepordistlpmenupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Distribución por Línea Productiva</a></li>
+                    @endif
+                    @if($menugeoapireporanalesp)
+                      <li><a id="geoapireporanalespmenupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Análisis Espacial de los datos</a></li>
+                    @endif
+                    @if($menugeoapireporregrepetidos)
+                      <li><a id="geoapireporregrepetidosmenupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Registros Repetidos</a></li>
+                    @endif
+                    @if($menugeoapirepornovt1)
+                      <li><a id="geoapirepornovt1menupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Novedades Tipo I</a></li>
+                    @endif
+                    @if($menugeoapirepornovt2)
+                      <li><a id="geoapirepornovt2menupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Novedades Tipo II</a></li>
+                    @endif
+                    @if($menugeoapirepornovt3)
+                      <li><a id="geoapirepornovt3menupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Novedades Tipo III</a></li>
+                    @endif 
+                    <!--Termina espacio de reportes-->
+                  </ul>
+                </li>
+              @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
             </ul><!-- fin de menu con submenu -->
-            </div><!-- /.navbar-collapse -->
-          </div><!-- /.container-fluid -->
-        </nav>
-      </div>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
     </div>
   </div>
 </div>
+
+
  <!--Fin del segundo contenedor-->  
 @show
 @section('contenedorgeneral1')
@@ -460,7 +556,8 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 <!--quinto contenedor-->  
 <div class="container">
   <div class="row">
-  <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá D.C. - Colombia</p></small></div>
+    <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá D.C. - Colombia</p></small>
+    </div>
   </div>
 	<br/><br/>
 </div>

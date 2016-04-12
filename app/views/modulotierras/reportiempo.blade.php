@@ -54,43 +54,89 @@
   <script src="assets/js/highcharts/highcharts.js"></script>
   <script src="assets/js/highcharts/exporting.js"></script>
   <script>
-  $(function () {
+ $(function () {
     $('#container').highcharts({
-        chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}},
-        title:{text:'Procesos por Género'},
-        tooltip:{pointFormat:'{series.name}:<b>{point.y:.0f}</b>'},
-        plotOptions:{
-          pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-            dataLabels:{
-              enabled:true,
-              format:'<b>{point.name}</b>: {point.percentage:.1f} %',
-              style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor)||'black'}
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Efficiency Optimization by Branch'
+        },
+        xAxis: {
+            categories: [
+                'Seattle HQ',
+                'San Francisco',
+                'Tokyo'
+            ]
+        },
+        yAxis: [{
+            min: 0,
+            title: {
+                text: 'Employees'
             }
-          }
+        }, {
+            title: {
+                text: 'Profit (millions)'
+            },
+            opposite: true
+        }],
+        legend: {
+            shadow: false
+        },
+        tooltip: {
+            shared: true
+        },
+        plotOptions: {
+            column: {
+                grouping: false,
+                shadow: false,
+                borderWidth: 0
+            }
         },
         series: [{
-          name: "No. de Procesos",
-          colorByPoint: true,
-          data: [
-          @foreach($arraygen as $arraygra)
-          @if($arraygra->genero == 1)
-             {{'{name:"Masculino",y:'.$arraygra->y.','}}sliced: true,
-                  selected: true{{'},'}}
-          @else
-             {{'{name:"Femenino",y:'.$arraygra->y.'},'}}
-          @endif
-          @endforeach
-          ]
+            name: 'Employees',
+            color: 'rgba(165,170,217,1)',
+            data: [150, 73, 20],
+            pointPadding: 0.3,
+            pointPlacement: -0.2
+        }, {
+            name: 'Employees Optimized',
+            color: 'rgba(126,86,134,.9)',
+            data: [140, 90, 40],
+            pointPadding: 0.4,
+            pointPlacement: -0.2
+        }, {
+            name: 'Profit',
+            color: 'rgba(248,161,63,1)',
+            data: [183.6, 178.8, 198.5],
+            tooltip: {
+                valuePrefix: '$',
+                valueSuffix: ' M'
+            },
+            pointPadding: 0.3,
+            pointPlacement: 0.2,
+            yAxis: 1
+        }, {
+            name: 'Profit Optimized',
+            color: 'rgba(186,60,61,.9)',
+            data: [203.6, 198.8, 208.5],
+            tooltip: {
+                valuePrefix: '$',
+                valueSuffix: ' M'
+            },
+            pointPadding: 0.4,
+            pointPlacement: 0.2,
+            yAxis: 1
         }]
     });
-  });
+});
   $(document).ready(function() {
     //para que los menus pequeño y grande funcione
     $( "#tierras" ).addClass("active");
-    $( "#tierrasreporgenero" ).addClass("active");
+    $( "#tierrasreportiempo" ).addClass("active");
     $( "#iniciomenupeq" ).html("<small> INICIO</small>");
     $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
-    $( "#tierrasreporgeneromenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Género</strong>");
+    $( "#tierrasreportiempomenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Temporalidad de eventos</strong>");
   });
   </script>
 @stop

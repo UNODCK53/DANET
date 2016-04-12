@@ -224,6 +224,11 @@
             <input id="modcedula" type="number" class="form-control" name="modcedula">
           </div>
           <div class="form-group">
+            <label for="Proceso" class="control-label">Genero:</label><br>
+            <input type="radio" name="modgenero" id="modgenerom" value="1"> Masculino
+            <input type="radio" name="modgenero" id="modgenerof" value="2"> Femenino
+          </div>
+          <div class="form-group">
             <label for="Proceso" class="control-label">Teléfono:</label>
             <input id="modtelefono" type="number" class="form-control" name="modtelefono">
           </div>
@@ -309,6 +314,11 @@
                 $("#moddirnoti").val(data[0][0].direccionnotificacion);
                 $("#modnombre").val(data[0][0].nombre);
                 $("#modcedula").val(data[0][0].cedula);
+                if (data[0][0].genero=='1') {
+                  $('#modgenerom').prop("checked", true);
+                } else {
+                  $('#modgenerof').prop("checked", true);
+                }
                 $("#modtelefono").val(data[0][0].telefono);
                 if(data[0][0].areaprediopreliminar==null){
                   $("#modarea").val(0);

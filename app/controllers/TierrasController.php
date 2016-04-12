@@ -13,7 +13,7 @@ class TierrasController extends BaseController {
 		$arrayproini = DB::table('Vista pro_ini_con_datgeo')->get();
 		$arrayconcepto = DB::table('MODTIERRAS_CONCEPTO')->get();
 		$arrayrespgeografico = DB::table('users')->where('grupo','=',3)->where('level','=',3)->select('id','name','last_name','grupo','level')->get();
-		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);
+		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);		
 		return View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arraydombobox' => $arraydombobox));
 	}
 
@@ -39,6 +39,7 @@ class TierrasController extends BaseController {
 		if($reqresgeo == 2){
 			$respgeografico = 0;
 		}
+
   		// insertar campos a la tabla
 	    DB::table('MODTIERRAS_PROCESO')->insert(
 		    array(
@@ -47,7 +48,7 @@ class TierrasController extends BaseController {
 		    		'conceptojuridico' => Input::get('modconcpjuri'),
 		    		'obsconceptojuridico' => Input::get('modobsconcjuri'),
 		    	  	'areapredioformalizada' => Input::get('modareafor'),
-		    	  	'unidadareaprediofor' => Input::get('modradiounidadfor'),		    	  	
+		    	  	'unidadareaprediofor' => Input::get('modradiounidadfor'),    	  	
 		    	  	'longitud' => Input::get('modlong'),
 		    	  	'latitud' => Input::get('modlat'), 
 	    			'viabilidad' => Input::get('modviable'),
@@ -63,6 +64,7 @@ class TierrasController extends BaseController {
 	    			'direccionnotificacion' => Input::get('moddirnoti'),
 	    			'nombre' => Input::get('modnombre'),
 	    			'cedula' => Input::get('modcedula'),
+	    			'genero' => Input::get('modgenero'),
 	    			'telefono' => Input::get('modtelefono')
 		    )
 		);
@@ -148,6 +150,7 @@ class TierrasController extends BaseController {
 	    			'direccionnotificacion' => Input::get('moddirnoti'),
 	    			'nombre' => Input::get('modnombre'),
 	    			'cedula' => Input::get('modcedula'),
+	    			'genero' => Input::get('modgenero'),
 	    			'telefono' => Input::get('modtelefono')	    			
 		    )					
 		);
@@ -909,28 +912,36 @@ class TierrasController extends BaseController {
 		return Redirect::to('coordenadas_edicion')->with('status',$status);
 	}
 	public function Reporgenero()
-	{
-		
+	{		
 		$arraygen=DB::table('MODTIERRAS_PROCESO')
 		->select('genero',DB::raw('count(*) as y, genero'))
 		->groupBy('genero')
 		->get();
 		return View::make('modulotierras.reporgenero', array('arraygen' => $arraygen));
 	}
+	public function Reportiempo()
+	{		
+		$arraytiempo=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->get();
+		return View::make('modulotierras.reportiempo', array('arraygen' => $arraytiempo));
+		//consulta para retornar los procesos por abogado
+		$arrayproceso = DB::select("SELECT final.id_proceso,Sum(CASE WHEN final.id_estado = '1' THEN 1 ELSE 0 END) as estudiojuridico, Sum(CASE WHEN final.id_estado = '2' AND final.levtopo != '2' THEN (CASE WHEN final.levtopo = '3' THEN 2 ELSE 1 END) ELSE 0 END) as levantamientotopografico, Sum(CASE WHEN final.id_estado = '3' OR final.id_estado = '4' THEN 1 ELSE 0 END) as radicado, Sum(CASE WHEN final.id_estado = '5' AND final.fechainspeccionocular2 != '2' THEN (CASE WHEN final.fechainspeccionocular2 = '3' THEN 2 ELSE 1 END) ELSE 0 END) as visitainspeccionocular, Sum(CASE WHEN final.id_estado = '6' OR final.id_estado = '7' OR final.id_estado = '8' THEN 1 ELSE 0 END) as resultadoprocesal, Sum(CASE WHEN final.id_estado = '9' THEN 1 ELSE 0 END) as registroorip	 FROM (SELECT proce.id_proceso, procesta.id_estado,proce.respjuridico,proce.fechainspeccionocular2,proce.levtopo FROM( SELECT pro.id_proceso,pro.respjuridico	,Sum(CASE WHEN pro.requierevisinsp = '1' THEN (CASE WHEN pro.fechainspeccionocular != '' THEN 1 ELSE 2 END) ELSE 3 END) as fechainspeccionocular2,Sum(CASE WHEN pro.requiererespgeo = '1' THEN (CASE WHEN pro.docutopo = '1' THEN 1 ELSE 2 END) ELSE 3 END) as levtopo FROM( SELECT proceso.id_proceso ,proceso.respjuridico ,proceso.requierevisinsp ,proceso.fechainspeccionocular ,proceso.requiererespgeo,Sum(CASE WHEN prodocu.id_documento = '2' THEN 1 ELSE 0 END) as docutopo FROM (SELECT id_proceso ,id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_documento=2)as prodocu RIGHT JOIN MODTIERRAS_PROCESO as proceso ON prodocu.id_proceso=proceso.id_proceso group by proceso.id_proceso,proceso.respjuridico,proceso.requierevisinsp,proceso.fechainspeccionocular,proceso.requiererespgeo) as pro group by pro.id_proceso,pro.respjuridico) as proce JOIN MODTIERRAS_PROCESTADO as procesta ON procesta.id_proceso=proce.id_proceso) as final group by final.id_proceso");
+		
+		
+	}
 	
 	public function Diferenciafechas()
 	{
 		
-		$datetime1 = date_create('2015-01-01');
+		$datetime1 = date_create('2016-01-01');
 		$datetime2 = date_create();
 		$diferencia = date_diff($datetime1, $datetime2);
 
-		
 		$resul=$diferencia->format('%y años, %m meses, %d días, %r%a total días');
 
-		return $resul;
-
-		return View::make('modulotierras.reporgenero', array('diferencia' => $diferencia));
+		return $resul;		
 	}
 }
 ?>

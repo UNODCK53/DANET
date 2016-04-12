@@ -261,6 +261,7 @@ Route::filter('consmapfierras', function ()
    }
 });
 //Finaliza filtros tierras
+//--------------------------------------------------------------------------------------------------------------------------
 //Fitros módulo de GME
 Route::filter('valcertGME', function ()
 {
@@ -315,6 +316,7 @@ Route::filter('informesGME', function ()
    }
 });
 //Finaliza fitros módulo de GME
+//--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo SISCADI
 Route::filter('ConsencSISCADI', function ()
 {
@@ -343,6 +345,7 @@ Route::filter('indicarecoSISCADI', function ()
    }
 });
 //Finaliza filtros módulo SISCADI
+//--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo Documentos
 Route::filter('cargueDOCUMENTOS', function ()
 {
@@ -384,6 +387,36 @@ Route::filter('reporDOCUMENTOS', function ()
    }
 });
 //Finaliza filtros módulo Documentos
+//--------------------------------------------------------------------------------------------------------------------------
+//Inicia filtros módulo Geoapi
+Route::filter('tecsafGEOAPI', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="5101")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('repordistorgGEOAPI', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="5105")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza filtros módulo Geoapi
+//--------------------------------------------------------------------------------------------------------------------------
 Route::filter('grupo1',function()
 {
    $grupo=Auth::user()->grupo;
