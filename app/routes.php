@@ -111,6 +111,13 @@ Route::group(array('before' => 'auth'), function()
   Route::get('distribucion_organizacion', array('before' => 'repordistorgGEOAPI', 'uses' => 'GeoapiController@DistribOrganiz'));
   //Termina rutas para el módulo de Geoapi
   //--------------------------------------------------------------------------------------------------------------------------
+  //Rutas para módulo de GUARDAUN  
+  Route::get('guardaun', array('before'=>'guardaUN', function(){return View::make('guardaun');}));
+  //Termina rutas para el módulo de GUARDAUN
+  //--------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 //rutas de prueba despues de pruebas se pueden borrar
 Route::group(array('before' => 'grupo1|level1'), function()

@@ -417,6 +417,23 @@ Route::filter('repordistorgGEOAPI', function ()
 });
 //Finaliza filtros módulo Geoapi
 //--------------------------------------------------------------------------------------------------------------------------
+//Inicia filtros módulo guardaun
+Route::filter('guardaUN', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="9999")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza filtros módulo guardaun
+//--------------------------------------------------------------------------------------------------------------------------
+
 Route::filter('grupo1',function()
 {
    $grupo=Auth::user()->grupo;

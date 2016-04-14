@@ -109,6 +109,8 @@ $menureportesiscadi=false;$menuindicadoressiscadi=false;
 $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
+//variables guardaun
+$menuguardaun=false;
 //foreach para habilitar las variables para el menú general
  foreach($acc as $acceso){
     if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){$menucongral= true;}
@@ -145,6 +147,7 @@ $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$
     if(($acceso->id_vista=="5110")&&($acceso->acces=="1")){$menugeoapirepornovt1=true;}
     if(($acceso->id_vista=="5111")&&($acceso->acces=="1")){$menugeoapirepornovt2=true;}
     if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
+    if(($acceso->id_vista=="9999")&&($acceso->acces=="1")){$menuguardaun=true;}    
  }
  ?>
 <!--Segundo contenedor menu secundario-->
@@ -330,7 +333,11 @@ $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$
               <!--Termina espacio de reportes-->
             </ul>
           </li>
-        @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
+        @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->        
+        @if($menuguardaun) <!--Oculta la opción guardaun si no es el administrador-->  
+          <li id="guardaun" role="menu"><a href="guardaun" class="enlace-menu">GUARDAUN</a></li>             
+        @endif<!--Finaliza Ocultar la opción guardaun si no es el administrador-->
+        
       </ul>
     </div>
     <div class="col-sm-1"></div>
@@ -529,6 +536,9 @@ $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$
                   </ul>
                 </li>
               @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
+              @if($menuguardaun) <!--Oculta la opción guardaun si no es el administrador-->  
+              <li><a id="guardaunmenupeq" href="guardaun">GUARDAUN</a></li>              
+              @endif<!--Finaliza Ocultar la opción guardaun si no es el administrador-->
             </ul><!-- fin de menu con submenu -->
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
