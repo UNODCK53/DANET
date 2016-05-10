@@ -167,8 +167,8 @@
         <div class="col-xs-12 col-sm-3">
           <br />
             <strong>Intervención 2014</strong>
-            <small><p>Es una herramienta del Programa de Desarrollo Alternativo de UNODC, que permite administrar y compartir la información generada dentro del marco del proyecto de “Apoyo a la implementación de una estrategia integral y sostenible de reducción de cultivos ilícitos y promoción del desarrollo alternativo en Colombia”.
-             <a href="#">Más información!</a></p>
+            <small><p>Mediante esta herramienta, la coordinación puede realizar el seguimiento a los indicadores que dan muestra de la evaluación del monitoreo.
+             </p>
             </small>
         </div>
         
@@ -180,8 +180,8 @@
         <div class="col-xs-12 col-sm-3">
           <br />
             <strong>Sistema de administración de la información</strong>
-            <small><p>Es una herramienta del Programa de Desarrollo Alternativo de UNODC, que permite administrar y compartir la información generada dentro del marco del proyecto de “Apoyo a la implementación de una estrategia integral y sostenible de reducción de cultivos ilícitos y promoción del desarrollo alternativo en Colombia”.
-                <a href="#">Más información!</a></p>
+            <small><p>Es una herramienta del Programa de Desarrollo Alternativo de UNODC, que permite administrar y compartir la información generada por el equipo de monitoreo.
+             </p>
             </small>
         </div>
     </div>
@@ -196,8 +196,8 @@
         <div class="col-xs-12 col-sm-3">
           <br />
           <strong>SISCADI</strong>
-            <small><p>Es una herramienta del Programa de Desarrollo Alternativo de UNODC, que permite administrar y compartir la información generada dentro del marco del proyecto de “Apoyo a la implementación de una estrategia integral y sostenible de reducción de cultivos ilícitos y promoción del desarrollo alternativo en Colombia”.
-                <a href="#">Más información!</a></p></small>
+            <small><p>En 2015 el equipo de monitoreo cuenta con una novedosa herramienta que permite el levantamiento de encuestas mediante un dispositivo móvil.
+             </p></small>
         </div>
         <!--imagen responsive-->
         <div id="imagen1" class="col-xs-12 col-sm-3">
@@ -207,8 +207,8 @@
         <div class="col-xs-12 col-sm-3">
           <br />
             <strong>¿Dónde estamos?</strong>
-            <small><p>Es una herramienta del Programa de Desarrollo Alternativo de UNODC, que permite administrar y compartir la información generada dentro del marco del proyecto de “Apoyo a la implementación de una estrategia integral y sostenible de reducción de cultivos ilícitos y promoción del desarrollo alternativo en Colombia”.
-                <a href="#">Más información!</a></p></small>
+            <small><p>Con esta aplicación podrás ver en donde estuvimos monitoreando proyectos de desarrollo alternativo en el mes inmediatamente anterior.
+                </p></small>
         
         </div>
         
@@ -223,8 +223,8 @@
         <div class="col-xs-12 col-sm-3">
           <br />
           <strong>10 años de monitoreo desarrollo alternativo</strong>
-            <small><p>Es una herramienta del Programa de Desarrollo Alternativo de UNODC, que permite administrar y compartir la información generada dentro del marco del proyecto de “Apoyo a la implementación de una estrategia integral y sostenible de reducción de cultivos ilícitos y promoción del desarrollo alternativo en Colombia”.
-                <a href="#">Más información!</a></p></small>
+            <small><p>En esta página podrás encontrar información histórica de los territorios intervenidos por el gobierno de Colombia y monitoreados por UNODC.
+            </p></small>
         </div>
         <!--imagen responsive-->
         <div class="col-xs-12 col-sm-3">
@@ -234,8 +234,8 @@
         <div class="col-xs-12 col-sm-3">
           <br />
             <strong>Monitoreo a GME</strong>
-            <small><p>Es una herramienta del Programa de Desarrollo Alternativo de UNODC, que permite administrar y compartir la información generada dentro del marco del proyecto de “Apoyo a la implementación de una estrategia integral y sostenible de reducción de cultivos ilícitos y promoción del desarrollo alternativo en Colombia”.
-                <a href="#">Más información!</a></p></small>
+            <small><p>Seguimiento al monitoreo realizado por UNODC al proceso de certificación de áreas erradicadas por los Grupos Móviles de Erradicación – GME.
+            </p></small>
         
         </div>
         <!--nueva columna auxiliar solo para dar espacio al final-->

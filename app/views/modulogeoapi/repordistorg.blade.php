@@ -36,10 +36,11 @@
   <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
-      <h2 class="text-center text-primary">Distribución por Organización</h2>
-          
-            <p class="lead text-justify">escribe algo...</p>
-            <input type="button" id="btnExport" value=" Export Table data into Excel " />
+      <h2 class="text-center text-primary">Reporte de sincronización de datos por organización</h2>
+            @foreach($pp_datos as $dato1)@endforeach
+            
+            <p class="lead text-justify"><br>En total se han sincronizados {{$dato1->PP}} proyectos productivos ({{$dato1->BEN}} titulares) de {{$dato1->departamen}} departamentos, {{$dato1->municipio}} municipios, {{$dato1->territorio}} territorios y {{$dato1->memorando}} memorandos de acuerdo. La siguiente Tabla presenta el panorama general de sincronización por organización. Se debe tener en cuenta que los datos repetidos no se presentan en este reporte.</p>
+            
           </div>
       <div class="col-sm-1"></div>
     </div>
