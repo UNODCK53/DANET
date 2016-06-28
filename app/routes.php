@@ -10,13 +10,13 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::get('municipios_concentracion',function(){return View::make('access_outside/dondeestamos');});
 //Ruta del index
 Route::get('/', function()
 {
   return View::make('portada');
 });
-Route::controller('password', 'RemindersController');
-Route::get('forgotpassword', 'RemindersController@getRemind');
+
 //nos dirige a al contlevelador encargado de hacer la verificacion del login
 Route::post('login','UserLogin@user');
 //ruta para cerrar sesión y nos redirige a la portada
@@ -35,6 +35,8 @@ Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 
+Route::controller('password', 'RemindersController');
+Route::get('forgotpassword', 'RemindersController@getRemind');
 //para ingresar a las siguientes rutas se tiene que estar autenticado:
 Route::group(array('before' => 'auth'), function()
 {
@@ -122,8 +124,7 @@ Route::group(array('before' => 'auth'), function()
 //rutas de prueba despues de pruebas se pueden borrar
 Route::group(array('before' => 'grupo1|level1'), function()
 {
-  //solo puede ingresar el level 1 a la vista 1
-  Route::get('/vista1',function(){return View::make('vista1');});
+  //solo puede ingresar el level 1 a la vista 1  
   Route::get('accvistas',function(){return View::make('admin/accesovistas');});
   Route::get('diferencia','TierrasController@Diferenciafechas');
   
@@ -132,8 +133,9 @@ Route::group(array('before' => 'grupo1|level1'), function()
 
   // ruta al controlador restfull donde esta toda la informacion de tierras
   //Route::get('vista3','TierrasController@Listado');
-  //Route::get('vista3',function(){return View::make('vista3');});
-  Route::get('vista3','TierrasController@PruebaPro');  
+  
+  Route::get('vista3','TierrasController@PruebaPro');
+  Route::get('vista1',function(){return View::make('vista1');});  
   Route::get('master_docu','DocumentosController@Masterdocu');
   Route::get('error', function(){return View::make('error');});
   //permite acceso a las vistas del modulo de documentos

@@ -200,18 +200,19 @@
              </p></small>
         </div>
         <!--imagen responsive-->
-        <div id="imagen1" class="col-xs-12 col-sm-3">
-          <center><img src="assets/img/Circulo_Donde_estamos.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
-        </div>
-        <!--Texto del contenido-->
-        <div class="col-xs-12 col-sm-3">
-          <br />
-            <strong>¿Dónde estamos?</strong>
-            <small><p>Con esta aplicación podrás ver en donde estuvimos monitoreando proyectos de desarrollo alternativo en el mes inmediatamente anterior.
-                </p></small>
-        
-        </div>
-        
+        <a href="<?=URL::to('municipios_concentracion'); ?>" target="_blank" ><div>
+          <div id="imagen1" class="col-xs-12 col-sm-3">
+            <center><img src="assets/img/Circulo_Donde_estamos.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
+          </div>
+          <!--Texto del contenido-->
+          <div class="col-xs-12 col-sm-3">
+            <br />
+              <strong>¿Dónde estamos?</strong>
+              <small><p>Con esta aplicación podrás ver en donde estuvimos monitoreando proyectos de desarrollo alternativo en el mes inmediatamente anterior.
+                  </p></small>
+          
+          </div>
+        </div></a>
     </div>
     <!--Segundo fila nuevo bloque izquierda-->
     <div class="row">
