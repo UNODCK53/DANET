@@ -207,8 +207,8 @@
           <!--Texto del contenido-->
           <div class="col-xs-12 col-sm-3">
             <br />
-              <strong>¿Dónde estamos?</strong>
-              <small><p>Con esta aplicación podrás ver en donde estuvimos monitoreando proyectos de desarrollo alternativo en el mes inmediatamente anterior.
+              <strong>Municipios de concentración</strong>
+              <small><p>Con esta aplicación podrás ver en donde se encuentran los municipios de concentración acordados por el gobierno de Colombia y las FARC.
                   </p></small>
           
           </div>

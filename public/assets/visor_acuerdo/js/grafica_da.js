@@ -19,7 +19,7 @@
 					spacingBottom: 1 
 				},
 				title: {
-					text: 'Histórico municipal <br> Desarrollo Alternativo'
+					text: 'Histórico Desarrollo Alternativo'
 				},
 				subtitle: {
 					
@@ -94,29 +94,29 @@
 			};					
 			
 			if (typeof(props) != "undefined"){
-				X=[{name: '2006', y: parseInt(props.DA_2006)},{name: '2007', y: parseInt(props.DA_2007)},{name: '2008', y: props.DA_2008},{name: '2009', y: props.DA_2009},{name: '2010', y: props.DA_2010},{name: '2011', y: props.DA_2011},{name: '2012', y: props.DA_2012},{name: '2013', y: props.DA_2013},{name: '2014', y: props.DA_2014}]
-				Y=props.NOM_MPIO + ", " +props.NOM_DPTO
+				XX=[{name: '2006', y: parseInt(props.DA_2006)},{name: '2007', y: parseInt(props.DA_2007)},{name: '2008', y: props.DA_2008},{name: '2009', y: props.DA_2009},{name: '2010', y: props.DA_2010},{name: '2011', y: props.DA_2011},{name: '2012', y: props.DA_2012},{name: '2013', y: props.DA_2013},{name: '2014', y: props.DA_2014}]
+				YY=props.NOM_MPIO + ", " +props.NOM_DPTO
 				
 				//Z=[0,parseInt(props.GME_2007),parseInt(props.GME_2008),parseInt(props.GME_2009),parseInt(props.GME_2010),parseInt(props.GME_2011),parseInt(props.GME_2012),parseInt(props.GME_2013)]
 				
-				W=[props.DA_2007,props.DA_2008,props.DA_2009,props.DA_2010,props.DA_2011,props.DA_2012,props.DA_2013]
+				WW=[props.DA_2007,props.DA_2008,props.DA_2009,props.DA_2010,props.DA_2011,props.DA_2012,props.DA_2013]
 				//T=[props.GME_2007,props.GME_2008,props.GME_2009,props.GME_2010,props.GME_2011,props.GME_2012,props.GME_2013]
 				
 			//console.log(drill);
 			}
 			else{
 			//console.log("Hola mundo");	
-			X=[0,0,0,0,0,0,0,0,0]
-			Y="Seleccione un municipio"
+			XX=[0,0,0,0,0,0,0,0,0]
+			YY="Seleccione un municipio"
 			//Z=["a",0,0,0,0,0,0]
-			W=[0]
+			WW=[0]
 			//T=[0]
 			//drill=["a"]
 			//console.log(drill);
 			}
 						
 			$(function (){
-				datos(X,Y,Z,W,T);				
+				datos(XX,YY,WW);				
 				var chart = new Highcharts.Chart(options);
 			});
 		

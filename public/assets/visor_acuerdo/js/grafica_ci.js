@@ -19,7 +19,7 @@
 					spacingBottom: 1 
 				},
 				title: {
-					text: 'Histórico municipal <br> Cultivos Ilícitos'
+					text: 'Histórico Cultivos Ilícitos'
 				},
 				subtitle: {
 					
@@ -106,9 +106,11 @@
 			}
 			else{
 			//console.log("Hola mundo");	
-			X=[0,0,0,0,0,0,0,0,0]
-			Y="Seleccione un municipio"
-			Z=["a",0,0,0,0,0,0]
+			X=[{name: '2006', y: 77870},{name: '2007', y: 98899},{name: '2008', y: 80953},{name: '2009', y: 68027},{name: '2010', y: 61815},{name: '2011', y: 63764},{name: '2012', y: 47788},{name: '2013', y: 48189},{name: '2014', y: 69132},,{name: '2015', y: ""}]
+			Y="Nacional"
+			Z=[0,50583,84034,48899,30667,25141,14529,10344,6099,5254]
+
+
 			W=[0]
 			T=[0]
 			//drill=["a"]

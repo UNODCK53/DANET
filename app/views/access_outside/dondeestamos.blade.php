@@ -4,7 +4,7 @@
     <meta charset="UTF-8">    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Mapa del acuerdo</title>
+    <title>Municipios de conentración</title>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <link rel="stylesheet" href="assets/visor_acuerdo/css/map_styles.css"/>
@@ -12,7 +12,7 @@
     <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
     <script src="assets/visor_acuerdo/js/Google.js"></script>
     <script type="text/javascript" src="assets/visor_acuerdo/js/jquery.min.js"></script>
-    
+    <script src="assets/visor_acuerdo/js/L.Control.MousePosition.js"></script>
 
     <script type="text/javascript" charset="utf-8" src="assets/visor_acuerdo/capas/municipios.js"></script>
 <script type="text/javascript" charset="utf-8" src="assets/visor_acuerdo/capas/veredas.js"></script>
@@ -30,6 +30,11 @@
 
     <script type="text/javascript"> 
 
+
+        //VARIABLE CREDITOS DEL MAPA
+        var creditos= " <b>UNODC Colombia 2014</b> - Desarrollo Alternativo - Unidad de información y análisis<br>La información geográfica presentada aqui no representa reconocimiento o aceptación por parte de las Naciones Unidas. 27/06/2016 <br>&copy; <a href='http://leafletjs.com/'>Leaflet</a> | &copy; <a href='http://www.highcharts.com/'>Highcharts</a>" 
+        
+
         //POSICIÓN INICIAL DEL MAPA
         bounds = new L.LatLngBounds(new L.LatLng(-7, -90), new L.LatLng(15, -50));
         var map = new L.Map('map', {center: [4,-80], zoom: 6, maxBounds: bounds, zoomControl: false, attributionControl: false});
@@ -44,20 +49,20 @@
             attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'});
         
         //CARGAR CAPAS
-        var style_veredas = {"color": "#cc66ff", "weight": 1.5, "opacity": 0.9 };
-        var vda = L.geoJson(veredas, {style: style_veredas}).addTo(map);
-        var vda_points = L.geoJson(veredas_point,{onEachFeature: interaccion_veredas});
         var mpios_acuerdo = L.geoJson(mpios_ac, {style: estilo, onEachFeature: interaccion_mpios}).addTo(map);
+        var style_veredas = {"color": "#cc66ff", "weight": 1.5, "opacity": 1, "fillOpacity": 0.8 };
+        var vda = L.geoJson(veredas, {style: style_veredas});        
+        var vda_points = L.geoJson(veredas_point,{onEachFeature: interaccion_veredas});
         var style_colombia = {"color": "#202020", "weight": 1.5, "opacity": 0.9 };
         var colombia_js= L.geoJson(colombia, {style: style_colombia});      
         colombia_js.addTo(map)
 
         function getColor(d) {
         return d == "Campamento" ? '#ff9933' :
-           d == "Campamento y ZV"  ? '#BD0026' :
-           d == "Piloto"  ? 'red' :
-           d == "Zona veredal"  ? '#3366ff' :
-           d == "Áreas de desarrollo alternativo" ? '#cc66ff':
+           d == "Campamento y Zona Veredal"  ? '#BD0026' :
+           d == "Piloto de sustitución de cultivos ilícitos"  ? '#009900' :
+           d == "Zonas veredales transitorias de normalización"  ? '#3366ff' :
+           d == "Áreas de Desarrollo Alternativo" ? '#cc66ff':
                       '#FFEDA0';
         }
 
@@ -68,7 +73,7 @@
         legend.onAdd = function (map) {
 
             var div = L.DomUtil.create('div', 'info legend'),
-                ha = ["Campamento", "Campamento y ZV", "Piloto", "Zona veredal","Áreas de desarrollo alternativo"],
+                ha = ["Campamento", "Campamento y Zona Veredal", "Piloto de sustitución de cultivos ilícitos", "Zonas veredales transitorias de normalización","Áreas de Desarrollo Alternativo"],
                 labels = [],
                 from, to;
 
@@ -81,40 +86,41 @@
                     from);
             }
 
-            div.innerHTML = "<normal_bold><b>Leyenda</b></normal_bold><br/><br/>" + labels.join('<br>');
+            div.innerHTML = "<normal_bold><b>Municipio con:</b></normal_bold><br/>" + labels.join('<br>');
             return div;
         };
 
-        legend.addTo(map);
+        
 
         //INCLUIR TEXTO GME 
             
-        var contextBanner = L.control({position: 'topleft'});
+        var contextBanner = L.control({position: 'bottomleft'});
 
         contextBanner.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'contexto'); // create a div with a class "contexto"
             this._div.id = "context_Banner";
-            var html_banner=  "<table><tr><td><img src='assets/visor_acuerdo/images/info.png' width='20' height='20' align='middle'></td><td><b>Munucipios del acuerdo</b></td>" ;
+            var html_banner=  "<b>Municipios de concentración<br></b><br>El 23 de junio de 2016 el gobierno de Colombia y las FARC E.P. firmaron el punto 3 del proceso de paz que da inicio al fin del conflicto. En este sentido, dos Tipos de áreas fueron definidas <br><br><b>1. Zonas veredales transitorias de normalización: </b><br><br>Cuyo objeto es garantizar precisamente que cesen el fuego y las hostilidades de manera definitiva y que las FARC dejen las armas en manos de la Organización de las Naciones Unidas”.<br><br>Estas zonas son veredas o fracciones de veredas. La vereda es la más pequeña subdivisión en la estructura administrativa territorial colombiana.<br><br>De las 33 mil veredas existentes en el territorio colombiano, se usarán como zonas veredales transitorias de normalización (ZVTN) un total de 23.<br><br><b>2. Campamentos:</b><br><br>Habrá 8 campamentos, cada uno de 200 metros x 200 metros, es decir 4 hectáreas." ;
             this._div.innerHTML= html_banner;
             return this._div;
         };
 
         contextBanner.addTo(map);
+        legend.addTo(map);
 
-        var context_gme= document.getElementById("context_Banner");
-        context_gme.onmouseover=function(){context_gme.innerHTML="<b>Dos Tipos de áreas fueron definidas <br><br>1. Zonas veredales transitorias de normalización (ZVTN): </b><br><br>Cuyo objeto es garantizar precisamente que cesen el fuego y las hostilidades de manera definitiva y que las FARC dejen las armas en manos de la Organización de las Naciones Unidas”.<br><br>Estas zonas son veredas o fracciones de veredas. La vereda es la más pequeña subdivisión en la estructura administrativa territorial colombiana.<br><br>De las 33 mil veredas existentes en el territorio colombiano, se usarán como zonas veredales transitorias de normalización (ZVTN) un total de 23.<br><br><b>2. Campamentos:</b><br><br>Habrá 8 campamentos, cada uno de 200 metros x 200 metros, es decir 4 hectáreas."};
-        context_gme.onmouseout=function(){context_gme.innerHTML="<table><tr><td><img src='assets/visor_acuerdo/images/info.png' width='20' height='20' align='middle'></td><td><b>Munucipios del acuerdo</b></td>"};
+        //var context_gme= document.getElementById("context_Banner");
+        //context_gme.onmouseover=function(){context_gme.innerHTML="<b>Dos Tipos de áreas fueron definidas <br><br>1. Zonas veredales transitorias de normalización (ZVTN): </b><br><br>Cuyo objeto es garantizar precisamente que cesen el fuego y las hostilidades de manera definitiva y que las FARC dejen las armas en manos de la Organización de las Naciones Unidas”.<br><br>Estas zonas son veredas o fracciones de veredas. La vereda es la más pequeña subdivisión en la estructura administrativa territorial colombiana.<br><br>De las 33 mil veredas existentes en el territorio colombiano, se usarán como zonas veredales transitorias de normalización (ZVTN) un total de 23.<br><br><b>2. Campamentos:</b><br><br>Habrá 8 campamentos, cada uno de 200 metros x 200 metros, es decir 4 hectáreas."};
+        //context_gme.onmouseout=function(){context_gme.innerHTML="<table><tr><td><img src='assets/visor_acuerdo/images/info.png' width='20' height='20' align='middle'></td><td><b>Munucipios del acuerdo</b></td>"};
 
         
         //función que define el estilo de la capa municipios
         function estilo(feature) {
         return {
-        fillColor: getColor(feature.properties.acuerdo),
+        fillColor: getColor(feature.properties.Acuerdo_01),
         weight: 2,
         opacity: 1,
         color: 'white',
         dashArray: '3',
-        fillOpacity: 0.7
+        fillOpacity: 0.6
         };
         }
 
@@ -145,8 +151,8 @@
             var popupText = '<hr>Departamento: ' + feature.properties.NOM_DPTO + '<br/>   Municipio: ' + feature.properties.NOM_MPIO + '<br> Tipo: ' + feature.properties.acuerdo +'<hr>';  
             //layer.bindPopup(popupText);
             layer.on({
-                mouseover: borde,
-                mouseout: resetborde,
+                //mouseover: borde,
+                //mouseout: resetborde,
                 click: onClick,
             });         
             //layer.bindPopup("Hola");
@@ -198,8 +204,8 @@
         //"Mapa UNODC": topoMap_4,
         "Mapa Satelital Google " : googleLayer_satellite    
         };
-        var capas = {"Municipios acuerdo": mpios_acuerdo}; 
-        L.control.layers(baseMaps,capas,{position: 'bottomleft', collapsed: true}).addTo(map);
+        var capas = {"Municipios acuerdo": mpios_acuerdo, "Áreas de Desarrollo Alternativo": vda, "Veredas de Desarrollo Alternativo": vda_points}; 
+        L.control.layers(baseMaps,capas,{position: 'bottomleft', collapsed: false}).addTo(map);
 
         //CONTROL ZOOM
         
@@ -221,7 +227,12 @@
                 }
             }
         })
-
+    
+    //Addición de creditos a DA/UNODC en posicion bottomright
+    var creditos_box= L.control.attribution({position: 'bottomright'});
+    creditos_box.setPrefix('<div class= "creditos">'+creditos).addTo(map);
+    //Control Mouse Position
+    L.control.mousePosition({position: 'bottomright'}).addTo(map);
     </script>
     <script type="text/javascript" src="assets/visor_acuerdo/js/grafica_da.js"></script>
     <script type="text/javascript" src="assets/visor_acuerdo/js/grafica_ci.js"></script>
