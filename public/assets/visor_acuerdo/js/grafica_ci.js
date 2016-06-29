@@ -29,7 +29,7 @@
 					//categories: ['2007', '2008', '2009', '2010', '2011','2012','2013'],
 					type: 'category',
 					title: {
-						text: 'Censo',
+						text: 'Año',
 						align: 'high'
 					},
 					labels: {
@@ -94,13 +94,13 @@
 			};					
 			
 			if (typeof(props) != "undefined"){
-				X=[{name: '2006', y: parseInt(props.C_2006)},{name: '2007', y: parseInt(props.C_2007)},{name: '2008', y: props.C_2008},{name: '2009', y: props.C_2009},{name: '2010', y: props.C_2010},{name: '2011', y: props.C_2011},{name: '2012', y: props.C_2012},{name: '2013', y: props.C_2013},{name: '2014', y: props.C_2014}]
+				X=[{name: '2006', y: parseInt(props.C_2006)},{name: '2007', y: parseInt(props.C_2007)},{name: '2008', y: props.C_2008},{name: '2009', y: props.C_2009},{name: '2010', y: props.C_2010},{name: '2011', y: props.C_2011},{name: '2012', y: props.C_2012},{name: '2013', y: props.C_2013},{name: '2014', y: props.C_2014},{name: '2015', y: 0}]
 				Y=props.NOM_MPIO + ", " +props.NOM_DPTO
 				
-				Z=[0,parseInt(props.GME_2007),parseInt(props.GME_2008),parseInt(props.GME_2009),parseInt(props.GME_2010),parseInt(props.GME_2011),parseInt(props.GME_2012),parseInt(props.GME_2013),parseInt(props.GME_2014)]
+				Z=[0,parseInt(props.GME_2007),parseInt(props.GME_2008),parseInt(props.GME_2009),parseInt(props.GME_2010),parseInt(props.GME_2011),parseInt(props.GME_2012),parseInt(props.GME_2013),parseInt(props.GME_2014),parseInt(props.GME_2015)]
 				
-				W=[props.C_2007,props.C_2008,props.C_2009,props.C_2010,props.C_2011,props.C_2012,props.C_2013]
-				T=[props.GME_2007,props.GME_2008,props.GME_2009,props.GME_2010,props.GME_2011,props.GME_2012,props.GME_2013,props.GME_2014]
+				W=[props.C_2006,props.C_2007,props.C_2008,props.C_2009,props.C_2010,props.C_2011,props.C_2012,props.C_2013,props.C_2014,0]
+				T=[props.GME_2007,props.GME_2008,props.GME_2009,props.GME_2010,props.GME_2011,props.GME_2012,props.GME_2013,props.GME_2014,props.GME_2015]
 				
 			//console.log(drill);
 			}

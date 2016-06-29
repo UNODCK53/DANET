@@ -153,7 +153,7 @@
     
         <div>
           <br />
-          <h2><p class="text-center">10 años apoyando el cambio</p></h2>
+          <h2><p class="text-center">Desarrollo Alternativo</p></h2>
           <br />
         </div>
     </div>
