@@ -1,4 +1,4 @@
 .env.local.php
 .env.production.php
-.env.php
 .env.homestead.php
+.env.php

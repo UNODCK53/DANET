@@ -1036,13 +1036,11 @@ class DocumentosController extends BaseController {
 	}	
 
 	public function Masterdocu()
-	{
-			
+	{			
 			$dat="'%a%'";
 			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat"); 
 			return count($queryresultbusbasic);
 			//print_r($queryresultbusbasic);
-
 	}
 
 }

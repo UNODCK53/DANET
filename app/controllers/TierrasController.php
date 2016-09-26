@@ -654,6 +654,7 @@ class TierrasController extends BaseController {
 		->groupBy('nom_dpto','cod_dpto')
 		->get();
 		$arrayvial=array($arrayvial1,$arrayvial2,$arraestadosorder);
+		//return $arrayvial;
 		return View::make('modulotierras.reporestado',array('arraydpto' => $arraydpto),array('arrayvial' => $arrayvial));
 	}
 

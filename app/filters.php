@@ -344,6 +344,19 @@ Route::filter('indicarecoSISCADI', function ()
       return Redirect::to('principal');
    }
 });
+Route::filter('EstadisticaSISCADI', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="3103")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
 //Finaliza filtros módulo SISCADI
 //--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo Documentos

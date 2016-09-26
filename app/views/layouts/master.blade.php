@@ -104,7 +104,7 @@ $menucargaini=false;$menuprocadj=false;$menulevtopo=false;$menucoor=false;$menum
 //variables menú GME
 $menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugmeinformes=false;
 //variables menú Siscadi
-$menureportesiscadi=false;$menuindicadoressiscadi=false;
+$menureportesiscadi=false;$menuindicadoressiscadi=false;$menuestadisticosiscadi=false;
 //variables menú Documentos
 $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
@@ -132,6 +132,7 @@ $menuguardaun=false;
     if(($acceso->id_vista=="2104")&&($acceso->acces=="1")){$menugmeinformes=true;}
     if(($acceso->id_vista=="3101")&&($acceso->acces=="1")){$menureportesiscadi=true;}
     if(($acceso->id_vista=="3102")&&($acceso->acces=="1")){$menuindicadoressiscadi=true;}
+    if(($acceso->id_vista=="3103")&&($acceso->acces=="1")){$menuestadisticosiscadi=true;}
     if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){$menucarguedocu=true;}
     if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){$menuconsuldocu=true;}
     if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){$menurepordocu=true;}
@@ -171,7 +172,7 @@ $menuguardaun=false;
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción si no es el administrador-->
-        @if(($menureportesiscadi) || ($menuindicadoressiscadi))
+        @if(($menureportesiscadi) || ($menuindicadoressiscadi) || ($menuestadisticosiscadi))
           <li class="dropdown"id="siscadi" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
             @if($menuindicadoressiscadi)
@@ -179,7 +180,10 @@ $menuguardaun=false;
             @endif
             @if($menureportesiscadi)
               <li id="reportesiscadi"><a  href='siscadi_encuentas'>Reportes PDF</a></li>
-            @endif            
+            @endif
+            @if($menuestadisticosiscadi)
+              <li id="estadisticosiscadi"><a  href='siscadi_estadisticas'>Estadisticas</a></li>
+            @endif             
             </ul>
           </li>
         @endif
@@ -372,7 +376,7 @@ $menuguardaun=false;
                   </ul>
                 </li>
               @endif
-              @if(($menureportesiscadi) || ($menuindicadoressiscadi))
+              @if(($menureportesiscadi) || ($menuindicadoressiscadi) || ($menuestadisticosiscadi))
                 <li class="dropdown"><a id="siscadimenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SISCADI <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     @if($menuindicadoressiscadi)
@@ -381,7 +385,9 @@ $menuguardaun=false;
                     @if($menureportesiscadi)
                     <li><a id="reportesiscadimenupeq" href='siscadi_encuentas'>Reportes PDF</a></li>
                     @endif
-
+                    @if($menuestadisticosiscadi)
+                    <li><a id="estadisticosiscadimenupeq" href='siscadi_estadisticas'>Estadisticas</a></li>                    
+                    @endif 
                   </ul>
                 </li>
               @endif

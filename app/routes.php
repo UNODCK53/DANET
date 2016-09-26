@@ -98,7 +98,9 @@ Route::group(array('before' => 'auth'), function()
   //--------------------------------------------------------------------------------------------------------------------------
   //rutas para modulo de SISCADI
   Route::get('siscadi_encuentas', array('before' => 'ConsencSISCADI', 'uses' => 'SiscadiController@reporte_encuesta'));
-  Route::get('siscadi_indicadores', array('before' => 'indicarecoSISCADI', 'uses' => 'SiscadiController@siscadi_indicadores'));  
+  Route::get('siscadi_indicadores', array('before' => 'indicarecoSISCADI', 'uses' => 'SiscadiController@siscadi_indicadores'));
+  Route::get('siscadi_estadisticas', array('before' => 'EstadisticaSISCADI', 'uses' => 'SiscadiController@siscadi_repestadistic'));
+  //Route::get('siscadi_estadisticas',function(){return View::make('modulosiscadi/diagnosticoterritorial');});
   //termina rutas para modulo de SISCADI 
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de Docuementos
@@ -138,6 +140,7 @@ Route::group(array('before' => 'grupo1|level1'), function()
   Route::get('vista1',function(){return View::make('vista1');});  
   Route::get('master_docu','DocumentosController@Masterdocu');
   Route::get('error', function(){return View::make('error');});
+  
   //permite acceso a las vistas del modulo de documentos
   
   //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
