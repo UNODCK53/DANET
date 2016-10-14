@@ -1295,6 +1295,7 @@ class SiscadiController extends BaseController {
 		//Consultas para obtener los datos del txt
 		$jsonarray = file_get_contents(public_path().'\assets\statistics\Encuesta_Beneficiarios_Diagnostico_Territorial.json');				
 		$jsonarray2 = json_decode($jsonarray, true);
+
 		//variables para buscar depto		
 		$deptosencu[] = null;
 		$deptoarray = array();
@@ -1312,7 +1313,10 @@ class SiscadiController extends BaseController {
 			    	$deptoarray[$a] = $deptosencu[$j];
 			    	$a = 1+$a;
 			    }
-		}		
+		}
+		//----------------------------copia abajo
+		//return $jsonarray2;
+		//----------------------------hasta aca		
 		
 		//Consultas para obtener los tipos de mision segun la intervencion 
 		$deptoarrayfin = DB::table('DEPARTAMENTOS')
@@ -1320,6 +1324,7 @@ class SiscadiController extends BaseController {
 		->select('DEPARTAMENTOS.COD_DPTO','DEPARTAMENTOS.NOM_DPTO')
 		->orderBy('DEPARTAMENTOS.NOM_DPTO')		
 		->get();
+		//retorna un array con los deptos para el combobox
 		return View::make('modulosiscadi.diagnosticoterritorial', array('deptoarray' =>$deptoarrayfin));		
 	}
 	public function postReporestadompio()
@@ -1327,15 +1332,126 @@ class SiscadiController extends BaseController {
 		//Consultas para obtener el número de procesos por estado y son viables
 		$jsonarray = file_get_contents(public_path().'\assets\statistics\Encuesta_Beneficiarios_Diagnostico_Territorial.json');				
 		$jsonarray2 = json_decode($jsonarray, true);
-
-		Input::get('dpto');
 		
-		
-		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
-		$arrayvial=array($arraympio,$arrayvial1,$arrayvial2);
-		return Response::json($arrayvial);
-	}			
-
+		//variables para buscar mpio
+		$mpiosencu[] = null;
+		$mpiosarray = array();
+		$a = 0;
+		//almacena del json  los datos de mpio para buscarlos y agruparlos
+		for ($i=0; $i < count($jsonarray2); $i++) { 
+			if ($jsonarray2[$i]['Cod_Dpto']==Input::get('dpto')) {
+				$mpiosencu[$a] = $jsonarray2[$i]['Cod_mpio'];
+				$a = 1+$a;
+			}			
+		}
+		$a = 0;
+		for ($j=0; $j < count($mpiosencu); $j++) { 
+			if (in_array($mpiosencu[$j], $mpiosarray)) {
+			    	//no hace nada 
+			} else {
+			    	//almacena en un arreglo
+			  	$mpiosarray[$a] = $mpiosencu[$j];
+			   	$a = 1+$a;
+			}
+		}
 			
+		$arraympio = DB::table('MUNICIPIOS')
+		->whereIn('COD_DANE', $mpiosarray)
+		->select('NOM_MPIO','COD_DANE')
+		->orderBy('NOM_MPIO')
+		->get();
+		//retorna un array con los municipios para el combobox
+		return Response::json($arraympio);
+	}
+	public function postReporestadovered()
+	{
+		//Consultas para obtener el número de procesos por estado y son viables
+		$jsonarray = file_get_contents(public_path().'\assets\statistics\Encuesta_Beneficiarios_Diagnostico_Territorial.json');				
+		$jsonarray2 = json_decode($jsonarray, true);
+		
+		//variables para buscar mpio  Nombre_Terr
+		$veresencu[] = null;
+		$verearray = array();
+		$a = 0;
+		//almacena del json  los datos de mpio para buscarlos y agruparlos
+		for ($i=0; $i < count($jsonarray2); $i++) { 
+			//if ($jsonarray2[$i]['Cod_mpio']==Input::get('mpio')) {
+			if ($jsonarray2[$i]['Cod_mpio']== Input::get('mpio')) {
+				$veresencu[$a]['Nombre_Terr'] = $jsonarray2[$i]['Nombre_Terr'];
+				$veresencu[$a]['Cod_Terr'] = $jsonarray2[$i]['Cod_Terr'];
+				$a = 1+$a;
+			}			
+		}
+		$a = 0;		
+		for ($j=0; $j < count($veresencu); $j++) { 
+			if (in_array($veresencu[$j], $verearray)) {
+			    	//no hace nada 
+			    } else {
+			    	//almacena en un arreglo
+			    	$verearray[$a]['Nombre_Terr'] = $veresencu[$j]['Nombre_Terr'];
+			    	$verearray[$a]['Cod_Terr'] = $veresencu[$j]['Cod_Terr'];
+			    	$a = 1+$a;
+			    }
+		}		
+		return Response::json($verearray);
+	}
+	public function postReporestadtotal()
+	{
+		//Consultas para obtener el número de procesos por estado y son viables
+		$jsonarray = file_get_contents(public_path().'\assets\statistics\Encuesta_Beneficiarios_Diagnostico_Territorial.json');
+		$jsonarray2 = json_decode($jsonarray, true);
 
+		$jsonarraypoblacion = file_get_contents(public_path().'\assets\statistics\Encuesta_Diagnostico_Territorial_Poblacion.json');
+		$jsonarraypoblacion2 = json_decode($jsonarraypoblacion, true);	
+
+		$depto=Input::get('dpto');
+		$mpio=Input::get('mpio');
+		$vere=Input::get('vere');
+
+		if (Input::get('dpto')!='' && Input::get('mpio')!='' && Input::get('vere')!='') {			
+			$variable = 'veredal';
+		}elseif (Input::get('dpto')!='' && Input::get('mpio')!='' && Input::get('vere')=='') {
+			$variable = 'municipal';			
+		}elseif (Input::get('dpto')!='' && Input::get('mpio')=='' && Input::get('vere')=='') {
+			$variable = 'departamental';			
+		}elseif (Input::get('dpto')=='' && Input::get('mpio')=='' && Input::get('vere')=='') {
+			$variable = 'nacional';			
+		}
+
+		//variables para estadistica
+		$estadEBDT[] = null;		
+		$a = 0;
+		for ($i=0; $i < count($jsonarray2); $i++) { 
+			switch ($variable) {
+				case 'veredal':
+					if ($jsonarray2[$i]['Cod_Terr']== Input::get('vere')) {
+						$estadEBDT[$a] = $jsonarray2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'municipal':
+					if ($jsonarray2[$i]['Cod_mpio']== Input::get('mpio')) {
+						$estadEBDT[$a] = $jsonarray2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'departamental':
+					if ($jsonarray2[$i]['Cod_Dpto']== Input::get('dpto')) {
+						$estadEBDT[$a] = $jsonarray2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'nacional':
+					$estadEBDT[$a] = $jsonarray2[$i];
+					$a = 1+$a;
+					break;
+			}
+		}
+		//2. Jefatura de hogar por grupo de edades
+		$categories = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80 + '];
+		
+		$masculino = [-2.2, -2.2, -2.3, -2.5, -2.7, -3.1, -3.2, -3.0, -3.2, -4.3, -4.4, -3.6, -3.1, -2.4, -2.5, -2.3, -1.2];
+		$femenino = [2.1, 2.0, 2.2, 2.4, 2.6, 3.0, 3.1, 2.9, 3.1, 4.1, 4.3, 3.6, 3.4, 2.6, 2.9, 2.9, 1.8];
+		return Response::json(array('categories'=>$categories, 'variable'=>$estadEBDT, 'depto'=>$depto,'mpio'=>$mpio,'vere'=>$vere,'masculino'=>$masculino, 'femenino'=>$femenino));
+	}
 }

@@ -1036,7 +1036,7 @@ class DocumentosController extends BaseController {
 	}	
 
 	public function Masterdocu()
-	{			
+	{		//pendiente programar quedo pendiente realizar un procedimiento almacenado para realizar esta funcion	
 			$dat="'%a%'";
 			$queryresultbusbasic = DB::statement("exec USP_DOCUMENTOS_BUSCAR $dat"); 
 			return count($queryresultbusbasic);

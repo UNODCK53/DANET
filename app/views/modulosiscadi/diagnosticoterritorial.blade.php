@@ -57,19 +57,32 @@
         <label id="labelvda" for="Proceso" class="control-label">Vereda:</label>
           <select id="selvda" class="form-control" name="selvda">
           </select>
-      </div> 
+      </div>       
       <div class="col-sm-1"></div>
     </div>
     <div class="row">
       <br>
       <div class="col-sm-1"></div>
-      <div class="col-sm-10" id="container" style="min-width: 310px; height: 400px; max-width: auto; margin: 0 auto"></div>
+      <div class="col-sm-10">
+        <button type="button" id="genestadistic" data-toggle="tooltip" data-placement="top" title="Click para generar el reporte" class="btn btn-primary center-block">Reporte Nacional</button>        
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">
+      <br>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containera"></div>
+      <div class="col-sm-5" id="containerb"></div>
+      <!--espacio para hacer las graficas-->
+
+      <!--fin espacio para hacer las graficas-->
+      
       <div class="col-sm-1"></div>
     </div>
   <br/>
 <!--fin del codigo-->    
-    </div>
   </div>
+  
 <!--Fin del tercer contenedor--> 
 
 @stop
@@ -93,22 +106,26 @@
   <script src="assets/js/highcharts/exporting.js"></script>
   <script>
     $(document).ready(function() {
-        //para que los menus pequeño y grande funcione
-        $( "#siscadi" ).addClass("active");
-        $( "#estadisticosiscadi" ).addClass("active");
-        $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-        $( "#siscadimenupeq" ).html("<strong>SISCADI<span class='caret'></span></strong>");
-        $( "#estadisticosiscadimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Estadisticas</strong>");
-        $( "#mensajeestatus" ).fadeOut(5000);
+      
+      //se genera activacion de los tooltip de bootstrap
+      $('[data-toggle="tooltip"]').tooltip()
+      
+      //para que los menus pequeño y grande funcione
+      $( "#siscadi" ).addClass("active");
+      $( "#estadisticosiscadi" ).addClass("active");
+      $( "#iniciomenupeq" ).html("<small> INICIO</small>");
+      $( "#siscadimenupeq" ).html("<strong>SISCADI<span class='caret'></span></strong>");
+      $( "#estadisticosiscadimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Estadisticas</strong>");
+      $( "#mensajeestatus" ).fadeOut(5000);
 
-        //inicio ocultando combobox
-        $("#labelmpio").hide();
-        $("#selmpio").hide();
-        $("#labelvda").hide();
-        $("#selvda").hide();  
+      //inicio ocultando combobox
+      $("#labelmpio").hide();
+      $("#selmpio").hide();
+      $("#labelvda").hide();
+      $("#selvda").hide();  
 
-        //funcion de cambio del combo depto
-        $("#seldpto").change(function(){
+      //funcion de cambio del combo depto
+      $("#seldpto").change(function(){
         if((($('#seldpto').val()=='')&&($('#selmpio').val()!=''))||(($('#seldpto').val()=='')&&($('#selmpio').val()=='')))
         {
           location.reload();
@@ -116,49 +133,157 @@
         else{
           $.ajax({url:"siscadi/reporestadompio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
             success:function(data1){
+              document.getElementById("genestadistic").innerHTML = "Reporte Departamental";
               $("#labelmpio").show();
               $("#selmpio").show();
               $("#selmpio").empty();
               $("#selvda").empty();
               $("#selvda").hide();
               $("#selmpio").append("<option value=''>Por favor seleccione</option>");
-              $.each(data1[0], function(nom,datos){
-                $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
-              });
-              $('#container').highcharts({
-                chart:{type:'column'},
-                title:{text:'Procesos por estado'},
-                subtitle:{text:'Resultados por departamento'},
-                xAxis:{
-                  categories:[
-                    @foreach($arrayvial[2] as $arraydat3)
-                      {{'"'.$arraydat3->estado.' ",'}}
-                    @endforeach
-                  ],
-                  crosshair: true
-                },
-                yAxis:{min:0,title:{text:'Número de procesos'}},
-                tooltip:{
-                  headerFormat:'<span style="font-size:12px">{point.key}</span><table>',
-                  pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                      '<td style="padding:0"><b>{point.y:.0f} Procesos</b></td></tr>',
-                  footerFormat:'</table>'
-                },
-                plotOptions:{series:{borderWidth:0,dataLabels:{enabled:true,format:'{point.y:.0f}', style:{textShadow:''}}}},
-                series:[
-                  {name:'Viable',
-                   data:data1[1]
-                  },
-                  {name:"No viable",
-                  data:data1[2]
-                  }
-                ]
-              });//Termina function highchart
+                $.each(data1, function(nom,datos){
+                  $("#selmpio").append("<option value=\""+datos.COD_DANE+"\">"+datos.NOM_MPIO+"</option>");
+                });
+              
             },
             error:function(){alert('error');}
-          });//Termina Ajax prueva
+          });//Termina Ajax 
         }
-      });//Termina chage seldpto   
+      });//Termina chage seldpto
+      $("#selmpio").change(function(){
+        if($('#selmpio').val()=='')
+        {
+          $.ajax({url:"siscadi/reporestadompio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+          success:function(data1){
+            document.getElementById("genestadistic").innerHTML = "Reporte Departamental";
+            $("#labelmpio").show();
+            $("#selmpio").show();
+            $("#selmpio").empty();
+            $("#selvda").empty();
+            $("#selvda").hide();
+            $("#labelvda").hide();
+            $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+            $.each(data1, function(nom,datos){
+              $("#selmpio").append("<option value=\""+datos.COD_DANE+"\">"+datos.NOM_MPIO+"</option>");
+            });          
+          },
+          error:function(){alert('error');}
+          });//Termina Ajax 
+        }
+        else{
+          $.ajax({url:"siscadi/reporestadovered",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
+            success:function(data){
+              document.getElementById("genestadistic").innerHTML = "Reporte Municipal";
+              $("#labelvda").show();
+              $("#selvda").show();
+              $("#selvda").empty();
+              $("#selvda").append("<option value=''>Por favor seleccione</option>");
+              [].forEach.call(data,function(datos){
+                $("#selvda").append("<option value=\""+datos.Cod_Terr+"\">"+datos.Nombre_Terr+"</option>");
+              });                           
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax 
+        }
+      });//Termina change selvda
+      $("#selvda").change(function(){
+        if($('#selvda').val()=='')
+        {
+          document.getElementById("genestadistic").innerHTML = "Reporte Municipal";
+        }
+        else{
+          document.getElementById("genestadistic").innerHTML = "Reporte Veredal";
+        }
+      });//Termina change selvda
+      //evento click de generar graficass
+      $("#genestadistic").on('click', function(){
+                
+        $.ajax({
+          url:"siscadi/reporestadtotal",
+          type:"POST",
+          data:{dpto:$('#seldpto').val(),mpio:$('#selmpio').val(),vere:$('#selvda').val()},
+          dataType:'json',
+          
+          success:function(data){
+            console.log(data);
+
+            var categories = data.categories;
+            $('#containerb').highcharts({
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '1.Población por grupo de edades'
+                },
+                xAxis: [{
+                    categories: categories,
+                    reversed: false,
+                    labels: {
+                        step: 1
+                    }
+                }, { // mirror axis on right side
+                    opposite: true,
+                    reversed: false,
+                    categories: categories,
+                    linkedTo: 0,
+                    labels: {
+                        step: 1
+                    }
+                }],
+                yAxis: {
+                    title: {
+                        text: null
+                    },
+                    labels: {
+                        formatter: function () {
+                            return Math.abs(this.value) + '%';
+                        }
+                    }
+                },
+
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
+                },
+
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
+                            'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
+                    }
+                },
+
+                series: [{
+                    name: 'Masculino',
+                    data: data.masculino
+                }, {
+                    name: 'Femenino',
+                    data: data.femenino
+                }]
+            });
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax 
+
+      /*
+        if (!$('#seldpto').val()) {
+          console.log("nacional");          
+        } 
+        else{
+          if (!$('#selmpio').val()) {
+            console.log("Departamental");          
+          }
+          else{
+            if (!$('#selvda').val()) {
+              console.log("Municipal");          
+            }
+            else{
+              console.log("Veredal");
+            }
+          }
+        }
+      */         
+      });//Termina change genestadistic      
     });    
   </script>
 @stop
