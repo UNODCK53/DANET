@@ -1315,7 +1315,82 @@ class SiscadiController extends BaseController {
 			    }
 		}
 		//----------------------------copia abajo
-		//return $jsonarray2;
+		//Consultas para obtener el número de procesos por estado y son viables
+		$jsonarray = file_get_contents(public_path().'\assets\statistics\Encuesta_Beneficiarios_Diagnostico_Territorial.json');
+		$jsonarray2 = json_decode($jsonarray, true);
+
+		$jsonarraypoblacion = file_get_contents(public_path().'\assets\statistics\Encuesta_Diagnostico_Territorial_Poblacion.json');
+		$jsonarraypoblacion2 = json_decode($jsonarraypoblacion, true);		
+
+		if (Input::get('dpto')!='' && Input::get('mpio')!='' && Input::get('vere')!='') {			
+			$variable = 'veredal';
+		}elseif (Input::get('dpto')!='' && Input::get('mpio')!='' && Input::get('vere')=='') {
+			$variable = 'municipal';			
+		}elseif (Input::get('dpto')!='' && Input::get('mpio')=='' && Input::get('vere')=='') {
+			$variable = 'departamental';			
+		}elseif (Input::get('dpto')=='' && Input::get('mpio')=='' && Input::get('vere')=='') {
+			$variable = 'nacional';			
+		}
+
+		//variables para estadistica
+		$estadEBDT[] = null;		
+		$a = 0;
+		for ($i=0; $i < count($jsonarray2); $i++) { 
+			switch ($variable) {
+				case 'veredal':
+					if ($jsonarray2[$i]['Cod_Terr']== Input::get('vere')) {
+						$estadEBDT[$a] = $jsonarray2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'municipal':
+					if ($jsonarray2[$i]['Cod_mpio']== Input::get('mpio')) {
+						$estadEBDT[$a] = $jsonarray2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'departamental':
+					if ($jsonarray2[$i]['Cod_Dpto']== Input::get('dpto')) {
+						$estadEBDT[$a] = $jsonarray2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'nacional':
+					$estadEBDT[$a] = $jsonarray2[$i];
+					$a = 1+$a;
+					break;
+			}
+		}
+		$estadEDTP[] = null;		
+		$a = 0;
+		for ($i=0; $i < count($jsonarraypoblacion2); $i++) { 
+			switch ($variable) {
+				case 'veredal':
+					if ($jsonarraypoblacion2[$i]['Cod_Terr']== Input::get('vere')) {
+						$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'municipal':
+					if ($jsonarraypoblacion2[$i]['Cod_mpio']== Input::get('mpio')) {
+						$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'departamental':
+					if ($jsonarraypoblacion2[$i]['Cod_Dpto']== Input::get('dpto')) {
+						$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'nacional':
+					$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+					$a = 1+$a;
+					break;
+			}
+		}
+
+		//return $relculilici;
 		//----------------------------hasta aca		
 		
 		//Consultas para obtener los tipos de mision segun la intervencion 
@@ -1402,11 +1477,7 @@ class SiscadiController extends BaseController {
 		$jsonarray2 = json_decode($jsonarray, true);
 
 		$jsonarraypoblacion = file_get_contents(public_path().'\assets\statistics\Encuesta_Diagnostico_Territorial_Poblacion.json');
-		$jsonarraypoblacion2 = json_decode($jsonarraypoblacion, true);	
-
-		$depto=Input::get('dpto');
-		$mpio=Input::get('mpio');
-		$vere=Input::get('vere');
+		$jsonarraypoblacion2 = json_decode($jsonarraypoblacion, true);		
 
 		if (Input::get('dpto')!='' && Input::get('mpio')!='' && Input::get('vere')!='') {			
 			$variable = 'veredal';
@@ -1447,11 +1518,528 @@ class SiscadiController extends BaseController {
 					break;
 			}
 		}
-		//2. Jefatura de hogar por grupo de edades
-		$categories = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80 + '];
+		$estadEDTP[] = null;		
+		$a = 0;
+		for ($i=0; $i < count($jsonarraypoblacion2); $i++) { 
+			switch ($variable) {
+				case 'veredal':
+					if ($jsonarraypoblacion2[$i]['Cod_Terr']== Input::get('vere')) {
+						$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'municipal':
+					if ($jsonarraypoblacion2[$i]['Cod_mpio']== Input::get('mpio')) {
+						$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'departamental':
+					if ($jsonarraypoblacion2[$i]['Cod_Dpto']== Input::get('dpto')) {
+						$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+						$a = 1+$a;
+					}
+					break;
+				case 'nacional':
+					$estadEDTP[$a] = $jsonarraypoblacion2[$i];
+					$a = 1+$a;
+					break;
+			}
+		}
+		//1. Población por grupo de edades
+		$masculino = 0;
+		$Masc1 = $Masc2 = $Masc3 = $Masc4 = $Masc5 = $Masc6 = $Masc7 = $Masc8 = $Masc9 = $Masc10 = $Masc11 = $Masc12 = $Masc13 = $Masc14 = $Masc15 = $Masc16 = $Masc17 = 0;
+		$femenino = 0;
+		$Femn1 = $Femn2 = $Femn3 = $Femn4 = $Femn5 = $Femn6 = $Femn7 = $Femn8 = $Femn9 = $Femn10 = $Femn11 = $Femn12 = $Femn13 = $Femn14 = $Femn15 = $Femn16 = $Femn17 = 0;
+		for ($i=0; $i < count($estadEDTP); $i++) { 
+			if ($estadEDTP[$i]['Genero'] == "Masculino") {
+				$masculino = 1+$masculino;
+				if ($estadEDTP[$i]['Edad']<=4) {
+					$Masc1 = 1+$Masc1;
+				}elseif ($estadEDTP[$i]['Edad']<=9 && $estadEDTP[$i]['Edad']>=5) {
+					$Masc2 = 1+$Masc2;
+				}elseif ($estadEDTP[$i]['Edad']<=14 && $estadEDTP[$i]['Edad']>=10) {
+					$Masc3 = 1+$Masc3;
+				}elseif ($estadEDTP[$i]['Edad']<=19 && $estadEDTP[$i]['Edad']>=15) {
+					$Masc4 = 1+$Masc4;
+				}elseif ($estadEDTP[$i]['Edad']<=24 && $estadEDTP[$i]['Edad']>=20) {
+					$Masc5 = 1+$Masc5;
+				}elseif ($estadEDTP[$i]['Edad']<=29 && $estadEDTP[$i]['Edad']>=25) {
+					$Masc6 = 1+$Masc6;
+				}elseif ($estadEDTP[$i]['Edad']<=34 && $estadEDTP[$i]['Edad']>=30) {
+					$Masc7 = 1+$Masc7;
+				}elseif ($estadEDTP[$i]['Edad']<=39 && $estadEDTP[$i]['Edad']>=35) {
+					$Masc8 = 1+$Masc8;
+				}elseif ($estadEDTP[$i]['Edad']<=44 && $estadEDTP[$i]['Edad']>=40) {
+					$Masc9 = 1+$Masc9;
+				}elseif ($estadEDTP[$i]['Edad']<=49 && $estadEDTP[$i]['Edad']>=45) {
+					$Masc10 = 1+$Masc10;
+				}elseif ($estadEDTP[$i]['Edad']<=54 && $estadEDTP[$i]['Edad']>=50) {
+					$Masc11 = 1+$Masc11;
+				}elseif ($estadEDTP[$i]['Edad']<=59 && $estadEDTP[$i]['Edad']>=55) {
+					$Masc12 = 1+$Masc12;
+				}elseif ($estadEDTP[$i]['Edad']<=64 && $estadEDTP[$i]['Edad']>=60) {
+					$Masc13 = 1+$Masc13;
+				}elseif ($estadEDTP[$i]['Edad']<=69 && $estadEDTP[$i]['Edad']>=65) {
+					$Masc14 = 1+$Masc14;
+				}elseif ($estadEDTP[$i]['Edad']<=74 && $estadEDTP[$i]['Edad']>=70) {
+					$Masc15 = 1+$Masc15;
+				}elseif ($estadEDTP[$i]['Edad']<=79 && $estadEDTP[$i]['Edad']>=75) {
+					$Masc16 = 1+$Masc16;
+				}elseif ($estadEDTP[$i]['Edad']>=80) {
+					$Masc17 = 1+$Masc17;
+				}		
+
+			}elseif ($estadEDTP[$i]['Genero'] == "Femenino") {
+				$femenino = 1+$femenino;
+				if ($estadEDTP[$i]['Edad']<=4) {
+					$Femn1 = 1+$Femn1;
+				}elseif ($estadEDTP[$i]['Edad']<=9 && $estadEDTP[$i]['Edad']>=5) {
+					$Femn2 = 1+$Femn2;
+				}elseif ($estadEDTP[$i]['Edad']<=14 && $estadEDTP[$i]['Edad']>=10) {
+					$Femn3 = 1+$Femn3;
+				}elseif ($estadEDTP[$i]['Edad']<=19 && $estadEDTP[$i]['Edad']>=15) {
+					$Femn4 = 1+$Femn4;
+				}elseif ($estadEDTP[$i]['Edad']<=24 && $estadEDTP[$i]['Edad']>=20) {
+					$Femn5 = 1+$Femn5;
+				}elseif ($estadEDTP[$i]['Edad']<=29 && $estadEDTP[$i]['Edad']>=25) {
+					$Femn6 = 1+$Femn6;
+				}elseif ($estadEDTP[$i]['Edad']<=34 && $estadEDTP[$i]['Edad']>=30) {
+					$Femn7 = 1+$Femn7;
+				}elseif ($estadEDTP[$i]['Edad']<=39 && $estadEDTP[$i]['Edad']>=35) {
+					$Femn8 = 1+$Femn8;
+				}elseif ($estadEDTP[$i]['Edad']<=44 && $estadEDTP[$i]['Edad']>=40) {
+					$Femn9 = 1+$Femn9;
+				}elseif ($estadEDTP[$i]['Edad']<=49 && $estadEDTP[$i]['Edad']>=45) {
+					$Femn10 = 1+$Femn10;
+				}elseif ($estadEDTP[$i]['Edad']<=54 && $estadEDTP[$i]['Edad']>=50) {
+					$Femn11 = 1+$Femn11;
+				}elseif ($estadEDTP[$i]['Edad']<=59 && $estadEDTP[$i]['Edad']>=55) {
+					$Femn12 = 1+$Femn12;
+				}elseif ($estadEDTP[$i]['Edad']<=64 && $estadEDTP[$i]['Edad']>=60) {
+					$Femn13 = 1+$Femn13;
+				}elseif ($estadEDTP[$i]['Edad']<=69 && $estadEDTP[$i]['Edad']>=65) {
+					$Femn14 = 1+$Femn14;
+				}elseif ($estadEDTP[$i]['Edad']<=74 && $estadEDTP[$i]['Edad']>=70) {
+					$Femn15 = 1+$Femn15;
+				}elseif ($estadEDTP[$i]['Edad']<=79 && $estadEDTP[$i]['Edad']>=75) {
+					$Femn16 = 1+$Femn16;
+				}elseif ($estadEDTP[$i]['Edad']>=80) {
+					$Femn17 = 1+$Femn17;
+				}
+			}
+		}
 		
-		$masculino = [-2.2, -2.2, -2.3, -2.5, -2.7, -3.1, -3.2, -3.0, -3.2, -4.3, -4.4, -3.6, -3.1, -2.4, -2.5, -2.3, -1.2];
-		$femenino = [2.1, 2.0, 2.2, 2.4, 2.6, 3.0, 3.1, 2.9, 3.1, 4.1, 4.3, 3.6, 3.4, 2.6, 2.9, 2.9, 1.8];
-		return Response::json(array('categories'=>$categories, 'variable'=>$estadEBDT, 'depto'=>$depto,'mpio'=>$mpio,'vere'=>$vere,'masculino'=>$masculino, 'femenino'=>$femenino));
+		$Masc1=(((-1)*$Masc1)/($masculino)*100);
+		$Masc2=(((-1)*$Masc2)/($masculino)*100);
+		$Masc3=(((-1)*$Masc3)/($masculino)*100);
+		$Masc4=(((-1)*$Masc4)/($masculino)*100);
+		$Masc5=(((-1)*$Masc5)/($masculino)*100);
+		$Masc6=(((-1)*$Masc6)/($masculino)*100);
+		$Masc7=(((-1)*$Masc7)/($masculino)*100);
+		$Masc8=(((-1)*$Masc8)/($masculino)*100);
+		$Masc9=(((-1)*$Masc9)/($masculino)*100);
+		$Masc10=(((-1)*$Masc10)/($masculino)*100);
+		$Masc11=(((-1)*$Masc11)/($masculino)*100);
+		$Masc12=(((-1)*$Masc12)/($masculino)*100);
+		$Masc13=(((-1)*$Masc13)/($masculino)*100);
+		$Masc14=(((-1)*$Masc14)/($masculino)*100);
+		$Masc15=(((-1)*$Masc15)/($masculino)*100);
+		$Masc16=(((-1)*$Masc16)/($masculino)*100);
+		$Masc17=(((-1)*$Masc17)/($masculino)*100);
+		$Femn1=(($Femn1)/($femenino)*100);
+		$Femn2=(($Femn2)/($femenino)*100);
+		$Femn3=(($Femn3)/($femenino)*100);
+		$Femn4=(($Femn4)/($femenino)*100);
+		$Femn5=(($Femn5)/($femenino)*100);
+		$Femn6=(($Femn6)/($femenino)*100);
+		$Femn7=(($Femn7)/($femenino)*100);
+		$Femn8=(($Femn8)/($femenino)*100);
+		$Femn9=(($Femn9)/($femenino)*100);
+		$Femn10=(($Femn10)/($femenino)*100);
+		$Femn11=(($Femn11)/($femenino)*100);
+		$Femn12=(($Femn12)/($femenino)*100);
+		$Femn13=(($Femn13)/($femenino)*100);
+		$Femn14=(($Femn14)/($femenino)*100);
+		$Femn15=(($Femn15)/($femenino)*100);
+		$Femn16=(($Femn16)/($femenino)*100);
+		$Femn17=(($Femn17)/($femenino)*100);		
+		
+		$masculino1 = [$Masc1, $Masc2, $Masc3, $Masc4, $Masc5, $Masc6, $Masc7, $Masc8, $Masc9, $Masc10, $Masc11, $Masc12, $Masc13, $Masc14, $Masc15, $Masc16, $Masc17];
+		$femenino1 = [$Femn1, $Femn2, $Femn3, $Femn4, $Femn5, $Femn6, $Femn7, $Femn8, $Femn9, $Femn10, $Femn11, $Femn12, $Femn13, $Femn14, $Femn15, $Femn16, $Femn17];
+
+		//2. Jefatura de hogar por grupo de edades
+
+		$categories = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80 + '];
+		$masculino = 0;
+		$Masc1 = $Masc2 = $Masc3 = $Masc4 = $Masc5 = $Masc6 = $Masc7 = $Masc8 = $Masc9 = $Masc10 = $Masc11 = $Masc12 = $Masc13 = $Masc14 = $Masc15 = $Masc16 = $Masc17 = 0;
+		$femenino = 0;
+		$Femn1 = $Femn2 = $Femn3 = $Femn4 = $Femn5 = $Femn6 = $Femn7 = $Femn8 = $Femn9 = $Femn10 = $Femn11 = $Femn12 = $Femn13 = $Femn14 = $Femn15 = $Femn16 = $Femn17 = 0;
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Genero'] == "Masculino") {
+				$masculino = 1+$masculino;
+				if ($estadEBDT[$i]['Edad']<=4) {
+					$Masc1 = 1+$Masc1;
+				}elseif ($estadEBDT[$i]['Edad']<=9 && $estadEBDT[$i]['Edad']>=5) {
+					$Masc2 = 1+$Masc2;
+				}elseif ($estadEBDT[$i]['Edad']<=14 && $estadEBDT[$i]['Edad']>=10) {
+					$Masc3 = 1+$Masc3;
+				}elseif ($estadEBDT[$i]['Edad']<=19 && $estadEBDT[$i]['Edad']>=15) {
+					$Masc4 = 1+$Masc4;
+				}elseif ($estadEBDT[$i]['Edad']<=24 && $estadEBDT[$i]['Edad']>=20) {
+					$Masc5 = 1+$Masc5;
+				}elseif ($estadEBDT[$i]['Edad']<=29 && $estadEBDT[$i]['Edad']>=25) {
+					$Masc6 = 1+$Masc6;
+				}elseif ($estadEBDT[$i]['Edad']<=34 && $estadEBDT[$i]['Edad']>=30) {
+					$Masc7 = 1+$Masc7;
+				}elseif ($estadEBDT[$i]['Edad']<=39 && $estadEBDT[$i]['Edad']>=35) {
+					$Masc8 = 1+$Masc8;
+				}elseif ($estadEBDT[$i]['Edad']<=44 && $estadEBDT[$i]['Edad']>=40) {
+					$Masc9 = 1+$Masc9;
+				}elseif ($estadEBDT[$i]['Edad']<=49 && $estadEBDT[$i]['Edad']>=45) {
+					$Masc10 = 1+$Masc10;
+				}elseif ($estadEBDT[$i]['Edad']<=54 && $estadEBDT[$i]['Edad']>=50) {
+					$Masc11 = 1+$Masc11;
+				}elseif ($estadEBDT[$i]['Edad']<=59 && $estadEBDT[$i]['Edad']>=55) {
+					$Masc12 = 1+$Masc12;
+				}elseif ($estadEBDT[$i]['Edad']<=64 && $estadEBDT[$i]['Edad']>=60) {
+					$Masc13 = 1+$Masc13;
+				}elseif ($estadEBDT[$i]['Edad']<=69 && $estadEBDT[$i]['Edad']>=65) {
+					$Masc14 = 1+$Masc14;
+				}elseif ($estadEBDT[$i]['Edad']<=74 && $estadEBDT[$i]['Edad']>=70) {
+					$Masc15 = 1+$Masc15;
+				}elseif ($estadEBDT[$i]['Edad']<=79 && $estadEBDT[$i]['Edad']>=75) {
+					$Masc16 = 1+$Masc16;
+				}elseif ($estadEBDT[$i]['Edad']>=80) {
+					$Masc17 = 1+$Masc17;
+				}		
+
+			}elseif ($estadEBDT[$i]['Genero'] == "Femenino") {
+				$femenino = 1+$femenino;
+				if ($estadEBDT[$i]['Edad']<=4) {
+					$Femn1 = 1+$Femn1;
+				}elseif ($estadEBDT[$i]['Edad']<=9 && $estadEBDT[$i]['Edad']>=5) {
+					$Femn2 = 1+$Femn2;
+				}elseif ($estadEBDT[$i]['Edad']<=14 && $estadEBDT[$i]['Edad']>=10) {
+					$Femn3 = 1+$Femn3;
+				}elseif ($estadEBDT[$i]['Edad']<=19 && $estadEBDT[$i]['Edad']>=15) {
+					$Femn4 = 1+$Femn4;
+				}elseif ($estadEBDT[$i]['Edad']<=24 && $estadEBDT[$i]['Edad']>=20) {
+					$Femn5 = 1+$Femn5;
+				}elseif ($estadEBDT[$i]['Edad']<=29 && $estadEBDT[$i]['Edad']>=25) {
+					$Femn6 = 1+$Femn6;
+				}elseif ($estadEBDT[$i]['Edad']<=34 && $estadEBDT[$i]['Edad']>=30) {
+					$Femn7 = 1+$Femn7;
+				}elseif ($estadEBDT[$i]['Edad']<=39 && $estadEBDT[$i]['Edad']>=35) {
+					$Femn8 = 1+$Femn8;
+				}elseif ($estadEBDT[$i]['Edad']<=44 && $estadEBDT[$i]['Edad']>=40) {
+					$Femn9 = 1+$Femn9;
+				}elseif ($estadEBDT[$i]['Edad']<=49 && $estadEBDT[$i]['Edad']>=45) {
+					$Femn10 = 1+$Femn10;
+				}elseif ($estadEBDT[$i]['Edad']<=54 && $estadEBDT[$i]['Edad']>=50) {
+					$Femn11 = 1+$Femn11;
+				}elseif ($estadEBDT[$i]['Edad']<=59 && $estadEBDT[$i]['Edad']>=55) {
+					$Femn12 = 1+$Femn12;
+				}elseif ($estadEBDT[$i]['Edad']<=64 && $estadEBDT[$i]['Edad']>=60) {
+					$Femn13 = 1+$Femn13;
+				}elseif ($estadEBDT[$i]['Edad']<=69 && $estadEBDT[$i]['Edad']>=65) {
+					$Femn14 = 1+$Femn14;
+				}elseif ($estadEBDT[$i]['Edad']<=74 && $estadEBDT[$i]['Edad']>=70) {
+					$Femn15 = 1+$Femn15;
+				}elseif ($estadEBDT[$i]['Edad']<=79 && $estadEBDT[$i]['Edad']>=75) {
+					$Femn16 = 1+$Femn16;
+				}elseif ($estadEBDT[$i]['Edad']>=80) {
+					$Femn17 = 1+$Femn17;
+				}
+			}
+		}
+		
+		$Masc1=(((-1)*$Masc1)/($masculino)*100);
+		$Masc2=(((-1)*$Masc2)/($masculino)*100);
+		$Masc3=(((-1)*$Masc3)/($masculino)*100);
+		$Masc4=(((-1)*$Masc4)/($masculino)*100);
+		$Masc5=(((-1)*$Masc5)/($masculino)*100);
+		$Masc6=(((-1)*$Masc6)/($masculino)*100);
+		$Masc7=(((-1)*$Masc7)/($masculino)*100);
+		$Masc8=(((-1)*$Masc8)/($masculino)*100);
+		$Masc9=(((-1)*$Masc9)/($masculino)*100);
+		$Masc10=(((-1)*$Masc10)/($masculino)*100);
+		$Masc11=(((-1)*$Masc11)/($masculino)*100);
+		$Masc12=(((-1)*$Masc12)/($masculino)*100);
+		$Masc13=(((-1)*$Masc13)/($masculino)*100);
+		$Masc14=(((-1)*$Masc14)/($masculino)*100);
+		$Masc15=(((-1)*$Masc15)/($masculino)*100);
+		$Masc16=(((-1)*$Masc16)/($masculino)*100);
+		$Masc17=(((-1)*$Masc17)/($masculino)*100);
+		$Femn1=(($Femn1)/($femenino)*100);
+		$Femn2=(($Femn2)/($femenino)*100);
+		$Femn3=(($Femn3)/($femenino)*100);
+		$Femn4=(($Femn4)/($femenino)*100);
+		$Femn5=(($Femn5)/($femenino)*100);
+		$Femn6=(($Femn6)/($femenino)*100);
+		$Femn7=(($Femn7)/($femenino)*100);
+		$Femn8=(($Femn8)/($femenino)*100);
+		$Femn9=(($Femn9)/($femenino)*100);
+		$Femn10=(($Femn10)/($femenino)*100);
+		$Femn11=(($Femn11)/($femenino)*100);
+		$Femn12=(($Femn12)/($femenino)*100);
+		$Femn13=(($Femn13)/($femenino)*100);
+		$Femn14=(($Femn14)/($femenino)*100);
+		$Femn15=(($Femn15)/($femenino)*100);
+		$Femn16=(($Femn16)/($femenino)*100);
+		$Femn17=(($Femn17)/($femenino)*100);		
+		
+		$masculino2 = [$Masc1, $Masc2, $Masc3, $Masc4, $Masc5, $Masc6, $Masc7, $Masc8, $Masc9, $Masc10, $Masc11, $Masc12, $Masc13, $Masc14, $Masc15, $Masc16, $Masc17];
+		$femenino2 = [$Femn1, $Femn2, $Femn3, $Femn4, $Femn5, $Femn6, $Femn7, $Femn8, $Femn9, $Femn10, $Femn11, $Femn12, $Femn13, $Femn14, $Femn15, $Femn16, $Femn17];
+		
+		//4. Autoreconocimiento étnico
+				
+		$grupoetnicoa = array();		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$grupoetnicoa[$i] = $estadEBDT[$i]['Grupo_etnico'];		
+		}		
+		$grupoetnico = array_count_values($grupoetnicoa);
+		$a = 0;
+		$etnico = array();
+		if (!empty($grupoetnico)) {
+			for ($i=0; $i < count($grupoetnico); $i++) { 
+				if (array_keys($grupoetnico)[$i] != 'Ninguno') {
+					$etnico[$a]['name'] = array_keys($grupoetnico)[$i];
+					$etnico[$a]['data'] = array(array_values($grupoetnico)[$i]);
+					$etnico[$a]['data'][0] = round(($etnico[$a]['data'][0]/count($estadEBDT))*100);
+					$a = 1+$a;				
+				}			
+			}
+		}
+		//5. Razones para llegar al municipio
+		
+		$naciompio = 0;		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Nacio_Mpio']=='No') {
+				$naciompio = 1+$naciompio;	
+			}			
+		}
+		$naciompiono = round(($naciompio/count($estadEBDT))*100);
+
+		$Razones_a = $Razones_b = $Razones_c = $Razones_d = $Razones_e = $Razones_f = 0;	
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Razones_a']==1) {
+				$Razones_a = 1+$Razones_a;	
+			}
+			if ($estadEBDT[$i]['Razones_b']==1) {
+				$Razones_b = 1+$Razones_b;	
+			}
+			if ($estadEBDT[$i]['Razones_c']==1) {
+				$Razones_c = 1+$Razones_c;	
+			}
+			if ($estadEBDT[$i]['Razones_d']==1) {
+				$Razones_d = 1+$Razones_d;	
+			}
+			if ($estadEBDT[$i]['Razones_e']==1) {
+				$Razones_e = 1+$Razones_e;	
+			}
+			if ($estadEBDT[$i]['Razones_f']==1) {
+				$Razones_f = 1+$Razones_f;	
+			}
+		}
+		$Razones = array('Porque su familia vivía en el municipio' => round(($Razones_a/count($estadEBDT))*100), 'Porque encontró una opción de trabajo en actividades lícitas' => round(($Razones_b/count($estadEBDT))*100), 'Porque fue desplazado por la violencia donde vivía' => round(($Razones_c/count($estadEBDT))*100), 'Por posibilidades de generar ingresos de la explotación minera' => round(($Razones_d/count($estadEBDT))*100), 'Por posibilidades de generar ingresos relacionados con los cultivos ilícitos' => round(($Razones_e/count($estadEBDT))*100), 'Otras' => round(($Razones_f/count($estadEBDT))*100) );
+		arsort($Razones);
+		//6. preguntas de texto
+		$embarazoparto = 0;
+		//&& ($estadEDTP[$i]['Embarazo_Parto']=='Embarazo' || $estadEDTP[$i]['Embarazo_Parto']=='Embarazo y Lactancia' || $estadEDTP[$i]['Embarazo_Parto']=='Lactando')
+		for ($i=0; $i < count($estadEDTP); $i++) { 
+			if ($estadEDTP[$i]['Genero']=='Femenino' ) {
+				$embarazoparto = 1+$embarazoparto;	
+			}			
+		}
+		$embarazopartotot = round(($embarazoparto/count($estadEDTP))*100);
+
+		$discapacidad = 0;		
+		for ($i=0; $i < count($estadEDTP); $i++) { 
+			if ($estadEDTP[$i]['Discapacidad']=='Si') {
+				$discapacidad = 1+$discapacidad;	
+			}			
+		}
+		$discapacidadtot = round(($discapacidad/count($estadEDTP))*100);
+
+		$analfabeh = $analfabem = 0;
+		for ($i=0; $i < count($estadEDTP); $i++) { 
+			if ($estadEDTP[$i]['Analfabetismo']==1 && $estadEDTP[$i]['Genero']=='Masculino') {
+				$analfabeh = 1+$analfabeh;	
+			}
+			if ($estadEDTP[$i]['Analfabetismo']==1 && $estadEDTP[$i]['Genero']=='Femenino') {
+				$analfabem = 1+$analfabem;	
+			}			
+		}
+		$analfabetismotot = round((($analfabeh+$analfabem)/count($estadEDTP))*100);
+		$analfabetismohtot = round(($analfabeh/($analfabeh+$analfabem))*100);
+		$analfabetismomtot = round(($analfabem/($analfabeh+$analfabem))*100);
+
+		$arraytitular = array();		
+		for ($i=0; $i < count($estadEDTP); $i++) { 
+			$arraytitular[$i] = $estadEDTP[$i]['CC_Titular'];		
+		}		
+		$arraytitulargroup = array_count_values($arraytitular);
+		
+		$arraytitularfilter = array();
+		if (!empty($arraytitulargroup)) {
+			for ($i=0; $i < count($arraytitulargroup); $i++) { 
+				if (array_keys($arraytitulargroup)[$i] != 'Ninguno') {
+					
+					$arraytitularfilter[$i] = array_values($arraytitulargroup)[$i];
+								
+				}			
+			}
+		}
+
+		$promperhoga = round((array_sum($arraytitularfilter)/count($arraytitularfilter)));
+
+//----------------------------INDICADORES DE CAPITAL SOCIAL---------------------------------
+		//1. Espacios de participación
+		$Participacion_a = $Participacion_b = $Participacion_c = $Participacion_d = $Participacion_e = $Participacion_f = 0;	
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Participacion_a']==1) {
+				$Participacion_a = 1+$Participacion_a;	
+			}
+			if ($estadEBDT[$i]['Participacion_b']==1) {
+				$Participacion_b = 1+$Participacion_b;	
+			}
+			if ($estadEBDT[$i]['Participacion_c']==1) {
+				$Participacion_c = 1+$Participacion_c;	
+			}
+			if ($estadEBDT[$i]['Participacion_d']==1) {
+				$Participacion_d = 1+$Participacion_d;	
+			}
+			if ($estadEBDT[$i]['Participacion_e']==1) {
+				$Participacion_e = 1+$Participacion_e;	
+			}
+			if ($estadEBDT[$i]['Participacion_f']==1) {
+				$Participacion_f = 1+$Participacion_f;	
+			}
+		}
+		$Participacion = array('JAC' => round(($Participacion_a/count($estadEBDT))*100), 'Veedurías ciudadanas' => round(($Participacion_b/count($estadEBDT))*100), 'Consejo municipal de desarrollo rural' => round(($Participacion_c/count($estadEBDT))*100), 'Copacos' => round(($Participacion_d/count($estadEBDT))*100), 'Otro' => round(($Participacion_e/count($estadEBDT))*100), 'Ninguno' => round(($Participacion_f/count($estadEBDT))*100) );
+		arsort($Participacion);
+		
+		//2. Participación en actividades comunitarias
+		$Actividad_comunitaria_a = $Actividad_comunitaria_b = $Actividad_comunitaria_c = $Actividad_comunitaria_d = $Actividad_comunitaria_e = $Actividad_comunitaria_f = $Actividad_comunitaria_g = $Actividad_comunitaria_h = $Actividad_comunitaria_i = 0;	
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Actividad_comunitaria_a']==1) {
+				$Actividad_comunitaria_a = 1+$Actividad_comunitaria_a;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_b']==1) {
+				$Actividad_comunitaria_b = 1+$Actividad_comunitaria_b;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_c']==1) {
+				$Actividad_comunitaria_c = 1+$Actividad_comunitaria_c;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_d']==1) {
+				$Actividad_comunitaria_d = 1+$Actividad_comunitaria_d;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_e']==1) {
+				$Actividad_comunitaria_e = 1+$Actividad_comunitaria_e;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_f']==1) {
+				$Actividad_comunitaria_f = 1+$Actividad_comunitaria_f;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_g']==1) {
+				$Actividad_comunitaria_g = 1+$Actividad_comunitaria_g;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_h']==1) {
+				$Actividad_comunitaria_h = 1+$Actividad_comunitaria_h;	
+			}
+			if ($estadEBDT[$i]['Actividad_comunitaria_i']==1) {
+				$Actividad_comunitaria_i = 1+$Actividad_comunitaria_i;	
+			}
+		}
+		$actividad_comunitaria = array('Culturales' => round(($Actividad_comunitaria_a/count($estadEBDT))*100), 'Deportivas' => round(($Actividad_comunitaria_b/count($estadEBDT))*100), 'Religiosas' => round(($Actividad_comunitaria_c/count($estadEBDT))*100), 'Recreativas' => round(($Actividad_comunitaria_d/count($estadEBDT))*100), 'Mercados campesinos' => round(($Actividad_comunitaria_e/count($estadEBDT))*100), 'Reuniones comunitarias' => round(($Actividad_comunitaria_f/count($estadEBDT))*100), 'Trabajo comunitario' => round(($Actividad_comunitaria_g/count($estadEBDT))*100), 'Otras' => round(($Actividad_comunitaria_h/count($estadEBDT))*100), 'Ninguna' => round(($Actividad_comunitaria_i/count($estadEBDT))*100));
+		arsort($actividad_comunitaria);
+
+		//3. Vinculación a organizaciones
+		$Vinculo_org_a = $Vinculo_org_b = $Vinculo_org_c = $Vinculo_org_d = $Vinculo_org_e = 0;	
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Vinculo_org_a']==1) {
+				$Vinculo_org_a = 1+$Vinculo_org_a;	
+			}
+			if ($estadEBDT[$i]['Vinculo_org_b']==1) {
+				$Vinculo_org_b = 1+$Vinculo_org_b;	
+			}
+			if ($estadEBDT[$i]['Vinculo_org_c']==1) {
+				$Vinculo_org_c = 1+$Vinculo_org_c;	
+			}
+			if ($estadEBDT[$i]['Vinculo_org_d']==1) {
+				$Vinculo_org_d = 1+$Vinculo_org_d;	
+			}
+			if ($estadEBDT[$i]['Vinculo_org_e']==1) {
+				$Vinculo_org_e = 1+$Vinculo_org_e;	
+			}			
+		}
+		$vinculo_org = array('Productiva' => round(($Vinculo_org_a/count($estadEBDT))*100), 'Comunitaria' => round(($Vinculo_org_b/count($estadEBDT))*100), 'Ambiental' => round(($Vinculo_org_c/count($estadEBDT))*100), 'Otra' => round(($Vinculo_org_d/count($estadEBDT))*100), 'Ninguna' => round(($Vinculo_org_e/count($estadEBDT))*100));
+		arsort($vinculo_org);
+
+		//4. Percepción de las relaciones comunitarias
+		$gruporelaccomuni = array();		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$gruporelaccomuni[$i] = $estadEBDT[$i]['Relaciones_comunidad'];		
+		}		
+		$gruporelaccomunid = array_count_values($gruporelaccomuni);
+		$a = 0;
+		$gruporelaccomunidad = array();
+		if (!empty($gruporelaccomunid)) {
+			for ($i=0; $i < count($gruporelaccomunid); $i++) { 
+				$gruporelaccomunidad[$a]['name'] = array_keys($gruporelaccomunid)[$i];					
+				$gruporelaccomunidad[$a]['data'] = array(array_values($gruporelaccomunid)[$i]);
+				$gruporelaccomunidad[$a]['data'][0] = round(($gruporelaccomunidad[$a]['data'][0]/count($estadEBDT))*100);
+				$a = 1+$a;				
+			}
+		}
+		
+//----------------------------RELACIÓN CON CULTIVOS ILÍCITOS---------------------------------
+		//1. Porcentaje de personas que tienen relación con cultivos ilícitos
+		$arraygruporelculilici = array();		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$arraygruporelculilici[$i] = $estadEBDT[$i]['Cultivos_Ilicitos'];		
+		}		
+		$gruporelculilici = array_count_values($arraygruporelculilici);
+		$a = 0;
+		arsort($gruporelculilici);
+		$relculilici = array();		
+		if (!empty($gruporelculilici)) {
+			for ($i=0; $i < count($gruporelculilici); $i++) { 				
+				$relculilici[$a]['name'] = array_keys($gruporelculilici)[$i];					
+				$relculilici[$a]['y'] = array_values($gruporelculilici)[$i];
+				$a = 1+$a;				
+			}
+		}
+
+		//2. Razones de vinculación a los cultivos ilícitos
+		/*
+		$Vinculacion_CI_a = $Vinculacion_CI_b = $Vinculacion_CI_c = $Vinculacion_CI_d = $Vinculacion_CI_e = $Vinculacion_CI_f = 0;	
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Vinculacion_CI_a']==1) {
+				$Vinculacion_CI_a = 1+$Vinculacion_CI_a;	
+			}
+			if ($estadEBDT[$i]['Vinculacion_CI_b']==1) {
+				$Vinculacion_CI_b = 1+$Vinculacion_CI_b;	
+			}
+			if ($estadEBDT[$i]['Vinculacion_CI_c']==1) {
+				$Vinculacion_CI_c = 1+$Vinculacion_CI_c;	
+			}
+			if ($estadEBDT[$i]['Vinculacion_CI_d']==1) {
+				$Vinculacion_CI_d = 1+$Vinculacion_CI_d;	
+			}
+			if ($estadEBDT[$i]['Vinculacion_CI_e']==1) {
+				$Vinculacion_CI_e = 1+$Vinculacion_CI_e;	
+			}
+			if ($estadEBDT[$i]['Vinculacion_CI_f']==1) {
+				$Vinculacion_CI_f = 1+$Vinculacion_CI_f;	
+			}			
+		}
+		$vinculacionci = array('Porque era lo más rentable' => round(($Vinculacion_CI_a/count($estadEBDT))*100), 'Porque no había más opciones' => round(($Vinculacion_CI_b/count($estadEBDT))*100), 'Porque no había compradores para los otros productos' => round(($Vinculacion_CI_c/count($estadEBDT))*100), 'Por presión de un Grupo Armado al Margen de la Ley' => round(($Vinculacion_CI_d/count($estadEBDT))*100), 'Porque es lo que siempre se ha cultivado en la región' => round(($Vinculacion_CI_e/count($estadEBDT))*100), 'Otra' => round(($Vinculacion_CI_f/count($estadEBDT))*100));
+		arsort($vinculacionci);
+		*/
+		
+
+		//retorno todas las variables para las graficas 
+		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici));
 	}
 }

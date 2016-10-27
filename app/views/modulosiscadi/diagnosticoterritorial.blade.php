@@ -68,21 +68,56 @@
       </div>
       <div class="col-sm-1"></div>
     </div>
-    <div class="row">
-      <br>
+    <!--espacio para hacer las graficas--> 
+    <div id="titulo" class="text-center"><h1>INDICADORES POBLACIONALES</h1></div>
+    <div class="row">          
       <div class="col-sm-1"></div>
       <div class="col-sm-5" id="containera"></div>
       <div class="col-sm-5" id="containerb"></div>
-      <!--espacio para hacer las graficas-->
-
-      <!--fin espacio para hacer las graficas-->
-      
       <div class="col-sm-1"></div>
     </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containerc"></div>
+      <div class="col-sm-5" id="containerd"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-7" id="containere"></div>
+      <div class="col-sm-3" id="containerf"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div id="titulo" class="text-center"><h1>INDICADORES DE CAPITAL SOCIAL</h1></div>
+    <div class="row">         
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containerg"></div>
+      <div class="col-sm-5" id="containerh"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containeri"></div>
+      <div class="col-sm-5" id="containerj"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div id="titulo" class="text-center"><h1>RELACIÓN CON CULTIVOS ILÍCITOS</h1></div>
+    <div class="row">         
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containerk"></div>
+      <div class="col-sm-5" id="containerl"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containerm"></div>
+      <div class="col-sm-5" id="containern"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <!--fin espacio para hacer las graficas-->    
   <br/>
 <!--fin del codigo-->    
-  </div>
-  
+  </div>  
 <!--Fin del tercer contenedor--> 
 
 @stop
@@ -122,7 +157,8 @@
       $("#labelmpio").hide();
       $("#selmpio").hide();
       $("#labelvda").hide();
-      $("#selvda").hide();  
+      $("#selvda").hide();
+      $(".text-center").hide();
 
       //funcion de cambio del combo depto
       $("#seldpto").change(function(){
@@ -204,85 +240,432 @@
           dataType:'json',
           
           success:function(data){
+            $(".text-center").show();
             console.log(data);
-
             var categories = data.categories;
-            $('#containerb').highcharts({
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: '1.Población por grupo de edades'
-                },
-                xAxis: [{
-                    categories: categories,
-                    reversed: false,
-                    labels: {
-                        step: 1
-                    }
-                }, { // mirror axis on right side
-                    opposite: true,
-                    reversed: false,
-                    categories: categories,
-                    linkedTo: 0,
-                    labels: {
-                        step: 1
-                    }
-                }],
-                yAxis: {
-                    title: {
-                        text: null
-                    },
-                    labels: {
-                        formatter: function () {
-                            return Math.abs(this.value) + '%';
-                        }
-                    }
-                },
+            $('#containera').highcharts({
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                  text: '1. Población por grupo de edades'
+              },
+              credits: {
+                enabled: false
+              },
+              xAxis: [{
+                  categories: categories,
+                  reversed: false,
+                  labels: {
+                      step: 1
+                  }
+              }, { // mirror axis on right side
+                  opposite: true,
+                  reversed: false,
+                  categories: categories,
+                  linkedTo: 0,
+                  labels: {
+                      step: 1
+                  }
+              }],
+              yAxis: {
+                  title: {
+                      text: null
+                  },
+                  labels: {
+                      formatter: function () {
+                          return Math.abs(this.value) + '%';
+                      }
+                  }
+              },
 
-                plotOptions: {
-                    series: {
-                        stacking: 'normal'
-                    }
-                },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },
 
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
-                            'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
-                    }
-                },
+              tooltip: {
+                  formatter: function () {
+                      return '<b>' + this.series.name + ', edad de ' + this.point.category + '</b><br/>' +
+                          'Población: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0)+ '%';
+                  }
+              },
 
-                series: [{
-                    name: 'Masculino',
-                    data: data.masculino
-                }, {
-                    name: 'Femenino',
-                    data: data.femenino
-                }]
+              series: [{
+                  name: 'Masculino',
+                  data: data.masculino1
+              }, {
+                  name: 'Femenino',
+                  data: data.femenino1
+              }]
             });
-          },
+            $('#containerb').highcharts({
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                  text: '2. Jefatura de hogar por grupo de edades'
+              },
+              credits: {
+                enabled: false
+              },
+              xAxis: [{
+                  categories: categories,
+                  reversed: false,
+                  labels: {
+                      step: 1
+                  }
+              }, { // mirror axis on right side
+                  opposite: true,
+                  reversed: false,
+                  categories: categories,
+                  linkedTo: 0,
+                  labels: {
+                      step: 1
+                  }
+              }],
+              yAxis: {
+                  title: {
+                      text: null
+                  },
+                  labels: {
+                      formatter: function () {
+                          return Math.abs(this.value) + '%';
+                      }
+                  }
+              },
+
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },
+
+              tooltip: {
+                  formatter: function () {
+                      return '<b>' + this.series.name + ', edad de ' + this.point.category + '</b><br/>' +
+                          'Población: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0)+ '%';
+                  }
+              },
+
+              series: [{
+                  name: 'Masculino',
+                  data: data.masculino2
+              }, {
+                  name: 'Femenino',
+                  data: data.femenino2
+              }]
+            });
+            $('#containerc').highcharts({
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: '3. Jefatura de hogar'
+              },
+              credits: {
+                enabled: false
+              },              
+              tooltip: {
+                  headerFormat: '<table>',
+                  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                      '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                  footerFormat: '</table>',
+                  shared: true,
+                  useHTML: true
+              },
+              plotOptions: {
+                  column: {
+                      pointPadding: 0.2,
+                      borderWidth: 0
+                  }
+              },
+              series: [{
+                  name: 'Masculino',
+                  data: [data.masculino]
+
+              }, {
+                  name: 'Femenino',
+                  data: [data.femenino]
+              }]
+            });
+            $('#containerd').highcharts({
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: '4. Autoreconocimiento étnico'
+              },
+              credits: {
+                enabled: false
+              },              
+              tooltip: {
+                  headerFormat: '<table>',
+                  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                      '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                  footerFormat: '</table>',
+                  shared: true,
+                  useHTML: true
+              },
+              plotOptions: {
+                  column: {
+                      pointPadding: 0.2,
+                      borderWidth: 0
+                  }
+              },                          
+              series: data.etnico
+            });             
+            $('#containere').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '5. Razones para llegar al municipio'
+              },
+              subtitle: {
+                text: 'El <b>'+data.naciompiono+'%</b> de los encuestados reporta no haber nacido en el municipio.'
+              },
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.razones)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.razones)
+              }]
+            });
+            document.getElementById("containerf").innerHTML = '<p class="text-justify">El <b>'+data.embarazoparto+'%PENDIENTECORREGIR</b> de las mujeres se encuentran en estado de embarazo o están lactando.</p><p class="text-justify">El <b>'+data.discapacidad+'%</b> de la población presenta alguna discapacidad.</p><p class="text-justify">El <b>'+data.analfabetismotot+'%</b> de la población mayor de 15 años encuestada no sabe leer, ni escribir.  <b>'+data.analfabetismomtot+'%</b> Mujeres – <b>'+data.analfabetismohtot+'%</b> Hombres</p><p class="text-justify">Promedio de personas en los hogares encuestados <b>'+data.promperhoga+'</b></p>';
+
+            $('#containerg').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '1. Espacios de participación'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.espaciospart)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.espaciospart)
+              }]
+            });
+            $('#containerh').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '2. Participación en actividades comunitarias'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.actividadcomuni)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.actividadcomuni)
+              }]
+            });
+            $('#containeri').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '3. Vinculación a organizaciones'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.vinculoorg)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.vinculoorg)
+              }]
+            });
+            $('#containerj').highcharts({
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: '4. Percepción de las relaciones comunitarias'
+              },
+              credits: {
+                enabled: false
+              },              
+              tooltip: {
+                  headerFormat: '<table>',
+                  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                      '<td style="padding:0"><b>{point.y} %</b></td></tr>',
+                  footerFormat: '</table>',
+                  shared: true,
+                  useHTML: true
+              },
+              plotOptions: {
+                  column: {
+                      pointPadding: 0.2,
+                      borderWidth: 0
+                  }
+              },                          
+              series: data.gruporelaccomunidad
+            });
+            $('#containerk').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '1. Porcentaje de personas que tienen relación con cultivos ilícitos'
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.relculilici
+              }]
+            }); 
+            $('#containerl').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '2. Razones de vinculación a los cultivos ilícitos'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.vinculoorg)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.vinculoorg)
+              }]
+            });
+          //terminalos contenedores de graficas
+ 
+          }, 
           error:function(){alert('error');}
         });//Termina Ajax 
-
-      /*
-        if (!$('#seldpto').val()) {
-          console.log("nacional");          
-        } 
-        else{
-          if (!$('#selmpio').val()) {
-            console.log("Departamental");          
-          }
-          else{
-            if (!$('#selvda').val()) {
-              console.log("Municipal");          
-            }
-            else{
-              console.log("Veredal");
-            }
-          }
-        }
-      */         
       });//Termina change genestadistic      
     });    
   </script>
