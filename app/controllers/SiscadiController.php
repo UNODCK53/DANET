@@ -2108,7 +2108,22 @@ class SiscadiController extends BaseController {
 		arsort($relacionci);
 		
 		//4. Área de cultivos ilícitos reportada por los encuestados Area_CI_Valor
-
+		$a = $b = 0;
+		$hacultiilic = array();
+		$ingrepromcultcoca = array();
+		for ($i=0; $i < count($estadEBDT); $i++) {		
+			if ($estadEBDT[$i]['Area_CI_Valor']!='Na') {
+				$hacultiilic[$b] = $estadEBDT[$i]['Area_CI_Valor'];				
+				$b = 1+$b;
+			}
+			if ($estadEBDT[$i]['Ingresos_CI_01']!='Na') {
+				$ingrepromcultcoca[$a] = $estadEBDT[$i]['Ingresos_CI_01'];
+				$a = 1+$a;
+			}			
+		}
+		$hacultiilictot = round(array_sum($hacultiilic));
+		$hacultiilicprom = round((array_sum($hacultiilic)/$b),2);
+		$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca)/$a)/12));
 
 //----------------------------INDICADORES ECONÓMICOS---------------------------------
 		//1. Índice de pobreza multidimensional
@@ -2145,23 +2160,70 @@ class SiscadiController extends BaseController {
 			}
 		}
 
-		// SGSSS
+		// SGSSS y Estudia y trabajo
 		$sgsss = array();
-		$a = 0;		
+		$poblestudia = array();
+		$a = $b= $c = $d = $e = $f = $g = 0;		
 		for ($i=0; $i < count($estadEDTP); $i++) { 
 			if ($estadEDTP[$i]['SGSSS']!='Ns/Nr' && $estadEDTP[$i]['SGSSS']!='No afiliado') {
 				$sgsss[$a] = $estadEDTP[$i]['SGSSS'];
 				$a = 1+$a;
 			}
-					
+			if ($estadEDTP[$i]['Estudia']=='Si' || $estadEDTP[$i]['Estudia']=='No') {
+				$c = 1+$c;
+				if ($estadEDTP[$i]['Estudia']=='Si') {
+					$b = 1+$b;
+				}
+			}
+			if ($estadEDTP[$i]['Actividad']!='NA') {
+				$d = 1+$d;
+				if ($estadEDTP[$i]['Actividad']!='Estudiando') {
+					$e = 1+$e;
+				}
+			}
+			if ($estadEDTP[$i]['Trabaja']!='NA' && $estadEDTP[$i]['Edad']>=18) {
+				$f = 1+$f;
+				if ($estadEDTP[$i]['Trabaja']=='Si') {
+					$g = 1+$g;
+				}
+			}
 		}
 		$sgssstot = round((array_sum(array_count_values($sgsss))/count($estadEDTP))*100);
+		$poblestudiatot = round(($b/$c)*100);
+		$infantrabaja = round(($e/$d)*100);
+		$edadtrabaja = round(($g/$f)*100);
 
-		// Estudia
+		// acceso salud
+		$saludhogar = array();
+		$energhogar = array();
+		$pobrepobla = array();
+		$huertascase = array();
 		
-
-
-
+		$a = $b = $c = $d = 0;
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			if ($estadEBDT[$i]['Acceso_salud_f']=='Si') {
+				$saludhogar[$a] = $estadEBDT[$i]['Acceso_salud_f'];	
+				$a = 1+$a;
+			}
+			if ($estadEBDT[$i]['Energia']=='Si') {
+				$energhogar[$b] = $estadEBDT[$i]['Energia'];	
+				$b = 1+$b;
+			}
+			if ($estadEBDT[$i]['Pobre']=='Si') {
+				$pobrepobla[$c] = $estadEBDT[$i]['Pobre'];	
+				$c = 1+$c;
+			}
+			if ($estadEBDT[$i]['Autoconsumo']=='Si') {
+				$huertascase[$d] = $estadEBDT[$i]['Autoconsumo'];	
+				$d = 1+$d;
+			}
+		}		
+		$saludhogartot = round((array_sum(array_count_values($saludhogar))/count($estadEBDT))*100);
+		$energhogartot = round((array_sum(array_count_values($energhogar))/count($estadEBDT))*100);
+		$pobrepoblatot = round((array_sum(array_count_values($pobrepobla))/count($estadEBDT))*100);
+		$huertascasetot = round((array_sum(array_count_values($huertascase))/count($estadEBDT))*100);
+		
+		
 		//2. Índice de Pobreza Monetaria
 		
 		$rangopm = array();		
@@ -2194,6 +2256,9 @@ class SiscadiController extends BaseController {
 				$a = 1+$a;				
 			}
 		}
+		
+
+
 
 //----------------------------ACTIVIDADES PRODUCTIVAS---------------------------------
 		//1. Actividades productivas principales
@@ -2523,6 +2588,6 @@ class SiscadiController extends BaseController {
 		arsort($obtenaguaaptot);
 
 		//retorno todas las variables para las graficas 
-		return Response::json(array('variable'=>$estadEDTP, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot));
+		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot));
 	}
 }

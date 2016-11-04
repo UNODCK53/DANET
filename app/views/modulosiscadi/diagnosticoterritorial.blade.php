@@ -162,29 +162,41 @@
     <div id="titulo" class="text-center"><h1>TERRITORIO Y MEDIO AMBIENTE</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>
-      <div class="col-sm-5" id="containerx"></div>
-      <div class="col-sm-5" id="containery"></div>
+      <div class="col-sm-10" id="containerx"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">         
+      <div class="col-sm-1"></div>      
+      <div class="col-sm-10" id="containery"></div>
       <div class="col-sm-1"></div>
     </div>
     <div class="row">     
       <div class="col-sm-1"></div>
-      <div class="col-sm-3" id="containerz"></div>
-      <div class="col-sm-3" id="containeraa"></div>
-      <div class="col-sm-3" id="containerab"></div>
+      <div class="col-sm-5" id="containerz"></div>
+      <div class="col-sm-5" id="containeraa"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>      
+      <div class="col-sm-10" id="containerab"></div>
       <div class="col-sm-1"></div>
     </div>
     <div id="titulo" class="text-center"><h1>INFRAESTRUCTURA VEREDAL</h1></div>
     <div class="row">     
       <div class="col-sm-1"></div>
-      <div class="col-sm-3" id="containerac"></div>
-      <div class="col-sm-3" id="containerad"></div>
-      <div class="col-sm-3" id="containerae"></div>
+      <div class="col-sm-5" id="containerac"></div>
+      <div class="col-sm-5" id="containerad"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>      
+      <div class="col-sm-5" id="containerae"></div>
+      <div class="col-sm-5" id="containeraf"></div>
       <div class="col-sm-1"></div>
     </div>
     <div class="row">         
-      <div class="col-sm-1"></div>
-      <div class="col-sm-5" id="containeraf"></div>
-      <div class="col-sm-5" id="containerag"></div>
+      <div class="col-sm-1"></div>      
+      <div class="col-sm-10" id="containerag"></div>
       <div class="col-sm-1"></div>
     </div>
     <!--fin espacio para hacer las graficas-->    
@@ -454,7 +466,11 @@
               plotOptions: {
                   column: {
                       pointPadding: 0.2,
-                      borderWidth: 0
+                      borderWidth: 0,
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },
               series: [{
@@ -487,7 +503,11 @@
               plotOptions: {
                   column: {
                       pointPadding: 0.2,
-                      borderWidth: 0
+                      borderWidth: 0,
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },                          
               series: data.etnico
@@ -524,7 +544,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -563,7 +587,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -600,7 +628,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -637,7 +669,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -666,7 +702,11 @@
               plotOptions: {
                   column: {
                       pointPadding: 0.2,
-                      borderWidth: 0
+                      borderWidth: 0,
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },                          
               series: data.gruporelaccomunidad
@@ -732,7 +772,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -769,7 +813,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -778,7 +826,7 @@
               }]
             });
             
-            document.getElementById("containern").innerHTML = '<h4>4. Área de cultivos ilícitos reportada por los encuestados</h4><h1 class="text-center">'+data.discapacidad+' hectáreas</h1><h4>Tamaño promedio de los lotes: <b>'+data.discapacidad+' hectáreas</b></h4><h4>Ingreso promedio mensual de un cultivador de coca: <b>$'+data.discapacidad+'</b></h4>';            
+            document.getElementById("containern").innerHTML = '<h4>4. Área de cultivos ilícitos reportada por los encuestados</h4><h1 class="text-center">'+data.hacultiilictot+' hectáreas</h1><h4>Tamaño promedio de los lotes: <b>'+data.hacultiilicprom+' hectáreas</b></h4><h4>Ingreso promedio mensual de un cultivador de coca: <b>$'+data.ingrepromcultcocatot+'</b></h4>';            
             $('#containero').highcharts({
               chart: {
                   type: 'pie'                  
@@ -827,7 +875,7 @@
                   data: data.pobresinotot
               }]
             });
-            document.getElementById("containerq").innerHTML = '<p class="text-justify">El <b>'+data.sgssstot+'%</b> de la población encuestada está afiliada al sistema de seguridad social.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población en edad de asistir a la escuela lo hace.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de los hogares encuestados tiene acceso a servicios de salud en hospital  o centro de salud.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población infantil entre 6 y 9 años se encuentra trabajando.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de los hogares encuestados cuenta con energía eléctrica.</p>';
+            document.getElementById("containerq").innerHTML = '<p class="text-justify">El <b>'+data.sgssstot+'%</b> de la población encuestada está afiliada al sistema de seguridad social.</p><p class="text-justify">El <b>'+data.poblestudiatot+'%</b> de la población en edad de asistir a la escuela lo hace.</p><p class="text-justify">El <b>'+data.saludhogartot+'%</b> de los hogares encuestados tiene acceso a servicios de salud en hospital  o centro de salud.</p><p class="text-justify">El <b>'+data.infantrabaja+'%</b> de la población infantil entre 6 y 9 años se encuentra trabajando.</p><p class="text-justify">El <b>'+data.energhogartot+'%</b> de los hogares encuestados cuenta con energía eléctrica.</p>';
             $('#containerr').highcharts({
               chart: {
                   type: 'pie'                  
@@ -873,7 +921,7 @@
                   data: data.hogarespobratot
               }]
             });
-            document.getElementById("containert").innerHTML = '<p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población encuestada se considera pobre.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población en edad laboral se encuentra trabajando.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población encuestada cuenta con huertas caseras y cultivos para el autoconsumo.</p>';
+            document.getElementById("containert").innerHTML = '<p class="text-justify">El <b>'+data.pobrepoblatot+'%</b> de la población encuestada se considera pobre.</p><p class="text-justify">El <b>'+data.edadtrabaja+'%</b> de la población en edad laboral se encuentra trabajando.</p><p class="text-justify">El <b>'+data.huertascasetot+'%</b> de la población encuestada cuenta con huertas caseras y cultivos para el autoconsumo.</p>';
             $('#containeru').highcharts({              
               chart: {
                   type: 'bar'
@@ -903,7 +951,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -936,7 +988,11 @@
               plotOptions: {
                   column: {
                       pointPadding: 0.2,
-                      borderWidth: 0
+                      borderWidth: 0,
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },                          
               series: [{
@@ -973,7 +1029,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -1074,7 +1134,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -1111,7 +1175,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -1148,7 +1216,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -1212,7 +1284,11 @@
               plotOptions: {
                   column: {
                       pointPadding: 0.2,
-                      borderWidth: 0
+                      borderWidth: 0,
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },                          
               series: [{
@@ -1281,7 +1357,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
@@ -1318,7 +1398,11 @@
               },
               plotOptions: {
                   series: {
-                      stacking: 'normal'
+                      stacking: 'normal',
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.y:.0f}%'
+                      }
                   }
               },              
               series: [{
