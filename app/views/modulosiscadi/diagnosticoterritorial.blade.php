@@ -114,6 +114,79 @@
       <div class="col-sm-5" id="containern"></div>
       <div class="col-sm-1"></div>
     </div>
+    <div id="titulo" class="text-center"><h1>INDICADORES ECONÓMICOS</h1></div>
+    <div class="row">         
+      <div class="col-sm-1"></div>      
+      <div  id="subtitulo1" style="display: none" class="col-sm-10"><h4>1. Índice de pobreza multidimensional</h4></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">         
+      <div class="col-sm-1"></div>    
+      <div class="col-sm-5" id="containero"></div>
+      <div class="col-sm-5" id="containerp"></div>            
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10" id="containerq"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">         
+      <div class="col-sm-1"></div>      
+      <div  id="subtitulo2" style="display: none" class="col-sm-10"><h4>2. Índice de Pobreza Monetaria</h4></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containerr"></div>
+      <div class="col-sm-5" id="containers"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10" id="containert"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    <div id="titulo" class="text-center"><h1>ACTIVIDADES PRODUCTIVAS</h1></div>
+    <div class="row">         
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10 text-center" id="containeru"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-4" id="containerv"></div>
+      <div class="col-sm-6" id="containerw"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    <div id="titulo" class="text-center"><h1>TERRITORIO Y MEDIO AMBIENTE</h1></div>
+    <div class="row">         
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containerx"></div>
+      <div class="col-sm-5" id="containery"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-3" id="containerz"></div>
+      <div class="col-sm-3" id="containeraa"></div>
+      <div class="col-sm-3" id="containerab"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div id="titulo" class="text-center"><h1>INFRAESTRUCTURA VEREDAL</h1></div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-3" id="containerac"></div>
+      <div class="col-sm-3" id="containerad"></div>
+      <div class="col-sm-3" id="containerae"></div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">         
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containeraf"></div>
+      <div class="col-sm-5" id="containerag"></div>
+      <div class="col-sm-1"></div>
+    </div>
     <!--fin espacio para hacer las graficas-->    
   <br/>
 <!--fin del codigo-->    
@@ -159,7 +232,7 @@
       $("#labelvda").hide();
       $("#selvda").hide();
       $(".text-center").hide();
-
+      
       //funcion de cambio del combo depto
       $("#seldpto").change(function(){
         if((($('#seldpto').val()=='')&&($('#selmpio').val()!=''))||(($('#seldpto').val()=='')&&($('#selmpio').val()=='')))
@@ -241,6 +314,9 @@
           
           success:function(data){
             $(".text-center").show();
+            $('#subtitulo1').show();
+            $('#subtitulo2').show();
+            
             console.log(data);
             var categories = data.categories;
             $('#containera').highcharts({
@@ -456,7 +532,7 @@
                   data: Object.values(data.razones)
               }]
             });
-            document.getElementById("containerf").innerHTML = '<p class="text-justify">El <b>'+data.embarazoparto+'%PENDIENTECORREGIR</b> de las mujeres se encuentran en estado de embarazo o están lactando.</p><p class="text-justify">El <b>'+data.discapacidad+'%</b> de la población presenta alguna discapacidad.</p><p class="text-justify">El <b>'+data.analfabetismotot+'%</b> de la población mayor de 15 años encuestada no sabe leer, ni escribir.  <b>'+data.analfabetismomtot+'%</b> Mujeres – <b>'+data.analfabetismohtot+'%</b> Hombres</p><p class="text-justify">Promedio de personas en los hogares encuestados <b>'+data.promperhoga+'</b></p>';
+            document.getElementById("containerf").innerHTML = '<p class="text-justify">El <b>'+data.embarazoparto+'%</b> de las mujeres se encuentran en estado de embarazo o están lactando.</p><p class="text-justify">El <b>'+data.discapacidad+'%</b> de la población presenta alguna discapacidad.</p><p class="text-justify">El <b>'+data.analfabetismotot+'%</b> de la población mayor de 15 años encuestada no sabe leer, ni escribir.  <b>'+data.analfabetismomtot+'%</b> Mujeres – <b>'+data.analfabetismohtot+'%</b> Hombres</p><p class="text-justify">Promedio de personas en los hogares encuestados <b>'+data.promperhoga+'</b></p>';
 
             $('#containerg').highcharts({              
               chart: {
@@ -605,6 +681,9 @@
               title: {
                   text: '1. Porcentaje de personas que tienen relación con cultivos ilícitos'
               },
+              credits: {
+                enabled: false
+              },
               tooltip: {
                   pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
               },
@@ -635,7 +714,7 @@
                 enabled: false
               },
               xAxis: {
-                  categories: Object.keys(data.vinculoorg)
+                  categories: Object.keys(data.vinculacionci)
               },
               yAxis: {
                   min: 0,
@@ -658,10 +737,596 @@
               },              
               series: [{
                   name: ' ',
-                  data: Object.values(data.vinculoorg)
+                  data: Object.values(data.vinculacionci)
               }]
             });
-          //terminalos contenedores de graficas
+            $('#containerm').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '3. Relación con los cultivos ilícitos'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.relacionci)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.relacionci)
+              }]
+            });
+            
+            document.getElementById("containern").innerHTML = '<h4>4. Área de cultivos ilícitos reportada por los encuestados</h4><h1 class="text-center">'+data.discapacidad+' hectáreas</h1><h4>Tamaño promedio de los lotes: <b>'+data.discapacidad+' hectáreas</b></h4><h4>Ingreso promedio mensual de un cultivador de coca: <b>$'+data.discapacidad+'</b></h4>';            
+            $('#containero').highcharts({
+              chart: {
+                  type: 'pie'                  
+              },
+              title: {
+                  text: ' '
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },                          
+              plotOptions: {
+                  pie: {
+                      innerSize: 100,
+                      depth: 45
+                  }
+              },
+              series: [{
+                  name: ' ',
+                  data: data.rangoipmtot
+              }]
+            });
+            $('#containerp').highcharts({
+              chart: {
+                  type: 'pie'                  
+              },
+              title: {
+                  text: ' '
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },                          
+              plotOptions: {
+                  pie: {
+                      innerSize: 100,
+                      depth: 45                      
+                  }
+              },
+              series: [{
+                  name: ' ',
+                  data: data.pobresinotot
+              }]
+            });
+            document.getElementById("containerq").innerHTML = '<p class="text-justify">El <b>'+data.sgssstot+'%</b> de la población encuestada está afiliada al sistema de seguridad social.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población en edad de asistir a la escuela lo hace.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de los hogares encuestados tiene acceso a servicios de salud en hospital  o centro de salud.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población infantil entre 6 y 9 años se encuentra trabajando.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de los hogares encuestados cuenta con energía eléctrica.</p>';
+            $('#containerr').highcharts({
+              chart: {
+                  type: 'pie'                  
+              },
+              title: {
+                  text: ' '
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },                          
+              plotOptions: {
+                  pie: {
+                      innerSize: 100,
+                      depth: 45
+                  }
+              },
+              series: [{
+                  name: ' ',
+                  data: data.rangopmtot
+              }]
+            });
+            $('#containers').highcharts({
+              chart: {
+                  type: 'pie'                  
+              },
+              title: {
+                  text: ' '
+              },
+              credits: {
+                enabled: false
+              },              
+              plotOptions: {
+                  pie: {
+                      innerSize: 100,
+                      depth: 45
+                  }
+              },
+              series: [{
+                  name: ' ',
+                  data: data.hogarespobratot
+              }]
+            });
+            document.getElementById("containert").innerHTML = '<p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población encuestada se considera pobre.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población en edad laboral se encuentra trabajando.</p><p class="text-justify">El <b>'+data.embarazoparto+'%</b> de la población encuestada cuenta con huertas caseras y cultivos para el autoconsumo.</p>';
+            $('#containeru').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '1. Actividades productivas principales'
+              },              
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.y}%</b>'
+              },               
+              xAxis: {
+                  categories: Object.keys(data.lineapptot)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },              
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.lineapptot)
+              }]
+            });
+            $("#containeru").append('<h1><b>'+data.haprodagrotot+' hectáreas</b></h1><h4>Destinadas a la producción agropecuaria</h4>');
+            $('#containerv').highcharts({
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: '2. Acceso a capacitaciones y/o asistencia técnica'
+              },
+              credits: {
+                enabled: false
+              },              
+              tooltip: {
+                  headerFormat: '<table>',
+                  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                      '<td style="padding:0"><b>{point.y} %</b></td></tr>',
+                  footerFormat: '</table>',
+                  shared: true,
+                  useHTML: true
+              },
+              xAxis: {
+                  categories: Object.keys(data.accesocat)
+              },
+              plotOptions: {
+                  column: {
+                      pointPadding: 0.2,
+                      borderWidth: 0
+                  }
+              },                          
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.accesocat)
+              }]
+            }); 
+            $('#containerw').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '3. Venta de productos de las actividades productivas'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.ventasproduc)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.ventasproduc)
+              }]
+            });     
+            $('#containerx').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '1. Relación de tenencia de la tierra'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.relacionprediotot
+              }]
+            });
+            $('#containery').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '2. Participación en procesos de formalización de la propiedad'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.formalizprediotot
+              }]
+            });
+            $('#containerz').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '3. Participación en actividades relacionadas con la conservación'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.actividpartici)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.actividpartici)
+              }]
+            });
+            $('#containeraa').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '4. Acuerdos ambientales que existen en la comunidad'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.acuerdoambien)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.acuerdoambien)
+              }]
+            });
+            $('#containerab').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '5. Implementación de buenas prácticas ambientales o amigables con el medio ambiente'
+              },              
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                  categories: Object.keys(data.practicaambien)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },
+              tooltip: {
+                  valueSuffix: ' %'
+              },
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.practicaambien)
+              }]
+            });
+            $('#containerac').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '1. Existencia de vías de acceso terrestre'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.viasaccesotot
+              }]
+            });
+            $('#containerad').highcharts({
+              chart: {
+                  type: 'column'
+              },
+              title: {
+                  text: '2. Estado de las vías de acceso'
+              },
+              credits: {
+                enabled: false
+              },              
+              tooltip: {
+                  headerFormat: '<table>',
+                  pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                      '<td style="padding:0"><b>{point.y} %</b></td></tr>',
+                  footerFormat: '</table>',
+                  shared: true,
+                  useHTML: true
+              },
+              xAxis: {
+                  categories: Object.keys(data.estadoviastot)
+              },
+              plotOptions: {
+                  column: {
+                      pointPadding: 0.2,
+                      borderWidth: 0
+                  }
+              },                          
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.estadoviastot)
+              }]
+            });             
+            $('#containerae').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '3. Tipo de transporte utilizado'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.topitransptot
+              }]
+            });
+            $('#containeraf').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '4. Disponibilidad de agua para el consumo'
+              },              
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.y}%</b>'
+              },               
+              xAxis: {
+                  categories: Object.keys(data.obtenaguatot)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },              
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.obtenaguatot)
+              }]
+            });
+            $('#containerag').highcharts({              
+              chart: {
+                  type: 'bar'
+              },
+              title: {
+                text: '5. Disponibilidad de agua para las actividades productivas'
+              },              
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.y}%</b>'
+              },               
+              xAxis: {
+                  categories: Object.keys(data.obtenaguaaptot)
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Porcentaje (%)'
+                  }
+                  
+              },              
+              legend: {
+                  reversed: true,
+                  enabled: false
+              },
+              plotOptions: {
+                  series: {
+                      stacking: 'normal'
+                  }
+              },              
+              series: [{
+                  name: ' ',
+                  data: Object.values(data.obtenaguaaptot)
+              }]
+            });
+          //terminalos contenedores de graficas practicaambien
  
           }, 
           error:function(){alert('error');}
