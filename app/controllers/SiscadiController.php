@@ -2130,7 +2130,12 @@ class SiscadiController extends BaseController {
 		
 		$rangoipm = array();		
 		for ($i=0; $i < count($estadEBDT); $i++) { 
-			$rangoipm[$i] = $estadEBDT[$i]['Rango_IPM'];		
+			if ($estadEBDT[$i]['Rango_IPM']=='No pobre - Vulnerable a la pobreza') {
+				$rangoipm[$i] = 'NPVP*';
+			}else {
+				$rangoipm[$i] = $estadEBDT[$i]['Rango_IPM'];
+			}
+					
 		}		
 		$rangoipma = array_count_values($rangoipm);
 		$a = 0;
@@ -2492,7 +2497,9 @@ class SiscadiController extends BaseController {
 
 		$viasacceso = array();		
 		for ($i=0; $i < count($estadEBDT); $i++) { 
-			$viasacceso[$i] = $estadEBDT[$i]['Vias'];		
+			if ($estadEBDT[$i]['Vias']!='NA') {
+				$viasacceso[$i] = $estadEBDT[$i]['Vias'];
+			}			
 		}		
 		$viasaccesoa = array_count_values($viasacceso);
 		$a = 0;
@@ -2511,17 +2518,20 @@ class SiscadiController extends BaseController {
 
 		$estadovias = array();		
 		for ($i=0; $i < count($estadEBDT); $i++) { 
-			$estadovias[$i] = $estadEBDT[$i]['Estado_vias'];		
+			if ($estadEBDT[$i]['Estado_vias']!='N/A') {
+				$estadovias[$i] = $estadEBDT[$i]['Estado_vias'];
+			}					
 		}		
 		$estadoviasa = array_count_values($estadovias);
 		$a = 0;
 		ksort($estadoviasa);
-		
-		$estadoviastot = array();		
+		$sumestadoviasa = array_sum($estadoviasa);
+		$estadoviastot = array();
+
 		if (!empty($estadoviasa)) {
 			for ($i=0; $i < count($estadoviasa); $i++) {
 				
-				$estadoviastot[array_keys($estadoviasa)[$i]] = round((array_values($estadoviasa)[$i]/count($estadEDTAP))*100);
+				$estadoviastot[array_keys($estadoviasa)[$i]] = round((array_values($estadoviasa)[$i]/$sumestadoviasa)*100);
 				/*
 				$estadoviastot[$a]['name'] = array_keys($estadoviasa)[$i];					
 				$estadoviastot[$a]['y'] = array_values($estadoviasa)[$i];
@@ -2572,17 +2582,21 @@ class SiscadiController extends BaseController {
 
 		$obtenaguaap = array();		
 		for ($i=0; $i < count($estadEBDT); $i++) { 
-			$obtenaguaap[$i] = $estadEBDT[$i]['Obtencion_agua_ap'];		
+			if ($estadEBDT[$i]['Obtencion_agua_ap']!='NA') {
+				$obtenaguaap[$i] = $estadEBDT[$i]['Obtencion_agua_ap'];
+			}
+					
 		}		
 
 		$obtenaguaapa = array_count_values($obtenaguaap);
 		$a = 0;
 		arsort($obtenaguaapa);
 		$obtenaguaaptot = array();
-
+		$sumobtenaguaapa = array_sum($obtenaguaapa);
 		if (!empty($obtenaguaapa)) {
+			
 			for ($i=0; $i < count($obtenaguaapa); $i++) { 				
-				$obtenaguaaptot[array_keys($obtenaguaapa)[$i]] = round((array_values($obtenaguaapa)[$i]/count($estadEBDT))*100);
+				$obtenaguaaptot[array_keys($obtenaguaapa)[$i]] = round((array_values($obtenaguaapa)[$i]/$sumobtenaguaapa)*100);
 			}
 		}
 		arsort($obtenaguaaptot);

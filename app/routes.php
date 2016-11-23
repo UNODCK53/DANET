@@ -11,6 +11,10 @@
 |
 */
 Route::get('municipios_concentracion',function(){return View::make('access_outside/dondeestamos');});
+Route::get('Cooperacion_GIZ',function(){return View::make('access_outside/giz');});
+  Route::get('Cooperacion_GIZ_datosrelevantes',function(){return View::make('access_outside/giz/gizdatrelev');});
+  Route::get('Cooperacion_GIZ_visorgeo',function(){return View::make('access_outside/giz/gizvisor');});
+  Route::get('Cooperacion_GIZ_documentos',function(){return View::make('access_outside/giz/gizdocu');});
 //Ruta del index
 Route::get('/', function()
 {

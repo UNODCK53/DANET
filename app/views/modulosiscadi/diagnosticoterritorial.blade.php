@@ -117,13 +117,13 @@
     <div id="titulo" class="text-center"><h1>INDICADORES ECONÓMICOS</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>      
-      <div  id="subtitulo1" style="display: none" class="col-sm-10"><h4>1. Índice de pobreza multidimensional</h4></div>
+      <div  id="subtitulo1" style="display: none" class="col-sm-10"><h4>1. Índice de pobreza multidimensional</h4><blockquote><p>El Índice de Pobreza Multidimensional (IPM) busca realizar un análisis de pobreza desde la perspectiva de múltiples dimensiones asociadas a las privaciones de las personas. Las variables definidas para el cálculo del IPM están enmarcadas en cuatro dimensiones: educación, salud, infancia y adolescencia y condiciones de la vivienda, las cuales fueron diseñadas para determinar condiciones de pobreza de hogares rurales colombianos vinculados a los programas de desarrollo alternativo. Se considera un hogar multidimensionalmente pobre si está privado de un tercio de las dimensiones de los indicadores ponderados.</p></blockquote></div>
       <div class="col-sm-1"></div>
     </div>
     <div class="row">         
-      <div class="col-sm-1"></div>    
+      <div class="col-sm-1"></div>      
+      <div class="col-sm-5" id="containerp"></div>
       <div class="col-sm-5" id="containero"></div>
-      <div class="col-sm-5" id="containerp"></div>            
       <div class="col-sm-1"></div>
     </div>
     <div class="row">     
@@ -133,13 +133,45 @@
     </div>
     <div class="row">         
       <div class="col-sm-1"></div>      
-      <div  id="subtitulo2" style="display: none" class="col-sm-10"><h4>2. Índice de Pobreza Monetaria</h4></div>
+      <div  id="subtitulo2" style="display: none" class="col-sm-10"><h4>2. Índice de Pobreza Monetaria</h4>        
+        <div class="row"> 
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nivel de pobreza</th>
+                <th>Ingreso Hogar *</th>              
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>No Pobre</td>
+                <td>Mayor a $622.391</td>              
+              </tr>
+              <tr>
+                <td>Pobre</td>
+                <td>Menor a $622.391 y mayor a $366.133</td>              
+              </tr>
+              <tr>
+                <td>Pobre extremo</td>
+                <td>Menor a $366.133</td>              
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+        <blockquote>
+          <p>* Fuente: Boletín Técnico Pobreza Monetaria y Multidimensional en Colombia . DANE 2015 – Área rural dispersa. Ajustado con inflación</p>
+        </blockquote>
+      </div>
       <div class="col-sm-1"></div>
     </div>
     <div class="row">     
       <div class="col-sm-1"></div>
-      <div class="col-sm-5" id="containerr"></div>
       <div class="col-sm-5" id="containers"></div>
+      <div class="col-sm-5" id="containerr"></div>      
       <div class="col-sm-1"></div>
     </div>
     <div class="row">     
@@ -826,10 +858,13 @@
               }]
             });
             
-            document.getElementById("containern").innerHTML = '<h4>4. Área de cultivos ilícitos reportada por los encuestados</h4><h1 class="text-center">'+data.hacultiilictot+' hectáreas</h1><h4>Tamaño promedio de los lotes: <b>'+data.hacultiilicprom+' hectáreas</b></h4><h4>Ingreso promedio mensual de un cultivador de coca: <b>$'+data.ingrepromcultcocatot+'</b></h4>';            
+            document.getElementById("containern").innerHTML = '<h4>4. Área de cultivos ilícitos reportada por los encuestados</h4><h1 class="text-center">'+data.hacultiilictot+' hectáreas</h1><h4>Tamaño promedio de los lotes: <b>'+data.hacultiilicprom+' hectáreas</b></h4><h4>Ingreso promedio mensual neto de un cultivador de coca: <b>$'+data.ingrepromcultcocatot+'</b></h4>';            
             $('#containero').highcharts({
               chart: {
-                  type: 'pie'                  
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'                 
               },
               title: {
                   text: ' '
@@ -842,18 +877,26 @@
               },                          
               plotOptions: {
                   pie: {
-                      innerSize: 100,
-                      depth: 45
-                  }
+                      innerSize: 50,                      
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }                  
               },
               series: [{
                   name: ' ',
                   data: data.rangoipmtot
               }]
-            });
+            });            
             $('#containerp').highcharts({
               chart: {
-                  type: 'pie'                  
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'                    
               },
               title: {
                   text: ' '
@@ -865,20 +908,28 @@
                   pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
               },                          
               plotOptions: {
-                  pie: {
-                      innerSize: 100,
-                      depth: 45                      
-                  }
+                   pie: {
+                      innerSize: 50,                      
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  } 
               },
               series: [{
                   name: ' ',
                   data: data.pobresinotot
               }]
             });
-            document.getElementById("containerq").innerHTML = '<p class="text-justify">El <b>'+data.sgssstot+'%</b> de la población encuestada está afiliada al sistema de seguridad social.</p><p class="text-justify">El <b>'+data.poblestudiatot+'%</b> de la población en edad de asistir a la escuela lo hace.</p><p class="text-justify">El <b>'+data.saludhogartot+'%</b> de los hogares encuestados tiene acceso a servicios de salud en hospital  o centro de salud.</p><p class="text-justify">El <b>'+data.infantrabaja+'%</b> de la población infantil entre 6 y 9 años se encuentra trabajando.</p><p class="text-justify">El <b>'+data.energhogartot+'%</b> de los hogares encuestados cuenta con energía eléctrica.</p>';
+            document.getElementById("containerq").innerHTML = '<blockquote><p><b>NPVP*</b> = No pobre - Vulnerable a la pobreza.</p><p class="text-justify">El <b>'+data.sgssstot+'%</b> de la población encuestada está afiliada al sistema de seguridad social.</p><p class="text-justify">El <b>'+data.poblestudiatot+'%</b> de la población en edad de asistir a la escuela lo hace.</p><p class="text-justify">El <b>'+data.saludhogartot+'%</b> de los hogares encuestados tiene acceso a servicios de salud en hospital  o centro de salud.</p><p class="text-justify">El <b>'+data.infantrabaja+'%</b> de la población infantil entre 6 y 9 años se encuentra trabajando.</p><p class="text-justify">El <b>'+data.energhogartot+'%</b> de los hogares encuestados cuenta con energía eléctrica.</p></blockquote>';
             $('#containerr').highcharts({
               chart: {
-                  type: 'pie'                  
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'                   
               },
               title: {
                   text: ' '
@@ -890,10 +941,15 @@
                   pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
               },                          
               plotOptions: {
-                  pie: {
-                      innerSize: 100,
-                      depth: 45
-                  }
+                   pie: {
+                      innerSize: 50,                      
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  } 
               },
               series: [{
                   name: ' ',
@@ -902,26 +958,37 @@
             });
             $('#containers').highcharts({
               chart: {
-                  type: 'pie'                  
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'                   
               },
               title: {
                   text: ' '
               },
               credits: {
                 enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
               },              
               plotOptions: {
-                  pie: {
-                      innerSize: 100,
-                      depth: 45
-                  }
+                   pie: {
+                      innerSize: 50,                      
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  } 
               },
               series: [{
                   name: ' ',
                   data: data.hogarespobratot
               }]
             });
-            document.getElementById("containert").innerHTML = '<p class="text-justify">El <b>'+data.pobrepoblatot+'%</b> de la población encuestada se considera pobre.</p><p class="text-justify">El <b>'+data.edadtrabaja+'%</b> de la población en edad laboral se encuentra trabajando.</p><p class="text-justify">El <b>'+data.huertascasetot+'%</b> de la población encuestada cuenta con huertas caseras y cultivos para el autoconsumo.</p>';
+            document.getElementById("containert").innerHTML = '<blockquote><p class="text-justify">El <b>'+data.pobrepoblatot+'%</b> de la población encuestada se considera pobre.</p><p class="text-justify">El <b>'+data.edadtrabaja+'%</b> de la población en edad laboral se encuentra trabajando.</p><p class="text-justify">El <b>'+data.huertascasetot+'%</b> de la población encuestada cuenta con huertas caseras y cultivos para el autoconsumo.</p></blockquote>';
             $('#containeru').highcharts({              
               chart: {
                   type: 'bar'
@@ -1049,7 +1116,7 @@
                   type: 'pie'
               },
               title: {
-                  text: '1. Relación de tenencia de la tierra'
+                  text: '1. Relación de tenencia de la tierra según los encuestados'
               },
               credits: {
                 enabled: false
@@ -1192,7 +1259,7 @@
                   type: 'bar'
               },
               title: {
-                text: '5. Implementación de buenas prácticas ambientales o amigables con el medio ambiente'
+                text: '5. Implementación de prácticas agrícolas'
               },              
               credits: {
                 enabled: false
