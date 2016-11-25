@@ -1,0 +1,14 @@
+var campamento={
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                                                                                                                                  
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID": 1, "N°": 1.000000, "REGIÓN": "MEDELLÍN", "DEPARTAMEN": "CÓRDOBA", "MUNICIPIO": "TIERRA ALTA", "VEREDA": "EL GALLO", "TIPO": "PTN", "Longitud": -76.274169, "Latitud": -76.274169, "ORIGEN": "Comunicado", "A_R": "EL GALLO", "MUNI_REAL": null }, "geometry": { "type": "Point", "coordinates": [ -76.27417, 7.87928 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 2, "N°": 2.000000, "REGIÓN": "POPAYÁN", "DEPARTAMEN": "CAUCA", "MUNICIPIO": "CORINTO", "VEREDA": "GUABITO", "TIPO": "PTN", "Longitud": -76.322778, "Latitud": -76.322778, "ORIGEN": "U5-C", "A_R": "LA COMINERA", "MUNI_REAL": "CALOTO" }, "geometry": { "type": "Point", "coordinates": [ -76.32278, 3.09344 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 12, "N°": 6.000000, "REGIÓN": "QUIBDÓ", "DEPARTAMEN": "ANTIOQUIA", "MUNICIPIO": "VIGÍA DEL FUERTE", "VEREDA": "BOCA DE VIDRI", "TIPO": "PTN", "Longitud": -76.546558, "Latitud": -76.546558, "ORIGEN": "Comunicado", "A_R": "VIDRI", "MUNI_REAL": null }, "geometry": { "type": "Point", "coordinates": [ -76.54656, 6.19243 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 13, "N°": 1.000000, "REGIÓN": "MEDELLÍN", "DEPARTAMEN": "ANTIOQUIA", "MUNICIPIO": "ANORI", "VEREDA": "EL CARMÍN", "TIPO": "PTN", "Longitud": -75.234178, "Latitud": -75.234178, "ORIGEN": "Comunicado", "A_R": "EL CARMÍN", "MUNI_REAL": null }, "geometry": { "type": "Point", "coordinates": [ -75.23418, 7.22177 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 25, "N°": 6.000000, "REGIÓN": "QUIBDÓ", "DEPARTAMEN": "CHOCÓ", "MUNICIPIO": "RIO SUCIO", "VEREDA": "ANTAZALES", "TIPO": "PTN", "Longitud": -76.786003, "Latitud": -76.786003, "ORIGEN": "Comunicado", "A_R": "FLORIDA", "MUNI_REAL": null }, "geometry": { "type": "Point", "coordinates": [ -76.786, 7.31259 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 26, "N°": 5.000000, "REGIÓN": "FLORENCIA", "DEPARTAMEN": "CAQUETÁ", "MUNICIPIO": "SAN VICENTE DEL CAGUAN", "VEREDA": "MIRAVALLE", "TIPO": "PTN", "Longitud": -74.779432, "Latitud": -74.779432, "ORIGEN": "Comunicado", "A_R": "MIRAVALLE", "MUNI_REAL": null }, "geometry": { "type": "Point", "coordinates": [ -74.77943, 2.64914 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 27, "N°": 7.000000, "REGIÓN": "VALLEDUPAR", "DEPARTAMEN": "GUAJIRA", "MUNICIPIO": "FONSECA", "VEREDA": "CORREGIMIENTO DE EL CONEJO", "TIPO": "PTN", "Longitud": -72.768820, "Latitud": -72.768820, "ORIGEN": "Comunicado", "A_R": "PONDORES", "MUNI_REAL": null }, "geometry": { "type": "Point", "coordinates": [ -72.76882, 10.78371 ] } }
+]
+}

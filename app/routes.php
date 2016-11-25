@@ -10,7 +10,8 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::get('municipios_concentracion',function(){return View::make('access_outside/dondeestamos');});
+Route::get('municipios_concentracion',function(){return View::make('access_outside/visor_acuerdo');});
+
 //Ruta del index
 Route::get('/', function()
 {

@@ -1,0 +1,8 @@
+#acuerdo_map {
+	position: relative;
+	top: 1%;
+	bottom: 0px;
+	width: 100%;
+	height:100vh;
+	min-height:100%;
+}
