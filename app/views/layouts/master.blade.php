@@ -182,7 +182,7 @@ $menuguardaun=false;
               <li id="reportesiscadi"><a  href='siscadi_encuentas'>Reportes PDF</a></li>
             @endif
             @if($menuestadisticosiscadi)
-              <li id="estadisticosiscadi"><a  href='siscadi_estadisticas'>Estadisticas</a></li>
+              <li id="estadisticosiscadi"><a  href='siscadi_estadisticas'>Estadísticas</a></li>
             @endif             
             </ul>
           </li>
@@ -386,7 +386,7 @@ $menuguardaun=false;
                     <li><a id="reportesiscadimenupeq" href='siscadi_encuentas'>Reportes PDF</a></li>
                     @endif
                     @if($menuestadisticosiscadi)
-                    <li><a id="estadisticosiscadimenupeq" href='siscadi_estadisticas'>Estadisticas</a></li>                    
+                    <li><a id="estadisticosiscadimenupeq" href='siscadi_estadisticas'>Estadísticas</a></li>                    
                     @endif 
                   </ul>
                 </li>
@@ -572,7 +572,7 @@ $menuguardaun=false;
 <!--quinto contenedor-->  
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá D.C. - Colombia</p></small>
+    <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información y Análisis – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá D.C. - Colombia</p></small>
     </div>
   </div>
 	<br/><br/>

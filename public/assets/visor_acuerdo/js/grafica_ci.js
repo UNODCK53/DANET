@@ -135,7 +135,7 @@ grafica_ci.update = function (props) {
 	};
 
 	var chart = new Highcharts.Chart(options);	
-
+	
 
 
 };

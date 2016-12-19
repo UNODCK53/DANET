@@ -76,10 +76,11 @@
           </tbody>
         </table>      
       </div>
-      <div class="col-sm-1"></div>      
-
+      <div class="col-sm-1"></div>
 <!--fin del codigo-->    
     </div>
+
+
   </div>
 <!--Fin del tercer contenedor--> 
 

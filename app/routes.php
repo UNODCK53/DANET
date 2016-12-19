@@ -10,7 +10,21 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+
 Route::get('municipios_concentracion',function(){return View::make('access_outside/visor_acuerdo');});
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+//Modulo GIZ 
+Route::get('Cooperacion_GIZ',function(){return View::make('access_outside/giz');});
+//Route::get('Cooperacion_GIZ_datosrelevantes',function(){return View::make('access_outside/giz/gizdatrelev');});
+//Route::get('Cooperacion_GIZ_datosrelevantes', array('uses' => 'gizController@DistribGIZdepartamental'));
+Route::get('Cooperacion_GIZ_datosrelevantes','gizController@DistribGIZdepartamental');
+Route::get('Cooperacion_GIZ_visorgeo','gizController@mapGIZ');
+//Route::get('Cooperacion_GIZ_visorgeo',function(){return View::make('access_outside/giz/gizvisor');});
+Route::get('Cooperacion_GIZ_documentos',function(){return View::make('access_outside/giz/gizdocu');});
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
 
 //Ruta del index
 Route::get('/', function()
@@ -35,6 +49,7 @@ Route::controller('tierras','TierrasController');
 Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
+Route::controller('giz','gizController');
 
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
@@ -121,9 +136,6 @@ Route::group(array('before' => 'auth'), function()
   //Termina rutas para el módulo de GUARDAUN
   //--------------------------------------------------------------------------------------------------------------------------
 
-
-
-
 //rutas de prueba despues de pruebas se pueden borrar
 Route::group(array('before' => 'grupo1|level1'), function()
 {
@@ -134,15 +146,15 @@ Route::group(array('before' => 'grupo1|level1'), function()
 });
 });//Cierra rutas para usuarios autenticados
 
-  // ruta al controlador restfull donde esta toda la informacion de tierras
-  //Route::get('vista3','TierrasController@Listado');
+// ruta al controlador restfull donde esta toda la informacion de tierras
+//Route::get('vista3','TierrasController@Listado');
   
-  Route::get('vista3','TierrasController@PruebaPro');
-  Route::get('vista1',function(){return View::make('vista1');});  
-  Route::get('master_docu','DocumentosController@Masterdocu');
-  Route::get('error', function(){return View::make('error');});
+Route::get('vista3','TierrasController@PruebaPro');
+Route::get('vista1',function(){return View::make('vista1');});  
+Route::get('master_docu','DocumentosController@Masterdocu');
+Route::get('error', function(){return View::make('error');});
   
-  //permite acceso a las vistas del modulo de documentos
+//permite acceso a las vistas del modulo de documentos
   
-  //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
+//Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
 

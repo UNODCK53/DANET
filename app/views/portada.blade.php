@@ -157,6 +157,37 @@
           <br />
         </div>
     </div>
+    <!--Segundo bloque derecha-->
+    <div class="row">
+      <!--imagen responsive-->
+        <a href="<?=URL::to('Cooperacion_GIZ'); ?>"><div>
+          <div id="imagen1" class="col-xs-12 col-sm-3">
+            <center><img src="assets/img/Circulo_GIZ.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
+          </div>
+          <!--Texto del contenido-->
+          <div class="col-xs-12 col-sm-3">
+            <br />
+              <strong>Cooperación GIZ-UNODC</strong>
+              <small><p>Espacio dedicado a los estudios realizados en cooperación con GIZ, de los cultivos de coca y su relación con los bosques en Colombia.
+                  </p></small>
+          
+          </div>
+        </div></a>
+        <!--imagen responsive--> 
+        <a href="<?=URL::to('municipios_concentracion'); ?>" target="_blank" ><div>
+          <div id="imagen1" class="col-xs-12 col-sm-3">
+            <center><img src="assets/img/Circulo_Donde_estamos.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
+          </div>
+          <!--Texto del contenido-->
+          <div class="col-xs-12 col-sm-3">
+            <br />
+              <strong>Municipios de concentración</strong>
+              <small><p>Con esta aplicación podrás ver en donde se encuentran los municipios de concentración acordados por el gobierno de Colombia y las FARC.
+                  </p></small>
+          
+          </div>
+        </div></a>
+    </div>
     <!--Primer bloque izquierda-->
     <div class="row">
       <!--imagen responsive-->
@@ -184,8 +215,7 @@
              </p>
             </small>
         </div>
-    </div>
-    
+    </div>    
     <!--Segundo bloque derecha-->
     <div class="row">
       <!--imagen responsive-->
@@ -200,23 +230,6 @@
              </p></small>
         </div>
         <!--imagen responsive-->
-        <a href="<?=URL::to('municipios_concentracion'); ?>" target="_blank" ><div>
-          <div id="imagen1" class="col-xs-12 col-sm-3">
-            <center><img src="assets/img/Circulo_Donde_estamos.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
-          </div>
-          <!--Texto del contenido-->
-          <div class="col-xs-12 col-sm-3">
-            <br />
-              <strong>Municipios de concentración</strong>
-              <small><p>Con esta aplicación podrás ver en donde se encuentran los municipios de concentración acordados por el gobierno de Colombia y las FARC.
-                  </p></small>
-          
-          </div>
-        </div></a>
-    </div>
-    <!--Segundo fila nuevo bloque izquierda-->
-    <div class="row">
-      <!--imagen responsive-->
        <div class="col-xs-12 col-sm-3">
           <center><img src="assets/img/Circulo_10.png" width="184" height="184" id="imagen" class="img-responsive" alt="cir10"></center>
         </div>
@@ -227,7 +240,10 @@
             <small><p>En esta página podrás encontrar información histórica de los territorios intervenidos por el gobierno de Colombia y monitoreados por UNODC.
             </p></small>
         </div>
-        <!--imagen responsive-->
+    </div>
+    <!--Segundo fila nuevo bloque izquierda-->
+    <div class="row">
+      <!--imagen responsive-->
         <div class="col-xs-12 col-sm-3">
           <center><img src="assets/img/Circulo_GME.png" id="imagen" class="img-responsive" alt="gme"></center>
         </div>
@@ -237,6 +253,16 @@
             <strong>Monitoreo a GME</strong>
             <small><p>Seguimiento al monitoreo realizado por UNODC al proceso de certificación de áreas erradicadas por los Grupos Móviles de Erradicación – GME.
             </p></small>
+        
+        </div>
+        <!--imagen responsive-->
+        <div class="col-xs-12 col-sm-3">
+          
+        </div>
+        <!--Texto del contenido-->
+        <div class="col-xs-12 col-sm-3">
+          <br />
+            
         
         </div>
         <!--nueva columna auxiliar solo para dar espacio al final-->
@@ -266,7 +292,7 @@
 <!--Sexto contenedor-->  
 <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá - Colombia</p></small></div>
+      <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información y Análisis – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá - Colombia</p></small></div>
           
     </div>
 
