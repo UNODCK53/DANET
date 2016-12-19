@@ -64,7 +64,11 @@
       <br>
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
-        <button type="button" id="genestadistic" data-toggle="tooltip" data-placement="top" title="Click para generar el reporte" class="btn btn-primary center-block">Reporte Nacional</button>        
+
+        <button type="button" id="genestadistic" data-toggle="tooltip" data-placement="top" title="Click para generar el reporte" class="btn btn-primary btn-block">Reporte Nacional</button><br>
+        <button type="button" id="genestadisticpdf" data-toggle="tooltip" data-placement="top" title="Click para generar el reporte en PDF" class="btn btn-warning center-block" style="display: none">Generar reporte PDF</button>
+        
+
       </div>
       <div class="col-sm-1"></div>
     </div>
@@ -278,7 +282,7 @@
       $(".text-center").hide();
       
       //funcion de cambio del combo depto
-      $("#seldpto").change(function(){
+      $("#seldpto").change(function(){        
         if((($('#seldpto').val()=='')&&($('#selmpio').val()!=''))||(($('#seldpto').val()=='')&&($('#selmpio').val()=='')))
         {
           location.reload();
@@ -287,7 +291,7 @@
           $.ajax({url:"siscadi/reporestadompio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
             success:function(data1){
               document.getElementById("genestadistic").innerHTML = "Reporte Departamental";
-              $("#labelmpio").show();
+              $("#labelmpio").show();              
               $("#selmpio").show();
               $("#selmpio").empty();
               $("#selvda").empty();
@@ -302,12 +306,13 @@
           });//Termina Ajax 
         }
       });//Termina chage seldpto
-      $("#selmpio").change(function(){
+      $("#selmpio").change(function(){        
         if($('#selmpio').val()=='')
         {
           $.ajax({url:"siscadi/reporestadompio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
           success:function(data1){
             document.getElementById("genestadistic").innerHTML = "Reporte Departamental";
+            
             $("#labelmpio").show();
             $("#selmpio").show();
             $("#selmpio").empty();
@@ -338,7 +343,7 @@
           });//Termina Ajax 
         }
       });//Termina change selvda
-      $("#selvda").change(function(){
+      $("#selvda").change(function(){               
         if($('#selvda').val()=='')
         {
           document.getElementById("genestadistic").innerHTML = "Reporte Municipal";
@@ -349,7 +354,7 @@
       });//Termina change selvda
       //evento click de generar graficass
       $("#genestadistic").on('click', function(){
-                
+        $('#genestadisticpdf').show();        
         $.ajax({
           url:"siscadi/reporestadtotal",
           type:"POST",
@@ -858,7 +863,7 @@
               }]
             });
             
-            document.getElementById("containern").innerHTML = '<h4>4. Área de cultivos ilícitos reportada por los encuestados</h4><h1 class="text-center">'+data.hacultiilictot+' hectáreas</h1><h4>Tamaño promedio de los lotes: <b>'+data.hacultiilicprom+' hectáreas</b></h4><h4>Ingreso promedio mensual neto de un cultivador de coca: <b>$'+data.ingrepromcultcocatot+'</b></h4>';            
+            document.getElementById("containern").innerHTML = '<h4>4. Área de cultivos ilícitos reportada por los encuestados</h4><h1 class="text-center">'+data.hacultiilictot+' hectáreas</h1><h4>Tamaño promedio de los lotes: <b>'+data.hacultiilicprom+' hectáreas</b></h4><h4>Ingreso promedio mensual neto por hectárea de un cultivador de coca: <b>$'+data.ingrepromcultcocatot+'</b></h4>';            
             $('#containero').highcharts({
               chart: {
                   plotBackgroundColor: null,

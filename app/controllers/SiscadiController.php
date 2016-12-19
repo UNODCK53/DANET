@@ -1897,7 +1897,7 @@ class SiscadiController extends BaseController {
 		}
 		$discapacidadtot = round(($discapacidad/count($estadEDTP))*100);
 
-		$analfabeh = $analfabem = $mayoraquince = 0;
+		$analfabeh = $analfabem = $mayoraquince = $analfabetismohtot = $analfabetismomtot = $analfabetismotot = $entro = 0;
 		for ($i=0; $i < count($estadEDTP); $i++) { 
 			if ($estadEDTP[$i]['Edad']>15) {
 				$mayoraquince =1+$mayoraquince;
@@ -1909,9 +1909,20 @@ class SiscadiController extends BaseController {
 				$analfabem = 1+$analfabem;	
 			}			
 		}
+
+
 		$analfabetismotot = round((($analfabeh+$analfabem)/$mayoraquince)*100);
-		$analfabetismohtot = round(($analfabeh/($analfabeh+$analfabem))*100);
-		$analfabetismomtot = round(($analfabem/($analfabeh+$analfabem))*100);
+		
+		if ($analfabeh != 0) {
+			$analfabetismohtot = round(($analfabeh/($analfabeh+$analfabem))*100);
+		}
+		if ($analfabem != 0) {
+			$analfabetismomtot = round(($analfabem/($analfabeh+$analfabem))*100);
+		} 
+		if ($analfabem == 0 AND $analfabeh == 0) {
+			$analfabetismotot = 0;
+			$entro=1;
+		}	
 
 		$arraytitular = array();		
 		for ($i=0; $i < count($estadEDTP); $i++) { 
@@ -2108,7 +2119,7 @@ class SiscadiController extends BaseController {
 		arsort($relacionci);
 		
 		//4. Área de cultivos ilícitos reportada por los encuestados Area_CI_Valor
-		$a = $b = 0;
+		$a = $b = $c = 0;
 		$hacultiilic = array();
 		$ingrepromcultcoca = array();
 		for ($i=0; $i < count($estadEBDT); $i++) {		
@@ -2121,9 +2132,57 @@ class SiscadiController extends BaseController {
 				$a = 1+$a;
 			}			
 		}
+
 		$hacultiilictot = round(array_sum($hacultiilic));
-		$hacultiilicprom = round((array_sum($hacultiilic)/$b),2);
-		$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca)/$a)/12));
+
+		//percentiles 
+		function get_percentile($percentile, $ingrepromcultcoca) {
+		    sort($ingrepromcultcoca);
+		    $index = ($percentile/100) * count($ingrepromcultcoca);
+		    if (floor($index) == $index) {
+		         $result = ($ingrepromcultcoca[$index-1] + $ingrepromcultcoca[$index])/2;
+		    }
+		    else {
+		        $result = $ingrepromcultcoca[floor($index)];
+		    }
+		    return $result;
+		}
+
+		$percep75 = get_percentile(75, $hacultiilic);		
+		$percep25 =get_percentile(25, $hacultiilic);
+
+		//Rango intercualtilico
+		 $RIQ = ($percep75 - $percep25);
+		 //Valor maximo no atipico
+		 $W = ($percep75 + 1.5*($RIQ));
+		 //limitar el array $hacultiilic hasta W
+		 for ($i=0; $i < count($hacultiilic); $i++) { 
+		 	if ($hacultiilic[$i]<=$W) {
+		 		$hacultiilic1[$c] = $hacultiilic[$i];
+		 		$c = 1+$c;
+		 	}
+		 }
+		$hacultiilicprom = round((array_sum($hacultiilic1)/count($hacultiilic1)),2);		
+
+		$c = 0;
+		$percep75 = get_percentile(75, $ingrepromcultcoca);		
+		$percep25 =get_percentile(25, $ingrepromcultcoca);
+
+		//Rango intercualtilico
+		 $RIQ = ($percep75 - $percep25);
+		 //Valor maximo no atipico
+		 $W = ($percep75 + 1.5*($RIQ));
+		 //limitar el array $ingrepromcultcoca hasta W
+		 for ($i=0; $i < count($ingrepromcultcoca); $i++) { 
+		 	if ($ingrepromcultcoca[$i]<=$W) {
+		 		$ingrepromcultcoca1[$c] = $ingrepromcultcoca[$i];
+		 		$c = 1+$c;
+		 	}
+		 }
+		
+
+		//$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca)/$a)/12));		
+		$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca1)/count($ingrepromcultcoca1))/12));
 
 //----------------------------INDICADORES ECONÓMICOS---------------------------------
 		//1. Índice de pobreza multidimensional
@@ -2601,7 +2660,7 @@ class SiscadiController extends BaseController {
 		}
 		arsort($obtenaguaaptot);
 
-		//retorno todas las variables para las graficas 
+		//retorno todas las variables para las graficas  ingrepromcultcoca1
 		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot));
 	}
 }

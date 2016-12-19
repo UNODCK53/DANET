@@ -304,7 +304,7 @@ $menuguardaun=false;
                 <li id="geoapivisorterri"><a href="#"><span class="glyphicon glyphicon-ok"></span> Territorios</a></li>
               @endif
               @if($menugeoapivisorbenef)
-                <li id="geoapivisorbenef"><a href="#"> <span class="glyphicon glyphicon-ok"></span> Beneficiarios</a></li>
+                <li id="geoapivisorbenef"><a target="_blank" href="http://geoapic7.unodc.org.co/visor_territorios_benficiarios_DPCI/visor_territorios_benficiarios_DPCI.php"> <span class="glyphicon glyphicon-ok"></span> Beneficiarios</a></li>
               @endif
                 <li class="divider"></li>
                 <!--Termina espacio de visores-->
@@ -508,7 +508,7 @@ $menuguardaun=false;
                       <li><a id="geoapivisorterrimenupeq" href="#"><span class="glyphicon glyphicon-ok"></span> Territorios</a></li>
                     @endif
                     @if($menugeoapivisorbenef)
-                      <li><a id="geoapivisorbenefmenupeq" href="#"> <span class="glyphicon glyphicon-ok"></span> Beneficiarios</a></li>
+                      <li><a id="geoapivisorbenefmenupeq" target="_blank" href="http://geoapic7.unodc.org.co/visor_territorios_benficiarios_DPCI/visor_territorios_benficiarios_DPCI.php"> <span class="glyphicon glyphicon-ok"></span> Beneficiarios</a></li>
                     @endif
                       <li class="divider"></li>
                       <!--Termina espacio de visores-->
