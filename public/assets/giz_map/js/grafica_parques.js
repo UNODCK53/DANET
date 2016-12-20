@@ -1,18 +1,19 @@
 parques.update = function (props) {      
     //desde aquí
+    var x=$('#container').width()
+    if (x==0){
+        x=$('#container2').width()
+    }
+    if(x==0){
+        x=$('#container4').width()
+    }    
     var options = {
     
         chart: {
             renderTo: 'container3',     
             type: 'column',
-
-            spacingLeft: 0,
-            spacingRight: 15,
-            spacingBottom: 40,
-            backgroundColor:  'rgba(255, 255, 255, 0.1)',
-            spacingBottom: 3,
-            align: 'center' 
-            
+            width: x,            
+            backgroundColor:  'rgba(255, 255, 255, 0.1)',            
         },
         title: {
             text: ''
@@ -50,7 +51,10 @@ parques.update = function (props) {
         {
             opposite: true,
             title: {
-                text: 'Héctareas con afectación por coca '         
+                text: 'Afectación por coca (Ha)',
+                style:{
+                    color: 'rgb(200,55,53)',
+                }                         
             },
             labels: {
                 style: {

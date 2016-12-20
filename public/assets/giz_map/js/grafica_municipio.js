@@ -54,7 +54,10 @@ municipio.update = function (props) {
         {
             opposite: true,
             title: {
-                text: 'Héctareas con afectación por coca'         
+                text: 'Afectación por coca (Ha)',
+                style:{
+                    color: 'rgb(200,55,53)',
+                }                         
             },
             labels: {
                 style: {

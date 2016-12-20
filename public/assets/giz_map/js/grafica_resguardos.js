@@ -1,17 +1,19 @@
 resguardos.update = function (props) {      
     //desde aquí
-    var options = {
-    
+    var x=$('#container').width()
+    if (x==0){
+        x=$('#container2').width()
+    }
+    if(x==0){
+        x=$('#container3').width()
+    }    
+    var options = {    
         chart: {
             renderTo: 'container4',     
             type: 'column',
-
-            spacingLeft: 0,
-            spacingRight: 15,
-            spacingBottom: 40,
+            width: x,
             backgroundColor:  'rgba(255, 255, 255, 0.1)',
-            spacingBottom: 3,
-            align: 'center'
+            
         },
         title: {
             text: 'Resguardos con mayor afectación del bosque por cultivos de coca',
@@ -52,7 +54,10 @@ resguardos.update = function (props) {
         {
             opposite: true,
             title: {
-                text: 'Héctareas con afectación por coca '         
+                text: 'Afectación por coca (Ha)',
+                style:{
+                    color: 'rgb(200,55,53)',
+                }                         
             },
             labels: {
                 style: {

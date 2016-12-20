@@ -4,17 +4,12 @@ departamento.update = function (props) {
     
         chart: {
             renderTo: 'container',     
-            type: 'column',            
-            spacingLeft: 0,
-            spacingRight: 15,
-            spacingBottom: 40,
+            type: 'column',         
             backgroundColor:  'rgba(255, 255, 255, 0.1)',
-            spacingBottom: 3,
-            align: 'center' 
-            
         },
         title: {
             text: ''
+
         },
         subtitle: {
             
@@ -36,7 +31,7 @@ departamento.update = function (props) {
             min: 0,
             //max: 100000,
             title: {
-                text: 'Héctareas con Bosque 2005'                
+                text: 'Héctareas con Bosque 2005'
             },
             labels: {
                 overflow: 'justify',
@@ -48,7 +43,10 @@ departamento.update = function (props) {
         {
             opposite: true,
             title: {
-                text: 'Héctareas con afectación por coca'         
+                text: 'Afectación por coca (Ha)',
+                style:{
+                    color: 'rgb(200,55,53)',
+                }                         
             },
             labels: {
                 style: {

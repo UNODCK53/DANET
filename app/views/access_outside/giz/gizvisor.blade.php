@@ -8,13 +8,13 @@
 	
 	
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css">
   <link rel="stylesheet" type="text/css" href="assets/css/responsive.bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datepicker.css">
   <link rel="stylesheet" href="assets/fonts/font-awesome-4.6.3/css/font-awesome.min.css">
-
+  <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css">
   <!-- Libreria y capas Leaflet-->
   <link rel="stylesheet" href="assets/giz_map/css/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -24,7 +24,7 @@
   <script src="assets/giz_map/js/styledLayerControl.js"></script>
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
+  <script src="assets/js/jquery.dataTables.min.js"></script>
   <!-- LLibreria No Slider -->
   <script src="assets/giz_map/nouislider/nouislider.js"></script>
   <link href="assets/giz_map/nouislider/nouislider.min.css" rel="stylesheet">
@@ -61,7 +61,7 @@
   </style>
 	
 	<!-- librerias JavaScript que se utilizan en la pagina -->
-	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/jquery.dataTables.min.js"></script>
 	<script src="assets/js/dataTables.bootstrap.min.js"></script>
@@ -220,7 +220,9 @@
             <!-- Tab panes -->
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="departamento">
-                <div id="container"></div>   
+                
+                <div id="container"></div>
+                
               </div>
               <div role="tabpanel" class="tab-pane" id="municipio"><h4>Departamento</h4>
                 <select class="form-control" id="departamento_select">
@@ -230,17 +232,13 @@
                 @endforeach
                 <option>Todos</option>   
                 </select>
-                <br><br>
-                
+                <br><br>                
                 <div id="container2"></div>    
               </div>
               <div role="tabpanel" class="tab-pane" id="parques"><div id="container3"></div></div>
               <div role="tabpanel" class="tab-pane" id="resguardos"><div id="container4"></div></div>
             </div>
-          </div>
-          
-          
-
+          </div> 
         </div>
         <div class="modal-footer">
         <div class="col-sm-6" align="center"><img src="assets/giz_map/images/Logo_Unodc.png" height="42" ></div><div align="center"><img src="assets/giz_map/images/Logo_GIZ.jpg" height="42"></div>        
@@ -248,32 +246,24 @@
       </div>
     </div>
   </div>
-
-
-
 </div>
         
 <!--fin de se escribe el codigo-->                  
       
-<!--fin del codigo-->    
-    
-  
+<!--fin del codigo-->        
 <!--Fin del tercer contenedor--> 
-
-
-
 <!--Mapa -->  
 <link href="assets/giz_map/css/giz_map.css" rel="stylesheet">
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/giz_map.js"></script>
 <script type="text/javascript">
-  
 </script>>
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/grafica_departamento.js"></script>
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/grafica_municipio.js"></script>  
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/grafica_parques.js"></script>
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/grafica_resguardos.js"></script>  
 <script>
-      $(document).ready(function() {          
+      $(document).ready(function() {
+                    
           //para que los menus pequeño y grande funcione
           $("#menugizvisor").addClass("active");          
           $("#iniciomenupeq").html("<small> INICIO</small>");
@@ -287,20 +277,14 @@
 
           $('#parques_tab').click(function (e) {
             options=parques.update();
-            var chart = new Highcharts.Chart(options);
-            $('#parques_tab').tab('show', function(){
-                $('#container3').css('visibility','hidden');
-            });
+            var chart = new Highcharts.Chart(options);            
           });
 
           $('#resguardos_tab').click(function (e) {
-            options=resguardos.update();
-            var chart = new Highcharts.Chart(options);
-            $('#resguardos_tab').tab('show', function(){
-                $('#container4').css('visibility','hidden');
-            });
+            res_tab(); 
           });
 
+ 
           $(function () {
             $('[data-toggle="tooltip"]').tooltip()
           });

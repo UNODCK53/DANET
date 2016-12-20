@@ -42,10 +42,6 @@ var modelo_amazonas_25 = new L.tileLayer('assets/giz_map/raster/modelo_25_ama_wg
 var modelo_20=L.layerGroup([modelo_catatumbo_20,modelo_amazonas_20]);
 var modelo_25=L.layerGroup([modelo_catatumbo_25,modelo_amazonas_25]);
 
-
-
-
-
 //Layers
 var style_colombia = {"color": "#202020", "weight": 1.5, "opacity": 0.9 };
 var colombia_js= L.geoJson(colombia, {style: style_colombia});      
@@ -59,10 +55,7 @@ municipios_js.addTo(map)
 
 parques_js= L.geoJson(parques, {style: estilo_parques, onEachFeature: interaccion_parques});      
 
-
 resguardos_js= L.geoJson(resguardos, {style: estilo_resguardos, onEachFeature: interaccion_resguardos});      
-
-
 
 //Capas de seleccion unica
 var baseMaps = [
@@ -73,11 +66,9 @@ var baseMaps = [
             "Mapa topográfico OSM1" :  topoMap_osm1,
             "Mapa topográfico OSM2" :  topoMap_osm2,
             "Mapa satelital" :  googleLayer_satellite,
-
         }
     }                       
  ];
-
 
 //Capas de seleccion multiple
  var overlays = [	    
@@ -216,13 +207,9 @@ function interaccion_mpios(feature, layer) {
 };
 		
 function interaccion_parques(feature, layer) {
-
-	var title="Parque Nacional " + feature.properties.NOM_PNN 
-
-	var content = "<table class='table table-striped table-bordered table-condensed'><thead><tr class='well text-primary' data-toggle='tooltip' data-placement='top'><th class='text-center'>Capa Administrativa</th><th class='text-center'>Nombre</th><th class='text-center'>Deforestación  (Ha)</th><th class='text-center'>Degradación  (Ha)</th><th class='text-center'>Afectación (Ha)</th></thead><tbody><tr align='center'><td>Parques Nacionales</td><td>"+feature.properties.NOM_PNN+"</td><td>"+feature.properties.Defo_05_14+"</td><td>"+feature.properties.Degra_05_2+"</td><td>"+feature.properties.Afec_05_14+"</td></tr>"+"</td></tr></tbody></table>"
-
+	var title="Parque Nacional " + feature.properties.NOM_PNN
+	var content = "<table id='parques_feature' class='table table-striped table-bordered table-condensed'><thead><tr class='well text-primary' data-toggle='tooltip' data-placement='top'><th class='text-center'>Capa Administrativa</th><th class='text-center'>Nombre</th><th class='text-center'>Bosque 2015</th><th class='text-center'>Deforestación  (Ha)</th><th class='text-center'>Degradación  (Ha)</th><th class='text-center'>Afectación (Ha)</th></thead><tbody><tr align='center'><td>Parques Nacionales</td><td>"+feature.properties.NOM_PNN+"</td><td>"+feature.properties.Bosque_200+"</td><td>"+feature.properties.Defo_05_14+"</td><td>"+feature.properties.Degra_05_2+"</td><td>"+feature.properties.Afec_05_14+"</td></tr>"+"</td></tr></tbody></table>"
 	layer.on(
-
 		{
 		mouseover: borde,
 		mouseout: resetbordeparque,	
@@ -230,20 +217,16 @@ function interaccion_parques(feature, layer) {
         $("#feature-title-parques").html(title);
         $("#feature-info-parques").html(content);    
         $("#featureModal-parques").modal("show");
+        //$('#parques_feature').DataTable();
         map.fitBounds(e.target.getBounds());        
         }
 	});	
 };
-
 		
 function interaccion_resguardos(feature, layer) {
-
 	var title="Resguardo " + feature.properties.NOM_RI + " - (ETNIA - " + feature.properties.NOM_ETNIA +")"
-
-	var content = "<table class='table table-striped table-bordered table-condensed'><thead><tr class='well text-primary' data-toggle='tooltip' data-placement='top'><th class='text-center'>Capa Administrativa</th><th class='text-center'>Nombre</th><th class='text-center'>Deforestación  (Ha)</th><th class='text-center'>Degradación  (Ha)</th><th class='text-center'>Afectación (Ha)</th></thead><tbody><tr align='center'><td>Resguardos</td><td>"+feature.properties.NOM_RI+"</td><td>"+feature.properties.Defo_05_14+"</td><td>"+feature.properties.Degra_05_2+"</td><td>"+feature.properties.Afec_05_14+"</td></tr>"+"</td></tr></tbody></table>"
-
+	var content = "<table class='table table-striped table-bordered table-condensed'><thead><tr class='well text-primary' data-toggle='tooltip' data-placement='top'><th class='text-center'>Capa Administrativa</th><th class='text-center'>Nombre</th><th class='text-center'>Bosque 2015</th><th class='text-center'>Deforestación  (Ha)</th><th class='text-center'>Degradación  (Ha)</th><th class='text-center'>Afectación (Ha)</th></thead><tbody><tr align='center'><td>Resguardos</td><td>"+feature.properties.NOM_RI+"</td><td>"+feature.properties.Bosque_05+"</td><td>"+feature.properties.Defo_05_14+"</td><td>"+feature.properties.Degra_05_2+"</td><td>"+feature.properties.Afec_05_14+"</td></tr>"+"</td></tr></tbody></table>"
 	layer.on(
-
 		{
 		mouseover: borde,
 		mouseout: resetborderesguardo,	
@@ -286,17 +269,28 @@ query.onAdd = function (map) {
 	return this._div;
 };
 
-function querysearch() {
-	
+function querysearch(){
     options=departamento.update();	
-	var chart = new Highcharts.Chart(options);
+	$('#container').highcharts(options)
+	var chart=$('#container').highcharts()	
+
 	$("#featureModal-query").modal("show",function(){
+		$("#container").css('visibility', 'initial');        
+    });	
+
+	$("#featureModal-query").on('shown.bs.modal', function() {
 		$("#container").css('visibility', 'initial');
-        chart.reflow();
+		chart.reflow();        
     });    
 }
 
 query.addTo(map);
+
+function res_tab() {
+	options_res=resguardos.update();
+    $('#container4').highcharts(options_res)
+    chart_res=$('#container4').highcharts()    
+}
 
 //BOTÓN INFO
 var info = L.control({position: 'topright'});
@@ -320,12 +314,9 @@ var texto_leyenda='<div class="panel-group" id="accordion" role="tablist" aria-m
 leyenda.onAdd = function (map) {
 	this._div = L.DomUtil.create('div', 'leyenda'); // create a div with a class "infosidebar"
 	this._div.id = "leyenda";
-	L.DomEvent.disableClickPropagation(this._div);	
-	
+	L.DomEvent.disableClickPropagation(this._div);
 	return this._div;
 };
-
-
 leyenda.addTo(map);
 $("#leyenda").html(texto_leyenda);
 
@@ -456,3 +447,4 @@ mod_tran_slider.noUiSlider.on('update', function( values, handle ) {
 	
 	
 });
+
