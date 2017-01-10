@@ -129,10 +129,20 @@
         <div class="col-sm-1"></div>
         <div class="col-xs-12 col-sm-10">
           <br>
-          <h2 class="text-center text-primary">Evaluación de motores de deforestación y degradación de bosques asociada a cultivos ilícitos en la región de Amazonía y Catatumbo</h2>
+          <h2 class="text-center text-primary">Análisis del cultivo de coca como motor de deforestación en el contexto del Desarrollo Alternativo y REDD+, en las Regiones de Amazonía y Catatumbo (2005-2014)</h2>
           <br>
           <p class="lead text-justify">A continuación se muestran las tablas con los resultados  más relevantes obtenidos en este estudio.</p>
 
+          <ul class="list-group">
+          <li class="list-group-item"><a href="#tabla1">Tabla 1.</a> Distribución departamental del área deforestada y degradada <b>por cultivos de coca entre el 2005 y 2014. (ha)</b></li>
+          <li class="list-group-item"><a href="#tabla2">Tabla 2.</a> Distribución  municipios  con área deforestada y degradada <b>por cultivos de coca entre el 2005 y 2014. (ha)</b></li>
+          <li class="list-group-item"><a href="#tabla3">Tabla 3.</a> Distribución  del área deforestada y degradada en  el Sistema de Áreas Protegidas de Parques Nacionales Naturales <b>por cultivos de coca entre el 2005 y 2014. (ha)</b></li>
+          <li class="list-group-item"><a href="#tabla4">Tabla 4.</a> Distribución  del área deforestada y degradada en Resguardos Indígenas<b>por cultivos de coca entre el 2005 y 2014. (ha)</b></li>
+          <li class="list-group-item"><a href="#tabla5">Tabla 5.</a> Factores determinantes del cultivos de coca como motor de deforestación</li>
+          <li class="list-group-item"><a href="#tabla6">Tabla 6.</a> Causas subyacentes del cultivos de coca como motor de deforestación</li>
+          </ul>
+
+         <br> 
          <p class="lead text-justify"><i><b>Conceptos claves</b></i><br></p>
 
           <i><b>Bosque 2005:</b></i> Cobertura boscosa obtenida a partir de los mapas de cambio de coberturas bosque/ no bosque 2005-2010 del IDEAM.<br>
@@ -142,14 +152,16 @@
           <i><b>T.A.D:</b></i> Es la Tasa anual de deforestación por cultivos de coca que indica la relación entre el área de bosque de referencia (bosque en 2005) y el área deforestada por coca en cada región para el periodo 2005-2014.<br>
           <i><b>Def. Asociada:</b></i> La deforestación asociada al cultivo de coca se entiende como la pérdida de la cobertura boscosa en áreas circundantes (1km de distancia) a la afectación del bosque por cultivos de coca. Esta pérdida está condicionada por la presencia de actividades antrópicas<br> dinamizadas por la aparición de un cultivo de coca durante el periodo 2005-2014.</p><br>
 
-          <h4>Tabla 1. Distribución departamental del área deforestada y degradada <b>por cultivos de coca entre el 2005 y 2014. (ha)</b></h4>
+          
         </div>
     </div>
     <!--Inicio de la tabla de departamentos-->
-    <div class="row">
+    <div id="tabla1" class="row">
+
         <!--aca se escribe el codigo-->  
         <div class="col-sm-1"></div>
         <div class="col-xs-12 col-sm-10">  
+        <h4>Tabla 1. Distribución departamental del área deforestada y degradada <b>por cultivos de coca entre el 2005 y 2014. (ha)</b></h4>
         <br>
 
         <table id="tablagizdepto" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -185,8 +197,9 @@
         <div class="col-sm-1"></div>   
       </div>
     <!--Fin de la tabla de departamentos-->
+    <hr>
     <!--Inicio tabla de municipios-->     
-    <div class="row">
+    <div id="tabla2" class="row">
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10">
       <h4>Tabla 2. Distribución  municipios  con área deforestada y degradada <b>por cultivos de coca entre el 2005 y 2014. (ha)</b></h4> 
@@ -226,8 +239,9 @@
       </div>
     </div>
     <!--Fin de la tabla de municipios-->
+    <hr>
     <!--Inicio tabla de parques-->     
-    <div class="row">
+    <div id="tabla3" class="row">
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10">
       <h4>Tabla 3. Distribución  del área deforestada y degradada en  el Sistema de Áreas Protegidas de Parques Nacionales Naturales <b>por cultivos de coca entre el 2005 y 2014. (ha)</b>
@@ -258,8 +272,9 @@
       </div>
     </div>
     <!--Fin de la tabla de parques-->
+    <hr>
     <!--Inicio tabla de resguardos--> 
-    <div class="row">
+    <div id="tabla4" class="row">
         <div class="col-sm-1"></div>
         <div class="col-xs-12 col-sm-10">
         <h4>Tabla 4. Distribución  del área deforestada y degradada en Resguardos Indígenas<b>por cultivos de coca entre el 2005 y 2014. (ha)</b>
@@ -290,10 +305,11 @@
         </table>
 
         </div>
-      </div>
-
-
-  <div class="row">
+  </div>
+  <!--Fin de la tabla de resguardos-->
+    <hr>
+   <!--Inicio tabla de factores--> 
+  <div id="tabla5" class="row">
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10">
       <h4>Tabla 5. Factores determinantes del cultivos de coca como motor de deforestación</h4>   
@@ -301,71 +317,41 @@
       <table id="tablagizfactores" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
           <thead>  
             <tr class="well text-primary ">              
-              <th class="text-center">Variables</th>
-              <th class="text-center">Aspectos Evaluados</th>
+              <th class="text-center">Factor Determinante</th>
+              <th class="text-center">Aspecto a Evaluar</th>
               <th class="text-center">Indicador</th>                          
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Características biofísicas</td>
-              <td>-Drenaje<br>
-                  -Clima<br> 
-                  -Erosión<br>
-                  -Fertilidad<br>
-                  -Altitud<br>
-              </td>
-              <td>-Zonas agroecológicas<br>
-                  -Modelo Digital de Elevación
-              </td> 
+              <td>Acceso víal</td>
+              <td>Tipología y distancia a vías</td>
+              <td>Proximidad a vías terrestres según categorías IGAC</td> 
             </tr> 
             <tr>
-              <td>Presencia de coca</td>
-              <td>-Distancia a zonas con alta intensidad, persistencia de cultivos de coca</td>
-              <td>-Índice de amenaza<br>-Proximidad a cultivos de coca</td> 
-            </tr> 
-            <tr>
-              <td>Presencia de infraestructura vial</td>
-              <td>-Distancia a vías</td>
-              <td>-Anillos de proximidad a vías terrestres</td> 
-            </tr> 
-            <tr>
-              <td>Presencia de bosque</td>
-              <td>-Intervención del bosque</td>
-              <td>-Cobertura de bosque<br>-Caracterización de grillas según participación de bosque</td> 
-            </tr> 
-            <tr>
-              <td>Presencia de ríos</td>
-              <td>-Distancia a ríos según vulnerabilidad por cultivos de coca</td>
-              <td>-Anillos de proximidad a ríos</td> 
+              <td>Hidrografía vulnerable</td>
+              <td>Distancia a ríos según vulnerabilidad por cultivos de coca</td>
+              <td>Proximidad a hidrografía</td> 
             </tr> 
             <tr>
               <td>Áreas protegidas</td>
-              <td>-Distancia a área protegidas</td>
-              <td>-Anillos de proximidad a áreas protegidas</td> 
+              <td>Distancia a áreas protegidas</td>
+              <td>Proximidad a áreas protegidas (Parques Nacionales Naturales)</td> 
             </tr> 
             <tr>
-              <td>Resguardo indígenas</td>
-              <td>-Distancia a Resguardos Indígenas</td>
-              <td>-Anillos de proximidad a Resguardos Indígenas</td> 
-            </tr> 
-            <tr>
-              <td>Centros poblados</td>
-              <td>-Distancia a centros poblados</td>
-              <td>-Anillos de proximidad a centros poblados</td> 
-            </tr> 
-            <tr>
-              <td>Zonas excluidas para la aspersión</td>
-              <td>-Distancia e incidencia de áreas con limitaciones jurídicas para ser asperjadas</td>
-              <td>-Anillos de proximidad respecto a áreas excluidas para la aspersión</td> 
-            </tr> 
+              <td>Resguardos indígenas</td>
+              <td>Distancia a Resguardos Indígenas</td>
+              <td>Proximidad a Resguardos Indígenas</td> 
+            </tr>            
 
           </tbody>
       </table>
       </div>
   </div>
-
-  <div class="row">
+  <!--Fin de la tabla de factores-->
+  <hr>
+  <!--Inicio tabla causas--> 
+  <div id="tabla6" class="row">
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10">
       <h4>Tabla 6. Causas subyacentes del cultivos de coca como motor de deforestación</h4>   

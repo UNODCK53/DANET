@@ -80,6 +80,7 @@
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/municipios.js"></script>
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/parques.js"></script>
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/resguardos.js"></script>
+<script type="text/javascript" charset="utf-8" src="assets/giz_map/js/veredas_dane.js"></script>
 <!--Primer Contenerdor logo y botón iniciar sesion-->  
 <div class="container-fluid well">
   <div class="row">
@@ -219,10 +220,8 @@
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="departamento">
-                
+              <div role="tabpanel" class="tab-pane active" id="departamento">                
                 <div id="container"></div>
-                
               </div>
               <div role="tabpanel" class="tab-pane" id="municipio"><h4>Departamento</h4>
                 <select class="form-control" id="departamento_select">
@@ -263,7 +262,7 @@
 <script type="text/javascript" charset="utf-8" src="assets/giz_map/js/grafica_resguardos.js"></script>  
 <script>
       $(document).ready(function() {
-                    
+
           //para que los menus pequeño y grande funcione
           $("#menugizvisor").addClass("active");          
           $("#iniciomenupeq").html("<small> INICIO</small>");

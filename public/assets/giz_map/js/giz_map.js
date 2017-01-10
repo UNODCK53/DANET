@@ -57,6 +57,9 @@ parques_js= L.geoJson(parques, {style: estilo_parques, onEachFeature: interaccio
 
 resguardos_js= L.geoJson(resguardos, {style: estilo_resguardos, onEachFeature: interaccion_resguardos});      
 
+var style_veredas = {"color": "#c920ea", "fillColor":"#c920ea", "weight": 1.5, "opacity": 0.9, "fillOpacity": 0 };
+veredas_js=L.geoJson(veredas, {style: style_veredas, onEachFeature: interaccion_veredas});      
+
 //Capas de seleccion unica
 var baseMaps = [
     { 
@@ -77,7 +80,8 @@ var baseMaps = [
 	    expanded  : true,
 	    layers    : { 
 	        "Departamentos" : deptos_js,
-	        "Municipios" : municipios_js,  
+	        "Municipios" : municipios_js,
+	        "Veredas": veredas_js,   
 	        "Parques Nacionales" : parques_js,
 	        "Resguardos" : resguardos_js,
 	        "Coberturas 2005": mosaico_2005,
@@ -86,8 +90,7 @@ var baseMaps = [
 	        "Densidad 2005-2010":densidad_2005_2010,
 	        "Densidad 2010-2014":densidad_2010_2014,
 	       	"Modelo 2020":modelo_20,
-	       	"Modelo 2025":modelo_25 	 
-	                                         
+	       	"Modelo 2025":modelo_25          
 	    }   
 	 }                         
 ];
@@ -158,6 +161,9 @@ function resetborderesguardo(e) {
 	resguardos_js.resetStyle(e.target);	
 };
 
+function resetbordeveredas(e) {
+	veredas_js.resetStyle(e.target);	
+};
 
 function onClick(e){
 	var layer = e.target;
@@ -234,6 +240,19 @@ function interaccion_resguardos(feature, layer) {
         $("#feature-title-resguardos").html(title);
         $("#feature-info-resguardos").html(content);    
         $("#featureModal-resguardos").modal("show");
+        map.fitBounds(e.target.getBounds());        
+        }
+	});	
+};
+
+function interaccion_veredas(feature, layer) {
+	var title="Municipio " + feature.properties.NOM_MPIO + "<br> Vereda: " + feature.properties.NOM_VEREDA
+	layer.bindPopup(title);
+	layer.on(
+		{
+		mouseover: borde,
+		mouseout: resetbordeveredas,	
+		click: function (e) {		             
         map.fitBounds(e.target.getBounds());        
         }
 	});	
@@ -396,8 +415,6 @@ den_tran_slider.noUiSlider.on('update', function( values, handle ) {
 	densidad_2010_2014.setOpacity(value);
 });
 
-
-
 //Slider para el modelo
 //Inicializa el slide
 var mod_slider = document.getElementById('mod_slider');
@@ -438,13 +455,10 @@ range: {
 mod_tran_slider.noUiSlider.on('update', function( values, handle ) {
 	var value = parseInt(values[handle]);	
 	$("#dato_mod_trans").html(value);
-	value=1-(value/100);
-	
+	value=1-(value/100);	
 	modelo_catatumbo_20.setOpacity(value);
 	modelo_amazonas_20.setOpacity(value);
 	modelo_catatumbo_25.setOpacity(value);
-	modelo_amazonas_25.setOpacity(value);
-	
-	
+	modelo_amazonas_25.setOpacity(value);	
 });
 

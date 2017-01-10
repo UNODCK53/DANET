@@ -140,47 +140,154 @@
       <div class="col-sm-10">
         <h1 class="text-center text-primary">Descarga de documentos</h1>
         <br>
-        <p class="lead text-justify">Evaluación de motores de deforestación y degradación de bosques asociada a cultivos ilícitos en la región de Amazonía y Catatumbo</p>
+        <p class="lead text-justify">Análisis del cultivo de coca como motor de deforestación en el contexto del Desarrollo Alternativo y REDD+, en las Regiones de Amazonía y Catatumbo (2005-2014)</p>
                            
       </div>
       <div class="col-sm-1"></div>
     </div>
   <br>
   <div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-10">
-      <div class="col-sm-6 col-md-4">
-        <img  src="assets/giz_map/images/Port_info_tecn.png" class="img-responsive">                    
-          <div class="input-group">
-            <h4 class="col-xs-10 text-center text-primary">Informe técnico</h4>
-            <span class="col-xs-1">
+  <!--Inicio seccion Informes-->
+  <div class="col-xs-12">
+    <hr>
+    <h2 class="col-xs-10 text-center text-primary" style="text-align: left; padding-bottom: 20px ">Informes</h2>    
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_info_tecn.png" class="img-responsive">
+    </div>
+    <div class="col-xs-12 col-md-3" >
+      <div class="input-group" style="vertical-align:middle;">
+            <h4 class="text-center text-primary">Publicación</h4>
+            <span class="">
               <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
-          </div>        
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <img  src="assets/giz_map/images/Port_taller1.png" class="img-responsive">                    
-          <div class="input-group">
-            <h4 class="col-xs-10 text-center text-primary">Memorias técnicas del taller 1</h4>
-            <span class="col-xs-1">
+          </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_info_tecn.png" class="img-responsive">                    
+          
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <div class="input-group">
+            <h4 class="text-center text-primary">Informe técnico</h4>
+            <span>
               <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
-          </div>        
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <img  src="assets/giz_map/images/Port_taller2.png" class="img-responsive">                    
-          <div class="input-group">
-            <h4 class="col-xs-10 text-center text-primary">Memorias técnicas del taller 2</h4>
-            <span class="col-xs-1">
+          </div>
+    </div>
+  </div>
+  <!--Fin seccion Informes-->
+  <!--Inicio seccion Talleres FASE I-->
+  <div class="col-xs-12" style="padding-bottom: 15px">
+    <hr>
+    <h2 class="col-xs-10 text-center text-primary" style="text-align: left; padding-bottom: 20px ">Talleres Regionales Fase I</h2>
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller1_Catatumbo.png" class="img-responsive">
+    </div>
+    <div class="col-xs-12 col-md-3" >
+      <div class="input-group" style="vertical-align:middle;">
+            <h4 class="text-center text-primary">Región Catatumbo</h4>
+            <span class="">
+              <a target="_blank" href="assets/giz_map/documentos/Taller Fase I - Norte de Santander.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller1_Putumayo.png" class="img-responsive">                    
+          
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <div class="input-group">
+            <h4 class="text-center text-primary">Región Putumayo</h4>
+            <span>
+              <a target="_blank" href="assets/giz_map/documentos/Taller Fase I - Putumayo.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>
+    </div>    
+  </div>
+  <br><br>
+  <div class="col-xs-12">    
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller1_Guaviare-Meta.png" class="img-responsive">
+    </div>
+    <div class="col-xs-12 col-md-3" >
+      <div class="input-group" style="vertical-align:middle;">
+            <h4 class="text-center text-primary">Región Meta-Guaviare</h4>
+            <span class="">
               <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
-          </div>        
-      </div>
-   
+          </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller1_Caqueta-Meta.png" class="img-responsive">                    
+          
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <div class="input-group">
+            <h4 class="text-center text-primary">Región Caquetá</h4>
+            <span>
+              <a target="_blank" href="assets/giz_map/documentos/Taller Fase I - Caquetá - Meta.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>
+    </div>    
+  </div>
 
+  <!--Fin seccion Talleres FASE I-->
+  <!--Inicio seccion Talleres FASE II-->
+  <div class="col-xs-12" style="padding-bottom: 15px">
+    <hr>
+    <h2 class="col-xs-10 text-center text-primary" style="text-align: left; padding-bottom: 20px ">Talleres Regionales Fase II</h2>
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller2_Catatumbo.png" class="img-responsive">
+    </div>
+    <div class="col-xs-12 col-md-3" >
+      <div class="input-group" style="vertical-align:middle;">
+            <h4 class="text-center text-primary">Región Catatumbo</h4>
+            <span class="">
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller2_Putumayo.png" class="img-responsive">                    
+          
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <div class="input-group">
+            <h4 class="text-center text-primary">Región Putumayo</h4>
+            <span>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>
+    </div>    
+  </div>
+  
+  <div class="col-xs-12" style="padding-bottom: 15px">    
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller2_Guaviare-Meta.png" class="img-responsive">
+    </div>
+    <div class="col-xs-12 col-md-3" >
+      <div class="input-group" style="vertical-align:middle;">
+            <h4 class="text-center text-primary">Región Meta-Guaviare</h4>
+            <span class="">
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <img  src="assets/giz_map/images/Port_taller2_Caqueta-Meta.png" class="img-responsive">                    
+          
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <div class="input-group">
+            <h4 class="text-center text-primary">Región Caquetá</h4>
+            <span>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+            </span>
+          </div>
+    </div>    
+  </div>
 
-
-
+  <!--Fin seccion Talleres FASE II-->
 
       
     </div>

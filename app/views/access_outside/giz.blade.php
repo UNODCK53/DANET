@@ -136,7 +136,7 @@
      
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
-        <h2 class="text-center text-primary">Evaluación de motores de deforestación y degradación de bosques asociada a cultivos ilícitos en la región de Amazonía y Catatumbo</h2>
+        <h2 class="text-center text-primary">Análisis del cultivo de coca como motor de deforestación en el contexto del Desarrollo Alternativo y REDD+, en las Regiones de Amazonía y Catatumbo (2005-2014)</h2>
         <br>
         <ol class="carousel-indicators">
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -169,8 +169,27 @@
 
         <br>
         <p class="lead text-justify" >
-          El proyecto tuvo como objetivo general la caracterización de la dinámica de deforestación causada por cultivos de coca en la región Amazonía y Catatumbo entre los años  2005 al 2014.
+          La GIZ, por encargo del Ministerio Federal de Cooperación Económica y Desarrollo de Alemania – BMZ – apoya a Colombia en el área medioambiental, el proceso hacia la paz, la igualdad social y el desarrollo sostenible; además apoya los proyectos de las contrapartes colombianas en tres áreas prioritarias: i) Desarrollo de la paz, prevención de crisis. Fomento de medidas para el Estado de derecho, justicia transicional, fomento de la paz y prevención de la violencia; ii) Política ambiental, protección y uso sostenible de los recursos naturales. Fomento de medidas de protección y uso racional de recursos naturales, para la prevención de desastres naturales y la adaptación al cambio climático; y iii) Fomento sostenible de la economía.
         </p>
+
+        <p class="lead text-justify" >
+          El Programa Global de Políticas de Drogas y Desarrollo – PGPDD, tiene como objetivo promover la implementación de enfoques orientados hacia el desarrollo y la salud pública junto con gobiernos y organizaciones internacionales interesadas. A través de este programa, se busca promover el diálogo internacional acerca de la política de drogas y promover la asesoría técnica para adaptar políticas de drogas en los países interesados. El programa se implementa en estrecha cooperación con varios socios, entre los que se encuentra, a nivel global, la Oficina de las Naciones Unidas contra la Droga y el Delito – UNODC. En Colombia, uno de los países enfoque del PGPDD, se implementan actividades en conjunto con el programa REDD+ de la GIZ dentro del enfoque medioambiental.
+        </p>
+        <p class="lead text-justify" >
+          UNODC trabaja con los Estados y la sociedad civil para prevenir que las drogas y el delito amenacen la seguridad, la paz y las oportunidades de desarrollo de los ciudadanos. Desde hace 20 años, UNODC viene apoyando al Gobierno Colombiano en la implementación y en el monitoreo de diferentes estrategias de Desarrollo Alternativo - DA. Durante este tiempo, se han identificado lecciones y prácticas ambientalmente sostenibles que han permitido a las comunidades rurales desvincularse de la economía de los cultivos ilícitos, ingresar a la cultura de la legalidad y reducir el impacto sobre la pérdida de bosque en Colombia.
+        </p>
+        <p class="lead text-justify" >
+          En el marco de la cooperación actual de apoyo a GIZ para la implementación de proyectos REDD+ y del PGPDD en Colombia, se firmó el 30 de junio de 2015 un Grant Agreement, con el  propósito de identificar y evaluar la asociación entre los cultivos ilícitos y deforestación, en la región del Amazonas Colombiano y Catatumbo en la última década (2005-2014).
+        </p>
+        <p class="lead text-justify" >
+          El proyecto tiene como objetivo general la caracterización y análisis de la dinámica de la deforestación y degradación del bosque por causa de los cultivos de coca. Lo anterior con el fin de generar aportes para los Programas de Desarrollo Alternativo – PDA – enfocados a  lograr la mitigación de la  deforestación y degradación del bosque en el marco de proyectos REDD+.
+        </p>
+        <p class="lead text-justify" >
+          Los principales objetivos rectores que orientan el estudio se sintetizan en: la identificación de los factores de deforestación asociados con los cultivos de coca, análisis y proyección mediante un modelo espacio-temporal, el comportamiento de la deforestación directa por causa de los cultivos de coca, formulación de recomendaciones para implementar en el marco del PDA con el fin de mitigar los motores de deforestación asociados con cultivos ilícitos en el marco de proyectos REDD+ y finalmente elaborar una plataforma web para la visualización el comportamiento de la deforestación asociada al cultivo de coca.
+        </p>
+        <p class="lead text-justify" >
+          Para lograr lo anterior, y gracias al trabajo conjunto entre UNODC y GIZ, se realizaron entre los meses de enero y octubre de 2016 diversos procesos de concertación con entidades como el Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), Ministerio de Ambiente y Desarrollo Sostenible (MADS), Instituto Amazónico de Investigación Científica (SINCHI), entre otros; además, se adelantaron procesos de recolección de información primaria y secundaria a través de metodologías participativas, y de análisis cualitativo y cuantitativo. A través de estas herramientas se inició la construcción de la caracterización y análisis de la afectación del bosque por causa de los cultivos de coca.
+        </p>       
 <!--fin de se escribe el codigo-->        
         </div>
       <div class="col-sm-1"></div>          
