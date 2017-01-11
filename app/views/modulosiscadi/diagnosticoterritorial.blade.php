@@ -32,7 +32,8 @@
 @stop
 <!--CONTENEDOR GENERAL-->
 @section('contenedorgeneral1')
-  @parent  
+  @parent
+  <div id="uno"></div>
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
@@ -66,7 +67,7 @@
       <div class="col-sm-10">
 
         <button type="button" id="genestadistic" data-toggle="tooltip" data-placement="top" title="Click para generar el reporte" class="btn btn-primary btn-block">Reporte Nacional</button><br>
-        <button type="button" id="genestadisticpdf" data-toggle="tooltip" data-placement="top" title="Click para generar el reporte en PDF" class="btn btn-warning center-block" style="display: none">Generar reporte PDF</button>
+        <button type="button" id="genestadisticpdf" data-placement="top" class="btn btn-warning center-block" style="display: none">Generar reporte PDF</button>
         
 
       </div>
@@ -260,9 +261,17 @@
   <script src="assets/js/highcharts/highcharts.js"></script>
   <script src="assets/js/highcharts/highcharts-3d.js"></script>
   <script src="assets/js/highcharts/exporting.js"></script>
+
+  <script src="assets/js/html2canvas.js"></script>
+  <script src="assets/js/canvas2image.js"></script>
+
+  <!-- librerias para q funcione el segundo ejemplo
+  <script src="assets/js/jspdf.debug.js"></script>
+  <script src="assets/js/html2pdf.js"></script>-->
+  
   <script>
     $(document).ready(function() {
-      
+      var chart1, chart2;
       //se genera activacion de los tooltip de bootstrap
       $('[data-toggle="tooltip"]').tooltip()
       
@@ -282,7 +291,8 @@
       $(".text-center").hide();
       
       //funcion de cambio del combo depto
-      $("#seldpto").change(function(){        
+      $("#seldpto").change(function(){  
+        $('#genestadisticpdf').hide();      
         if((($('#seldpto').val()=='')&&($('#selmpio').val()!=''))||(($('#seldpto').val()=='')&&($('#selmpio').val()=='')))
         {
           location.reload();
@@ -306,7 +316,8 @@
           });//Termina Ajax 
         }
       });//Termina chage seldpto
-      $("#selmpio").change(function(){        
+      $("#selmpio").change(function(){
+        $('#genestadisticpdf').hide();        
         if($('#selmpio').val()=='')
         {
           $.ajax({url:"siscadi/reporestadompio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
@@ -343,7 +354,8 @@
           });//Termina Ajax 
         }
       });//Termina change selvda
-      $("#selvda").change(function(){               
+      $("#selvda").change(function(){
+        $('#genestadisticpdf').hide();               
         if($('#selvda').val()=='')
         {
           document.getElementById("genestadistic").innerHTML = "Reporte Municipal";
@@ -368,7 +380,8 @@
             
             console.log(data);
             var categories = data.categories;
-            $('#containera').highcharts({
+            chart1 = Highcharts.chart('containera', {
+            //$('#containera').highcharts({
               chart: {
                   type: 'bar'
               },
@@ -425,7 +438,8 @@
                   data: data.femenino1
               }]
             });
-            $('#containerb').highcharts({
+            chart2 = Highcharts.chart('containerb', {
+            //$('#containerb').highcharts({
               chart: {
                   type: 'bar'
               },
@@ -1487,7 +1501,112 @@
           }, 
           error:function(){alert('error');}
         });//Termina Ajax 
-      });//Termina change genestadistic      
+      });//Termina change genestadistic
+      $("#genestadisticpdf").on('click', function(){
+        $("#sha").removeClass("container");
+        $("#sha").addClass("container-fluid");
+        //$("div").removeClass("col-sm-1");
+        $('#genestadisticpdf').hide();       
+        
+        window.print();        
+        
+
+/*        
+        //este es un ejemplo pero higchart se daña
+        html2canvas($("body"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+
+                // Convert and download as image 
+                Canvas2Image.saveAsPNG(canvas); 
+                $("#uno").append(canvas);
+                // Clean up 
+                //document.body.removeChild(canvas);
+            }
+        });
+*/
+/*
+        // segundo ejemplo 
+        var pdf = new jsPDF('p', 'pt', 'letter');
+        var canvas = pdf.canvas;
+        canvas.height = 72 * 11;
+        canvas.width= 72 * 8.5;;
+
+        // can also be document.body
+       
+
+        html2pdf(document.body, pdf, function(pdf) {
+                pdf.output('save', 'estadisticas.pdf');                
+        });
+*/
+/*
+        //console.log(document.body.innerHTML);
+        var a =  document.body.innerHTML;
+        $.ajax({url:"siscadi/generarpfd",type:"POST",data:{cuerpo:a},dataType:'json',        
+          success:function(data){             
+            console.log(data);
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax 
+*/
+        $("#uno").hide();
+        $('#genestadisticpdf').show();
+        $("#sha").removeClass("container-fluid");
+        $("#sha").addClass("container");
+        
+       
+        /*
+        
+
+
+
+        //otro ejemplo
+        html2canvas($("body"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+
+                // Convert and download as image 
+                Canvas2Image.saveAsPNG(canvas); 
+                $("#uno").append(canvas);
+                // Clean up 
+                //document.body.removeChild(canvas);
+            }
+        });
+        //
+
+        
+        //
+
+        //otro ejemplo
+        html2canvas($("body"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+
+                // Convert and download as image 
+                Canvas2Image.saveAsPNG(canvas); 
+                $("#img-out").append(canvas);
+                // Clean up 
+                //document.body.removeChild(canvas);
+            }
+        });
+
+
+        $( window ).resize(function() {
+          $( "body" ).css( "width: 21cm" );
+        });
+        html2canvas($("#sha"), {
+          onrendered: function(canvas) {
+            var canvasImg = canvas.toDataURL("image/jpg");
+            $('#uno').html('<img id="mainImg" src="'+canvasImg+'" alt="">');
+            //document.getElementById("muestra").appendChild(canvas);            
+          }
+        });
+        */
+      });
+
     });    
   </script>
 @stop

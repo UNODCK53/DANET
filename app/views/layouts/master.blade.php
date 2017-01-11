@@ -109,6 +109,8 @@ $menureportesiscadi=false;$menuindicadoressiscadi=false;$menuestadisticosiscadi=
 $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
+//variables menú ART
+$artdashboard=false;$artmapa=false;
 //variables guardaun
 $menuguardaun=false;
 //foreach para habilitar las variables para el menú general
@@ -148,6 +150,8 @@ $menuguardaun=false;
     if(($acceso->id_vista=="5110")&&($acceso->acces=="1")){$menugeoapirepornovt1=true;}
     if(($acceso->id_vista=="5111")&&($acceso->acces=="1")){$menugeoapirepornovt2=true;}
     if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
+    if(($acceso->id_vista=="6101")&&($acceso->acces=="1")){$artdashboard=true;}
+    if(($acceso->id_vista=="6201")&&($acceso->acces=="1")){$artmapa=true;}
     if(($acceso->id_vista=="9999")&&($acceso->acces=="1")){$menuguardaun=true;}    
  }
  ?>
@@ -284,6 +288,22 @@ $menuguardaun=false;
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->
+        @if(($artdashboard) || ($artmapa))
+        <!--Oculta la opción art si no es el administrador-->
+          <li class="dropdown" id="art" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+            @if($artdashboard)
+              <li id="artdashboardmenu"><a href="<?=URL::to('artdashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>
+            @endif
+            @if($artmapa)
+              <li id="artmapamenu"><a href="<?=URL::to('artmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+            @endif
+            @if($artmapa)
+              <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnostico familiar</a></li>
+            @endif             
+            </ul>
+          </li>
+        @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
         @if(($menugeoapitecsaf)||($menugeoapieliminreg)||($menugeoapivisorterri)||($menugeoapivisorbenef)||($menugeoapirepordistorg)||($menugeoapirepordistterri)||($menugeoapirepordistlp)||($menugeoapireporanalesp)||($menugeoapireporregrepetidos)||($menugeoapirepornovt1)||($menugeoapirepornovt2)||($menugeoapirepornovt3)) 
         <!--Oculta la opción geoapi si no es el administrador-->
           <li id="geoapi" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GeoApi<span class="caret"></span></a>
@@ -486,8 +506,19 @@ $menuguardaun=false;
                   @endif
                 </ul>
               </li>
-              @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->
-
+              @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
+              @if(($artdashboard) || ($artmapa))
+              <li class="dropdown"><a id="artmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  @if($menucarguedocu)
+                  <li><a id="artdashboardmenupeq" href="<?=URL::to('artdashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>
+                  @endif
+                  @if($menuconsuldocu)
+                  <li><a id="artmapamenupeq" href="<?=URL::to('artmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+                  @endif                  
+                </ul>
+              </li>
+              @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
               @if(($menugeoapitecsaf)||($menugeoapieliminreg)||($menugeoapivisorterri)||($menugeoapivisorbenef)||($menugeoapirepordistorg)||($menugeoapirepordistterri)||($menugeoapirepordistlp)||($menugeoapireporanalesp)||($menugeoapireporregrepetidos)||($menugeoapirepornovt1)||($menugeoapirepornovt2)||($menugeoapirepornovt3)) 
               <!--Oculta la opción geoapi si no es el administrador-->                
                 <li  class="dropdown"><a id="geoapimenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GeoApi<span class="caret"></span></a>

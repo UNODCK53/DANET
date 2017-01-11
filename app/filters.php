@@ -430,6 +430,35 @@ Route::filter('repordistorgGEOAPI', function ()
 });
 //Finaliza filtros módulo Geoapi
 //--------------------------------------------------------------------------------------------------------------------------
+//Inicia filtros módulo ART
+Route::filter('dashboardART', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6101")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('mapaART', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6201")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza filtros módulo ART
+//--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo guardaun
 Route::filter('guardaUN', function ()
 {

@@ -1470,6 +1470,11 @@ class SiscadiController extends BaseController {
 		}		
 		return Response::json($verearray);
 	}
+	public function postGenerarpfd()
+    {
+    	$arraytp = Input::get('cuerpo');        
+		return Response::json($arraytp);
+    }
 	public function postReporestadtotal()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables

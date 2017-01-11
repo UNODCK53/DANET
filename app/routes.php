@@ -131,19 +131,24 @@ Route::group(array('before' => 'auth'), function()
   Route::get('distribucion_organizacion', array('before' => 'repordistorgGEOAPI', 'uses' => 'GeoapiController@DistribOrganiz'));
   //Termina rutas para el módulo de Geoapi
   //--------------------------------------------------------------------------------------------------------------------------
+  //Rutas para módulo de ART  
+  Route::get('artdashboard', array('before'=>'dashboardART', function(){return View::make('moduloart/dashboard');}));
+  Route::get('artmapa', array('before'=>'mapaART', function(){return View::make('moduloart/mapa');}));
+  //Termina rutas para el módulo de ART
+  //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de GUARDAUN  
   Route::get('guardaun', array('before'=>'guardaUN', function(){return View::make('guardaun');}));
   //Termina rutas para el módulo de GUARDAUN
   //--------------------------------------------------------------------------------------------------------------------------
 
 //rutas de prueba despues de pruebas se pueden borrar
-Route::group(array('before' => 'grupo1|level1'), function()
-{
-  //solo puede ingresar el level 1 a la vista 1  
-  Route::get('accvistas',function(){return View::make('admin/accesovistas');});
-  Route::get('diferencia','TierrasController@Diferenciafechas');
-  
-});
+  Route::group(array('before' => 'grupo1|level1'), function()
+  {
+    //solo puede ingresar el level 1 a la vista 1  
+    Route::get('accvistas',function(){return View::make('admin/accesovistas');});
+    Route::get('diferencia','TierrasController@Diferenciafechas');
+    
+  });
 });//Cierra rutas para usuarios autenticados
 
 // ruta al controlador restfull donde esta toda la informacion de tierras

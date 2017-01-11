@@ -158,7 +158,7 @@
       <div class="input-group" style="vertical-align:middle;">
             <h4 class="text-center text-primary">Publicación</h4>
             <span class="">
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button" disabled="disabled"></a>
             </span>
           </div>
     </div>
@@ -170,7 +170,7 @@
       <div class="input-group">
             <h4 class="text-center text-primary">Informe técnico</h4>
             <span>
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/Analisis del cultivo de coca como motor de deforestacion 2005_2014.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>
     </div>
@@ -197,7 +197,7 @@
     </div>
     <div class="col-xs-12 col-md-3">
       <div class="input-group">
-            <h4 class="text-center text-primary">Región Putumayo</h4>
+            <h4 class="text-center text-primary">Departamento Putumayo</h4>
             <span>
               <a target="_blank" href="assets/giz_map/documentos/Taller Fase I - Putumayo.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
@@ -211,9 +211,9 @@
     </div>
     <div class="col-xs-12 col-md-3" >
       <div class="input-group" style="vertical-align:middle;">
-            <h4 class="text-center text-primary">Región Meta-Guaviare</h4>
+            <h4 class="text-center text-primary">Departamentos Meta-Guaviare</h4>
             <span class="">
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button" disabled="disabled"></a>
             </span>
           </div>
     </div>
@@ -223,9 +223,9 @@
     </div>
     <div class="col-xs-12 col-md-3">
       <div class="input-group">
-            <h4 class="text-center text-primary">Región Caquetá</h4>
+            <h4 class="text-center text-primary">Departamentos Meta-Caquetá</h4>
             <span>
-              <a target="_blank" href="assets/giz_map/documentos/Taller Fase I - Caquetá - Meta.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/Taller Fase I - Caqueta - Meta.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>
     </div>    
@@ -243,7 +243,7 @@
       <div class="input-group" style="vertical-align:middle;">
             <h4 class="text-center text-primary">Región Catatumbo</h4>
             <span class="">
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button" disabled="disabled"></a>
             </span>
           </div>
     </div>
@@ -253,9 +253,9 @@
     </div>
     <div class="col-xs-12 col-md-3">
       <div class="input-group">
-            <h4 class="text-center text-primary">Región Putumayo</h4>
+            <h4 class="text-center text-primary">Departamento Putumayo</h4>
             <span>
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button" disabled="disabled"></a>
             </span>
           </div>
     </div>    
@@ -267,9 +267,9 @@
     </div>
     <div class="col-xs-12 col-md-3" >
       <div class="input-group" style="vertical-align:middle;">
-            <h4 class="text-center text-primary">Región Meta-Guaviare</h4>
+            <h4 class="text-center text-primary">Departamentos Meta-Guaviare</h4>
             <span class="">
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button" disabled="disabled"></a>
             </span>
           </div>
     </div>
@@ -279,9 +279,9 @@
     </div>
     <div class="col-xs-12 col-md-3">
       <div class="input-group">
-            <h4 class="text-center text-primary">Región Caquetá</h4>
+            <h4 class="text-center text-primary">Departamentos Meta-Caquetá</h4>
             <span>
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button" disabled="disabled"></a>
             </span>
           </div>
     </div>    

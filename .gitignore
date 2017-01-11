@@ -2,3 +2,6 @@
 .env.production.php
 .env.homestead.php
 .env.php
+*.png
+*.png
+env.php
