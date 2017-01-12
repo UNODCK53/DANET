@@ -8,11 +8,21 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-
+   <link rel="stylesheet" href="assets/art/fonts/font-awesome-4.6.3/css/font-awesome.min.css">
+  <!-- Libreria y capas Leaflet-->
+  <link rel="stylesheet" href="assets/art/css/leaflet.css" />  
+  <link rel="stylesheet" href="assets/art/css/styledLayerControl.css" />
+  
 @stop
+
+<!-- librerias JavaScript que se utilizan en la pagina -->  
+ 
+  
+
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
   @parent
+
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -39,11 +49,243 @@
         <div class="col-sm-10">
         <br>
         
+        <!--aca se inicia el contenedor de mapa y alertas-->  
+        <div class="container col-xs-12" style="padding-top: 25px;">
+          <div class="col-xs-12 col-md-6">            
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Buscador geográfico</h3>
+              </div>
+              <div class="panel-body" style="padding: 0px;">
+                <div id="map" class="col-xs-12"></div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-xs-12 col-md-6" id="alertas">          
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                  <i class="fa fa-bell"></i>
+                  Alertas y novedades              
+              </div>
+              <div class="panel-body">
+                  <ul class="chat">
+                      <li class="left clearfix">
+                          <span class="chat-img pull-left">
+                              <img src="assets/art/img/1.png" alt="User Avatar" class="img-circle" />
+                          </span>
+                          <div class="chat-body clearfix">
+                              <div class="header">
+                                  <strong class="primary-font "> Luis Gabriel Guzmán </strong>
+                                  <small class="pull-right text-muted label label-danger">
+                                      <i class="icon-time"></i> 12 mins ago
+                                  </small>
+                              </div>
+                               <br />
+                              <p>
+                                  No se pudo entrar en el territorio. las condiciones de seguridad no lo permitieron.
+                              </p>
+                          </div>
+                      </li>
+                      <li class="right clearfix">
+                          <span class="chat-img pull-right">
+                              <img src="assets/art/img/2.png" alt="User Avatar" class="img-circle" />
+                          </span>
+                          <div class="chat-body clearfix">
+                              <div class="header">
+                                  <small class=" text-muted label label-info">
+                                      <i class="icon-time"></i> 13 mins ago</small>
+                                  <strong class="pull-right primary-font">Felipe Ramírez </strong>
+                              </div>
+                              <br />
+                              <p>
+                                  Los beneficiarios manifestaron que no han recibido los pagos.
+                              </p>
+                          </div>
+                      </li>
+                      <li class="left clearfix">
+                          <span class="chat-img pull-left">
+                              <img src="assets/art/img/3.png" alt="User Avatar" class="img-circle" />
+                          </span>
+                          <div class="chat-body clearfix">
+                              <div class="header">
+                                  <strong class="primary-font"> Gabriel Rojas </strong>
+                                  <small class="pull-right text-muted label label-warning">
+                                      <i class="icon-time"></i> 12 mins ago
+                                  </small>
+                              </div>
+                               <br />
+                              <p>
+                                  El transporte no llego a recoger a los profesionale de UNODC. La reunión quedó aplazada.
+                              </p>
+                          </div>
+                      </li>
+                      <li class="right clearfix">
+                          <span class="chat-img pull-right">
+                              <img src="assets/art/img/4.png" alt="User Avatar" class="img-circle" />
+                          </span>
+                          <div class="chat-body clearfix">
+                              <div class="header">
+                                  <small class=" text-muted label label-primary">
+                                      <i class="icon-time"></i> 13 mins ago</small>
+                                  <strong class="pull-right primary-font"> Cristina Corrales</strong>
+                              </div>
+                              <br />
+                              <p>
+                                  No se cuenta con información del municipio
+                              </p>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+            </div>  
+          </div>  
+        </div>
+        <!--aca se termina el contenedor de mapa y alertas-->  
+        <!--aca se incio el contenedor de la informacion de avance-->
+        <div id="avance" class="container col-xs-12" style="padding-top: 15px; display: none;">
+          <div class="alert alert-info" role="alert" id="titulo"></div>
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Fichas de caracterización</h3>
+            </div>
+            <div class="panel-body" id="panel_fichas"></div>            
+          </div>
+          <!--Acá se encuentran los avance de la ART  -->
+          <div>
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Avance ART</h3>
+            </div>            
+            <div class="panel-body" id="avance_art">
+
+              <div id="comunitaria" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Reuniones comunitarias</h3>
+              <div class="col-xs-6"><img src="assets/art/img/meeting.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">50</font><br>Reuniones<br>realizadas</div>
+              </div>
+
+              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Familias Caracterizadas</h3>
+              <div class="col-xs-6"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">853</font><br>Familias<br>caracterizadas</div>
+              </div>
+
+              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Obras Priorizadas</h3>
+              <div class="col-xs-6"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">12</font><br>Obras<br>priorizadas</div>
+              </div>
+
+              <div id="comunitaria" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Líneas productivas</h3>
+              <div class="col-xs-6"><img src="assets/art/img/pp.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">15</font><br>líneas<br>productivas</div>
+              </div>
+
+              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Proyectos productivos formulados</h3>
+              <div class="col-xs-6"><img src="assets/art/img/pp_form.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">150</font><br>proyectos<br>formulados</div>
+              </div>
+
+              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Proyectos productivos implementados</h3>
+              <div class="col-xs-6"><img src="assets/art/img/pp_form_ok.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">12</font><br>Obras<br>priorizadas</div>
+              </div> 
+
+            </div>
+          </div>
+          </div>
+          <!--Acá se terminan los avance de la ART  -->
+          <!--Acá inicia los avance de la DAILD  --> 
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Avance gestión DAILD</h3>
+            </div>            
+            <div class="panel-body" id="avance_art">
+              <div id="comunitaria" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Reuniones comunitarias</h3>
+              <div class="col-xs-6"><img src="assets/art/img/meeting.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">50</font><br>Reuniones<br>realizadas</div>
+              </div>
+
+              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Familias Caracterizadas</h3>
+              <div class="col-xs-6"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">853</font><br>Familias<br>caracterizadas</div>
+              </div>
+
+              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+              <h3>Cultivos ilícitos</h3>
+              <div class="col-xs-6"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">12</font><br>Hectáreas<br>para sustitución</div>
+              </div>
+            </div>
+          </div>
+          <!--Acá terminan los avance de la DAILD  -->
+
+          <!--Acá inicia los oferta otros sectores  --> 
+          <div class="col-xs-12 col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Avance gestión otros sectores</h3>
+            </div>            
+            <div class="panel-body" id="avance_art">
+              <div id="comunitaria" class="col-xs-12">
+              <h3>Proyectos gestionados</h3>
+              <div class="col-xs-6"><img src="assets/art/img/pg.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">7</font><br>Proyectos<br>gestionados</div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!--Acá terminan oferta otros sectores  -->    
+
+           <!--Acá inicia cooperación internacional  --> 
+          <div class="col-xs-12 col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Avance gestión cooperación internacional</h3>
+            </div>            
+            <div class="panel-body" id="avance_art">
+              <div id="comunitaria" class="col-xs-12">
+              <h3>Proyectos gestionados</h3>
+              <div class="col-xs-6"><img src="assets/art/img/pg.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">5</font><br>Proyectos<br>gestionados</div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!--Acá terminan cooperación internacional  -->
+
+           <!--Acá inicia oferta privada  --> 
+          <div class="col-xs-12 col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Avance gestión oferta privada</h3>
+            </div>            
+            <div class="panel-body" id="avance_art">
+              <div id="comunitaria" class="col-xs-12">
+              <h3>Proyectos gestionados</h3>
+              <div class="col-xs-6"><img src="assets/art/img/pg.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+              <div class="col-xs-6" align="center"><font size="50">8</font><br>Proyectos<br>gestionados</div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!--Acá terminan oferta privada  -->   
+
+        </div>  
+        <!--aca se termina el contenedor de la informacion de avance-->
+
         </div>
       <div class="col-sm-1"></div>      
 <!--fin del codigo-->    
     </div>
   </div>
+ 
 <!--Fin del tercer contenedor--> 
 
 @stop
@@ -60,11 +302,16 @@
 @stop
 
 <!--agrega JavaScript dentro del body a la pagina-->
-@section('js')
+@section('jsbody')
   @parent
-    <script>
-    
 
+  <script type="text/javascript" charset="utf-8" src="assets/art/js/colombia_line_mm.js"></script>
+  <script type="text/javascript" charset="utf-8" src="assets/art/js/mpios.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>  
+  <script src="assets/art/js/styledLayerControl.js"></script>  
+  <link rel="stylesheet" href="assets/art/css/search_map.css"/>  
+  <script type="text/javascript" charset="utf-8" src="assets/art/js/art_search_map.js"></script>
+    <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
           $( "#art" ).addClass("active");
@@ -74,8 +321,9 @@
           $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);      
       });
-    
     </script>
+  
+    
 @stop
 
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

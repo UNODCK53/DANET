@@ -52,8 +52,8 @@
     <div class="row">
       <!--Columna logo con imágen-->
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
-      <img src="assets/img/unodc.gif" class="img-responsive" alt="logounodc">
-        </div>
+      <img src="assets/img/logos2.png" class="img-responsive" alt="logounodc">
+    </div>
       <!--espaciado para que en xs queden separado logo y boton-->
     <div class="col-xs-4 visible-xs">
       
