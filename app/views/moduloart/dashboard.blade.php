@@ -158,41 +158,82 @@
               <h3 class="panel-title">Avance ART</h3>
             </div>            
             <div class="panel-body" id="avance_art">
+              <div class="col-xs-12">
+                <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+                  <h3>Familias </h3>
+                  Familias caracterizadas (341)
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+                      40%
+                    </div>
+                  </div>
+                  <div class="col-xs-6"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                  <div class="col-xs-6" align="center">
+                  <font size="50">853</font><br>Familias<br>censadas</div>
+                </div>
 
-              <div id="comunitaria" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Reuniones comunitarias</h3>
-              <div class="col-xs-6"><img src="assets/art/img/meeting.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">50</font><br>Reuniones<br>realizadas</div>
-              </div>
+                <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
+                  <h3>Obras</h3>
+                  <div class="col-xs-4" align="center">
+                    <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                    <font size="50">50</font><br>Obras priorizadas
+                  </div>
+                  <div class="col-xs-8">
+                    Obras con proyecto estructurado vs obras priorizadas por la comunidad
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                        50%
+                      </div>
+                    </div>
+                    Obras ejecutadas vs obras priorizadas por la comunidad
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                        25%
+                      </div>
+                    </div>
 
-              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Familias Caracterizadas</h3>
-              <div class="col-xs-6"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">853</font><br>Familias<br>caracterizadas</div>
-              </div>
+                  </div>
+                </div>
+              </div>  
 
-              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Obras Priorizadas</h3>
-              <div class="col-xs-6"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">12</font><br>Obras<br>priorizadas</div>
-              </div>
+              <div class="col-xs-12">
+                
+                <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+                  <h3>Núcleos</h3>
+                  Porcentaje de Núcleos veredales con diagnósticos participativos realizados
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 65%;">
+                      65%
+                    </div>
+                  </div>
+                  <div class="col-xs-6"><img src="assets/art/img/Nucleo.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                  <div class="col-xs-6" align="center">
+                  <font size="50">50</font><br>Núcleos<br>veredales</div>
+                </div>
 
-              <div id="comunitaria" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Líneas productivas</h3>
-              <div class="col-xs-6"><img src="assets/art/img/pp.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">15</font><br>líneas<br>productivas</div>
-              </div>
+                <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
+                  <h3>Proyectos productivos</h3>
+                  <div class="col-xs-4" align="center">
+                    <div class="col-xs-12"><img src="assets/art/img/pp.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                    <font size="50">756</font><br>Proyectos productivos
+                  </div>
+                  <div class="col-xs-8">
+                    Proyectos  productivos estructurados vs Proyectos productivos concertados
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                        75%
+                      </div>
+                    </div>
+                    Proyectos productivos en ejecución Proyectos productivos estructurados
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
+                        45%
+                      </div>
+                    </div>
 
-              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Proyectos productivos formulados</h3>
-              <div class="col-xs-6"><img src="assets/art/img/pp_form.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">150</font><br>proyectos<br>formulados</div>
-              </div>
-
-              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Proyectos productivos implementados</h3>
-              <div class="col-xs-6"><img src="assets/art/img/pp_form_ok.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">12</font><br>Obras<br>priorizadas</div>
+                  </div>
+                </div>
+                
               </div> 
 
             </div>
@@ -205,23 +246,69 @@
               <h3 class="panel-title">Avance gestión DAILD</h3>
             </div>            
             <div class="panel-body" id="avance_art">
-              <div id="comunitaria" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Reuniones comunitarias</h3>
-              <div class="col-xs-6"><img src="assets/art/img/meeting.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">50</font><br>Reuniones<br>realizadas</div>
+
+
+              <div class="col-xs-12">
+                <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
+
+                  <h3>Cultivos ilícitos </h3>                                    
+                  <div class="col-xs-5"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                  <div class="col-xs-7" align="center"><font size="50">12 Ha</font><br>Identificadas</div>
+                </div>  
+
+                <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
+                  <h3>Acuerdos de sustitución</h3>
+                  <div class="col-xs-4" align="center">
+                    <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                    <font size="50">50 Ha</font><br>Cultivos ilícitos con acuerdo
+                  </div>
+                  <div class="col-xs-8">
+                    Porcentaje de Hectáreas con acuerdo de sustitución de Cultivos de uso ilícito
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                        50%
+                      </div>
+                    </div>
+                    Porcenteje de Hectáreas de Cultivos de uso ilícito sustituidas
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                        25%
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-xs-12"><br><br></div>
+                  <div class="col-xs-4" align="center">
+                      <div class="col-xs-12"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                      <font size="50">50</font><br>Familias con acuerdo
+                  </div>
+
+                  <div class="col-xs-8">
+                      Porcentaje de Familias con acuerdo de sustitución
+                      <div class="progress">
+                        <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                          100%
+                        </div>
+                      </div>
+                      Porcentaje de Familias con acuerdos de sustitución incumplidos
+                      <div class="progress">
+                        <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                          100%
+                        </div>
+                      </div>
+
+                  </div>
+
+                </div>
+
+                <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
+                    
+                    
+                  </div>
               </div>
 
-              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Familias Caracterizadas</h3>
-              <div class="col-xs-6"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">853</font><br>Familias<br>caracterizadas</div>
-              </div>
 
-              <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-              <h3>Cultivos ilícitos</h3>
-              <div class="col-xs-6"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">12</font><br>Hectáreas<br>para sustitución</div>
-              </div>
+             
             </div>
           </div>
           <!--Acá terminan los avance de la DAILD  -->
