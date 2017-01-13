@@ -233,6 +233,7 @@
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('jsbody')
   @parent
+  <link rel="stylesheet" href="assets/art/css/map_style.css"/>
   <script type="text/javascript" charset="utf-8" src="assets/art/js/colombia_line_mm.js"></script>
   <script type="text/javascript" charset="utf-8" src="assets/art/js/mpios_50.js"></script>
   <script type="text/javascript" charset="utf-8" src="assets/art/js/veredas.js"></script>

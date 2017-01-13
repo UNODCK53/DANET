@@ -203,4 +203,13 @@ function search(e){
 	//$('#panel_fichas').html(texto)
 }
 
-
+//add a legend to the map
+var legend2 = L.control({position: 'bottomleft'});
+legend2.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend col-xs-6 col-md-3');
+   
+    div.innerHTML = "<div><img class='img-responsive' alt='Responsive image' src='assets/visor_acuerdo/Images/density_bar.png'</div> " ;
+    
+    return div;
+};
+legend2.addTo(map);

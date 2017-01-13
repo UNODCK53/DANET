@@ -155,7 +155,7 @@
           <div>
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h3 class="panel-title">Avance ART</h3>
+              <h3 class="panel-title">Avance Agencia de Renovación del Territorio - ART</h3>
             </div>            
             <div class="panel-body" id="avance_art">
               <div class="col-xs-12">
@@ -163,7 +163,7 @@
                   <h3>Familias </h3>
                   Familias caracterizadas (341)
                   <div class="progress">
-                    <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
                       40%
                     </div>
                   </div>
@@ -173,7 +173,7 @@
                 </div>
 
                 <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
-                  <h3>Obras</h3>
+                  <h3>Pequeña Infraestructura Comunitaria - PIC</h3>
                   <div class="col-xs-4" align="center">
                     <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                     <font size="50">50</font><br>Obras priorizadas
@@ -181,17 +181,28 @@
                   <div class="col-xs-8">
                     Obras con proyecto estructurado vs obras priorizadas por la comunidad
                     <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                      <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
                         50%
                       </div>
                     </div>
                     Obras ejecutadas vs obras priorizadas por la comunidad
                     <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                      <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
                         25%
                       </div>
                     </div>
-
+                    Porcentaje de mejoramiento de vías ejecutados vs mejoramiento de vías priorizados por la comunidad
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                        100%
+                      </div>
+                    </div>
+                    Porcentaje de viviendas mejoradas vs número de viviendas priorizadas para mejoramiento
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+                        85%
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>  
@@ -202,7 +213,7 @@
                   <h3>Núcleos</h3>
                   Porcentaje de Núcleos veredales con diagnósticos participativos realizados
                   <div class="progress">
-                    <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 65%;">
+                    <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 65%;">
                       65%
                     </div>
                   </div>
@@ -226,7 +237,7 @@
                     </div>
                     Proyectos productivos en ejecución Proyectos productivos estructurados
                     <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
+                      <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
                         45%
                       </div>
                     </div>
@@ -243,7 +254,7 @@
           <!--Acá inicia los avance de la DAILD  --> 
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h3 class="panel-title">Avance gestión DAILD</h3>
+              <h3 class="panel-title">Avance Dirección para la Atención Integral de la Lucha Contra la Droga</h3>
             </div>            
             <div class="panel-body" id="avance_art">
 
@@ -254,6 +265,7 @@
                   <h3>Cultivos ilícitos </h3>                                    
                   <div class="col-xs-5"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                   <div class="col-xs-7" align="center"><font size="50">12 Ha</font><br>Identificadas</div>
+                  Fuente: SIMCI - UNODC
                 </div>  
 
                 <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
@@ -263,15 +275,15 @@
                     <font size="50">50 Ha</font><br>Cultivos ilícitos con acuerdo
                   </div>
                   <div class="col-xs-8">
-                    Porcentaje de Hectáreas con acuerdo de sustitución de Cultivos de uso ilícito
+                    Porcentaje de Hectáreas con acuerdo de sustitución de Cultivos ilícitos
                     <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                      <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
                         50%
                       </div>
                     </div>
-                    Porcenteje de Hectáreas de Cultivos de uso ilícito sustituidas
+                    Porcenteje de Hectáreas de Cultivos ilícitos sustituidas
                     <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                      <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
                         25%
                       </div>
                     </div>

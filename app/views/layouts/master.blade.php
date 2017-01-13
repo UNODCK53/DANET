@@ -299,7 +299,7 @@ $menuguardaun=false;
               <li id="artmapamenu"><a href="<?=URL::to('artmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
             @endif
             @if($artmapa)
-              <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnostico familiar</a></li>
+              <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
             @endif             
             </ul>
           </li>
@@ -515,7 +515,10 @@ $menuguardaun=false;
                   @endif
                   @if($menuconsuldocu)
                   <li><a id="artmapamenupeq" href="<?=URL::to('artmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
-                  @endif                  
+                  @endif
+                  @if($artmapa)
+                    <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
+                  @endif                   
                 </ul>
               </li>
               @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
