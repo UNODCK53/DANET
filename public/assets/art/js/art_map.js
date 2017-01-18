@@ -32,6 +32,12 @@ colombia_js.addTo(map)
 var municipios_js= L.geoJson(municipios, {style: estilo_municipios, onEachFeature: interaccion_mpios});      
 municipios_js.addTo(map)
 
+var resguardos_js=L.esri.featureLayer({url: 'http://arcgisserver.unodc.org.co/arcgis/rest/services/K_53C05/resguardos_simp/MapServer/0',simplifyFactor: 0.5, precision: 5, style: estilo_resguardos, onEachFeature: interaccion_resgurados});
+
+var concejos_js=L.esri.featureLayer({url: 'http://arcgisserver.unodc.org.co/arcgis/rest/services/K_53C05/consejos_simplificados/MapServer/0',simplifyFactor: 0.5, precision: 5, style: estilo_concejos, onEachFeature: interaccion_concejos});
+
+var parques_js=L.esri.featureLayer({url: 'http://arcgisserver.unodc.org.co/arcgis/rest/services/K_53C05/parques_simplificados/MapServer/0 ',simplifyFactor: 0.5, precision: 5, style: estilo_parques, onEachFeature: interaccion_parques});
+
 var veredas_js= L.geoJson(veredas, {style: estilo_veredas, onEachFeature: interaccion_veredas});      
 
 
@@ -57,7 +63,10 @@ var overlays = [
 	    layers    : { 
 	        "Densidad" : den,
 	        "Veredas"  : veredas_js,
-	        "Municipios": municipios_js	               
+	        "Municipios": municipios_js,
+	        "Resguardos": resguardos_js,
+	        "Concejos": concejos_js,
+	        "Parques Nacionales": parques_js      
 	    }   
 	 }                         
 ];
@@ -89,6 +98,39 @@ function estilo_veredas(feature) {
 	};
 }
 
+function estilo_resguardos(feature) {
+	return {
+	
+	weight: 2,
+	opacity: 1,
+	color: '#EF8E0B',
+	dashArray: '3',
+	fillOpacity: 0
+	};
+}
+
+function estilo_concejos(feature) {
+	return {
+	
+	weight: 2,
+	opacity: 1,
+	color: '#BC9259',
+	dashArray: '3',
+	fillOpacity: 0
+	};
+}
+
+function estilo_parques(feature) {
+	return {
+	
+	weight: 2,
+	opacity: 1,
+	color: '#56BB20',
+	dashArray: '3',
+	fillOpacity: 0
+	};
+}
+
 function borde(e) {
 	var layers = e.target;
 
@@ -111,6 +153,18 @@ function resetborde(e) {
 
 function resetbordeveredas(e) {
 	veredas_js.resetStyle(e.target);	
+};
+
+function resetborderesguardos(e) {
+	resguardos_js.resetStyle(e.target);	
+};
+
+function resetbordeconcejos(e) {
+	concejos_js.resetStyle(e.target);	
+};
+
+function resetbordeconcejos(e) {
+	parques_js.resetStyle(e.target);	
 };
 
 function interaccion_mpios(feature, layer) {
@@ -138,6 +192,48 @@ function interaccion_veredas(feature, layer) {
 		{
 		mouseover: borde,		
 		mouseout: resetbordeveredas,
+		click: function (e) {                
+        map.fitBounds(e.target.getBounds());
+        }
+	});	
+};
+
+function interaccion_resgurados(feature, layer) {
+	
+	var texto="<div align='center'>Resguardo:"+feature.properties.NOM_RI +"<br>Etnia: "+feature.properties.NOM_ETNIA+ "</div>"
+	layer.bindPopup(texto);
+	layer.on(
+		{
+		mouseover: borde,		
+		mouseout: resetborderesguardos,
+		click: function (e) {                
+        map.fitBounds(e.target.getBounds());
+        }
+	});	
+};
+
+function interaccion_concejos(feature, layer) {	
+	
+	var texto="<div align='center'>Concejo:"+feature.properties.NOM_TC + "</div>"
+	layer.bindPopup(texto);
+	layer.on(
+		{
+		mouseover: borde,		
+		mouseout: resetbordeconcejos,
+		click: function (e) {                
+        map.fitBounds(e.target.getBounds());
+        }
+	});	
+};
+
+function interaccion_parques(feature, layer) {	
+	
+	var texto="<div align='center'>Parque Nacional Natural:"+feature.properties.NOM_PNN + "</div>"
+	layer.bindPopup(texto);
+	layer.on(
+		{
+		mouseover: borde,		
+		mouseout: resetbordeconcejos,
 		click: function (e) {                
         map.fitBounds(e.target.getBounds());
         }

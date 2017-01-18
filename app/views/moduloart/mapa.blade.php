@@ -11,13 +11,18 @@
      <link rel="stylesheet" href="assets/art/fonts/font-awesome-4.6.3/css/font-awesome.min.css">
   <!-- Libreria y capas Leaflet-->
   <link rel="stylesheet" href="assets/art/css/leaflet.css" />  
-  <link rel="stylesheet" href="assets/art/css/styledLayerControl.css" />
+  <link rel="stylesheet" href="assets/art/css/styledLayerControl.css"/>
+  <link rel="stylesheet" href="assets/js/leaflet/leaflet.css"/>
+  <!-- Load Esri Leaflet from CDN -->
+  
 
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
-  @parent
-
+  @parent 
+  <script src="assets/js/leaflet/leaflet-src.js"></script>  
+  <script src="https://unpkg.com/esri-leaflet@2.0.7"></script>
+  <script src="assets/art/js/styledLayerControl.js"></script>
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -234,11 +239,11 @@
 @section('jsbody')
   @parent
   <link rel="stylesheet" href="assets/art/css/map_style.css"/>
+  
   <script type="text/javascript" charset="utf-8" src="assets/art/js/colombia_line_mm.js"></script>
   <script type="text/javascript" charset="utf-8" src="assets/art/js/mpios_50.js"></script>
   <script type="text/javascript" charset="utf-8" src="assets/art/js/veredas.js"></script>
-  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>  
-  <script src="assets/art/js/styledLayerControl.js"></script>
+  
   <link href="assets/art/css/art_map.css" rel="stylesheet">
   <script type="text/javascript" charset="utf-8" src="assets/art/js/art_map.js"></script>
     <script>

@@ -12,6 +12,8 @@
   <!-- Libreria y capas Leaflet-->
   <link rel="stylesheet" href="assets/art/css/leaflet.css" />  
   <link rel="stylesheet" href="assets/art/css/styledLayerControl.css" />
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
   
 @stop
 
@@ -147,7 +149,7 @@
           <div class="alert alert-info" role="alert" id="titulo"></div>
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h3 class="panel-title">Fichas de caracterización</h3>
+              <h3 class="panel-title">Caracterización municipal</h3>
             </div>
             <div class="panel-body" id="panel_fichas"></div>            
           </div>
@@ -158,95 +160,84 @@
               <h3 class="panel-title">Avance Agencia de Renovación del Territorio - ART</h3>
             </div>            
             <div class="panel-body" id="avance_art">
-              <div class="col-xs-12">
-                <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-                  <h3>Familias </h3>
-                  Familias caracterizadas (341)
-                  <div class="progress">
+            <!--Inicio seccion caracterizacion  -->
+              <div class="col-xs-6">
+                <h3>Caracterización</h3>
+                <br>
+                <div class="col-xs-6" align="center"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                <div class="col-xs-6" align="center">
+                  <font size="50">853</font><br>Familias<br>censadas
+                </div>
+                <div class="col-xs-12"><br><br></div>
+                <div class="col-xs-6" align="center"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                <div class="col-xs-6" align="center">
+                  <font size="50">50</font><br>Obras priorizadas
+                </div>
+                <div class="col-xs-12"><br><br></div>
+                <div class="col-xs-6" align="center"><img src="assets/art/img/pp.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                <div class="col-xs-6" align="center">
+                  <font size="50">756</font><br>Proyectos productivos
+                </div>
+                <div class="col-xs-12"><br><br></div>
+                <div class="col-xs-6" align="center"><img src="assets/art/img/Nucleo.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                <div class="col-xs-6" align="center">
+                  <font size="50">50</font><br>Núcleos<br>veredales
+                </div>
+              </div>
+              <!--Fin seccion caracterizacion  -->
+              <!--Inicio seccion Indicadores  -->
+              <div class="col-xs-6">
+                <h3>Indicadores</h3>
+                Familias caracterizadas (341)
+                <div class="progress">
                     <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
                       40%
                     </div>
-                  </div>
-                  <div class="col-xs-6"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-                  <div class="col-xs-6" align="center">
-                  <font size="50">853</font><br>Familias<br>censadas</div>
                 </div>
-
-                <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
-                  <h3>Pequeña Infraestructura Comunitaria - PIC</h3>
-                  <div class="col-xs-4" align="center">
-                    <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-                    <font size="50">50</font><br>Obras priorizadas
-                  </div>
-                  <div class="col-xs-8">
-                    Obras con proyecto estructurado vs obras priorizadas por la comunidad
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                        50%
-                      </div>
-                    </div>
-                    Obras ejecutadas vs obras priorizadas por la comunidad
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                        25%
-                      </div>
-                    </div>
-                    Porcentaje de mejoramiento de vías ejecutados vs mejoramiento de vías priorizados por la comunidad
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                        100%
-                      </div>
-                    </div>
-                    Porcentaje de viviendas mejoradas vs número de viviendas priorizadas para mejoramiento
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-                        85%
-                      </div>
-                    </div>
+                Obras con proyecto estructurado vs obras priorizadas por la comunidad
+                <div class="progress">
+                  <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                    50%
                   </div>
                 </div>
-              </div>  
-
-              <div class="col-xs-12">
-                
-                <div id="familias" class="col-xs-12 col-sm-6 col-md-4" >
-                  <h3>Núcleos</h3>
-                  Porcentaje de Núcleos veredales con diagnósticos participativos realizados
+                Obras ejecutadas vs obras priorizadas por la comunidad
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                    25%
+                  </div>
+                </div>
+                Porcentaje de mejoramiento de vías ejecutados vs mejoramiento de vías priorizados por la comunidad
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                    100%
+                  </div>
+                </div>
+                Porcentaje de viviendas mejoradas vs número de viviendas priorizadas para mejoramiento
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+                    85%
+                  </div>
+                </div>
+                Proyectos  productivos estructurados vs Proyectos productivos concertados
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                    75%
+                  </div>
+                </div>
+                Proyectos productivos en ejecución Proyectos productivos estructurados
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
+                    45%
+                  </div>
+                </div>
+                Porcentaje de Núcleos veredales con diagnósticos participativos realizados
                   <div class="progress">
                     <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 65%;">
                       65%
                     </div>
                   </div>
-                  <div class="col-xs-6"><img src="assets/art/img/Nucleo.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-                  <div class="col-xs-6" align="center">
-                  <font size="50">50</font><br>Núcleos<br>veredales</div>
-                </div>
-
-                <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
-                  <h3>Proyectos productivos</h3>
-                  <div class="col-xs-4" align="center">
-                    <div class="col-xs-12"><img src="assets/art/img/pp.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-                    <font size="50">756</font><br>Proyectos productivos
-                  </div>
-                  <div class="col-xs-8">
-                    Proyectos  productivos estructurados vs Proyectos productivos concertados
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
-                        75%
-                      </div>
-                    </div>
-                    Proyectos productivos en ejecución Proyectos productivos estructurados
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                        45%
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-                
-              </div> 
-
+              </div>
+              <!--Fin seccion Indicadores  -->  
             </div>
           </div>
           </div>
@@ -265,23 +256,36 @@
                   <h3>Cultivos ilícitos </h3>                                    
                   <div class="col-xs-5"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                   <div class="col-xs-7" align="center"><font size="50">12 Ha</font><br>Identificadas</div>
-                  Fuente: SIMCI - UNODC
+                  <h4>Fuente: SIMCI - UNODC</h4>
+
+                  <h3>Reducción de la oferta </h3>                                    
+                  <table class="table table-hover">
+                    <tr>
+                      <td>Laboratorios destruidos</td>
+                      <td>25</td>
+                    </tr>
+                    <tr>
+                      <td>Toneladas incautadas</td>
+                      <td>25</td>
+                    </tr>
+                  </table>
+                  Fuente: Policia Nacional
                 </div>  
 
                 <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
-                  <h3>Acuerdos de sustitución</h3>
+                  <h3>Acuerdos de erradicación voluntaria</h3>
                   <div class="col-xs-4" align="center">
                     <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                     <font size="50">50 Ha</font><br>Cultivos ilícitos con acuerdo
                   </div>
                   <div class="col-xs-8">
-                    Porcentaje de Hectáreas con acuerdo de sustitución de Cultivos ilícitos
+                    Porcentaje de Hectáreas con acuerdo de erradicación voluntaria de Cultivos ilícitos
                     <div class="progress">
                       <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
                         50%
                       </div>
                     </div>
-                    Porcenteje de Hectáreas de Cultivos ilícitos sustituidas
+                    Porcenteje de hectáreas de cultivos ilícitos con erradicación voluntaria
                     <div class="progress">
                       <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
                         25%
@@ -296,34 +300,125 @@
                   </div>
 
                   <div class="col-xs-8">
-                      Porcentaje de Familias con acuerdo de sustitución
+                      Porcentaje de Familias con acuerdo de erradicación voluntaria
                       <div class="progress">
                         <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                           100%
                         </div>
                       </div>
-                      Porcentaje de Familias con acuerdos de sustitución incumplidos
+                      Porcentaje de Familias con acuerdos de erradicación voluntaria incumplidos
                       <div class="progress">
                         <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                           100%
                         </div>
                       </div>
-
                   </div>
-
                 </div>
-
-                <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
-                    
-                    
-                  </div>
               </div>
-
-
-             
             </div>
           </div>
           <!--Acá terminan los avance de la DAILD  -->
+           <!--Acá incia grafica de distribucion de obras-->
+          <!--
+         
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Distribución de las obras por Ejecutor</h3>
+            </div>
+            <div class="panel-body">
+            <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+            <script type="text/javascript">
+              $(function () {
+                  Highcharts.chart('container', {
+                      chart: {
+                          plotBackgroundColor: null,
+                          plotBorderWidth: 0,
+                          plotShadow: false
+                      },
+                      title: {
+                          text: 'Browser<br>shares<br>2015',
+                          align: 'center',
+                          verticalAlign: 'middle',
+                          y: 40
+                      },
+                      tooltip: {
+                          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                      },
+                      plotOptions: {
+                          pie: {
+                              dataLabels: {
+                                  enabled: true,
+                                  distance: -50,
+                                  style: {
+                                      fontWeight: 'bold',
+                                      color: 'white'
+                                  }
+                              },
+                              startAngle: -90,
+                              endAngle: 90,
+                              center: ['50%', '75%']
+                          }
+                      },
+                      series: [{
+                          type: 'pie',
+                          name: 'Browser share',
+                          innerSize: '50%',
+                          data: [
+                              ['Privada',   10.38],
+                              ['ART',       56.33],
+                              ['Respuesta Rápida', 24.03],
+                              ['Otros sectores',    4.77],
+                              ['Cooperación internacional',     0.91],
+                              {
+                                  name: 'Proprietary or Undetectable',
+                                  y: 0.2,
+                                  dataLabels: {
+                                      enabled: false
+                                  }
+                              }
+                          ]
+                      }]
+                  });
+              });
+            </script>  
+            </div>
+          </div>          
+          -->
+          <!--Acá termina grafica de distribucion de obras-->
+          <!--Acá inicia los oferta otros sectores  --> 
+          <div class="col-xs-12 col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Avance gestión Respuesta Rápida</h3>
+            </div>            
+            <div class="panel-body" id="avance_art">
+              <div class="col-xs-12" align="center">
+                    <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                    <font size="50">50</font><br>Obras priorizadas por Respuesta Rápida
+                </div>
+                <div class="col-xs-12"><br><br></div>
+                Porcentaje de Proyectos priorizados por la comunidad financiados por Respuesta Rápida  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                    100%
+                  </div>
+                </div>
+                Porcentaje de Familias impactadas por proyectos financiados por Respuesta Rápida  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                    100%
+                  </div>
+                </div>
+                Porcentaje de aporte de Respuesta Rápida en la financiación de proyectos identificados  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                    100%
+                  </div>
+                </div>
+            </div>
+          </div>
+          </div>
+          <!--Acá terminan oferta otros sectores  -->
 
           <!--Acá inicia los oferta otros sectores  --> 
           <div class="col-xs-12 col-md-6">
@@ -332,11 +427,29 @@
               <h3 class="panel-title">Avance gestión otros sectores</h3>
             </div>            
             <div class="panel-body" id="avance_art">
-              <div id="comunitaria" class="col-xs-12">
-              <h3>Proyectos gestionados</h3>
-              <div class="col-xs-6"><img src="assets/art/img/pg.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">7</font><br>Proyectos<br>gestionados</div>
-              </div>
+                <div class="col-xs-12" align="center">
+                    <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                    <font size="50">50</font><br>Obras priorizadas otros sectores
+                </div>
+                <div class="col-xs-12"><br><br></div>
+                Porcentaje de Proyectos priorizados por la comunidad financiados por otros sectores  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                    60%
+                  </div>
+                </div>
+                Porcentaje de Familias impactadas por proyectos financiados por otros sectores  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                    70%
+                  </div>
+                </div>
+                Porcentaje de aporte de otros sectores en la financiación de proyectos identificados  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+                    40%
+                  </div>
+                </div>
             </div>
           </div>
           </div>
@@ -349,11 +462,29 @@
               <h3 class="panel-title">Avance gestión cooperación internacional</h3>
             </div>            
             <div class="panel-body" id="avance_art">
-              <div id="comunitaria" class="col-xs-12">
-              <h3>Proyectos gestionados</h3>
-              <div class="col-xs-6"><img src="assets/art/img/pg.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">5</font><br>Proyectos<br>gestionados</div>
-              </div>
+              <div class="col-xs-12" align="center">
+                    <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                    <font size="50">50</font><br>Obras priorizadas cooperación internacional
+                </div>
+                <div class="col-xs-12"><br><br></div>
+                Porcentaje de Proyectos priorizados por la comunidad financiados por cooperación internacional 
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+                    20%
+                  </div>
+                </div>
+                Porcentaje de Familias impactadas por proyectos financiados por cooperación internacional 
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
+                    45%
+                  </div>
+                </div>
+                Porcentaje de aporte de cooperación internacional en la financiación de proyectos identificados  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+                    20%
+                  </div>
+                </div>
             </div>
           </div>
           </div>
@@ -366,11 +497,29 @@
               <h3 class="panel-title">Avance gestión oferta privada</h3>
             </div>            
             <div class="panel-body" id="avance_art">
-              <div id="comunitaria" class="col-xs-12">
-              <h3>Proyectos gestionados</h3>
-              <div class="col-xs-6"><img src="assets/art/img/pg.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-              <div class="col-xs-6" align="center"><font size="50">8</font><br>Proyectos<br>gestionados</div>
-              </div>
+                <div class="col-xs-12" align="center">
+                    <div class="col-xs-12"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
+                    <font size="50">50</font><br>Obras priorizadas oferta privada
+                </div>
+                <div class="col-xs-12"><br><br></div>
+                Porcentaje de Proyectos priorizados por la comunidad financiados por la oferta privada  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+                    40%
+                  </div>
+                </div>
+                Porcentaje de Familias impactadas por proyectos financiados por la oferta privada  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
+                    30%
+                  </div>
+                </div>
+                Porcentaje de aporte de la oferta privada en la financiación de proyectos identificados  
+                <div class="progress">
+                  <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
+                    5%
+                  </div>
+                </div>
             </div>
           </div>
           </div>
