@@ -134,6 +134,7 @@ Route::group(array('before' => 'auth'), function()
   //Rutas para módulo de ART  
   Route::get('artdashboard', array('before'=>'dashboardART', function(){return View::make('moduloart/dashboard');}));
   Route::get('artmapa', array('before'=>'mapaART', function(){return View::make('moduloart/mapa');}));
+  Route::get('censofamiliar', array('before'=>'censofamiART', function(){return View::make('moduloart/carguefamiliasart');}));
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de GUARDAUN  

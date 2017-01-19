@@ -457,6 +457,19 @@ Route::filter('mapaART', function ()
       return Redirect::to('principal');
    }
 });
+Route::filter('censofamiART', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6301")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
 //Finaliza filtros módulo ART
 //--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo guardaun

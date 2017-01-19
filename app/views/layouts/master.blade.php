@@ -110,7 +110,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
 //variables menú ART
-$artdashboard=false;$artmapa=false;
+$artdashboard=false;$artmapa=false;$artcensofami=false;
 //variables guardaun
 $menuguardaun=false;
 //foreach para habilitar las variables para el menú general
@@ -152,6 +152,7 @@ $menuguardaun=false;
     if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
     if(($acceso->id_vista=="6101")&&($acceso->acces=="1")){$artdashboard=true;}
     if(($acceso->id_vista=="6201")&&($acceso->acces=="1")){$artmapa=true;}
+    if(($acceso->id_vista=="6301")&&($acceso->acces=="1")){$artcensofami=true;}
     if(($acceso->id_vista=="9999")&&($acceso->acces=="1")){$menuguardaun=true;}    
  }
  ?>
@@ -288,19 +289,27 @@ $menuguardaun=false;
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->
-        @if(($artdashboard) || ($artmapa))
+        @if(($artdashboard) || ($artmapa) || ($artcensofami))
         <!--Oculta la opción art si no es el administrador-->
           <li class="dropdown" id="art" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-            @if($artdashboard)
-              <li id="artdashboardmenu"><a href="<?=URL::to('artdashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>
-            @endif
-            @if($artmapa)
-              <li id="artmapamenu"><a href="<?=URL::to('artmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
-            @endif
-            @if($artmapa)
-              <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
-            @endif             
+            <!--espacio de Reportes-->
+              <li><a align="center"><b>Reportes</b></a></li>
+                @if($artdashboard)
+                  <li id="artdashboardmenu"><a href="<?=URL::to('artdashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>
+                @endif
+                @if($artmapa)
+                  <li id="artmapamenu"><a href="<?=URL::to('artmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+                @endif
+                @if($artmapa)
+                  <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
+                @endif  
+                <li class="divider"></li>
+                <!--Termina espacio de Reportes-->
+              <li><a align="center"><b>Cargue de información</b></a></li>
+                @if($artcensofami)
+                  <li id="artcensofamilimenu"><a href="<?=URL::to('censofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Censo de familias</a></li>
+                @endif                       
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción art si no es el administrador-->

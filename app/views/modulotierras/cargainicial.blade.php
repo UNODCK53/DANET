@@ -35,10 +35,9 @@
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
-      <h2 class="text-center text-primary">Procesos iniciales</h2>
-          
-            <p class="lead text-justify">En esta sección se pueden encontrar todas los procesos que han sido creados en la base de datos a partir de las fichas de caracterización. Para continuar, se requiere que cada uno de los responsables jurídicos se adjudiquen los procesos.</p>
-          </div>
+      <h2 class="text-center text-primary">Procesos iniciales</h2>          
+      <p class="lead text-justify">En esta sección se pueden encontrar todas los procesos que han sido creados en la base de datos a partir de las fichas de caracterización. Para continuar, se requiere que cada uno de los responsables jurídicos se adjudiquen los procesos.</p>
+      </div>
       <div class="col-sm-1"></div>
     </div>
 
