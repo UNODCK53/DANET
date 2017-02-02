@@ -35,7 +35,7 @@
   <div class="row">
     <!--Columna logo con imágen-->
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
-      <a href="<?=URL::to('/'); ?>"><img src="../../assets/img/unodc.png" class="logo" alt="logounodc"></a>
+      <a href="<?=URL::to('/'); ?>"><img width="296px" height="44px" src="../../assets/img/logos2.png" class="logo" alt="logounodc"></a>
     </div>
     <!--columna link y boton solo son visibles en sm md lg-->
   </div>

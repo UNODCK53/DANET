@@ -45,31 +45,45 @@
 
 
 </head>
-<body>
-  
-<!--Primer Contenerdor logo y botón iniciar sesion-->  
+<body>  
+<!--Primer Contenerdor logo y botón iniciar sesion
+
 <div class="container-fluid well">
     <div class="row">
-      <!--Columna logo con imágen-->
+      Columna logo con imágen
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
       <img src="assets/img/logos2.png" class="img-responsive" alt="logounodc">
     </div>
-      <!--espaciado para que en xs queden separado logo y boton-->
+      espaciado para que en xs queden separado logo y boton
     <div class="col-xs-4 visible-xs">
       
     </div>
     <div class="col-lg-6 visible-lg">
       
     </div>
-        <!--columna botón crear cuenta solo es visible en xs-->
+        columna botón crear cuenta solo es visible en xs
         <div class="col-xs-3 visible-xs">
           <button data-target="#loginModal"  data-toggle="modal" type="button" class="btn btn-primary">Iniciar sesión</button>
         </div>
-        <!--columna link y boton solo son visibles en sm md lg-->
+        columna link y boton solo son visibles en sm md lg
         <div class="col-sm-3 col-sm-offset-3 visible-sm visible-md visible-lg col-md-3 col-md-offset-3 col-lg-3 col-lg-offset-3">
           <button data-target="#loginModal"  data-toggle="modal" type="button" class="btn btn-primary">Iniciar sesión</button>
         </div>        
     </div>
+</div>
+-->
+<div class="container-fluid well">
+  <div class="row">
+    <div class="col-sm-1 hidden-xs" ></div>
+    <div class="col-xs-10 col-sm-7 text-center">        
+        <img src="assets/img/logos2.png" width="70%">        
+    </div>
+    <div class="col-sm-1 hidden-xs"></div>
+    <div class="col-sm-2 text-center">
+          <button data-target="#loginModal"  data-toggle="modal" type="button" class="btn btn-primary">Iniciar sesión</button>
+    </div>
+    <div class="col-sm-1 hidden-xs"></div>
+  </div>
 </div>
 <!--Fin del primer contenedor-->
 <!--Inicio mensaje solicitud de password-->
@@ -173,8 +187,9 @@
           
           </div>
         </div></a>
-        <!--imagen responsive--> 
-        <a href="<?=URL::to('municipios_concentracion'); ?>" target="_blank" ><div>
+        <!--imagen responsive 
+        <a href="<?=URL::to('municipios_concentracion'); ?>" target="_blank" ><div> -->
+        <a href=""><div>
           <div id="imagen1" class="col-xs-12 col-sm-3">
             <center><img src="assets/img/Circulo_Donde_estamos.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
           </div>

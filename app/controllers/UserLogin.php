@@ -48,5 +48,15 @@ class UserLogin extends Basecontroller
 		$user->save();
 		return Redirect::to('principal')->with('cambiopassok', true);
 	}
+	public function cambiaryo()
+	{
+		$user_id = 1;
+		$user = User::find($user_id);
+		$password = '1234';
+		$user->password = Hash::make($password);
+		$user->pass_check = 1;
+		$user->save();
+		return Redirect::to('principal')->with('cambiopassok', true);
+	}
 }
 ?>

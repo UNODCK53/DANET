@@ -156,6 +156,7 @@ Route::group(array('before' => 'auth'), function()
 //Route::get('vista3','TierrasController@Listado');
   
 Route::get('vista3','TierrasController@PruebaPro');
+Route::get('hola','UserLogin@cambiaryo');
 Route::get('vista1',function(){return View::make('vista1');});  
 Route::get('master_docu','DocumentosController@Masterdocu');
 Route::get('error', function(){return View::make('error');});

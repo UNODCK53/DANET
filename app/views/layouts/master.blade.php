@@ -58,19 +58,19 @@
 <body>
 <!--comienza la cabecera-->
 @section('contenidocabecera1')
-<!--Primer Contenerdor logo y botón iniciar sesion-->  
+<!--Primer Contenerdor logo y botón iniciar sesion  
 <div class="container-fluid well">
   <div class="row">
-    <!--Columna logo con imágen-->
+    Columna logo con imágen
     <div class="col-xs-3 col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-3">
       <img src="assets/img/logos2.png" class="img-responsive" alt="logounodc">
     </div>
-    <!--espaciado para que en xs queden separado logo y boton-->
+    espaciado para que en xs queden separado logo y boton
     <div class="col-xs-1 visible-xs">
     </div>
     <div class="col-lg-6 visible-lg">
     </div>
-    <!--columna botón crear cuenta solo es visible en xs-->
+    columna botón crear cuenta solo es visible en xs
     <div class="col-xs-5 visible-xs">
      	<ul class="nav nav-pills ">
 		   	<li role="menu" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{Auth::user()->name}} {{Auth::user()->last_name}}<span class="caret"></span></a>
@@ -80,7 +80,7 @@
         </li>
 			  </ul>
     </div>
-    <!--columna link y boton solo son visibles en sm md lg-->
+    columna link y boton solo son visibles en sm md lg
     <div class="col-sm-3 col-sm-offset-3 visible-sm visible-md visible-lg col-md-3 col-md-offset-3 col-lg-3 col-lg-offset-3">
       <ul class="nav nav-pills ">
         <li role="menu" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{Auth::user()->name}} {{Auth::user()->last_name}}<span class="caret"></span></a>
@@ -90,6 +90,26 @@
         </li>
  		  </ul>
     </div>        
+  </div>
+</div>
+-->
+<div class="container-fluid well">
+  <div class="row">
+    <div class="col-sm-1 hidden-xs" ></div>
+    <div class="col-xs-10 col-sm-7 text-center">        
+        <img src="assets/img/logos2.png" width="70%">        
+    </div>
+    <div class="col-sm-1 hidden-xs"></div>
+    <div class="col-sm-2 text-center">
+      <ul class="nav nav-pills ">
+        <li role="menu" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{Auth::user()->name}} {{Auth::user()->last_name}}<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a tabindex="-1" href="logout"><i class="icon-off"></i> Cerrar sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-1 hidden-xs"></div>
   </div>
 </div>
 <!--Fin del primer contenedor-->
@@ -303,8 +323,14 @@ $menuguardaun=false;
                 @endif
                 @if($artmapa)
                   <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
-                @endif  
-                <li class="divider"></li>
+                @endif
+                @if($artmapa)
+                  <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> ZVTN - PTN</a></li>
+                @endif 
+                @if($artmapa)
+                  <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Normatividad</a></li>
+                @endif   
+              <li class="divider"></li>
                 <!--Termina espacio de Reportes-->
               <li><a align="center"><b>Cargue de información</b></a></li>
                 @if($artcensofami)
@@ -527,6 +553,18 @@ $menuguardaun=false;
                   @endif
                   @if($artmapa)
                     <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
+                  @endif
+                  @if($artmapa) 
+                    <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> ZVTN - PTN</a></li>
+                  @endif
+                  @if($artmapa) 
+                    <li id="artmapamenu"><a href='siscadi_estadisticas'"><span class="glyphicon glyphicon-ok"></span> Normatividad</a></li>
+                  @endif
+                  <li class="divider"></li>
+                  <!--Termina espacio de Reportes-->
+                  <li><a align="center"><b>Cargue de información</b></a></li>
+                  @if($artcensofami)                  
+                  <li><a id="artcensofamilimenupeq" href="<?=URL::to('censofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Censo de familias</a></li>
                   @endif                   
                 </ul>
               </li>

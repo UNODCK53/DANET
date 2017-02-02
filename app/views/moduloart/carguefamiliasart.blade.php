@@ -45,7 +45,7 @@
         <div class="col-sm-10">
           <h2 class="text-center text-primary">Familias censadas</h2>          
             <button id="btncargfami" title="Presione para cargar una familia" data-target="#cargfamiModal"  data-toggle="modal" type="button" class="btn btn-primary">Cargue familia</button><p></p>
-            <table class="table table-bordered">
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
               <thead>
                 <tr>
                   <th>Departamento</th>
@@ -108,14 +108,14 @@
             <label for="proceso" class="control-label">Municipio:</label>
             <select id="modconcpjuri" "Seleccione el concepto" class="form-control" name="modconcpjuri" required>
               <option value="" selected="selected">Por favor seleccione</option>             
-              <option value="1">Ituango</option>              
+              <option value="1">Briceño</option>              
             </select>
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Vereda:</label>
             <select id="modconcpjuri" "Seleccione el concepto" class="form-control" name="modconcpjuri" required>
               <option value="" selected="selected">Por favor seleccione</option>             
-              <option value="1">El capote</option>              
+              <option value="1">Pueblo nuevo</option>              
             </select>
           </div>
           <div class="form-group">
@@ -140,7 +140,7 @@
           </div>          
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Confirmar Estudio Jurídico</button>
+            <button type="submit" class="btn btn-primary">Guardar familia</button>
           </div>
         </form>
       </div><!-- /.modal-content -->
@@ -172,7 +172,8 @@
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
-          $( "#mensajeestatus" ).fadeOut(5000);      
+          $( "#mensajeestatus" ).fadeOut(5000);
+          $('#example').DataTable();      
       });
     </script>    
 @stop

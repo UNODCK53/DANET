@@ -163,7 +163,7 @@ function resetbordeconcejos(e) {
 	concejos_js.resetStyle(e.target);	
 };
 
-function resetbordeconcejos(e) {
+function resetbordeparques(e) {
 	parques_js.resetStyle(e.target);	
 };
 
@@ -233,7 +233,7 @@ function interaccion_parques(feature, layer) {
 	layer.on(
 		{
 		mouseover: borde,		
-		mouseout: resetbordeconcejos,
+		mouseout: resetbordeparques,
 		click: function (e) {                
         map.fitBounds(e.target.getBounds());
         }

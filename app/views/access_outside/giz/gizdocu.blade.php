@@ -152,13 +152,13 @@
     <hr>
     <h2 class="col-xs-10 text-center text-primary" style="text-align: left; padding-bottom: 20px ">Informes</h2>    
     <div class="col-xs-12 col-md-3">
-      <img  src="assets/giz_map/images/Port_info_tecn.png" class="img-responsive">
+      <img  src="assets/giz_map/images/Port_publicacion.png" class="img-responsive">
     </div>
     <div class="col-xs-12 col-md-3" >
       <div class="input-group" style="vertical-align:middle;">
             <h4 class="text-center text-primary">Publicación</h4>
             <span class="">
-              <a target="_blank" href="assets/giz_map/documentos/doc.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button" disabled="disabled"></a>
+              <a target="_blank" href="assets/giz_map/documentos/Bosque_y_Coca_un_camino_para_la_accion.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
             </span>
           </div>
     </div>
