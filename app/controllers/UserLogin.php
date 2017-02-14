@@ -18,12 +18,12 @@ class UserLogin extends Basecontroller
 				->where ('id_user','=', Auth::user()->id)
 				->select('id_vista', 'acces')		
 				->get();
-				Session::put('acc',$acc);
+				Session::put('acc',$acc);				
 				if ($my_check==1){
-				return Redirect::to('principal');
+					return Redirect::to('principal');
 				}
 				else{
-				return Redirect::to('principal')->with('cambiar_pass', true);
+					return Redirect::to('principal')->with('cambiar_pass', true);
 				}
 			}
 			// usted esta logueado
@@ -47,6 +47,6 @@ class UserLogin extends Basecontroller
 		$user->pass_check = 1;
 		$user->save();
 		return Redirect::to('principal')->with('cambiopassok', true);
-	}
+	}	
 }
 ?>

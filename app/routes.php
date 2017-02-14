@@ -131,10 +131,27 @@ Route::group(array('before' => 'auth'), function()
   Route::get('distribucion_organizacion', array('before' => 'repordistorgGEOAPI', 'uses' => 'GeoapiController@DistribOrganiz'));
   //Termina rutas para el módulo de Geoapi
   //--------------------------------------------------------------------------------------------------------------------------
-  //Rutas para módulo de ART  
-  Route::get('artdashboard', array('before'=>'dashboardART', function(){return View::make('moduloart/dashboard');}));
-  Route::get('artmapa', array('before'=>'mapaART', function(){return View::make('moduloart/mapa');}));
-  Route::get('censofamiliar', array('before'=>'censofamiART', function(){return View::make('moduloart/carguefamiliasart');}));
+  //Rutas para módulo de ART
+    //Inversion Social    
+  Route::get('ivsocidashboard', array('before'=>'MenuARTDashBoard', function(){return View::make('moduloart/ivsocidashboard');}));
+  Route::get('ivsocicensofamilias', array('before'=>'MenuARTCensoFamilias', function(){return View::make('moduloart/ivsocicensofamilias');}));
+  Route::get('ivsocidiagnosticofamiliar', array('before'=>'MenuARTDiagnosticoFamiliar', function(){return View::make('moduloart/ivsocidiagnosticofamiliar');}));
+  Route::get('ivsociconsultapic', array('before'=>'MenuARTConsultaPIC', function(){return View::make('moduloart/ivsociconsultapic');}));
+  Route::get('ivsocicarguefamilias', array('before'=>'MenuARTCargueFamilias', function(){return View::make('moduloart/ivsocicarguefamilias');}));
+  Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy', function(){return View::make('moduloart/ivsocifichapriorizadaproy');}));
+  Route::get('ivsociseguimientopic', array('before'=>'MenuARTSeguimientoPIC', function(){return View::make('moduloart/ivsociseguimientopic');}));
+    //Zona Veredal
+  Route::get('zvtabpresidente', array('before'=>'MenuARTTableroPresidente', function(){return View::make('moduloart/zvtabpresidente');}));
+  Route::get('zvtabgeneral', array('before'=>'MenuARTTableroGeneral', function(){return View::make('moduloart/zvtabgeneral');}));
+  Route::get('zvtabdetallado', array('before'=>'MenuARTTableroDetallado', function(){return View::make('moduloart/zvtabdetallado');}));
+  Route::get('zvcargaindicador', array('before'=>'MenuARTCargaIndicador', function(){return View::make('moduloart/zvcargaindicador');}));
+  Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', function(){return View::make('moduloart/zvsegindicador');}));
+    //Normatividad  
+  Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', function(){return View::make('moduloart/normtabindicador');}));
+  Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', function(){return View::make('moduloart/normcarganorma');}));
+    //Plan 100 dias y Respuesta Rapida
+  Route::get('plancienrrconsulproy', array('before'=>'MenuARTConsultaPlanRR', function(){return View::make('moduloart/plancienrrconsulproy');}));
+  Route::get('plancienrrcargaproy', array('before'=>'MenuARTCargaEditarPlanRR', function(){return View::make('moduloart/plancienrrcargaproy');}));
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de GUARDAUN  

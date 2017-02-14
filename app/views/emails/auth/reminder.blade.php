@@ -20,7 +20,7 @@
                 </td>
                 <td valign="bottom">
                   <a style="color:#0192b5;text-decoration:none" href="http://danet.unodc.org.co"_blank">
-                  <img style="display:block" src="http://danet.unodc.org.co/assets/img/unodc.png"CToWUd">
+                  <img style="display:block" src="http://danet.unodc.org.co/assets/img/logos2.png"CToWUd">
                   </a>
                 </td>
               </tr>
