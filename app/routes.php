@@ -50,6 +50,7 @@ Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 Route::controller('giz','gizController');
+Route::controller('artplan100','Artplan100Controller');    
 
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
@@ -149,9 +150,9 @@ Route::group(array('before' => 'auth'), function()
     //Normatividad  
   Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', function(){return View::make('moduloart/normtabindicador');}));
   Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', function(){return View::make('moduloart/normcarganorma');}));
-    //Plan 100 dias y Respuesta Rapida
-  Route::get('plancienrrconsulproy', array('before'=>'MenuARTConsultaPlanRR', function(){return View::make('moduloart/plancienrrconsulproy');}));
-  Route::get('plancienrrcargaproy', array('before'=>'MenuARTCargaEditarPlanRR', function(){return View::make('moduloart/plancienrrcargaproy');}));
+  //Plan 100 dias y Respuesta Rapida
+  Route::get('plancienrrconsulproy', 'Artplan100Controller@plan100_ini_consulta');
+  Route::get('plancienrrcargaproy', 'Artplan100Controller@plan100_ini');
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de GUARDAUN  
