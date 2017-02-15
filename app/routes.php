@@ -50,6 +50,8 @@ Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 Route::controller('giz','gizController');
+Route::controller('artzvtn','ArtzvtnController');
+
 
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
@@ -135,6 +137,9 @@ Route::group(array('before' => 'auth'), function()
   Route::get('artdashboard', array('before'=>'dashboardART', function(){return View::make('moduloart/dashboard');}));
   Route::get('artmapa', array('before'=>'mapaART', function(){return View::make('moduloart/mapa');}));
   Route::get('censofamiliar', array('before'=>'censofamiART', function(){return View::make('moduloart/carguefamiliasart');}));
+  Route::get('zvtn_indicadores', 'ArtzvtnController@zvtn_indicadores');
+  Route::get('zvtn_seguimiento', 'ArtzvtnController@zvtn_seguimiento');
+
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de GUARDAUN  
