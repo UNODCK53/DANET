@@ -233,7 +233,7 @@ function interaccion_parques(feature, layer) {
 	layer.on(
 		{
 		mouseover: borde,		
-		mouseout: resetbordeparques,
+		mouseout: resetbordeconcejos,
 		click: function (e) {                
         map.fitBounds(e.target.getBounds());
         }
