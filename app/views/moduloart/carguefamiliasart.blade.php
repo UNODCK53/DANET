@@ -10,15 +10,9 @@
   @parent
 
 @stop
-
-<!-- librerias JavaScript que se utilizan en la pagina -->  
- 
-  
-
 <!--agrega JavaScript dentro del header a la pagina-->
-@section('js')
+@section('js')    
   @parent
-
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -36,7 +30,7 @@
 @stop
 <!--CONTENEDOR GENERAL-->
 @section('contenedorgeneral1')
-  @parent  
+  @parent 
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">

@@ -431,12 +431,13 @@ Route::filter('repordistorgGEOAPI', function ()
 //Finaliza filtros módulo Geoapi
 //--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo ART
-Route::filter('dashboardART', function ()
+//INVERSION SOCIAL
+Route::filter('MenuARTCargueFamilias', function ()
 {
    $acc=(Session::get('acc'));
    $p=0;
    foreach ($acc as $acceso) {
-      if(($acceso->id_vista=="6101")&&($acceso->acces=="1")){
+      if(($acceso->id_vista=="6111")&&($acceso->acces=="1")){
          $p=1;
       }
    }   
@@ -444,12 +445,12 @@ Route::filter('dashboardART', function ()
       return Redirect::to('principal');
    }
 });
-Route::filter('mapaART', function ()
+Route::filter('MenuARTFichaPriorizacionProy', function ()
 {
    $acc=(Session::get('acc'));
    $p=0;
    foreach ($acc as $acceso) {
-      if(($acceso->id_vista=="6201")&&($acceso->acces=="1")){
+      if(($acceso->id_vista=="6112")&&($acceso->acces=="1")){
          $p=1;
       }
    }   
@@ -457,12 +458,12 @@ Route::filter('mapaART', function ()
       return Redirect::to('principal');
    }
 });
-Route::filter('censofamiART', function ()
+Route::filter('MenuARTSeguimientoPIC', function ()
 {
    $acc=(Session::get('acc'));
    $p=0;
    foreach ($acc as $acceso) {
-      if(($acceso->id_vista=="6301")&&($acceso->acces=="1")){
+      if(($acceso->id_vista=="6113")&&($acceso->acces=="1")){
          $p=1;
       }
    }   
@@ -470,6 +471,179 @@ Route::filter('censofamiART', function ()
       return Redirect::to('principal');
    }
 });
+Route::filter('MenuARTDashBoard', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6131")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTCensoFamilias', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6132")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTDiagnosticoFamiliar', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6133")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTConsultaPIC', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6134")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//ZONA VEREDAL
+Route::filter('MenuARTCargaIndicador', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6211")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTSeguimientoIndicador', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6212")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTTableroPresidente', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6221")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTTableroGeneral', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6222")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTTableroDetallado', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6223")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//NORMATIVIDAD
+Route::filter('MenuARTCargaEditarNorma', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6311")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTTableroNorma', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6321")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//PLAN  100 y RR
+Route::filter('MenuARTCargaEditarPlanRR', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6411")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTConsultaPlanRR', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6421")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+
 //Finaliza filtros módulo ART
 //--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo guardaun

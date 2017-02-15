@@ -22,55 +22,66 @@
 @section('contenedorgeneral1')
   @parent
 <?php $acc=(Session::get('acc')); ?>
+<?php $accp=(Session::get('accp')); ?>
 <?php
 //variables menú Tierras
-$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;$menurepgenero=false;
+$menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;$menurepgenero=false;$menureptiempo=false;
 $menucargaini=false;$menuprocadj=false;$menulevtopo=false;$menucoor=false;$menumaps=false;
 //variables menú GME
 $menugmevalcert=false;$menugmemetodologia=false;$menugmedisterradi=false;$menugmeinformes=false;
 //variables menú Siscadi
-$menureportesiscadi=false;$menuindicadoressiscadi=false;
+$menureportesiscadi=false;$menuindicadoressiscadi=false;$menuestadisticosiscadi=false;
 //variables menú Documentos
 $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
-//foreach para habilitar las variables para la presentación de cada módulo
-foreach($acc as $acceso){
-  if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){$menucongral= true;}
-  if(($acceso->id_vista=="1201")&&($acceso->acces=="1")){$menuestadoproc=true;}
-  if(($acceso->id_vista=="1202")&&($acceso->acces=="1")){$menurepnumpro=true;}
-  if(($acceso->id_vista=="1203")&&($acceso->acces=="1")){$menureplevtopo=true;}
-  if(($acceso->id_vista=="1204")&&($acceso->acces=="1")){$menureparealev=true;}
-  if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){$menureprespjuri=true;}
-  if(($acceso->id_vista=="1206")&&($acceso->acces=="1")){$menurepgenero=true;}
-  if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){$menucargaini=true;}
-  if(($acceso->id_vista=="1302")&&($acceso->acces=="1")){$menuprocadj=true;}
-  if(($acceso->id_vista=="1304")&&($acceso->acces=="1")){$menulevtopo=true;}
-  if(($acceso->id_vista=="1305")&&($acceso->acces=="1")){$menucoor=true;}
-  if(($acceso->id_vista=="1306")&&($acceso->acces=="1")){$menumaps=true;}
-  if(($acceso->id_vista=="2101")&&($acceso->acces=="1")){$menugmevalcert=true;}
-  if(($acceso->id_vista=="2102")&&($acceso->acces=="1")){$menugmemetodologia=true;}
-  if(($acceso->id_vista=="2103")&&($acceso->acces=="1")){$menugmedisterradi=true;}
-  if(($acceso->id_vista=="2104")&&($acceso->acces=="1")){$menugmeinformes=true;}
-  if(($acceso->id_vista=="3101")&&($acceso->acces=="1")){$menureportesiscadi=true;}
-  if(($acceso->id_vista=="3102")&&($acceso->acces=="1")){$menuindicadoressiscadi=true;}
-  if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){$menucarguedocu=true;}
-  if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){$menuconsuldocu=true;}
-  if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){$menurepordocu=true;}
-  if(($acceso->id_vista=="5101")&&($acceso->acces=="1")){$menugeoapitecsaf=true;}
-  if(($acceso->id_vista=="5102")&&($acceso->acces=="1")){$menugeoapieliminreg=true;}
-  if(($acceso->id_vista=="5103")&&($acceso->acces=="1")){$menugeoapivisorterri=true;}
-  if(($acceso->id_vista=="5104")&&($acceso->acces=="1")){$menugeoapivisorbenef=true;}
-  if(($acceso->id_vista=="5105")&&($acceso->acces=="1")){$menugeoapirepordistorg=true;}
-  if(($acceso->id_vista=="5106")&&($acceso->acces=="1")){$menugeoapirepordistterri=true;}
-  if(($acceso->id_vista=="5107")&&($acceso->acces=="1")){$menugeoapirepordistlp=true;}
-  if(($acceso->id_vista=="5108")&&($acceso->acces=="1")){$menugeoapireporanalesp=true;}
-  if(($acceso->id_vista=="5109")&&($acceso->acces=="1")){$menugeoapireporregrepetidos=true;}
-  if(($acceso->id_vista=="5110")&&($acceso->acces=="1")){$menugeoapirepornovt1=true;}
-  if(($acceso->id_vista=="5111")&&($acceso->acces=="1")){$menugeoapirepornovt2=true;}
-  if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
+//variables menú ART
+$artdashboard=false;$artmapa=false;$artcensofami=false;
+//variables guardaun
+$menuguardaun=false;
+//foreach para habilitar las variables para el menú general
+ foreach($acc as $acceso){
+    if(($acceso->id_vista=="1101")&&($acceso->acces=="1")){$menucongral= true;}
+    if(($acceso->id_vista=="1201")&&($acceso->acces=="1")){$menuestadoproc=true;}
+    if(($acceso->id_vista=="1202")&&($acceso->acces=="1")){$menurepnumpro=true;}
+    if(($acceso->id_vista=="1203")&&($acceso->acces=="1")){$menureplevtopo=true;}
+    if(($acceso->id_vista=="1204")&&($acceso->acces=="1")){$menureparealev=true;}
+    if(($acceso->id_vista=="1205")&&($acceso->acces=="1")){$menureprespjuri=true;}
+    if(($acceso->id_vista=="1206")&&($acceso->acces=="1")){$menurepgenero=true;}
+    if(($acceso->id_vista=="1207")&&($acceso->acces=="1")){$menureptiempo=true;}
+    if(($acceso->id_vista=="1301")&&($acceso->acces=="1")){$menucargaini=true;}
+    if(($acceso->id_vista=="1302")&&($acceso->acces=="1")){$menuprocadj=true;}
+    if(($acceso->id_vista=="1304")&&($acceso->acces=="1")){$menulevtopo=true;}
+    if(($acceso->id_vista=="1305")&&($acceso->acces=="1")){$menucoor=true;}
+    if(($acceso->id_vista=="1306")&&($acceso->acces=="1")){$menumaps=true;}
+    if(($acceso->id_vista=="2101")&&($acceso->acces=="1")){$menugmevalcert=true;}
+    if(($acceso->id_vista=="2102")&&($acceso->acces=="1")){$menugmemetodologia=true;}
+    if(($acceso->id_vista=="2103")&&($acceso->acces=="1")){$menugmedisterradi=true;}
+    if(($acceso->id_vista=="2104")&&($acceso->acces=="1")){$menugmeinformes=true;}
+    if(($acceso->id_vista=="3101")&&($acceso->acces=="1")){$menureportesiscadi=true;}
+    if(($acceso->id_vista=="3102")&&($acceso->acces=="1")){$menuindicadoressiscadi=true;}
+    if(($acceso->id_vista=="3103")&&($acceso->acces=="1")){$menuestadisticosiscadi=true;}
+    if(($acceso->id_vista=="4101")&&($acceso->acces=="1")){$menucarguedocu=true;}
+    if(($acceso->id_vista=="4102")&&($acceso->acces=="1")){$menuconsuldocu=true;}
+    if(($acceso->id_vista=="4103")&&($acceso->acces=="1")){$menurepordocu=true;}
+    if(($acceso->id_vista=="5101")&&($acceso->acces=="1")){$menugeoapitecsaf=true;}
+    if(($acceso->id_vista=="5102")&&($acceso->acces=="1")){$menugeoapieliminreg=true;}
+    if(($acceso->id_vista=="5103")&&($acceso->acces=="1")){$menugeoapivisorterri=true;}
+    if(($acceso->id_vista=="5104")&&($acceso->acces=="1")){$menugeoapivisorbenef=true;}
+    if(($acceso->id_vista=="5105")&&($acceso->acces=="1")){$menugeoapirepordistorg=true;}
+    if(($acceso->id_vista=="5106")&&($acceso->acces=="1")){$menugeoapirepordistterri=true;}
+    if(($acceso->id_vista=="5107")&&($acceso->acces=="1")){$menugeoapirepordistlp=true;}
+    if(($acceso->id_vista=="5108")&&($acceso->acces=="1")){$menugeoapireporanalesp=true;}
+    if(($acceso->id_vista=="5109")&&($acceso->acces=="1")){$menugeoapireporregrepetidos=true;}
+    if(($acceso->id_vista=="5110")&&($acceso->acces=="1")){$menugeoapirepornovt1=true;}
+    if(($acceso->id_vista=="5111")&&($acceso->acces=="1")){$menugeoapirepornovt2=true;}
+    if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
+    if(($acceso->id_vista=="6101")&&($acceso->acces=="1")){$artdashboard=true;}
+    if(($acceso->id_vista=="6201")&&($acceso->acces=="1")){$artmapa=true;}
+    if(($acceso->id_vista=="6301")&&($acceso->acces=="1")){$artcensofami=true;}
+    if(($acceso->id_vista=="9999")&&($acceso->acces=="1")){$menuguardaun=true;}    
  }
- ?> 
+ ?>
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
