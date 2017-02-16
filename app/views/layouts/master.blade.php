@@ -130,9 +130,11 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
 //variables menú ART
-$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false;
+$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false; $menuartmapazv=false; $menuartmapaivsocial=false;
 
 $artdashboard=false;$artmapa=false;$artcensofami=false;
+//variables BID
+$menubidcargaeditarorganiz=false;$menubidlineabase=false;$menubidmapaorg=false;$menubidindicadores=false;
 //variables guardaun
 $menuguardaun=false;
 //foreach para habilitar las variables para el menú general
@@ -172,10 +174,6 @@ $menuguardaun=false;
     if(($acceso->id_vista=="5110")&&($acceso->acces=="1")){$menugeoapirepornovt1=true;}
     if(($acceso->id_vista=="5111")&&($acceso->acces=="1")){$menugeoapirepornovt2=true;}
     if(($acceso->id_vista=="5112")&&($acceso->acces=="1")){$menugeoapirepornovt3=true;}
-    
-    if(($acceso->id_vista=="6201")&&($acceso->acces=="1")){$artmapa=true;}
-    if(($acceso->id_vista=="6301")&&($acceso->acces=="1")){$artcensofami=true;}
-
     if(($acceso->id_vista=="6111")&&($acceso->acces=="1")){$menuartcarguefamilias=true;}
     if(($acceso->id_vista=="6112")&&($acceso->acces=="1")){$menuartfichapriorizacionproy=true;}
     if(($acceso->id_vista=="6113")&&($acceso->acces=="1")){$menuartseguimientopic=true;}
@@ -183,25 +181,30 @@ $menuguardaun=false;
     if(($acceso->id_vista=="6132")&&($acceso->acces=="1")){$menuartcensofamilias=true;}
     if(($acceso->id_vista=="6133")&&($acceso->acces=="1")){$menuartdiagnosticofamiliar=true;}
     if(($acceso->id_vista=="6134")&&($acceso->acces=="1")){$menuartconsultapic=true;}
+    if(($acceso->id_vista=="6141")&&($acceso->acces=="1")){$menuartmapaivsocial=true;}
     if(($acceso->id_vista=="6211")&&($acceso->acces=="1")){$menuartcargaindicador=true;}
     if(($acceso->id_vista=="6212")&&($acceso->acces=="1")){$menuartseguimientoindicador=true;}
     if(($acceso->id_vista=="6221")&&($acceso->acces=="1")){$menuarttableropresidente=true;}
     if(($acceso->id_vista=="6222")&&($acceso->acces=="1")){$menuarttablerogeneral=true;}
     if(($acceso->id_vista=="6223")&&($acceso->acces=="1")){$menuarttablerodetallado=true;}
+    if(($acceso->id_vista=="6141")&&($acceso->acces=="1")){$menuartmapazv=true;}
     if(($acceso->id_vista=="6311")&&($acceso->acces=="1")){$menuartcargaeditarnorma=true;}
     if(($acceso->id_vista=="6321")&&($acceso->acces=="1")){$menuarttableronorma=true;}
     if(($acceso->id_vista=="6411")&&($acceso->acces=="1")){$menuartcargaeditarplanrr=true;}
     if(($acceso->id_vista=="6421")&&($acceso->acces=="1")){$menuartconsultaplanrr=true;}
+    if(($acceso->id_vista=="7111")&&($acceso->acces=="1")){$menubidcargaeditarorganiz=true;}
+    if(($acceso->id_vista=="7131")&&($acceso->acces=="1")){$menubidlineabase=true;}
+    if(($acceso->id_vista=="7132")&&($acceso->acces=="1")){$menubidmapaorg=true;}
+    if(($acceso->id_vista=="7133")&&($acceso->acces=="1")){$menubidindicadores=true;}
     if(($acceso->id_vista=="9999")&&($acceso->acces=="1")){$menuguardaun=true;}
-
  }
  ?>
 <!--Segundo contenedor menu secundario-->
 <div class="container-fluid">
-  <div class="row" id="menu-sec">
+  <div class="row " id="menu-sec">
     <!--Menu secundario es visible en sm lg-->
-    <div class="col-sm-2 "></div>
-    <div class="col-sm-9 text-center text-primary visible-sm visible-md visible-lg ">
+    <div class="col-sm-1 "></div>
+    <div class="col-sm-10  text-primary visible-sm visible-md visible-lg ">
       <ul class="nav nav-pills ">
       @if(Auth::user()->grupo!="10")
         <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
@@ -329,8 +332,8 @@ $menuguardaun=false;
             @endif
             </ul>
           </li>
-        @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->        
-        @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)) <!--Oculta la opción art si no es el administrador-->
+        @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->
+        @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartmapazv)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)) <!--Oculta la opción art si no es el administrador-->
           <li class="dropdown" id="art" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">                      
               <li><a align="center"><b>ART-Inteverción Social</b></a></li>
@@ -357,6 +360,10 @@ $menuguardaun=false;
                   @if($menuartseguimientopic)
                   <li id="ivsociseguimientopicmenu"><a href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
                   @endif
+                  <li class="divider">
+                  @if($menuartmapaivsocial)
+                  <li id="ivsocimapamenu"><a href="<?=URL::to('ivsocimapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+                  @endif
                   <li class="divider"></li><li class="divider"></li>
                 <!--Termina espacio de Reportes-->
               <li><a align="center"><b>Zona Veredal</b></a></li>
@@ -376,6 +383,10 @@ $menuguardaun=false;
                   @endif
                   @if($menuartseguimientoindicador)
                   <li id="zvsegindicadormenu"><a href="<?=URL::to('zvsegindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento indicador</a></li>
+                  @endif
+                  <li class="divider"></li>
+                  @if($menuartmapazv)
+                  <li id="zvmapamenu"><a href="<?=URL::to('zvmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
                   @endif            
                   <li class="divider"></li><li class="divider"></li>
               <li><a align="center"><b>Normatividad</b></a></li>
@@ -454,12 +465,41 @@ $menuguardaun=false;
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->        
+        @if(($menubidcargaeditarorganiz) || ($menubidlineabase) || ($menubidmapaorg) || ($menubidindicadores))<!--Oculta la opción BID si no es el administrador--> 
+          <li class="dropdown" id="bid" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">BID <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <!--espacio de Consulta-->
+              <li><a align="center"><b>Consulta</b></a></li>
+              @if($menubidlineabase)
+              <li id="bidlineabasemenu"><a href="<?=URL::to('bidlineabase'); ?>"><span class="glyphicon glyphicon-ok"></span> Linea Base</a></li>
+              @endif              
+              @if($menubidindicadores)
+              <li id="bidindicadoresmenu"><a href='<?=URL::to('bidindicadores'); ?>'><span class="glyphicon glyphicon-ok"></span> Indicadores</a></li>
+              @endif
+              <li class="divider"></li>
+              <!--Termina espacio de Consulta-->
+              <!--espacio de Mapa-->
+              <li><a align="center"><b>Mapa</b></a></li>
+              @if($menubidmapaorg)
+              <li id="mapaorganizacionmenu"><a href='<?=URL::to('mapaorganizacion'); ?>'><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+              @endif
+              <li class="divider"></li>
+              <!--Termina espacio de Mapa-->
+              <!--espacio de Cargue-->
+              <li><a align="center"><b>Cargue</b></a></li>
+              @if($menubidcargaeditarorganiz)
+              <li id="cargaorganizacionmenu"><a  href='<?=URL::to('cargaorganizacion'); ?>'><span class="glyphicon glyphicon-ok"></span> Carga Organizaciones</a></li>
+              @endif              
+              <!--Termina espacio de Cargue-->
+            </ul>
+          </li>
+        @endif <!--Finaliza Ocultar la opción BID si no es el administrador-->
         @if($menuguardaun) <!--Oculta la opción guardaun si no es el administrador-->  
           <li id="guardaun" role="menu"><a href="guardaun" class="enlace-menu">GUARDAUN</a></li>             
         @endif<!--Finaliza Ocultar la opción guardaun si no es el administrador-->
       @endif<!--Finaliza Ocultar menu para ART-->
       @if(Auth::user()->grupo=="10")
-        @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)) <!--Oculta la opción art si no es el administrador-->          
+        @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)) <!--Oculta la opción art si no es el administrador-->          
           <li class="dropdown" id="" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART - Inversión Social<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">              
               <li><a align="center"><b>Consulta</b></a></li>
@@ -474,7 +514,7 @@ $menuguardaun=false;
               @endif
               @if($menuartconsultapic)
               <li id="ivsociconsultapicmenu"><a href="<?=URL::to('ivsociconsultapic'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta PIC</a></li>              
-              @endif
+              @endif                     
               <li class="divider"></li>
               <li><a align="center"><b>Carga</b></a></li>
               @if($menuartcarguefamilias)              
@@ -486,10 +526,15 @@ $menuguardaun=false;
               @if($menuartseguimientopic)              
               <li id="ivsociseguimientopicmenu"><a href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
               @endif
+              <li class="divider"></li>
+              <li><a align="center"><b>Mapa</b></a></li>
+              @if($menuartmapaivsocial)
+              <li id="ivsocimapamenu"><a href="<?=URL::to('ivsocimapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+              @endif               
             </ul>
           </li>
         @endif
-        @if(($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)) <!--Oculta la opción art si no es el administrador-->
+        @if(($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartmapazv)) <!--Oculta la opción art si no es el administrador-->
           <li class="dropdown" id="" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Zona Veredal<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a align="center"><b>Consulta</b></a></li> 
@@ -509,6 +554,11 @@ $menuguardaun=false;
               @endif
               @if($menuartseguimientoindicador)
               <li id="zvsegindicadormenu"><a href="<?=URL::to('zvsegindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento indicador</a></li>
+              @endif
+              <li class="divider"></li>
+              <li><a align="center"><b>Mapa</b></a></li>
+              @if($menuartmapazv)
+              <li id="zvmapamenu"><a href="<?=URL::to('zvmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
               @endif
             </ul>
           </li>
@@ -549,7 +599,7 @@ $menuguardaun=false;
     <div class="col-sm-1"></div>
 
 
-<!--Menu compacto es visible en xs -->   
+<!--MENU COMPACTO ES VISIBLE EN XS -->   
     <div class="col-xs-12 visible-xs">
       <nav class="navbar navbar-default" >
         <div class="container">
@@ -567,7 +617,7 @@ $menuguardaun=false;
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <!-- Lista desplegable de menu con submenu -->
-            @if(Auth::user()->grupo!="1")
+            @if(Auth::user()->grupo!="10")
               @if(Auth::user()->grupo=="1")<!--Oculta la opción Ejecución si no es el administrador-->
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ejecución <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
@@ -691,7 +741,7 @@ $menuguardaun=false;
                 </ul>
               </li>
               @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
-              @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)) <!--Oculta la opción art si no es el administrador-->
+              @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuartmapazv)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)) <!--Oculta la opción art si no es el administrador-->
                 <li class="dropdown"><a id="artmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <!--espacio de ART-Intervención Social-->
@@ -707,7 +757,7 @@ $menuguardaun=false;
                       @endif
                       @if($menuartconsultapic)
                       <li><a id="ivsociconsultapicmenupeq" href="<?=URL::to('ivsociconsultapic'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta PIC</a></li>                      
-                      @endif
+                      @endif                                                         
                       <li class="divider"></li>
                       @if($menuartcarguefamilias)
                       <li><a id="ivsocicarguefamiliasmenupeq" href="<?=URL::to('ivsocicarguefamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar Familias</a></li>
@@ -717,6 +767,10 @@ $menuguardaun=false;
                       @endif
                       @if($menuartseguimientopic)
                       <li><a id="ivsociseguimientopicmenupeq" href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
+                      @endif
+                      <li class="divider"></li>
+                      @if($menuartmapaivsocial)
+                      <li><a id="ivsocimapamenupeq" href="<?=URL::to('ivsocimapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
                       @endif
                       <li class="divider"></li>
                     <!--espacio de Zona Veredal-->
@@ -737,6 +791,10 @@ $menuguardaun=false;
                       @if($menuartseguimientoindicador)
                       <li><a id="zvsegindicadormenupeq" href="<?=URL::to('zvsegindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento indicador</a></li>                     
                       @endif
+                      <li class="divider"></li>
+                      @if($menuartmapazv)
+                      <li><a id="zvmapamenupeq" href="<?=URL::to('zvmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>              
+                      @endif 
                       <li class="divider"></li>
                     <!--espacio de Normatividad-->
                     <li><a align="center"><b>Normatividad</b></a></li>
@@ -815,12 +873,42 @@ $menuguardaun=false;
                   </ul>
                 </li>
               @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
+              @if(($menubidcargaeditarorganiz) || ($menubidlineabase) || ($menubidmapaorg) || ($menubidindicadores))<!--Oculta la opción BID si no es el administrador--> 
+                <li  class="dropdown"><a id="geoapimenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">BID<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <!--espacio de Consulta-->
+                    <li><a align="center"><b>Consulta</b></a></li>
+                    @if($menubidlineabase)
+                      <li><a id="bidlineabasemenupeq" href="<?=URL::to('bidlineabase'); ?>"><span class="glyphicon glyphicon-ok"></span> Linea Base</a></li>
+                    @endif
+                    @if($menubidindicadores)
+                      <li><a id="bidindicadoresmenupeq" href="<?=URL::to('bidindicadores'); ?>"><span class="glyphicon glyphicon-ok"></span> Indicadores</a></li>
+                    @endif
+                      <li class="divider"></li>
+                      <!--Termina espacio de Consulta-->
+                      <!--espacio de Mapa-->
+                      <li><a align="center"><b>Mapa</b></a></li>
+                    @if($menubidmapaorg)
+                      <li><a id="mapaorganizacionmenupeq" href="<?=URL::to('mapaorganizacion'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+                    @endif
+                      <li class="divider"></li>
+                      <!--Termina espacio de Mapa-->
+                      <!--espacio de Carga-->
+                      <li><a align="center"><b>Carga</b></a></li>
+                    @if($menubidcargaeditarorganiz)
+                      <li><a id="cargaorganizacionmenupeq" href="<?=URL::to('cargaorganizacion'); ?>"><span class="glyphicon glyphicon-ok"></span> Carga Organizaciones</a></li>
+                    @endif                    
+                      <li class="divider"></li>
+                      <!--Termina espacio de Carga-->                      
+                  </ul>
+                </li>
+              @endif <!--Finaliza Ocultar la opción BID si no es el administrador-->
               @if($menuguardaun) <!--Oculta la opción guardaun si no es el administrador-->  
               <li><a id="guardaunmenupeq" href="guardaun">GUARDAUN</a></li>              
               @endif<!--Finaliza Ocultar la opción guardaun si no es el administrador-->
             @endif
-            @if(Auth::user()->grupo=="1")
-              @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)) <!--Oculta la opción art si no es el administrador-->                
+            @if(Auth::user()->grupo=="10")
+              @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)) <!--Oculta la opción art si no es el administrador-->                
                 <li  class="dropdown"><a id="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART-Intervención Social<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <!--espacio de administracion-->
@@ -846,11 +934,15 @@ $menuguardaun=false;
                     @endif
                     @if($menuartseguimientopic)
                       <li><a id="ivsociseguimientopicmenupeq" href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
-                    @endif                    
+                    @endif
+                    <li><a align="center"><b>Mapa</b></a></li>
+                    @if($menuartmapaivsocial)
+                      <li><a id="ivsocimapamenupeq" href="<?=URL::to('ivsocimapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>
+                    @endif                                         
                   </ul>
                 </li>
               @endif 
-              @if(($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)) <!--Oculta la opción art si no es el administrador-->    
+              @if(($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartmapazv)) <!--Oculta la opción art si no es el administrador-->    
                 <li  class="dropdown"><a id="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Zona Veredal<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <!--espacio de administracion-->
@@ -870,7 +962,11 @@ $menuguardaun=false;
                     @endif
                     @if($menuartseguimientoindicador)
                       <li><a id="zvsegindicadormenupeq" href="<?=URL::to('zvsegindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento indicador</a></li>                     
-                    @endif                                      
+                    @endif
+                    <li><a align="center"><b>Mapa</b></a></li>
+                    @if($menuartmapazv)
+                      <li><a id="zvmapamenupeq" href="<?=URL::to('zvmapa'); ?>"><span class="glyphicon glyphicon-ok"></span> Mapa</a></li>              
+                    @endif                                       
                   </ul>
                 </li>
               @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
