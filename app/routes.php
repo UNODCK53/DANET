@@ -52,8 +52,8 @@ Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 Route::controller('giz','gizController');
+Route::controller('artzvtn','ArtzvtnController');
 Route::controller('artplan100','Artplan100Controller');    
-
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
 //para ingresar a las siguientes rutas se tiene que estar autenticado:
@@ -134,6 +134,7 @@ Route::group(array('before' => 'auth'), function()
   Route::get('distribucion_organizacion', array('before' => 'repordistorgGEOAPI', 'uses' => 'GeoapiController@DistribOrganiz'));
   //Termina rutas para el módulo de Geoapi
   //--------------------------------------------------------------------------------------------------------------------------
+
   //Rutas para módulo de ART
     //Inversion Social    
   Route::get('ivsocidashboard', array('before'=>'MenuARTDashBoard', function(){return View::make('moduloart/ivsocidashboard');}));
@@ -148,15 +149,17 @@ Route::group(array('before' => 'auth'), function()
   Route::get('zvtabpresidente', array('before'=>'MenuARTTableroPresidente', function(){return View::make('moduloart/zvtabpresidente');}));
   Route::get('zvtabgeneral', array('before'=>'MenuARTTableroGeneral', function(){return View::make('moduloart/zvtabgeneral');}));
   Route::get('zvtabdetallado', array('before'=>'MenuARTTableroDetallado', function(){return View::make('moduloart/zvtabdetallado');}));
-  Route::get('zvcargaindicador', array('before'=>'MenuARTCargaIndicador', function(){return View::make('moduloart/zvcargaindicador');}));
-  Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', function(){return View::make('moduloart/zvsegindicador');}));
+  Route::get('zvcargaindicador', array('before'=>'MenuARTCargaIndicador', 'uses' => 'ArtzvtnController@zvtn_indicadores'));
+  Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', 'uses' => 'ArtzvtnController@zvtn_seguimiento'));
   Route::get('zvmapa', array('before'=>'MenuARTMapaZV', function(){return View::make('moduloart/zvmapa');}));
+
     //Normatividad  
   Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', function(){return View::make('moduloart/normtabindicador');}));
   Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', function(){return View::make('moduloart/normcarganorma');}));
   //Plan 100 dias y Respuesta Rapida
   Route::get('plancienrrconsulproy', 'Artplan100Controller@plan100_ini_consulta');
   Route::get('plancienrrcargaproy', 'Artplan100Controller@plan100_ini');
+
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
     //Rutas para módulo de BID  
