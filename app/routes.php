@@ -133,11 +133,6 @@ Route::group(array('before' => 'auth'), function()
   //Termina rutas para el módulo de Geoapi
   //--------------------------------------------------------------------------------------------------------------------------
 
- ///##################333 mirar en donde las meto aca abajo #############################333
-  Route::get('zvtn_indicadores', 'ArtzvtnController@zvtn_indicadores');
-  Route::get('zvtn_seguimiento', 'ArtzvtnController@zvtn_seguimiento');
-
-
   //Rutas para módulo de ART
     //Inversion Social    
   Route::get('ivsocidashboard', array('before'=>'MenuARTDashBoard', function(){return View::make('moduloart/ivsocidashboard');}));
@@ -151,8 +146,8 @@ Route::group(array('before' => 'auth'), function()
   Route::get('zvtabpresidente', array('before'=>'MenuARTTableroPresidente', function(){return View::make('moduloart/zvtabpresidente');}));
   Route::get('zvtabgeneral', array('before'=>'MenuARTTableroGeneral', function(){return View::make('moduloart/zvtabgeneral');}));
   Route::get('zvtabdetallado', array('before'=>'MenuARTTableroDetallado', function(){return View::make('moduloart/zvtabdetallado');}));
-  Route::get('zvcargaindicador', array('before'=>'MenuARTCargaIndicador', function(){return View::make('moduloart/zvcargaindicador');}));
-  Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', function(){return View::make('moduloart/zvsegindicador');}));
+  Route::get('zvcargaindicador', array('before'=>'MenuARTCargaIndicador', 'uses' => 'ArtzvtnController@zvtn_indicadores'));
+  Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', 'uses' => 'ArtzvtnController@zvtn_seguimiento'));
     //Normatividad  
   Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', function(){return View::make('moduloart/normtabindicador');}));
   Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', function(){return View::make('moduloart/normcarganorma');}));

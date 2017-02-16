@@ -51,7 +51,7 @@ class ArtzvtnController extends BaseController {
 			
 
 
-		return View::make('moduloart.zvtncarguaindicadores', array('arraymetodo' => $arraymetodo,'arraycategoria' => $arraycategoria,'arrayperiodo' => $arrayperiodo,'arraypidnicadores' => $arraypidnicadores,'categoria'=>$categoria));		
+		return View::make('moduloart.zvcargaindicador', array('arraymetodo' => $arraymetodo,'arraycategoria' => $arraycategoria,'arrayperiodo' => $arrayperiodo,'arraypidnicadores' => $arraypidnicadores,'categoria'=>$categoria));		
 	}	
 
 
@@ -282,7 +282,7 @@ class ArtzvtnController extends BaseController {
 
 
 		
-		return View::make('moduloart.zvtnseguimindicadores', array('indicadores'=>$indicadores,'categorias'=>$result,'arraysegidicadores'=>$arraysegidicadores));		
+		return View::make('moduloart.zvsegindicador', array('indicadores'=>$indicadores,'categorias'=>$result,'arraysegidicadores'=>$arraysegidicadores));		
 	}
 
 
