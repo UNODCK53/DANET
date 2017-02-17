@@ -241,7 +241,7 @@ class ArtzvtnController extends BaseController {
 
 	public function postEditcate()//funcion que precarga los datos de indicadores para su edicion
 	{    
-		
+		$fecha = date("Y-m-d H:i:s");
 		$Edit=DB::table('MODART_CATEGORIA')->where('id', Input::get('editcate'))->update(
 			    	array(
 			    		

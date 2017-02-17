@@ -346,7 +346,7 @@
                             <input  id = "editnomcate" name = "editnomcate" class="form-control" type="text" required="true" placeholder="Ejemplo: Insfraestructura"></input>            
                           </div>
                           <div class="form-group text-right"  id="carguecte">                
-                            <button type="submit" class="btn btn-primary" >Crear</button>
+                            <button type="submit" class="btn btn-primary" >Editar</button>
                           </div>
                     </form>
                   </div>

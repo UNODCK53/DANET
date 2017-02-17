@@ -53,6 +53,7 @@ Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 Route::controller('giz','gizController');
 Route::controller('artzvtn','ArtzvtnController');
+Route::controller('artpic','ArtpicController');
 Route::controller('artplan100','Artplan100Controller');    
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
@@ -142,7 +143,7 @@ Route::group(array('before' => 'auth'), function()
   Route::get('ivsocidiagnosticofamiliar', array('before'=>'MenuARTDiagnosticoFamiliar', function(){return View::make('moduloart/ivsocidiagnosticofamiliar');}));
   Route::get('ivsociconsultapic', array('before'=>'MenuARTConsultaPIC', function(){return View::make('moduloart/ivsociconsultapic');}));
   Route::get('ivsocicarguefamilias', array('before'=>'MenuARTCargueFamilias', function(){return View::make('moduloart/ivsocicarguefamilias');}));
-  Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy', function(){return View::make('moduloart/ivsocifichapriorizadaproy');}));
+  Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy',  'uses' => 'ArtpicController@piccreaproyectos'));
   Route::get('ivsociseguimientopic', array('before'=>'MenuARTSeguimientoPIC', function(){return View::make('moduloart/ivsociseguimientopic');}));
   Route::get('ivsocimapa', array('before'=>'MenuARTMapaIVSocial', function(){return View::make('moduloart/ivsocimapa');}));
     //Zona Veredal
