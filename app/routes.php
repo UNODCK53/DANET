@@ -167,7 +167,7 @@ Route::group(array('before' => 'auth'), function()
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
     //Rutas para módulo de BID  
-  Route::get('cargaorganizacion', array('before'=>'MenuBIDCargaEditarOrganiz', function(){return View::make('modulobid/cargaorganizacion');}));
+  Route::get('cargaorganizacion', 'bidController@cargapublic_ini');  
   Route::get('bidlineabase', array('before'=>'MenuBIDLineabase', function(){return View::make('modulobid/bidlineabase');}));
   Route::get('mapaorganizacion', array('before'=>'MenuBIDMapaOrg', function(){return View::make('modulobid/mapaorganizacion');}));
   Route::get('bidindicadores', array('before'=>'MenuBIDIndicadores', function(){return View::make('modulobid/bidindicadores');}));
@@ -190,7 +190,6 @@ Route::group(array('before' => 'auth'), function()
 
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
-  
 Route::get('vista3','TierrasController@PruebaPro');
 Route::get('vista1',function(){return View::make('vista1');});  
 Route::get('master_docu','DocumentosController@Masterdocu');
@@ -200,7 +199,3 @@ Route::get('error', function(){return View::make('error');});
   
 //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
 
-//RUTAS PARA EL MODULO BID
-Route::get('cargapublic_ini', 'bidController@cargapublic_ini');
-
-//

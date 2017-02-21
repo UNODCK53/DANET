@@ -114,7 +114,7 @@ class bidController extends BaseController {
 		    	)
 			);			
 		}
-		return Redirect::to('cargapublic_ini')->with('status', 'ok_estatus'); 
+		return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus'); 
 	}
 
 	public function postEditar(){
@@ -145,7 +145,7 @@ class bidController extends BaseController {
 		$path_banner = public_path().'\assets\bid\banner';
 		Input::file('bannerjpg_edit')->move($path_banner,$banner);
 		
-		return Redirect::to('cargapublic_ini')->with('status', 'ok_estatus');
+		return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus');
 	}
 
 	public function postEditLogo(){
@@ -159,7 +159,7 @@ class bidController extends BaseController {
 		$path_logo = public_path().'\assets\bid\logo';
 		Input::file('logojpg_edit')->move($path_logo,$logo);
 		
-		return Redirect::to('cargapublic_ini')->with('status', 'ok_estatus');
+		return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus');
 	}
 
 	public function postAdicionarLinea(){
@@ -195,7 +195,7 @@ class bidController extends BaseController {
 			);					
 		}
 
-		return Redirect::to('cargapublic_ini')->with('status', 'ok_estatus');
+		return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus');
 	}
 
 	public function postConsultaBorrarLp(){
@@ -216,7 +216,7 @@ class bidController extends BaseController {
 		    	)
 		);
 
-		return Redirect::to('cargapublic_ini')->with('status', 'ok_estatus');
+		return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus');
 	}
 
 }
