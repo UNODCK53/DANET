@@ -523,6 +523,19 @@ Route::filter('MenuARTConsultaPIC', function ()
       return Redirect::to('principal');
    }
 });
+Route::filter('MenuARTMapaIVSocial', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6141")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
 //ZONA VEREDAL
 Route::filter('MenuARTCargaIndicador', function ()
 {
@@ -589,6 +602,19 @@ Route::filter('MenuARTTableroDetallado', function ()
       return Redirect::to('principal');
    }
 });
+Route::filter('MenuARTMapaZV', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6241")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
 //NORMATIVIDAD
 Route::filter('MenuARTCargaEditarNorma', function ()
 {
@@ -645,6 +671,61 @@ Route::filter('MenuARTConsultaPlanRR', function ()
 });
 
 //Finaliza filtros módulo ART
+//--------------------------------------------------------------------------------------------------------------------------
+//Inicia filtros módulo BID
+Route::filter('MenuBIDCargaEditarOrganiz', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="7111")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuBIDLineabase', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="7131")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuBIDMapaOrg', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="7132")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuBIDIndicadores', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="7133")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//Finaliza filtros módulo BID
 //--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo guardaun
 Route::filter('guardaUN', function ()

@@ -125,7 +125,7 @@
 <!--Fin del segundo contenedor-->   
 
 <!--Tercer contenedor carrusel imagenes--> 
-<div class="container" id="sha">
+  <div class="container" id="sha">
     <div class="row">
      
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -157,11 +157,11 @@
         </div>  
       </div>
     </div>
-</div>    
+  </div>    
 <!--fin del tercer contenedor-->
 
 <!--Cuardo contenedor contenido-->    
-<div class="container" id="sha">
+  <div class="container" id="sha">
 
     <div class="row">
     
@@ -269,25 +269,27 @@
             <small><p>Seguimiento al monitoreo realizado por UNODC al proceso de certificación de áreas erradicadas por los Grupos Móviles de Erradicación – GME.
             </p></small>
         
-        </div>
-        <!--imagen responsive-->
-        <div class="col-xs-12 col-sm-3">
+        </div>        
+        <a href="<?=URL::to('bid_organizaciones'); ?>"><div>
+          <!--imagen responsive-->
+          <div id="imagen5" class="col-xs-12 col-sm-3">
+            <center><img src="assets/img/sello.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
+          </div>
+          <!--Texto del contenido-->
+          <div class="col-xs-12 col-sm-3">
+            <br />
+              <strong>Sello Desarrollo Alternativo</strong>
+              <small><p>Mejoramiento de la Competitividad y Consolidación Empresarial de Pequeños Productores para la Sustitución de Cultivos Ilícitos.
+                  </p></small>
           
-        </div>
-        <!--Texto del contenido-->
-        <div class="col-xs-12 col-sm-3">
-          <br />
-            
-        
-        </div>
+          </div>
+        </div></a>        
         <!--nueva columna auxiliar solo para dar espacio al final-->
         <div class="col-xs-12">
         <br /><br /><br /><br /><br />
-        </div>
-       
-    </div>
-    
-    </div>
+        </div>       
+    </div>    
+  </div>
 </div>
 <!--Fin del cuarto contenedor-->
 
