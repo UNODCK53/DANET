@@ -11,10 +11,12 @@
 |
 */
 
-
-Route::get('municipios_concentracion',function(){return View::make('access_outside/visor_acuerdo');});
-
+//Acceso publico a la pagina
 //----------------------------------------------------------------------------------------------------------------------------------------------
+//Modulo BID
+Route::get('bid_organizaciones',function(){return View::make('access_outside/bid/bidorganizaciones');});
+//----------------------------------------------------------------------------------------------------------------------------------------------
+Route::get('municipios_concentracion',function(){return View::make('access_outside/visor_acuerdo');});
 //Modulo GIZ 
 Route::get('Cooperacion_GIZ',function(){return View::make('access_outside/giz');});
 //Route::get('Cooperacion_GIZ_datosrelevantes',function(){return View::make('access_outside/giz/gizdatrelev');});
@@ -50,8 +52,11 @@ Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 Route::controller('giz','gizController');
-Route::controller('artplan100','Artplan100Controller');
-Route::controller('bid','bidController');    
+
+Route::controller('artzvtn','ArtzvtnController');
+Route::controller('artpic','ArtpicController');
+Route::controller('artplan100','Artplan100Controller');  
+Route::controller('bid','bidController');  
 
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
@@ -133,6 +138,7 @@ Route::group(array('before' => 'auth'), function()
   Route::get('distribucion_organizacion', array('before' => 'repordistorgGEOAPI', 'uses' => 'GeoapiController@DistribOrganiz'));
   //Termina rutas para el módulo de Geoapi
   //--------------------------------------------------------------------------------------------------------------------------
+
   //Rutas para módulo de ART
     //Inversion Social    
   Route::get('ivsocidashboard', array('before'=>'MenuARTDashBoard', function(){return View::make('moduloart/ivsocidashboard');}));
@@ -140,21 +146,32 @@ Route::group(array('before' => 'auth'), function()
   Route::get('ivsocidiagnosticofamiliar', array('before'=>'MenuARTDiagnosticoFamiliar', function(){return View::make('moduloart/ivsocidiagnosticofamiliar');}));
   Route::get('ivsociconsultapic', array('before'=>'MenuARTConsultaPIC', function(){return View::make('moduloart/ivsociconsultapic');}));
   Route::get('ivsocicarguefamilias', array('before'=>'MenuARTCargueFamilias', function(){return View::make('moduloart/ivsocicarguefamilias');}));
-  Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy', function(){return View::make('moduloart/ivsocifichapriorizadaproy');}));
+  Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy',  'uses' => 'ArtpicController@piccreaproyectos'));
   Route::get('ivsociseguimientopic', array('before'=>'MenuARTSeguimientoPIC', function(){return View::make('moduloart/ivsociseguimientopic');}));
+  Route::get('ivsocimapa', array('before'=>'MenuARTMapaIVSocial', function(){return View::make('moduloart/ivsocimapa');}));
     //Zona Veredal
   Route::get('zvtabpresidente', array('before'=>'MenuARTTableroPresidente', function(){return View::make('moduloart/zvtabpresidente');}));
   Route::get('zvtabgeneral', array('before'=>'MenuARTTableroGeneral', function(){return View::make('moduloart/zvtabgeneral');}));
   Route::get('zvtabdetallado', array('before'=>'MenuARTTableroDetallado', function(){return View::make('moduloart/zvtabdetallado');}));
-  Route::get('zvcargaindicador', array('before'=>'MenuARTCargaIndicador', function(){return View::make('moduloart/zvcargaindicador');}));
-  Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', function(){return View::make('moduloart/zvsegindicador');}));
+  Route::get('zvcargaindicador', array('before'=>'MenuARTCargaIndicador', 'uses' => 'ArtzvtnController@zvtn_indicadores'));
+  Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', 'uses' => 'ArtzvtnController@zvtn_seguimiento'));
+  Route::get('zvmapa', array('before'=>'MenuARTMapaZV', function(){return View::make('moduloart/zvmapa');}));
+
     //Normatividad  
   Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', function(){return View::make('moduloart/normtabindicador');}));
   Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', function(){return View::make('moduloart/normcarganorma');}));
   //Plan 100 dias y Respuesta Rapida
   Route::get('plancienrrconsulproy', 'Artplan100Controller@plan100_ini_consulta');
   Route::get('plancienrrcargaproy', 'Artplan100Controller@plan100_ini');
+
   //Termina rutas para el módulo de ART
+  //--------------------------------------------------------------------------------------------------------------------------
+    //Rutas para módulo de BID  
+  Route::get('cargaorganizacion', array('before'=>'MenuBIDCargaEditarOrganiz', function(){return View::make('modulobid/cargaorganizacion');}));
+  Route::get('bidlineabase', array('before'=>'MenuBIDLineabase', function(){return View::make('modulobid/bidlineabase');}));
+  Route::get('mapaorganizacion', array('before'=>'MenuBIDMapaOrg', function(){return View::make('modulobid/mapaorganizacion');}));
+  Route::get('bidindicadores', array('before'=>'MenuBIDIndicadores', function(){return View::make('modulobid/bidindicadores');}));
+  //Termina rutas para el módulo de BID
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de GUARDAUN  
   Route::get('guardaun', array('before'=>'guardaUN', function(){return View::make('guardaun');}));
