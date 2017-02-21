@@ -50,7 +50,8 @@ Route::controller('siscadi','SiscadiController');
 Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 Route::controller('giz','gizController');
-Route::controller('artplan100','Artplan100Controller');    
+Route::controller('artplan100','Artplan100Controller');
+Route::controller('bid','bidController');    
 
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
@@ -182,3 +183,7 @@ Route::get('error', function(){return View::make('error');});
   
 //Route::get('carge_docu', function(){return View::make('modulodocumentos/carguedocumentos');});
 
+//RUTAS PARA EL MODULO BID
+Route::get('cargapublic_ini', 'bidController@cargapublic_ini');
+
+//
