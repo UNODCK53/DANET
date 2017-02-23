@@ -482,7 +482,9 @@
            });
 
             $( "#mensajeestatus" ).fadeOut(5000);
-            $('#tabla_proyectos').DataTable(); 
+            $('#tabla_proyectos').DataTable();
+
+             
                
       });
 

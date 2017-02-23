@@ -55,7 +55,8 @@ Route::controller('giz','gizController');
 
 Route::controller('artzvtn','ArtzvtnController');
 Route::controller('artpic','ArtpicController');
-Route::controller('artplan100','Artplan100Controller');  
+Route::controller('artplan100','Artplan100Controller');
+Route::controller('artnormatividad','ArtnormatividadController');  
 Route::controller('bid','bidController');  
 
 Route::controller('password', 'RemindersController');
@@ -159,8 +160,8 @@ Route::group(array('before' => 'auth'), function()
   Route::get('zvmapa', array('before'=>'MenuARTMapaZV', function(){return View::make('moduloart/zvmapa');}));
 
     //Normatividad  
-  Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', function(){return View::make('moduloart/normtabindicador');}));
-  Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', function(){return View::make('moduloart/normcarganorma');}));
+  Route::get('normtabindicador', 'ArtnormatividadController@consultanorma');
+  Route::get('normcarganorma', 'ArtnormatividadController@carganorma');
   //Plan 100 dias y Respuesta Rapida
   Route::get('plancienrrconsulproy', 'Artplan100Controller@plan100_ini_consulta');
   Route::get('plancienrrcargaproy', 'Artplan100Controller@plan100_ini');

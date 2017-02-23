@@ -22,7 +22,7 @@ class bidController extends BaseController {
 
 		$array=[$valor,$organizaciones];
 
-		return View::make('modulobid/cargainfopublic', array('departamentos' => $departamentos), array('array' => $array));
+		return View::make('modulobid/cargaorganizacion', array('departamentos' => $departamentos), array('array' => $array));
 	}
 
 	public function postOrganizaciones(){
