@@ -113,12 +113,12 @@
                 <div class="modal-body">
                   <form role="form" action="artpic/crear-proyecto" method="post" id="crearindi" enctype="multipart/form-data" >
                       <div class="form-group">
-                        {{Form::label('deptolabel','Departamento',['class' => 'control-label'])}}
+                        {{Form::label('deptolabel','Departamento:',['class' => 'control-label'])}}
                         {{Form::select('depto', $arraydepto, '', ['class' => 'form-control', 'id'=>'depto','required'=>'true'])}}
                       </div>
 
                       <div class="form-group">
-                         {{Form::label('mpiolable','Municipios:',['class' => 'control-label'])}}
+                         {{Form::label('mpiolable','Municipio:',['class' => 'control-label'])}}
                           <select name="mpios" id="mpios" class="form-control" required> 
                             <option value=''>Seleccione uno</option>
                           </select>
@@ -130,7 +130,7 @@
                             <option value=''>Seleccione uno</option>
                           </select>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" style='display:none'>
                         {{Form::label('focallable','Focalización:',[ 'id'=>'focallable','class' => 'control-label','style'=>'display:none'])}}
                         {{Form::select('focal[]', $arrayfocali, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'focal','disabled','style'=>'display:none'])}}
                       </div>
@@ -184,15 +184,15 @@
                         </div>
                       </div>
                       <div class="form-group" >
-                        {{Form::label('actalable','Ajuntar acta de priorización :',['class' => 'control-label'])}}
-                        {{ Form::file('acta', ['class' => 'form-control', 'id'=>'acta','required'=>'true','accept'=>'.pdf,image/*']) }}
+                        {{Form::label('actalable','Adjuntar acta de priorización :',['class' => 'control-label'])}}
+                        {{ Form::file('acta', ['class' => 'form-control', 'id'=>'acta','required'=>'true','accept'=>'.pdf,image/*','placeholder'=>'ej: acta.pdf o acta.img']) }}
                       </div>
                       <div class="form-group">
-                        {{Form::label('preciolable','Precio estimado:',['class' => 'control-label'])}}
-                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'$10.000.000'])}}
+                        {{Form::label('preciolable','Precio estimado PIC:',['class' => 'control-label'])}}
+                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'ej: $10.000.000'])}}
                       </div>
                       <div class="checkbox-group">
-                        {{Form::label('cofinalable','La iniciativa tiene cofinanciació:',['class' => 'control-label'])}}
+                        {{Form::label('cofinalable','La iniciativa tiene cofinanciación:',['class' => 'control-label'])}}
                         <div class="form-group" id="radioperidiocidadid">
                           <input type="radio" name="radiocofin" id="cofin1" value="1" required> Si
                           <input type="radio" name="radiocofin" id="cofin2" value="2"> No
@@ -303,13 +303,20 @@
                           {{Form::label('lables-25','Otro:',['id'=>'lables-25','class' => 'control-label'])}}
                           {{ Form::text('s-25','', ['class' => 'form-control', 'id'=>'s-25','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
+                        <div class="form-group col-sm-4" id="divotro" style='display:none'>
+                          {{Form::label('otrolables','Defina Otro:',['id'=>'otrolables','class' => 'control-label'])}}
+                          {{ Form::text('otro','', ['class' => 'form-control', 'id'=>'otro'])}}
+                        </div>
                       </div> 
                       <div class="form-group" id="div-cofina" style='display:none'>
                         {{Form::label('cofinalabel','Total de confinanciación:',['id'=>'cofinalabel','class' => 'control-label'])}}
                         {{ Form::text('cofina','', ['class' => 'form-control', 'id'=>'cofina', 'placeholder'=>'$ cofinanciado','disabled'=>'true'])}}
                         {{ Form::hidden('cofinan','', ['class' => 'form-control', 'id'=>'cofinan'])}}
                       </div>
-                      
+                      <div class="form-group " id="divcofi_preci" style='display:none'>
+                          {{Form::label('cofi_precilables','Precio TOTAL estimado (precio estimado PIC + cofinanciación):',['id'=>'cofi_precilables','class' => 'control-label'])}}
+                          {{Form::text('cofi_preci','', ['class' => 'form-control', 'id'=>'cofi_preci','readonly'=>'true','onchange'=>'precio_change(this)'])}}
+                      </div>
                       <div class="form-group text-right"  id="cargueind">                
                         <button type="submit" class="btn btn-primary" >Crear</button>
                       </div>
@@ -389,7 +396,7 @@
                       </div>
                       <div class="form-group" >
                         {{Form::label('edifechalable','Fecha de taller de priorización de la iniciativa:',['class' => 'control-label'])}}
-                        {{ Form::text('edifecha', Input::old('fecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchanhe'=>'fecha_change(this)']) }}
+                        {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchanhe'=>'fecha_change(this)']) }}
                       </div>
                       <div class="form-group">
                         <label for="edirankinglable" class="control-label">Ranking de la iniciativa:</label>
@@ -402,11 +409,11 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        {{Form::label('edipreciolable','Precio estimado:',['class' => 'control-label'])}}
+                        {{Form::label('edipreciolable','Precio estimado PIC:',['class' => 'control-label'])}}
                         {{ Form::text('ediprecio','', ['class' => 'form-control', 'id'=>'ediprecio','required'=>'true','onchange'=>'precio_change2(this)'])}}
                       </div>
                       <div class="checkbox-group">
-                        {{Form::label('cofinalable','La iniciativa tiene cofinanciació:',['class' => 'control-label'])}}
+                        {{Form::label('cofinalable','La iniciativa tiene cofinanciación:',['class' => 'control-label'])}}
                         <div class="form-group" id="radioperidiocidadid">
                           <input type="radio" name="ediradiocofin" id="edicofin1" value="1" required> Si
                           <input type="radio" name="ediradiocofin" id="edicofin2" value="2"> No
@@ -515,7 +522,11 @@
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-25" style='display:none'>
                           {{Form::label('edilables-25','Otro:',['id'=>'edilables-25','class' => 'control-label'])}}
-                          {{ Form::text('edis-25','', ['class' => 'form-control', 'id'=>'s-25','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
+                          {{ Form::text('edis-25','', ['class' => 'form-control', 'id'=>'edis-25','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
+                        </div>
+                        <div class="form-group col-sm-4" id="edidivotro" style='display:none'>
+                          {{Form::label('ediotrolables','Defina Otro:',['id'=>'ediotrolables','class' => 'control-label'])}}
+                          {{ Form::text('ediotro','', ['class' => 'form-control', 'id'=>'ediotro'])}}
                         </div>
                       </div> 
                       <div class="form-group" id="edidiv-cofina" style='display:none'>
@@ -523,6 +534,10 @@
                         {{ Form::text('edicofina','', ['class' => 'form-control', 'id'=>'edicofina', 'placeholder'=>'$ cofinanciado','disabled'=>'true'])}}
                         {{ Form::hidden('edicofinan','', ['class' => 'form-control', 'id'=>'edicofinan'])}}
                       </div> 
+                      <div class="form-group " id="edidivcofi_preci" style='display:none'>
+                          {{Form::label('edicofi_precilables','Precio TOTAL estimado (precio estimado PIC + cofinanciación):',['id'=>'edicofi_precilables','class' => 'control-label'])}}
+                          {{Form::text('edicofi_preci','', ['class' => 'form-control', 'id'=>'edicofi_preci','readonly'=>'true','onchange'=>'precio_change(this)'])}}
+                      </div>
                        
                       <div class="form-group text-right"  id="cargueind">                
                         <button type="submit" class="btn btn-primary" >Editar</button>
@@ -567,7 +582,7 @@
           </div>
           <!--Aca finaliza el modal para borrar proyecto-->
           <!--Acá inicia la tabla de proyectos-->
-          <h4>Listado de proyectos</h4>
+          <h4>Listado de iniciativas de proyecto</h4>
           <table id="tabla_proyectos" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>  
               <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >
@@ -652,7 +667,6 @@
 //##### funciones para ingresar proyecto ###########
 
         function fecha_change(a) {
-
           var today = new Date();
           var dd = today.getDate();
           var mm = today.getMonth()+1; //January is 0!
@@ -666,9 +680,10 @@
           } 
 
            today = dd+'/'+mm+'/'+yyyy;
-          if (a.value>today){
-            alert('La fecha elegida es superior a hoy');
+          if (a.value>today || a.value<"20/02/2017"){
+            alert('La fecha elegida es superior a hoy o antes del 20/02/2017');
              $(a).val('');
+
           }else{
           }
         }
@@ -676,7 +691,7 @@
 
         function precio_change(a) {
           var total=0;
-          var Format = wNumb({
+           Format = wNumb({
               prefix: '$ ',
               decimals: 0,
               thousand: '.'
@@ -692,16 +707,16 @@
               };
               $('#cofina').val(Format.to(Number(total)));
               $('#cofinan').val(total);
-
+              $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
 
             }else{}
           }else{
-            alert('El valor debe ser mayo a $1.000.000 y menor a $450.000.000 millones');
+            alert('El valor debe ser mayor o igual a $1.000.000 y menor o igual a $450.000.000 millones');
              $(a).val('');
           }
 
           if (total>450000000){
-            alert("el valor total de Cofinanciación supera los $450.000.000");
+            alert("El valor total de Cofinanciación supera los $450.000.000");
             total=parseFloat(total)-parseFloat($(a).val());
             $('#cofina').val(total);
             $('#cofinan').val(total);
@@ -718,11 +733,13 @@
                   document.getElementById(a.id).value=val_format;                
               }   
             }  
+
+
         }
 
         function precio_change2(a) {
           var total=0;  
-          var Format = wNumb({
+          Format = wNumb({
               prefix: '$ ',
               decimals: 0,
               thousand: '.'
@@ -738,6 +755,7 @@
               };
               $('#edicofina').val(Format.to(Number(total)));
               $('#edicofinan').val(total);
+              $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
 
 
             }else{}
@@ -852,6 +870,7 @@
            $("#sociolable").css("display","block");
            $("#socio").css("display","block");
             $("#socio").prop('required',true);
+            $('#divcofi_preci').css("display","block");  
         }
         else if (this.value == 2) {
           $("#sociolable").css("display","none");
@@ -859,6 +878,9 @@
           $("#socio").prop('required',false);
           $('[id^=div-]').css("display","none");
           $('[id^=s-]').prop('required',false);
+          $('#divcofi_preci').css("display","none");  
+          $('#divotro').css("display","none");
+          $('#otro').prop('required',false);
         }
     });
 
@@ -874,12 +896,24 @@
           $("#s-"+id_socio).prop('required',true);
           $('#div-cofina').css("display","block");  
           total=parseFloat(total) + parseFloat($('#s-'+id_socio).val());
+          if (id_socio==25){
+            $('#divotro').css("display","block");
+            $('#otro').prop('required',true);
+          }else{
+            $('#divotro').css("display","none");
+            $('#otro').prop('required',false);
+          }
+          $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
+          $('#cofi_preci').css("display","block");  
+
         };
         $('#cofina').val(total);
         if (total>450000000){
           alert("el valor total de Cofinanciación supera los $450.000.000");
           $("#s-"+id_socio).val("");
         }
+
+
       
     });
 //##### termina funciones para ingresar proyecto ###########
@@ -914,6 +948,7 @@
            $("#edisociolable").css("display","block");
            $("#edisocio").css("display","block");
             $("#edisocio").prop('required',true);
+            $('#edidivcofi_preci').css("display","block");  
         }
         else if (this.value == 2) {
           $("#edisociolable").css("display","none");
@@ -921,6 +956,9 @@
           $("#edisocio").prop('required',false);
           $('[id^=edidiv-]').css("display","none");
           $('[id^=edis-]').prop('required',false);
+          $('#edidivotro').css("display","none");
+          $('#ediotro').prop('required',false);
+          $('#edidivcofi_preci').css("display","none");  
         }
     });
 
@@ -936,6 +974,15 @@
           $("#edis-"+id_socio).prop('required',true);
           $('#edidiv-cofina').css("display","block");  
           total=parseFloat(total) + parseFloat($('#edis-'+id_socio).val());
+
+          if (id_socio==25){
+            $('#edidivotro').css("display","block");
+            $('#ediotro').prop('required',true);
+          }else{
+            $('#edidivotro').css("display","none");
+            $('#ediotro').prop('required',false);
+          }
+          $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
         };
         $('#edicofina').val(total);
         if (total>450000000){
@@ -964,6 +1011,7 @@
               var num =$('tr', this).context.id;
               $.ajax({url:"artpic/tablaproy",type:"POST",data:{proy:num},dataType:'json',
                   success:function(data){ 
+                    $('[id^=edidiv-]').css("display","none");
                     $("#ID").val(data['arrayproy'][0].ID);
                     $("#ediidproy").val(data['arrayproy'][0].id_proy);
                     $("#edidepto").val(data['arrayproy'][0].cod_depto);
@@ -1018,19 +1066,29 @@
                            socio.push(parseInt(nom));
                            socio_valor.push(parseFloat(datos));
                       });
-                      console.log(socio_valor)
                       $('#edisocio').val(socio);
                       for (var i = 0; i < socio.length; i++) {
                         $("#edidiv-"+socio[i]).css("display","block");
                         $("#edis-"+socio[i]).val(socio_valor[i]);
+                        if (socio[i]==25) {
+                          $("#ediotro").val(data['arraysociootro']);
+                          $("#edidivotro").css("display","block");
+                        } else{
+                          $("#ediotro").val("");
+                          $("#edidiv-25").css("display","none");
+                          $("#edidivotro").css("display","none");
+                        };
+                         $("#edidivcofi_preci").css("display","block");
                       };
-                      
+                     $("#edicofi_preci").val(parseFloat($("#ediprecio").val())+parseFloat($("#edicofina").val()));
                     }else{
                       $('input:radio[name="ediradiocofin"]').filter('[value=2]').attr('checked', true);
                       $("#edidiv-cofina").css("display","none");
                       $("#edisociolable").css("display","none");
                       $("#edisocio").css("display","none");
                       $('[id^=edidiv-]').css("display","none");
+                      $("#edidivotro").css("display","none");
+                      $("#edidivcofi_preci").css("display","none");
                     }
                     
 
@@ -1041,12 +1099,7 @@
                     $("#deletenombre").val(data['arrayproy'][0].nom_proy);
                     $("#deleteproy").val(data['arrayproy'][0].id_proy);
                     $("#deletenucleo").val(data['arrayproy'][0].cod_nucleo);
-                   
 
-
-
-                    
-                    
                   },
                   error:function(){alert('error');}
               });//Termina Ajax
@@ -1055,7 +1108,22 @@
 
 
 
+$('#editar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+   $(this).find('form').trigger('reset');
+    table.$('tr.active').removeClass('active');
+})
 
+$('#cargar_proyecto').on('hidden.bs.modal', function (e) {
+   $(this).find('form').trigger('reset');
+    table.$('tr.active').removeClass('active');
+    $("#subsubcatelable").css("display","none");
+    $("#subsubcate").css("display","none");
+    $("#socio").css("display","none");
+    $("#sociolable").css("display","none");
+    $('[id^=div-]').css("display","none");
+    $('#div-cofina').css("display","none");
+    $('#divcofi_preci').css("display","none");
+})
 
     </script>    
 @stop

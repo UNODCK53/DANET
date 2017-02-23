@@ -106,7 +106,7 @@ class ArtpicController extends BaseController {
 
 			$arrayindipic = DB::table('MODART_PIC_PROYPRIORIZ')	
 			->select(DB::raw("concat('PCI_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,id_usuario,cod_nucleo,id_subcat,nom_proy,alcance,estado_proy,prec_estim,cofinanc,fecha_ingreso"))
-			
+			->where('id_usuario','=',Auth::user()->id)
 			->get();	
 
 
@@ -118,7 +118,7 @@ class ArtpicController extends BaseController {
 
 	public function postCrearProyecto()//funcion que precarga los datos de los indicadores  veredales y las categorias
 	{
-			$fecha = date("Y-m-d H:i:s");
+			$fecha = date("d-m-Y H:i:s");
 			$insert=DB::table('MODART_PIC_PROYPRIORIZ')->insert(
 		    	array(
 		    		'nom_proy' => Input::get('nomproy'),
@@ -132,9 +132,9 @@ class ArtpicController extends BaseController {
 		    		'cofinanc' => Input::get('cofinan'),
 		    		'fecha_ingreso' => Input::get('fecha'),
 		    		'id_usuario' => Auth::user()->id,
-		    		'ranking'=>Input::get('ranking')
-		    		//'created_at' => $fecha,
-		    		//'updated_at' => $fecha
+		    		'ranking'=>Input::get('ranking'),
+		    		'created_at' => $fecha,
+		    		'updated_at' => $fecha
 		    	)
 		    );
 
@@ -159,13 +159,25 @@ class ArtpicController extends BaseController {
 		    	}
 		    	if ( Input::get('radiocofin')==1 ){		    	
 			    	foreach (Input::get('socio') as $key => $value) {
-			    		$insert2=DB::table('MODART_PIC_SOCIOSPASO')->insert(
+			    		if ($value==25){
+			    			$insert2=DB::table('MODART_PIC_SOCIOSPASO')->insert(
 					    	array(
 					    		'id_proy'=>$idmaximo,
 					    		'id_socio' => $value,
 					    		'valor' => preg_replace("/[. $]/","",Input::get('s-'.$value)),
+					    		'otro'=> Input::get('otro')
 					    		)
 					    	);
+			    		}else{
+			    			$insert2=DB::table('MODART_PIC_SOCIOSPASO')->insert(
+					    	array(
+					    		'id_proy'=>$idmaximo,
+					    		'id_socio' => $value,
+					    		'valor' => preg_replace("/[. $]/","",Input::get('s-'.$value)),
+					    		'otro'=> null
+					    		)
+					    	);
+			    		}
 			    	}
 		    	}
 		    	
@@ -231,6 +243,7 @@ class ArtpicController extends BaseController {
 		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_PROYPRIORIZ.cod_nucleo')	
 		->select(DB::raw("concat('PCI_',MODART_PIC_PROYPRIORIZ.cod_mpio,id_proy) as ID"),'id_proy',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO_1 as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as cod_nucleo"),'id_subcat','id_usuario','nom_proy','alcance','estado_proy','prec_estim','cofinanc',DB::raw("CONVERT(VARCHAR(10),fecha_ingreso,103) as fecha_ingreso,ranking"),'MUNICIPIOS.COD_DPTO as depto','MUNICIPIOS.COD_DANE as muni','MODART_PIC_NUCLEOS.id_nucleo as nucleo')
 		->where('MODART_PIC_PROYPRIORIZ.id_proy','=', Input::get('proy'))
+		->where('id_usuario','=',Auth::user()->id)
 		->get();	
 
 		$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
@@ -264,30 +277,32 @@ class ArtpicController extends BaseController {
 			}	
 
 		$socio = DB::table('MODART_PIC_SOCIOSPASO')
-			->select('id_proy','id_socio','valor')
+			->select('id_proy','id_socio','valor','otro')
 			->where('id_proy','=', Input::get('proy'))
 			->get();
 
 			
 			if(empty($socio)){
 				$arraysocio["0"]=0;
+				$arraysociootro="";
 				
 			} else {
 				foreach($socio as $pro)
 				{
 					$arraysocio[$pro->id_socio] = $pro->valor;
+					$arraysociootro= $pro->otro;
 				}
 			}		
 
 
-		return  array('arrayproy' => $arrayproy,'arraynucleos' => $arraynucleos,'arraytipoterr'=>$arraytipoter,'arraysubsubcate'=>$arraysubsubcate,'arraysocio'=>$arraysocio);	
+		return  array('arrayproy' => $arrayproy,'arraynucleos' => $arraynucleos,'arraytipoterr'=>$arraytipoter,'arraysubsubcate'=>$arraysubsubcate,'arraysocio'=>$arraysocio,'arraysociootro'=>$arraysociootro);	
 
 	}
 
 
 	public function postEditarProyecto()//funcion que precarga los datos de los indicadores  veredales y las categorias
 	{
-			$fecha = date("Y-m-d H:i:s");
+			$fecha = date("d-m-Y H:i:s");
 			$edit=DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', Input::get('ediidproy'))->update(
 		    	array(
 		    		'nom_proy' => Input::get('edinomproy'),
@@ -299,9 +314,9 @@ class ArtpicController extends BaseController {
 		    		'prec_estim' => preg_replace("/[. $]/","",Input::get('ediprecio')),
 		    		'estado_proy' => Input::get('ediestado'),
 		    		'cofinanc' => Input::get('edicofinan'),
-		    		'fecha_ingreso' => Input::get('edifecha')
+		    		'fecha_ingreso' => Input::get('edifecha'),
 		    		//'created_at' => $fecha,
-		    		//'updated_at' => $fecha
+		    		'updated_at' => $fecha
 		    	)
 			);
 
@@ -337,6 +352,7 @@ class ArtpicController extends BaseController {
 					    		'id_proy'=>Input::get('ediidproy'),
 					    		'id_socio' => $value,
 					    		'valor' => preg_replace("/[. $]/","",Input::get('edis-'.$value)),
+					    		'otro'=> Input::get('ediotro')
 					    		)
 					    	);
 			    	}
