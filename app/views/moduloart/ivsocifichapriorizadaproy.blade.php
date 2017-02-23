@@ -396,7 +396,7 @@
                       </div>
                       <div class="form-group" >
                         {{Form::label('edifechalable','Fecha de taller de priorización de la iniciativa:',['class' => 'control-label'])}}
-                        {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchanhe'=>'fecha_change(this)']) }}
+                        {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div>
                       <div class="form-group">
                         <label for="edirankinglable" class="control-label">Ranking de la iniciativa:</label>
@@ -656,12 +656,7 @@
             autoclose: true
           });//Termina datepicker 
 
-          table=$('#tabla_proyectos').DataTable({
-              dom: 'Bfrtip',
-              buttons: [
-                  'excel'
-              ]
-          });
+          table=$('#tabla_proyectos').DataTable();
       });
 
 //##### funciones para ingresar proyecto ###########
@@ -681,7 +676,7 @@
 
            today = dd+'/'+mm+'/'+yyyy;
           if (a.value>today || a.value<"20/02/2017"){
-            alert('La fecha elegida es superior a hoy o antes del 20/02/2017');
+            alert('La fecha seleccionada debe ser anterior al dia de hoy y despues del 20/02/2017');
              $(a).val('');
 
           }else{
@@ -691,7 +686,7 @@
 
         function precio_change(a) {
           var total=0;
-           Format = wNumb({
+           var Format = wNumb({
               prefix: '$ ',
               decimals: 0,
               thousand: '.'
@@ -739,7 +734,7 @@
 
         function precio_change2(a) {
           var total=0;  
-          Format = wNumb({
+          var Format = wNumb({
               prefix: '$ ',
               decimals: 0,
               thousand: '.'
@@ -760,7 +755,7 @@
 
             }else{}
           }else{
-            alert('El valor debe ser mayo a $1.000.000 y menor a $450.000.000 millones');
+            alert('El valor debe ser mayor a $1.000.000 y menor a $450.000.000 millones');
              $(a).val('');
           }
 
@@ -886,6 +881,11 @@
 
     $("#socio").change(function(){
         var total=0;
+        var Format = wNumb({
+              prefix: '$ ',
+              decimals: 0,
+              thousand: '.'
+          });
         $('[id^=div-]').css("display","none");
         $('[id^=s-]').prop('required',false);
         $('#div-cofina').css("display","none");
@@ -913,8 +913,6 @@
           $("#s-"+id_socio).val("");
         }
 
-
-      
     });
 //##### termina funciones para ingresar proyecto ###########
 
@@ -964,6 +962,11 @@
 
     $("#edisocio").change(function(){
         var total=0;
+        var Format = wNumb({
+              prefix: '$ ',
+              decimals: 0,
+              thousand: '.'
+          });
         $('[id^=edidiv-]').css("display","none");
         $('[id^=edis-]').prop('required',false);
         $('#edidiv-cofina').css("display","none");
@@ -997,7 +1000,11 @@
 
 
     $('#tabla_proyectos tbody').on('click', 'tr', function () {
-
+            var Format = wNumb({
+              prefix: '$ ',
+              decimals: 0,
+              thousand: '.'
+          }); 
             if ( $(this).hasClass('active') ) {
               $(this).removeClass('active');
               $("#btnedipro").prop('disabled', true);
@@ -1052,12 +1059,12 @@
                     $("#edialcance").val(data['arrayproy'][0].alcance);
 
                     $("#ediestado").val(data['arrayproy'][0].estado_proy);
-                    $("#ediprecio").val(data['arrayproy'][0].prec_estim);
+                    $("#ediprecio").val(Format.to(Number(data['arrayproy'][0].prec_estim)));
                     
                     if (data['arrayproy'][0].cofinanc>0){
                       $('input:radio[name="ediradiocofin"]').filter('[value=1]').attr('checked', true);
                       $("#edidiv-cofina").css("display","block");
-                      $("#edicofina").val(data['arrayproy'][0].cofinanc);
+                      $("#edicofina").val(Format.to(Number(data['arrayproy'][0].cofinanc)));
                       $("#edisociolable").css("display","block");
                       $("#edisocio").css("display","block");
                       var socio = [];
@@ -1069,7 +1076,7 @@
                       $('#edisocio').val(socio);
                       for (var i = 0; i < socio.length; i++) {
                         $("#edidiv-"+socio[i]).css("display","block");
-                        $("#edis-"+socio[i]).val(socio_valor[i]);
+                        $("#edis-"+socio[i]).val(Format.to(Number(socio_valor[i])));
                         if (socio[i]==25) {
                           $("#ediotro").val(data['arraysociootro']);
                           $("#edidivotro").css("display","block");
@@ -1080,7 +1087,7 @@
                         };
                          $("#edidivcofi_preci").css("display","block");
                       };
-                     $("#edicofi_preci").val(parseFloat($("#ediprecio").val())+parseFloat($("#edicofina").val()));
+                     $("#edicofi_preci").val(Format.to(Number(parseFloat($("#ediprecio").val().replace(/[$ .]/gi,""))+parseFloat($("#edicofina").val().replace(/[$ .]/gi,"")))));
                     }else{
                       $('input:radio[name="ediradiocofin"]').filter('[value=2]').attr('checked', true);
                       $("#edidiv-cofina").css("display","none");

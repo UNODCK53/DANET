@@ -55,7 +55,7 @@ class ArtpicController extends BaseController {
 			}
 
 			$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
-			->select('id_nucleo','COD_DANE','nombre')
+			->select('id_nucleo','nombre')
 			->orderby('nombre','asc')
 			->get();
 			$arraynucleos['']='Seleccione uno';
@@ -97,6 +97,7 @@ class ArtpicController extends BaseController {
 			$socio = DB::table('MODART_PIC_SOCIOS')
 			->select('id','nombre')
 			->orderby('nombre','asc')
+			->where('id','!=',1)
 			->get();
 			foreach($socio as $pro)
 			{
@@ -181,10 +182,27 @@ class ArtpicController extends BaseController {
 			    	}
 		    	}
 		    	
+	
+		$path = public_path().'\ART\PIC\\'.Input::get('nucleo');
+		// creacion de carpeta dependiendo del nombre del proceso
+		if (File::exists($path)){
+						
+		}
+		else{
+			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
+		}
 
-		    	
-			
+	
+		if(Input::hasFile('acta')) {
 
+				Input::file('acta')->move($path,'PCI_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension());
+
+	    		DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', '=', $idmaximo)->update(
+	    			array(
+	    				'acta' => $path.'\\'.'PCI_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension()
+	    				)
+	    			);
+	    }		
        	if($insert>0){
 			return Redirect::to('ivsocifichapriorizadaproy')->with('status', 'ok_estatus'); 
 		} else {
@@ -213,7 +231,7 @@ class ArtpicController extends BaseController {
 	{
 
 			$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
-			->select('id_nucleo','COD_DANE','nombre')
+			->select('id_nucleo','nombre')
 			->where(DB::raw('SUBSTRING(id_nucleo, 0, 6)'),'=',Input::get('mpio'))
 			->orderby('nombre','asc')
 			->get();
@@ -222,17 +240,9 @@ class ArtpicController extends BaseController {
 				 $arraynucleos[$pro->nombre] = $pro->id_nucleo;
 			}	
 
-			$tipofocalizado = DB::table('MUNICIPIOS')
-			->select('PDET','ZVTN','DAILCD')
-			->where('COD_DANE','=',Input::get('mpio'))
-			->get();
 
-			foreach($tipofocalizado as $pro)
-			{
-				$arraytipofocalizado = array($pro->PDET,$pro->ZVTN,$pro->DAILCD);
-			}
 			
-			return array('arraynucleos'=>$arraynucleos,'arraytipofocalizado'=>$arraytipofocalizado);
+			return array('arraynucleos'=>$arraynucleos);
 		
 	}
 
@@ -247,7 +257,7 @@ class ArtpicController extends BaseController {
 		->get();	
 
 		$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
-			->select('id_nucleo','COD_DANE','nombre')
+			->select('id_nucleo','nombre')
 			->orderby('nombre','asc')
 			->get();
 			
@@ -384,7 +394,7 @@ class ArtpicController extends BaseController {
 			$excel->sheet('Fichas de iniciativas',function($sheet)
 			{
 				$data = array();
-				$results = DB::select("SELECT concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, fecha_ingreso, ranking,cofinanc as Valor_cofinanciado FROM MODART_PIC_PROYPRIORIZ join MUNICIPIOS on MUNICIPIOS.COD_DANE=MODART_PIC_PROYPRIORIZ.cod_mpio join users on users.id=MODART_PIC_PROYPRIORIZ.id_usuario join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id=MODART_PIC_PROYPRIORIZ.id_subcat join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo=MODART_PIC_PROYPRIORIZ.cod_nucleo join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id=MODART_PIC_PROYPRIORIZ.estado_proy");
+				$results = DB::select("SELECT concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, fecha_ingreso, ranking,cofinanc as Valor_cofinanciado FROM MODART_PIC_PROYPRIORIZ join MUNICIPIOS on MUNICIPIOS.COD_DANE=MODART_PIC_PROYPRIORIZ.cod_mpio join users on users.id=MODART_PIC_PROYPRIORIZ.id_usuario join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id=MODART_PIC_PROYPRIORIZ.id_subcat join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo=MODART_PIC_PROYPRIORIZ.cod_nucleo join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id=MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id);
 				foreach ($results as $result) {
 				$data[] = (array)$result;
 				}  	
@@ -398,8 +408,6 @@ class ArtpicController extends BaseController {
 		});
     }
 
-			
-	
 
 }
 ?>

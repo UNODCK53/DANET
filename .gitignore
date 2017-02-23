@@ -12,3 +12,5 @@ public/assets/visor_acuerdo/css/images/Thumbs.db
 public/assets/art/css/images/Thumbs.db
 >>>>>>> origin/master
 env.php
+*.JPG
+*.pdf
