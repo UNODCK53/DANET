@@ -39,7 +39,7 @@
         <!--aca se escribe el codigo-->
         <h2 class="text-center text-primary">Normatividad</h2>
         <br>
-        <p class="lead text-justify">A continuación se presenta el avance a las normas que se están desarrollando para la implementación del acuerdo.</p>
+        <p class="lead text-justify">A continuación se presenta el avance de las normas que se están desarrollando para la implementación del acuerdo.</p>
         <div class="row">
             <?php $status=Session::get('status');?>
                 @if($status=='ok_estatus')
@@ -150,22 +150,23 @@
               <div class="modal-body">
               <form role="form" action="artnormatividad/cargar-norma" method="post" id="cargarproy" enctype="multipart/form-data">
                 Punto del acuerdo
-                <select id="pto_acu" name="pto_acu" class="form-control">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
+                <select id="pto_acu" name="pto_acu" class="form-control" required placeholder="Seleccione un punto del acuerdo">                  
+                  <option selected disabled>Seleccione punto del acuerdo</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
                   <option>Otro</option>
                 </select>
                 <br>
                 Nombre de la Norma
-                <input id="norma" name="norma" type="text" class="form-control" placeholder="Text input">
+                <input id="norma" name="norma" type="text" class="form-control" placeholder="Ingrese el nombre de la norma" required="true">
                 <br>
                 Responsable
                 <br>
-                <select id="id_res" name="id_res" class="form-control selectpicker">
+                <select id="id_res" name="id_res" class="form-control selectpicker" required="true">
                   <option selected disabled>Seleccione un responsable</option>  
                   @foreach($array[0] as $pro)                  
                     <option value="{{$pro->id}}">{{$pro->nombre}}</option>                    
@@ -173,7 +174,7 @@
                 </select>
                 <br>
                 Tipo
-                <select id="id_tipo" name="id_tipo" class="form-control">
+                <select id="id_tipo" name="id_tipo" class="form-control" required="true">
                   <option selected disabled>Seleccione un tipo de norma</option>  
                   @foreach($array[1] as $pro)                  
                     <option value="{{$pro->id}}">{{$pro->nombre}}</option>                    
@@ -197,7 +198,7 @@
                 </div>
                 <br>
                 Consulta previa
-                <select id="id_consprev" name="id_consprev" class="form-control">
+                <select id="id_consprev" name="id_consprev" class="form-control" required="true">
                   <option selected disabled>Seleccione una categoría</option>
                   <option value="1">Pendiente concepto</option>
                   <option value="2">Pendiente entrega texto</option>
@@ -391,7 +392,7 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="borrar_tittle">Ups</h4>
+                      <h4 class="modal-title" id="borrar_tittle">Borrar norma</h4>
                   </div>
                   <div class="modal-body">
                   <form role="form" action="artnormatividad/borrar-norma" method="post" id="cargarproy" enctype="multipart/form-data">

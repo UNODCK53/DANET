@@ -34,10 +34,10 @@ class ArtnormatividadController extends BaseController {
 
 	public function postCargarNorma(){
 		
-		$obs=Input::get('obs');
+		/*$obs=Input::get('obs');
 		if($obs==NULL){
 			$obs="No tiene";
-		}
+		}*/
 		if(Input::get('id_consprev')=='1'){
 			$cv=2;
 		} elseif(Input::get('id_consprev')=='2'){
@@ -60,7 +60,7 @@ class ArtnormatividadController extends BaseController {
 		    		'id_consprev' => Input::get('id_consprev'),
 		    		'tab_encons' => "1",
 		    		'tab_inte' => $cv,
-		    		'obs' => $cv,
+		    		'obs' => Input::get('obs'),
 		    		//'created_at' => $fecha,
 	    			//'updated_at' => $fecha
 		    	)

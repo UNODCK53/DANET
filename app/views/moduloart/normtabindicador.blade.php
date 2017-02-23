@@ -39,8 +39,7 @@
         <!--aca se escribe el codigo-->
         <h2 class="text-center text-primary">Normatividad</h2>
         <br>
-        <p class="lead text-justify">A continuación se presenta el avance a las normas que se están desarrollando para la implementación del acuerdo.</p>
-        
+        <p class="lead text-justify">A continuación se presenta el avance de las normas que se están desarrollando para la implementación del acuerdo.</p>        
         <button id="consultar" disabled="disabled" type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_norma">Consultar norma</button>
         <h2 class="text-center text-primary">Etapa I - Construcción</h2>
         <table id="tabla_normas_1" class="table table-striped table-bordered dt-responsive nowrap">
