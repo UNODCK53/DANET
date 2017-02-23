@@ -2515,7 +2515,10 @@ class SiscadiController extends BaseController {
 		//5. Implementación de buenas prácticas ambientales  o amigables con el medio ambiente
 
 		$Practicas_a = $Practicas_b = $Practicas_c = $Practicas_d = $Practicas_e = $Practicas_f = $Practicas_g = $Practicas_h = $Practicas_i = $Practicas_j = $Practicas_k = $Practicas_l = $Practicas_m = 0;	
-		for ($i=0; $i < count($estadEBDT); $i++) { 
+		for ($i=0; $i < count($estadEBDT); $i++) {
+		 	if ($estadEBDT[$i]['Practicas_a']==0 && $estadEBDT[$i]['Practicas_b']==0 && $estadEBDT[$i]['Practicas_c']==0 && $estadEBDT[$i]['Practicas_d']==0 && $estadEBDT[$i]['Practicas_e']==0 && $estadEBDT[$i]['Practicas_f']==0 && $estadEBDT[$i]['Practicas_g']==0 && $estadEBDT[$i]['Practicas_h']==0 && $estadEBDT[$i]['Practicas_i']==0 && $estadEBDT[$i]['Practicas_j']==0 && $estadEBDT[$i]['Practicas_k']==0 && $estadEBDT[$i]['Practicas_l']==0) {
+				$Practicas_m = 1+$Practicas_m;	
+			}
 			if ($estadEBDT[$i]['Practicas_a']==1) {
 				$Practicas_a = 1+$Practicas_a;	
 			}
@@ -2553,7 +2556,7 @@ class SiscadiController extends BaseController {
 				$Practicas_l = 1+$Practicas_l;	
 			}			
 		}
-		$practicaambien = array('Roza' => round(($Practicas_a/count($estadEBDT))*100), 'Tala' => round(($Practicas_b/count($estadEBDT))*100), 'Quema' => round(($Practicas_c/count($estadEBDT))*100), 'Arado' => round(($Practicas_d/count($estadEBDT))*100), 'Descanso del terreno' => round(($Practicas_e/count($estadEBDT))*100), 'Rotación de cultivos' => round(($Practicas_f/count($estadEBDT))*100), 'Labranza mínima' => round(($Practicas_g/count($estadEBDT))*100), 'Siembra en curvas de nivel' => round(($Practicas_h/count($estadEBDT))*100), 'Asocio de cultivos' => round(($Practicas_i/count($estadEBDT))*100), 'Otra' => round(($Practicas_j/count($estadEBDT))*100), 'Ns/Nr' => round(($Practicas_k/count($estadEBDT))*100), 'Ninguna' => round(($Practicas_l/count($estadEBDT))*100));
+		$practicaambien = array('Roza' => round(($Practicas_a/(count($estadEBDT)-$Practicas_m))*100), 'Tala' => round(($Practicas_b/(count($estadEBDT)-$Practicas_m))*100), 'Quema' => round(($Practicas_c/(count($estadEBDT)-$Practicas_m))*100), 'Arado' => round(($Practicas_d/(count($estadEBDT)-$Practicas_m))*100), 'Descanso del terreno' => round(($Practicas_e/(count($estadEBDT)-$Practicas_m))*100), 'Rotación de cultivos' => round(($Practicas_f/(count($estadEBDT)-$Practicas_m))*100), 'Labranza mínima' => round(($Practicas_g/(count($estadEBDT)-$Practicas_m))*100), 'Siembra en curvas de nivel' => round(($Practicas_h/(count($estadEBDT)-$Practicas_m))*100), 'Asocio de cultivos' => round(($Practicas_i/(count($estadEBDT)-$Practicas_m))*100), 'Otra' => round(($Practicas_j/(count($estadEBDT)-$Practicas_m))*100), 'Ns/Nr' => round(($Practicas_k/(count($estadEBDT)-$Practicas_m))*100), 'Ninguna' => round(($Practicas_l/(count($estadEBDT)-$Practicas_m))*100));
 		arsort($practicaambien);
 
 //----------------------------TERRITORIO Y MEDIO AMBIENTE---------------------------------
