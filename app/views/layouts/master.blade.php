@@ -12,6 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/buttons.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="assets/css/responsive.bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datepicker.css">
 	<style>

@@ -69,7 +69,7 @@ class ArtzvtnController extends BaseController {
 		return $arraypidnicadores;	
 
 }
-	public function postEditindi()//funcion que actualiza los indicadores 
+	public function postEditindia()//funcion que actualiza los indicadores 
 	{    
 			
 

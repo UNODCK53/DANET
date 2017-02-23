@@ -1,26 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>vista3</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css">
-	
-	<script src="assets/js/jquery-1.11.2.js"></script>
-<!--	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
--->
-	    <script>
-	$(document).ready(function() {
-	    $('#example').dataTable();
-	} );
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-	</script>
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link href="https://nightly.datatables.net/buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+    <script src="https://nightly.datatables.net/buttons/js/dataTables.buttons.min.js"></script>
+    <script src="https://nightly.datatables.net/buttons/js/buttons.html5.min.js?2"></script>
+    <script src="https://nightly.datatables.net/buttons/js/buttons.flash.min.js"></script>
+    <meta charset=utf-8 />
 </head>
 <body>
 <div class="container">	
     <br>
-	<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	<table id="example" class="display nowrap" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Name</th>
@@ -31,7 +27,6 @@
                 <th>Salary</th>
             </tr>
         </thead>
- 
         <tfoot>
             <tr>
                 <th>Name</th>
@@ -42,7 +37,6 @@
                 <th>Salary</th>
             </tr>
         </tfoot>
- 
         <tbody>
             <tr>
                 <td>Tiger Nixon</td>
@@ -502,82 +496,41 @@
             </tr>
         </tbody>
     </table>
-    <br>
-    <label for="Proceso" class="control-label">Concepto Juridico:</label>
-    <select id="modrepogeo" class="form-control" name="modrepogeo">
-        <option value="" selected="selected">Por favor seleccione</option>
-        @foreach($arrayproini as $pro)
-            <option value="{{$pro->id_proceso}}">{{$pro->id_proceso}}</option>              
-        @endforeach
-    </select>
-    <br>
-    <label id="nombreti" for="Proceso" class="control-label">Nombre:</label>
-    <input id="modnombre" type="text" class="form-control" name="modnombre" >
+    
     
 
     
+
+</body>
+</html>
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" />
+
+
+    
 <script type="text/javascript">
- $("#modnombre").hide();
- $("#nombreti").hide();
+
     $(document).ready(function(){
-        //Ajax prueba para buscar nombre beneficiario del proceso
-        $("#modrepogeo").change(function(){
-            var datos = ($('#modrepogeo').val());
-            if (datos =="")
-            {
-                $("#modnombre").hide();
-                $("#nombreti").hide();
-            }
-            else{
-                $.ajax({
-                    url:"tierras/programajax",
-                    type:"POST",
-                    data: {valor: $('#modrepogeo').val()},
-                    dataType:'json',
-                    success:function(data){
-                        $("#modnombre").show();
-                        $("#nombreti").show();
-                        if(data[0][0].nombre==null){
-                            $('#modnombre').val('No hay dato');    
-                        }
-                        else{
-                            $('#modnombre').val(data[0][0].nombre);
-                        }
-                    },
-                    error:function(){
-                        alert('error');
-                    }
-                });
-            }
-        });
-        //Termina Ajax prueva
+
+        $('#example').dataTable({
+
+            dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+          });
+       
         
     });
 
 </script>
       
 
-</div>
-	
-	<script src="assets/js/bootstrap.js"></script>
-	<script src="assets/js/jquery.dataTables.min.js"></script>
-	<script src="assets/js/dataTables.bootstrap.js"></script>
-</body>
-</html>
-
-  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
-  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.3/esri-leaflet.js"></script>
-    <script>
-
-      var map = L.map('mapas').setView([51.505, -0.09], 13);
-
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
-
-    </script>
+    
