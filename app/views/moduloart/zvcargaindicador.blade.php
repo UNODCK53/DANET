@@ -374,7 +374,7 @@
 @section('piedepagina')
   @parent
   <script src="assets/noUiSlider.9.2.0/nouislider.min.js"></script>
-  <script src="assets/js/wNumb.js"></script>
+  <script src="assets/art/js/wNumb.js"></script>
 
 @stop
 

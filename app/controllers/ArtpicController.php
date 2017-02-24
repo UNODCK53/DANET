@@ -183,7 +183,7 @@ class ArtpicController extends BaseController {
 		    	}
 		    	
 	
-		$path = public_path().'\ART\PIC\\'.Input::get('nucleo');
+		$path = public_path().'\art\pic\\'.Input::get('nucleo');
 		// creacion de carpeta dependiendo del nombre del proceso
 		if (File::exists($path)){
 						
@@ -195,11 +195,11 @@ class ArtpicController extends BaseController {
 	
 		if(Input::hasFile('acta')) {
 
-				Input::file('acta')->move($path,'PCI_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension());
+				Input::file('acta')->move($path,'PIC_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension());
 
 	    		DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', '=', $idmaximo)->update(
 	    			array(
-	    				'acta' => $path.'\\'.'PCI_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension()
+	    				'acta' => $path.'\\'.'PIC_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension()
 	    				)
 	    			);
 	    }		
