@@ -89,6 +89,7 @@ class ArtpicController extends BaseController {
 			->select('id','nombre')
 			->orderby('nombre','asc')
 			->get();
+			$arraysubsubcate['']='Seleccione uno';
 			foreach($subsubcate as $pro)
 			{
 				$arraysubsubcate[$pro->id] = $pro->nombre;
@@ -106,7 +107,7 @@ class ArtpicController extends BaseController {
 
 
 			$arrayindipic = DB::table('MODART_PIC_PROYPRIORIZ')	
-			->select(DB::raw("concat('PCI_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,id_usuario,cod_nucleo,id_subcat,nom_proy,alcance,estado_proy,prec_estim,cofinanc,fecha_ingreso"))
+			->select(DB::raw("concat('PIC_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,id_usuario,cod_nucleo,id_subcat,nom_proy,alcance,estado_proy,prec_estim,cofinanc,fecha_ingreso"))
 			->where('id_usuario','=',Auth::user()->id)
 			->get();	
 
@@ -251,7 +252,7 @@ class ArtpicController extends BaseController {
 		$arrayproy = DB::table('MODART_PIC_PROYPRIORIZ')
 		->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_PROYPRIORIZ.cod_mpio')
 		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_PROYPRIORIZ.cod_nucleo')	
-		->select(DB::raw("concat('PCI_',MODART_PIC_PROYPRIORIZ.cod_mpio,id_proy) as ID"),'id_proy',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO_1 as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as cod_nucleo"),'id_subcat','id_usuario','nom_proy','alcance','estado_proy','prec_estim','cofinanc',DB::raw("CONVERT(VARCHAR(10),fecha_ingreso,103) as fecha_ingreso,ranking"),'MUNICIPIOS.COD_DPTO as depto','MUNICIPIOS.COD_DANE as muni','MODART_PIC_NUCLEOS.id_nucleo as nucleo')
+		->select(DB::raw("concat('PIC_',MODART_PIC_PROYPRIORIZ.cod_mpio,id_proy) as ID"),'id_proy',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO_1 as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as cod_nucleo"),'id_subcat','id_usuario','nom_proy','alcance','estado_proy','prec_estim','cofinanc',DB::raw("CONVERT(VARCHAR(10),fecha_ingreso,103) as fecha_ingreso,ranking"),'MUNICIPIOS.COD_DPTO as depto','MUNICIPIOS.COD_DANE as muni','MODART_PIC_NUCLEOS.id_nucleo as nucleo')
 		->where('MODART_PIC_PROYPRIORIZ.id_proy','=', Input::get('proy'))
 		->where('id_usuario','=',Auth::user()->id)
 		->get();	
@@ -389,7 +390,7 @@ class ArtpicController extends BaseController {
 
 	public function Excelpic()
 	{	
-		Excel::create('PCI',function($excel)
+		Excel::create('PIC',function($excel)
 		{
 			$excel->sheet('Fichas de iniciativas',function($sheet)
 			{

@@ -154,8 +154,8 @@
                         </select>     
                       </div>
                       <div class="form-group" >
-                        {{Form::label('subsubcatelable','Tratamiento:',['id'=>'subsubcatelable','class' => 'control-label','style'=>'display:none'])}}
-                        {{Form::select ('subsubcate[]', $arraysubsubcate, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'subsubcate','required'=>'true','style'=>'display:none'])}}
+                        {{Form::label('subsubcatelable','Intervención:',['id'=>'subsubcatelable','class' => 'control-label','style'=>'display:none'])}}
+                        {{Form::select ('subsubcate[]', $arraysubsubcate,'', ['class' => 'form-control', 'id'=>'subsubcate','required'=>'true','style'=>'display:none'])}}
                       </div> 
                       <div class="form-group">
                         {{Form::label('nomproylable','Nombre de la iniciativa:',['class' => 'control-label'])}}
@@ -174,7 +174,7 @@
                         {{ Form::text('fecha', Input::old('fecha'), ['class' => 'form-control', 'id'=>'datepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div> 
                       <div class="form-group">
-                        <label for="rankinglable" class="control-label">Ranking de la iniciativa:</label>
+                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
                         <div id="checkranking">
                           <input type="radio" name="ranking" value="1" required> 1
                           <input type="radio" name="ranking" value="2"> 2
@@ -185,7 +185,7 @@
                       </div>
                       <div class="form-group" >
                         {{Form::label('actalable','Adjuntar acta de priorización :',['class' => 'control-label'])}}
-                        {{ Form::file('acta', ['class' => 'form-control', 'id'=>'acta','required'=>'true','accept'=>'.pdf,image/*','placeholder'=>'ej: acta.pdf o acta.img']) }}
+                        {{ Form::file('acta', ['class' => 'form-control', 'id'=>'acta','required'=>'true','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
                       </div>
                       <div class="form-group">
                         {{Form::label('preciolable','Precio estimado PIC:',['class' => 'control-label'])}}
@@ -379,8 +379,8 @@
                         </select>     
                       </div>
                       <div class="form-group" >
-                        {{Form::label('edisubsubcatelable','Tratamiento:',['id'=>'edisubsubcatelable','class' => 'control-label'])}}
-                        {{Form::select ('edisubsubcate[]', $arraysubsubcate, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'edisubsubcate','required'=>'true'])}}
+                        {{Form::label('edisubsubcatelable','Intervención:',['id'=>'edisubsubcatelable','class' => 'control-label'])}}
+                        {{Form::select ('edisubsubcate[]', $arraysubsubcate, '', ['class' => 'form-control', 'id'=>'edisubsubcate','required'=>'true'])}}
                       </div> 
                       <div class="form-group">
                         {{Form::label('edinomproylable','Nombre de la iniciativa:',['class' => 'control-label'])}}
@@ -399,7 +399,7 @@
                         {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div>
                       <div class="form-group">
-                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa:</label>
+                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
                         <div id="edicheckranking">
                           <input type="radio" name="ediranking" value="1" required> 1
                           <input type="radio" name="ediranking" value="2"> 2
@@ -660,7 +660,7 @@
       });
 
 //##### funciones para ingresar proyecto ###########
-
+        var alerta=0;
         function fecha_change(a) {
           var today = new Date();
           var dd = today.getDate();
@@ -676,11 +676,15 @@
 
            today = dd+'/'+mm+'/'+yyyy;
           if (a.value>today || a.value<"20/02/2017"){
-            alert('La fecha seleccionada debe ser anterior al dia de hoy y despues del 20/02/2017');
+              alerta=alerta+1;
              $(a).val('');
 
           }else{
           }
+          if (alerta==2) {
+            alert('La fecha seleccionada debe ser anterior al dia de hoy y despues del 20/02/2017');
+            alerta=0;
+          };
         }
 
 
@@ -691,23 +695,33 @@
               decimals: 0,
               thousand: '.'
           });  
-          if (a.value>=1000000 && a.value<=450000000){
 
-            if ($('input[type=radio][name=radiocofin]:checked').val()==1){
-              
-              for (var i = 0; i < $('#socio').val().length; i++) {
-                var id_socio=$('#socio').val()[i];
-                var total=parseFloat(total) + parseFloat(($('#s-'+id_socio).val().replace(/[$ .]/gi,"")));
-                
-              };
-              $('#cofina').val(Format.to(Number(total)));
-              $('#cofinan').val(total);
-              $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
+          if (a.id=='precio' || a.id=='ediprecio'){
+              if (a.value>=30000000 && a.value<=450000000){
 
-            }else{}
+              }else{
+                alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
+               $(a).val('');
+             }
           }else{
-            alert('El valor debe ser mayor o igual a $1.000.000 y menor o igual a $450.000.000 millones');
-             $(a).val('');
+            if (a.value>=1000000){
+
+              if ($('input[type=radio][name=radiocofin]:checked').val()==1){
+                
+                for (var i = 0; i < $('#socio').val().length; i++) {
+                  var id_socio=$('#socio').val()[i];
+                  var total=parseFloat(total) + parseFloat(($('#s-'+id_socio).val().replace(/[$ .]/gi,"")));
+                  
+                };
+                $('#cofina').val(Format.to(Number(total)));
+                $('#cofinan').val(total);
+                $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
+
+              }else{}
+            }else{
+              alert('El valor debe ser mayor o igual a $1.000.000 millones');
+               $(a).val('');
+            }
           }
 
           if (total>450000000){
@@ -845,9 +859,10 @@
          $("#subsubcatelable").css("display","none");
         $("#subsubcate").css("display","none");
       }
-      $("#subsubcate").val([]);
+      $("#subsubcate").val("");
       var selected = $(':selected', this);
       var categoria=selected.closest('optgroup').attr('label');
+
       if (categoria=='Servicios públicos domiciliarios') {
         $("#subsubcate option[value=3]").hide();
         $("#subsubcate option[value=4]").hide();
@@ -926,7 +941,7 @@
          $("#edisubsubcatelable").css("display","none");
         $("#edisubsubcate").css("display","none");
       }
-      $("#edisubsubcate").val([]);
+      $("#edisubsubcate").val("");
       var selected = $(':selected', this);
       var categoria=selected.closest('optgroup').attr('label');
       if (categoria=='Servicios públicos domiciliarios') {
