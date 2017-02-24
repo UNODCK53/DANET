@@ -189,7 +189,7 @@
                       </div>
                       <div class="form-group">
                         {{Form::label('preciolable','Precio estimado PIC:',['class' => 'control-label'])}}
-                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'ej: $10.000.000'])}}
+                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'ej: $30.000.000'])}}
                       </div>
                       <div class="checkbox-group">
                         {{Form::label('cofinalable','La iniciativa tiene cofinanciación:',['class' => 'control-label'])}}
@@ -753,24 +753,33 @@
               decimals: 0,
               thousand: '.'
           });  
-          if (a.value>=1000000 && a.value<=450000000){
+          if (a.id=='precio' || a.id=='ediprecio'){
+              if (a.value>=30000000 && a.value<=450000000){
 
-            if ($('input[type=radio][name=ediradiocofin]:checked').val()==1){
-              
-              for (var i = 0; i < $('#edisocio').val().length; i++) {
-                var id_socio=$('#edisocio').val()[i];
-                var total=parseFloat(total) + parseFloat(($('#edis-'+id_socio).val().replace(/[$ .]/gi,"")));
-                
-              };
-              $('#edicofina').val(Format.to(Number(total)));
-              $('#edicofinan').val(total);
-              $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
-
-
-            }else{}
+              }else{
+                alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
+               $(a).val('');
+             }
           }else{
-            alert('El valor debe ser mayor a $1.000.000 y menor a $450.000.000 millones');
-             $(a).val('');
+              if (a.value>=1000000 && a.value<=450000000){
+
+                if ($('input[type=radio][name=ediradiocofin]:checked').val()==1){
+                  
+                  for (var i = 0; i < $('#edisocio').val().length; i++) {
+                    var id_socio=$('#edisocio').val()[i];
+                    var total=parseFloat(total) + parseFloat(($('#edis-'+id_socio).val().replace(/[$ .]/gi,"")));
+                    
+                  };
+                  $('#edicofina').val(Format.to(Number(total)));
+                  $('#edicofinan').val(total);
+                  $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
+
+
+                }else{}
+              }else{
+                alert('El valor debe ser mayor a $1.000.000 y menor a $450.000.000 millones');
+                 $(a).val('');
+              }
           }
 
           if (total>450000000){
