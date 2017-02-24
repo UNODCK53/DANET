@@ -174,7 +174,7 @@
                         {{ Form::text('fecha', Input::old('fecha'), ['class' => 'form-control', 'id'=>'datepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div> 
                       <div class="form-group">
-                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy alto y 10 muy bajo</label>
+                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto y 10 muy bajo</label>
                         <div id="checkranking">
                           <input type="radio" name="ranking" value="1" required> 1
                           <input type="radio" name="ranking" value="2"> 2
@@ -404,13 +404,18 @@
                         {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div>
                       <div class="form-group">
-                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
+                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
                         <div id="edicheckranking">
                           <input type="radio" name="ediranking" value="1" required> 1
                           <input type="radio" name="ediranking" value="2"> 2
                           <input type="radio" name="ediranking" value="3"> 3
                           <input type="radio" name="ediranking" value="4"> 4
                           <input type="radio" name="ediranking" value="5"> 5
+                          <input type="radio" name="ediranking" value="6"> 6
+                          <input type="radio" name="ediranking" value="7"> 7
+                          <input type="radio" name="ediranking" value="8"> 8
+                          <input type="radio" name="ediranking" value="9"> 9
+                          <input type="radio" name="ediranking" value="10"> 10
                         </div>
                       </div>
                       <div class="form-group">
@@ -687,7 +692,7 @@
           }else{
           }
           if (alerta==2) {
-            alert('La fecha seleccionada debe ser anterior al dia de hoy y despues del 20/02/2017');
+            alert('Debe seleccionar una fecha entre el 20/02/2017 y el día de hoy');
             alerta=0;
           };
         }
@@ -703,7 +708,19 @@
 
           if (a.id=='precio' || a.id=='ediprecio'){
               if (a.value>=30000000 && a.value<=450000000){
+                  if ($('input[type=radio][name=radiocofin]:checked').val()==1){
+                    for (var i = 0; i < $('#socio').val().length; i++) {
+                      var id_socio=$('#socio').val()[i];
+                      var total=parseFloat(total) + parseFloat(($('#s-'+id_socio).val().replace(/[$ .]/gi,"")));
+                      
+                    };
+                    $('#cofinan').val(total);
+                    $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
 
+                  }else{
+                    $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
+                  }
+                  $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
               }else{
                 alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
                $(a).val('');
@@ -758,13 +775,25 @@
               decimals: 0,
               thousand: '.'
           });  
-          if (a.id=='precio' || a.id=='ediprecio'){
+          if (a.id=='ediprecio' || a.id=='ediprecio'){
               if (a.value>=30000000 && a.value<=450000000){
+                  if ($('input[type=radio][name=ediradiocofin]:checked').val()==1){
+                    for (var i = 0; i < $('#edisocio').val().length; i++) {
+                      var id_socio=$('#edisocio').val()[i];
+                      var total=parseFloat(total) + parseFloat(($('#edis-'+id_socio).val().replace(/[$ .]/gi,"")));
+                      
+                    };
+                    $('#edicofinan').val(total);
+                    $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
 
-              }else{
-                alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
-               $(a).val('');
-             }
+                  }else{
+                    $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
+                  }
+                  $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
+                  }else{
+                      alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
+                     $(a).val('');
+                   }
           }else{
               if (a.value>=1000000 && a.value<=450000000){
 

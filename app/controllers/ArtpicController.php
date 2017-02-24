@@ -109,6 +109,7 @@ class ArtpicController extends BaseController {
 			$arrayindipic = DB::table('MODART_PIC_PROYPRIORIZ')	
 			->select(DB::raw("concat('PIC_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,id_usuario,cod_nucleo,id_subcat,nom_proy,alcance,estado_proy,prec_estim,cofinanc,fecha_ingreso"))
 			->where('id_usuario','=',Auth::user()->id)
+			->orderby('id_proy','desc')
 			->get();	
 
 
@@ -395,7 +396,7 @@ class ArtpicController extends BaseController {
 			$excel->sheet('Fichas de iniciativas',function($sheet)
 			{
 				$data = array();
-				$results = DB::select("SELECT concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, fecha_ingreso, ranking,cofinanc as Valor_cofinanciado FROM MODART_PIC_PROYPRIORIZ join MUNICIPIOS on MUNICIPIOS.COD_DANE=MODART_PIC_PROYPRIORIZ.cod_mpio join users on users.id=MODART_PIC_PROYPRIORIZ.id_usuario join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id=MODART_PIC_PROYPRIORIZ.id_subcat join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo=MODART_PIC_PROYPRIORIZ.cod_nucleo join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id=MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id);
+				$results = DB::select("SELECT concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, fecha_ingreso as Fecha_priorización, ranking,cofinanc as Valor_cofinanciado FROM MODART_PIC_PROYPRIORIZ join MUNICIPIOS on MUNICIPIOS.COD_DANE=MODART_PIC_PROYPRIORIZ.cod_mpio join users on users.id=MODART_PIC_PROYPRIORIZ.id_usuario join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id=MODART_PIC_PROYPRIORIZ.id_subcat join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo=MODART_PIC_PROYPRIORIZ.cod_nucleo join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id=MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id);
 				foreach ($results as $result) {
 				$data[] = (array)$result;
 				}  	
