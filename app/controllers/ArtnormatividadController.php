@@ -173,7 +173,6 @@ class ArtnormatividadController extends BaseController {
 					->select(DB::RAW('MODART_NORM_NORMAS.id,pto_acu,norma, MODART_NORM_RESPONSABLE.nombre as responsable, MODART_NORM_TIPO.nombre as tipo,id_semafo,LEFT(fecha_gob,11) as fecha_gob, MODART_NORM_CONSULTAPREV.nombre as id_consprev,obs'))
 					->where('MODART_NORM_NORMAS.id','=',Input::get('norma'))							
 					->get();
-
 		return $norma;
 	}
 
@@ -187,24 +186,20 @@ class ArtnormatividadController extends BaseController {
 
 		$consulta = DB::table('MODART_NORM_NORMASCORTE')					
 					->select(DB::RAW('fecha_corte'))
-					->where('fecha_corte','=',Input::get('fecha_corte'))							
-					->get();
+					->where('fecha_corte','=',Input::get('fecha_corte_consulta'))							
+					->get();		
 
-		if($consulta==0){
-			$insert=DB::statement("INSERT INTO MODART_NORM_NORMASCORTE SELECT [id],[pto_acu],[norma],[id_res],[id_tipo],[tab_encons],[tab_prodjud],[tab_ajus],[tab_ultrev],[tab_hacie],[tab_expe],[tab_congre],[tab_firma],[tab_sancpres],[id_semafo],[fecha_gob],[id_consprev],[id_social],[fecha_soci],[id_hacien],[id_avalfis],[obs],[borrado],[tab_csivi],[tab_inte],[fecha_corte] FROM MODART_NORM_NORMAS");
-		} else {
+		if(count($consulta)>0){
 			$insert=0;
+		} else {
+			$insert=DB::statement("INSERT INTO MODART_NORM_NORMASCORTE SELECT [id],[pto_acu],[norma],[id_res],[id_tipo],[tab_encons],[tab_prodjud],[tab_ajus],[tab_ultrev],[tab_hacie],[tab_expe],[tab_congre],[tab_firma],[tab_sancpres],[id_semafo],[fecha_gob],[id_consprev],[id_social],[fecha_soci],[id_hacien],[id_avalfis],[obs],[borrado],[tab_csivi],[tab_inte],[fecha_corte] FROM MODART_NORM_NORMAS");			
 		}
-
-		
 
 		if($insert>0){
 			return Redirect::to('normcarganorma')->with('status', 'ok_estatus_corte'); 
 		} else {
 			return Redirect::to('normcarganorma')->with('status', 'error_estatus_corte'); 
 		}
-		
-
 	}
 }
 ?>

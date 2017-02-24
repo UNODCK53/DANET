@@ -426,6 +426,7 @@
                   <br><br>
                   <b><i id="fecha_corte_texto"></i></b> 
                   <input type="text" id="fecha_corte" name="fecha_corte" class="form-control" style="display: none">
+                  <input type="text" id="fecha_corte_consulta" name="fecha_corte_consulta" class="form-control" style="display: none">
                   </div>
                   <div class="modal-footer" style="margin-bottom: 5px">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -481,9 +482,12 @@
               mm='0'+mm
           }
           today = yyyy+'-'+dd+'-'+mm;
+          today2 = dd+'/'+mm+'/'+yyyy;
           $('#fecha_corte').val(today);
           $('#fecha_corte_texto').html(today);
           $('#fecha_corte_mensaje').html(today);
+          $('#fecha_corte_consulta').val(today2);
+          console.log(today2)
       });
 
       $('#datepicker').datepicker({

@@ -154,8 +154,8 @@
                         </select>     
                       </div>
                       <div class="form-group" >
-                        {{Form::label('subsubcatelable','Tratamiento:',['id'=>'subsubcatelable','class' => 'control-label','style'=>'display:none'])}}
-                        {{Form::select ('subsubcate[]', $arraysubsubcate, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'subsubcate','required'=>'true','style'=>'display:none'])}}
+                        {{Form::label('subsubcatelable','Intervención:',['id'=>'subsubcatelable','class' => 'control-label','style'=>'display:none'])}}
+                        {{Form::select ('subsubcate[]', $arraysubsubcate,'', ['class' => 'form-control', 'id'=>'subsubcate','required'=>'true','style'=>'display:none'])}}
                       </div> 
                       <div class="form-group">
                         {{Form::label('nomproylable','Nombre de la iniciativa:',['class' => 'control-label'])}}
@@ -174,22 +174,27 @@
                         {{ Form::text('fecha', Input::old('fecha'), ['class' => 'form-control', 'id'=>'datepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div> 
                       <div class="form-group">
-                        <label for="rankinglable" class="control-label">Ranking de la iniciativa:</label>
+                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy alto y 10 muy bajo</label>
                         <div id="checkranking">
                           <input type="radio" name="ranking" value="1" required> 1
                           <input type="radio" name="ranking" value="2"> 2
                           <input type="radio" name="ranking" value="3"> 3
                           <input type="radio" name="ranking" value="4"> 4
                           <input type="radio" name="ranking" value="5"> 5
+                          <input type="radio" name="ranking" value="6"> 6
+                          <input type="radio" name="ranking" value="7"> 7
+                          <input type="radio" name="ranking" value="8"> 8
+                          <input type="radio" name="ranking" value="9"> 9
+                          <input type="radio" name="ranking" value="10"> 10
                         </div>
                       </div>
                       <div class="form-group" >
                         {{Form::label('actalable','Adjuntar acta de priorización :',['class' => 'control-label'])}}
-                        {{ Form::file('acta', ['class' => 'form-control', 'id'=>'acta','required'=>'true','accept'=>'.pdf,image/*','placeholder'=>'ej: acta.pdf o acta.img']) }}
+                        {{ Form::file('acta', ['class' => 'form-control', 'id'=>'acta','required'=>'true','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
                       </div>
                       <div class="form-group">
                         {{Form::label('preciolable','Precio estimado PIC:',['class' => 'control-label'])}}
-                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'ej: $10.000.000'])}}
+                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'ej: $30.000.000'])}}
                       </div>
                       <div class="checkbox-group">
                         {{Form::label('cofinalable','La iniciativa tiene cofinanciación:',['class' => 'control-label'])}}
@@ -379,8 +384,8 @@
                         </select>     
                       </div>
                       <div class="form-group" >
-                        {{Form::label('edisubsubcatelable','Tratamiento:',['id'=>'edisubsubcatelable','class' => 'control-label'])}}
-                        {{Form::select ('edisubsubcate[]', $arraysubsubcate, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'edisubsubcate','required'=>'true'])}}
+                        {{Form::label('edisubsubcatelable','Intervención:',['id'=>'edisubsubcatelable','class' => 'control-label'])}}
+                        {{Form::select ('edisubsubcate[]', $arraysubsubcate, '', ['class' => 'form-control', 'id'=>'edisubsubcate','required'=>'true'])}}
                       </div> 
                       <div class="form-group">
                         {{Form::label('edinomproylable','Nombre de la iniciativa:',['class' => 'control-label'])}}
@@ -396,10 +401,10 @@
                       </div>
                       <div class="form-group" >
                         {{Form::label('edifechalable','Fecha de taller de priorización de la iniciativa:',['class' => 'control-label'])}}
-                        {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchanhe'=>'fecha_change(this)']) }}
+                        {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div>
                       <div class="form-group">
-                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa:</label>
+                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
                         <div id="edicheckranking">
                           <input type="radio" name="ediranking" value="1" required> 1
                           <input type="radio" name="ediranking" value="2"> 2
@@ -656,16 +661,11 @@
             autoclose: true
           });//Termina datepicker 
 
-          table=$('#tabla_proyectos').DataTable({
-              dom: 'Bfrtip',
-              buttons: [
-                  'excel'
-              ]
-          });
+          table=$('#tabla_proyectos').DataTable();
       });
 
 //##### funciones para ingresar proyecto ###########
-
+        var alerta=0;
         function fecha_change(a) {
           var today = new Date();
           var dd = today.getDate();
@@ -681,38 +681,52 @@
 
            today = dd+'/'+mm+'/'+yyyy;
           if (a.value>today || a.value<"20/02/2017"){
-            alert('La fecha elegida es superior a hoy o antes del 20/02/2017');
+              alerta=alerta+1;
              $(a).val('');
 
           }else{
           }
+          if (alerta==2) {
+            alert('La fecha seleccionada debe ser anterior al dia de hoy y despues del 20/02/2017');
+            alerta=0;
+          };
         }
 
 
         function precio_change(a) {
           var total=0;
-           Format = wNumb({
+           var Format = wNumb({
               prefix: '$ ',
               decimals: 0,
               thousand: '.'
           });  
-          if (a.value>=1000000 && a.value<=450000000){
 
-            if ($('input[type=radio][name=radiocofin]:checked').val()==1){
-              
-              for (var i = 0; i < $('#socio').val().length; i++) {
-                var id_socio=$('#socio').val()[i];
-                var total=parseFloat(total) + parseFloat(($('#s-'+id_socio).val().replace(/[$ .]/gi,"")));
-                
-              };
-              $('#cofina').val(Format.to(Number(total)));
-              $('#cofinan').val(total);
-              $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
+          if (a.id=='precio' || a.id=='ediprecio'){
+              if (a.value>=30000000 && a.value<=450000000){
 
-            }else{}
+              }else{
+                alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
+               $(a).val('');
+             }
           }else{
-            alert('El valor debe ser mayor o igual a $1.000.000 y menor o igual a $450.000.000 millones');
-             $(a).val('');
+            if (a.value>=1000000){
+
+              if ($('input[type=radio][name=radiocofin]:checked').val()==1){
+                
+                for (var i = 0; i < $('#socio').val().length; i++) {
+                  var id_socio=$('#socio').val()[i];
+                  var total=parseFloat(total) + parseFloat(($('#s-'+id_socio).val().replace(/[$ .]/gi,"")));
+                  
+                };
+                $('#cofina').val(Format.to(Number(total)));
+                $('#cofinan').val(total);
+                $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
+
+              }else{}
+            }else{
+              alert('El valor debe ser mayor o igual a $1.000.000 millones');
+               $(a).val('');
+            }
           }
 
           if (total>450000000){
@@ -739,29 +753,38 @@
 
         function precio_change2(a) {
           var total=0;  
-          Format = wNumb({
+          var Format = wNumb({
               prefix: '$ ',
               decimals: 0,
               thousand: '.'
           });  
-          if (a.value>=1000000 && a.value<=450000000){
+          if (a.id=='precio' || a.id=='ediprecio'){
+              if (a.value>=30000000 && a.value<=450000000){
 
-            if ($('input[type=radio][name=ediradiocofin]:checked').val()==1){
-              
-              for (var i = 0; i < $('#edisocio').val().length; i++) {
-                var id_socio=$('#edisocio').val()[i];
-                var total=parseFloat(total) + parseFloat(($('#edis-'+id_socio).val().replace(/[$ .]/gi,"")));
-                
-              };
-              $('#edicofina').val(Format.to(Number(total)));
-              $('#edicofinan').val(total);
-              $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
-
-
-            }else{}
+              }else{
+                alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
+               $(a).val('');
+             }
           }else{
-            alert('El valor debe ser mayo a $1.000.000 y menor a $450.000.000 millones');
-             $(a).val('');
+              if (a.value>=1000000 && a.value<=450000000){
+
+                if ($('input[type=radio][name=ediradiocofin]:checked').val()==1){
+                  
+                  for (var i = 0; i < $('#edisocio').val().length; i++) {
+                    var id_socio=$('#edisocio').val()[i];
+                    var total=parseFloat(total) + parseFloat(($('#edis-'+id_socio).val().replace(/[$ .]/gi,"")));
+                    
+                  };
+                  $('#edicofina').val(Format.to(Number(total)));
+                  $('#edicofinan').val(total);
+                  $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
+
+
+                }else{}
+              }else{
+                alert('El valor debe ser mayor a $1.000.000 y menor a $450.000.000 millones');
+                 $(a).val('');
+              }
           }
 
           if (total>450000000){
@@ -850,9 +873,10 @@
          $("#subsubcatelable").css("display","none");
         $("#subsubcate").css("display","none");
       }
-      $("#subsubcate").val([]);
+      $("#subsubcate").val("");
       var selected = $(':selected', this);
       var categoria=selected.closest('optgroup').attr('label');
+
       if (categoria=='Servicios públicos domiciliarios') {
         $("#subsubcate option[value=3]").hide();
         $("#subsubcate option[value=4]").hide();
@@ -886,6 +910,11 @@
 
     $("#socio").change(function(){
         var total=0;
+        var Format = wNumb({
+              prefix: '$ ',
+              decimals: 0,
+              thousand: '.'
+          });
         $('[id^=div-]').css("display","none");
         $('[id^=s-]').prop('required',false);
         $('#div-cofina').css("display","none");
@@ -913,8 +942,6 @@
           $("#s-"+id_socio).val("");
         }
 
-
-      
     });
 //##### termina funciones para ingresar proyecto ###########
 
@@ -928,7 +955,7 @@
          $("#edisubsubcatelable").css("display","none");
         $("#edisubsubcate").css("display","none");
       }
-      $("#edisubsubcate").val([]);
+      $("#edisubsubcate").val("");
       var selected = $(':selected', this);
       var categoria=selected.closest('optgroup').attr('label');
       if (categoria=='Servicios públicos domiciliarios') {
@@ -964,6 +991,11 @@
 
     $("#edisocio").change(function(){
         var total=0;
+        var Format = wNumb({
+              prefix: '$ ',
+              decimals: 0,
+              thousand: '.'
+          });
         $('[id^=edidiv-]').css("display","none");
         $('[id^=edis-]').prop('required',false);
         $('#edidiv-cofina').css("display","none");
@@ -997,7 +1029,11 @@
 
 
     $('#tabla_proyectos tbody').on('click', 'tr', function () {
-
+            var Format = wNumb({
+              prefix: '$ ',
+              decimals: 0,
+              thousand: '.'
+          }); 
             if ( $(this).hasClass('active') ) {
               $(this).removeClass('active');
               $("#btnedipro").prop('disabled', true);
@@ -1052,12 +1088,12 @@
                     $("#edialcance").val(data['arrayproy'][0].alcance);
 
                     $("#ediestado").val(data['arrayproy'][0].estado_proy);
-                    $("#ediprecio").val(data['arrayproy'][0].prec_estim);
+                    $("#ediprecio").val(Format.to(Number(data['arrayproy'][0].prec_estim)));
                     
                     if (data['arrayproy'][0].cofinanc>0){
                       $('input:radio[name="ediradiocofin"]').filter('[value=1]').attr('checked', true);
                       $("#edidiv-cofina").css("display","block");
-                      $("#edicofina").val(data['arrayproy'][0].cofinanc);
+                      $("#edicofina").val(Format.to(Number(data['arrayproy'][0].cofinanc)));
                       $("#edisociolable").css("display","block");
                       $("#edisocio").css("display","block");
                       var socio = [];
@@ -1069,7 +1105,7 @@
                       $('#edisocio').val(socio);
                       for (var i = 0; i < socio.length; i++) {
                         $("#edidiv-"+socio[i]).css("display","block");
-                        $("#edis-"+socio[i]).val(socio_valor[i]);
+                        $("#edis-"+socio[i]).val(Format.to(Number(socio_valor[i])));
                         if (socio[i]==25) {
                           $("#ediotro").val(data['arraysociootro']);
                           $("#edidivotro").css("display","block");
@@ -1080,7 +1116,7 @@
                         };
                          $("#edidivcofi_preci").css("display","block");
                       };
-                     $("#edicofi_preci").val(parseFloat($("#ediprecio").val())+parseFloat($("#edicofina").val()));
+                     $("#edicofi_preci").val(Format.to(Number(parseFloat($("#ediprecio").val().replace(/[$ .]/gi,""))+parseFloat($("#edicofina").val().replace(/[$ .]/gi,"")))));
                     }else{
                       $('input:radio[name="ediradiocofin"]').filter('[value=2]').attr('checked', true);
                       $("#edidiv-cofina").css("display","none");

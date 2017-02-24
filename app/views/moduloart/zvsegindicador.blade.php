@@ -161,7 +161,7 @@
 <!--el pie de pagina o barra gris de abajo-->
 @section('piedepagina')
   @parent
-  <script src="assets/js/wNumb.js"></script>
+  <script src="assets/art/js/wNumb.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
 @stop
