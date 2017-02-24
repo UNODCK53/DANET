@@ -174,13 +174,18 @@
                         {{ Form::text('fecha', Input::old('fecha'), ['class' => 'form-control', 'id'=>'datepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div> 
                       <div class="form-group">
-                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
+                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor segúnla matriz de priorización del acta):<br/> 1 muy alto y 10 muy bajo</label>
                         <div id="checkranking">
                           <input type="radio" name="ranking" value="1" required> 1
                           <input type="radio" name="ranking" value="2"> 2
                           <input type="radio" name="ranking" value="3"> 3
                           <input type="radio" name="ranking" value="4"> 4
                           <input type="radio" name="ranking" value="5"> 5
+                          <input type="radio" name="ranking" value="6"> 6
+                          <input type="radio" name="ranking" value="7"> 7
+                          <input type="radio" name="ranking" value="8"> 8
+                          <input type="radio" name="ranking" value="9"> 9
+                          <input type="radio" name="ranking" value="10"> 10
                         </div>
                       </div>
                       <div class="form-group" >
