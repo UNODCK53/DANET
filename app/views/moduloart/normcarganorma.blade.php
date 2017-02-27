@@ -37,7 +37,7 @@
       <div class="col-sm-1"></div>
         <div class="col-sm-10">    
         <!--aca se escribe el codigo-->
-        <h2 class="text-center text-primary">Normatividad</h2>
+        <h2 class="text-center text-primary">Producción Normativa</h2>
         <br>
         <p class="lead text-justify">A continuación se presenta el avance de las normas que se están desarrollando para la implementación del acuerdo.</p>
         <div class="row">
@@ -330,14 +330,27 @@
                   <option value="2">No</option>                                    
                 </select>
                 </div>
+                <div id="paso5" style="display: none">
+                5. Por definir expedición
+                <select id="tab_defexp" name="tab_defexp" class="form-control" onchange="validacion(this)">
+                  <option value="1">Si</option>
+                  <option value="2">No</option>                                                     
+                </select>
+                </div>
                 <div id="etapa2" style="display: none">
-                  5. CSIVI
+                  6. CSIVI
                   <select id="tab_csivi" name="tab_csivi" class="form-control">
                     <option value="1">Si</option>
                     <option value="2">No</option>                                     
                   </select>
-                  6. Hacienda
+                  7. Hacienda
                   <select id="tab_hacie" name="tab_hacie" class="form-control">
+                    <option value="1">Si</option>
+                    <option value="2">No</option>
+                    <option value="3">Na</option>                  
+                  </select>
+                  8. Socialización
+                  <select id="tab_social" name="tab_social" class="form-control">
                     <option value="1">Si</option>
                     <option value="2">No</option>
                     <option value="3">Na</option>                  
@@ -351,25 +364,25 @@
                     <option value="3" style="display: none">Na</option>                    
                   </select>
                   </div>-->
-                  7. Expedido
+                  8. Expedido
                   <select id="tab_expe" name="tab_expe" class="form-control">
                     <option value="1">Si</option>
                     <option value="2">No</option>
                     <option value="3">Na</option>                  
                   </select>
-                  8. Congreso
+                  9. Congreso
                   <select id="tab_congre" name="tab_congre" class="form-control">
                     <option value="1">Si</option>
                     <option value="2">No</option>
                     <option value="3">Na</option>                  
                   </select>
-                  9. Firmas
+                  10. Firmas
                   <select id="tab_firma" name="tab_firma" class="form-control">
                     <option value="1">Si</option>
                     <option value="2">No</option>
                     <option value="3">Na</option>                  
                   </select>
-                  10. Sanción Presidencial
+                  11. Sanción Presidencial
                   <select id="tab_sancpres" name="tab_sancpres" class="form-control">
                     <option value="1">Si</option>
                     <option value="2">No</option>
@@ -486,8 +499,7 @@
           $('#fecha_corte').val(today);
           $('#fecha_corte_texto').html(today);
           $('#fecha_corte_mensaje').html(today);
-          $('#fecha_corte_consulta').val(today2);
-          console.log(today2)
+          $('#fecha_corte_consulta').val(today2);          
       });
 
       $('#datepicker').datepicker({
@@ -522,6 +534,7 @@
             //var num=10;
             $("#paso3").css('display','none')
             $("#paso4").css('display','none')
+            $("#paso5").css('display','none')
             $("#etapa2").css('display','none')
             $.ajax({
                 url:"artnormatividad/consulta-editar",
@@ -557,12 +570,30 @@
                     }
                     $("#tab_ultrev").val(data[0].tab_ultrev);
                     if(data[0].tab_ultrev==1){
+                      $("#paso5").css('display','block');
+                    } else {
+                      $("#paso5").css('display','none');
+                    }
+                    $("#tab_defexp").val(data[0].tab_defexp);
+                    if(data[0].tab_ultrev==1){
+                      $("#paso5").css('display','block');
+                    } else {
+                      $("#paso5").css('display','none');
+                    }
+                    $("#tab_defexp").val(data[0].tab_defexp);
+                    if(data[0].tab_defexp==1){
+                      $("#etapa2").css('display','block');
+                    } else {
+                      $("#etapa2").css('display','none');
+                    }
+                    if(data[0].tab_defexp==1){
                       $("#etapa2").css('display','block');
                     } else {
                       $("#etapa2").css('display','none');
                     }
                     $("#tab_csivi").val(data[0].tab_csivi);
-                    $("#tab_hacie").val(data[0].tab_hacie);                    
+                    $("#tab_hacie").val(data[0].tab_hacie);
+                    $("#tab_social").val(data[0].tab_social);                    
                     /*$("#tab_inte").val(data[0].tab_inte);
                     if(data[0].tab_inte==3){
                       $("#paso6b").css('display','none');
@@ -591,6 +622,7 @@
       if(name=="tab_prodjud" && val=="2"){
         $("#paso3").css('display','none')
         $("#paso4").css('display','none')
+        $("#paso5").css('display','none')
         $("#etapa2").css('display','none')
       }
       if(name=="tab_ajus" && val=="1"){
@@ -601,11 +633,17 @@
         $("#etapa2").css('display','none')
       }
       if(name=="tab_ultrev" && val=="1"){
-        $("#etapa2").css('display','block')
+        $("#paso5").css('display','block')
       }
       if(name=="tab_ultrev" && val=="2"){
+        $("#paso5").css('display','none')
+      }
+      if(name=="tab_defexp" && val=="1"){
+        $("#etapa2").css('display','block')
+      }
+      if(name=="tab_defexp" && val=="2"){
         $("#etapa2").css('display','none')
-      }      
+      }         
     }
 
     </script>    

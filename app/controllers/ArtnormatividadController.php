@@ -32,12 +32,9 @@ class ArtnormatividadController extends BaseController {
 		return View::make('moduloart/normcarganorma', array('array' => $array));
 	}
 
-	public function postCargarNorma(){
+	public function postCargarNorma(){		
 		
-		/*$obs=Input::get('obs');
-		if($obs==NULL){
-			$obs="No tiene";
-		}*/
+		$fecha = date("Y-d-m H:i:s");		
 		if(Input::get('id_consprev')=='1'){
 			$cv=2;
 		} elseif(Input::get('id_consprev')=='2'){
@@ -50,7 +47,8 @@ class ArtnormatividadController extends BaseController {
 		//Insertar inrformacion inicial		
 		$insert= DB::table('MODART_NORM_NORMAS')->insert(
 		    	array(
-		    		//'id_usuario' => Auth::user()->id,		    		
+		    		'id_uscrea' => Auth::user()->id,
+		    		'id_usedita' => Auth::user()->id,		    		
 		    		'pto_acu' => Input::get('pto_acu'),		    		
 		    		'norma' => Input::get('norma'),
 		    		'id_res' => Input::get('id_res'),
@@ -61,8 +59,8 @@ class ArtnormatividadController extends BaseController {
 		    		'tab_encons' => "1",
 		    		'tab_inte' => $cv,
 		    		'obs' => Input::get('obs'),
-		    		//'created_at' => $fecha,
-	    			//'updated_at' => $fecha
+		    		'created_at' => $fecha,
+	    			'updated_at' => $fecha
 		    	)
 		);
 
@@ -77,7 +75,7 @@ class ArtnormatividadController extends BaseController {
 	public function postConsultaEditar(){
 
 		$norma = DB::table('MODART_NORM_NORMAS')							
-							->select(DB::RAW('id,pto_acu,norma, id_res, id_tipo,id_semafo,id_consprev,obs,tab_encons,tab_prodjud,tab_ajus,tab_ultrev,tab_csivi,tab_hacie,tab_inte,tab_expe,tab_congre,tab_firma,tab_sancpres'))
+							->select(DB::RAW('id,pto_acu,norma, id_res, id_tipo,id_semafo,id_consprev,obs,tab_encons,tab_prodjud,tab_ajus,tab_ultrev,tab_defexp,tab_csivi,tab_hacie,tab_social,tab_inte,tab_expe,tab_congre,tab_firma,tab_sancpres'))
 							->where('id','=',Input::get('norma'))							
 							->get();
 
@@ -85,6 +83,10 @@ class ArtnormatividadController extends BaseController {
 	}
 
 	public function postEditarNorma(){
+		
+		$fecha = date("Y-d-m H:i:s");
+		$id=1;
+
 		if(Input::get('id_consprev_edit')=='1'){
 			$cv=2;
 		} elseif(Input::get('id_consprev_edit')=='2'){
@@ -95,7 +97,8 @@ class ArtnormatividadController extends BaseController {
 			$cv=3;
 		}		
 		$insert=DB::table('MODART_NORM_NORMAS')->where('id',Input::get('id_editar'))->update(
-	    	array(		    				    		
+	    	array(
+	    		'id_usedita' => Auth::user()->id,
 	    		'pto_acu' =>  Input::get('pto_acu-edit'),
 	    		'norma' =>  Input::get('norma-edit'),
 	    		'id_res' =>  Input::get('id_res_edit'),
@@ -103,7 +106,8 @@ class ArtnormatividadController extends BaseController {
 	    		'id_semafo' =>  Input::get('id_semafo_edit'),
 	    		'id_consprev' => Input::get('id_consprev_edit'),
 	    		'tab_inte' => $cv,
-	    		'obs' =>  Input::get('obs_edit'),	    		
+	    		'obs' =>  Input::get('obs_edit'),
+	    		'updated_at' => $fecha	    		
 	    	)
 		);
 				
@@ -117,18 +121,23 @@ class ArtnormatividadController extends BaseController {
 
 	public function postEditarTablero(){
 
+		$fecha = date("Y-d-m H:i:s");
+
 		$insert=DB::table('MODART_NORM_NORMAS')->where('id',Input::get('id_editar_tablero'))->update(
 		    	array(		    				    		
 		    		'tab_encons' =>  "1",
 		    		'tab_prodjud' =>  Input::get('tab_prodjud'),
 		    		'tab_ajus' =>  Input::get('tab_ajus'),
 		    		'tab_ultrev' =>  Input::get('tab_ultrev'),
+		    		'tab_defexp' =>  Input::get('tab_defexp'),
 		    		'tab_csivi' =>  Input::get('tab_csivi'),
-		    		'tab_hacie' =>  Input::get('tab_hacie'),		    		
+		    		'tab_hacie' =>  Input::get('tab_hacie'),
+		    		'tab_social' =>  Input::get('tab_social'),		    		
 		    		'tab_expe' =>  Input::get('tab_expe'),
 		    		'tab_congre' =>  Input::get('tab_congre'),
 		    		'tab_firma' =>  Input::get('tab_firma'),
-		    		'tab_sancpres' =>  Input::get('tab_sancpres'),	    		
+		    		'tab_sancpres' =>  Input::get('tab_sancpres'),
+		    		'updated_at' => $fecha		    		
 		    	)
 			);		
 
@@ -141,9 +150,12 @@ class ArtnormatividadController extends BaseController {
 
 	public function postBorrarNorma(){
 
+		$fecha = date("Y-m-d H:i:s");
+
 		$insert=DB::table('MODART_NORM_NORMAS')->where('id',Input::get('id_borrar'))->update(
 		    	array(		    				    		
-		    		'borrado' =>  1,		    		
+		    		'borrado' =>  1,
+		    		'updated_at' => $fecha			    		
 		    	)
 			);		
 
@@ -158,7 +170,7 @@ class ArtnormatividadController extends BaseController {
 	public function consultanorma(){
 		
 		$normas = DB::table('MODART_NORM_NORMAS')							
-							->select(DB::RAW('id,norma, tab_encons, tab_prodjud, tab_ajus, tab_ultrev, tab_csivi,tab_hacie,tab_inte,tab_expe,tab_congre,tab_firma,tab_sancpres '))
+							->select(DB::RAW('id,norma, tab_encons, tab_prodjud, tab_ajus, tab_ultrev,tab_defexp, tab_csivi,tab_hacie,tab_social,tab_inte,tab_expe,tab_congre,tab_firma,tab_sancpres '))
 							->where('borrado','=','0')							
 							->get();
 

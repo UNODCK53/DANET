@@ -22,7 +22,6 @@
 @section('contenedorgeneral1')
   @parent
 <?php $acc=(Session::get('acc')); ?>
-<?php $accp=(Session::get('accp')); ?>
 <?php
 //variables menú Tierras
 $menucongral=false;$menuestadoproc=false;$menurepnumpro=false;$menureplevtopo=false;$menureparealev=false;$menureprespjuri=false;$menurepgenero=false;$menureptiempo=false;
@@ -108,6 +107,7 @@ $menuguardaun=false;
       @endif      
     </div>
   </div>
+  @if(Auth::user()->grupo!="10")
   <!--Div bienvenida DANET-->
   <div class="container" id="sha">
     <div class="row">
@@ -117,7 +117,7 @@ $menuguardaun=false;
         <br>
         <h2 class="text-center text-primary">Bienvenido al espacio web de Desarrollo Alternativo</h2>
         <br>
-        <p class="lead text-justify">El DANET es un espacio diseñado para la transferencia de información y apoyo a los proyectos de Desarrollo Alternativo. Sirve como sistema de gestión y permite tener indicadores de la información. Gracias a esto, usted tiene acceso a:</p>
+        <p class="lead text-justify">Este es un espacio diseñado para la transferencia de información y apoyo a los proyectos de Desarrollo Alternativo y sus aliados estratégicos. Sirve como sistema de gestión y permite tener indicadores de la información. Gracias a esto, usted tiene acceso a:</p>
         <address>
         @if(($menugmevalcert) || ($menugmemetodologia) || ($menugmedisterradi) || ($menugmeinformes))
         <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> GME</ul><h4>
@@ -129,6 +129,9 @@ $menuguardaun=false;
         @if(($menucarguedocu) || ($menuconsuldocu) || ($menurepordocu))
         <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Módulo de documentos</ul></h4>
         @endif
+        @if(($menuartcargaeditarnorma)||($menuarttableronorma))
+        <h4><ul class=" text-justify" ><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:#337ab7"></span> Producción Normativa </ul></h4>
+        @endif
         </address>
         <br>
       </div>
@@ -136,6 +139,7 @@ $menuguardaun=false;
     </div>
   </div> 
   <!--fin div bienvenida-->
+  @endif
   <br>
   @if(($menugmevalcert) || ($menugmemetodologia) || ($menugmedisterradi) || ($menugmeinformes))
   <div class="container" id="sha">
@@ -207,6 +211,40 @@ $menuguardaun=false;
       <blockquote>
         <p class="text-justify"><strong>*</strong>La informalidad en la tenencia de tierras, la presencia de actores armados ilegales, los cultivos ilícitos, la producción, comercialización y consumo de drogas ilícitas, la inequidad en la distribución y uso del suelo, las expectativas del dinero fácil, el desplazamiento masivo, la falta de vías de acceso y la minería ilegal, entre otros, son factores que han intensificado la precaria situación de los pobladores rurales.</p>
       </blockquote>
+  </div>
+  @endif
+  <br><!--Agregar al penúltimo div para el salto contenedores-->
+  @if(($menuartcargaeditarnorma)||($menuarttableronorma))
+  <div class="container" id="sha">
+      <div class="row">
+        <h2 class="text-center text-primary">Producción Normativa</h2>
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>          
+          </ol>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <div class="item active">
+                <img src="assets/img/NORMATIVIDAD.jpg" alt="Gmail en todo tipo de dispositivos">
+              <div class="carousel-caption">
+              </div>
+            </div>                         
+          </div>  
+        </div>
+      </div>
+  </div>
+  <div class="container" id="sha">
+      <div class="row">
+      <!--Texto del contenido-->
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <br>
+            <p class="lead text-justify" >"Bienvenido. En este Sistema de Información encontrará el avance de la producción normativa para la implementación del Acuerdo Final para la Terminación y una Paz Estable y Duradera</p>                      
+        </div>
+        <div class="col-sm-1"></div>
+      </div>      
+      
   </div>
   @endif
   <!--cambiarpass modal-->

@@ -37,7 +37,7 @@
       <div class="col-sm-1"></div>
         <div class="col-sm-10">    
         <!--aca se escribe el codigo-->
-        <h2 class="text-center text-primary">Normatividad</h2>
+        <h2 class="text-center text-primary">Producción Normativa</h2>
         <br>
         <p class="lead text-justify">A continuación se presenta el avance de las normas que se están desarrollando para la implementación del acuerdo.</p>        
         <button id="consultar" disabled="disabled" type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_norma">Consultar norma</button>
@@ -49,7 +49,8 @@
               <th class="text-center">Construcción</th>
               <th class="text-center">Producción jurídica</th>
               <th class="text-center">Ajustes</th>              
-              <th class="text-center">Revisión</th>                            
+              <th class="text-center">Revisión</th>
+              <th class="text-center">Por definir expedición</th>                          
             </tr>
           </thead>
           <tbody>
@@ -70,9 +71,13 @@
                   @endif
                   @if($pro->tab_ultrev==1)<td align="center"><p style="display:none;">{{$pro->tab_ultrev}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_ultrev==2)<td align="center"><p style="display:none;">{{$pro->tab_ultrev}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
-                  @else <td align="center"><p style="display:none;">{{$pro->tab_ultrev}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
+                  @else <td align="center"><p style="display:none;">{{$pro->tab_ultrev}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td>                   
                   @endif
-                                    
+                  <!--columna por definir expedición-->
+                  @if($pro->tab_defexp==1)<td align="center"><p style="display:none;">{{$pro->tab_defexp}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
+                  @elseif($pro->tab_defexp==2)<td align="center"><p style="display:none;">{{$pro->tab_defexp}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
+                  @else <td align="center"><p style="display:none;">{{$pro->tab_defexp}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
+                  @endif            
                 </tr>                            
               @endforeach 
           </tbody>
@@ -82,9 +87,10 @@
         <table id="tabla_normas_2" class="table table-striped table-bordered dt-responsive nowrap">
           <thead>
             <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >              
-              <th class="text-center">Norma</th>
+              <th class="text-center">Norma</th>              
               <th class="text-center">CSIVI</th>              
               <th class="text-center">Hacienda</th>
+              <th class="text-center">Socialización</th>
               <th class="text-center">Consulta previa</th>
               <th class="text-center">Expedido</th>
               <th class="text-center">Congreso/Firma</th>              
@@ -95,27 +101,39 @@
             @foreach($array as $pro)
                 <tr id="{{$pro->id}}" valign="middle">
                   <td>{{$pro->norma}}</td>
+                  
+                  <!--columna por CSIVI-->
                   @if($pro->tab_csivi==1)<td align="center"><p style="display:none;">{{$pro->tab_csivi}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_csivi==2)<td align="center"><p style="display:none;">{{$pro->tab_csivi}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                   @else <td align="center"><p style="display:none;">{{$pro->tab_csivi}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
-                  @endif                   
+                  @endif
+                  <!--columna Hacienda-->
                   @if($pro->tab_hacie==1)<td align="center"><p style="display:none;">{{$pro->tab_hacie}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_hacie==2)<td align="center"><p style="display:none;">{{$pro->tab_hacie}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                   @else <td align="center"><p style="display:none;">{{$pro->tab_hacie}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
                   @endif
+                  <!--columna Socialización-->
+                  @if($pro->tab_social==1)<td align="center"><p style="display:none;">{{$pro->tab_social}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
+                  @elseif($pro->tab_social==2)<td align="center"><p style="display:none;">{{$pro->tab_social}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
+                  @else <td align="center"><p style="display:none;">{{$pro->tab_social}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
+                  @endif
+                  <!--columna Consulta previa-->
                   @if($pro->tab_inte==1)<td align="center"><p style="display:none;">{{$pro->tab_inte}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_inte==2)<td align="center"><p style="display:none;">{{$pro->tab_inte}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                   @else <td align="center"><p style="display:none;">{{$pro->tab_inte}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
                   @endif
+                  <!--columna Expedido-->
                   @if($pro->tab_expe==1)<td align="center"><p style="display:none;">{{$pro->tab_expe}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_expe==2)<td align="center"><p style="display:none;">{{$pro->tab_expe}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                   @else <td align="center"><p style="display:none;">{{$pro->tab_expe}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
-                  @endif                  
+                  @endif
+                  <!--Columna Congreso firma-->
                   @if($pro->tab_congre==1)<td align="center"><p style="display:none;">{{$pro->tab_congre}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_firma==1)<td align="center"><p style="display:none;">{{$pro->tab_firma}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_congre==2)<td align="center"><p style="display:none;">{{$pro->tab_congre}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                   @else<td align="center"><p style="display:none;">{{$pro->tab_firma}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                   @endif
+                  <!--Columna sanción presidencial-->
                   @if($pro->tab_sancpres==1)<td align="center"><p style="display:none;">{{$pro->tab_sancpres}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                   @elseif($pro->tab_sancpres==2)<td align="center"><p style="display:none;">{{$pro->tab_sancpres}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                   @else <td align="center"><p style="display:none;">{{$pro->tab_sancpres}}</p><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color:orange"></span></td> 
