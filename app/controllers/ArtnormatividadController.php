@@ -204,7 +204,7 @@ class ArtnormatividadController extends BaseController {
 		if(count($consulta)>0){
 			$insert=0;
 		} else {
-			$insert=DB::statement("INSERT INTO MODART_NORM_NORMASCORTE SELECT [id],[pto_acu],[norma],[id_res],[id_tipo],[tab_encons],[tab_prodjud],[tab_ajus],[tab_ultrev],[tab_hacie],[tab_expe],[tab_congre],[tab_firma],[tab_sancpres],[id_semafo],[fecha_gob],[id_consprev],[id_social],[fecha_soci],[id_hacien],[id_avalfis],[obs],[borrado],[tab_csivi],[tab_inte],[fecha_corte] FROM MODART_NORM_NORMAS");			
+			$insert=DB::statement("INSERT INTO MODART_NORM_NORMASCORTE SELECT [id],[pto_acu],[norma],[id_res],[id_tipo],[tab_encons],[tab_prodjud],[tab_ajus],[tab_ultrev],[tab_hacie],[tab_expe],[tab_congre],[tab_firma],[tab_sancpres],[id_semafo],[fecha_gob],[id_consprev],[tab_social],[fecha_soci],[id_hacien],[id_avalfis],[obs],[borrado],[tab_csivi],[tab_inte],[fecha_corte],[tab_defexp],[id_uscrea],[id_usedita],[created_at],[updated_at] FROM MODART_NORM_NORMAS");			
 		}
 
 		if($insert>0){
