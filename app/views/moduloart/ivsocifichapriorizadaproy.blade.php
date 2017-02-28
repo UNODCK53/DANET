@@ -746,14 +746,7 @@
             }
           }
 
-          if (total>450000000){
-            alert("El valor total de Cofinanciación supera los $450.000.000");
-            total=parseFloat(total)-parseFloat($(a).val());
-            $('#cofina').val(total);
-            $('#cofinan').val(total);
-            $(a).val('');
-
-          }
+        
             if ($(a).val()!=''){
               val_format=Format.to(Number($(a).val()))
 
@@ -764,8 +757,6 @@
                   document.getElementById(a.id).value=val_format;                
               }   
             }  
-
-
         }
 
         function precio_change2(a) {
@@ -795,7 +786,7 @@
                      $(a).val('');
                    }
           }else{
-              if (a.value>=1000000 && a.value<=450000000){
+              if (a.value>=1000000){
 
                 if ($('input[type=radio][name=ediradiocofin]:checked').val()==1){
                   
@@ -814,15 +805,6 @@
                 alert('El valor debe ser mayor a $1.000.000 y menor a $450.000.000 millones');
                  $(a).val('');
               }
-          }
-
-          if (total>450000000){
-            alert("el valor total de Cofinanciación supera los $450.000.000");
-            total=parseFloat(total)-parseFloat($(a).val());
-            $('#edicofina').val(total);
-            $('#edicofinan').val(total);
-            $(a).val('');
-
           }
 
             if ($(a).val()!=''){
