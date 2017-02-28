@@ -90,31 +90,31 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Ficha de proyecto - Plan 100 días - Respuesta Rápida</h4>
+                  <h4 class="modal-title" id="myModalLabel">Ficha de proyecto: Plan 100 días - Respuesta Rápida</h4>
                 </div>
                 <div class="modal-body">
-                    <form role="form" action="artplan100/cargar-proyecto" method="post" id="cargarproy" enctype="multipart/form-data" > 
-                      <h4>Departamento</h4>
+                    <form role="form" action="artplan100/cargar-proyecto" method="post" onsubmit="return validar(this)" id="cargarproy" enctype="multipart/form-data" > 
+                      <b>Departamento</b>
                       <select required id="depto" name="depto" class="form-control" onchange="filter_municipality()">
                         <option selected disabled>Seleccione un departamento</option>  
                         @foreach($departamentos as $pro)                  
                           <option value="{{$pro->COD_DPTO}}">{{$pro->NOM_DPTO}}</option>                    
                         @endforeach                    
                       </select>
-                      <h4>Municipio</h4>
+                      <b>Municipio</b>
                       <select required id="municipios" name="municipios" class="form-control">                                       
                       </select>
-                      <h4>Vereda(s)</h4>
+                      <b>Vereda(s)</b>
                       <input required id="veredas" name="veredas" type="text" class="form-control" placeholder="Text input">
-                      <h4>Nombre del proyecto</h4>
+                      <b>Nombre del proyecto</b>
                       <input required id="nombre" name="nombre" type="text" class="form-control" placeholder="Text input">
-                      <h4>Modalidad de Focalización</h4>
+                      <b>Modalidad de Focalización</b>
                       <select required id="modalidad" name="modalidad" class="form-control">
                           <option selected disabled>Seleccione una opción</option>
                           <option value="Plan 100 días">Plan 100 días</option>  
                           <option value="Respuesta rápida">Respuesta rápida</option>                  
                       </select>
-                      <h4>Entidad Líder</h4>
+                      <b>Entidad Líder</b>
                       <select required id="entidad" name="entidad" class="form-control">
                           <option selected disabled>Seleccione una opción</option>
                           <option value="Consejo Independiente Proteccion Primera Infancia">Consejo Independiente Proteccion Primera Infancia</option>
@@ -125,9 +125,7 @@
                           <option value="Fondo Adaptación">Fondo Adaptación</option>
                           <option value="Función Pública">Función Pública</option>
                           <option value="ICBF">ICBF</option>
-                          <option value="Intersectorial">Intersectorial</option>
-                          <option value="Ministerio de Agricultura">Ministerio de Agricultura</option>
-                          <option value="Mincomercio">Mincomercio</option>
+                          <option value="Intersectorial">Intersectorial</option>                          
                           <option value="Ministerio de Agricultura - Agencia de Desarrollo Rural">Ministerio de Agricultura - Agencia de Desarrollo Rural</option>
                           <option value="Ministerio de Agricultura - Agencia Nacional de Tierras">Ministerio de Agricultura - Agencia Nacional de Tierras</option>
                           <option value="Ministerio de Ambiente">Ministerio de Ambiente</option>
@@ -148,7 +146,7 @@
                           <option value="UARIV">UARIV</option>
                           <option value="Unidad para la Atención y Reparación Integral a Víctimas">Unidad para la Atención y Reparación Integral a Víctimas</option>                 
                       </select>
-                      <h4>Línea de proyecto</h4>
+                      <b>Línea de proyecto</b>
                       <select required id="linea" name="linea" class="form-control">
                           <option selected disabled>Seleccione una opción</option>
                           <option value="Acciones para la reparación de sujetos colectivos">Acciones para la reparación de sujetos colectivos</option>
@@ -236,32 +234,33 @@
                           <option value="Universidades de paz">Universidades de paz</option>
                           <option value="Zonas WIFI">Zonas WIFI</option>
                       </select>
-                      <h4>Alcance</h4>
+                      <b>Alcance del proyecto</b>
                       <textarea required id="alcance" name="alcance" class="form-control" rows="3"></textarea>
-                      <h4>Población beneficiada</h4>
+                      <b>Población beneficiada (Dimensión de la intervención)</b>
                       <input required id="poblacion" name="poblacion" type="number" min="0" step="1" class="form-control" placeholder="Ingrese el número de la población objetivo"> 
-                      <h4>Estado del proyecto</h4>
+                      <b>Estado del proyecto</b>
                       <select required id="estado" name="estado" class="form-control">
                           <option selected disabled>Seleccione una opción</option>
+                          <option>Alistamiento</option>
                           <option>Convocatoria</option>
                           <option>Contratación</option>
                           <option>Ejecución</option>
                           <option>Finalización</option>
-                          <option>Alistamiento</option>
+                          <option>Por demanda</option>                          
                       </select>
-                      <h4>Fecha de inicio del proyecto</h4>
+                      <b>Fecha de inicio del proyecto</b>
                       <div class="input-group date" id="datepicker">                      
                         <input required id="fecha_inicio" name="fecha_inicio" type="text" class="form-control" name="fecha_inicio" required="true" placeholder="Ingrese la fecha de inicio del proyecto">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                       </div>
-                      <h4>Fecha de finalización del proyecto</h4>
+                      <b>Fecha de finalización del proyecto</b>
                       <div class="input-group date" id="datepicker2">                      
                         <input required id="fecha_final" name="fecha_final" type="text" class="form-control" name="fecha_inicio" required="true" placeholder="Ingrese la fecha de finalización del proyecto">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                       </div>
-                      <h4>Avance presupuestal</h4>
+                      <b>Avance presupuestal</b>
                       <input required id="avance_presupuestal" name="avance_presupuestal" onchange="current(this)" class="form-control" placeholder="Ingrese el valor del avance presupuestal" type="text" min="0" step="any"/>
-                      <h4> Avance del producto</h4>
+                      <b> Avance del producto</b>
                       <select required id="avance_producto" name="avance_producto" class="form-control">
                           <option selected disabled>Seleccione una opción</option>
                           <option>10</option>
@@ -275,15 +274,15 @@
                           <option>90</option>
                           <option>100</option>
                       </select>                    
-                      <h4>Costo estimado</h4>
+                      <b>Costo estimado</b>
                       <input required id="costo_estimado" name="costo_estimado" onchange="current(this)" class="form-control" placeholder="Ingrese el valor del avance presupuestal" type="text" min="0" step="any"/>
-                      <h4>Costo ejecutado</h4>
+                      <b>Costo ejecutado</b>
                       <input required id="costo_ejecutado" name="costo_ejecutado"onchange="current(this)" class="form-control" placeholder="Ingrese el valor del costo ejecutado" type="text" min="0" step="any"/>
                       
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Cargar proyecto</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary">Crear proyecto</button>
                 </div>
                 </form>
               </div>
@@ -350,19 +349,18 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="borrar_tittle">Ups</h4>
+                      <h4 class="modal-title" id="borrar_tittle">Borrar proyecto</h4>
                   </div>
                   <div class="modal-body">
                   <form role="form" action="artplan100/borrar-proyecto" method="post" id="cargarproy" enctype="multipart/form-data">
                   <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                   <input type="text" id="id_borrar" name="id_borrar"  class="form-control" style="display: none;">
-                  Esta seguro que desea borrar el proyecto
+                  ¿Está seguro que desea borrar el proyecto?
                   <br><br>
-                  <b><i id="id_borrar_proyecto"></i></b>                
-                  
+                  <b><i id="id_borrar_proyecto"></i></b>
                   </div>
                   <div class="modal-footer" style="margin-bottom: 5px">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                       <button type="submit" class="btn btn-primary">Borrar proyecto</button>
                   </div>
                   </form>
@@ -447,9 +445,9 @@
           $( "#mensajeestatus" ).fadeOut(5000);
 
           $('#datepicker').datepicker({
-            format: "yyyy-mm-dd",
+            format: "yyyy-dd-mm",
             language: "es",
-            startDate: "2010-01-01",
+            startDate: "2016-01-12",
             endDate: "today",
             todayBtn: "linked",
             orientation: "auto",
@@ -458,9 +456,9 @@
 
            });
            $('#datepicker2').datepicker({
-            format: "yyyy-mm-dd",
+            format: "yyyy-dd-mm",
             language: "es",
-            startDate: "2010-01-01",
+            startDate: "2016-01-12",
             endDate: "today",
             todayBtn: "linked",
             orientation: "auto",
@@ -570,7 +568,10 @@
         }
     });//Termina tbody
 
-    </script>    
+    function validar(formulario){
+      console.log(formulario);
+    }
+</script>    
 @stop
 
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

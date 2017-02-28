@@ -77,13 +77,25 @@
             <i class="bg-danger"></i> El proyecto NO fue eliminado</div>
             <div class="col-sm-1"></div>
             @endif
+            @if($status=='ok_estatus_va')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-success"></i> El valor agregado fue agregado con éxito</div>
+            <div class="col-sm-1"></div>
+            @endif
+            @if($status=='error_estatus_va')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-danger"></i> El valor agregado NO fue agregado</div>
+            <div class="col-sm-1"></div>
+            @endif
           <?php $status=0; ?>
         </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cargar_info">Cargar información</button>
             <button id="edit_banner" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_banner">Cambiar banner</button>
             <button id="edit_logo" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_logo">Cambiar Logo</button>
             <button id="edit_lp" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_lp">Editar línea productiva</button>
-            <button id="edit_va" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_lp">Editar valor agregado</button>
+            <button id="edit_va" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_va">Editar valor agregado</button>
             <!--Aca inicia el modal para cargar nueva información-->
             <!-- Modal -->
             <div class="modal fade" id="cargar_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -387,7 +399,72 @@
                 </div>
               </div>
             </div>
-            <!--Aca finaliza el modal para borrar proyecto-->
+            <!--Aca finaliza el modal para borrar línea productiva-->
+            <!--Aca inicia el modal para editar valor agregado-->
+            <!-- Modal -->
+            <div class="modal fade" id="editar_va" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="edit-va-title"></h4>
+                  </div>
+                  <div class="modal-body">                      
+                      <!--Acá inicia la tabla de proyectos-->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adicionar_va">Adicionar valor agregado</button>
+                      <button id="borrar_va_button" type="button" class="btn btn-danger" disabled="disabled" data-toggle="modal" data-target="#borrar_va">Borrar valor agregado</button>
+                      <h4>Valor agregado por organización</h4>
+                      <table id="tabla_va" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                        <thead>  
+                          <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >
+                            <th class="text-center">Valor agregado</th>
+                            <th class="text-center">Descripción</th>                            
+                          </tr>
+                        </thead>
+                        <tbody id="tabla_va_body">
+                        </tbody>
+                      </table>
+                        <!--Aca finaliza la tabla de proyectos cargados-->                        
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Aca finaliza el modal para editar las líneas productivas-->
+            <!--Aca inicia el modal para adicionar líneas productivas-->            
+            <div class="modal fade" id="adicionar_va" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="edit-adicionar-va-title"></h4>
+                  </div>
+                  <div class="modal-body">
+                      <form role="form" action="bid/adicionar-va" method="post" id="adicionar_linea" enctype="multipart/form-data" novalidate>
+                      <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
+                      <input type="text" id="id_adicionar_va" name="id_adicionar_va"  class="form-control" style="display: none;">
+                      <h4>¿Seleccione valor agregado?</h4>
+                      <select id="valoragregado_adicionar" name="valoragregado_adicionar" class="form-control">
+                        <option selected disabled>Seleccione un valor agregado</option>  
+                        @foreach($array[0] as $pro)                  
+                          <option value="{{$pro->id}}">{{$pro->nombre}}</option>                    
+                        @endforeach
+                      </select>
+                      <h4>Ingrese la descripción de valor agregada</h4>
+                      <input id="va_adicionar" name="va_adicionar" type="text" class="form-control" placeholder="Text input">
+                      
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Cargar informacion</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!--Aca finaliza el modal para adicionar líneas productivas-->
             <!--Aca inicia la tabla de proyectos cargados-->
             <!--Acá inicia la tabla de proyectos-->
           <h4>Listado de organizaciones</h4>
@@ -447,7 +524,7 @@
           $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
           $('#tabla_organizaciones').DataTable();
-          $('#tabla_lp').DataTable();          
+
       });
 
       function filter_organizaciones(){
@@ -554,24 +631,33 @@
                     var tittle2="Cargar o cambiar logo de la organización "+ data[0][0].acronim;
                     var tittle3="Cargar o cambiar información de línea productiva de la organización "+ data[0][0].acronim;
                     var tittle4="Adicionar línea productiva de la organización "+ data[0][0].acronim;
+                    var tittle5="Cargar o cambiar información de valor agregado de la organización "+ data[0][0].acronim;
+                    var tittle6="Adicionar valor agregado de la organización "+ data[0][0].acronim;
                     $("#edit-banner-title").html(tittle);
                     $("#edit-logo-title").html(tittle2);
                     $("#edit-lp-title").html(tittle3);
                     $("#edit-adicionar-lp-title").html(tittle4);
+                    $("#edit-va-title").html(tittle3);
+                    $("#edit-adicionar-va-title").html(tittle6);                    
                     $("#id_editar_banner").val(num);
                     $("#id_editar_logo").val(num);
-                    $("#id_adicionar_linea").val(num);                    
+                    $("#id_adicionar_linea").val(num);
+                    $("#id_adicionar_va").val(num);
                     $("#tabla_lp_body").empty();
                     for (var i = 0; i < data[1].length; i++) {
-                      var table_body="<tr id="+data[1][0].id+"><td>"+data[1][0].linea_prod+"</td><td>"+data[1][0].desc_lp+"</td></tr>"
+                      var table_body="<tr id="+data[1][i].id+"><td>"+data[1][i].linea_prod+"</td><td>"+data[1][i].desc_lp+"</td></tr>"
                       $("#tabla_lp_body").append(table_body);                    
                     }
+                    $("#tabla_va_body").empty();
+                    for (var i = 0; i < data[2].length; i++) {
+                      var table_body2="<tr id="+data[2][i].id+"><td>"+data[2][i].id_val+"</td><td>"+data[2][i].descripcion+"</td></tr>"
+                      $("#tabla_va_body").append(table_body2);                    
+                    }                    
                 },
                 error:function(){alert('error');}
             });//fin de la consulta ajax (Editar proceso)
         }
     });//Termina tbody
-
     var table2 = $('#tabla_lp').DataTable();
     $('#tabla_lp tbody').on('click', 'tr', function () {
         if ( $(this).hasClass('active') ) {
@@ -592,6 +678,32 @@
                     var registro=data[0].linea_prod;                    
                     $("#id_borrar_lp").html(registro);
                     $("#id_borrar").html(num);                    
+                },
+                error:function(){alert('error');}
+            });//fin de la consulta ajax (Editar proceso)
+            
+        }
+    });//Termina tbody
+    var table3 = $('#tabla_va').DataTable();
+    $('#tabla_va tbody').on('click', 'tr', function () {
+        if ( $(this).hasClass('active') ) {
+            $(this).removeClass('active');
+            $("#borrar_va_button").prop('disabled', true);           
+        } else {
+            table3.$('tr.active').removeClass('active');
+            $(this).addClass('active');
+            $("#borrar_va_button").prop('disabled', false);            
+            var id=$(this);
+            var num=id[0].id;
+            $.ajax({
+                url:"bid/consulta-borrar-va",
+                type:"POST",
+                data:{lineaproductiva: num},
+                dataType:'json',
+                success:function(data){                                        
+                    /*var registro=data[0].linea_prod;                    
+                    $("#id_borrar_lp").html(registro);
+                    $("#id_borrar").html(num);*/
                 },
                 error:function(){alert('error');}
             });//fin de la consulta ajax (Editar proceso)

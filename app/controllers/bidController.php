@@ -129,7 +129,14 @@ class bidController extends BaseController {
 			  ->where('nit','=',$organizacion)
 			  ->get();
 
-		$array=[$editar, $lp];	
+		$va = DB::table('MODBID_BIDPUBLICVA')
+			  ->join('MODBID_VALORVA','MODBID_BIDPUBLICVA.id_val','=','MODBID_VALORVA.id')					  
+			  ->select(db::raw('nit, MODBID_VALORVA.nombre as id_val, descripcion, MODBID_BIDPUBLICVA.id'))
+			  ->where('nit','=',$organizacion)
+			  ->where('borrado','=',0)
+			  ->get();
+
+		$array=[$editar, $lp, $va];	
 
 		return $array;
 	}
@@ -217,6 +224,37 @@ class bidController extends BaseController {
 		);
 
 		return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus');
+	}
+
+	public function postAdicionarVa(){
+		//Insertar el valor agregado
+		$nit=Input::get('id_adicionar_va');		
+		$insert=DB::table('MODBID_BIDPUBLICVA')->insert(
+			    	array(
+			    		//'id_usuario' => Auth::user()->id,		    		
+			    		'nit' => $nit,		    		
+			    		'id_val' => Input::get('valoragregado_adicionar'),
+			    		'descripcion' => Input::get('va_adicionar'),
+			    		//'created_at' => $fecha,
+		    			//'updated_at' => $fecha
+			    	)
+				);			
+		
+		if($insert>0){
+			return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus_va');	
+		} else {
+			return Redirect::to('cargaorganizacion')->with('status', 'error_estatus_va');	
+		}
+	}
+	
+	public function postConsultaBorrarVa(){
+		$id_registro=Input::get('lineaproductiva');
+		$lp = DB::table('MODBID_LINEAPRODORG')					  
+				  ->select(db::raw('linea_prod'))
+				  ->where('id','=',$id_registro)
+				  ->get();
+
+		return $lp;
 	}
 
 }

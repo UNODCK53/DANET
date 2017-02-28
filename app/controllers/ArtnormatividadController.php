@@ -110,8 +110,7 @@ class ArtnormatividadController extends BaseController {
 	    		'updated_at' => $fecha	    		
 	    	)
 		);
-				
-
+		
 		if($insert>0){
 			return Redirect::to('normcarganorma')->with('status', 'ok_estatus_editar'); 
 		} else {

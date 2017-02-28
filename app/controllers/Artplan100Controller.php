@@ -17,8 +17,7 @@ class Artplan100Controller extends BaseController {
 					  ->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
 					  ->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
 					  ->where('reg_eliminado','=','0')
-					  ->get();	
-		
+					  ->get();
 		return View::make('moduloart/plancienrrcargaproy', array('departamentos' => $departamentos), array('proyectos' => $proyectos));
 	}
 
@@ -28,6 +27,7 @@ class Artplan100Controller extends BaseController {
 		$municipios = DB::table('MUNICIPIOS')
 						->select(DB::RAW('COD_DANE, NOM_MPIO_1'))
 						->where('COD_DPTO','=',$depto)
+						->orderby('NOM_MPIO_1')
 						->get();
 		return $municipios;
 	}

@@ -214,7 +214,55 @@ $menuguardaun=false;
   </div>
   @endif
   <br><!--Agregar al penúltimo div para el salto contenedores-->
-  @if(($menuartcargaeditarnorma)||($menuarttableronorma))
+ @if(Auth::user()->grupo=="10" and (Auth::user()->level=="10"||Auth::user()->level=="11"))
+  <div class="container" id="sha">
+      <div class="row">
+        <h2 class="text-center text-primary">Agencia de Renovación territorial</h2>
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1"></li>          
+          <li data-target="#carousel-example-generic" data-slide-to="2"></li>          
+          </ol>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <div class="item active">
+                <img src="assets/art/img/about-carousel-1.jpg">                
+              <div class="carousel-caption">
+              </div>
+            </div>
+            <div class="item">
+              <img src="assets/art/img/about-carousel-2.jpg">
+              <div class="carousel-caption">
+              </div>
+            </div>
+            <div class="item">
+              <img src="assets/art/img/about-carousel-3.jpg">
+              <div class="carousel-caption">
+              </div>
+            </div>                         
+          </div>  
+        </div>
+      </div>
+  </div>
+  <div class="container" id="sha">
+      <div class="row">
+      <!--Texto del contenido-->
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <br>
+            <p class="lead text-justify" >En este Sistema de Información encontrará el avance de la intervención de la ART.</p>                      
+        </div>
+        <div class="col-sm-1"></div>
+      </div>      
+      
+  </div>
+  @endif
+  <br>
+
+
+  @if(Auth::user()->grupo=="10" and (Auth::user()->level=="8"||Auth::user()->level=="9"))
   <div class="container" id="sha">
       <div class="row">
         <h2 class="text-center text-primary">Producción Normativa</h2>
