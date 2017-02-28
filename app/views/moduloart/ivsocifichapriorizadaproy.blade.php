@@ -324,6 +324,7 @@
                       </div>
                       <div class="form-group text-right"  id="cargueind">                
                         <button type="submit" class="btn btn-primary" >Crear</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
                       </div>
                     </form>
                 </div>
@@ -551,6 +552,7 @@
                        
                       <div class="form-group text-right"  id="cargueind">                
                         <button type="submit" class="btn btn-primary" >Editar</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
                       </div>
                     </form>
                 </div>    
@@ -1158,6 +1160,15 @@
 $('#editar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
    $(this).find('form').trigger('reset');
     table.$('tr.active').removeClass('active');
+    $("#btnedipro").prop('disabled', true);
+    $("#btndeletepro").prop('disabled', true);
+})
+
+$('#borrar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+   $(this).find('form').trigger('reset');
+    table.$('tr.active').removeClass('active');
+    $("#btnedipro").prop('disabled', true);
+    $("#btndeletepro").prop('disabled', true);
 })
 
 $('#cargar_proyecto').on('hidden.bs.modal', function (e) {
