@@ -605,8 +605,8 @@
                 <th class="text-center">Nombre de la iniciativa</th>
                 <th class="text-center">Subcategoría</th>                       
               </tr>
-            </thead>
-             <tbody>
+            </thead> 
+             <tbody> 
                     @foreach($arrayindipic as $pro) 
                       <tr id="{{$pro->id_proy}}"> 
                         <td >{{$pro->ID}} </td> 

@@ -35,7 +35,7 @@ class ArtzvtnController extends BaseController {
 			foreach($periodo as $pro)
 			{
 				$arrayperiodo[$pro->id] = $pro->nombre;
-			}
+			} 
 
 
 			$arraypidnicadores = DB::table('MODART_INDICADORES')	

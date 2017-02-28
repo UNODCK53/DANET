@@ -13,7 +13,7 @@
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')    
   @parent
-@stop 
+@stop  
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
   @parent
