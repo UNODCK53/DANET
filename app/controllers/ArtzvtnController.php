@@ -69,7 +69,7 @@ class ArtzvtnController extends BaseController {
 		return $arraypidnicadores;	
 
 }
-	public function postEditindi()//funcion que actualiza los indicadores 
+	public function postEditindia()//funcion que actualiza los indicadores 
 	{    
 			
 
@@ -129,9 +129,9 @@ class ArtzvtnController extends BaseController {
 			
 
 		if($edit>0){
-			return Redirect::to('zvcargaindicador')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('zvcargaindicador')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'error_estatus_editar'); 
 		} 	
 		
 	}
@@ -200,9 +200,9 @@ class ArtzvtnController extends BaseController {
 			}
 
 			if($insert>0){
-			return Redirect::to('zvcargaindicador')->with('status', 'ok_estatus'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'ok_estatus'); 
 		} else {
-			return Redirect::to('zvcargaindicador')->with('status', 'error_estatus'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'error_estatus'); 
 		}
     	
     }
@@ -218,9 +218,9 @@ class ArtzvtnController extends BaseController {
 			);
 
        	if($insert>0){
-			return Redirect::to('zvcargaindicador')->with('status', 'ok_estatus'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'ok_estatus'); 
 		} else {
-			return Redirect::to('zvcargaindicador')->with('status', 'error_estatus'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'error_estatus'); 
 		}
     	
     }
@@ -253,9 +253,9 @@ class ArtzvtnController extends BaseController {
 			
 
 		if($Edit>0){
-			return Redirect::to('zvcargaindicador')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('zvcargaindicador')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('zvtn_indicadores')->with('status', 'error_estatus_editar'); 
 		}	
 
 	}
@@ -274,7 +274,7 @@ class ArtzvtnController extends BaseController {
 
 
 			$arraysegidicadores = DB::table('MODART_SEG_INDICADOR')	
-			->select(DB::raw("concat(name,' ',last_name) as id_responsable,MODART_INDICADORES.nombre as nombre, MODART_ZVT.Nombre as id_zv,valor,MODART_INDICADORES.id_categoria as id_categoria,id_metodo,id_tablero,case when id_metodo=1 then ROUND ((CAST(valor AS float) / case when meta_total=0 then 1000000000 else CAST(meta_total AS float) end),2)*100  else case when id_metodo=2 and fecha_ini= '1900-01-01 00:00:00.000' then 0 else case when id_metodo=2 and fecha_ini!= '1900-01-01 00:00:00.000' then cast(DATEDIFF(day, fecha_ini, CONVERT(VARCHAR(10),GETDATE(),103)) as int) else valor end end end as proceso,c2,c3,c4"))
+			->select(DB::raw("concat(name,' ',last_name) as id_responsable,MODART_INDICADORES.nombre as nombre, MODART_ZVT.Nombre as id_zv,valor,MODART_INDICADORES.id_categoria as id_categoria,id_metodo,id_tablero"))
 			->join('users','users.id','=','MODART_SEG_INDICADOR.id_responsable')
 			->join('MODART_INDICADORES','MODART_INDICADORES.id','=','MODART_SEG_INDICADOR.id_indicador')			
 			->join('MODART_ZVT','MODART_ZVT.id_zona','=','MODART_SEG_INDICADOR.id_zv')	
@@ -352,9 +352,9 @@ class ArtzvtnController extends BaseController {
 			}
 
 		if($Edit>0){
-			return Redirect::to('zvsegindicador')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('zvtn_seguimiento')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('zvsegindicador')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('zvtn_seguimiento')->with('status', 'error_estatus_editar'); 
 		}	
 	}
 

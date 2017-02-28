@@ -96,14 +96,14 @@
           <table id="tablaresumen"  class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
             <thead>
               <tr class="well text-primary ">
+                
                 <th class="text-center">Responsable</th>
                 <th class="text-center" >Indicador</th>
                 <th class="text-center">Zona veredal</th>
                 <th class="text-center">Categoría</th>
                 <th class="text-center">Valor</th>
-                <th class="text-center">Método</th>
-                <th class="text-center">Tablero</th>
-                <th class="text-center">Progreso</th>
+                <th class="text-center">Metodo</th>
+                <th class="text-center">tablero</th>
               </tr>
             </thead>
           </table>
@@ -116,8 +116,8 @@
           <div class="col-sm-10" id="tabla2" style="display:none;">
             <form role="form" action="artzvtn/editseguiindi" method="post" id="formEdit">  
               <div class="form-group text-right"  >                
-                <button type="submit" class="btn btn-primary" >Actualizar</button>
-                <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
+                <button type="submit" class="btn btn-primary" >Actualziar</button>
+                <button type="button" class="btn btn-primary" onclick="window.location">Cancelar</button> 
               </div>  
               <table id="tablasegeiindi" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                 <thead>
@@ -126,7 +126,7 @@
                     <th class="text-center">Responsable</th>
                     <th class="text-center">Zona Veredal</th>
                     <th class="text-center">Categoría</th>
-                    <th class="text-center">Método</th>
+                    <th class="text-center">Metodo</th>
                     <th class="text-center">Valor</th>
                     <th class="text-center">Meta Parcial</th>
                     <th class="text-center">Meta total</th>
@@ -137,8 +137,8 @@
                 </body>  
               </table>
               <div class="form-group text-right"  >                
-                <button type="submit" class="btn btn-primary" >Actualizar</button>
-                <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
+                <button type="submit" class="btn btn-primary" >Actualziar</button>
+                <button type="button" class="btn btn-primary" onclick="window.location">Cancelar</button> 
               </div>
             </form>
           </div>
@@ -191,34 +191,16 @@
 
         var arra_catego_seg_indi=<?php echo json_encode($categorias); ?>;
 
-        for (i = 0; i < arra_tabla_seg_indi.length; i++) {
          
+
+        for (i = 0; i < arra_tabla_seg_indi.length; i++) {
             if (arra_tabla_seg_indi[i].id_metodo==1){
                     Metodos="Porcentual";
-                    if(parseFloat(arra_tabla_seg_indi[i].proceso) <=parseFloat(arra_tabla_seg_indi[i].c2)){
-                         tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+arra_tabla_seg_indi[i].proceso+'%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'%</div> </div>';
-                    }else if (parseFloat(arra_tabla_seg_indi[i].proceso) <=parseFloat(arra_tabla_seg_indi[i].c3)){
-                       tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+arra_tabla_seg_indi[i].proceso+'%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'%</div> </div>';
-                     }else if(parseFloat(arra_tabla_seg_indi[i].proceso) <=parseFloat(arra_tabla_seg_indi[i].c4)){
-                      tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-meddle progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+arra_tabla_seg_indi[i].proceso+'%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'%</div> </div>';
-                    } else{
-                      tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+arra_tabla_seg_indi[i].proceso+'%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'%</div> </div>';
-                    }
                  
                  }else if (arra_tabla_seg_indi[i].id_metodo==2){
                     Metodos="Temporal";
-                    if(parseFloat(arra_tabla_seg_indi[i].proceso) <=parseFloat(arra_tabla_seg_indi[i].c2)){
-                         tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+arra_tabla_seg_indi[i].proceso+'%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'días</div> </div>';
-                    }else if(parseFloat(arra_tabla_seg_indi[i].proceso) <=parseFloat(arra_tabla_seg_indi[i].c3)){
-                      tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-meddle progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+arra_tabla_seg_indi[i].proceso+'%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'días</div> </div>';
-                    }else if(parseFloat(arra_tabla_seg_indi[i].proceso) <=parseFloat(arra_tabla_seg_indi[i].c4)){
-                      tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+arra_tabla_seg_indi[i].proceso+'%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'días</div> </div>';
-                    }else if(parseFloat(arra_tabla_seg_indi[i].proceso) >parseFloat(arra_tabla_seg_indi[i].c4)){
-                      tr='<div class="progress" style="margin-bottom: 0px"><div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%; ">'+parseInt(arra_tabla_seg_indi[i].proceso)+'días</div> </div>';
-                    }
                  }else{
                  Metodos="Contador";
-                  tr='';
                  }
 
             for (var key in arra_catego_seg_indi) {
@@ -235,10 +217,7 @@
                     Tablero="Tablero general";
                  }else{
                   Tablero="Tablero detallado";
-                 }  
-
-
-                
+                 }   
             table.row.add([
             arra_tabla_seg_indi[i].id_responsable,
             arra_tabla_seg_indi[i].nombre,
@@ -247,10 +226,8 @@
             arra_tabla_seg_indi[i].valor,
             Metodos,
             Tablero,
-            tr,
             ]).draw(false);  
         }
-        
 
         //fin de carga la tabla deindicadores
 
@@ -282,11 +259,9 @@
                         var td = document.createElement('TD');
                         var input = document.createElement("input");
                         input.type = "number";
-                        input.setAttribute("min","0");
                         input.className = "form-control"; // set the CSS class
                         input.value=Object.values(data1[i])[j];
                         input.required="true";
-                        input.addEventListener("change", validatenumber);
                         input.id=Object.keys(data1[i])[j]+data1[i].id;
                         input.name=Object.keys(data1[i])[j]+data1[i].id;
                         input.style="width:90px";
@@ -302,17 +277,8 @@
                       var td = document.createElement('TD');
                       var input = document.createElement("input");
                       input.type = "text";
-                      input.title = "Esta fecha hace referencia al inicio del monitorio del indicador";
                       input.className = "input-sm form-control"; // set the CSS class
-                      if (Object.values(data1[i])[j]=='01/01/1900'){
-                        input.removeAttribute("readonly");
-                        input.value='';
-                      }else{
-                        input.setAttribute("readonly",true);
-                        input.value=Object.values(data1[i])[j];
-                      }
-
-                      
+                      input.value=Object.values(data1[i])[j];
                       input.id=Object.keys(data1[i])[j]+data1[i].id;
                       input.name=Object.keys(data1[i])[j]+data1[i].id;
                       input.style="width:90px";
@@ -331,7 +297,6 @@
                       input.value=$('#nom_indicador').find('option:selected').val();
                       td.appendChild(input);
                       tr.appendChild(td);
-
                         
                      $('#body tr:last').after(tr)
                     /*table2.row.add([
@@ -375,13 +340,6 @@
 
         });
 
-        function validatenumber() {
-
-          if($(this).val()<0){
-            alert("El valor ingresado debe ser mayo a 0")
-            $(this).val(0);
-          }
-        }
         function mySecondFunction() {
 
             $('[id^=datepicker-]').datepicker({
