@@ -1,8 +1,8 @@
 <?php
 
 return array(
-    'db_host'     => 'UNODCSQLUI\GEO',
-    //'db_host'     => 'CCASTANEDA\CCASTANEDA',
+    //'db_host'     => 'UNODCSQLUI\GEO',
+    'db_host'     => 'CCASTANEDA\CCASTANEDA',
 	'db_database' => 'DABASE',
 	'db_user' => 'danet',
 	'db_password' => 'Unodc2015',

@@ -42,8 +42,8 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
           <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#indicadores">Indicadores veredales</a></li>
-            <li><a data-toggle="tab" href="#categoria">Categoría de indicadores</a></li>
+            <li class="active" id="tab_indi"><a data-toggle="tab" href="#indicadores">Indicadores veredales</a></li>
+            <li id="tab_cate"><a data-toggle="tab" href="#categoria">Categoría de indicadores</a></li>
           </ul>
         </div>
         <div class="col-sm-1"></div>
@@ -110,7 +110,7 @@
                       <th class="text-center">Categoría</th>
                       <th class="text-center">Periodo de captura</th>
                       <th class="text-center">Día de captura</th>
-                      <th class="text-center">Metodo de medición</th>
+                      <th class="text-center">Método de medición</th>
                       <th class="text-center">Prioridad o tablero de visualización</th>
                     </tr>
                   </thead>
@@ -144,18 +144,18 @@
                     <form role="form" action="artzvtn/crear-indicador" method="post" id="crearindi" enctype="multipart/form-data" >
                       <div class="form-group">
                         <label for="nomindilabel" class="control-label">Nombre del indicador</label>
-                        <input  id = "nomindi" name = "nomindi" class="form-control" type="text" required="true" placeholder="Ejemplo: numero de observadores"></input>               
+                        <input  id = "nomindi" name = "nomindi" class="form-control" type="text" required="true" placeholder="Ejemplo: número de observadores"></input>               
                       </div>
                       <div class="form-group">
-                        {{Form::label('categolabel','Categoria',['class' => 'control-label'])}}
+                        {{Form::label('categolabel','Categoría',['class' => 'control-label'])}}
                         {{Form::select('catego', $arraycategoria, '', ['class' => 'form-control', 'id'=>'catego','required'=>'true'])}}
                       </div>
 
                       <div class="form-group">
-                        {{Form::label('peridiolable','Peridiocidad de captura:',['class' => 'control-label'])}}
+                        {{Form::label('peridiolable','Periodicidad de captura:',['class' => 'control-label'])}}
                         {{Form::select('periodo', $arrayperiodo, '', ['class' => 'form-control', 'id'=>'periodo','required'=>'true'])}}
                       </div>  
-                      <div class="checkbox-group">
+                      <div class="checkbox-group" id='periododiv' style='display:none'>
                         <label for="peridioslable" class="control-label" style="visibility:hidden">Seleccione el día de la semana de captura del indicador:</label>
                         <div class="form-group" id="radioperidiocidadid" style="visibility:hidden">
 
@@ -181,14 +181,17 @@
                         {{Form::label('metodolabel','Metodo de medición',['class' => 'control-label'])}}
                         {{Form::select('metodo', $arraymetodo, '', ['class' => 'form-control', 'id'=>'metodo','required'=>'true'])}}
                       </div> 
+                      <div id="rangosdiv" style='display:none'>
                         <label for="rangoslabel" class="control-label" style="visibility:hidden">Rangos del mideción</label>
                         <div id="rangos" class="noUi-target noUi-ltr noUi-horizontal" style="visibility:hidden"></div>
                         <input type="text" id="rangos-value-1" name="rangos-value-1" style="visibility:hidden">
                         <input type="text" id="rangos-value-2" name="rangos-value-2" style="visibility:hidden">
                         <input type="text" id="rangos-value-3" name="rangos-value-3" style="visibility:hidden">
                         <hr>
+                      </div>  
                       <div class="form-group text-right"  id="cargueind">                
                         <button type="submit" class="btn btn-primary" >Crear</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
                       </div>
                     </form>
                   </div>
@@ -210,18 +213,18 @@
                     </div>
                     <div class="form-group">
                       <label for="nomindilabeledi" class="control-label">Nombre del indicador</label>
-                      <input  id = "nomindiedi" name = "nomindiedi" class="form-control" type="text" required="true" placeholder="Ejemplo: numero de observadores"></input>               
+                      <input  id = "nomindiedi" name = "nomindiedi" class="form-control" type="text" required="true" placeholder="Ejemplo: número de observadores"></input>               
                     </div>
                     <div class="form-group">
-                      {{Form::label('categolabeledi','Categoria',['class' => 'control-label'])}}
+                      {{Form::label('categolabeledi','Categoría',['class' => 'control-label'])}}
                       {{Form::select('categoedi', $arraycategoria, '', ['class' => 'form-control', 'id'=>'categoedi','required'=>'true'])}}
                     </div>
 
                     <div class="form-group">
-                      {{Form::label('peridiolableedi','Peridiocidad de captura:',['class' => 'control-label'])}}
+                      {{Form::label('peridiolableedi','Periodicidad de captura:',['class' => 'control-label'])}}
                       {{Form::select('periodoedi', $arrayperiodo, '', ['class' => 'form-control', 'id'=>'periodoedi','required'=>'true'])}}
                     </div>  
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" id='periododivedi' style='display:none'>
                       <label for="peridioslableedi" class="control-label" style="visibility:hidden">Seleccione el día de la semana de captura del indicador:</label>
                       <div class="form-group" id="radioperidiocidadidedi" style="visibility:hidden">
 
@@ -247,14 +250,16 @@
                       {{Form::label('metodolabeledi','Metodo de medición',['class' => 'control-label'])}}
                       {{Form::select('metodoedi', $arraymetodo, '', ['class' => 'form-control', 'id'=>'metodoedi','required'=>'true'])}}
                     </div> 
+                    <div id='rangosedidiv' style='display:none'>
                     <label for="rangoslabeledi" class="control-label" style="visibility:hidden">Rangos del mideción</label>
                       <div id="rangosedi" class="noUi-target noUi-ltr noUi-horizontal" style="visibility:hidden"></div>
                       <input type="text" id="edirangos-value-1" name="edirangos-value-1" style="visibility:hidden">
                       <input type="text" id="edirangos-value-2" name="edirangos-value-2" style="visibility:hidden">
                       <input type="text" id="edirangos-value-3" name="edirangos-value-3" style="visibility:hidden">
-                    
+                    </div>
                     <div class="form-group text-right"  id="carguecte">                
                       <button type="submit" class="btn btn-primary" >Crear</button>
+                      <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
                     </div>
                   </form>
                 </div>
@@ -315,15 +320,16 @@
                     <form role="form" action="artzvtn/crear-categoria" method="post" id="crearcate" enctype="multipart/form-data" >
                           <div class="form-group">
                             <label for="nomcatelabel" class="control-label">Nombre de la categoría</label>
-                            <input  id = "nomcate" name = "nomcate" class="form-control" type="text" required="true" placeholder="Ejemplo: Insfraestructura"></input>            
+                            <input  id = "nomcate" name = "nomcate" class="form-control" type="text" required="true" placeholder="Ejemplo: Infraestructura"></input>            
                           </div>
                           <div class="form-group">
-                              {{Form::label('peridiolable','Categorias existentes:',['class' => 'control-label'])}}
+                              {{Form::label('peridiolable','Categorías existentes:',['class' => 'control-label'])}}
                               {{Form::text('periodo', str_replace(",","\t-",str_replace("Seleccione una","",implode(",", $arraycategoria))), ['class' => 'form-control', 'id'=>'periodo','disabled'])}}           
                           </div>
                           
                           <div class="form-group text-right"  id="carguecte">                
                             <button type="submit" class="btn btn-primary" >Crear</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
                           </div>
                     </form>
                   </div>
@@ -343,10 +349,11 @@
                           <div class="form-group">
                             <input  id = "editcate" name = "editcate" class="form-control" type="hidden" ></input>   
                             <label for="editnomcatelabel" class="control-label">Nombre de la categoría</label>
-                            <input  id = "editnomcate" name = "editnomcate" class="form-control" type="text" required="true" placeholder="Ejemplo: Insfraestructura"></input>            
+                            <input  id = "editnomcate" name = "editnomcate" class="form-control" type="text" required="true" placeholder="Ejemplo: Infraestructura"></input>            
                           </div>
                           <div class="form-group text-right"  id="carguecte">                
                             <button type="submit" class="btn btn-primary" >Editar</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
                           </div>
                     </form>
                   </div>
@@ -390,21 +397,22 @@
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
-          var table=$('#tablaresumenindi').DataTable();
-          var table2= $('#tablaresumencate').DataTable();
+          table=$('#tablaresumenindi').DataTable();
+          table2= $('#tablaresumencate').DataTable();
 
           $("#periodo").change(function() {
             metod_selec=$(this).find('option:selected').val();
             if (metod_selec==2){
                 $('label[for="peridioslable"]').css("visibility","visible");
                 $("#radioperidiocidadid").css("visibility","visible");
+                $("#periododiv").css("display","block");
                 $("#1").prop('required',true);
               } else {
                 $('label[for="peridioslable"]').css("visibility","hidden");
                 $("#radioperidiocidadid").css("visibility","hidden");
+                $("#periododiv").css("display","none");
                 $("#1").prop('required',false);
             }
-
           });
 
           $("#periodoedi").change(function() {
@@ -413,10 +421,12 @@
                 $('input[name="radioperidiocidadidedi"]').prop('checked', false);
                 $('label[for="peridioslableedi"]').css("visibility","visible");
                 $("#radioperidiocidadidedi").css("visibility","visible");
+                $("#periododivedi").css("display","block");
                 $("#1edi").prop('required',true);
               } else {
                 $('label[for="peridioslableedi"]').css("visibility","hidden");
                 $("#radioperidiocidadidedi").css("visibility","hidden");
+                $("#periododivedi").css("display","none");
                 $("#1edi").prop('required',false);
             }
 
@@ -427,27 +437,40 @@
             metod_selec=$(this).find('option:selected').val();
             if (metod_selec==1){
                 $('label[for="rangoslabel"]').css("visibility","visible");
+                $('#rangosdiv').css("display","block");
                 $("#rangos").css("visibility","visible");
                  vari=var_meto();
                  handlesSlider4.noUiSlider.updateOptions({
+                      start: [ 20, 40, 60],
                       format: wNumb({
                         decimals: 0,
                         postfix:vari
-                      })
+                      }),
+                      range: {
+                        'min': [  0 ],
+                        'max': [ 100 ]
+                    },
                   }); 
             } else if (metod_selec==2){
                 $('label[for="rangoslabel"]').css("visibility","visible");
                 $("#rangos").css("visibility","visible");
+                $('#rangosdiv').css("display","block");
                  vari=var_meto();
                  handlesSlider4.noUiSlider.updateOptions({
+                       start:[100, 200, 300],
                       format: wNumb({
                         decimals: 0,
                         postfix:vari
-                      })
+                      }),
+                      range: {
+                        'min': [  0 ],
+                        'max': [ 500 ]
+                    }
                   });
             }else{
                 $('label[for="rangoslabel"]').css("visibility","hidden");
                 $("#rangos").css("visibility","hidden");
+                $('#rangosdiv').css("display","none");
             }
 
           });
@@ -456,27 +479,40 @@
             metod_selec=$(this).find('option:selected').val();
             if (metod_selec==1){
                 $('label[for="rangoslabeledi"]').css("visibility","visible");
+                $("#rangosedidiv").css("display","block");
                 $("#rangosedi").css("visibility","visible");
                  vari=var_meto();
-                 handlesSlider4.noUiSlider.updateOptions({
+                 handlesSlider3.noUiSlider.updateOptions({
+                      start: [ 20, 40, 60],
                       format: wNumb({
                         decimals: 0,
                         postfix:vari
-                      })
+                      }),
+                      range: {
+                        'min': [  0 ],
+                        'max': [ 100 ]
+                    },
                   }); 
             } else if (metod_selec==2){
                 $('label[for="rangoslabeledi"]').css("visibility","visible");
                 $("#rangosedi").css("visibility","visible");
+                 $("#rangosedidiv").css("display","block");
                  vari=var_meto();
-                 handlesSlider4.noUiSlider.updateOptions({
+                 handlesSlider3.noUiSlider.updateOptions({
+                    start:[100, 200, 300],
                       format: wNumb({
                         decimals: 0,
                         postfix:vari
-                      })
+                      }),
+                      range: {
+                        'min': [  0 ],
+                        'max': [ 500 ]
+                    },
                   });
             }else{
                 $('label[for="rangoslabeledi"]').css("visibility","hidden");
                 $("#rangosedi").css("visibility","hidden");
+                 $("#rangosedidiv").css("display","none");
             }
 
           });
@@ -546,32 +582,43 @@
                     $('input:radio[name="Tableroedi"]').filter('[value='+data[0].id_tablero+']').attr('checked', true);
                     $("#metodoedi").val(data[0].id_metodo);
                     metod_selec=data[0].id_metodo;
-
+                    console.log(data[0].c2+ data[0].c3+data[0].c4)
                     if (metod_selec==1){
                         $('label[for="rangoslabeledi"]').css("visibility","visible");
                         $("#rangosedi").css("visibility","visible");
+                         $("#rangosedidiv").css("display","block");
                         vari=" %";
-                         handlesSlider4.noUiSlider.updateOptions({
+                         handlesSlider3.noUiSlider.updateOptions({
                             start:[data[0].c2, data[0].c3, data[0].c4],
                             format: wNumb({
                               decimals: 0,
                               postfix:vari
-                            })
+                            }),
+                            range: {
+                              'min': [  0 ],
+                              'max': [ 100 ]
+                          }
                         });
                     } else if (metod_selec==2){
                         $('label[for="rangoslabeledi"]').css("visibility","visible");
                         $("#rangosedi").css("visibility","visible");
+                         $("#rangosedidiv").css("display","block");
                          vari=" días";
-                         handlesSlider4.noUiSlider.updateOptions({
+                         handlesSlider3.noUiSlider.updateOptions({
                           start:[data[0].c2, data[0].c3, data[0].c4],
                             format: wNumb({
                               decimals: 0,
                               postfix:vari
-                            })
+                            }),
+                            range: {
+                                'min': [  0 ],
+                                'max': [ 500 ]
+                            }
                            });  
                     }else{
                         $('label[for="rangoslabeledi"]').css("visibility","hidden");
                         $("#rangosedi").css("visibility","hidden");
+                         $("#rangosedidiv").css("display","none");
                     }
                   },
                   error:function(){alert('error');}
@@ -637,6 +684,30 @@
                 }
                 return vari;
          }
+
+    $('#creacategoriaModal').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+       $(this).find('form').trigger('reset');
+       table2.$('tr.active').removeClass('active');
+       $("#editcategoria").prop('disabled', true);
+    })   
+
+    $('#editcategoriaModal').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+       $(this).find('form').trigger('reset');
+       table2.$('tr.active').removeClass('active');
+       $("#editcategoria").prop('disabled', true);
+    })  
+
+    $('#creaindicadorModal').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+       $(this).find('form').trigger('reset');
+       table.$('tr.active').removeClass('active');
+       $("#editindicador").prop('disabled', true);
+    }) 
+
+    $('#editindicadorModal').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+       $(this).find('form').trigger('reset');
+       table.$('tr.active').removeClass('active');
+       $("#editindicador").prop('disabled', true);
+    }) 
     </script>    
 @stop
 
