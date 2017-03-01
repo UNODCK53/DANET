@@ -101,10 +101,11 @@ Route::group(array('before' => 'auth'), function()
     //Ruta para solicitar el cambio de password
   });
   Route::get('levantamiento_topografico', array('before' => 'levgeograficotierras', 'uses' => 'TierrasController@ListadoLevtopo'));
-  //Ruta para edición de coordenadas
-  Route::get('coordenadas_edicion', array('before' => 'editcoortierras', 'uses' => 'TierrasController@UpdateProcesogeo'));
-  Route::get('mod_coordenadas', array('before' => 'editcoortierras', 'uses' => 'TierrasController@EditCoordenadas'));
-  
+  //Ruta para edición de novedad de coordenadas
+  Route::group(array('before'=>'editcoortierras'), function(){    
+    Route::get('novedadesodk','TierrasController@UpdateProcesogeo');    
+    Route::get('edit_novedad','TierrasController@EditCoordenadas');    
+  }); 
   //Ruta para el visor de mapas
   Route::get('mapas', array('before'=>'consmapfierras', function(){return View::make('modulotierras/mapas');}));
   //Termina Rutas módulo tierras

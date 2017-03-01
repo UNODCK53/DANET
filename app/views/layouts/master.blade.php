@@ -308,7 +308,7 @@ $menuguardaun=false;
                 <li id="tierraslevtopo"><a href="<?=URL::to('levantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
               @endif
               @if($menucoor)
-                <li id="tierrascoord"><a href="<?=URL::to('coordenadas_edicion'); ?>"> <span class="glyphicon glyphicon-ok"></span> Validación de Coordenadas</a></li>
+                <li id="tierrascoord"><a href="<?=URL::to('novedadesodk'); ?>"> <span class="glyphicon glyphicon-ok"></span> Validación de Coordenadas</a></li>
               @endif
                 <li class="divider"></li>
                 <!--Termina espacio de procesos-->
@@ -717,7 +717,7 @@ $menuguardaun=false;
                       <li><a id="tierraslevtopmenupeq" href="<?=URL::to('levantamiento_topografico'); ?>"><span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
                     @endif
                     @if($menucoor)
-                      <li><a id="tierrascoordmenupeq" href="<?=URL::to('coordenadas_edicion'); ?>"><span class="glyphicon glyphicon-ok"></span> Validación de Coordenadas</a></li>
+                      <li><a id="tierrascoordmenupeq" href="<?=URL::to('novedadesodk'); ?>"><span class="glyphicon glyphicon-ok"></span> Validación de Coordenadas</a></li>
                     @endif
                     <li class="divider"></li>
                     <!--Termina espacio de procesos-->

@@ -859,31 +859,34 @@ class TierrasController extends BaseController {
 		Session::forget('procesoi');
 		return View::make('modulotierras.consultarproceso', array('arrayproceso' => $arrayproceso), array('arraydombobox' => $arraydombobox));
 	}
-
+	//funcion que toca borrar es solo de pruebas
 	public function PruebaPro()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
 		$arrayproini = DB::select('SELECT DISTINCT * FROM MODTIERRAS_PROCESOINICIAL WHERE NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESO WHERE MODTIERRAS_PROCESOINICIAL.id_proceso = MODTIERRAS_PROCESO.id_proceso)');
 		return View::make('vista3', array('arrayproini' => $arrayproini));
 	}
-
+	//funcion que toca borrar es solo de pruebas
 	public function UpdateProcesogeo()
 	{
-		$arrayproccoord = DB::select("SELECT id_proceso, longitud, latitud, viabilidad, vereda, respcoordmodif , updatedcoord FROM MODTIERRAS_PROCESO");
-		return View::make('modulotierras.coordenadas', array('arrayproccoord' => $arrayproccoord));
+		//MODTIERRAS_PROCESONOVEDAD
+		//$arraytecnicos = DB::select("SELECT cedula,nombre,estado,catastral FROM MODTIERRAS_TECNICOS where catastral=".Auth::user()->id);
+		$arrayprocesos = DB::select("SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_TECNICOS.catastral=".Auth::user()->id." group by MODTIERRAS_PROCESONOVEDAD.id_proceso");
+		$arraynombnovedad = DB::select("SELECT id,descripcion FROM MODTIERRAS_NOVEDADES");
+		$arrayproccoord = DB::select("SELECT id_proceso, IsNull([1],0) as nov1, IsNull([2],0) as nov2, IsNull([3],0) as nov3, IsNull([4],0) as nov4, IsNull([5],0) as nov5 FROM (SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso, MODTIERRAS_PROCESONOVEDAD.novedad, MODTIERRAS_PROCESONOVEDAD.validado FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_TECNICOS.catastral=".Auth::user()->id.") as src pivot (sum(validado) FOR novedad in ([1], [2], [3], [4], [5])) as result");
+		$arraydombobox= array($arrayprocesos,$arraynombnovedad);
+		
+		//return $arrayproccoord;		
+		return View::make('modulotierras.coordenadas', array('arrayproccoord' => $arrayproccoord), array('arraydombobox' => $arraydombobox));
 	}
 
-	public function postCoordenadasEdicion()
-	{
-		Session::put('procesoi',Input::get('proceso'));		
-		return Redirect::to('mod_coordenadas');
-	}
+	
 
 	public function EditCoordenadas()
 	{
 		$idpro=(Session::get('procesoi'));
 		if($idpro==''){
-			return Redirect::to('coordenadas_edicion');
+			return Redirect::to('novedadesodk');
 		}
 		$arrayapp = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->select('id_proceso','longitud', 'latitud')->get();
 		Session::forget('procesoi');
@@ -910,7 +913,7 @@ class TierrasController extends BaseController {
 		else{
 			$status='false';
 		}
-		return Redirect::to('coordenadas_edicion')->with('status',$status);
+		return Redirect::to('novedadesodk')->with('status',$status);
 	}
 	public function Reporgenero()
 	{		

@@ -34,7 +34,7 @@
   <div class="container" id="sha">
     <!--aca se escribe el codigo-->
     <div class="row">
-        <h1 class="text-center text-primary">RELACIÓN DE PROCESOS ADJUDICADOS PARA EDICIÓN DE COORDENADAS</h1>
+        <h1 class="text-center text-primary">VALIDACIÓN DE INFORMACIÓN CAPTURADA CON DISPOSITIVOS MOVILES</h1>
     </div>
     <div class="row">
       <?php $status=Session::get('status'); ?>
@@ -53,16 +53,28 @@
     </div>
     <div class="row">
       <div class="col-sm-1"></div>
-      <form role="form" action="tierras/coordenadas-edicion" method="post" id="formconsulpro">
+      <form role="form" action="tierras/novedad-edicion" method="post" id="formconsulpro">
         <div class="col-sm-10">
           <!-- Standard button -->
-          <button id="btnedicoord" title="Presione para editar coordenadas" disabled="disabled" type="submit" type="button" class="btn btn-primary">Edición de coordenadas</button>
+          <button id="btnedicoord" title="Presione para editar una novedad" disabled="disabled" type="submit" type="button" class="btn btn-primary">Edición de proceso</button>
           <input id="proceso" type="hidden" class="form-control" name="proceso">
         </div>
         <div class="col-sm-1"></div>
     </div>
     <div class="row">
+      <br>
+      <div class="col-sm-1"></div>
+      
+      <div class="col-sm-10">
+      
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    
+
+
     <!--Listado de Procesos Iniciales para edicion -->
+    <div class="row">    
       <br>
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10" >
@@ -70,30 +82,40 @@
           <thead>
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
-              <th class="text-center">Modificación de Coordenadas</th>
-              <th class="text-center">latitud</th>
-              <th class="text-center">longitud</th>
+              @foreach($arraydombobox[1] as $nombcolum)
+                <th class="text-center">{{$nombcolum->descripcion}}</th>
+              @endforeach             
             </tr>
           </thead>
           <tbody>
-            @foreach($arrayproccoord as $coordenadas)
-              <tr id="{{$coordenadas->id_proceso}}">
-                <td>{{$coordenadas->id_proceso}}</td>
-                @if($coordenadas->updatedcoord<>NULL)
-                  <td align="center"><p style="display:none;">{{$coordenadas->updatedcoord}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$coordenadas->updatedcoord}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
+            @foreach($arrayproccoord as $proceso)
+              <tr id="{{$proceso->id_proceso}}">
+                <td>{{$proceso->id_proceso}}</td>
+                @if($proceso->nov1>=1)
+                  <td align="center"><p style="display:none;">{{$proceso->nov1}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov1}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
                 @endif
-                <td>{{(double)$coordenadas->latitud}}</td>
-                <td>{{(double)$coordenadas->longitud}}</td>
+                @if($proceso->nov2>=1)
+                  <td align="center"><p style="display:none;">{{$proceso->nov2}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov2}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                @endif
+                @if($proceso->nov3>=1)
+                  <td align="center"><p style="display:none;">{{$proceso->nov3}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov3}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                @endif
+                @if($proceso->nov4>=1)
+                  <td align="center"><p style="display:none;">{{$proceso->nov4}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov4}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                @endif
+                @if($proceso->nov5>=1)
+                  <td align="center"><p style="display:none;">{{$proceso->nov5}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov5}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                @endif
               </tr>
-            @endforeach
+            @endforeach 
           </tbody>
         </table>
       </form>
       </div>
       <div class="col-sm-1"></div>
       <br>
-    </div>
-  </div>
+    </div><!--termina el row            <td>(double)proceso->longitud</td> -->
+  </div> <!--termina el div id sha-->
 <!--Fin del tercer contenedor-->
 @stop
 <!--Cierra el CONTENEDOR GENERAL-->
@@ -114,7 +136,7 @@
         $( "#tierrascoord" ).addClass("active");
         $( "#iniciomenupeq" ).html("<small> INICIO</small>");
         $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-        $( "#tierrascoordmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Edición de Coordenadas</strong>");
+        $( "#tierrascoordmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Validación de Coordenadas</strong>");
         $( "#mensajeestatus" ).fadeOut(5000);
         var table = $('#tablacoordenadas').DataTable();
         $('#tablacoordenadas tbody').on('click', 'tr', function () {

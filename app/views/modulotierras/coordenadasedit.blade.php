@@ -141,7 +141,7 @@
         $( "#tierrascoord" ).addClass("active");
         $( "#iniciomenupeq" ).html("<small> INICIO</small>");
         $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
-        $( "#tierrascoordmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Edición de Coordenadas</strong>");
+        $( "#tierrascoordmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Validación de Coordenadas</strong>");
         $( "#mensajeestatus" ).fadeOut(5000);
         $('#latgrados').keyup(function(){
           $('#lonsegundos').val("");
