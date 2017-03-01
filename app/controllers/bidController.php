@@ -17,10 +17,16 @@ class bidController extends BaseController {
 		$organizaciones=DB::table('MODBID_BIDPUBLIC')
 						->join('MODBID_ORGANIZACION','MODBID_BIDPUBLIC.nit','=','MODBID_ORGANIZACION.nit')
 						->join('DEPARTAMENTOS','DEPARTAMENTOS.COD_DPTO','=','MODBID_ORGANIZACION.cod_depto')
-						->select(DB::RAW('NOM_DPTO,MODBID_BIDPUBLIC.nit, acronim, nombre'))	
+						->select(DB::RAW('NOM_DPTO,MODBID_BIDPUBLIC.nit, acronim, nombre'))
+						->where('borrado','=',0)	
 						->get();
 
-		$array=[$valor,$organizaciones];
+		$lpe = DB::table('MODBID_LINEAPRODEXP')
+							->select(DB::RAW('id_lipex,nombre'))
+							->orderby('nombre')	
+							->get();
+
+		$array=[$valor,$organizaciones,$lpe];
 
 		return View::make('modulobid/cargaorganizacion', array('departamentos' => $departamentos), array('array' => $array));
 	}
@@ -75,7 +81,8 @@ class bidController extends BaseController {
 			DB::table('MODBID_LINEAPRODORG')->insert(
 		    	array(
 		    		//'id_usuario' => Auth::user()->id,		    		
-		    		'nit' => $nit,		    		
+		    		'nit' => $nit,		    				    		
+		    		'id_lipex' => Input::get('linea_prod_ext'),		    		
 		    		'linea_prod' => Input::get('linea_prod'),		    		
 		    		//'created_at' => $fecha,
 	    			//'updated_at' => $fecha
@@ -127,6 +134,7 @@ class bidController extends BaseController {
 		$lp = DB::table('MODBID_LINEAPRODORG')					  
 			  ->select(db::raw('nit, linea_prod, desc_lp, id'))
 			  ->where('nit','=',$organizacion)
+			  ->where('borrado','=',0)
 			  ->get();
 
 		$va = DB::table('MODBID_BIDPUBLICVA')
@@ -170,12 +178,13 @@ class bidController extends BaseController {
 	}
 
 	public function postAdicionarLinea(){
-		//Insertar la línea productiva
+		//Insertar la línea productiva		
 		$nit=Input::get('id_adicionar_linea');		
 		DB::table('MODBID_LINEAPRODORG')->insert(
 	    	array(
 	    		//'id_usuario' => Auth::user()->id,		    		
 	    		'nit' => $nit,		    		
+	    		'id_lipex' => Input::get('linea_prod_ext_edit'),
 	    		'linea_prod' => Input::get('linea_prod_add'),		    		
 	    		//'created_at' => $fecha,
     			//'updated_at' => $fecha
@@ -216,14 +225,17 @@ class bidController extends BaseController {
 	}
 
 	public function postBorrarLp(){
-		$id_registro=Input::get('id_borrar');
-		DB::table('MODBID_LINEAPRODORG')->where('id',$id_registro)->update(
+		$id_registro=Input::get('id_borrar');		
+		$insert=DB::table('MODBID_LINEAPRODORG')->where('id',$id_registro)->update(
 		    	array(		    				    		
 		    		'borrado' =>  1,		    				    				    		
 		    	)
 		);
-
-		return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus');
+		if($insert>0){
+			return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus_borrar_lp');	
+		} else {
+			return Redirect::to('cargaorganizacion')->with('status', 'error_estatus_borrar_lp');	
+		}
 	}
 
 	public function postAdicionarVa(){
@@ -248,14 +260,45 @@ class bidController extends BaseController {
 	}
 	
 	public function postConsultaBorrarVa(){
-		$id_registro=Input::get('lineaproductiva');
-		$lp = DB::table('MODBID_LINEAPRODORG')					  
-				  ->select(db::raw('linea_prod'))
-				  ->where('id','=',$id_registro)
+		$id_registro=Input::get('registro');
+		
+		$va = DB::table('MODBID_BIDPUBLICVA')
+				  ->join('MODBID_VALORVA','MODBID_BIDPUBLICVA.id_val','=','MODBID_VALORVA.id')					  
+				  ->select(db::raw('MODBID_VALORVA.nombre as id_val'))
+				  ->where('MODBID_BIDPUBLICVA.id','=',$id_registro)
 				  ->get();
 
-		return $lp;
+		return $va;
 	}
 
+	public function postBorrarVa(){
+		$id_registro=Input::get('id_borrar_registro_va');
+
+		$insert=DB::table('MODBID_BIDPUBLICVA')->where('id',$id_registro)->update(
+			    	array(		    				    		
+			    		'borrado' =>  1,		    				    				    		
+			    	)
+				);
+		if($insert>0){
+			return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus_borrar_va');	
+		} else {
+			return Redirect::to('cargaorganizacion')->with('status', 'error_estatus_borrar_va');	
+		}		
+	}
+
+	public function postBorrarOrganizacion(){
+		$id_registro=Input::get('id_borrar_organizacion');
+
+		$insert=DB::table('MODBID_BIDPUBLIC')->where('nit',$id_registro)->update(
+			    	array(		    				    		
+			    		'borrado' =>  1,		    				    				    		
+			    	)
+				);
+		if($insert>0){
+			return Redirect::to('cargaorganizacion')->with('status', 'ok_estatus_borrar_organizacion');	
+		} else {
+			return Redirect::to('cargaorganizacion')->with('status', 'error_estatus_borrar_organizacion');	
+		}
+	}
 }
 ?>

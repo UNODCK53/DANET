@@ -447,8 +447,7 @@
           $('#datepicker').datepicker({
             format: "yyyy-dd-mm",
             language: "es",
-            startDate: "2016-01-12",
-            endDate: "today",
+            startDate: "2016-01-12",            
             todayBtn: "linked",
             orientation: "auto",
             autoclose: true,
@@ -458,8 +457,7 @@
            $('#datepicker2').datepicker({
             format: "yyyy-dd-mm",
             language: "es",
-            startDate: "2016-01-12",
-            endDate: "today",
+            startDate: "2016-01-12",            
             todayBtn: "linked",
             orientation: "auto",
             autoclose: true,
@@ -468,10 +466,9 @@
            });
 
            $('#datepicker2_editar').datepicker({
-            format: "yyyy-mm-dd",
+            format: "yyyy-dd-mm",
             language: "es",
-            startDate: "2010-01-01",
-            endDate: "today",
+            startDate: "2010-01-01",            
             todayBtn: "linked",
             orientation: "auto",
             autoclose: true,

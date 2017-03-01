@@ -89,6 +89,42 @@
             <i class="bg-danger"></i> El valor agregado NO fue agregado</div>
             <div class="col-sm-1"></div>
             @endif
+            @if($status=='ok_estatus_borrar_lp')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-success"></i> La línea productiva fue borrada con éxito</div>
+            <div class="col-sm-1"></div>
+            @endif
+            @if($status=='error_estatus_borrar_lp')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-danger"></i> La línea productiva NO fue borrada</div>
+            <div class="col-sm-1"></div>
+            @endif
+            @if($status=='ok_estatus_borrar_va')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-success"></i> El valor agregado fue borradp con éxito</div>
+            <div class="col-sm-1"></div>
+            @endif
+            @if($status=='error_estatus_borrar_va')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-danger"></i> El valor agregado NO fue borrado</div>
+            <div class="col-sm-1"></div>
+            @endif
+            @if($status=='ok_estatus_borrar_organizacion')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-success"></i> La oranización fue borrada con éxito</div>
+            <div class="col-sm-1"></div>
+            @endif
+            @if($status=='error_estatus_borrar_organizacion')
+            <div class="col-sm-1"></div>
+            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+            <i class="bg-danger"></i> La organización NO fue borrada </div>
+            <div class="col-sm-1"></div>
+            @endif
           <?php $status=0; ?>
         </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cargar_info">Cargar información</button>
@@ -96,6 +132,7 @@
             <button id="edit_logo" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_logo">Cambiar Logo</button>
             <button id="edit_lp" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_lp">Editar línea productiva</button>
             <button id="edit_va" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_va">Editar valor agregado</button>
+            <button id="borrar" type="button" disabled="disabled" class="btn btn-danger" data-toggle="modal" data-target="#borrar_organizacion">Borrar Organización</button>
             <!--Aca inicia el modal para cargar nueva información-->
             <!-- Modal -->
             <div class="modal fade" id="cargar_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -171,7 +208,14 @@
                           </label>
                         </div>
                         <div class="raw" id="div_lp_va" style="display: none">
-                          <h4>Ingrese la línea productiva de la organización</h4>
+                          <h4>Seleccione la línea productiva de la organización</h4>
+                          <select id="linea_prod_ext" name="linea_prod_ext" class="form-control">
+                            <option selected disabled>Seleccione un valor agregado</option>  
+                             @foreach($array[2] as $pro)                  
+                              <option value="{{$pro->id_lipex}}">{{$pro->nombre}}</option>                    
+                            @endforeach
+                          </select>
+                          <h4>Ingrese el texto de la línea productiva de la organización como la quiere visualizar</h4>
                           <input id="linea_prod" name="linea_prod" type="text" class="form-control" placeholder="Text input">
                           <!--Aca finaliza el modal para cargar nueva información-->
                           <h4>¿La línea productiva tiene imagen?</h4>
@@ -326,6 +370,13 @@
                       <form role="form" action="bid/adicionar-linea" method="post" id="adicionar_linea" enctype="multipart/form-data" novalidate>
                       <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                       <input type="text" id="id_adicionar_linea" name="id_adicionar_linea"  class="form-control" style="display: none;">
+                      <h4>Seleccione la línea productiva de la organización</h4>
+                      <select id="linea_prod_ext_edit" name="linea_prod_ext_edit" class="form-control">
+                        <option selected disabled>Seleccione un valor agregado</option>  
+                         @foreach($array[2] as $pro)                  
+                          <option value="{{$pro->id_lipex}}">{{$pro->nombre}}</option>                    
+                        @endforeach
+                      </select>
                       <h4>Ingrese la línea productiva de la organización</h4>
                       <input id="linea_prod_add" name="linea_prod_add" type="text" class="form-control" placeholder="Text input">
                       <!--Aca finaliza el modal para cargar nueva información-->
@@ -380,13 +431,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="borrar_lp_tittle">Ups</h4>
+                        <h4 class="modal-title" id="borrar_lp_tittle">Borrar línea productiva</h4>
                     </div>
                     <div class="modal-body">
                     <form role="form" action="bid/borrar-lp" method="post" id="cargarproy" enctype="multipart/form-data">
                     <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                     <input type="text" id="id_borrar" name="id_borrar"  class="form-control" style="display: none;">
-                    Esta seguro que desea borrar la línea productiva
+                    ¿Está seguro que desea borrar la línea productiva?
                     <br><br>
                     <b><i id="id_borrar_lp"></i></b>                
                     
@@ -427,13 +478,13 @@
                         <!--Aca finaliza la tabla de proyectos cargados-->                        
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                    
                   </div>
                 </div>
               </div>
             </div>
             <!--Aca finaliza el modal para editar las líneas productivas-->
-            <!--Aca inicia el modal para adicionar líneas productivas-->            
+            <!--Aca inicia el modal para adicionar valor agregado-->            
             <div class="modal fade" id="adicionar_va" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
               <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
@@ -464,7 +515,59 @@
                 </div>
               </div>
             </div>
-            <!--Aca finaliza el modal para adicionar líneas productivas-->
+            <!--Aca finaliza el modal para adicionar valor agregado-->
+            <!--Aca inicia el modal para borrar valor agregado-->
+            <div class="modal fade bs-example-modal-sm" id="borrar_va" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+              <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="borrar_lp_tittle">Borrar valor agregado</h4>
+                    </div>
+                    <div class="modal-body">
+                    <form role="form" action="bid/borrar-va" method="post" id="cargarproy" enctype="multipart/form-data">
+                    <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
+                    <input type="text" id="id_borrar_registro_va" name="id_borrar_registro_va"  class="form-control" style="display: none;">
+                    ¿Está seguro que desea borrar el valor agregado?
+                    <br><br>
+                    <b><i id="id_borrar_va"></i></b>                
+                    
+                    </div>
+                    <div class="modal-footer" style="margin-bottom: 5px">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Borrar valor agregado</button>
+                    </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <!--Aca finaliza el modal para borrar valor agregado-->
+            <!--Aca inicia el modal para borrar valor agregado-->
+            <div class="modal fade bs-example-modal-sm" id="borrar_organizacion" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+              <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="borrar_lp_tittle">Borrar Organización</h4>
+                    </div>
+                    <div class="modal-body">
+                    <form role="form" action="bid/borrar-organizacion" method="post" id="cargarproy" enctype="multipart/form-data">
+                    <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
+                    <input type="text" id="id_borrar_organizacion" name="id_borrar_organizacion"  class="form-control" style="display: none;">
+                    ¿Está seguro que desea borrar la organización?
+                    <br><br>
+                    <b><i id="id_borrar_organizacion_texto"></i></b>                
+                    
+                    </div>
+                    <div class="modal-footer" style="margin-bottom: 5px">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Borrar organización</button>
+                    </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <!--Aca finaliza el modal para borrar valor agregado-->
             <!--Aca inicia la tabla de proyectos cargados-->
             <!--Acá inicia la tabla de proyectos-->
           <h4>Listado de organizaciones</h4>
@@ -517,8 +620,8 @@
     <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
-          $( "#art" ).addClass("active");
-          $( "#artdashboardmenu" ).addClass("active");
+          $( "#bid" ).addClass("active");
+          $( "#cargaorganizacionmenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
@@ -612,13 +715,15 @@
             $("#edit_logo").prop('disabled', true);
             $("#edit_lp").prop('disabled', true);
             $("#edit_va").prop('disabled', true);
+            $("#borrar").prop('disabled', true);            
         } else {
             table.$('tr.active').removeClass('active');
             $(this).addClass('active');
             $("#edit_banner").prop('disabled', false);
             $("#edit_logo").prop('disabled', false);
             $("#edit_lp").prop('disabled', false);
-            $("#edit_va").prop('disabled', false);                                  
+            $("#edit_va").prop('disabled', false);
+            $("#borrar").prop('disabled', false);                                  
             var id=$(this);
             var num=id[0].id;
             $.ajax({
@@ -642,7 +747,9 @@
                     $("#id_editar_banner").val(num);
                     $("#id_editar_logo").val(num);
                     $("#id_adicionar_linea").val(num);
-                    $("#id_adicionar_va").val(num);
+                    $("#id_adicionar_va").val(num);                    
+                    $("#id_borrar_organizacion").val(num);
+                    $("#id_borrar_organizacion_texto").html(data[0][0].acronim);                    
                     $("#tabla_lp_body").empty();
                     for (var i = 0; i < data[1].length; i++) {
                       var table_body="<tr id="+data[1][i].id+"><td>"+data[1][i].linea_prod+"</td><td>"+data[1][i].desc_lp+"</td></tr>"
@@ -677,7 +784,7 @@
                 success:function(data){                                        
                     var registro=data[0].linea_prod;                    
                     $("#id_borrar_lp").html(registro);
-                    $("#id_borrar").html(num);                    
+                    $("#id_borrar").val(num);                    
                 },
                 error:function(){alert('error');}
             });//fin de la consulta ajax (Editar proceso)
@@ -698,12 +805,12 @@
             $.ajax({
                 url:"bid/consulta-borrar-va",
                 type:"POST",
-                data:{lineaproductiva: num},
+                data:{registro: num},
                 dataType:'json',
-                success:function(data){                                        
-                    /*var registro=data[0].linea_prod;                    
-                    $("#id_borrar_lp").html(registro);
-                    $("#id_borrar").html(num);*/
+                success:function(data){                                                         
+                    var registro=data[0].id_val;                    
+                    $("#id_borrar_va").html(registro);
+                    $("#id_borrar_registro_va").val(num);
                 },
                 error:function(){alert('error');}
             });//fin de la consulta ajax (Editar proceso)
