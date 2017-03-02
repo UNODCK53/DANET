@@ -53,6 +53,7 @@ Route::controller('documentos','DocumentosController');
 Route::controller('geoapi','GeoapiController');
 Route::controller('giz','gizController');
 
+Route::controller('artdashboard','ArtdashboardController');
 Route::controller('artzvtn','ArtzvtnController');
 Route::controller('artpic','ArtpicController');
 Route::controller('artplan100','Artplan100Controller');
@@ -143,7 +144,7 @@ Route::group(array('before' => 'auth'), function()
 
   //Rutas para módulo de ART
     //Inversion Social    
-  Route::get('ivsocidashboard', array('before'=>'MenuARTDashBoard', function(){return View::make('moduloart/ivsocidashboard');}));
+  Route::get('ivsocidashboard', array('before'=>'MenuARTDashBoard', 'uses' => 'ArtdashboardController@Preload'));
   Route::get('ivsocicensofamilias', array('before'=>'MenuARTCensoFamilias', function(){return View::make('moduloart/ivsocicensofamilias');}));
   //Route::get('ivsocidiagnosticofamiliar', array('before'=>'MenuARTDiagnosticoFamiliar', function(){return View::make('moduloart/ivsocidiagnosticofamiliar');}));
   Route::get('ivsocidiagnosticofamiliar', array('before' => 'EstadisticaSISCADI', 'uses' => 'SiscadiController@siscadi_repestadistic'));

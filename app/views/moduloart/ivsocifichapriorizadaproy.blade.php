@@ -650,10 +650,10 @@
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
           $( "#art" ).addClass("active");
-          $( "#artdashboardmenu" ).addClass("active");
+          $( "#ivsocifichapriorizadaproymenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
-          $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
+          $( "#ivsocifichapriorizadaproymenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Ficha Priorizada Proyectos</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
 
           $('#datepicker').datepicker({

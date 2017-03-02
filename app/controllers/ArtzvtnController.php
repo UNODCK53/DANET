@@ -218,9 +218,9 @@ class ArtzvtnController extends BaseController {
 			);
 
        	if($insert>0){
-			return Redirect::to('zvcargaindicador')->with('status', 'ok_estatus'); 
+			return Redirect::to('zvcargaindicador#tab_cate')->with('status', 'ok_estatus'); 
 		} else {
-			return Redirect::to('zvcargaindicador')->with('status', 'error_estatus'); 
+			return Redirect::to('zvcargaindicador#tab_cate')->with('status', 'error_estatus'); 
 		}
     	
     }
@@ -253,9 +253,9 @@ class ArtzvtnController extends BaseController {
 			
 
 		if($Edit>0){
-			return Redirect::to('zvcargaindicador')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('zvcargaindicador#tab_cate')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('zvcargaindicador')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('zvcargaindicador#tab_cate')->with('status', 'error_estatus_editar'); 
 		}	
 
 	}

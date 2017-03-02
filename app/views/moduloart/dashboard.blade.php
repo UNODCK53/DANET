@@ -68,7 +68,9 @@
             <div class="panel panel-danger">
               <div class="panel-heading">
                   <i class="fa fa-bell"></i>
-                  Alertas y novedades              
+                  <div>Aalertas y novedades</div><div><button type="button" class="btn btn-default btn-lg">
+  <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+</button>  </div>           
               </div>
               <div class="panel-body">
                   <ul class="chat">
@@ -563,10 +565,10 @@
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
           $( "#art" ).addClass("active");
-          $( "#artdashboardmenu" ).addClass("active");
+          $( "#ivsocidashboardmenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
-          $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
+          $( "#ivsocidashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);      
       });
     </script>

@@ -45,27 +45,7 @@
             <li class="active" id="tab_indi"><a data-toggle="tab" href="#indicadores">Indicadores veredales</a></li>
             <li id="tab_cate"><a data-toggle="tab" href="#categoria">Categoría de indicadores</a></li>
           </ul>
-        </div>
-        <div class="col-sm-1"></div>
-      </div>
-     
-      <div class="tab-content">
-          <div id="indicadores" class="tab-pane fade in active">
-            <div class="row">
-              <div class="col-sm-1"></div>
-              <div class="col-sm-10">
-                <h3>Indicadores veredales:</h3>
-                <p>Usted puede realizar la consulta, edición e ingreso de los indicadores a evaluar en las zonas veredales de transición</p>           
-                <div class="row">
-                  <div class="col-sm-2">
-                    <!-- Standard button -->
-                    <button id="creaindicador" title="Presione para crear un nuevo indicador"  data-target="#creaindicadorModal"  data-toggle="modal" type="button" class="btn btn-primary">Crear indicador</button>
-                  </div>
-                   <div class="col-sm-2">
-                     <button id="editindicador" title="Seleccione un idnicador en la tabla para editar su contenido" disabled="disabled" data-target="#editindicadorModal"  data-toggle="modal" type="button" class="btn btn-primary">Editar indicador</button>
-                   </div>
-                </div>
-                <div class="row">
+          <div class="row">
                     <?php $status=Session::get('status'); ?>
                     @if($status=='ok_estatus')
                     <div class="col-sm-1"></div>
@@ -93,7 +73,28 @@
                     @endif
 
                     <?php $status=0; ?>
-                </div> 
+                </div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+     
+      <div class="tab-content">
+          <div id="indicadores" class="tab-pane fade in active">
+            <div class="row">
+              <div class="col-sm-1"></div>
+              <div class="col-sm-10">
+                <h3>Indicadores veredales:</h3>
+                <p>Usted puede realizar la consulta, edición e ingreso de los indicadores a evaluar en las zonas veredales de transición</p>           
+                <div class="row">
+                  <div class="col-sm-2">
+                    <!-- Standard button -->
+                    <button id="creaindicador" title="Presione para crear un nuevo indicador"  data-target="#creaindicadorModal"  data-toggle="modal" type="button" class="btn btn-primary">Crear indicador</button>
+                  </div>
+                   <div class="col-sm-2">
+                     <button id="editindicador" title="Seleccione un idnicador en la tabla para editar su contenido" disabled="disabled" data-target="#editindicadorModal"  data-toggle="modal" type="button" class="btn btn-primary">Editar indicador</button>
+                   </div>
+                </div>
+                 
               </div>
               <div class="col-sm-1"></div>
             </div>
@@ -183,7 +184,9 @@
                       </div> 
                       <div id="rangosdiv" style='display:none'>
                         <label for="rangoslabel" class="control-label" style="visibility:hidden">Rangos del mideción</label>
+                        <br><br><br>
                         <div id="rangos" class="noUi-target noUi-ltr noUi-horizontal" style="visibility:hidden"></div>
+                        <div class="col-sm-2">Valor mínimo</div><div class="col-sm-8"></div><div class="col-sm-2">Valor máximo</div>
                         <input type="text" id="rangos-value-1" name="rangos-value-1" style="visibility:hidden">
                         <input type="text" id="rangos-value-2" name="rangos-value-2" style="visibility:hidden">
                         <input type="text" id="rangos-value-3" name="rangos-value-3" style="visibility:hidden">
@@ -204,7 +207,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title"><strong>Creación de nuevas categorías de indicadores</strong></h4>
+                  <h4 class="modal-title"><strong>Edición de indicadores</strong></h4>
                 </div>
                 <div class="modal-body">
                   <form role="form" action="artzvtn/editindi" method="post" id="crearcate" enctype="multipart/form-data" >
@@ -251,14 +254,16 @@
                       {{Form::select('metodoedi', $arraymetodo, '', ['class' => 'form-control', 'id'=>'metodoedi','required'=>'true'])}}
                     </div> 
                     <div id='rangosedidiv' style='display:none'>
-                    <label for="rangoslabeledi" class="control-label" style="visibility:hidden">Rangos del mideción</label>
+                      <label for="rangoslabeledi" class="control-label" style="visibility:hidden">Rangos del mideción</label>
+                      <br><br><br>
                       <div id="rangosedi" class="noUi-target noUi-ltr noUi-horizontal" style="visibility:hidden"></div>
+                      <div class="col-sm-2">Valor mínimo</div><div class="col-sm-8"></div><div class="col-sm-2">Valor máximo</div>
                       <input type="text" id="edirangos-value-1" name="edirangos-value-1" style="visibility:hidden">
                       <input type="text" id="edirangos-value-2" name="edirangos-value-2" style="visibility:hidden">
                       <input type="text" id="edirangos-value-3" name="edirangos-value-3" style="visibility:hidden">
                     </div>
                     <div class="form-group text-right"  id="carguecte">                
-                      <button type="submit" class="btn btn-primary" >Crear</button>
+                      <button type="submit" class="btn btn-primary" >Editar</button>
                       <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
                     </div>
                   </form>
@@ -281,6 +286,7 @@
                 <div class="col-sm-2">
                   <button id="editcategoria" title="Presione una categoría en la tabla para editar su contendio" disabled="disabled" data-target="#editcategoriaModal"  data-toggle="modal" type="button" class="btn btn-primary">Editar categoría</button>
                 </div>
+                
             </div>
             <div class="col-sm-1"></div>
         </div>
@@ -392,13 +398,20 @@
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
           $( "#art" ).addClass("active");
-          $( "#artdashboardmenu" ).addClass("active");
+          $( "#zvcargaindicadormenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
-          $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
+          $( "#zvcargaindicadormenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Carga indicador</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
           table=$('#tablaresumenindi').DataTable();
           table2= $('#tablaresumencate').DataTable();
+           if (window.location.hash == '#tab_cate') {
+            $('#tab_indi').removeClass('active');
+            $('#tab_cate').addClass('active');
+            $('#indicadores').removeClass('active')
+            $('#categoria').addClass('in active')
+           } 
+          
 
           $("#periodo").change(function() {
             metod_selec=$(this).find('option:selected').val();
@@ -689,6 +702,7 @@
        $(this).find('form').trigger('reset');
        table2.$('tr.active').removeClass('active');
        $("#editcategoria").prop('disabled', true);
+       
     })   
 
     $('#editcategoriaModal').on('hidden.bs.modal', function (e) {//funcion que resetea el modal

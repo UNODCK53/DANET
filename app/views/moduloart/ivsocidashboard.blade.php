@@ -14,7 +14,17 @@
   <link rel="stylesheet" href="assets/art/css/styledLayerControl.css" />
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
-  
+  <style>
+  .icon-verde {
+      color: #5CB85C;
+  }
+  .icon-amarillo {
+      color: #FACC2E;
+  }
+  .icon-rojo {
+      color: red;
+  }
+</style>
 @stop
 
 <!-- librerias JavaScript que se utilizan en la pagina -->  
@@ -67,8 +77,14 @@
           <div class="col-xs-12 col-md-6" id="alertas">          
             <div class="panel panel-danger">
               <div class="panel-heading">
-                  <i class="fa fa-bell"></i>
-                  Alertas y novedades              
+                  <i class="fa fa-bell col-xs-1"></i>
+                  <div class="col-xs-6">Aalertas y novedades </div>
+                  <div class="col-xs-3"></div>
+                  <div>
+                    <button type="button" class="btn btn-default btn-xs" id="new_alerta" data-target="#alerta"  data-toggle="modal">
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva
+                    </button> 
+                  </div>               
               </div>
               <div class="panel-body">
                   <ul class="chat">
@@ -143,6 +159,103 @@
             </div>  
           </div>  
         </div>
+        <!-- /.inicio modal-->
+        <div id="alerta" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><strong>Nueva alerta</strong></h4>
+                  </div>
+                  <div class="modal-body">
+                    <form role="form" action="artdashboard/nueva-alerta" method="post" id="crearalerta" enctype="multipart/form-data" >
+                      <div id="supcate" class="form-group">
+                         {{Form::label('nom_subcatelable','Subcategoría:',['class' => 'control-label'])}}
+                        <select name="nom_subcate" id="nom_subcate" class="form-control" required>
+                           <option value="">Seleccione subcategoria </option>
+                            <?php foreach($arraycate as $key=>$val): ?>
+                                    <optgroup label="<?php echo implode(",", $val); ?>">
+                                       <?php foreach($arraysubcate as $option): 
+                                        if ($option->id_cat==$key):?>
+                                        <option value=<?php echo $option->id; ?>><?php echo $option->nombre; ?></option>
+                                         <?php endif; endforeach; ?>
+                                    </optgroup>
+                            <?php endforeach; ?>
+                        </select>     
+                      </div>
+                      <div class="form-group" id="intimidacion" style='display:none'>
+                        <div class="form-group" >
+                          {{Form::label('subsubcatelable','Persona víctima de intimidación:',['class' => 'control-label'])}}
+                          {{Form::select('subsubcate', $arraysubsubcate, '', ['class' => 'form-control', 'id'=>'subsubcate'])}}
+                        </div> 
+                      </div>
+                      <div class="form-group">
+                        {{Form::label('semaforolable','Escoja prioridad de la alerta:',['class' => 'control-label'])}}
+                        <select class="form-control selectpicker" required name="semaforo">
+                          <option value="">Seleccione subcategoria </option>
+                          <option data-icon="glyphicon glyphicon-exclamation-sign icon-rojo" value='4'>Rojo</option>
+                          <option data-icon="glyphicon glyphicon-exclamation-sign icon-amarillo" value='2'>Amarillo</option>
+                          <option data-icon="glyphicon glyphicon-exclamation-sign icon-verde" value='1'>Verde</option>
+                        </select>
+                       </div> 
+                       <div class="form-group">
+                        {{Form::label('descripcionlable','Descripción de la alerta:',['class' => 'control-label'])}}
+                        <i id="texto">0</i> caracteres
+                        {{ Form::textarea('descripcion', null, ['MAXLENGTH'=>'140','rows'=>'4','class' => 'form-control', 'id'=>'descripcion','required'=>'true','onKeyDown'=>"cuenta()",'onKeyUp'=>"cuenta()"]) }}
+                      </div>
+                      <div class="checkbox-group">
+                        {{Form::label('coordelable','Tiene las coordenadas de la alerta?',['class' => 'control-label'])}}
+                        <div class="form-group" id="coorderadio">
+                          <input type="radio" name="coorde" id="coorde1" value="1" required> Si
+                          <input type="radio" name="coorde" id="coorde2" value="2"> No
+                        </div>
+                      </div>
+
+                      <div class="form-group " id="datos_coorde" style='display:none'>
+                        <div class="form-group col-sm-6">
+                          <div class="form-group col-sm-12" >
+                          {{Form::label('Latlable','Latitud:',['class' => 'control-label'])}}
+                          </div>
+                          <div class="form-group col-sm-4" >
+                            Grados:
+                            {{ Form::number('lat_gra','', ['class' => 'form-control', 'id'=>'lat_grado','placeholder'=>'4','onchange'=>'coorde(this)'])}} 
+                          </div>
+                          <div class="form-group col-sm-4" >
+                            Minutos:
+                          {{ Form::number('lat_min','', ['class' => 'form-control', 'id'=>'lat_min','placeholder'=>'35','onchange'=>'coorde(this)'])}}
+                          </div>
+                          <div class="form-group col-sm-4" >
+                            Segundos:
+                          {{ Form::number('lat_seg','', ['class' => 'form-control', 'id'=>'lat_seg','placeholder'=>'40','onchange'=>'coorde(this)'])}}
+                          </div>
+                        </div>
+                        <div class="form-group col-sm-6" >
+                          <div class="form-group col-sm-12" >
+                          {{Form::label('Longlable','Longitud:',['class' => 'control-label'])}}
+                          </div>
+                          <div class="form-group col-sm-4" >
+                            Grados:
+                          {{ Form::number('long_gra','', ['class' => 'form-control', 'id'=>'long_gra','placeholder'=>'-74','onchange'=>'coorde(this)'])}}
+                          </div>
+                          <div class="form-group col-sm-4" >
+                             Minutos:
+                          {{ Form::number('long_min','', ['class' => 'form-control', 'id'=>'long_min','placeholder'=>'35','onchange'=>'coorde(this)'])}}
+                          </div>
+                          <div class="form-group col-sm-4" >
+                            Segundos:
+                          {{ Form::number('long_seg','', ['class' => 'form-control', 'id'=>'long_seg','placeholder'=>'40','onchange'=>'coorde(this)'])}}
+                        </div>
+                        </div>
+                      </div>  
+                      <div class="form-group text-right"  id="cargueind">                
+                        <button type="submit" class="btn btn-primary" >Crear</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>      
+            </div><!-- /.final modal-->
         <!--aca se termina el contenedor de mapa y alertas-->  
         <!--aca se incio el contenedor de la informacion de avance-->
         <div id="avance" class="container col-xs-12" style="padding-top: 15px; display: none;">
@@ -559,18 +672,58 @@
   <script src="assets/art/js/styledLayerControl.js"></script>  
   <link rel="stylesheet" href="assets/art/css/search_map.css"/>  
   <script type="text/javascript" charset="utf-8" src="assets/art/js/art_search_map.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
           $( "#art" ).addClass("active");
-          $( "#artdashboardmenu" ).addClass("active");
+          $( "#ivsocidashboardmenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
-          $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
-          $( "#mensajeestatus" ).fadeOut(5000);      
+          $( "#ivsocidashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
+          $( "#mensajeestatus" ).fadeOut(5000);  
       });
+
+      function cuenta(){ 
+        $('#texto').html(document.forms[1].descripcion.value.length)
+        if (document.forms[1].descripcion.value.length>=140){
+
+        }
+      }   
+
+      $('input[type=radio][name=coorde]').change(function() {
+        if (this.value == 1) {
+           $("#datos_coorde").css("display","block");
+            $("#lat_grado").prop('required',true); 
+            $("#lat_min").prop('required',true); 
+            $("#lat_sed").prop('required',true); 
+            $("#long_grado").prop('required',true); 
+            $("#long_min").prop('required',true); 
+            $("#long_sed").prop('required',true); 
+        }
+        else if (this.value == 2) {
+          $("#datos_coorde").css("display","none");
+          $("#lat_grado").prop('required',false); 
+            $("#lat_min").prop('required',false); 
+            $("#lat_sed").prop('required',false); 
+            $("#long_grado").prop('required',false); 
+            $("#long_min").prop('required',false); 
+            $("#long_sed").prop('required',false); 
+          
+        }
+      });
+       $('#nom_subcate').change(function() {
+        if ($(this).val()==9){
+          $("#intimidacion").css("display","block");
+          $("#subsu").prop('required',true);         
+        }else{
+          $("#intimidacion").css("display","none");
+          $("#subsu").prop('required',false);
+        }
+
+       });
     </script>
-  
     
 @stop
 
