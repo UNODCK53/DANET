@@ -91,12 +91,12 @@ input[type="number"] {
           <div class="col-xs-12 col-md-6" id="alertas">          
             <div class="panel panel-danger">
               <div class="panel-heading">
-                  <i class="fa fa-bell col-xs-1"></i>
-                  <div class="col-xs-6">Aalertas y novedades </div>
-                  <div class="col-xs-1"></div>
-                  <div>
+                  <i class="fa fa-bell col-xs-1"style="padding-top:9px"></i>
+                  <div class="col-xs-6" style="padding-top:6px"> <?php echo ('Alertas ('.count ($array_alerta[0]).'/'. $num_alerta.')')?> </div>
+                  <div class="col-xs-3"></div>
+                  <div >
                     <button type="button" class="btn btn-default btn-ms" id="new_alerta" data-target="#alerta"  data-toggle="modal">
-                      <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> Nueva alerta
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> 
                     </button> 
                   </div>               
               </div>
@@ -113,10 +113,10 @@ input[type="number"] {
                                     </div>
                                      <br />
                                      <div class="col-xs-12 " >
-                                      <div class="col-xs-2 " style="width:50px; height:50px; border-radius:100%; border-color:black; border: 1px solid;background-color: <?php if ($array_alerta[6][$key]==1){ echo '#D0F2C2';
+                                      <div class="col-xs-2 " style="width:50px; height:50px; border-radius:100%; border-color:black; border: 1px solid;background-color: <?php if ($array_alerta[6][$key]==1){ echo '#BBF2A6';
                                         }elseif ($array_alerta[6][$key]==2){
-                                          echo '#FEED9B';
-                                        }else{echo '#F2CFCF';
+                                          echo '#FFE976';
+                                        }else{echo '#F05454';
                                         } ?>; padding: 0; margin: 0; text-align:center">
                                         <span class="<?php 
                                           if ($array_alerta[0][$key]=='Vías'){ 
@@ -129,11 +129,13 @@ input[type="number"] {
                                             echo 'glyphicon glyphicon-cloud';
                                           } ?>" style="font-size:30px; padding-top:6px; padding-left:5px" aria-hidden="true" title=<?php echo (json_encode("Alerta de ".$array_alerta[0][$key], JSON_UNESCAPED_UNICODE ))?>></span>
                                       </div>
-                                      <div class="col-xs-9 ">
+                                      <div class="col-xs-8 "style="padding-top: 14px">
                                           <b style="color:grey"><?php echo ($array_alerta[1][$key])?>:</b>
                                       </div>
                                       </div> 
-                                      <div class="col-xs-12"> 
+
+                                      <div class="col-xs-12" style="padding-top:5px"> 
+
                                           <p>
                                             <?php echo ($array_alerta[3][$key])?>
                                           </p>
@@ -680,9 +682,7 @@ input[type="number"] {
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#ivsocidashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
-          $( "#mensajeestatus" ).fadeOut(5000);  
-          var arra_tabla_seg_indi = <?php echo json_encode($array_alerta); ?>; 
-          console.log(arra_tabla_seg_indi)
+          $( "#mensajeestatus" ).fadeOut(5000);
       });
 
       function cuenta(){ 
