@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="assets/art/css/styledLayerControl.css" />
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <link rel="stylesheet" href="assets/css/L.Control.Basemaps.css" />  
   <style>
   .icon-verde {
       color: #5CB85C;
@@ -23,7 +24,20 @@
   }
   .icon-rojo {
       color: red;
-  }
+  } 
+
+  .nopadding {
+   margin: 0 !important;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
 </style>
 @stop
 
@@ -79,81 +93,60 @@
               <div class="panel-heading">
                   <i class="fa fa-bell col-xs-1"></i>
                   <div class="col-xs-6">Aalertas y novedades </div>
-                  <div class="col-xs-3"></div>
+                  <div class="col-xs-1"></div>
                   <div>
-                    <button type="button" class="btn btn-default btn-xs" id="new_alerta" data-target="#alerta"  data-toggle="modal">
-                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva
+                    <button type="button" class="btn btn-default btn-ms" id="new_alerta" data-target="#alerta"  data-toggle="modal">
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> Nueva alerta
                     </button> 
                   </div>               
               </div>
-              <div class="panel-body">
-                  <ul class="chat">
-                      <li class="left clearfix">
-                          <span class="chat-img pull-left">
-                              <img src="assets/art/img/1.png" alt="User Avatar" class="img-circle" />
-                          </span>
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <strong class="primary-font "> Luis Gabriel Guzmán </strong>
-                                  <small class="pull-right text-muted label label-danger">
-                                      <i class="icon-time"></i> 12 mins ago
-                                  </small>
-                              </div>
-                               <br />
-                              <p>
-                                  No se pudo entrar en el territorio. las condiciones de seguridad no lo permitieron.
-                              </p>
-                          </div>
-                      </li>
-                      <li class="right clearfix">
-                          <span class="chat-img pull-right">
-                              <img src="assets/art/img/2.png" alt="User Avatar" class="img-circle" />
-                          </span>
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <small class=" text-muted label label-info">
-                                      <i class="icon-time"></i> 13 mins ago</small>
-                                  <strong class="pull-right primary-font">Felipe Ramírez </strong>
-                              </div>
-                              <br />
-                              <p>
-                                  Los beneficiarios manifestaron que no han recibido los pagos.
-                              </p>
-                          </div>
-                      </li>
-                      <li class="left clearfix">
-                          <span class="chat-img pull-left">
-                              <img src="assets/art/img/3.png" alt="User Avatar" class="img-circle" />
-                          </span>
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <strong class="primary-font"> Gabriel Rojas </strong>
-                                  <small class="pull-right text-muted label label-warning">
-                                      <i class="icon-time"></i> 12 mins ago
-                                  </small>
-                              </div>
-                               <br />
-                              <p>
-                                  El transporte no llego a recoger a los profesionale de UNODC. La reunión quedó aplazada.
-                              </p>
-                          </div>
-                      </li>
-                      <li class="right clearfix">
-                          <span class="chat-img pull-right">
-                              <img src="assets/art/img/4.png" alt="User Avatar" class="img-circle" />
-                          </span>
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <small class=" text-muted label label-primary">
-                                      <i class="icon-time"></i> 13 mins ago</small>
-                                  <strong class="pull-right primary-font"> Cristina Corrales</strong>
-                              </div>
-                              <br />
-                              <p>
-                                  No se cuenta con información del municipio
-                              </p>
-                          </div>
-                      </li>
+              <div class="panel-body" style="overflow-y: scroll; width: auto; height: 365px;">
+                  <ul class="chat ">
+                    <?php foreach($array_alerta[0] as $key=>$val): ?>
+                            <li class="left clearfix ">
+                                
+                                <div class="chat-body clearfix nopadding">
+                                    <div class="header">
+                                        <small class="pull-right text-muted label label-danger">
+                                            <i class="icon-time"></i> <?php echo ($array_alerta[4][$key])?>
+                                        </small>
+                                    </div>
+                                     <br />
+                                     <div class="col-xs-12 " >
+                                      <div class="col-xs-2 " style="width:50px; height:50px; border-radius:100%; border-color:black; border: 1px solid;background-color: <?php if ($array_alerta[6][$key]==1){ echo '#D0F2C2';
+                                        }elseif ($array_alerta[6][$key]==2){
+                                          echo '#FEED9B';
+                                        }else{echo '#F2CFCF';
+                                        } ?>; padding: 0; margin: 0; text-align:center">
+                                        <span class="<?php 
+                                          if ($array_alerta[0][$key]=='Vías'){ 
+                                            echo 'glyphicon glyphicon-road';
+                                          }elseif ($array_alerta[0][$key]=='Orden Público'){
+                                            echo 'glyphicon glyphicon-alert';
+                                          }elseif ($array_alerta[0][$key]=='Cultivos Ilícitos'){
+                                            echo 'glyphicon glyphicon-leaf'; 
+                                          }else{
+                                            echo 'glyphicon glyphicon-cloud';
+                                          } ?>" style="font-size:30px; padding-top:6px; padding-left:5px" aria-hidden="true" title=<?php echo (json_encode("Alerta de ".$array_alerta[0][$key], JSON_UNESCAPED_UNICODE ))?>></span>
+                                      </div>
+                                      <div class="col-xs-9 ">
+                                          <b style="color:grey"><?php echo ($array_alerta[1][$key])?>:</b>
+                                      </div>
+                                      </div> 
+                                      <div class="col-xs-12"> 
+                                          <p>
+                                            <?php echo ($array_alerta[3][$key])?>
+                                          </p>
+                                      </div>
+                                    
+                                    <div class="footer">
+                                      <strong class="primary-font pull-right"> <?php echo ($array_alerta[5][$key])?> </strong>
+                                    </div>
+                                </div>
+                            </li>
+                    <?php endforeach; ?>
+
+                      
                   </ul>
               </div>
             </div>  
@@ -211,42 +204,45 @@
                         </div>
                       </div>
 
-                      <div class="form-group " id="datos_coorde" style='display:none'>
-                        <div class="form-group col-sm-6">
-                          <div class="form-group col-sm-12" >
+                      <div class="form-group"id="datos_coorde" style='display:none'>
+                        <div class="form-group col-sm-6 ">
+                          <div class="form-group col-sm-12 " >
                           {{Form::label('Latlable','Latitud:',['class' => 'control-label'])}}
                           </div>
-                          <div class="form-group col-sm-4" >
+                          <div class="form-group col-sm-4 " >
                             Grados:
-                            {{ Form::number('lat_gra','', ['class' => 'form-control', 'id'=>'lat_grado','placeholder'=>'4','onchange'=>'coorde(this)'])}} 
+                            {{ Form::number('lat_gra','', ['class' => 'form-control', 'id'=>'lat_grado','placeholder'=>'4','onchange'=>'coorden(this)'])}} 
                           </div>
-                          <div class="form-group col-sm-4" >
+                          <div class="form-group col-sm-4 " >
                             Minutos:
-                          {{ Form::number('lat_min','', ['class' => 'form-control', 'id'=>'lat_min','placeholder'=>'35','onchange'=>'coorde(this)'])}}
+                          {{ Form::number('lat_min','', ['class' => 'form-control', 'id'=>'lat_min','placeholder'=>'35','onchange'=>'coorden(this)'])}}
                           </div>
-                          <div class="form-group col-sm-4" >
+                          <div class="form-group col-sm-4 " >
                             Segundos:
-                          {{ Form::number('lat_seg','', ['class' => 'form-control', 'id'=>'lat_seg','placeholder'=>'40','onchange'=>'coorde(this)'])}}
+                          {{ Form::number('lat_seg','', ['class' => 'form-control', 'id'=>'lat_seg','placeholder'=>'40','onchange'=>'coorden(this)'])}}
                           </div>
                         </div>
-                        <div class="form-group col-sm-6" >
-                          <div class="form-group col-sm-12" >
+                        <div class=" form-group col-sm-6 " >
+                          <div class="form-group col-sm-12 " >
                           {{Form::label('Longlable','Longitud:',['class' => 'control-label'])}}
                           </div>
-                          <div class="form-group col-sm-4" >
+                          <div class="form-group col-sm-4 " >
                             Grados:
-                          {{ Form::number('long_gra','', ['class' => 'form-control', 'id'=>'long_gra','placeholder'=>'-74','onchange'=>'coorde(this)'])}}
+                          {{ Form::number('long_gra','', ['class' => 'form-control', 'id'=>'long_gra','placeholder'=>'-74','onchange'=>'coorden(this)'])}}
                           </div>
-                          <div class="form-group col-sm-4" >
+                          <div class="form-group col-sm-4 " >
                              Minutos:
-                          {{ Form::number('long_min','', ['class' => 'form-control', 'id'=>'long_min','placeholder'=>'35','onchange'=>'coorde(this)'])}}
+                          {{ Form::number('long_min','', ['class' => 'form-control', 'id'=>'long_min','placeholder'=>'35','onchange'=>'coorden(this)'])}}
                           </div>
-                          <div class="form-group col-sm-4" >
+                          <div class="form-group col-sm-4 " >
                             Segundos:
-                          {{ Form::number('long_seg','', ['class' => 'form-control', 'id'=>'long_seg','placeholder'=>'40','onchange'=>'coorde(this)'])}}
+                          {{ Form::number('long_seg','', ['class' => 'form-control', 'id'=>'long_seg','placeholder'=>'40','onchange'=>'coorden(this)'])}}
                         </div>
                         </div>
-                      </div>  
+                        <div id="map_alerta" style="min-width: 100px; height: 200px; margin-left:0px " ></div>
+                        
+                      </div> 
+                      <br> 
                       <div class="form-group text-right"  id="cargueind">                
                         <button type="submit" class="btn btn-primary" >Crear</button>
                         <button type="button" class="btn btn-primary" onclick="window.location=window.location.pathname">Cancelar</button> 
@@ -674,6 +670,8 @@
   <script type="text/javascript" charset="utf-8" src="assets/art/js/art_search_map.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+  <script src="assets/js/L.Control.Basemaps-min.js"></script> 
+
     <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
@@ -683,6 +681,8 @@
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#ivsocidashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);  
+          var arra_tabla_seg_indi = <?php echo json_encode($array_alerta); ?>; 
+          console.log(arra_tabla_seg_indi)
       });
 
       function cuenta(){ 
@@ -701,6 +701,9 @@
             $("#long_grado").prop('required',true); 
             $("#long_min").prop('required',true); 
             $("#long_sed").prop('required',true); 
+            setTimeout(function(){    
+                map_alerta.invalidateSize();
+            }, 1);
         }
         else if (this.value == 2) {
           $("#datos_coorde").css("display","none");
@@ -723,6 +726,63 @@
         }
 
        });
+
+      function coorden(e){
+        if ((e.id=='lat_min'|| e.id=='lat_seg' || e.id=='long_min' || e.id=='long_seg') && (e.value<0 || e.value>=60)){
+         alert("Ingrese un valor entre 0 y 59 ");
+         e.value="";
+         }
+
+         if ((e.id=='lat_grado') && (e.value<-4 || e.value>=13)){
+         alert("Ingrese un valor entre -4 y 13 grados ");
+         e.value="";
+         }
+
+         if ((e.id=='long_gra') && (e.value<-80 || e.value>=-67)){
+         alert("Ingrese un valor entre -80 y -67 grados ");
+         e.value="";
+         }
+
+        if ($('#lat_min').val()!='' && $('#lat_seg').val()!='' && $('#long_min').val()!='' && $('#long_seg').val()!='' && $('#lat_grado').val()!='' && $('#long_gra')){
+          
+            if($('#lat_grado').val()>0){
+              var Latitud=(parseInt($('#lat_grado').val())+parseFloat($('#lat_min').val()/60)+parseFloat($('#lat_seg').val()/3600));
+            }else{
+              var Latitud=(parseInt($('#lat_grado').val())-parseFloat($('#lat_min').val()/60)-parseFloat($('#lat_seg').val()/3600));
+            }
+
+            longitud=parseInt($('#long_gra').val())-parseFloat($('#long_min').val()/60)-parseFloat($('#long_seg').val()/3600);
+
+            try{
+              map_alerta.removeLayer(marker);
+            }catch(err){
+
+            }
+            var nombre="Alerta de<br><strong>"+$('#nom_subcate option:selected').closest('optgroup').attr('label')+"</strong>: "+$('#nom_subcate option:selected').text();
+            var planes = [[nombre,Latitud,longitud]];
+            marker = new L.marker([planes[0][1],planes[0][2]])
+                .bindPopup(planes[0][0])
+                .addTo(map_alerta);
+            map_alerta.setView(marker.getLatLng(),9)
+          
+        }
+
+      }
+        bounds = new L.LatLngBounds(new L.LatLng(-7, -90), new L.LatLng(15, -50));
+        var map_alerta = L.map('map_alerta',{maxBounds: bounds}).setView([4.6097100, -74.0817500], 4);
+        var basemaps2 = [
+          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom:4, maxZoom: 15}),
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{minZoom:4, maxZoom: 15,    subdomains:['mt0','mt1','mt2','mt3']})
+        ];
+
+        map_alerta.addControl(L.control.basemaps({
+          basemaps: basemaps2,
+          position: 'bottomright',
+          tileX: 0,  // tile X coordinate
+          tileY: 0,  // tile Y coordinate
+          tileZ: 1   // tile zoom level
+        }));
+
     </script>
     
 @stop
