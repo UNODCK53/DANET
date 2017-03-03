@@ -37,6 +37,11 @@
 	    color:#245DC1;
 	    margin-right:2px;
 	  }
+
+    .foto{
+      width: 100%;
+      padding: 15px;
+    }
     
   </style>
 	
@@ -80,9 +85,12 @@
       <ul class="nav nav-pills ">
         <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
         <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">menu a</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">menu b</a></li>
-               
+        <li id="" role="menu"><a href="" class="enlace-menu">Organizaciones</a></li>
+        <li id="" role="menu"><a href="" class="enlace-menu">Nuevos Productos</a></li>
+        <li id="" role="menu"><a href="" class="enlace-menu">Líneas Productivas</a></li>
+        <li id="" role="menu"><a href="" class="enlace-menu">Casos de Éxito</a></li>
+        <li id="" role="menu"><a href="" class="enlace-menu">Alianzas estrategicas</a></li>
+        <li id="" role="menu"><a href="" class="enlace-menu">Contáctenos</a></li>
       </ul>
     </div>
     <div class="col-sm-1"></div>
@@ -105,8 +113,13 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <!-- Lista desplegable de menu con submenu -->
-              <li><a id="" href="" class="enlace-menu">menu a</a></li>                           
-              <li><a id="" href="" class="enlace-menu">Menu b</a></li>
+              <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
+              <li id="" role="menu"><a href="" class="enlace-menu">Organizaciones</a></li>
+              <li id="" role="menu"><a href="" class="enlace-menu">Nuevos Productos</a></li>
+              <li id="" role="menu"><a href="" class="enlace-menu">Líneas Productivas</a></li>
+              <li id="" role="menu"><a href="" class="enlace-menu">Casos de Éxito</a></li>
+              <li id="" role="menu"><a href="" class="enlace-menu">Alianzas estrategicas</a></li>
+              <li id="" role="menu"><a href="" class="enlace-menu">Contáctenos</a></li>
               <!--  <li><a id="guardaunmenupeq" href="guardaun">GUARDAUN</a></li>   -->            
               
             </ul><!-- fin de menu con submenu -->
@@ -118,12 +131,87 @@
 </div>
 <!--Fin del segundo contenedor-->  
 <!--tercer contenedor pie de página-->
+
+
+
+
   <div class="container" id="sha">
     <div class="row">
+      <div class="row" style="margin-right: 0px;margin-left: 0px">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1"></li>          
+          <li data-target="#carousel-example-generic" data-slide-to="2"></li>          
+          </ol>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <div class="item active">
+                <img src="assets/bid/img/banner-sello2.jpg">                
+              <div class="carousel-caption">
+              </div>
+            </div>
+            <div class="item">
+              <img src="assets/bid/img/banner-cfp.jpg"> 
+              <div class="carousel-caption">
+              </div>
+            </div>
+            <div class="item">
+              <img src="assets/bid/img/Firma-MPA.jpg">
+              <div class="carousel-caption">
+              </div>
+            </div>                         
+          </div>  
+        </div>
+      </div>
+      <div class="row" style="line-height: 200px; margin-right: 0px;margin-left: 0px; background: #84b326; height: 150px; color: white; text-align: center;">
+            <span style="display: inline-block;line-height: normal; font-size: 30px">Mejoramiento de la Competitividad y Consolidación Empresarial de Pequeños Productores para la Sustitución de Cultivos Ilícitos.</span>
+      </div>
       <div class="col-sm-1"></div>
-        <div class="col-xs-12 col-sm-10">
-          <br>
-          <!--escribir el codigo-->         
+        <div class="col-xs-12 col-sm-10">          
+          <!--escribir el codigo-->
+          <br><br>
+          <hr>
+          <h1>Nuestras Actividades</h1>
+          <div class="col-xs-12 col-md-4">
+            <div class="row" style="background: #f2f2f2">
+              <img class="foto" src="assets/bid/img/capacitacion-WS.jpg">
+              <h2>Capacitación en gestión financiera y contable</h2>
+              <p style="font-size: 20px">Proyectos, créditos, BPA, asociatividad, liderazgo, paneación estratégica y rueda financiera</p>
+            </div>            
+          </div>
+          <div class="col-xs-12 col-md-4" >
+            <div class="row" style="background: #f2f2f2">
+              <img class="foto" src="assets/bid/img/capacitacion-WS.jpg">
+              <h2>Realización de alianzas productivas</h2>
+              <p style="font-size: 20px">La organización ASOVICA se encuentra desarrollando un proceso de gestión en Europa para la búsqueda de nuevos…</p>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <div class="row" style="background: #f2f2f2">
+              <img class="foto" src="assets/bid/img/capacitacion-WS.jpg">
+              <h2>Documentos en el marco del proyecto DEL</h2>
+              <p style="font-size: 20px">(DEL, Informes de Seguimiento, planes de inversión, presentaciones para capacitaciones, informes trimestrales…</p>
+            </div>            
+            
+          </div>
+
+
+          
+
+          
+          
+
+
+            
+        
+
+
+
+
+
+
 
           <!--finaliza escribir codigo--> 
         </div>

@@ -8,6 +8,24 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
+  <style>
+  .icon-verde {
+      color: #5CB85C;
+  }
+  .icon-amarillo {
+      color: #FACC2E;
+  }
+  .icon-rojo {
+      color: red;
+  }
+  .icon-naranja {
+      color: #FE9A2E;
+  }
+  .icon-gris {
+      color: #A4A4A4;
+  }
+
+</style>
 
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
@@ -182,13 +200,15 @@
                 </select>
                 <br>
                 Semáforo
-                <select id="id_semafo" name="id_semafo" class="form-control">
-                  <option selected disabled>Seleccione una categoría</option>
-                  <option value="1" style="background: #3ADF00;">Verde</option>
-                  <option value="2" style="background: #F4FA58;">Amarillo</option>
-                  <option value="3" style="background: #FE9A2E;">Naranja</option>
-                  <option value="4" style="background: #FE2E2E;">Rojo</option>
-                  <option value="5" style="background: #A4A4A4;">Gris</option>
+                <select id="id_semafo" name="id_semafo" class="form-control selectpicker">
+                  <option selected disabled>Seleccione una categoría</option>                  
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-verde" value='1'>Verde</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-amarillo" value='2'>Amarillo</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-naranja" value='3'>Naranja</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-rojo" value='4'>Rojo</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-gris" value='5'>Gris</option>
+                  
+                  
                 </select>
                 <br>
                 Fecha Gobierno
@@ -262,13 +282,13 @@
                 </select>
                 <br>
                 Semáforo
-                <select id="id_semafo_edit" name="id_semafo_edit" class="form-control">
-                  <option selected disabled>Seleccione una categoría</option>
-                  <option value="1" style="background: #3ADF00;">Verde</option>
-                  <option value="2" style="background: #F4FA58;">Amarillo</option>
-                  <option value="3" style="background: #FE9A2E;">Naranja</option>
-                  <option value="4" style="background: #FE2E2E;">Rojo</option>
-                  <option value="5" style="background: #A4A4A4;">Gris</option>
+                <select id="id_semafo_edit" name="id_semafo_edit" class="form-control selectpicker">
+                  <option selected disabled>Seleccione una categoría</option>                  
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-verde" value='1'>Verde</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-amarillo" value='2'>Amarillo</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-naranja" value='3'>Naranja</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-rojo" value='4'>Rojo</option>
+                  <option data-icon="glyphicon glyphicon-exclamation-sign icon-gris" value='5'>Gris</option>
                 </select>
                 <br>
                 Consulta previa
@@ -434,7 +454,7 @@
                       <h4 class="modal-title" id="borrar_tittle">Crear corte para reportes</h4>
                   </div>
                   <div class="modal-body">
-                  <form role="form" action="artnormatividad/corte" method="post" id="cargarproy" enctype="multipart/form-data">                  
+                  <form role="form" action="artnormatividad/corte" method="post" id="cargarproy" enctype="multipart/form-data">
                   Se va a crear un corte de la base de datos con fecha:
                   <br><br>
                   <b><i id="fecha_corte_texto"></i></b> 
@@ -473,6 +493,8 @@
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('jsbody')
   @parent
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
