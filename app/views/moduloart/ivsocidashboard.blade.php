@@ -113,10 +113,15 @@ input[type="number"] {
                                     </div>
                                      <br />
                                      <div class="col-xs-12 " >
-                                      <div class="col-xs-2 " style="width:50px; height:50px; border-radius:100%; border-color:black; border: 1px solid;background-color: <?php if ($array_alerta[6][$key]==1){ echo '#BBF2A6';
+                                      <div class="col-xs-2 " style="width:50px; height:50px; border-radius:100%; border-color:black; border: 1px solid;background-color: <?php if ($array_alerta[6][$key]==1){ 
+                                          echo '#BBF2A6';
+                                          $priori = "Prioridad Verde";
                                         }elseif ($array_alerta[6][$key]==2){
                                           echo '#FFE976';
-                                        }else{echo '#F05454';
+                                          $priori = "Prioridad Amarilla";
+                                        }else{
+                                          echo '#F05454';
+                                          $priori = "Prioridad Roja";
                                         } ?>; padding: 0; margin: 0; text-align:center">
                                         <span class="<?php 
                                           if ($array_alerta[0][$key]=='Vías'){ 
@@ -127,7 +132,7 @@ input[type="number"] {
                                             echo 'glyphicon glyphicon-leaf'; 
                                           }else{
                                             echo 'glyphicon glyphicon-cloud';
-                                          } ?>" style="font-size:30px; padding-top:6px; padding-left:5px" aria-hidden="true" title=<?php echo (json_encode("Alerta de ".$array_alerta[0][$key], JSON_UNESCAPED_UNICODE ))?>></span>
+                                          } ?>" style="font-size:30px; padding-top:6px; padding-left:5px" aria-hidden="true" title=<?php echo (json_encode("Alerta de ".$array_alerta[0][$key].". ".$priori , JSON_UNESCAPED_UNICODE ))?>></span>
                                       </div>
                                       <div class="col-xs-8 "style="padding-top: 14px">
                                           <b style="color:grey"><?php echo ($array_alerta[1][$key])?>:</b>
