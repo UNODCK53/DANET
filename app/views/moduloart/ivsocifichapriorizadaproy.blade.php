@@ -675,27 +675,23 @@
         var alerta=0;
         function fecha_change(a) {
           var today = new Date();
-          var dd = today.getDate();
-          var mm = today.getMonth()+1; //January is 0!
-          var yyyy = today.getFullYear();
+           var select=new Date(a.value.split('/')[2], a.value.split('/')[1] - 1, a.value.split('/')[0]);
+           var fecha="20/02/2017";
+           var fecha_antes=new Date(fecha.split('/')[2], fecha.split('/')[1] - 1, fecha.split('/')[0]);
+console.log(a.value)
+           console.log(select)
+           console.log(fecha_antes)
+           console.log(today)
 
-          if(dd<10) {
-              dd='0'+dd
-          } 
-          if(mm<10) {
-              mm='0'+mm
-          } 
-
-           today = dd+'/'+mm+'/'+yyyy;
-          if (a.value>today || a.value<"20/02/2017"){
+          if (select>today || select<fecha_antes){
               alerta=alerta+1;
-             $(a).val('');
 
           }else{
           }
           if (alerta==2) {
             alert('Debe seleccionar una fecha entre el 20/02/2017 y el día de hoy');
             alerta=0;
+            $(a).val('');
           };
         }
 

@@ -92,7 +92,7 @@ input[type="number"] {
             <div class="panel panel-danger">
               <div class="panel-heading">
                   <i class="fa fa-bell col-xs-1"style="padding-top:9px"></i>
-                  <div class="col-xs-6" style="padding-top:6px"> <?php echo ('Alertas ('.count ($array_alerta[0]).'/'. $num_alerta.')')?> </div>
+                  <div class="col-xs-6" style="padding-top:6px"> <?php echo ('Alertas ('.count ($array_alerta[0]).' de '. $num_alerta.')')?> </div>
                   <div class="col-xs-3"></div>
                   <div >
                     <button type="button" class="btn btn-default btn-ms" id="new_alerta" data-target="#alerta"  data-toggle="modal">
@@ -172,7 +172,7 @@ input[type="number"] {
                       <div id="supcate" class="form-group">
                          {{Form::label('nom_subcatelable','Subcategoría:',['class' => 'control-label'])}}
                         <select name="nom_subcate" id="nom_subcate" class="form-control" required>
-                           <option value="">Seleccione subcategoria </option>
+                           <option value="">Seleccione una </option>
                             <?php foreach($arraycate as $key=>$val): ?>
                                     <optgroup label="<?php echo implode(",", $val); ?>">
                                        <?php foreach($arraysubcate as $option): 
@@ -192,7 +192,7 @@ input[type="number"] {
                       <div class="form-group">
                         {{Form::label('semaforolable','Escoja prioridad de la alerta:',['class' => 'control-label'])}}
                         <select class="form-control selectpicker" required name="semaforo">
-                          <option value="">Seleccione subcategoria </option>
+                          <option value="">Seleccione una </option>
                           <option data-icon="glyphicon glyphicon-exclamation-sign icon-rojo" value='4'>Rojo</option>
                           <option data-icon="glyphicon glyphicon-exclamation-sign icon-amarillo" value='2'>Amarillo</option>
                           <option data-icon="glyphicon glyphicon-exclamation-sign icon-verde" value='1'>Verde</option>
@@ -788,6 +788,10 @@ input[type="number"] {
           tileZ: 1   // tile zoom level
         }));
 
+        $('#alerta').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+           $(this).find('form').trigger('reset');
+            
+        })
     </script>
     
 @stop
