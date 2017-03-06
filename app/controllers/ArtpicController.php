@@ -186,6 +186,7 @@ class ArtpicController extends BaseController {
 		    	
 	
 		$path = public_path().'\art\pic\\'.Input::get('nucleo');
+		$path_insert='\art\pic\\'.Input::get('nucleo');
 		// creacion de carpeta dependiendo del nombre del proceso
 		if (File::exists($path)){
 						
@@ -201,7 +202,7 @@ class ArtpicController extends BaseController {
 
 	    		DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', '=', $idmaximo)->update(
 	    			array(
-	    				'acta' => $path.'\\'.'PIC_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension()
+	    				'acta' => $path_insert.'\\'.'PIC_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension()
 	    				)
 	    			);
 	    }		
@@ -253,7 +254,7 @@ class ArtpicController extends BaseController {
 		$arrayproy = DB::table('MODART_PIC_PROYPRIORIZ')
 		->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_PROYPRIORIZ.cod_mpio')
 		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_PROYPRIORIZ.cod_nucleo')	
-		->select(DB::raw("concat('PIC_',MODART_PIC_PROYPRIORIZ.cod_mpio,id_proy) as ID"),'id_proy',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO_1 as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as cod_nucleo"),'id_subcat','id_usuario','nom_proy','alcance','estado_proy','prec_estim','cofinanc',DB::raw("CONVERT(VARCHAR(10),fecha_ingreso,103) as fecha_ingreso,ranking"),'MUNICIPIOS.COD_DPTO as depto','MUNICIPIOS.COD_DANE as muni','MODART_PIC_NUCLEOS.id_nucleo as nucleo')
+		->select(DB::raw("concat('PIC_',MODART_PIC_PROYPRIORIZ.cod_mpio,id_proy) as ID"),'id_proy',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO_1 as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as cod_nucleo"),'id_subcat','id_usuario','nom_proy','alcance','estado_proy','prec_estim','cofinanc',DB::raw("CONVERT(VARCHAR(10),fecha_ingreso,103) as fecha_ingreso,ranking"),'MUNICIPIOS.COD_DPTO as depto','MUNICIPIOS.COD_DANE as muni','MODART_PIC_NUCLEOS.id_nucleo as nucleo','acta')
 		->where('MODART_PIC_PROYPRIORIZ.id_proy','=', Input::get('proy'))
 		->where('id_usuario','=',Auth::user()->id)
 		->get();	
@@ -396,7 +397,7 @@ class ArtpicController extends BaseController {
 			$excel->sheet('Fichas de iniciativas',function($sheet)
 			{
 				$data = array();
-				$results = DB::select("SELECT concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, fecha_ingreso as Fecha_priorización, ranking,cofinanc as Valor_cofinanciado FROM MODART_PIC_PROYPRIORIZ join MUNICIPIOS on MUNICIPIOS.COD_DANE=MODART_PIC_PROYPRIORIZ.cod_mpio join users on users.id=MODART_PIC_PROYPRIORIZ.id_usuario join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id=MODART_PIC_PROYPRIORIZ.id_subcat join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo=MODART_PIC_PROYPRIORIZ.cod_nucleo join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id=MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id);
+				$results = DB::select("SELECT concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, fecha_ingreso as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado FROM MODART_PIC_PROYPRIORIZ join MUNICIPIOS on MUNICIPIOS.COD_DANE=MODART_PIC_PROYPRIORIZ.cod_mpio join users on users.id=MODART_PIC_PROYPRIORIZ.id_usuario join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id=MODART_PIC_PROYPRIORIZ.id_subcat join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo=MODART_PIC_PROYPRIORIZ.cod_nucleo join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id=MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id);
 				foreach ($results as $result) {
 				$data[] = (array)$result;
 				}  	
@@ -455,6 +456,49 @@ class ArtpicController extends BaseController {
 			
 
 		return View::make('moduloart.ivsociconsultapic', array('arraydepto' => $arraydepto,'arraynucleos' => $arraynucleos,'arraymuni' => $arraymuni,'arrayindipic' => $arrayindipic));		
+    }
+
+
+    public function postSelectConsultaPic()
+	{	
+			$arrayproy = DB::table('MODART_PIC_PROYPRIORIZ')
+				->join('MUNICIPIOS' , 'MUNICIPIOS.COD_DANE','=','MODART_PIC_PROYPRIORIZ.cod_mpio')
+				->join('users' , 'users.id','=','MODART_PIC_PROYPRIORIZ.id_usuario')
+				->join('MODART_PIC_SUBCATEGORIA' , 'MODART_PIC_SUBCATEGORIA.id','=','MODART_PIC_PROYPRIORIZ.id_subcat')
+				->join('MODART_PIC_NUCLEOS' , 'MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_PROYPRIORIZ.cod_nucleo')
+				->join('MODART_PIC_ESTADOPROY' , 'MODART_PIC_ESTADOPROY.id','=','MODART_PIC_PROYPRIORIZ.estado_proy')
+				->select(DB::raw("concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, CONVERT(VARCHAR,fecha_ingreso,103) as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado,acta"))
+				->where('MODART_PIC_PROYPRIORIZ.id_proy','=', Input::get('proy'))
+				->get();
+
+	
+			$arraysubsubcate = DB::table('MODART_PIC_SUBSUBCATPASO')
+				->join('MODART_PIC_SUBSUBCATEGORIA' , 'MODART_PIC_SUBSUBCATEGORIA.id','=','MODART_PIC_SUBSUBCATPASO.id_subsub')
+				->select('MODART_PIC_SUBSUBCATEGORIA.nombre')
+				->where('MODART_PIC_SUBSUBCATPASO.id_proy','=',Input::get('proy'))
+				->get();
+
+			$tipoterr = DB::table('MODART_PIC_TIPOTERRPASO')
+				->join('MODART_PIC_TIPOTERR' , 'MODART_PIC_TIPOTERR.id','=','MODART_PIC_TIPOTERRPASO.id_tipterr')
+				->select('MODART_PIC_TIPOTERR.nombre')
+				->where('MODART_PIC_TIPOTERRPASO.id_proy','=',Input::get('proy'))
+				->get();
+
+				$arraytipoterr=array_map(create_function('$item','return $item->nombre;'),$tipoterr);
+				$arraytipoter = implode(",", $arraytipoterr);
+
+			$cate = DB::table('MODART_PIC_SUBCATEGORIA')
+				->join('MODART_PIC_PROYPRIORIZ' , 'MODART_PIC_PROYPRIORIZ.id_subcat','=','MODART_PIC_SUBCATEGORIA.id')
+				->join('MODART_PIC_CATEGORIA' , 'MODART_PIC_CATEGORIA.id','=','MODART_PIC_SUBCATEGORIA.id_categ')
+				->select('MODART_PIC_CATEGORIA.nombre')
+				->where('MODART_PIC_PROYPRIORIZ.id_proy','=',Input::get('proy'))
+				->get();
+
+
+			
+
+
+		return  array('arrayprio' => $arrayproy,'arraysubsubcate'=>$arraysubsubcate,'arraytipoterr'=>$arraytipoter,'cate'=>$cate);		
     }
 
 

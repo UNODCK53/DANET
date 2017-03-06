@@ -419,6 +419,14 @@
                           <input type="radio" name="ediranking" value="10"> 10
                         </div>
                       </div>
+                       <div class="form-group" >
+                        {{Form::label('ediactalable','Ver acta de priorización :',['class' => 'control-label'])}}
+                        <div >
+                          <span >
+                            <a id="ediacta" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+                          </span>
+                        </div>
+                      </div>
                       <div class="form-group">
                         {{Form::label('edipreciolable','Precio estimado PIC:',['class' => 'control-label'])}}
                         {{ Form::text('ediprecio','', ['class' => 'form-control', 'id'=>'ediprecio','required'=>'true','onchange'=>'precio_change2(this)'])}}
@@ -1059,6 +1067,7 @@ console.log(a.value)
                     $('[id^=edidiv-]').css("display","none");
                     $("#ID").val(data['arrayproy'][0].ID);
                     $("#ediidproy").val(data['arrayproy'][0].id_proy);
+                    $("#ediacta").attr("href", data['arrayproy'][0].acta)
                     $("#edidepto").val(data['arrayproy'][0].cod_depto);
                     $("#edimpios").val(data['arrayproy'][0].cod_mpio);
                     $("#edidepto2").val(data['arrayproy'][0].depto);

@@ -54,13 +54,11 @@ class ArtdashboardController extends BaseController {
 		    		'longitud' =>$longitud
 		    	)
 		    );
-/*
-			$id=DB::table('MODART_ALERTAS_ALERTA')
-				->select('OBJECTID')
-				->orderby('OBJECTID','desc')
-				->first();
+			if (Input::get('coorde')==1){
+				$id=DB::table('MODART_ALERTAS_ALERTA')->max('OBJECTID');
 
-			$insert=DB::statement("UPDATE [sde].[MODART_ALERTAS_ALERTA]  SET [Shape] = (geometry::STGeomFromText(((('POINT('+CONVERT([varchar](20), longitud,(0)))+' ')+CONVERT([varchar](20), latitud,(0)))+')',(4326))) WHERE [id_proceso] =". $id);*/			
+				$insert=DB::statement("UPDATE MODART_ALERTAS_ALERTA  SET Shape = (geometry::STGeomFromText(((('POINT('+CONVERT([varchar](20), longitud,(0)))+' ')+CONVERT([varchar](20), latitud,(0)))+')',(4326))) WHERE OBJECTID =". $id);
+			}		
 
 
 		return Redirect::to('ivsocidashboard');		
