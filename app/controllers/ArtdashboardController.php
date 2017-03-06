@@ -54,7 +54,11 @@ class ArtdashboardController extends BaseController {
 		    		'longitud' =>$longitud
 		    	)
 		    );
-			
+			$id=DB::table('MODART_ALERTAS_ALERTA')
+				->select('OBJECTID')
+				->orderby('OBJECTID','desc')
+				->first();
+
 
 
 		return Redirect::to('ivsocidashboard');		

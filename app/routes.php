@@ -148,7 +148,7 @@ Route::group(array('before' => 'auth'), function()
   Route::get('ivsocicensofamilias', array('before'=>'MenuARTCensoFamilias', function(){return View::make('moduloart/ivsocicensofamilias');}));
   //Route::get('ivsocidiagnosticofamiliar', array('before'=>'MenuARTDiagnosticoFamiliar', function(){return View::make('moduloart/ivsocidiagnosticofamiliar');}));
   Route::get('ivsocidiagnosticofamiliar', array('before' => 'EstadisticaSISCADI', 'uses' => 'SiscadiController@siscadi_repestadistic'));
-  Route::get('ivsociconsultapic', array('before'=>'MenuARTConsultaPIC', function(){return View::make('moduloart/ivsociconsultapic');}));
+  Route::get('ivsociconsultapic', array('before'=>'MenuARTConsultaPIC', 'uses' => 'ArtpicController@consultapic'));
   Route::get('ivsocicarguefamilias', array('before'=>'MenuARTCargueFamilias', function(){return View::make('moduloart/ivsocicarguefamilias');}));
   Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy',  'uses' => 'ArtpicController@piccreaproyectos'));
   Route::get('excelpic','ArtpicController@Excelpic');

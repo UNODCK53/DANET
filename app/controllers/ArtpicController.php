@@ -409,6 +409,53 @@ class ArtpicController extends BaseController {
 			})->download('xlsx');
 		});
     }
+    
+    public function consultapic()
+	{	
+		//retornamos las categorias apenas entramos a la vista de cargue documentos
+			$DEPARTAMENTOS = DB::table('DEPARTAMENTOS')
+			->select('COD_DPTO','NOM_DPTO')
+			->orderby('NOM_DPTO','asc')
+			->get();
+			$arraydepto['']='Seleccione uno';
+			foreach($DEPARTAMENTOS as $pro)
+			{
+				$arraydepto[$pro->COD_DPTO] = $pro->NOM_DPTO;
+			}
+
+			
+			$MUNICIPIOS = DB::table('MUNICIPIOS')
+			->select('COD_DPTO','COD_DANE','NOM_MPIO_1')
+			->orderby('NOM_MPIO_1','asc')
+			->get();
+			$arraymuni['']='Seleccione uno';
+			foreach($MUNICIPIOS as $pro)
+			{
+				$arraymuni[$pro->COD_DANE] = $pro->NOM_MPIO_1;
+			}
+
+			$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
+			->select('id_nucleo','nombre')
+			->orderby('nombre','asc')
+			->get();
+			$arraynucleos['']='Seleccione uno';
+			foreach($NUCLEOS as $pro)
+			{
+				 $arraynucleos[$pro->id_nucleo] = $pro->nombre;
+			}				
+
+
+
+			$arrayindipic = DB::table('MODART_PIC_PROYPRIORIZ')	
+			->select(DB::raw("concat('PIC_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,cod_nucleo,nom_proy"))
+			->orderby('id_proy','desc')
+			->get();	
+
+
+			
+
+		return View::make('moduloart.ivsociconsultapic', array('arraydepto' => $arraydepto,'arraynucleos' => $arraynucleos,'arraymuni' => $arraymuni,'arrayindipic' => $arrayindipic));		
+    }
 
 
 }

@@ -35,7 +35,43 @@
   <div class="container" id="sha">
     <div class="row">
 <!--aca se escribe el codigo-->
-               
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <h2 class="text-center text-primary">Consulta PIC</h2>
+        <br>
+        <p class="lead text-justify">A continuación se presenta el avance de los Proyectos de pequeña infraestructura comunitaria-PIC para su consulta.</p>  
+        <button id="consultar" disabled="disabled" type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_norma">Consultar Proyecto</button>
+        <h2 class="text-center text-primary">Etapa I - Construcción</h2>
+        <table id="tabla_normas_1" class="table table-striped table-bordered dt-responsive nowrap">
+          <thead>
+            <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >              
+              <th class="text-center">ID</th>
+              <th class="text-center">Departamento</th>
+              <th class="text-center">Municipio</th>
+              <th class="text-center">Núcleo veredal</th>              
+              <th class="text-center">Proyecto</th>
+              <th class="text-center">Priorización</th> 
+              <th class="text-center">Viabilización</th>                             
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($arrayindipic as $pro) 
+              <tr id="{{$pro->id_proy}}"> 
+                <td >{{$pro->ID}} </td> 
+                <td >@foreach($arraydepto as $key=>$val) @if($pro->cod_depto==$key) {{$val}} @endif @endforeach </td> 
+                <td >@foreach($arraymuni as $key=>$val) @if($pro->cod_mpio==$key) {{$val}} @endif @endforeach </td> 
+                <td >@foreach($arraynucleos as $key=>$val) @if($pro->cod_nucleo==$key) {{$val}} @endif @endforeach </td> 
+                <td >{{$pro->nom_proy}}</td>
+                <td align="center"><p style="display:none;"></p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
+                <td align="center"><p style="display:none;"></p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
+              </tr> 
+            @endforeach 
+
+          
+          </tbody>
+        </table>  
+        </div>        
+      <div class="col-sm-1"></div>           
 <!--fin del codigo-->    
     </div>
   </div>
