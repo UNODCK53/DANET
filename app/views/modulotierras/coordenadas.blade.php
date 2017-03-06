@@ -34,7 +34,12 @@
   <div class="container" id="sha">
     <!--aca se escribe el codigo-->
     <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
         <h1 class="text-center text-primary">VALIDACIÓN DE INFORMACIÓN CAPTURADA CON DISPOSITIVOS MOVILES</h1>
+      </div>  
+      <div class="col-sm-1"></div>
+    
     </div>
     <div class="row">
       <?php $status=Session::get('status'); ?>
@@ -53,7 +58,7 @@
     </div>
     <div class="row">
       <div class="col-sm-1"></div>
-      <form role="form" action="tierras/novedad-edicion" method="post" id="formconsulpro">
+      <form role="form" action="tierras/coordenadas-edicion" method="post" id="formconsulpro">
         <div class="col-sm-10">
           <!-- Standard button -->
           <button id="btnedicoord" title="Presione para editar una novedad" disabled="disabled" type="submit" type="button" class="btn btn-primary">Edición de proceso</button>

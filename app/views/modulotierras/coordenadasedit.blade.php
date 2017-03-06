@@ -46,14 +46,18 @@
   <div class="container" id="sha">
     <!--aca se escribe el codigo-->
     <div class="row">
-      <h1 class="text-center text-primary">EDITAR COORDENADAS DEL PROCESO: {{$arrayapp[0]->id_proceso}}</h1>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">                  
+        <h1 class="text-center text-primary">SELECCIONE 1 DE {{count($arrayeditcoordenainsumos[1])}} COORDENADAS REALES DEL PROCESO: {{$arrayeditcoordenainsumos[0][0]->id_proceso}}</h1>
+      </div>  
+      <div class="col-sm-1"></div>
     </div>
     <div class="row">
       <!--Listado de Procesos Iniciales para edicion -->
       <div class="col-sm-1"></div>
         <div class="col-sm-10">
           <form role="form" action="tierras/guardar-coordenadas" method="post" id="formEdit" enctype="multipart/form-data">
-            <input id="idpro" class="form-control" name="idpro" type="hidden" value="{{$arrayapp[0]->id_proceso}}">
+            <input id="idpro" class="form-control" name="idpro" type="hidden" value="{{$arrayeditcoordenainsumos[0][0]->id_proceso}}">
             <div class="form-group">
               <br/>
               <label for="proceso" class="control-label">Latitud: 

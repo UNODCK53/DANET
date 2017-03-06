@@ -879,20 +879,44 @@ class TierrasController extends BaseController {
 		//return $arrayproccoord;		
 		return View::make('modulotierras.coordenadas', array('arrayproccoord' => $arrayproccoord), array('arraydombobox' => $arraydombobox));
 	}
-
-	
-
+	public function postCoordenadasEdicion()
+	{
+		Session::put('procesoi',Input::get('proceso'));		
+		return Redirect::to('edit_novedad');
+	}
 	public function EditCoordenadas()
 	{
 		$idpro=(Session::get('procesoi'));
 		if($idpro==''){
 			return Redirect::to('novedadesodk');
 		}
-		$arrayapp = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->select('id_proceso','longitud', 'latitud')->get();
-		Session::forget('procesoi');
-		return View::make('modulotierras.coordenadasedit', array('arrayapp' => $arrayapp));
-	}
 
+		$arraydomtecnicos = DB::table('MODTIERRAS_TECNICOS')
+			->where('catastral','=',Auth::user()->id)
+			->select('cedula','nombre','estado','catastral')
+			->get();
+		$arrayprocesos = DB::table('MODTIERRAS_PROCESONOVEDAD')
+			->where('id_proceso','=',$idpro)
+			->select('llave','id_proceso','novedad','longitud','longitud','latitud','validado','id_tecnico')
+			->orderBy('llave', 'asc')
+			->get();
+
+		$arrayprocesoscant=DB::table('MODTIERRAS_PROCESONOVEDAD')
+		->select('llave')
+		->where('id_proceso','=',$idpro)
+		->groupBy('llave')
+		->get();
+		$arraydomvalidacion = DB::table('MODTIERRAS_VALIDACION')			
+			->select('id','descripcion')
+			->get();
+
+		$arrayeditcoordenainsumos= array($arrayprocesos,$arrayprocesoscant,$arraydomtecnicos,$arraydomvalidacion);	
+		
+		$arrayapp = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->select('id_proceso','longitud', 'latitud')->get();				
+		Session::forget('procesoi');
+		return $arrayeditcoordenainsumos;
+		return View::make('modulotierras.coordenadasedit', array('arrayapp' => $arrayapp), array('arrayeditcoordenainsumos' => $arrayeditcoordenainsumos));
+	}
 	public function postGuardarCoordenadas()
 	{
 		$dat[0]=Input::get('idpro');
