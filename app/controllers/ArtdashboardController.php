@@ -127,9 +127,9 @@ public function postPic()//funcion que precarga los datos de los indicadores  ve
 			->count();
 
 		$coca_simci=DB::table('MUNICIPIOS')
-			->select(DB::raw('round(C_2012,2)as C_2012'))
+			->select(DB::raw('round(C_2015,2)as C_2015'))
 			->where('COD_DANE','=',Input::get('indi'))
-			->sum('C_2012');
+			->sum('C_2015');
 
 		return array('obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci);
 			

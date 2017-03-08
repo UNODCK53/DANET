@@ -375,7 +375,7 @@ input[type="number"] {
                   <h3>Cultivos ilícitos </h3>                                    
                   <div class="col-xs-5"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                   <div class="col-xs-7" align="center"><font size="50"id="coca_simci">0 Ha</font><br>Identificadas</div>
-                  <h4>Fuente: 2012 SIMCI - UNODC</h4>
+                  <h4>Fuente: 2015 SIMCI - UNODC</h4>
 
                   <h3>Reducción de la oferta </h3>                                    
                   <table class="table table-hover">
