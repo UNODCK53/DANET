@@ -96,4 +96,14 @@ function search(cod,mpio, depto){
 	$("#avance").show();
 	$('#titulo').html(tittle)
 	$('#panel_fichas').html(texto)
+	console.log(cod)
+	$.ajax({url:"artdashboard/pic",type:"POST",data:{indi:cod},dataType:'json',
+	      success:function(data){
+	        $('#obra_priori').html(data['obra_priori'])
+	        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha")
+	        
+	     
+	      },
+	      error:function(){alert('error');}
+	  });//Termina Ajax
 }

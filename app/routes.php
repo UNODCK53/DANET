@@ -151,7 +151,8 @@ Route::group(array('before' => 'auth'), function()
   Route::get('ivsociconsultapic', array('before'=>'MenuARTConsultaPIC', 'uses' => 'ArtpicController@consultapic'));
   Route::get('ivsocicarguefamilias', array('before'=>'MenuARTCargueFamilias', function(){return View::make('moduloart/ivsocicarguefamilias');}));
   Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy',  'uses' => 'ArtpicController@piccreaproyectos'));
-  Route::get('excelpic','ArtpicController@Excelpic');
+  Route::get('Excelpic_uno','ArtpicController@Excelpic_uno');
+  Route::get('Excelpic','ArtpicController@Excelpic');
   Route::get('ivsociseguimientopic', array('before'=>'MenuARTSeguimientoPIC', function(){return View::make('moduloart/ivsociseguimientopic');}));
   Route::get('ivsocimapa', array('before'=>'MenuARTMapaIVSocial', function(){return View::make('moduloart/ivsocimapa');}));
     //Zona Veredal

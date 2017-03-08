@@ -40,8 +40,22 @@
     <div class="col-sm-10">
         <h2 class="text-center text-primary">Consulta PIC</h2>
         <br>
-        <p class="lead text-justify">A continuación se presenta el avance de los Proyectos de pequeña infraestructura comunitaria-PIC para su consulta.</p>  
+        <p class="lead text-justify">A continuación se presenta el avance de los proyectos de pequeña infraestructura comunitaria-PIC para su consulta.</p>  
+    </div>  
+    <div class="col-sm-1"></div>
+    </div>
+    <div class="row">
+    <div class="col-sm-1"></div>
+      <div class="col-sm-8">
         <button id="consultar" disabled="disabled" type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_norma">Consultar Proyecto</button>
+      </div>
+      <div class="col-sm-2">
+        <a href='Excelpic'><img class="img-responsive" src='assets/img/excel.png'></img></a>   
+      </div>
+    </div>
+     <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
         <h2 class="text-center text-primary">Proyectos</h2>
         <table id="tabla_pic" class="table table-striped table-bordered dt-responsive nowrap">
           <thead>
@@ -104,7 +118,7 @@
                               <td id="nombre"></td>
                             </tr>
                             <tr>
-                              <td>Alance</td>
+                              <td>Alcance</td>
                               <td ><div id="alcance" style="overflow-y:scroll; width:100%;max-height: 350px;" ></div></td>
                             </tr>
                             <tr>
@@ -146,6 +160,11 @@
                                   <a id="acta" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
                                 </span></td>
                             </tr>
+                            <tr>
+                              <td>Responsable</td>
+                              <td id="responsable"></td>
+                            </tr>
+                            <tr>
                               <td>Departamento</td>
                               <td id="depto"></td>
                             </tr>   
@@ -232,14 +251,13 @@
               $(this).addClass('active');
               $("#consultar").prop('disabled', false);
               var num =$('tr', this).context.id;
-              console.log(num)
               $.ajax({url:"artpic/select-consulta-pic",type:"POST",data:{proy:num},dataType:'json',
                   success:function(data){ 
                     $("#id").html(data['arrayprio'][0].ID);
                     $("#nombre").html(data['arrayprio'][0].Nombre_iniciativa);
                     $("#alcance").html(data['arrayprio'][0].Alcance);
                     $("#categoria").html(data['cate'][0].nombre);
-                    $("#subcategoria").html(data['arrayprio'][0].subcategoria);
+                    $("#responsable").html(data['arrayprio'][0].usuario);
                     $("#subcategoria").html(data['arrayprio'][0].subcategoria);
                     $("#intervencion").html(data['arraysubsubcate'][0].nombre);
                     $("#estado").html(data['arrayprio'][0].Estado_iniciativa);

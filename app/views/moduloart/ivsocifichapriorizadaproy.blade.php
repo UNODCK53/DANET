@@ -15,7 +15,6 @@
   @parent
    <script src="assets/art/js/wNumb.js"></script>   
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" />
-
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -97,7 +96,7 @@
             </div>
             <div class="col-sm-4"></div>
             <div class="col-sm-2"> 
-              <div><a href='excelpic'><img class="img-responsive" src='assets/img/excel.png'></img></a></div>    
+              <div><a href='Excelpic_uno'><img class="img-responsive" src='assets/img/excel.png'></img></a></div>    
             </div>
 
           </div>
@@ -419,14 +418,31 @@
                           <input type="radio" name="ediranking" value="10"> 10
                         </div>
                       </div>
-                       <div class="form-group" >
-                        {{Form::label('ediactalable','Ver acta de priorización :',['class' => 'control-label'])}}
-                        <div >
-                          <span >
-                            <a id="ediacta" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
-                          </span>
+                      <div class="col-sm-12"><br></div>
+                      <div class="form-group col-sm-12" style="padding: 0;">
+                      <div class="form-group col-sm-4" style="padding: 0;">
+                        {{Form::label('actalable','Acta de priorización :',['class' => 'control-label'])}}
+                      </div>
+                      <div class="col-sm-8">
+                        <span >
+                          <a id="ediacta" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-primary" title="Descargar acta" role="button"></a>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-12" style="padding: 0;">
+                      <div class="form-group col-sm-3" style="padding: 0;">
+                        {{Form::label('actalableedi','Desea editar el acta anterior:',['class' => 'control-label'])}}
+                      </div>
+                      <div class="form-group col-sm-3" style="right-padding: 0;">
+                        <div id="edicheckediacta">
+                          <input type="radio" name="ediacta" value="1" required> Si
+                          <input type="radio" name="ediacta" value="2"> No
                         </div>
                       </div>
+                      <div class="form-group col-sm-6" style="padding: 0;display:none"id= 'div_acta'>
+                        {{ Form::file('actaedi', ['class' => 'form-control', 'id'=>'actaedi','required'=>'true','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
+                      </div>
+                    </div>
                       <div class="form-group">
                         {{Form::label('edipreciolable','Precio estimado PIC:',['class' => 'control-label'])}}
                         {{ Form::text('ediprecio','', ['class' => 'form-control', 'id'=>'ediprecio','required'=>'true','onchange'=>'precio_change2(this)'])}}
@@ -686,10 +702,6 @@
            var select=new Date(a.value.split('/')[2], a.value.split('/')[1] - 1, a.value.split('/')[0]);
            var fecha="20/02/2017";
            var fecha_antes=new Date(fecha.split('/')[2], fecha.split('/')[1] - 1, fecha.split('/')[0]);
-console.log(a.value)
-           console.log(select)
-           console.log(fecha_antes)
-           console.log(today)
 
           if (select>today || select<fecha_antes){
               alerta=alerta+1;
@@ -1006,6 +1018,18 @@ console.log(a.value)
         }
     });
 
+    
+    $('input[type=radio][name=ediacta]').change(function() {
+        if (this.value == 1) {
+           $("#div_acta").css("display","block");
+            $("#actaedi").prop('required',true);  
+        }
+        else if (this.value == 2) {
+          $("#div_acta").css("display","none");
+          $("#actaedi").prop('required',false); 
+        }
+    });
+
     $("#edisocio").change(function(){
         var total=0;
         var Format = wNumb({
@@ -1153,6 +1177,10 @@ console.log(a.value)
                     $("#deletenombre").val(data['arrayproy'][0].nom_proy);
                     $("#deleteproy").val(data['arrayproy'][0].id_proy);
                     $("#deletenucleo").val(data['arrayproy'][0].cod_nucleo);
+
+                    $("#ediacta").attr("href", data['arrayproy'][0].acta);
+                    $("#ediacta_cambio").html(data['arrayproy'][0].acta);
+                    
 
                   },
                   error:function(){alert('error');}
