@@ -168,22 +168,22 @@
                 <br>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center">
-                  <font size="50">853</font><br>Familias<br>censadas
+                  <font size="50">0</font><br>Familias<br>censadas
                 </div>
                 <div class="col-xs-12"><br><br></div>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center">
-                  <font size="50">50</font><br>Obras priorizadas
+                  <font size="50">0</font><br>Obras priorizadas
                 </div>
                 <div class="col-xs-12"><br><br></div>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/pp.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center">
-                  <font size="50">756</font><br>Proyectos productivos
+                  <font size="50">0</font><br>Proyectos productivos
                 </div>
                 <div class="col-xs-12"><br><br></div>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/Nucleo.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center">
-                  <font size="50">50</font><br>Núcleos<br>veredales
+                  <font size="50">0</font><br>Núcleos<br>veredales
                 </div>
               </div>
               <!--Fin seccion caracterizacion  -->
