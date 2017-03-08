@@ -334,6 +334,32 @@ class ArtpicController extends BaseController {
 			);
 
 
+			if(Input::get('ediacta')==1){
+				$path = public_path().'\art\pic\\'.Input::get('edinucleo2');
+					$path_insert='\art\pic\\'.Input::get('edinucleo2');
+					// creacion de carpeta dependiendo del nombre del proceso
+					if (File::exists($path)){
+									
+					}
+					else{
+						File::makeDirectory($path,  $mode = 0777, $recursive = false);	
+					}
+
+				
+					if(Input::hasFile('actaedi')) {
+
+							Input::file('actaedi')->move($path,'PIC_'.Input::get('edimpios2').Input::get('ediidproy').'.'.Input::file('actaedi')->getClientOriginalExtension());
+
+				    		DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', '=', Input::get('ediidproy'))->update(
+				    			array(
+				    				'acta' => $path_insert.'\\'.'PIC_'.Input::get('edimpios2').Input::get('ediidproy').'.'.Input::file('actaedi')->getClientOriginalExtension()
+				    				)
+				    			);
+				    }		
+			       
+				}
+
+
 				DB::table('MODART_PIC_TIPOTERRPASO')->where('id_proy',Input::get('ediidproy'))->delete();
 		
 		    	foreach (Input::get('editipoterr') as $key => $value) {
@@ -390,23 +416,62 @@ class ArtpicController extends BaseController {
 		}
 	}
 
-	public function Excelpic()
+	public function Excelpic_uno()
 	{	
+		
+
+
 		Excel::create('PIC',function($excel)
 		{
 			$excel->sheet('Fichas de iniciativas',function($sheet)
 			{
 				$data = array();
-				$results = DB::select("SELECT concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, fecha_ingreso as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado FROM MODART_PIC_PROYPRIORIZ join MUNICIPIOS on MUNICIPIOS.COD_DANE=MODART_PIC_PROYPRIORIZ.cod_mpio join users on users.id=MODART_PIC_PROYPRIORIZ.id_usuario join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id=MODART_PIC_PROYPRIORIZ.id_subcat join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo=MODART_PIC_PROYPRIORIZ.cod_nucleo join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id=MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id);
+				$results = DB::select(
+					"select 
+	ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal,terr.[Resguardo Indígena] as Resguardo_Indigena ,terr.[Concejo Comunitario] as Concejo_Comunitario,terr.Vereda
+from 
+	(select
+		intervencion,cate.nombre as cate,tabla1.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal 
+	from 
+		(select 
+			subcate.nombre as intervencion,proy.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal 
+		from 
+			(select 
+				MODART_PIC_PROYPRIORIZ.id_proy ,concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, CONVERT(VARCHAR,fecha_ingreso,103) as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado,acta 
+			from 
+				MODART_PIC_PROYPRIORIZ inner join MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_PROYPRIORIZ.cod_mpio inner join users on users.id = MODART_PIC_PROYPRIORIZ.id_usuario inner join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id = MODART_PIC_PROYPRIORIZ.id_subcat inner join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo = MODART_PIC_PROYPRIORIZ.cod_nucleo inner join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id = MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id.") as proy 
+		left join 
+		(select 
+			MODART_PIC_SUBSUBCATEGORIA.nombre, MODART_PIC_SUBSUBCATPASO.id_proy 
+		from 
+			MODART_PIC_SUBSUBCATPASO inner join MODART_PIC_SUBSUBCATEGORIA on MODART_PIC_SUBSUBCATEGORIA.id = MODART_PIC_SUBSUBCATPASO.id_subsub)as subcate 
+		on proy.id_proy=subcate.id_proy) as tabla1 
+		left join 
+		(select 
+			MODART_PIC_PROYPRIORIZ.id_proy,MODART_PIC_CATEGORIA.nombre 
+		from 
+			MODART_PIC_SUBCATEGORIA inner join MODART_PIC_PROYPRIORIZ on MODART_PIC_PROYPRIORIZ.id_subcat = MODART_PIC_SUBCATEGORIA.id inner join MODART_PIC_CATEGORIA on MODART_PIC_CATEGORIA.id = MODART_PIC_SUBCATEGORIA.id_categ) as cate
+		on tabla1.id_proy=cate.id_proy) as tabla3 
+		left join 
+		(select 
+			id_proy,[Resguardo Indígena],[Concejo Comunitario],[Vereda] 
+		from  
+			(select MODART_PIC_TIPOTERRPASO.id_proy, MODART_PIC_TIPOTERR.id,MODART_PIC_TIPOTERR.nombre from MODART_PIC_TIPOTERRPASO inner join MODART_PIC_TIPOTERR on MODART_PIC_TIPOTERR.id = MODART_PIC_TIPOTERRPASO.id_tipterr)as tabla1
+		pivot (count(id)  FOR nombre in ([Resguardo Indígena],[Concejo Comunitario],[Vereda]))as d) as terr 
+		on tabla3.id_proy=terr.id_proy");
+
+
 				foreach ($results as $result) {
-				$data[] = (array)$result;
+					$data[] = (array)$result;
 				}  	
 				$sheet->with($data);
 				$sheet->freezeFirstRow();
 				$sheet->setAutoFilter();
-				$sheet->cells('A1:N1', function($cells) {
-			    	$cells->setBackground('#dadae3');
+				$sheet->cells('A1:R1', function($cells) {
+		    	$cells->setBackground('#dadae3');
 				});
+
+			
 			})->download('xlsx');
 		});
     }
@@ -499,6 +564,67 @@ class ArtpicController extends BaseController {
 
 
 		return  array('arrayprio' => $arrayproy,'arraysubsubcate'=>$arraysubsubcate,'arraytipoterr'=>$arraytipoter,'cate'=>$cate);		
+    }
+
+
+    public function Excelpic()
+	{	
+		
+
+
+		Excel::create('PIC',function($excel)
+		{
+			$excel->sheet('Fichas de iniciativas',function($sheet)
+			{
+				$data = array();
+				$results = DB::select(
+					"select TOP 2000
+	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal,terr.[Resguardo Indígena] as Resguardo_Indigena ,terr.[Concejo Comunitario] as Concejo_Comunitario,terr.Vereda
+from 
+	(select
+		intervencion,cate.nombre as cate,tabla1.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal 
+	from 
+		(select 
+			subcate.nombre as intervencion,proy.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal 
+		from 
+			(select 
+				MODART_PIC_PROYPRIORIZ.id_proy ,concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, CONVERT(VARCHAR,fecha_ingreso,103) as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado,acta 
+			from 
+				MODART_PIC_PROYPRIORIZ inner join MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_PROYPRIORIZ.cod_mpio inner join users on users.id = MODART_PIC_PROYPRIORIZ.id_usuario inner join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id = MODART_PIC_PROYPRIORIZ.id_subcat inner join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo = MODART_PIC_PROYPRIORIZ.cod_nucleo inner join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id = MODART_PIC_PROYPRIORIZ.estado_proy) as proy 
+		left join 
+		(select 
+			MODART_PIC_SUBSUBCATEGORIA.nombre, MODART_PIC_SUBSUBCATPASO.id_proy 
+		from 
+			MODART_PIC_SUBSUBCATPASO inner join MODART_PIC_SUBSUBCATEGORIA on MODART_PIC_SUBSUBCATEGORIA.id = MODART_PIC_SUBSUBCATPASO.id_subsub)as subcate 
+		on proy.id_proy=subcate.id_proy) as tabla1 
+		left join 
+		(select 
+			MODART_PIC_PROYPRIORIZ.id_proy,MODART_PIC_CATEGORIA.nombre 
+		from 
+			MODART_PIC_SUBCATEGORIA inner join MODART_PIC_PROYPRIORIZ on MODART_PIC_PROYPRIORIZ.id_subcat = MODART_PIC_SUBCATEGORIA.id inner join MODART_PIC_CATEGORIA on MODART_PIC_CATEGORIA.id = MODART_PIC_SUBCATEGORIA.id_categ) as cate
+		on tabla1.id_proy=cate.id_proy) as tabla3 
+		left join 
+		(select 
+			id_proy,[Resguardo Indígena],[Concejo Comunitario],[Vereda] 
+		from  
+			(select MODART_PIC_TIPOTERRPASO.id_proy, MODART_PIC_TIPOTERR.id,MODART_PIC_TIPOTERR.nombre from MODART_PIC_TIPOTERRPASO inner join MODART_PIC_TIPOTERR on MODART_PIC_TIPOTERR.id = MODART_PIC_TIPOTERRPASO.id_tipterr)as tabla1
+		pivot (count(id)  FOR nombre in ([Resguardo Indígena],[Concejo Comunitario],[Vereda]))as d) as terr 
+		on tabla3.id_proy=terr.id_proy order by auto desc ");
+
+
+				foreach ($results as $result) {
+					$data[] = (array)$result;
+				}  	
+				$sheet->with($data);
+				$sheet->freezeFirstRow();
+				$sheet->setAutoFilter();
+				$sheet->cells('A1:R1', function($cells) {
+		    	$cells->setBackground('#dadae3');
+				});
+
+			
+			})->download('xlsx');
+		});
     }
 
 
