@@ -619,9 +619,10 @@
           <!--Aca finaliza el modal para borrar proyecto-->
           <!--Acá inicia la tabla de proyectos-->
           <h4>Listado de iniciativas de proyecto</h4>
-          <table id="tabla_proyectos" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+          <table id="tabla_proyectos" class="table table-striped table-bordered  nowrap" cellspacing="0" width="100%">
             <thead>  
               <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >
+                <th class="text-center">AUTO</th>
                 <th class="text-center">ID</th>
                 <th class="text-center">Departamento</th>
                 <th class="text-center">Municipio</th>
@@ -632,7 +633,8 @@
             </thead> 
              <tbody> 
                     @foreach($arrayindipic as $pro) 
-                      <tr id="{{$pro->id_proy}}"> 
+                      <tr id="{{$pro->id_proy}}">
+                        <td >{{$pro->id_proy}} </td>  
                         <td >{{$pro->ID}} </td> 
                         <td >@foreach($arraydepto as $key=>$val) @if($pro->cod_depto==$key) {{$val}} @endif @endforeach </td> 
                         <td >@foreach($arraymuni as $key=>$val) @if($pro->cod_mpio==$key) {{$val}} @endif @endforeach </td> 
@@ -692,7 +694,16 @@
             autoclose: true
           });//Termina datepicker 
 
-          table=$('#tabla_proyectos').DataTable();
+          table=$('#tabla_proyectos').DataTable({
+              "order": [[ 0, "desc" ]],
+               "scrollX": true,
+              "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false
+                    }
+                ]
+          });
       });
 
 //##### funciones para ingresar proyecto ###########

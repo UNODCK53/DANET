@@ -153,7 +153,7 @@ Route::group(array('before' => 'auth'), function()
   Route::get('ivsocifichapriorizadaproy', array('before'=>'MenuARTFichaPriorizacionProy',  'uses' => 'ArtpicController@piccreaproyectos'));
   Route::get('Excelpic_uno','ArtpicController@Excelpic_uno');
   Route::get('Excelpic','ArtpicController@Excelpic');
-  Route::get('ivsociseguimientopic', array('before'=>'MenuARTSeguimientoPIC', function(){return View::make('moduloart/ivsociseguimientopic');}));
+  Route::get('ivsociseguimientopic', array('before'=>'MenuARTSeguimientoPIC',  'uses' => 'ArtpicController@seguimiento'));
   Route::get('ivsocimapa', array('before'=>'MenuARTMapaIVSocial', function(){return View::make('moduloart/ivsocimapa');}));
     //Zona Veredal
   Route::get('zvtabpresidente', array('before'=>'MenuARTTableroPresidente', function(){return View::make('moduloart/zvtabpresidente');}));

@@ -57,7 +57,7 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
         <h2 class="text-center text-primary">Proyectos</h2>
-        <table id="tabla_pic" class="table table-striped table-bordered dt-responsive nowrap">
+        <table id="tabla_pic" class="table table-striped table-bordered nowrap">
           <thead>
             <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >              
               <th class="text-center">ID</th>
@@ -65,6 +65,7 @@
               <th class="text-center">Municipio</th>
               <th class="text-center">Núcleo veredal</th>              
               <th class="text-center">Proyecto</th>
+              <th class="text-center">Ranking</th>
               <th class="text-center">Priorización</th> 
               <th class="text-center">Viabilización</th>                             
             </tr>
@@ -77,8 +78,12 @@
                 <td >@foreach($arraymuni as $key=>$val) @if($pro->cod_mpio==$key) {{$val}} @endif @endforeach </td> 
                 <td >@foreach($arraynucleos as $key=>$val) @if($pro->cod_nucleo==$key) {{$val}} @endif @endforeach </td> 
                 <td >{{$pro->nom_proy}}</td>
+                <td >{{$pro->ranking}}</td>
                 <td align="center"><p style="display:none;"></p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
-                <td align="center"><p style="display:none;"></p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
+                @if($pro->id_viabi==2)<td align="center"><p style="display:none;">{{$pro->id_viabi}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
+                  @elseif($pro->id_viabi==3)<td align="center"><p style="display:none;">{{$pro->id_viabi}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
+                  @else <td align="center"><p style="display:none;">{{$pro->id_viabi}}</p><span class="glyphicon glyphicon-alert" aria-hidden="true" style="color:orange"></span></td>                   
+                  @endif
               </tr> 
             @endforeach 
           </tbody>
@@ -231,10 +236,12 @@
           $( "#ivsociconsultapicmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Cosulta PIC</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
 
-          table=$('#tabla_pic').DataTable();
+          table=$('#tabla_pic').DataTable({
+              "scrollX": true,
+              "order": [[ 5, "asc" ]]
+          });
                
       });
-
 
       $('#tabla_pic tbody').on('click', 'tr', function () {
             var Format = wNumb({

@@ -185,24 +185,25 @@ class ArtpicController extends BaseController {
 		    	}
 		    	
 	
-		$path = public_path().'\art\pic\\'.Input::get('nucleo');
-		$path_insert='\art\pic\\'.Input::get('nucleo');
+		$path = public_path().'\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').$idmaximo;
+		$path_insert='\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').$idmaximo;
 		// creacion de carpeta dependiendo del nombre del proceso
 		if (File::exists($path)){
 						
 		}
 		else{
-			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
+			File::makeDirectory($path,  0777, true);	
+
 		}
 
 	
 		if(Input::hasFile('acta')) {
 
-				Input::file('acta')->move($path,'PIC_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension());
+				Input::file('acta')->move($path,'PIC_'.Input::get('nucleo').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension());
 
 	    		DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', '=', $idmaximo)->update(
 	    			array(
-	    				'acta' => $path_insert.'\\'.'PIC_'.Input::get('mpios').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension()
+	    				'acta' => $path_insert.'\\'.'PIC_'.Input::get('nucleo').$idmaximo.'.'.Input::file('acta')->getClientOriginalExtension()
 	    				)
 	    			);
 	    }		
@@ -333,26 +334,27 @@ class ArtpicController extends BaseController {
 		    	)
 			);
 
+		// creacion de carpeta dependiendo del nombre del proceso
 
 			if(Input::get('ediacta')==1){
-				$path = public_path().'\art\pic\\'.Input::get('edinucleo2');
-					$path_insert='\art\pic\\'.Input::get('edinucleo2');
+				$path = public_path().'\art\pic\\'.Input::get('edinucleo2').'\\'.Input::get('edinucleo2').Input::get('ediidproy');
+					$path_insert='\art\pic\\'.Input::get('edinucleo2').'\\'.Input::get('edinucleo2').Input::get('ediidproy');
 					// creacion de carpeta dependiendo del nombre del proceso
 					if (File::exists($path)){
 									
 					}
 					else{
-						File::makeDirectory($path,  $mode = 0777, $recursive = false);	
+						File::makeDirectory($path,  $mode = 0777, $recursive = true);	
 					}
 
 				
 					if(Input::hasFile('actaedi')) {
 
-							Input::file('actaedi')->move($path,'PIC_'.Input::get('edimpios2').Input::get('ediidproy').'.'.Input::file('actaedi')->getClientOriginalExtension());
+							Input::file('actaedi')->move($path,'PIC_'.Input::get('edinucleo2').Input::get('ediidproy').'.'.Input::file('actaedi')->getClientOriginalExtension());
 
 				    		DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', '=', Input::get('ediidproy'))->update(
 				    			array(
-				    				'acta' => $path_insert.'\\'.'PIC_'.Input::get('edimpios2').Input::get('ediidproy').'.'.Input::file('actaedi')->getClientOriginalExtension()
+				    				'acta' => $path_insert.'\\'.'PIC_'.Input::get('edinucleo2').Input::get('ediidproy').'.'.Input::file('actaedi')->getClientOriginalExtension()
 				    				)
 				    			);
 				    }		
@@ -513,7 +515,7 @@ from
 
 
 			$arrayindipic = DB::table('MODART_PIC_PROYPRIORIZ')	
-			->select(DB::raw("concat('PIC_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,cod_nucleo,nom_proy"))
+			->select(DB::raw("concat('PIC_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,cod_nucleo,nom_proy,ranking,id_viabi"))
 			->orderby('id_proy','desc')
 			->get();	
 
@@ -532,7 +534,7 @@ from
 				->join('MODART_PIC_SUBCATEGORIA' , 'MODART_PIC_SUBCATEGORIA.id','=','MODART_PIC_PROYPRIORIZ.id_subcat')
 				->join('MODART_PIC_NUCLEOS' , 'MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_PROYPRIORIZ.cod_nucleo')
 				->join('MODART_PIC_ESTADOPROY' , 'MODART_PIC_ESTADOPROY.id','=','MODART_PIC_PROYPRIORIZ.estado_proy')
-				->select(DB::raw("concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, CONVERT(VARCHAR,fecha_ingreso,103) as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado,acta"))
+				->select(DB::raw("concat('PIC_',MUNICIPIOS.COD_DANE,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, CONVERT(VARCHAR,fecha_ingreso,103) as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado,acta,id_viabi"))
 				->where('MODART_PIC_PROYPRIORIZ.id_proy','=', Input::get('proy'))
 				->get();
 
@@ -627,6 +629,127 @@ from
 		});
     }
 
+public function seguimiento()
+	{	
+		//retornamos las categorias apenas entramos a la vista de cargue documentos
+			$DEPARTAMENTOS = DB::table('DEPARTAMENTOS')
+			->select('COD_DPTO','NOM_DPTO')
+			->orderby('NOM_DPTO','asc')
+			->get();
+			$arraydepto['']='Seleccione uno';
+			foreach($DEPARTAMENTOS as $pro)
+			{
+				$arraydepto[$pro->COD_DPTO] = $pro->NOM_DPTO;
+			}
+
+			
+			$MUNICIPIOS = DB::table('MUNICIPIOS')
+			->select('COD_DPTO','COD_DANE','NOM_MPIO_1')
+			->orderby('NOM_MPIO_1','asc')
+			->get();
+			$arraymuni['']='Seleccione uno';
+			foreach($MUNICIPIOS as $pro)
+			{
+				$arraymuni[$pro->COD_DANE] = $pro->NOM_MPIO_1;
+			}
+
+			$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
+			->select('id_nucleo','nombre')
+			->orderby('nombre','asc')
+			->get();
+			$arraynucleos['']='Seleccione uno';
+			foreach($NUCLEOS as $pro)
+			{
+				 $arraynucleos[$pro->id_nucleo] = $pro->nombre;
+			}				
+
+
+
+			$arrayindipic = DB::table('MODART_PIC_PROYPRIORIZ')	
+			->select(DB::raw("concat('PIC_',cod_mpio,id_proy) as ID, id_proy,cod_depto,cod_mpio,cod_nucleo,nom_proy,ranking,id_viabi"))
+			->where('id_viabi','=',1)
+			->orderby('id_proy','desc')
+			->get();	
+
+
+			
+
+		return View::make('moduloart.ivsociseguimientopic', array('arraydepto' => $arraydepto,'arraynucleos' => $arraynucleos,'arraymuni' => $arraymuni,'arrayindipic' => $arrayindipic));		
+    }
+
+
+    public function postCriterios()
+	{	
+		$sub_cate = DB::table('MODART_PIC_PROYPRIORIZ')
+			->select('id_subcat')
+			->where('id_proy','=',Input::get('proy'))
+			->sum('id_subcat');
+
+		$estado = DB::table('MODART_PIC_PROYPRIORIZ')
+			->select('estado_proy')
+			->where('id_proy','=',Input::get('proy'))
+			->sum('estado_proy');
+
+		$id_viabi = DB::table('MODART_PIC_VIABILIZACION')
+			->select('id')
+			->where('id_subcat','=',$sub_cate)
+			->orWhere('id_estad','=',$estado)
+			->get();
+
+			
+		$array_viable=array_map(create_function('$item','return $item->id;'),$id_viabi);//extract value from object query	
+
+
+		$crea = DB::table('MODART_PIC_CRITERIOSTODOS')
+			->where('id_proy','=',Input::get('proy'))
+			->count();
+
+		if($crea==0){
+			foreach($id_viabi as $pro)
+			{
+				DB::table('MODART_PIC_CRITERIOSTODOS')->insert(
+			    	array(
+			    		'id_proy' => Input::get('proy'),
+			    		'id_crittod' => $pro->id
+			    	)
+		    	);
+			}
+			
+		}
+
+		
+		return  array('array_viable' => $array_viable);			
+    }
+
+    public function postCargarCriterio()//funcion que precarga los datos de los indicadores  veredales y las categorias
+	{
+		
+		$path = public_path().'\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').Input::get('proy');
+		$path_insert='\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').Input::get('proy');
+		// creacion de carpeta dependiendo del nombre del proceso
+		if (File::exists($path)){
+						
+		}
+		else{
+			File::makeDirectory($path,  $mode = 0777, $recursive = true);	
+		}
+
+	
+		if(Input::hasFile('acta')) {
+
+				Input::file('acta')->move($path,'PIC_'.Input::get('nucleo').Input::get('proy').'_Cri_.'.Input::file('acta')->getClientOriginalExtension());
+
+	    		DB::table('MODART_PIC_PROYPRIORIZ')->where('id_proy', '=', Input::get('proy'))->update(
+	    			array(
+	    				'acta' => $path_insert.'\\'.'PIC_'.Input::get('nucleo').Input::get('proy').'.'.Input::file('acta')->getClientOriginalExtension()
+	    				)
+	    			);
+	    }
+
+      
+			return Redirect::to('ivsociseguimientopic')->with('status', 'ok_estatus'); 
+		
+	}
 
 }
 ?>
