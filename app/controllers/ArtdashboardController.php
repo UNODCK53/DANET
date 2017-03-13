@@ -120,7 +120,20 @@ class ArtdashboardController extends BaseController {
 	}
 	
 
+public function postPic()//funcion que precarga los datos de los indicadores  veredales y las categorias
+	{    
+		$obra_priori=DB::table('MODART_PIC_PROYPRIORIZ')
+			->where('cod_mpio','=',Input::get('indi'))
+			->count();
 
+		$coca_simci=DB::table('MUNICIPIOS')
+			->select(DB::raw('round(C_2015,2)as C_2015'))
+			->where('COD_DANE','=',Input::get('indi'))
+			->sum('C_2015');
+
+		return array('obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci);
+			
+	}	
 
 }
 ?>
