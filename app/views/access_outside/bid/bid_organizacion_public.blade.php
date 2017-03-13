@@ -135,11 +135,11 @@
             @foreach($array[4] as $pro)
             <div class="col-xs-12" style="padding-left: 0px; padding-right: 0px">
             <div class="col-xs-12 col-md-6">
-              <img style="float: left; padding-right: 10px" src="assets/bid/logo_lp/<?php echo  str_replace('"','',(json_encode($array[4][0] -> 
+              <img style="float: left; padding-right: 10px" src="assets/bid/logo_lp/<?php echo  str_replace('"','',(json_encode($pro -> 
               logo_lp))); ?>">
             </div>
             <div class="col-xs-12 col-md-6">
-              <h3><?php echo  str_replace('"','',(json_encode($pro -> linea_prod))); ?></h3>
+              <h3><?php echo  str_replace('\r\n\r\n','<br><br>',(str_replace('"','',(json_encode($pro -> linea_prod,JSON_UNESCAPED_UNICODE)))))  ; ?></h3>
               @if(json_encode($pro -> desc_lp)!="null")
               <div style="text-align: justify; font-size: 14px">
                 <?php echo  str_replace('\r\n\r\n','<br><br>',(str_replace('"','',(json_encode($pro -> desc_lp,JSON_UNESCAPED_UNICODE)))))  ; ?>

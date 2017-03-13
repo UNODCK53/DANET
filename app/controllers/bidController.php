@@ -196,12 +196,12 @@ class bidController extends BaseController {
 				  ->where('MODBID_LINEAPRODORG.nit','=',$nit)
 				  ->where('MODBID_LINEAPRODORG.linea_prod','=',Input::get('linea_prod_add'))
 				  ->where('MODBID_LINEAPRODORG.id_lipex','=',Input::get('linea_prod_ext_edit'))
-				  ->get();
-
+				  ->where('MODBID_LINEAPRODORG.borrado','=',0)
+				  ->get();		
 		//Insertar el logo de la linea productiva
 		if(Input::get('optionsRadios_imagen_lp_edit')==1){
-			$logo_lp=$nit.'_linea_prod_'.json_encode($id).'_logo_lp.jpg';
-			DB::table('MODBID_LINEAPRODORG')->where('nit',$nit)->update(
+			$logo_lp=$nit.'_linea_prod_'.str_replace('"','',json_encode($id[0] -> id)).'_logo_lp.jpg';
+			DB::table('MODBID_LINEAPRODORG')->where('nit',$nit)->where('id',str_replace('"','',json_encode($id[0] -> id)))->update(
 		    	array(		    				    		
 		    		'logo_lp' =>  $logo_lp,		    				    				    		
 		    	)
@@ -211,7 +211,7 @@ class bidController extends BaseController {
 		}
 		//Insertar la descripcion de la linea productiva
 		if(Input::get('optionsRadios_descripcion_lp_add')==1){			
-			DB::table('MODBID_LINEAPRODORG')->where('nit',$nit)->update(
+			DB::table('MODBID_LINEAPRODORG')->where('nit',$nit)->where('id',str_replace('"','',json_encode($id[0] -> id)))->update(
 		    	array(		    				    		
 		    		'desc_lp' =>  Input::get('descr_lp_add'),		    				    				    		
 		    	)
@@ -227,7 +227,6 @@ class bidController extends BaseController {
 				  ->select(db::raw('linea_prod'))
 				  ->where('id','=',$id_registro)
 				  ->get();
-
 		return $lp;
 	}
 
@@ -349,6 +348,7 @@ class bidController extends BaseController {
 		$organizacion_des = DB::table('MODBID_BIDPUBLIC')
 						  ->select(DB::RAW('logo,descripcion'))
 						  ->where('nit',$nit)
+						  ->where('borrado','=',0)
 						  ->get();
 
 		$organizacion_lp = DB::table('MODBID_LINEAPRODORG')
