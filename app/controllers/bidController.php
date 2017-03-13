@@ -191,9 +191,16 @@ class bidController extends BaseController {
 	    	)
 		);			
 		
+		$id = DB::table('MODBID_LINEAPRODORG')				  
+				  ->select(db::raw('id'))
+				  ->where('MODBID_LINEAPRODORG.nit','=',$nit)
+				  ->where('MODBID_LINEAPRODORG.linea_prod','=',Input::get('linea_prod_add'))
+				  ->where('MODBID_LINEAPRODORG.id_lipex','=',Input::get('linea_prod_ext_edit'))
+				  ->get();
+
 		//Insertar el logo de la linea productiva
 		if(Input::get('optionsRadios_imagen_lp_edit')==1){
-			$logo_lp=$nit.'_linea_prod_'.Input::get('linea_prod_add').'_logo_lp.jpg';
+			$logo_lp=$nit.'_linea_prod_'.json_encode($id).'_logo_lp.jpg';
 			DB::table('MODBID_LINEAPRODORG')->where('nit',$nit)->update(
 		    	array(		    				    		
 		    		'logo_lp' =>  $logo_lp,		    				    				    		
@@ -261,13 +268,11 @@ class bidController extends BaseController {
 	
 	public function postConsultaBorrarVa(){
 		$id_registro=Input::get('registro');
-		
 		$va = DB::table('MODBID_BIDPUBLICVA')
 				  ->join('MODBID_VALORVA','MODBID_BIDPUBLICVA.id_val','=','MODBID_VALORVA.id')					  
 				  ->select(db::raw('MODBID_VALORVA.nombre as id_val'))
 				  ->where('MODBID_BIDPUBLICVA.id','=',$id_registro)
 				  ->get();
-
 		return $va;
 	}
 
@@ -299,6 +304,69 @@ class bidController extends BaseController {
 		} else {
 			return Redirect::to('cargaorganizacion')->with('status', 'error_estatus_borrar_organizacion');	
 		}
+	}
+
+	public function public_ini(){
+		$departamentos = DB::table('DEPARTAMENTOS')
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+							->join('MODBID_BIDPUBLIC','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('COD_DPTO,NOM_DPTO'))	
+							->groupby('COD_DPTO','NOM_DPTO')	
+							->get();
+
+		$organizaciones = DB::table('MODBID_BIDPUBLIC')		
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('MODBID_BIDPUBLIC.nit,MODBID_ORGANIZACION.acronim,MODBID_ORGANIZACION.cod_depto'))
+							->orderby('acronim')
+							->get();	
+
+		$array = array($departamentos,json_encode($organizaciones));
+
+		return View::make('access_outside/bid/bid_home_public', array('array' =>$array));
+	}
+
+	public function public_organizacion(){
+		$departamentos = DB::table('DEPARTAMENTOS')
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+							->join('MODBID_BIDPUBLIC','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('COD_DPTO,NOM_DPTO'))	
+							->groupby('COD_DPTO','NOM_DPTO')	
+							->get();
+
+		$organizaciones = DB::table('MODBID_BIDPUBLIC')		
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('MODBID_BIDPUBLIC.nit,MODBID_ORGANIZACION.acronim,MODBID_ORGANIZACION.cod_depto'))
+							->orderby('acronim')
+							->get();
+
+		$nit=Input::get('id');
+
+		$organizacion = DB::table('MODBID_ORGANIZACION')
+						  ->select(DB::RAW('nombre,acronim'))
+						  ->where('nit',$nit)
+						  ->get();
+
+		$organizacion_des = DB::table('MODBID_BIDPUBLIC')
+						  ->select(DB::RAW('logo,descripcion'))
+						  ->where('nit',$nit)
+						  ->get();
+
+		$organizacion_lp = DB::table('MODBID_LINEAPRODORG')
+						  ->select(DB::RAW('linea_prod,logo_lp,desc_lp'))
+						  ->where('nit',$nit)
+						  ->where('borrado','=',0)
+						  ->get();
+
+		$organizacion_va = DB::table('MODBID_BIDPUBLICVA')
+						  ->join('MODBID_VALORVA','MODBID_VALORVA.id','=','MODBID_BIDPUBLICVA.id_val')
+						  ->select(DB::RAW('nombre as va,id_val,descripcion'))
+						  ->where('nit',$nit)
+						  ->where('borrado','=',0)
+						  ->get();
+
+		$array = array($departamentos,json_encode($organizaciones),$organizacion, $organizacion_des, $organizacion_lp, $organizacion_va);
+
+		return View::make('access_outside/bid/bid_organizacion_public', array('array' =>$array));
 	}
 }
 ?>

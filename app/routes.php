@@ -12,10 +12,11 @@
 */
 
 //Acceso publico a la pagina
-//----------------------------------------------------------------------------------------------------------------------------------------------
-//Modulo BID
-Route::get('bid_organizaciones',function(){return View::make('access_outside/bid/bidorganizaciones');});
-//----------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------
+//Modulo BID Public
+Route::get('bid_organizaciones','bidController@public_ini');
+Route::get('bid_public_organizacion','bidController@public_organizacion');
+//----------------------------------------------------------------------------------------------------------------------------------------
 Route::get('municipios_concentracion',function(){return View::make('access_outside/visor_acuerdo');});
 //Modulo GIZ 
 Route::get('Cooperacion_GIZ',function(){return View::make('access_outside/giz');});
@@ -25,9 +26,7 @@ Route::get('Cooperacion_GIZ_datosrelevantes','gizController@DistribGIZdepartamen
 Route::get('Cooperacion_GIZ_visorgeo','gizController@mapGIZ');
 //Route::get('Cooperacion_GIZ_visorgeo',function(){return View::make('access_outside/giz/gizvisor');});
 Route::get('Cooperacion_GIZ_documentos',function(){return View::make('access_outside/giz/gizdocu');});
-//-----------------------------------------------------------------------------------------------------------------------------------------------
-
-
+//----------------------------------------------------------------------------------------------------------------------------------------
 //Ruta del index
 Route::get('/', function()
 {

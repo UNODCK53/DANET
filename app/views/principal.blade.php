@@ -318,7 +318,6 @@ $menuguardaun=false;
             </form>
           </div>
           <div class="modal-footer">
-            
           </div>
       </div>
     </div>

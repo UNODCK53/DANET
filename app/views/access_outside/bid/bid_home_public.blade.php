@@ -49,6 +49,16 @@
       height: 550px ;
     }
 
+    .dropdown-submenu {
+    position: relative;
+    }
+
+    .dropdown-submenu .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -1px;
+    }
+
     
   </style>
 	
@@ -82,66 +92,10 @@
   </div>
 </div>
 <!--Fin del primer contenedor-->
-
 <!--Segundo contenedor menu secundario-->
-<div class="container-fluid">
-  <div class="row" id="menu-sec">
-    <!--Menu secundario es visible en sm lg-->
-    <div class="col-sm-2 "></div>
-    <div class="col-sm-9 text-center text-primary visible-sm visible-md visible-lg ">
-      <ul class="nav nav-pills ">
-        <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
-        <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Organizaciones</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Nuevos Productos</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Líneas Productivas</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Casos de Éxito</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Alianzas estrategicas</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Contáctenos</a></li>
-      </ul>
-    </div>
-    <div class="col-sm-1"></div>
-
-    <!--Menu compacto es visible en xs -->   
-    <div class="col-xs-12 visible-xs">
-      <nav class="navbar navbar-default" >
-        <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            </button>
-            <a id="iniciomenupeq" class="navbar-brand " href="principal"><small><strong> INICIO</strong></small></a>
-          </div>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <!-- Lista desplegable de menu con submenu -->
-              <li id="menuprincipal" role="menu"><a href="principal">INICIO</a></li>
-              <li id="" role="menu"><a href="" class="enlace-menu">Organizaciones</a></li>
-              <li id="" role="menu"><a href="" class="enlace-menu">Nuevos Productos</a></li>
-              <li id="" role="menu"><a href="" class="enlace-menu">Líneas Productivas</a></li>
-              <li id="" role="menu"><a href="" class="enlace-menu">Casos de Éxito</a></li>
-              <li id="" role="menu"><a href="" class="enlace-menu">Alianzas estrategicas</a></li>
-              <li id="" role="menu"><a href="" class="enlace-menu">Contáctenos</a></li>
-              <!--  <li><a id="guardaunmenupeq" href="guardaun">GUARDAUN</a></li>   -->            
-              
-            </ul><!-- fin de menu con submenu -->
-          </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-      </nav>
-    </div>
-  </div>
-</div>
-<!--Fin del segundo contenedor-->  
+@include('access_outside.bid.include_navbar')
+<!--Fin del segundo contenedor--> 
 <!--tercer contenedor pie de página-->
-
-
-
-
   <div class="container" id="sha">
     <div class="row">
       <div class="row" style="margin-right: 0px;margin-left: 0px">
@@ -276,36 +230,68 @@
 <!--Fin del tercer contenedor--> 
 
 <!--cuarto contenedor pie de página-->
-<div class="container-fluid well" id="piedepagina">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-lg-offset-3">
-      <br />        
-      <br />
-      <div class="col-xs-12" style="padding-top: 65px; background-image: url('assets/bid/img/regla.jpg');height: 150px; color: white; text-align: center;">      
+<div class="container-fluid well" id="piedepagina">      
+      <div class="col-xs-12" style="color: white; text-align: center;">
+      <img class="foto" src="assets/bid/img/regla.jpg" style="height: 135px; width: auto;">      
       </div>        
-    </div>
-  </div>
 </div>
 <!--Fin del cuarto contenedor-->
 <!--quinto contenedor-->  
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-md-12"><small><p class="text-right">Unidad de Información y Análisis – Monitoreo Integrado Desarrollo Alternativo – UNODC <br/>Bogotá D.C. - Colombia</p></small>
-
     </div>
   </div>
 	<br/><br/>
 </div>
 <!--Fin del quinto contenedor-->  
 <script>
-      $(document).ready(function() {          
-          //para que los menus pequeño y grande funcione
-          $( "#menugizdatrelev" ).addClass("active");          
-          $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-          $( "#gizdatrelevmenupeq" ).html("<strong>Datos Relevantes</strong>");          
-          $( "#mensajeestatus" ).fadeOut(5000);          
+    $(document).ready(function() {          
+      //para que los menus pequeño y grande funcione
+      $( "#menugizdatrelev" ).addClass("active");          
+      $( "#iniciomenupeq" ).html("<small> INICIO</small>");
+      $( "#gizdatrelevmenupeq" ).html("<strong>Datos Relevantes</strong>");          
+      $( "#mensajeestatus" ).fadeOut(5000);
+      //Esta funcion permite realizar un segundo submenu
+      $('.dropdown-submenu a.test').on("mouseover", function(e){
+        $('.submenu').css('display','none');
+        var submenu='#submenu_'+this.name;
+        $(submenu).empty();
+        var cod=this.name;
+        organizaciones=[{{$array[1]}}];
+        organizaciones_query=[];
+        for (var i =0; i<organizaciones[0].length; i++){
+          var position=organizaciones_query.length;
+          if (organizaciones[0][i].cod_depto==cod){
+            organizaciones_query[position]=organizaciones[0][i].acronim;
+            $(submenu).append("<li><a tabindex='-1' href='bid_public_organizacion?id="+organizaciones[0][i].nit+"' name='"+organizaciones[0][i].nit+"''>"+organizaciones[0][i].acronim+"</a></li>")
+          }              
+        }
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
       });
-    
+      //Esta funcion permite realizar un segundo submenu
+      $('.dropdown-submenu a.test').on("click", function(e){
+        $('.submenu').css('display','none');
+        var submenu='#submenu_'+this.name;
+        $(submenu).empty();
+        var cod=this.name;
+        organizaciones=[{{$array[1]}}];
+        organizaciones_query=[];
+        for (var i =0; i<organizaciones[0].length; i++){
+          var position=organizaciones_query.length;
+          if (organizaciones[0][i].cod_depto==cod){
+            organizaciones_query[position]=organizaciones[0][i].acronim;
+            $(submenu).append("<li><a tabindex='-1' href='bid_public_organizacion?id="+organizaciones[0][i].nit+"' name='"+organizaciones[0][i].nit+"''>"+organizaciones[0][i].acronim+"</a></li>")
+          }              
+        }
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+      });
+
+      });
     </script>
 </body>
 </html>
