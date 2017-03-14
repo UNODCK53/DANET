@@ -10,9 +10,8 @@
   @parent
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
   <style>
-    #map {
-      width:300px;
-      height: 300px;
+    #map {      
+      height: 500px;
       margin:0 auto 0 auto;
       position: relative;
       top: 1%;
@@ -47,80 +46,82 @@
     <!--aca se escribe el codigo-->
     <div class="row">
       <div class="col-sm-1"></div>
-      <div class="col-sm-10">                  
+      <div class="col-xs-12 col-sm-10">                  
         <h1 class="text-center text-primary">SELECCIONE 1 DE {{count($arrayeditcoordenainsumos[1])}} COORDENADAS REALES DEL PROCESO: {{$arrayeditcoordenainsumos[0][0]->id_proceso}}</h1>
       </div>  
       <div class="col-sm-1"></div>
     </div>
     <div class="row">
-      <!--Listado de Procesos Iniciales para edicion -->
       <div class="col-sm-1"></div>
+      <form role="form" action="tierras/guardar-coordenadas" method="post" id="formconsulcoord">
         <div class="col-sm-10">
-          <form role="form" action="tierras/guardar-coordenadas" method="post" id="formEdit" enctype="multipart/form-data">
-            <input id="idpro" class="form-control" name="idpro" type="hidden" value="{{$arrayeditcoordenainsumos[0][0]->id_proceso}}">
-            <div class="form-group">
-              <br/>
-              <label for="proceso" class="control-label">Latitud: 
-              <input type="radio" name="nortesur" id="radionorte" value="1" required> Norte - 
-              <input type="radio" name="nortesur" id="radiosur" value="2" required> Sur
-              <span class="label label-danger" id="c"></span>
-              </label>
-              <br/>
-              <div class="col-sm-4">
-                <label for="proceso" class="control-label">Grados:</label>
-                <input id="latgrados" type="number" class="form-control" name="latgrados" min="-4" max="13" required>
-                <span class="label label-danger" id="a"></span>
-                <span class="label label-danger" id="b"></span>
-              </div>
-              <div class="col-sm-4">
-                <label for="proceso" class="control-label">Minutos:</label>
-                <input id="latminutos" type="number" class="form-control" name="latminutos" min="0" max="59" required>
-                <span class="label label-danger" id="d"></span>
-              </div>
-              <div class="col-sm-4">
-                <label for="proceso" class="control-label">Segundos:</label>
-                <input id="latsegundos" type="number" class="form-control" name="latsegundos" max="59.99" required step="any">
-                <span class="label label-danger" id="e"></span>
-                <br/>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="proceso" class="control-label">Longitud (Occidente):</label>
-              <br>
-              <div class="col-sm-4">
-                <label for="proceso" class="control-label">Grados:</label>
-                <input id="longrados" type="number" class="form-control" name="longrados" min="-80" max="-67" required>
-                <span class="label label-danger" id="f"></span>
-              </div>
-              <div class="col-sm-4">
-                <label for="proceso" class="control-label">Minutos:</label>
-                <input id="lonminutos" type="number" class="form-control" name="lonminutos" min="0" max="59" required>
-                <span class="label label-danger" id="g"></span>
-              </div>
-              <div class="col-sm-4">
-                <label for="proceso" class="control-label">Segundos:</label>
-                <input id="lonsegundos" type="number" class="form-control" name="lonsegundos" max="59.99" required step="any">
-                <span class="label label-danger" id="h"></span>
-                <br/>
-              </div>
-            </div>
-            <br>
-            <br>
-            <br>
-            <div id="map"></div>
-              <script>
-                var map = L.map('map').setView([4.5, -74.1], 5);
-                L.esri.basemapLayer("Gray").addTo(map);
-              </script>
-          <br/>
+          <!-- Standard button -->
+          <button id="btnguardcoord" title="Presione para editar una novedad" disabled="disabled" type="submit" type="button" class="btn btn-primary">Guardar coordenada seleccionada</button>
+          <input id="keyodk" type="hidden" class="form-control" name="keyodk">
         </div>
-        <div class="row">
-          <div class="form-group text-center"  id="carguedocumento">
-            <button type="submit" class="btn btn-primary">Guardar Coordenadas</button>
-          </div>
-        </div>
-        </form>
-        </div>
+        <div class="col-sm-1"></div>
+      </form>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-xs-12 col-sm-10">
+        <table id="tablacoordenadas" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+          <thead>
+            <tr class="well text-primary ">              
+              <th class="text-center">Novedad</th>
+              <th class="text-center">Longitud</th>
+              <th class="text-center">Latitud</th>
+              <th class="text-center">Cargado por</th>              
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($arrayeditcoordenainsumos[1] as $cantcoord)
+              <tr id='{{$cantcoord->llave}}'>                              
+                <td>
+                  @foreach($arrayeditcoordenainsumos[0] as $procesonovedad)
+                    @if($cantcoord->llave==$procesonovedad->llave)                        
+                        @if($procesonovedad->novedad==1)
+                          <div class="bg-danger">Punto fuera de la vereda</div>
+                        @elseif ($procesonovedad->novedad==2)
+                          <div class="bg-danger">Punto fuera del municipio</div>
+                        @elseif ($procesonovedad->novedad==3)
+                          <div class="bg-danger">Punto fuera del departamento</div>
+                        @elseif ($procesonovedad->novedad==4)
+                          <div class="bg-danger">Precisión de coordenadas es baja</div>
+                         @elseif ($procesonovedad->novedad==5)
+                          <div class="bg-danger">Proceso repetido</div>
+                        @endif                          
+                    @endif
+                  @endforeach
+                </td>
+                <td>{{$procesonovedad->longitud}}</td>
+                <td>{{$procesonovedad->latitud}}</td>
+                <td>                    
+                  @foreach($arrayeditcoordenainsumos[2] as $tecnicos)
+                    @if($procesonovedad->id_tecnico==$tecnicos->cedula)
+                      {{$tecnicos->nombre}}
+                    @endif
+                  @endforeach
+                </td>                              
+              </tr>                    
+            @endforeach             
+          </tbody>
+        </table>
+
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="row">
+      <!--Listado de Procesos Iniciales para edicion  @if($cantcoord->llave==$procesonovedad->llave)           @else               @endif   -->
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">          
+        <div id="map"></div>
+          <script>
+            var map = L.map('map').setView([4.5, -74.1], 5);
+            L.esri.basemapLayer("Gray").addTo(map);
+          </script>          
+      </div>
       <div class="col-sm-1"></div>
     </div>
   </div>
@@ -147,6 +148,45 @@
         $( "#tierrasmenupeq" ).html("<strong>MODULO TIERRAS<span class='caret'></span></strong>");
         $( "#tierrascoordmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Validación de Coordenadas</strong>");
         $( "#mensajeestatus" ).fadeOut(5000);
+        var table = $('#tablacoordenadas').DataTable();
+        $('#tablacoordenadas tbody').on('click', 'tr', function () {
+          if ( $(this).hasClass('active') ) {
+            $(this).removeClass('active');
+            $("#btnguardcoord").prop('disabled', true);
+            map.removeLayer(marker);
+            map.fitBounds([
+                [-4.855, -79.138],
+                [12.735, -67.242]
+            ]);
+          }
+          else {
+            table.$('tr.active').removeClass('active');
+            $(this).addClass('active');
+            $("#btnguardcoord").prop('disabled', false);            
+            $( "#keyodk" ).val($('tr', this).context.id);            
+            
+            var Lat = $('td', this).eq(2).text();
+            var Long = $('td', this).eq(1).text();
+            try {
+                map.removeLayer(marker);
+                var Limites=[[parseFloat(Lat) + 0.5, parseFloat(Long) - 0.5],[parseFloat(Lat) - 0.5, parseFloat(Long) + 0.5]]
+                marker = new L.Marker([Lat,Long], {draggable:true});
+                map.addLayer(marker);
+                map.fitBounds(Limites);
+              }
+              catch(err) {
+                var Limites=[[parseFloat(Lat) + 0.5, parseFloat(Long) - 0.5],[parseFloat(Lat) - 0.5, parseFloat(Long) + 0.5]]
+                marker = new L.Marker([Lat,Long]);
+                map.addLayer(marker);
+                map.fitBounds(Limites);
+              }
+                          
+          }
+        });
+      });
+
+      /*
+      
         $('#latgrados').keyup(function(){
           $('#lonsegundos').val("");
           var latgrados = $('#latgrados').val();
@@ -300,6 +340,8 @@
           return true;
         }
       }
+    */
+
     </script>
 @stop
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

@@ -873,7 +873,7 @@ class TierrasController extends BaseController {
 		//$arraytecnicos = DB::select("SELECT cedula,nombre,estado,catastral FROM MODTIERRAS_TECNICOS where catastral=".Auth::user()->id);
 		$arrayprocesos = DB::select("SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_TECNICOS.catastral=".Auth::user()->id." group by MODTIERRAS_PROCESONOVEDAD.id_proceso");
 		$arraynombnovedad = DB::select("SELECT id,descripcion FROM MODTIERRAS_NOVEDADES");
-		$arrayproccoord = DB::select("SELECT id_proceso, IsNull([1],0) as nov1, IsNull([2],0) as nov2, IsNull([3],0) as nov3, IsNull([4],0) as nov4, IsNull([5],0) as nov5 FROM (SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso, MODTIERRAS_PROCESONOVEDAD.novedad, MODTIERRAS_PROCESONOVEDAD.validado FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_TECNICOS.catastral=".Auth::user()->id.") as src pivot (sum(validado) FOR novedad in ([1], [2], [3], [4], [5])) as result");
+		$arrayproccoord = DB::select("SELECT id_proceso, IsNull([1],0) as nov1, IsNull([2],0) as nov2, IsNull([3],0) as nov3, IsNull([4],0) as nov4, IsNull([5],0) as nov5 FROM (SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso, MODTIERRAS_PROCESONOVEDAD.novedad, MODTIERRAS_PROCESONOVEDAD.validado FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_PROCESONOVEDAD.validado=1 AND MODTIERRAS_TECNICOS.catastral=".Auth::user()->id.") as src pivot (sum(validado) FOR novedad in ([1], [2], [3], [4], [5])) as result");
 		$arraydombobox= array($arrayprocesos,$arraynombnovedad);
 		
 		//return $arrayproccoord;		
@@ -897,7 +897,7 @@ class TierrasController extends BaseController {
 			->get();
 		$arrayprocesos = DB::table('MODTIERRAS_PROCESONOVEDAD')
 			->where('id_proceso','=',$idpro)
-			->select('llave','id_proceso','novedad','longitud','longitud','latitud','validado','id_tecnico')
+			->select('llave','id_proceso','novedad','longitud','latitud','validado','id_tecnico')
 			->orderBy('llave', 'asc')
 			->get();
 
@@ -914,30 +914,43 @@ class TierrasController extends BaseController {
 		
 		$arrayapp = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->select('id_proceso','longitud', 'latitud')->get();				
 		Session::forget('procesoi');
-		return $arrayeditcoordenainsumos;
+		//return $arrayeditcoordenainsumos;
 		return View::make('modulotierras.coordenadasedit', array('arrayapp' => $arrayapp), array('arrayeditcoordenainsumos' => $arrayeditcoordenainsumos));
 	}
 	public function postGuardarCoordenadas()
-	{
-		$dat[0]=Input::get('idpro');
-		
-		if(Input::get('nortesur')==2){
-			$dat[2]=Input::get('latgrados')-Input::get('latminutos')/60 -Input::get('latsegundos')/3600;
-		}
-		else{
-			$dat[2]=Input::get('latgrados')+Input::get('latminutos')/60 +Input::get('latsegundos')/3600;	
-		}
-		$dat[1]=Input::get('longrados')-Input::get('lonminutos')/60 -Input::get('lonsegundos')/3600;
-		DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$dat[0])->update(array('longitud'=>$dat[1],'latitud'=>$dat[2], 'updatedcoord'=>date("Y-m-d H:i:s") ));
-		/*USP_TIERRAS_UPDATEPROCESOGEO*/
-		$arrayclallprocedimiento = DB::statement("exec USP_TIERRAS_UPDATEPROCESOGEO $dat[0]");
+	{			
+		$odkkey = Input::get('keyodk');	
+
+		$arraygetcoord = DB::table('MODTIERRAS_PROCESONOVEDAD')
+			->where('llave','=',$odkkey)
+			->select('id_proceso','longitud','latitud')
+			->groupBy('llave','id_proceso','longitud','latitud')
+			->get();
+
+		DB::table('MODTIERRAS_PROCESO')
+            ->where('id_proceso', $arraygetcoord[0]->id_proceso)            
+            ->update(array('longitud'=>$arraygetcoord[0]->longitud, 'latitud'=>$arraygetcoord[0]->latitud,'updatedcoord'=>date("Y-m-d H:i:s"), 'respcoordmodif'=>Auth::user()->id));
+
+		//return $arraygetcoord;
+		$dat[0]=$arraygetcoord[0]->id_proceso;
+		DB::table('MODTIERRAS_PROCESONOVEDAD')
+            ->where('id_proceso','=', $arraygetcoord[0]->id_proceso)            
+            ->update(['validado'=>3]);
+        DB::table('MODTIERRAS_PROCESONOVEDAD')
+            ->where('llave','=', $odkkey)            
+            ->update(['validado'=>2]);
+
+		/*USP_TIERRAS_UPDATEPROCESOGEO*/		
+		$arrayclallprocedimiento = DB::statement("DECLARE @return_value int EXEC	@return_value = [USP_TIERRAS_UPDATEPROCESOGEO]	@id_proceso = N'$dat[0]' SELECT	'Return Value' = @return_value");
 		if((int)$arrayclallprocedimiento==1){
 			$status='true';
 		}
 		else{
 			$status='false';
 		}
-		return Redirect::to('novedadesodk')->with('status',$status);
+		return Redirect::to('novedadesodk')->with('status',$status);		
+		
+		
 	}
 	public function Reporgenero()
 	{		
