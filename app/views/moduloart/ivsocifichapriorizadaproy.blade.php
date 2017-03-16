@@ -621,7 +621,7 @@
           <h4>Listado de iniciativas de proyecto</h4>
           <table id="tabla_proyectos" class="table table-striped table-bordered  nowrap" cellspacing="0" width="100%">
             <thead>  
-              <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >
+              <tr class="text-primary" data-toggle="tooltip" data-placement="top" >
                 <th class="text-center">AUTO</th>
                 <th class="text-center">ID</th>
                 <th class="text-center">Departamento</th>

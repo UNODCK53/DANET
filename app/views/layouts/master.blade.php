@@ -359,7 +359,7 @@ $menuguardaun=false;
                   <li id="ivsocifichapriorizadaproymenu"><a href="<?=URL::to('ivsocifichapriorizadaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Ficha Priorizada Proyectos</a></li>
                   @endif
                   @if($menuartseguimientopic)
-                  <li id="ivsociseguimientopicmenu"><a href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
+                  <li id="ivsociseguimientopicmenu"><a href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Validación PIC</a></li>
                   @endif
                   <li class="divider">
                   @if($menuartmapaivsocial)
@@ -525,7 +525,7 @@ $menuguardaun=false;
               <li id="ivsocifichapriorizadaproymenu"><a href="<?=URL::to('ivsocifichapriorizadaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Ficha Priorizada Proyectos</a></li>
               @endif
               @if($menuartseguimientopic)              
-              <li id="ivsociseguimientopicmenu"><a href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
+              <li id="ivsociseguimientopicmenu"><a href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Validación PIC</a></li>
               @endif
               <li class="divider"></li>
               <li><a align="center"><b>Mapa</b></a></li>
@@ -767,7 +767,7 @@ $menuguardaun=false;
                       <li><a id="ivsocifichapriorizadaproymenupeq" href="<?=URL::to('ivsocifichapriorizadaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Ficha Priorizada Proyectos</a></li>
                       @endif
                       @if($menuartseguimientopic)
-                      <li><a id="ivsociseguimientopicmenupeq" href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
+                      <li><a id="ivsociseguimientopicmenupeq" href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Validación PIC</a></li>
                       @endif
                       <li class="divider"></li>
                       @if($menuartmapaivsocial)
@@ -934,7 +934,7 @@ $menuguardaun=false;
                       <li><a id="ivsocifichapriorizadaproymenupeq" href="<?=URL::to('ivsocifichapriorizadaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Ficha Priorizada Proyectos</a></li>                     
                     @endif
                     @if($menuartseguimientopic)
-                      <li><a id="ivsociseguimientopicmenupeq" href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Seguimiento PIC</a></li>
+                      <li><a id="ivsociseguimientopicmenupeq" href="<?=URL::to('ivsociseguimientopic'); ?>"><span class="glyphicon glyphicon-ok"></span> Validación PIC</a></li>
                     @endif
                     <li><a align="center"><b>Mapa</b></a></li>
                     @if($menuartmapaivsocial)

@@ -134,7 +134,7 @@
               <div class="col-sm-1"></div>
             </div>
 
-            <div id="creaindicadorModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="creaindicadorModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -202,7 +202,7 @@
               </div>      
             </div><!-- /.final modal-->
 
-            <div id="editindicadorModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"> <!-- /.inicio modal-->
+            <div id="editindicadorModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static"> <!-- /.inicio modal-->
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -315,7 +315,7 @@
                 <div class="col-sm-1"></div>
             </div> 
 
-            <div id="creacategoriaModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"> <!-- /.inicio modal-->
+            <div id="creacategoriaModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static"> <!-- /.inicio modal-->
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -343,7 +343,7 @@
               </div>      
             </div><!-- /.final modal-->
 
-            <div id="editcategoriaModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"> <!-- /.inicio modal-->
+            <div id="editcategoriaModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static"> <!-- /.inicio modal-->
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">

@@ -169,6 +169,11 @@ Route::group(array('before' => 'auth'), function()
   Route::get('plancienrrconsulproy', 'Artplan100Controller@plan100_ini_consulta');
   Route::get('plancienrrcargaproy', 'Artplan100Controller@plan100_ini');
 
+   //Plan 51/50
+  Route::get('plan50consulproy', 'ArtpicController@plan50_ini_consulta');
+  Route::get('plan50rrcargaproy', 'ArtpicController@plan50_ini');
+
+
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
     //Rutas para módulo de BID  
