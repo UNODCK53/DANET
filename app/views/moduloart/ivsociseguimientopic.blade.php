@@ -383,9 +383,7 @@
                 </div>    
               </div>
             </div>
-          </div>
-      <a class="glyphicon glyphicon glyphicon-info-sign btn btn-default" title="Obtener información acerca del documento para éste criterio" id="inf-3" data-toggle="popover" data-trigger="hover" data-content="Debe adjuntar: Certificado expedido por la Alcaldía donde se indique que los precios incluidos en el presupuesto corresponden al mercado de la zona  o Cotización de mercado" style="margin-top: 10px;"></a>
-          <!--Aca finaliza el modal para recuperar proyecto-->
+          </div> <!--Aca finaliza el modal para recuperar proyecto-->
   </div>   
 
 <!--Fin del tercer contenedor--> 

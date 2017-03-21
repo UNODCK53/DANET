@@ -966,9 +966,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 							->select(DB::RAW('COD_DPTO,NOM_DPTO'))	
 							->get();
 		/*Consulta de los proyectos existentes en la base de datos*/
-		$proyectos =DB::table('MODART_P100DIAS')
-					  ->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
+		$proyectos =DB::table('MODART_PIC_P5150')
+					  ->join('DEPARTAMENTOS','MODART_PIC_P5150.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+					  ->join('MUNICIPIOS','MODART_PIC_P5150.cod_mpio','=','MUNICIPIOS.COD_DANE')	
 					  ->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
 					  ->where('reg_eliminado','=','0')
 					  ->get();
@@ -1013,7 +1013,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			$var_3=$var_3.$var_tem3;
 		}
 
-		DB::table('MODART_P100DIAS')->insert(
+		DB::table('MODART_PIC_P5150')->insert(
 		    	array(
 		    		//'id_usuario' => Auth::user()->id,
 		    		'id_usuario' => $id,
@@ -1038,14 +1038,14 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    	)
 		);
 
-		return Redirect::to('ivplan50cargaproy')->with('status', 'ok_estatus'); 
+		return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus'); 
 	}
 
 	public function postEditarPlan50(){
 		//THIS CONTROLLER LOAD THE INFORMATION TO EDIT MODAL 
 		$proyecto=Input::get('proyecto');
-		$editar =DB::table('MODART_P100DIAS')					  
-					  ->select(db::raw('id, nom_proy,est_proy, fecha_fin,avance_pres, avance_prod, costo_ejec'))
+		$editar =DB::table('MODART_PIC_P5150')					  
+					  ->select(db::raw('id, nom_proy,est_proy, CONVERT(VARCHAR(10),fecha_fin,103) as fecha_fin,avance_pres, avance_prod, costo_ejec'))
 					  ->where('id','=',$proyecto)
 					  ->get();	
 
@@ -1071,7 +1071,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			$var_3=$var_3.$var_tem3;
 		}
 
-		$edit=DB::table('MODART_P100DIAS')->where('id',$id)->update(
+		$edit=DB::table('MODART_PIC_P5150')->where('id',$id)->update(
 		    	array(
 		    		//'id_usuario' => Auth::user()->id,		    		
 		    		'est_proy' =>  Input::get('estado_editar'),		    		
@@ -1084,16 +1084,16 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    	)
 		);
 		if($edit>0){
-			return Redirect::to('ivplan50cargaproy')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('ivplan50cargaproy')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('plan50rrcargaproy')->with('status', 'error_estatus_editar'); 
 		}
 		
 	}
 
 	public function postBorrarProyectoPlan50(){
 		$id=intval(Input::get('id_borrar'));
-		$borrar=DB::table('MODART_P100DIAS')->where('id',$id)->update(
+		$borrar=DB::table('MODART_PIC_P5150')->where('id',$id)->update(
 		    	array(
 		    		//'id_usuario' => Auth::user()->id,		    		
 		    		'reg_eliminado' =>  1,		    				    		
@@ -1102,9 +1102,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    	)
 		);
 		if($borrar>0){
-			return Redirect::to('ivplan50cargaproy')->with('status', 'ok_estatus_borrar'); 
+			return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus_borrar'); 
 		} else {
-			return Redirect::to('ivplan50cargaproy')->with('status', 'error_estatus_borrar'); 
+			return Redirect::to('plan50rrcargaproy')->with('status', 'error_estatus_borrar'); 
 		}
 	}
 
@@ -1114,9 +1114,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	public function plan50_ini_consulta()
 	{		
 		/*Consulta de los proyectos existentes en la base de datos*/
-		$proyectos =DB::table('MODART_P100DIAS')
-					  ->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
+		$proyectos =DB::table('MODART_PIC_P5150')
+					  ->join('DEPARTAMENTOS','MODART_PIC_P5150.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+					  ->join('MUNICIPIOS','MODART_PIC_P5150.cod_mpio','=','MUNICIPIOS.COD_DANE')	
 					  ->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
 					  ->where('reg_eliminado','=','0')
 					  ->get();	
@@ -1127,9 +1127,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	public function postConsultarPlan50(){
 		//THIS CONTROLLER LOAD THE INFORMATION TO EDIT MODAL 
 		$proyecto=Input::get('proyecto');
-		$editar =DB::table('MODART_P100DIAS')	
-					  ->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')					  
+		$editar =DB::table('MODART_PIC_P5150')	
+					  ->join('DEPARTAMENTOS','MODART_PIC_P5150.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+					  ->join('MUNICIPIOS','MODART_PIC_P5150.cod_mpio','=','MUNICIPIOS.COD_DANE')					  
 					  ->select(db::raw('id,DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda, nom_proy,mod_foca,enti_lider,linea_proy,alcance,pob_bene,est_proy,fecha_inicio, fecha_fin,avance_pres, avance_prod,costo_estim, costo_ejec'))
 					  ->where('id','=',$proyecto)
 					  ->get();	

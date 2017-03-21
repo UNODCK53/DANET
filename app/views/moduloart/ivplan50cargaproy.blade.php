@@ -392,15 +392,15 @@
                   <td>
                   <div class="progress" style="margin-bottom: 0px">                    
                       @if($pro->avance_prod >=75)
-                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%; ">
+                      <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%; color:black">
                         {{$pro->avance_prod}}%
                       </div>
                       @elseif($pro->avance_prod >=25) 
-                      <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%; ">
+                      <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black">
                         {{$pro->avance_prod}}%
                       </div> 
                       @else
-                      <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%; ">
+                      <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black ">
                         {{$pro->avance_prod}}%
                       </div> 
                       @endif
@@ -444,36 +444,29 @@
           $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
 
+
+
           $('#datepicker').datepicker({
-            format: "yyyy-dd-mm",
+             maxViewMode: 0,
             language: "es",
-            startDate: "2016-01-12",            
-            todayBtn: "linked",
-            orientation: "auto",
             autoclose: true,
-            todayHighlight: true
+            todayBtn: "linked"
+
 
            });
            $('#datepicker2').datepicker({
-            format: "yyyy-dd-mm",
+             maxViewMode: 0,
             language: "es",
-            startDate: "2016-01-12",            
-            todayBtn: "linked",
-            orientation: "auto",
             autoclose: true,
-            todayHighlight: true
+            todayBtn: "linked"
 
            });
 
            $('#datepicker2_editar').datepicker({
-            format: "yyyy-dd-mm",
+             maxViewMode: 0,
             language: "es",
-            startDate: "2010-01-01",            
-            todayBtn: "linked",
-            orientation: "auto",
             autoclose: true,
-            todayHighlight: true
-
+            todayBtn: "linked"
            });
 
             $( "#mensajeestatus" ).fadeOut(5000);
