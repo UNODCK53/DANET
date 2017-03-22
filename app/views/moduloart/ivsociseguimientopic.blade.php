@@ -232,6 +232,8 @@
                 <td >{{$pro->nom_proy}}</td>
                 <td >{{$pro->ranking}}</td>
                 <td ><?php foreach($change_viable as $pro2) {
+                      $no_tiene=0;
+                      $tiene=0;
                       if($pro->id_proy==$pro2->id_proy) {
                           $no_tiene=$pro2->num;
                           break;

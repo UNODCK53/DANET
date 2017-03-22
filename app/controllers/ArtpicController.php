@@ -430,12 +430,10 @@ class ArtpicController extends BaseController {
 				$data = array();
 				$results = DB::select(
 					"select 
-	ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Viabilidad,Observaciones
-		from ,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal,terr.[Resguardo Indígena] as Resguardo_Indigena ,terr.[Concejo Comunitario] as Consejo_Comunitario,terr.Vereda
+	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Viabilidad,Observaciones,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal,terr.[Resguardo Indígena] as Resguardo_Indigena ,terr.[Concejo Comunitario] as Consejo_Comunitario,terr.Vereda
 from 
 	(select
 		intervencion,cate.nombre as cate,tabla1.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal,Viabilidad,Observaciones
-		from 
 	from 
 		(select 
 			subcate.nombre as intervencion,proy.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal,Viabilidad,Observaciones
@@ -462,7 +460,7 @@ from
 		from  
 			(select MODART_PIC_TIPOTERRPASO.id_proy, MODART_PIC_TIPOTERR.id,MODART_PIC_TIPOTERR.nombre from MODART_PIC_TIPOTERRPASO inner join MODART_PIC_TIPOTERR on MODART_PIC_TIPOTERR.id = MODART_PIC_TIPOTERRPASO.id_tipterr)as tabla1
 		pivot (count(id)  FOR nombre in ([Resguardo Indígena],[Concejo Comunitario],[Vereda]))as d) as terr 
-		on tabla3.id_proy=terr.id_proy");
+		on tabla3.id_proy=terr.id_proy order by auto desc");
 
 
 				foreach ($results as $result) {
@@ -706,8 +704,13 @@ public function seguimiento()
 			->select(DB::raw('count(id_proy)as num'),'id_proy')
 			->groupby('id_proy')
 			->where('url','!=','No tiene')
-			->get();	
-
+			->get();
+			if($change_viable==0){
+					$change_viabl=0; 
+				} 
+			if($change_viable_file==0){
+					$change_viable_file=0; 
+				} 	
 		return View::make('moduloart.ivsociseguimientopic', array('arraydepto' => $arraydepto,'arraynucleos' => $arraynucleos,'arraymuni' => $arraymuni,'arrayindipic' => $arrayindipic,'arrayindipic_recupe'=>$arrayindipic_recupe,'change_viable'=>$change_viable,'change_viable_file'=>$change_viable_file));		
     }
 
