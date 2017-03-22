@@ -79,15 +79,11 @@
 <div class="container-fluid well">
   <div class="row">
     <div class="col-sm-1 hidden-xs" ></div>
-    <div class="col-xs-10 col-sm-7 text-center">        
-        <img src="assets/img/logos2.png" width="70%">        
+    <div class="col-xs-10">        
+        <img src="assets/bid/img/sello.png" width="5%">        
     </div>
     <div class="col-sm-1 hidden-xs"></div>
-    <div class="col-sm-2 text-center">
-      <ul class="nav nav-pills ">
-        
-      </ul>
-    </div>
+    
     <div class="col-sm-1 hidden-xs"></div>
   </div>
 </div>
@@ -100,7 +96,7 @@
     <div class="row" >
       <div class="carousel-inner" style="height: 350px; width: 100%;display: table; color: white;font-size: 25px;text-align: center;background-image: url(assets/bid/banner/banner-default.jpg); background-repeat: no-repeat;">        
         <div style="display: table-cell; vertical-align: middle;">
-        <?php echo  str_replace('"','',(json_encode($array[2][0] -> nombre))); ?>- <?php echo  str_replace('"','',(json_encode($array[2][0] -> acronim))); ?>
+        <?php echo  str_replace('"','',(json_encode($array[3][0] -> nombre))); ?>- <?php echo  str_replace('"','',(json_encode($array[3][0] -> acronim))); ?>
         </div>
         
       </div>  
@@ -115,11 +111,11 @@
           <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> enrique.camargo@unodc.org<br>
         </div>
         <div class="col-xs-12 col-md-9" style="text-align: justify; font-size: 17px">
-          @if(json_encode($array[3][0] -> logo)!="null")
-          <img style="float: left; padding-right: 10px" src="assets/bid/logo/<?php echo  str_replace('"','',(json_encode($array[3][0] -> 
+          @if(json_encode($array[4][0] -> logo)!="null")
+          <img style="float: left; padding-right: 10px" src="assets/bid/logo/<?php echo  str_replace('"','',(json_encode($array[4][0] -> 
           logo))); ?>">
           @endif
-          <?php echo  str_replace('\r\n\r\n','<br><br>',(str_replace('"','',(json_encode($array[3][0] -> descripcion,JSON_UNESCAPED_UNICODE)))))  ; ?>          
+          <?php echo  str_replace('\r\n\r\n','<br><br>',(str_replace('"','',(json_encode($array[4][0] -> descripcion,JSON_UNESCAPED_UNICODE)))))  ; ?>          
         </div>
         <!--finaliza escribir codigo--> 
       </div>
@@ -132,7 +128,7 @@
           <hr style="border: 1px solid #a0a0a0">
           <div class="col-xs-12 col-md-6">
             <!--Inicia foreach de acuerdo al numero de  codigo-->
-            @foreach($array[4] as $pro)
+            @foreach($array[5] as $pro)
             <div class="col-xs-12" style="padding-left: 0px; padding-right: 0px">
             <div class="col-xs-12 col-md-6">
               <img style="float: left; padding-right: 10px" src="assets/bid/logo_lp/<?php echo  str_replace('"','',(json_encode($pro -> 
@@ -157,7 +153,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
               <?php $i=0 ; ?>
-              @foreach($array[5] as $pro)
+              @foreach($array[6] as $pro)
                 @if($i==0)
                 <li role="presentation" class="active"><a href="#p_{{$pro->id_val}}" aria-controls="p_{{$pro->id_val}}" role="tab" data-toggle="tab">{{$pro->va}}</a></li>
                 <?php $i=1 ; ?>
@@ -169,7 +165,7 @@
             <!-- Tab panes -->
             <div class="tab-content">
               <?php $i=0 ; ?>
-              @foreach($array[5] as $pro)
+              @foreach($array[6] as $pro)
                 @if($i==0)
                 <div role="tabpanel" class="tab-pane active" id="p_{{$pro->id_val}}" style="text-align: justify; padding: 10px">{{$pro->descripcion}}</div>
                 <?php $i=1 ; ?>
@@ -209,31 +205,12 @@
 <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
-          $( "#menugizdatrelev" ).addClass("active");          
+          $( "#organizaciones_menu" ).addClass("active");          
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#gizdatrelevmenupeq" ).html("<strong>Datos Relevantes</strong>");          
           $( "#mensajeestatus" ).fadeOut(5000);
 
-          $('.dropdown-submenu a.test').on("mouseover", function(e){
-            $('.submenu').css('display','none');
-            var submenu='#submenu_'+this.name;
-            $(submenu).empty();
-            var cod=this.name;
-            organizaciones=[{{$array[1]}}];
-            organizaciones_query=[];
-            for (var i =0; i<organizaciones[0].length; i++){
-              var position=organizaciones_query.length;
-              if (organizaciones[0][i].cod_depto==cod){
-                organizaciones_query[position]=organizaciones[0][i].acronim;
-                $(submenu).append("<li><a tabindex='-1' href='bid_public_organizacion?id="+organizaciones[0][i].nit+"' name='"+organizaciones[0][i].nit+"''>"+organizaciones[0][i].acronim+"</a></li>")
-              }              
-            }
-            $(this).next('ul').toggle();
-            e.stopPropagation();
-            e.preventDefault();
-          });
-
-                 
+          @include('access_outside.bid.include_organizaciones_menu')
       });
       
 

@@ -16,6 +16,8 @@
 //Modulo BID Public
 Route::get('bid_organizaciones','bidController@public_ini');
 Route::get('bid_public_organizacion','bidController@public_organizacion');
+Route::get('bid_productos_terminados','bidController@public_productos_terminados');
+Route::get('bid_linea_productiva','bidController@public_linea_productiva');
 //----------------------------------------------------------------------------------------------------------------------------------------
 Route::get('municipios_concentracion',function(){return View::make('access_outside/visor_acuerdo');});
 //Modulo GIZ 

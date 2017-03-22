@@ -79,15 +79,11 @@
 <div class="container-fluid well">
   <div class="row">
     <div class="col-sm-1 hidden-xs" ></div>
-    <div class="col-xs-10 col-sm-7 text-center">        
-        <img src="assets/img/logos2.png" width="70%">        
+    <div class="col-xs-10">        
+        <img src="assets/bid/img/sello.png" width="5%">        
     </div>
     <div class="col-sm-1 hidden-xs"></div>
-    <div class="col-sm-2 text-center">
-      <ul class="nav nav-pills ">
-        
-      </ul>
-    </div>
+    
     <div class="col-sm-1 hidden-xs"></div>
   </div>
 </div>
@@ -248,50 +244,12 @@
 <script>
     $(document).ready(function() {          
       //para que los menus pequeño y grande funcione
-      $( "#menugizdatrelev" ).addClass("active");          
+      $( "#inicio" ).addClass("active");          
       $( "#iniciomenupeq" ).html("<small> INICIO</small>");
       $( "#gizdatrelevmenupeq" ).html("<strong>Datos Relevantes</strong>");          
       $( "#mensajeestatus" ).fadeOut(5000);
-      //Esta funcion permite realizar un segundo submenu
-      $('.dropdown-submenu a.test').on("mouseover", function(e){
-        $('.submenu').css('display','none');
-        var submenu='#submenu_'+this.name;
-        $(submenu).empty();
-        var cod=this.name;
-        organizaciones=[{{$array[1]}}];
-        organizaciones_query=[];
-        for (var i =0; i<organizaciones[0].length; i++){
-          var position=organizaciones_query.length;
-          if (organizaciones[0][i].cod_depto==cod){
-            organizaciones_query[position]=organizaciones[0][i].acronim;
-            $(submenu).append("<li><a tabindex='-1' href='bid_public_organizacion?id="+organizaciones[0][i].nit+"' name='"+organizaciones[0][i].nit+"''>"+organizaciones[0][i].acronim+"</a></li>")
-          }              
-        }
-        $(this).next('ul').toggle();
-        e.stopPropagation();
-        e.preventDefault();
-      });
-      //Esta funcion permite realizar un segundo submenu
-      $('.dropdown-submenu a.test').on("click", function(e){
-        $('.submenu').css('display','none');
-        var submenu='#submenu_'+this.name;
-        $(submenu).empty();
-        var cod=this.name;
-        organizaciones=[{{$array[1]}}];
-        organizaciones_query=[];
-        for (var i =0; i<organizaciones[0].length; i++){
-          var position=organizaciones_query.length;
-          if (organizaciones[0][i].cod_depto==cod){
-            organizaciones_query[position]=organizaciones[0][i].acronim;
-            $(submenu).append("<li><a tabindex='-1' href='bid_public_organizacion?id="+organizaciones[0][i].nit+"' name='"+organizaciones[0][i].nit+"''>"+organizaciones[0][i].acronim+"</a></li>")
-          }              
-        }
-        $(this).next('ul').toggle();
-        e.stopPropagation();
-        e.preventDefault();
-      });
-
-      });
-    </script>
+      @include('access_outside.bid.include_organizaciones_menu');
+    });
+</script>
 </body>
 </html>

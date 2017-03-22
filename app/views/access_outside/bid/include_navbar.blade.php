@@ -7,7 +7,7 @@
         <!--<li role="presentation" ><a href="#"><strong> INICIO</strong></a></li>-->
         <li id="menuprincipal" role="menu"><a href="principal">Home</a></li>
         <li id="inicio" role="menu"><a href="bid_organizaciones">Inicio</a></li>
-        <li id="" role="menu">
+        <li id="organizaciones_menu" role="menu">
           <a href="" class="enlace-menu dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Organizaciones<span class="caret"></span></a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">        
           @foreach($array[0] as $pro) 
@@ -19,8 +19,15 @@
           @endforeach
           </ul>
         </li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Nuevos Productos</a></li>
-        <li id="" role="menu"><a href="" class="enlace-menu">Líneas Productivas</a></li>
+        <li id="productos_terminados" role="menu"><a href="bid_productos_terminados">Productos terminados</a></li>
+        <li id="lineas_productivas" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Líneas productivas <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            @foreach($array[2] as $pro)
+            <li><a href="bid_linea_productiva?lp={{$pro->id_lipex}}" name="{{$pro->id_lipex}}" >{{$pro->nombre}}</a></li>
+            @endforeach
+          </ul>
+        </li>
         <li id="" role="menu"><a href="" class="enlace-menu">Casos de Éxito</a></li>
         <li id="" role="menu"><a href="" class="enlace-menu">Alianzas estrategicas</a></li>
         <li id="" role="menu"><a href="" class="enlace-menu">Contáctenos</a></li>
@@ -47,7 +54,7 @@
               <!-- Lista desplegable de menu con submenu -->
               <li id="menuprincipal" role="menu"><a href="principal">Home</a></li>
               <li id="inicio" role="menu"><a href="bid_organizaciones">Inicio</a></li>
-              <li id="" role="menu">
+              <li id="organizaciones_menu" role="menu">
                 <a href="" class="enlace-menu dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Organizaciones<span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">        
                 @foreach($array[0] as $pro) 
@@ -59,7 +66,7 @@
                 @endforeach
                 </ul>
               </li>
-              <li id="" role="menu"><a href="" class="enlace-menu">Nuevos Productos</a></li>
+              <li id="productos_terminados" role="menu"><a href="bid_productos_terminados">Productos terminados</a></li>
               <li id="" role="menu"><a href="" class="enlace-menu">Líneas Productivas</a></li>
               <li id="" role="menu"><a href="" class="enlace-menu">Casos de Éxito</a></li>
               <li id="" role="menu"><a href="" class="enlace-menu">Alianzas estrategicas</a></li>

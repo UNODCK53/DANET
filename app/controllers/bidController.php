@@ -317,9 +317,16 @@ class bidController extends BaseController {
 							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
 							->select(DB::RAW('MODBID_BIDPUBLIC.nit,MODBID_ORGANIZACION.acronim,MODBID_ORGANIZACION.cod_depto'))
 							->orderby('acronim')
+							->get();
+
+		$lineasproductivas = DB::table('MODBID_LINEAPRODORG')		
+							->join('MODBID_LINEAPRODEXP','MODBID_LINEAPRODEXP.id_lipex','=','MODBID_LINEAPRODORG.id_lipex')
+							->select(DB::RAW('MODBID_LINEAPRODORG.id_lipex, MODBID_LINEAPRODEXP.nombre'))
+							->where('MODBID_LINEAPRODORG.id_lipex','!=','NULL')
+							->groupby('MODBID_LINEAPRODORG.id_lipex','MODBID_LINEAPRODEXP.nombre')
 							->get();	
 
-		$array = array($departamentos,json_encode($organizaciones));
+		$array = array($departamentos,json_encode($organizaciones), $lineasproductivas);
 
 		return View::make('access_outside/bid/bid_home_public', array('array' =>$array));
 	}
@@ -336,6 +343,13 @@ class bidController extends BaseController {
 							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
 							->select(DB::RAW('MODBID_BIDPUBLIC.nit,MODBID_ORGANIZACION.acronim,MODBID_ORGANIZACION.cod_depto'))
 							->orderby('acronim')
+							->get();
+
+		$lineasproductivas = DB::table('MODBID_LINEAPRODORG')		
+							->join('MODBID_LINEAPRODEXP','MODBID_LINEAPRODEXP.id_lipex','=','MODBID_LINEAPRODORG.id_lipex')
+							->select(DB::RAW('MODBID_LINEAPRODORG.id_lipex, MODBID_LINEAPRODEXP.nombre'))
+							->where('MODBID_LINEAPRODORG.id_lipex','!=','NULL')
+							->groupby('MODBID_LINEAPRODORG.id_lipex','MODBID_LINEAPRODEXP.nombre')
 							->get();
 
 		$nit=Input::get('id');
@@ -364,9 +378,90 @@ class bidController extends BaseController {
 						  ->where('borrado','=',0)
 						  ->get();
 
-		$array = array($departamentos,json_encode($organizaciones),$organizacion, $organizacion_des, $organizacion_lp, $organizacion_va);
+		$array = array($departamentos,json_encode($organizaciones), $lineasproductivas,$organizacion, $organizacion_des, $organizacion_lp, $organizacion_va);
 
 		return View::make('access_outside/bid/bid_organizacion_public', array('array' =>$array));
+	}
+
+	public function public_productos_terminados(){
+		$departamentos = DB::table('DEPARTAMENTOS')
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+							->join('MODBID_BIDPUBLIC','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('COD_DPTO,NOM_DPTO'))	
+							->groupby('COD_DPTO','NOM_DPTO')	
+							->get();
+
+		$organizaciones = DB::table('MODBID_BIDPUBLIC')		
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('MODBID_BIDPUBLIC.nit,MODBID_ORGANIZACION.acronim,MODBID_ORGANIZACION.cod_depto'))
+							->orderby('acronim')
+							->get();
+
+		$lineasproductivas = DB::table('MODBID_LINEAPRODORG')		
+							->join('MODBID_LINEAPRODEXP','MODBID_LINEAPRODEXP.id_lipex','=','MODBID_LINEAPRODORG.id_lipex')
+							->select(DB::RAW('MODBID_LINEAPRODORG.id_lipex, MODBID_LINEAPRODEXP.nombre'))
+							->where('MODBID_LINEAPRODORG.id_lipex','!=','NULL')
+							->groupby('MODBID_LINEAPRODORG.id_lipex','MODBID_LINEAPRODEXP.nombre')
+							->get();
+
+		$array = array($departamentos,json_encode($organizaciones), $lineasproductivas);
+
+		return View::make('access_outside/bid/bid_productos_terminados_public', array('array' =>$array));
+		
+	}
+
+	public function public_linea_productiva(){
+		$departamentos = DB::table('DEPARTAMENTOS')
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+							->join('MODBID_BIDPUBLIC','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('COD_DPTO,NOM_DPTO'))	
+							->groupby('COD_DPTO','NOM_DPTO')	
+							->get();
+
+		$organizaciones = DB::table('MODBID_BIDPUBLIC')		
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('MODBID_BIDPUBLIC.nit,MODBID_ORGANIZACION.acronim,MODBID_ORGANIZACION.cod_depto'))
+							->orderby('acronim')
+							->get();
+
+		$lineasproductivas = DB::table('MODBID_LINEAPRODORG')		
+							->join('MODBID_LINEAPRODEXP','MODBID_LINEAPRODEXP.id_lipex','=','MODBID_LINEAPRODORG.id_lipex')
+							->select(DB::RAW('MODBID_LINEAPRODORG.id_lipex, MODBID_LINEAPRODEXP.nombre'))
+							->where('MODBID_LINEAPRODORG.id_lipex','!=','NULL')
+							->groupby('MODBID_LINEAPRODORG.id_lipex','MODBID_LINEAPRODEXP.nombre')
+							->get();
+		$lp=Input::get('lp');
+
+		$deptos_lp = DB::table('MODBID_ORGANIZACION')
+					 ->join('MODBID_LINEAPRODORG','MODBID_LINEAPRODORG.nit','=','MODBID_ORGANIZACION.nit')
+					 ->join('DEPARTAMENTOS','DEPARTAMENTOS.COD_DPTO','=','MODBID_ORGANIZACION.cod_depto')
+					 ->select(DB::raw('cod_depto,NOM_DPTO'))
+					 ->where('MODBID_LINEAPRODORG.id_lipex','=',$lp)
+					 ->where('MODBID_LINEAPRODORG.borrado','=',0)
+					 ->groupby('cod_depto','NOM_DPTO')
+					 ->orderby('NOM_DPTO')
+					 ->get();
+
+		$org_lp = DB::table('MODBID_ORGANIZACION')
+					 ->join('MODBID_LINEAPRODORG','MODBID_LINEAPRODORG.nit','=','MODBID_ORGANIZACION.nit')
+					 ->select(DB::raw('MODBID_LINEAPRODORG.nit,cod_depto,acronim,MODBID_LINEAPRODORG.id_lipex'))
+					 ->where('MODBID_LINEAPRODORG.id_lipex','=',$lp)
+					 ->where('MODBID_LINEAPRODORG.borrado','=',0)
+					 ->groupby('MODBID_LINEAPRODORG.nit','cod_depto','acronim','id_lipex')
+					 ->orderby('acronim')
+					 ->get();
+
+
+		$lp_name=DB::table('MODBID_LINEAPRODEXP')
+				->select(DB::RAW('MODBID_LINEAPRODEXP.nombre,id_lipex'))
+				->where('MODBID_LINEAPRODEXP.id_lipex','=',$lp)
+				->get();
+
+
+		$array = array($departamentos,json_encode($organizaciones),$lineasproductivas,$lp_name,$deptos_lp,$org_lp);
+
+		return View::make('access_outside/bid/bid_linea_productiva', array('array' =>$array));
+		
 	}
 }
 ?>
