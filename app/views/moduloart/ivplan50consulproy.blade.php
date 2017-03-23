@@ -161,15 +161,15 @@
                 <td>
                 <div class="progress" style="margin-bottom: 0px">                    
                     @if($pro->avance_prod >=75)
-                    <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%; ">
+                    <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black ">
                       {{$pro->avance_prod}}%
                     </div>
                     @elseif($pro->avance_prod >=25) 
-                    <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%; ">
+                    <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black ">
                       {{$pro->avance_prod}}%
                     </div> 
                     @else
-                    <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%; ">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black ">
                       {{$pro->avance_prod}}%
                     </div> 
                     @endif

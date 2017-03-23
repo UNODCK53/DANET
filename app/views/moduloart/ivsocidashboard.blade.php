@@ -10,11 +10,13 @@
   @parent
    <link rel="stylesheet" href="assets/art/fonts/font-awesome-4.6.3/css/font-awesome.min.css">
   <!-- Libreria y capas Leaflet-->
-  <link rel="stylesheet" href="assets/art/css/leaflet.css" />  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
   <link rel="stylesheet" href="assets/art/css/styledLayerControl.css" />
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <link rel="stylesheet" href="assets/css/L.Control.Basemaps.css" />  
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
   <style>
   .icon-verde {
       color: #5CB85C;
@@ -673,14 +675,14 @@ input[type="number"] {
   @parent
 
   <script type="text/javascript" charset="utf-8" src="assets/art/js/colombia_line_mm.js"></script>
-  <script type="text/javascript" charset="utf-8" src="assets/art/js/mpios.js"></script>
-  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>  
-  <script src="assets/art/js/styledLayerControl.js"></script>  
+  <script type="text/javascript" charset="utf-8" src="assets/art/js/mpios.js"></script> 
+  <script src="assets/art/js/styledLayerControl.js"></script>   
   <link rel="stylesheet" href="assets/art/css/search_map.css"/>  
-  <script type="text/javascript" charset="utf-8" src="assets/art/js/art_search_map.js"></script>
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
   <script src="assets/js/L.Control.Basemaps-min.js"></script> 
+
 
     <script>
       $(document).ready(function() {          
@@ -691,7 +693,10 @@ input[type="number"] {
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#ivsocidashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
+          
+         
       });
+
 
       function cuenta(){ 
         $('#texto').html(document.forms[1].descripcion.value.length)
@@ -699,6 +704,8 @@ input[type="number"] {
 
         }
       }   
+
+      datos_municipios=<?php echo json_encode($datos_muni); ?>;
 
       $('input[type=radio][name=coorde]').change(function() {
         if (this.value == 1) {
@@ -796,6 +803,8 @@ input[type="number"] {
             
         })
     </script>
+
+    <script type="text/javascript" charset="utf-8" src="assets/art/js/art_search_map.js"></script>
     
 @stop
 

@@ -349,7 +349,7 @@
                    <table id="tabla_recupera" class="table table-striped table-bordered nowrap">
                       <thead>
                         <tr class="text-primary" data-toggle="tooltip" data-placement="top" >              
-                          <th class="text-center">ID</th>
+                          <th class="text-center"> Identificador del proyecto</th>
                           <th class="text-center">Departamento</th>
                           <th class="text-center">Municipio</th>
                           <th class="text-center">Núcleo veredal</th>              
@@ -453,7 +453,7 @@
               $("#no_viable").prop('disabled', false);
               $('#no_viabilizar_tittle').text("¿Esta seguro de NO validar el proyecto PIC_"+nucleo+num+"?");
               $('#id_proy_no_viab').val(num);
-              $('#criterio_tittle').text("Documentos para validar el proyecto PIC_"+nucleo+num+", según criterios");
+              $('#criterio_tittle').text("Criterios para validar el proyecto PIC_"+nucleo+num);
               $('#title2').text("Relación de precios PIC entre el Proyecto seleccionado y los proyectos del núcleo "+nucleo_nom);
               $.ajax({url:"artpic/proyecto-para-viavilizar",type:"POST",data:{proy:num,nucleo:nucleo},dataType:'json',//funcion q validad si el proyecto ya teiene todos los criterios cargados y habilida el boton viavilizar. ademas carga los datos de realcion
                   success:function(data){

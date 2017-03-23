@@ -102,7 +102,7 @@
           </div>
           <!--Aca inicia el modal para cargar nuevo proyecto-->
           <!-- Modal -->
-          <div class="modal fade" id="cargar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal fade" id="cargar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -332,7 +332,7 @@
           </div>
           <!--Aca finaliza el modal para cargar nuevo proyecto-->
           <!--Aca inicia el modal para editar proyecto-->
-          <div class="modal fade" id="editar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal fade" id="editar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -585,7 +585,7 @@
           </div>
           <!--Aca finaliza el modal para editar proyecto-->
           <!--Aca inicia el modal para borrar proyecto-->
-          <div class="modal fade bs-example-modal-sm" id="borrar_proyecto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+          <div class="modal fade bs-example-modal-sm" id="borrar_proyecto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-sm" role="document">
               <div class="modal-content">
                   <div class="modal-header">

@@ -1,11 +1,32 @@
 bounds = new L.LatLngBounds(new L.LatLng(-7, -90), new L.LatLng(15, -50));
 
-var map = new L.Map('map', {center: [4,-74], zoom: 5, zoomControl: true, attributionControl: false});
+var municipios_js=L.esri.query({url: 'http://arcgisserver.unodc.org.co/arcgis/rest/services/K_53C05/Mpios_simplify/MapServer/0'});
+
+  municipios_js.fields(["COD_DANE","NOM_DPTO","NOM_MPIO"]);
+  datos=[];
+;
+municipios_js.ids(function (error, ids, response) {
+    resultRecordCount = ids.length;
+    var paginado = Math.ceil(resultRecordCount / 1000);
+    //console.log(resultRecordCount);
+    for (var i = 0; i < paginado; i++) {
+        municipios_js.params.resultRecordCount = resultRecordCount;
+        municipios_js.params.resultOffset = i * (1000);
+        municipios_js.run(function muni(error, prytablaa, response) {
+        	
+            datos = datos.concat(prytablaa.features);
+            graficadeptoregalias(datos);
+        });
+
+    }//termina el for
+    
+}); 
+
 
 //MAPAS BASE
 var topoMap_osm1=L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>', maxZoom: 15 , minZoom: 5
-}).addTo(map); 
+}); 
 
 var topoMap_osm2 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>'});
@@ -14,96 +35,134 @@ var googleLayer_satellite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y
     subdomains:['mt0','mt1','mt2','mt3']
 });
 
-//Layers
-var style_colombia = {"color": "#202020", "weight": 1.5, "opacity": 0.9 };
-var colombia_js= L.geoJson(colombia, {style: style_colombia}); 
-colombia_js.addTo(map)
+function graficadeptoregalias(datos){
 
-var municipios_js= L.geoJson(municipios, {style: estilo_municipios, onEachFeature: interaccion_mpios});      
-municipios_js.addTo(map)
+	if (datos.length == resultRecordCount) { 
 
-//Capas de seleccion unica
-var baseMaps = [
-    { 
-        groupName : "Mapas base",
-        expanded : true,
-        layers    : {
+		municipios_js_new = [];
+		mpiosPDET = [];
+		mpiosZVTN=[];
+		mpiosDAILCD=[];
+
+        for (var i = 0; i < datos.length; i++) {
+            for (var j = 0; j < datos_municipios.length; j++) {
+                if (datos[i].properties.COD_DANE == datos_municipios[j].COD_DANE &&  datos_municipios[j].PDET==1) {
+                	mpiosPDET.push(datos[i]);
+                }
+                if (datos[i].properties.COD_DANE == datos_municipios[j].COD_DANE &&  datos_municipios[j].ZVTN==1) {
+                	mpiosZVTN.push(datos[i]);
+                }
+                if (datos[i].properties.COD_DANE == datos_municipios[j].COD_DANE &&  datos_municipios[j].DAILCD==1) {
+                	mpiosDAILCD.push(datos[i]);
+                }
+            }
+        }//termina el for 
+        mpiosPDET_js= L.geoJson(mpiosPDET, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
+        mpiosZVTN_js= L.geoJson(mpiosZVTN, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
+        mpiosDAILCD_js= L.geoJson(mpiosDAILCD, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
+        map = new L.Map('map', {center: [4,-74], zoom: 5, zoomControl: true, attributionControl: false,layers: [topoMap_osm1,mpiosPDET_js]});
+
+        //Layers
+		var style_colombia = {"color": "#202020", "weight": 1.5, "opacity": 0.9 };
+		var colombia_js= L.geoJson(colombia, {style: style_colombia}); 
+		colombia_js.addTo(map)
+
+
+
+		var overlayMaps = {
+		    "Municipios PEDT": mpiosPDET_js,
+            "Municipios ZVTN": mpiosZVTN_js,
+            "Municipios DAILCD": mpiosDAILCD_js
+		};
+
+		//Capas de seleccion unica
+		var baseMaps = 
+		    { 
             "Mapa topográfico OSM1" :  topoMap_osm1,
             "Mapa topográfico OSM2" :  topoMap_osm2,
-            "Mapa satelital" :  googleLayer_satellite,
-        }
-    }                       
- ];
+            "Mapa satelital" :  googleLayer_satellite
+		    };
 
-var control = L.Control.styledLayerControl(baseMaps);
-map.addControl(control);
+		L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-//SECCION DE FUNCIONES
+		//SECCION DE FUNCIONES
 
-function estilo_municipios(feature) {
-	return {
-	
-	weight: 2,
-	opacity: 1,
-	color: 'black',
-	dashArray: '3',
-	fillOpacity: 0
-	};
+		function estilo_municipios(feature) {
+			return {
+			
+			weight: 2,
+			opacity: 1,
+			color: 'black',
+			dashArray: '3',
+			fillOpacity: 0
+			};
+		}
+
+		function borde(e) {
+			var layers = e.target;
+
+			layers.setStyle({
+				weight: 3,
+				color: 'cyan',
+				dashArray: '3',
+				fillOpacity: 0
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layers.bringToFront();
+			}			
+		}
+
+		//función que redefine el borde después de pasar con el mouse
+		function resetborde(e) {
+				
+			mpiosPDET_js.resetStyle(e.target);	
+	        mpiosZVTN_js.resetStyle(e.target);	
+	        mpiosDAILCD_js.resetStyle(e.target);	
+			
+			
+		};
+
+		//funcion que define la interacción de la capa municipios
+				
+		function interaccion_mpios(feature, layer) {	
+			var cod=feature.properties.COD_DANE
+			var mpio=feature.properties.NOM_MPIO
+			var depto=feature.properties.NOM_DPTO 
+			var texto="<div align='center'>Departamento:"+feature.properties.NOM_DPTO+"<br>Municipio: "+feature.properties.NOM_MPIO+ "<br><br><button type='button' class='btn btn-primary' onclick='search(\""+cod+"\",\""+mpio+"\",\""+depto+"\")'>Avance</button> </div>"
+			layer.bindPopup(texto);
+			layer.on(
+				{
+				mouseover: borde,
+				mouseout: resetborde,	
+				click: function (e) {                
+		        map.fitBounds(e.target.getBounds());
+
+		        }
+			});	
+		};
+
+	}
 }
-
-function borde(e) {
-	var layers = e.target;
-
-	layers.setStyle({
-		weight: 3,
-		color: 'cyan',
-		dashArray: '3',
-		fillOpacity: 0
-	});
-
-	if (!L.Browser.ie && !L.Browser.opera) {
-		layers.bringToFront();
-	}			
-}
-
-//función que redefine el borde después de pasar con el mouse
-function resetborde(e) {
-	municipios_js.resetStyle(e.target);	
-};
-
-//funcion que define la interacción de la capa municipios
-		
-function interaccion_mpios(feature, layer) {	
-	var cod=feature.properties.COD_DANE
-	var mpio=feature.properties.NOM_MPIO
-	var depto=feature.properties.NOM_DPTO 
-	var texto="<div align='center'>Departamento:"+feature.properties.NOM_DPTO+"<br>Municipio: "+feature.properties.NOM_MPIO+ "<br><br><button type='button' class='btn btn-primary' onclick='search("+cod+",\""+mpio+"\",\""+depto+"\")'>Avance</button> </div>"
-	layer.bindPopup(texto);
-	layer.on(
-		{
-		mouseover: borde,
-		mouseout: resetborde,	
-		click: function (e) {                
-        map.fitBounds(e.target.getBounds());
-
-        }
-	});	
-};
 
 function search(cod,mpio, depto){	
-	var tittle="Reporte de avance del municipio de " + mpio + ", "+depto
-	var texto='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/DNP/'+cod+'.pdf"><img src="assets/art/img/dnp.png" alt="No images" class="img-rounded" style="height: 75px"></a></div> <div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/detallada/'+cod+'.pdf"><img src="assets/art/img/detallada.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/poblacional/'+cod+'.pdf"><img src="assets/art/img/poblacional.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>    <div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Social/'+cod+'.pdf"><img src="assets/art/img/social.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Inversion/'+cod+'.pdf"><img src="assets/art/img/inversion.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/ZVT/'+cod+'.pdf"><img src="assets/art/img/zv.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-2"><a target="_blank" href="assets/art/documentos/Infografias/Mapas/'+cod+'.pdf"><img src="assets/art/img/mapa.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>'
-	$("#avance").show();
-	$('#titulo').html(tittle)
-	$('#panel_fichas').html(texto)
-	console.log(cod)
-	$.ajax({url:"artdashboard/pic",type:"POST",data:{indi:cod},dataType:'json',
-	      success:function(data){
-	        $('#obra_priori').html(data['obra_priori'])
-	        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha")
-	        
-	     
-	      },
-	      error:function(){alert('error');}
-	  });//Termina Ajax
-}
+			var tittle="Reporte de avance del municipio de " + mpio + ", "+depto
+			var texto='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/DNP/'+cod+'.pdf"><img src="assets/art/img/dnp.png" alt="No images" class="img-rounded" style="height: 75px"></a></div> <div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/detallada/'+cod+'.pdf"><img src="assets/art/img/detallada.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/poblacional/'+cod+'.pdf"><img src="assets/art/img/poblacional.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>    <div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Social/'+cod+'.pdf"><img src="assets/art/img/social.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Inversion/'+cod+'.pdf"><img src="assets/art/img/inversion.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/ZVT/'+cod+'.pdf"><img src="assets/art/img/zv.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-2"><a target="_blank" href="assets/art/documentos/Infografias/Mapas/'+cod+'.pdf"><img src="assets/art/img/mapa.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>'
+			$("#avance").show();
+			$('#titulo').html(tittle)
+			$('#panel_fichas').html(texto)
+			
+			$.ajax({url:"artdashboard/pic",type:"POST",data:{indi:cod},dataType:'json',
+			      success:function(data){
+			        $('#obra_priori').html(data['obra_priori'])
+			        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha")
+			        
+			     
+			      },
+			      error:function(){alert('error');}
+			  });//Termina Ajax
+		}
+
+
+
+

@@ -38,7 +38,7 @@
       <div class="col-sm-1"></div>
         <div class="col-sm-10">          
           <!--aca se escribe el codigo-->
-          <h2 class="text-center text-primary">Plan 51/50 días</h2>
+          <h2 class="text-center text-primary">Plan 51/50</h2>
           <br><br>
           <div class="row">
             <?php $status=Session::get('status');?>
@@ -90,7 +90,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Ficha de proyecto: Plan 100 días - Respuesta Rápida</h4>
+                  <h4 class="modal-title" id="myModalLabel">Ficha de proyecto: Plan 51/50</h4>
                 </div>
                 <div class="modal-body">
                     <form role="form" action="artpic/cargar-proyecto-plan50" method="post" onsubmit="return validar(this)" id="cargarproy" enctype="multipart/form-data" > 
@@ -111,8 +111,7 @@
                       <b>Modalidad de Focalización</b>
                       <select required id="modalidad" name="modalidad" class="form-control">
                           <option selected disabled>Seleccione una opción</option>
-                          <option value="Plan 100 días">Plan 100 días</option>  
-                          <option value="Respuesta rápida">Respuesta rápida</option>                  
+                          <option value="Plan 51/50">Plan 51/50</option>                  
                       </select>
                       <b>Entidad Líder</b>
                       <select required id="entidad" name="entidad" class="form-control">

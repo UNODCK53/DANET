@@ -105,6 +105,13 @@ class ArtdashboardController extends BaseController {
 			->take(100)
 			->get();
 
+		$datos_muni=DB::table('MUNICIPIOS')
+			->select('PDET','ZVTN','DAILCD','COD_DANE')
+			->where('PDET','!=',0)
+			->orWhere('ZVTN', '!=',0)
+			->orWhere('DAILCD', '!=',0)
+			->get();	
+
 			$categoria=array_map(create_function('$item','return $item->categoria;'),$alerta);//extract value from object query
 			$subcategoria=array_map(create_function('$item','return $item->subcategoria;'),$alerta);//extract value from object query
 			$subsubcateg=array_map(create_function('$item','return $item->subsubcateg;'),$alerta);//extract value from object query
@@ -116,7 +123,7 @@ class ArtdashboardController extends BaseController {
 
 			$num_alerta = DB::table('MODART_ALERTAS_ALERTA')->count();
 
-		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta));		
+		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta,'datos_muni'=>$datos_muni));		
 	}
 	
 
