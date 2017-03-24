@@ -102,7 +102,7 @@
                 <div class="modal-body">
                     <div class="tabbable"> <!-- Only required for left/right tabs -->
                     <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Prioriazación</a></li>
+                    <li class="active"><a href="#tab1" data-toggle="tab">Priorización</a></li>
                     <li><a href="#tab2" data-toggle="tab">Validación</a></li>
                     </ul>
                     <div class="tab-content">

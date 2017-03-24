@@ -60,7 +60,7 @@ function graficadeptoregalias(datos){
         mpiosPDET_js= L.geoJson(mpiosPDET, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
         mpiosZVTN_js= L.geoJson(mpiosZVTN, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
         mpiosDAILCD_js= L.geoJson(mpiosDAILCD, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
-        map = new L.Map('map', {center: [4,-74], zoom: 5, zoomControl: true, attributionControl: false,layers: [topoMap_osm1,mpiosPDET_js]});
+        map = new L.Map('map', {center: [4,-74], zoom: 5, zoomControl: true, attributionControl: false,layers: [topoMap_osm1,mpiosZVTN_js]});
 
         //Layers
 		var style_colombia = {"color": "#202020", "weight": 1.5, "opacity": 0.9 };
@@ -70,9 +70,9 @@ function graficadeptoregalias(datos){
 
 
 		var overlayMaps = {
-		    "Municipios PEDT": mpiosPDET_js,
+		    //"Municipios PEDT": mpiosPDET_js,
             "Municipios ZVTN": mpiosZVTN_js,
-            "Municipios DAILCD": mpiosDAILCD_js
+            //"Municipios DAILCD": mpiosDAILCD_js
 		};
 
 		//Capas de seleccion unica
