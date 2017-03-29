@@ -140,7 +140,7 @@
                       </div> 
                       <div class="form-group" style='display:none' id="select_terr">
                         {{Form::label('nom_terrlable','Nombre de territorios:',['class' => 'control-label'])}}
-                        <select name="nom_terr[]" id="nom_terr" class="form-control" required multiple> 
+                        <select name="nom_terr[]" id="nom_terr" class="form-control"  multiple> 
                           </select>
                       </div>
                       <div id="supcate" class="form-group">
@@ -367,7 +367,7 @@
                       </div> 
                       <div class="form-group"  id="select_terredi">
                         {{Form::label('nom_terrlableedi','Nombre de territorios:',['class' => 'control-label'])}}
-                        <select name="nom_terredi[]" id="nom_terredi" class="form-control" required multiple> 
+                        <select name="nom_terredi[]" id="nom_terredi" class="form-control" multiple> 
                           </select>
                       </div>
                       <div id="supcate" class="form-group">

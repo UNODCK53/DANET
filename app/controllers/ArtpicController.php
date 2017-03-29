@@ -160,7 +160,7 @@ class ArtpicController extends BaseController {
 		    		'cofinanc' => Input::get('cofinan'),
 		    		'fecha_ingreso' => Input::get('fecha'),
 		    		'id_usuario' => Auth::user()->id,
-		    		'ranking'=>Input::get('ranking'),
+		    		'ranking'=>Input::get('checkranking'),
 		    		'created_at' => $fecha,
 		    		'updated_at' => $fecha
 		    	)
@@ -176,16 +176,17 @@ class ArtpicController extends BaseController {
 				    	);
 		    	}
 
+		    	if (count(Input::get('nom_terr')>0)){
+			    	for ($i = 0; $i < count(Input::get('nom_terr')); $i++) {
+					    $insert2=DB::table('MODART_PIC_PROYECTOTERRI')->insert(
+					    	array(
+					    		'id_proy' => $idmaximo,
+					    		'id_terr' => Input::get('nom_terr')[$i],
+					    		'tipo_terr'=> Input::get('tipoterr')[$i]
 
-		    	for ($i = 0; $i < count(Input::get('nom_terr')); $i++) {
-				    $insert2=DB::table('MODART_PIC_PROYECTOTERRI')->insert(
-				    	array(
-				    		'id_proy' => $idmaximo,
-				    		'id_terr' => Input::get('nom_terr')[$i],
-				    		'tipo_terr'=> Input::get('tipoterr')[$i]
-
-				    		)
-				    	);
+					    		)
+					    	);
+					}
 				}
 		    	
 
@@ -299,14 +300,20 @@ class ArtpicController extends BaseController {
 				$veredas = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',Input::get('nucleo'))
+				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
+
 				foreach($veredas as $pro)
 				{
 					  $arravds[$pro->cod_vda] = $pro->nom_terr;
 				}
+
+				if (empty($veredas)) {
+				}else{
 				array_push($arratodoterr, $arravds);
 				array_push($arratodoterrtipo, "Veredas:");
+			}
 		
 			}else if (Input::get('tipoterr')[$i]==2){
 				$concejo = DB::table('MODART_PIC_VEREDAS')
@@ -318,7 +325,7 @@ class ArtpicController extends BaseController {
 				{
 					 $arraccj[$pro->cod_vda] = $pro->nom_terr;
 				}
-				array_push($arratodoterr, $arraccj);
+				//array_push($arratodoterr, $arraccj);
 				array_push($arratodoterrtipo, "Consejos cumunitarios:");
 			}else{
 				$Resguardo = DB::table('MODART_PIC_VEREDAS')
@@ -330,7 +337,7 @@ class ArtpicController extends BaseController {
 				{
 					  $arrares[$pro->cod_vda] = $pro->nom_terr;
 				}
-				array_push($arratodoterr, $arrares);
+				//array_push($arratodoterr, $arrares);
 				array_push($arratodoterrtipo, "Resguardos indígenas:");
 			}
 
@@ -411,7 +418,7 @@ class ArtpicController extends BaseController {
 				{
 					 $arraccj[$pro->cod_vda] = $pro->nom_terr;
 				}
-				array_push($arratodoterredi, $arraccj);
+				//array_push($arratodoterredi, $arraccj);
 				array_push($arratodoterrtipoedi, "Consejos cumunitarios:");
 			}else{
 				$Resguardo = DB::table('MODART_PIC_VEREDAS')
@@ -423,7 +430,7 @@ class ArtpicController extends BaseController {
 				{
 					  $arrares[$pro->cod_vda] = $pro->nom_terr;
 				}
-				array_push($arratodoterredi, $arrares);
+				//array_push($arratodoterredi, $arrares);
 				array_push($arratodoterrtipoedi, "Resguardos indígenas:");
 			}
 		}
@@ -547,15 +554,17 @@ class ArtpicController extends BaseController {
 
 		    	DB::table('MODART_PIC_PROYECTOTERRI')->where('id_proy',Input::get('ediidproy'))->delete();
 
-		    	for ($i = 0; $i < count(Input::get('nom_terredi')); $i++) {
-				    $insert2=DB::table('MODART_PIC_PROYECTOTERRI')->insert(
-				    	array(
-				    		'id_proy' => Input::get('ediidproy'),
-				    		'id_terr' => Input::get('nom_terredi')[$i],
-				    		'tipo_terr'=> Input::get('editipoterr')[$i]
+		    	if (count(Input::get('nom_terredi'))>0){
+			    	for ($i = 0; $i < count(Input::get('nom_terredi')); $i++) {
+					    $insert2=DB::table('MODART_PIC_PROYECTOTERRI')->insert(
+					    	array(
+					    		'id_proy' => Input::get('ediidproy'),
+					    		'id_terr' => Input::get('nom_terredi')[$i],
+					    		'tipo_terr'=> Input::get('editipoterr')[$i]
 
-				    		)
-				    	);
+					    		)
+					    	);
+					}
 				}
 
 		    	DB::table('MODART_PIC_SUBSUBCATPASO')->where('id_proy',Input::get('ediidproy'))->delete();
