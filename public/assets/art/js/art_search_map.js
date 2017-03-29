@@ -57,9 +57,9 @@ function graficadeptoregalias(datos){
                 }
             }
         }//termina el for 
-        mpiosPDET_js= L.geoJson(mpiosPDET, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
-        mpiosZVTN_js= L.geoJson(mpiosZVTN, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
-        mpiosDAILCD_js= L.geoJson(mpiosDAILCD, {style: estilo_municipios, onEachFeature: interaccion_mpios}); 
+        mpiosPDET_js= L.geoJson(mpiosPDET, {style: estilo_municipios_PDET, onEachFeature: interaccion_mpios_PDET}); 
+        mpiosZVTN_js= L.geoJson(mpiosZVTN, {style: estilo_municipios_ZVTN, onEachFeature: interaccion_mpios_ZVTN}); 
+        mpiosDAILCD_js= L.geoJson(mpiosDAILCD, {style: estilo_municipios_DAILCD, onEachFeature: interaccion_mpios_DAILCD}); 
         map = new L.Map('map', {center: [4,-74], zoom: 5, zoomControl: true, attributionControl: false,layers: [topoMap_osm1,mpiosZVTN_js]});
 
         //Layers
@@ -70,9 +70,9 @@ function graficadeptoregalias(datos){
 
 
 		var overlayMaps = {
-		    //"Municipios PEDT": mpiosPDET_js,
+		    "Municipios PEDT": mpiosPDET_js,
             "Municipios ZVTN": mpiosZVTN_js,
-            //"Municipios DAILCD": mpiosDAILCD_js
+            "Municipios DAILCD": mpiosDAILCD_js
 		};
 
 		//Capas de seleccion unica
@@ -87,20 +87,40 @@ function graficadeptoregalias(datos){
 
 		//SECCION DE FUNCIONES
 
-		function estilo_municipios(feature) {
+		function estilo_municipios_PDET(feature) {
 			return {
-			
-			weight: 2,
+			fillColor:'#A9F5BC',
+			weight: 1,
 			opacity: 1,
-			color: 'black',
+			color: 'gray',
 			dashArray: '3',
-			fillOpacity: 0
+			fillOpacity: 0.4
+			};
+		}
+
+		function estilo_municipios_DAILCD(feature) {
+			return {
+			fillColor:'#FFEDA0',
+			weight: 1,
+			opacity: 1,
+			color: 'gray',
+			dashArray: '3',
+			fillOpacity: 0.4
+			};
+		}
+		function estilo_municipios_ZVTN(feature) {
+			return {
+			fillColor:'#ECCEF5',
+			weight: 1,
+			opacity: 1,
+			color: 'gray',
+			dashArray: '3',
+			fillOpacity: 0.4
 			};
 		}
 
 		function borde(e) {
 			var layers = e.target;
-
 			layers.setStyle({
 				weight: 3,
 				color: 'cyan',
@@ -114,27 +134,70 @@ function graficadeptoregalias(datos){
 		}
 
 		//función que redefine el borde después de pasar con el mouse
-		function resetborde(e) {
-				
-			mpiosPDET_js.resetStyle(e.target);	
+		function resetbordeZVTN(e) {	
 	        mpiosZVTN_js.resetStyle(e.target);	
-	        mpiosDAILCD_js.resetStyle(e.target);	
-			
-			
+	       		
+		};
+		function resetbordePDET(e) {
+			mpiosPDET_js.resetStyle(e.target);	
+	       		
+		};
+		function resetbordeDAILCD(e) {
+			mpiosDAILCD_js.resetStyle(e.target);		
 		};
 
 		//funcion que define la interacción de la capa municipios
 				
-		function interaccion_mpios(feature, layer) {	
+		function interaccion_mpios_ZVTN(feature, layer) {	
 			var cod=feature.properties.COD_DANE
 			var mpio=feature.properties.NOM_MPIO
 			var depto=feature.properties.NOM_DPTO 
 			var texto="<div align='center'>Departamento:"+feature.properties.NOM_DPTO+"<br>Municipio: "+feature.properties.NOM_MPIO+ "<br><br><button type='button' class='btn btn-primary' onclick='search(\""+cod+"\",\""+mpio+"\",\""+depto+"\")'>Avance</button> </div>"
+			var texto1="<div align='center'>"+feature.properties.NOM_MPIO+ "<br>("+feature.properties.NOM_DPTO+")</div>"
 			layer.bindPopup(texto);
+			layer.bindTooltip(texto1); 
 			layer.on(
 				{
 				mouseover: borde,
-				mouseout: resetborde,	
+				mouseout: resetbordeZVTN,	
+				click: function (e) {                
+		        map.fitBounds(e.target.getBounds());
+
+		        }
+			});	
+		};
+
+		function interaccion_mpios_DAILCD(feature, layer) {	
+			var cod=feature.properties.COD_DANE
+			var mpio=feature.properties.NOM_MPIO
+			var depto=feature.properties.NOM_DPTO 
+			var texto="<div align='center'>Departamento:"+feature.properties.NOM_DPTO+"<br>Municipio: "+feature.properties.NOM_MPIO+ "<br><br><button type='button' class='btn btn-primary' onclick='search(\""+cod+"\",\""+mpio+"\",\""+depto+"\")'>Avance</button> </div>"
+			var texto1="<div align='center'>"+feature.properties.NOM_MPIO+ "<br>("+feature.properties.NOM_DPTO+")</div>"
+			layer.bindPopup(texto);
+			layer.bindTooltip(texto1); 
+			layer.on(
+				{
+				mouseover: borde,
+				mouseout: resetbordeDAILCD,	
+				click: function (e) {                
+		        map.fitBounds(e.target.getBounds());
+
+		        }
+			});	
+		};
+
+		function interaccion_mpios_PDET(feature, layer) {	
+			var cod=feature.properties.COD_DANE
+			var mpio=feature.properties.NOM_MPIO
+			var depto=feature.properties.NOM_DPTO 
+			var texto="<div align='center'>Departamento:"+feature.properties.NOM_DPTO+"<br>Municipio: "+feature.properties.NOM_MPIO+ "<br><br><button type='button' class='btn btn-primary' onclick='search(\""+cod+"\",\""+mpio+"\",\""+depto+"\")'>Avance</button> </div>"
+			var texto1="<div align='center'>"+feature.properties.NOM_MPIO+ "<br>("+feature.properties.NOM_DPTO+")</div>"
+			layer.bindPopup(texto);
+			layer.bindTooltip(texto1); 
+			layer.on(
+				{
+				mouseover: borde,
+				mouseout: resetbordePDET,	
 				click: function (e) {                
 		        map.fitBounds(e.target.getBounds());
 

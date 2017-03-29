@@ -134,10 +134,15 @@
                         {{Form::select('focal[]', $arrayfocali, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'focal','disabled','style'=>'display:none'])}}
                       </div>
 
-                      <div class="form-group" >
+                      <div class="form-group" style='display:none' id="terr">
                         {{Form::label('tipoterrlable','Tipo de territorio:',['class' => 'control-label'])}}
                         {{Form::select ('tipoterr[]', $arraytipoterr, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'tipoterr','required'=>'true'])}}
                       </div> 
+                      <div class="form-group" style='display:none' id="select_terr">
+                        {{Form::label('nom_terrlable','Nombre de territorios:',['class' => 'control-label'])}}
+                        <select name="nom_terr[]" id="nom_terr" class="form-control" required multiple> 
+                          </select>
+                      </div>
                       <div id="supcate" class="form-group">
                          {{Form::label('nom_supcatelable','Subcategoría:',['class' => 'control-label'])}}
                         <select name="nom_supcate" id="nom_supcate" class="form-control" required>
@@ -174,18 +179,9 @@
                       </div> 
                       <div class="form-group">
                         <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto y 10 muy bajo</label>
-                        <div id="checkranking">
-                          <input type="radio" name="ranking" value="1" required> 1
-                          <input type="radio" name="ranking" value="2"> 2
-                          <input type="radio" name="ranking" value="3"> 3
-                          <input type="radio" name="ranking" value="4"> 4
-                          <input type="radio" name="ranking" value="5"> 5
-                          <input type="radio" name="ranking" value="6"> 6
-                          <input type="radio" name="ranking" value="7"> 7
-                          <input type="radio" name="ranking" value="8"> 8
-                          <input type="radio" name="ranking" value="9"> 9
-                          <input type="radio" name="ranking" value="10"> 10
-                        </div>
+                        <select name="checkranking" id="ranking" class="form-control" required title="Si el valor no se encuentra, es porque ya existe un proyecto con ese ranking en el núcleo"> 
+                          <option value="">Seleccione uno </option>
+                          </select>
                       </div>
                       <div class="form-group" >
                         {{Form::label('actalable','Adjuntar acta de priorización :',['class' => 'control-label'])}}
@@ -369,6 +365,11 @@
                         {{Form::label('editipoterrlable','Tipo de territorio:',['class' => 'control-label'])}}
                         {{Form::select('editipoterr[]', $arraytipoterr, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'editipoterr','required'=>'true'])}}
                       </div> 
+                      <div class="form-group"  id="select_terredi">
+                        {{Form::label('nom_terrlableedi','Nombre de territorios:',['class' => 'control-label'])}}
+                        <select name="nom_terredi[]" id="nom_terredi" class="form-control" required multiple> 
+                          </select>
+                      </div>
                       <div id="supcate" class="form-group">
                          {{Form::label('edinom_supcatelable','Subcategoría:',['class' => 'control-label'])}}
                         <select name="edinom_supcate" id="edinom_supcate" class="form-control">
@@ -405,18 +406,8 @@
                       </div>
                       <div class="form-group">
                         <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
-                        <div id="edicheckranking">
-                          <input type="radio" name="ediranking" value="1" required> 1
-                          <input type="radio" name="ediranking" value="2"> 2
-                          <input type="radio" name="ediranking" value="3"> 3
-                          <input type="radio" name="ediranking" value="4"> 4
-                          <input type="radio" name="ediranking" value="5"> 5
-                          <input type="radio" name="ediranking" value="6"> 6
-                          <input type="radio" name="ediranking" value="7"> 7
-                          <input type="radio" name="ediranking" value="8"> 8
-                          <input type="radio" name="ediranking" value="9"> 9
-                          <input type="radio" name="ediranking" value="10"> 10
-                        </div>
+                        <select name="edicheckranking" id="ediranking" class="form-control" required title="Si el valor no se encuentra, es porque ya existe un proyecto con ese ranking en el núcleo"> 
+                          </select>
                       </div>
                       <div class="col-sm-12"><br></div>
                       <div class="form-group col-sm-12" style="padding: 0;">
@@ -850,8 +841,14 @@
  
 
     $("#depto").change(function(){
+
+        $("#terr").css("display","none");
+        $("#select_terr").css("display","none");
+        $("#nucleo").empty();
         $('#mpios').empty();
         $("#mpios").append("<option value=''>Seleccione uno</option>");
+        $("#ranking").empty();
+      $("#ranking").append("<option value=''>Seleccione uno</option>");
          $.ajax({url:"artpic/mpios",type:"POST",data:{depto:$('#depto').val()},dataType:'json',//llama al controlador siscadi/siscadirepdpto que trae los valores necesario para la grafica
           success:function(data1){
             $.each(data1.arraympios, function(nom,datos){
@@ -865,8 +862,13 @@
     });//Termina chage 
 
     $("#mpios").change(function(){
+        
+          $("#terr").css("display","none");
+          $("#select_terr").css("display","none");
         $('#nucleo').empty();
         $("#nucleo").append("<option value=''>Seleccione una</option>");
+        $("#ranking").empty();
+        $("#ranking").append("<option value=''>Seleccione uno</option>");
          $.ajax({url:"artpic/nucleo",type:"POST",data:{mpio:$('#mpios').val()},dataType:'json',//llama al controlador siscadi/siscadirepdpto que trae los valores necesario para la grafica
           success:function(data1){
 
@@ -876,7 +878,6 @@
 
             $("#focallable").css("display","block");
             $("#focal").css("display","block");
-            console.log(data1.arraytipofocalizado)
             var tipofoca = [];
                     if(data1.arraytipofocalizado[0]==0 ){
                       tipofoca[0]=0;
@@ -904,6 +905,56 @@
         });//Termina Ajax prueva
      
     });//Termina chage 
+
+$("#nucleo").change(function(){
+   $("#tipoterr option:selected").removeAttr("selected");
+   if($(this).val()==''){
+    $("#terr").css("display","none");
+    $("#select_terr").css("display","none");
+  }else{
+    $("#terr").css("display","block");
+  
+      var nucleo=$(this).val();
+      $("#ranking").empty();
+      $("#ranking").append("<option value=''>Seleccione uno</option>");
+      $.ajax({url:"artpic/ranking",type:"POST",data:{nucleo:nucleo},dataType:'json',
+        success:function(data){
+          $.each(data, function(datos,nom){
+                $("#ranking").append("<option value=\""+datos+"\">"+nom+"</option>");
+              });
+           
+        },
+        error:function(){alert('error');}
+    });//Termina Ajax
+  }
+});
+
+
+$("#tipoterr").change(function(){
+
+  var tipoterr=$(this).val();
+  var nucleo=$("#nucleo").val();
+  if(tipoterr==null){
+    $("#select_terr").css("display","none");
+  }else{
+    $("#select_terr").css("display","block");
+    $('#nom_terr').empty();
+    $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
+        success:function(data){
+          for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
+             $("#nom_terr").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
+
+            $.each(data['arraynom_terri'][i], function(datos,nom){
+                $("#nom_terr").append("<option value=\""+datos+"\">"+nom+"</option>");
+              });
+          };
+           
+        },
+        error:function(){alert('error');}
+    });//Termina Ajax
+  }
+});
+
     
     $("#nom_supcate").change(function(){
       if($("#nom_supcate").val()!=""){
@@ -1075,6 +1126,32 @@
         }
       
     });
+
+
+$("#editipoterr").change(function(){
+
+  var tipoterr=$(this).val();
+  var nucleo=$("#edinucleo2").val();
+  if(tipoterr==null){
+    $("#select_terredi").css("display","none");
+  }else{
+    $("#select_terredi").css("display","block");
+    $('#nom_terredi').empty();
+    $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
+        success:function(data){
+          for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
+             $("#nom_terredi").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
+
+            $.each(data['arraynom_terri'][i], function(datos,nom){
+                $("#nom_terredi").append("<option value=\""+datos+"\">"+nom+"</option>");
+              });
+          };
+           
+        },
+        error:function(){alert('error');}
+    });//Termina Ajax
+  }
+});
 //##### fin de funciones para editar proyecto ###########
 
     
@@ -1111,8 +1188,24 @@
                     $.each(data.arraytipoterr, function(nom,datos){
                          tipoterr.push(datos.toString());
                     });
-
                     $('#editipoterr').val(tipoterr);
+                    $("#nom_terredi").empty();
+
+                    for (var i = 0; i < Object.keys(data['arratodoterredi']).length; i++) {
+                      $("#nom_terredi").append("<optgroup label=\""+data['arratodoterrtipoedi'][i]+"\">"+i+"</optgroup>");
+                      $.each(data['arratodoterredi'][i], function(datos,nom){
+                          $("#nom_terredi").append("<option value=\""+datos+"\">"+nom+"</option>");
+                        });
+                    };
+
+                    var nameterr = [];
+                    if(data.arraynomter!=""){
+                      $.each(data.arraynomter, function(nom,datos){
+                           nameterr.push(nom.toString());
+                      });
+                    }
+
+                    $('#nom_terredi').val(nameterr);
                     $("#edinom_supcate").val(data['arrayproy'][0].id_subcat);
                     var selected = $(':selected', $("#edinom_supcate"));
                     var categoria=selected.closest('optgroup').attr('label');
@@ -1182,7 +1275,21 @@
                     
 
                     $("#edidatepicker").val(data['arrayproy'][0].fecha_ingreso);
-                    $('input:radio[name="ediranking"]').filter('[value='+data['arrayproy'][0].ranking+']').attr('checked', true);
+
+
+
+                    $("#ediranking").empty();
+                    var valida=0;
+                      $.each(data['arrayrankingedi'], function(datos,nom){
+                          if ((nom>data['arrayproy'][0].ranking) && valida==0){
+                            $("#ediranking").append("<option value=\""+data['arrayproy'][0].ranking+"\">"+data['arrayproy'][0].ranking+"</option>");
+                            valida++;
+                          }
+                          $("#ediranking").append("<option value=\""+nom+"\">"+nom+"</option>");
+                        });
+
+                        console.log(data['arrayproy'][0].ranking)
+                    $("#ediranking").val(data['arrayproy'][0].ranking);
 
                     $("#IDdele").val(data['arrayproy'][0].ID);
                     $("#deletenombre").val(data['arrayproy'][0].nom_proy);
@@ -1198,6 +1305,8 @@
               });//Termina Ajax
             }
           });
+
+
 
 
 
@@ -1226,6 +1335,8 @@ $('#cargar_proyecto').on('hidden.bs.modal', function (e) {
     $('#div-cofina').css("display","none");
     $('#divcofi_preci').css("display","none");
 })
+
+
 
     </script>    
 @stop

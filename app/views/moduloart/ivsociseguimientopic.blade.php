@@ -231,9 +231,11 @@
                 <td id="{{$pro->cod_nucleo}}" name="nucle">@foreach($arraynucleos as $key=>$val) @if($pro->cod_nucleo==$key) {{$val}} @endif @endforeach </td> 
                 <td >{{$pro->nom_proy}}</td>
                 <td >{{$pro->ranking}}</td>
-                <td ><?php foreach($change_viable as $pro2) {
-                      $no_tiene=0;
-                      $tiene=0;
+                <td ><?php $no_tiene=0;
+                      $tiene=0; 
+
+                      foreach($change_viable as $pro2) {
+                      
                       if($pro->id_proy==$pro2->id_proy) {
                           $no_tiene=$pro2->num;
                           break;
@@ -534,13 +536,13 @@
       });
        
 
-
    
       $('#criterios').on('click',function () {//function que crea los criterios y precarga los acrvhivos segun condicionales de criterios en un modal
             $.ajax({url:"artpic/criterios",type:"POST",data:{proy:num,nucleo:nucleo},dataType:'json',
                
                  
                 success:function(data){
+                  console.log(data['array_viable_estado'])
                         array_viable_file=data['array_viable_id'];
                         array_viable_info=data['array_viable_info'];
                         var  divs= $('<div>');
@@ -579,12 +581,12 @@
                         a.id=i;
                         a.className="glyphicon glyphicon-download-alt btn btn-success";
                         a.title="Descarque el archvio del Criterio";
-                        if(data['array_viable_file'][i]=="No tiene"){
+                        if(data['array_viable_estado'][i]=="No tiene"){
                           a.setAttribute('disabled','true')
                           a.className="glyphicon glyphicon-download-alt btn btn-default ";
                           a.title="No hay archivo para este criterio";
                           var borr=0;
-                        }else if(data['array_viable_file'][i]=="No aplica"){
+                        }else if(data['array_viable_estado'][i]=="No aplica"){
                           a.setAttribute('disabled','true')
                           a.className="glyphicon glyphicon-download-alt btn btn-success";
                           a.title="No aplica archivo para este criterio";
@@ -653,11 +655,16 @@
                         radio.value='1';
                         radio.required="true";
                         radio.addEventListener("click", cargar_doc);
+                        if(data['array_viable_estado'][i]!="No aplica" || data['array_viable_estado'][i]!="No tiene" ){
+                           radio.setAttribute('checked', 'checked');
+                          }
                         var radio2= document.createElement("input");
                         radio2.type = "radio";
                         radio2.name="r-"+i;
                         radio2.value='2';
-                        radio2.setAttribute('checked', 'checked');
+                        if(data['array_viable_estado'][i]=="No tiene" ){
+                           radio2.setAttribute('checked', 'checked');
+                          }
                         radio2.addEventListener("click", cargar_doc);
                         div.append(radio);
                         div.append("Si ");
@@ -673,7 +680,7 @@
                           radio3.addEventListener("click", cargar_doc);
                           div.append(radio3);
                           div.append("No Aplica");
-                          if(data['array_viable_file'][i]=="No aplica"){
+                          if(data['array_viable_estado'][i]=="No aplica"){
                            radio3.setAttribute('checked', 'checked');
                           }
                         }

@@ -198,7 +198,7 @@ function interaccion_mpios(feature, layer) {
 
 	"<tr><th>Departamento</th><td>" + feature.properties.NOM_DPTO + "</td></tr>" + "<tr><th>Municipio</th><td>" + feature.properties.NOM_MPIO + "</td></tr>" + "<table>";*/
     var title="Municipio " + feature.properties.NOM_MPIO + ", " + feature.properties.NOM_DPTO
-
+	layer.bindTooltip(feature.properties.NOM_MPIO+"<br>("+feature.properties.NOM_DPTO+")"); 
 	layer.on(
 		{
 		mouseover: borde,
@@ -247,7 +247,7 @@ function interaccion_resguardos(feature, layer) {
 
 function interaccion_veredas(feature, layer) {
 	var title="Municipio " + feature.properties.NOM_MPIO + "<br> Vereda: " + feature.properties.NOM_VEREDA
-	layer.bindPopup(title);
+	layer.bindTooltip(title); 
 	layer.on(
 		{
 		mouseover: borde,

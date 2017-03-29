@@ -16,8 +16,11 @@
   <link rel="stylesheet" href="assets/fonts/font-awesome-4.6.3/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css">
   <!-- Libreria y capas Leaflet-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
   <link rel="stylesheet" href="assets/giz_map/css/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
 
 
   <link rel="stylesheet" href="assets/giz_map/css/styledLayerControl.css" />

@@ -118,6 +118,31 @@ class ArtpicController extends BaseController {
 		return View::make('moduloart.ivsocifichapriorizadaproy', array('arraydepto' => $arraydepto,'arraytipoterr' => $arraytipoterr,'arraynucleos' => $arraynucleos,'arraycate' => $result_cate,'arraymuni' => $arraymuni,'arraysubcate' => $SUBCATEGORIA,'arrayfocali'=>$arrayfocali,'arrayestado' => $arrayestado,'arrayindipic' => $arrayindipic,'arraysubsubcate' => $arraysubsubcate,'arraysocio'=>$arraysocio));		
 	}	
 
+	public function postRanking()//funcion que precarga los datos de los indicadores  veredales y las categorias
+		{    
+			$ranking = DB::table('MODART_PIC_PROYPRIORIZ')	
+			->select('ranking')
+			->where('cod_nucleo','=',Input::get('nucleo'))
+			->get();
+
+			for ($i = 0; $i <20; $i++) {
+			    $arrayranking[$i] = $i+1;
+			}
+
+		if (empty($ranking)) {
+			
+		}else{
+			foreach($ranking as $pro)
+			{
+				$arrayranking2[$pro->ranking] = $pro->ranking;
+			}
+			$array =  (array) $arrayranking2;
+			$arrayranking=array_diff($arrayranking,$array);
+
+		}
+	return  $arrayranking;
+			
+	}
 
 	public function postCrearProyecto()//funcion que precarga los datos de los indicadores  veredales y las categorias
 	{
@@ -150,6 +175,19 @@ class ArtpicController extends BaseController {
 				    		)
 				    	);
 		    	}
+
+
+		    	for ($i = 0; $i < count(Input::get('nom_terr')); $i++) {
+				    $insert2=DB::table('MODART_PIC_PROYECTOTERRI')->insert(
+				    	array(
+				    		'id_proy' => $idmaximo,
+				    		'id_terr' => Input::get('nom_terr')[$i],
+				    		'tipo_terr'=> Input::get('tipoterr')[$i]
+
+				    		)
+				    	);
+				}
+		    	
 
 		    	foreach (Input::get('subsubcate') as $key => $value) {
 		    		$insert2=DB::table('MODART_PIC_SUBSUBCATPASO')->insert(
@@ -250,6 +288,61 @@ class ArtpicController extends BaseController {
 		
 	}
 
+	
+	public function postAdmiTerr()//funcion que precarga los datos de los indicadores  veredales y las categorias
+	{
+		 $arratodoterr=array();
+		 $arratodoterrtipo=array();
+
+		for ($i=0; $i < count(Input::get('tipoterr')) ; $i++) { 
+			if (Input::get('tipoterr')[$i]==3){
+				$veredas = DB::table('MODART_PIC_VEREDAS')
+				->select('cod_vda','nom_terr')
+				->where('cod_nucleo','=',Input::get('nucleo'))
+				->orderby('nom_terr','asc')
+				->get();
+				foreach($veredas as $pro)
+				{
+					  $arravds[$pro->cod_vda] = $pro->nom_terr;
+				}
+				array_push($arratodoterr, $arravds);
+				array_push($arratodoterrtipo, "Veredas:");
+		
+			}else if (Input::get('tipoterr')[$i]==2){
+				$concejo = DB::table('MODART_PIC_VEREDAS')
+				->select('cod_vda','nom_terr')
+				->where('cod_nucleo','=',Input::get('nucleo'))
+				->orderby('nom_terr','asc')
+				->get();
+				foreach($concejo as $pro)
+				{
+					 $arraccj[$pro->cod_vda] = $pro->nom_terr;
+				}
+				array_push($arratodoterr, $arraccj);
+				array_push($arratodoterrtipo, "Consejos cumunitarios:");
+			}else{
+				$Resguardo = DB::table('MODART_PIC_VEREDAS')
+				->select('cod_vda','nom_terr')
+				->where('cod_nucleo','=',Input::get('nucleo'))
+				->orderby('nom_terr','asc')
+				->get();
+				foreach($Resguardo as $pro)
+				{
+					  $arrares[$pro->cod_vda] = $pro->nom_terr;
+				}
+				array_push($arratodoterr, $arrares);
+				array_push($arratodoterrtipo, "Resguardos indígenas:");
+			}
+
+			
+
+		}
+		
+		array_multisort($arratodoterr,SORT_ASC);
+		return array('arraynom_terri'=>$arratodoterr,'arratodoterrtipo'=>$arratodoterrtipo);
+		
+	}
+
 	public function postTablaproy()//funcion que precarga los datos de indicadores para su edicion
 	{    
 		$arrayproy = DB::table('MODART_PIC_PROYPRIORIZ')
@@ -258,17 +351,12 @@ class ArtpicController extends BaseController {
 		->select(DB::raw("concat('PIC_',MODART_PIC_PROYPRIORIZ.cod_nucleo,id_proy) as ID"),'id_proy',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO_1 as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as cod_nucleo"),'id_subcat','id_usuario','nom_proy','alcance','estado_proy','prec_estim','cofinanc',DB::raw("CONVERT(VARCHAR(10),fecha_ingreso,103) as fecha_ingreso,ranking"),'MUNICIPIOS.COD_DPTO as depto','MUNICIPIOS.COD_DANE as muni','MODART_PIC_NUCLEOS.id_nucleo as nucleo','acta')
 		->where('MODART_PIC_PROYPRIORIZ.id_proy','=', Input::get('proy'))
 		->where('id_usuario','=',Auth::user()->id)
-		->get();	
+		->get();
 
-		$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
-			->select('id_nucleo','nombre')
-			->orderby('nombre','asc')
-			->get();
-			
-			foreach($NUCLEOS as $pro)
+		foreach($arrayproy as $pro)
 			{
-				 $arraynucleos[$pro->id_nucleo] = $pro->nombre;
-			}	
+				 $nucl = $pro->nucleo;
+			}
 
 		$tipoter = DB::table('MODART_PIC_TIPOTERRPASO')
 			->select('id_proy','id_tipterr')
@@ -279,6 +367,68 @@ class ArtpicController extends BaseController {
 			{
 				 $arraytipoter[$pro->id_tipterr] = $pro->id_tipterr;
 			}	
+			$terr=array_map(create_function('$item','return $item->id_tipterr;'),$tipoter);//extract value from object query	
+
+		$nomter = DB::table('MODART_PIC_PROYECTOTERRI')
+			->select('id_proy','id_terr','tipo_terr')
+			->where('id_proy','=', Input::get('proy'))
+			->get();
+			
+			foreach($nomter as $pro)
+			{
+				 $arraynomter[$pro->id_terr] = $pro->tipo_terr;
+			}
+
+			if (empty($arraynomter)) {
+			   $arraynomter="";
+			}
+
+
+		$arratodoterredi=array();
+		$arratodoterrtipoedi=array();
+
+		for ($i=0; $i < count($terr) ; $i++) { 
+			if ($terr[$i]==3){
+				$veredas = DB::table('MODART_PIC_VEREDAS')
+				->select('cod_vda','nom_terr')
+				->where('cod_nucleo','=',$nucl)
+				->orderby('nom_terr','asc')
+				->get();
+				foreach($veredas as $pro)
+				{
+					  $arravds[$pro->cod_vda] = $pro->nom_terr;
+				}
+				array_push($arratodoterredi, $arravds);
+				array_push($arratodoterrtipoedi, "Veredas:");
+		
+			}else if ($terr[$i]==2){
+				$concejo = DB::table('MODART_PIC_VEREDAS')
+				->select('cod_vda','nom_terr')
+				->where('cod_nucleo','=',$nucl)
+				->orderby('nom_terr','asc')
+				->get();
+				foreach($concejo as $pro)
+				{
+					 $arraccj[$pro->cod_vda] = $pro->nom_terr;
+				}
+				array_push($arratodoterredi, $arraccj);
+				array_push($arratodoterrtipoedi, "Consejos cumunitarios:");
+			}else{
+				$Resguardo = DB::table('MODART_PIC_VEREDAS')
+				->select('cod_vda','nom_terr')
+				->where('cod_nucleo','=',$nucl)
+				->orderby('nom_terr','asc')
+				->get();
+				foreach($Resguardo as $pro)
+				{
+					  $arrares[$pro->cod_vda] = $pro->nom_terr;
+				}
+				array_push($arratodoterredi, $arrares);
+				array_push($arratodoterrtipoedi, "Resguardos indígenas:");
+			}
+		}
+		
+		array_multisort($arratodoterredi,SORT_ASC);
 
 		$subsubcate = DB::table('MODART_PIC_SUBSUBCATPASO')
 			->select('id_proy','id_subcat','id_subsub')
@@ -306,10 +456,31 @@ class ArtpicController extends BaseController {
 					$arraysocio[$pro->id_socio] = $pro->valor;
 					$arraysociootro= $pro->otro;
 				}
-			}		
+			}	
+
+		$ranking = DB::table('MODART_PIC_PROYPRIORIZ')	
+			->select('ranking')
+			->where('cod_nucleo','=',$nucl)
+			->get();
+
+			for ($i = 0; $i <20; $i++) {
+			    $arrayranking[$i] = $i+1;
+			}
+
+		if (empty($ranking)) {
+			
+		}else{
+			foreach($ranking as $pro)
+			{
+				$arrayranking2[$pro->ranking] = $pro->ranking;
+			}
+			$array =  (array) $arrayranking2;
+			$arrayranking=array_diff($arrayranking,$array);
+
+		}		
 
 
-		return  array('arrayproy' => $arrayproy,'arraynucleos' => $arraynucleos,'arraytipoterr'=>$arraytipoter,'arraysubsubcate'=>$arraysubsubcate,'arraysocio'=>$arraysocio,'arraysociootro'=>$arraysociootro);	
+		return  array('arrayproy' => $arrayproy,'arraytipoterr'=>$arraytipoter,'arraysubsubcate'=>$arraysubsubcate,'arraysocio'=>$arraysocio,'arraysociootro'=>$arraysociootro,'arraynomter'=>$arraynomter,'arratodoterredi'=>$arratodoterredi,'arratodoterrtipoedi'=>$arratodoterrtipoedi,'arrayrankingedi'=>$arrayranking);	
 
 	}
 
@@ -329,6 +500,7 @@ class ArtpicController extends BaseController {
 		    		'estado_proy' => Input::get('ediestado'),
 		    		'cofinanc' => Input::get('edicofinan'),
 		    		'fecha_ingreso' => Input::get('edifecha'),
+		    		'ranking'=>Input::get('edicheckranking'),
 		    		//'created_at' => $fecha,
 		    		'updated_at' => $fecha
 		    	)
@@ -372,6 +544,19 @@ class ArtpicController extends BaseController {
 				    		)
 				    	);
 		    	}
+
+		    	DB::table('MODART_PIC_PROYECTOTERRI')->where('id_proy',Input::get('ediidproy'))->delete();
+
+		    	for ($i = 0; $i < count(Input::get('nom_terredi')); $i++) {
+				    $insert2=DB::table('MODART_PIC_PROYECTOTERRI')->insert(
+				    	array(
+				    		'id_proy' => Input::get('ediidproy'),
+				    		'id_terr' => Input::get('nom_terredi')[$i],
+				    		'tipo_terr'=> Input::get('editipoterr')[$i]
+
+				    		)
+				    	);
+				}
 
 		    	DB::table('MODART_PIC_SUBSUBCATPASO')->where('id_proy',Input::get('ediidproy'))->delete();
 		
@@ -703,7 +888,7 @@ public function seguimiento()
 			$change_viable_file= DB::table('MODART_PIC_CRITERIOSTODOS')
 			->select(DB::raw('count(id_proy)as num'),'id_proy')
 			->groupby('id_proy')
-			->where('url','!=','No tiene')
+			->where('estado','!=','No tiene')
 			->get();
 			if($change_viable==0){
 					$change_viabl=0; 
@@ -760,13 +945,15 @@ public function seguimiento()
 		}
 
 		$file = DB::table('MODART_PIC_CRITERIOSTODOS')
-		->select('url')
+		->select('url','estado','obs')
 		->where('id_proy','=',Input::get('proy'))
 		->get();
 		$array_viable_file=array_map(create_function('$item','return $item->url;'),$file);//extract value from object query	
+		$array_viable_estado=array_map(create_function('$item','return $item->estado;'),$file);//extract value from object query	
+		$array_viable_obs=array_map(create_function('$item','return $item->obs;'),$file);//extract value from object query	
 		
 			
-		return  array('array_viable' => $array_viable,'array_viable_id'=>$array_viable_id,'array_viable_file'=>$array_viable_file,'array_viable_id2'=>$array_viable_id2,'array_viable_info'=>$array_viable_info);			
+		return  array('array_viable' => $array_viable,'array_viable_id'=>$array_viable_id,'array_viable_file'=>$array_viable_file,'array_viable_id2'=>$array_viable_id2,'array_viable_info'=>$array_viable_info,'array_viable_estado'=>$array_viable_estado,'array_viable_obs'=>$array_viable_obs);			
     }
 
     public function postCargarCriterio()//funcion que precarga los datos de los indicadores  veredales y las categorias
@@ -777,7 +964,8 @@ public function seguimiento()
 				if(Input::get('r-'.$i)==3){
 					$insert=DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy', '=', Input::get('proy'))->where('id_crittod','=',Input::get('id_viable')[$i])->update(
 		    			array(
-		    				'url' => 'No aplica'
+		    				'url' => 'No aplica',
+		    				'estado' => 'No aplica'
 		    				)
 		    			);
 				}else{
@@ -799,35 +987,45 @@ public function seguimiento()
 
 				    		$insert=DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy', '=', Input::get('proy'))->where('id_crittod','=',Input::get('id_viable')[$i])->update(
 				    			array(
+				    				'estado' => 'Tiene',
 				    				'url' => $path_insert.'\\'.'PIC_'.Input::get('nucleo').Input::get('proy').'_Cri_'.Input::get('id_viable2')[$i].'.'.Input::file('f-'.$i)->getClientOriginalExtension()
+				    				
 				    				)
 				    			);
 				    }
 				}
 			}else{
+				if(Input::get('r-'.$i)==1){
+					$path = public_path().'\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').Input::get('proy');
+					$path_insert='\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').Input::get('proy');
 
-				$path = public_path().'\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').Input::get('proy');
-				$path_insert='\art\pic\\'.Input::get('nucleo').'\\'.Input::get('nucleo').Input::get('proy');
+					// creacion de carpeta dependiendo del nombre del proceso
+					if (File::exists($path)){
+									
+					}
+					else{
+						File::makeDirectory($path,  $mode = 0777, $recursive = true);	
+					}
 
-				// creacion de carpeta dependiendo del nombre del proceso
-				if (File::exists($path)){
-								
-				}
-				else{
-					File::makeDirectory($path,  $mode = 0777, $recursive = true);	
-				}
-
-				
-				if(Input::hasFile('f-'.$i)) {
 					
-						Input::file('f-'.$i)->move($path,'PIC_'.Input::get('nucleo').Input::get('proy').'_Cri_'.Input::get('id_viable2')[$i].'.'.Input::file('f-'.$i)->getClientOriginalExtension());
+					if(Input::hasFile('f-'.$i)) {
+						
+							Input::file('f-'.$i)->move($path,'PIC_'.Input::get('nucleo').Input::get('proy').'_Cri_'.Input::get('id_viable2')[$i].'.'.Input::file('f-'.$i)->getClientOriginalExtension());
 
-			    		$insert=DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy', '=', Input::get('proy'))->where('id_crittod','=',Input::get('id_viable')[$i])->update(
-			    			array(
-			    				'url' => $path_insert.'\\'.'PIC_'.Input::get('nucleo').Input::get('proy').'_Cri_'.Input::get('id_viable2')[$i].'.'.Input::file('f-'.$i)->getClientOriginalExtension()
-			    				)
-			    			);
-			    }
+				    		$insert=DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy', '=', Input::get('proy'))->where('id_crittod','=',Input::get('id_viable')[$i])->update(
+				    			array(
+				    				'url' => $path_insert.'\\'.'PIC_'.Input::get('nucleo').Input::get('proy').'_Cri_'.Input::get('id_viable2')[$i].'.'.Input::file('f-'.$i)->getClientOriginalExtension(),
+				    				'estado' => 'Tiene'
+				    				)
+				    			);
+				    }
+				}else{
+					DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy', '=', Input::get('proy'))->where('id_crittod','=',Input::get('id_viable')[$i])->update(
+				    			array(
+				    				'estado' => 'No tiene'
+				    				)
+				    			);
+				}    
 			}
 
      	}
@@ -858,7 +1056,7 @@ public function seguimiento()
 		$change_viable_file= DB::table('MODART_PIC_CRITERIOSTODOS')
 			->select('id')
 			->where('id_proy','=',Input::get('proy'))
-			->where('url','!=','No tiene')
+			->where('estado','!=','No tiene')
 			->count();	
 
 		$precio= DB::table('MODART_PIC_PROYPRIORIZ')
@@ -951,7 +1149,8 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 
 		$insert=DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy', '=', Input::get('proy'))->where('id_crittod', '=', Input::get('crite'))->update(
 	    			array(
-	    				'url' =>"No tiene"
+	    				'url' =>"No tiene",
+	    				'estado' =>"No tiene"
 	    				)
 	    			);
 		return $insert;
