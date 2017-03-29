@@ -164,17 +164,18 @@ Route::group(array('before' => 'auth'), function()
   Route::get('zvsegindicador', array('before'=>'MenuARTSeguimientoIndicador', 'uses' => 'ArtzvtnController@zvtn_seguimiento'));
   Route::get('zvmapa', array('before'=>'MenuARTMapaZV', function(){return View::make('moduloart/zvmapa');}));
 
-    //Normatividad  
-  Route::get('normtabindicador', 'ArtnormatividadController@consultanorma');
-  Route::get('normcarganorma', 'ArtnormatividadController@carganorma');
-  //Plan 100 dias y Respuesta Rapida
-  Route::get('plancienrrconsulproy', 'Artplan100Controller@plan100_ini_consulta');
-  Route::get('plancienrrcargaproy', 'Artplan100Controller@plan100_ini');
+  //Normatividad  
+  Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', 'uses' => 'ArtnormatividadController@consultanorma'));
+  Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', 'uses' => 'ArtnormatividadController@carganorma'));  
+  //Plan 100 dias y Respuesta Rapida  
+  Route::get('plancienrrconsulproy', array('before'=>'MenuARTConsultaPlanRR', 'uses' => 'Artplan100Controller@plan100_ini_consulta'));  
+  Route::get('plancienrrcargaproy', array('before'=>'MenuARTCargaEditarPlanRR', 'uses' => 'Artplan100Controller@plan100_ini'));
 
-   //Plan 51/50
-  Route::get('plan50consulproy', 'ArtpicController@plan50_ini_consulta');
-  Route::get('plan50rrcargaproy', 'ArtpicController@plan50_ini');
-
+  //Plan 51/50
+  Route::get('plan50consulproy', array('before'=>'MenuARTConsultaPlan50', 'uses' => 'ArtpicController@plan50_ini_consulta'));  
+  Route::get('plan50rrcargaproy', array('before'=>'MenuARTCargaEditarPlan50', 'uses' => 'ArtpicController@plan50_ini'));
+//  Route::get('plan50consulproy', 'ArtpicController@plan50_ini_consulta');
+//  Route::get('plan50rrcargaproy', 'ArtpicController@plan50_ini');
 
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------

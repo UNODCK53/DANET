@@ -642,6 +642,19 @@ Route::filter('MenuARTTableroNorma', function ()
       return Redirect::to('principal');
    }
 });
+Route::filter('MenuARTReporteNorma', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6331")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
 //PLAN  100 y RR
 Route::filter('MenuARTCargaEditarPlanRR', function ()
 {
@@ -662,6 +675,33 @@ Route::filter('MenuARTConsultaPlanRR', function ()
    $p=0;
    foreach ($acc as $acceso) {
       if(($acceso->id_vista=="6421")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+//PLAN  51/50
+Route::filter('MenuARTCargaEditarPlan50', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6511")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
+Route::filter('MenuARTConsultaPlan50', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6521")&&($acceso->acces=="1")){
          $p=1;
       }
    }   

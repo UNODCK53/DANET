@@ -8,11 +8,22 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+    <style>          
+      #map {
+        width: 100%;
+        height: 400px;
+        margin:0 auto 0 auto;
+        position: relative;
+        top: 1%;        
+        }
+  </style>
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
-<script src="assets/art/js/wNumb.js"></script>    
+  <script src="assets/art/js/wNumb.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.3/esri-leaflet.js"></script>    
   @parent
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
@@ -34,13 +45,124 @@
   @parent  
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
+    <div class="row" id="mensajeesta">           
+    </div>
+
     <div class="row">
       <div class="col-sm-1"></div>
-        <div class="col-sm-10">
+        <div class="col-sm-10 col-xs-12">
         <!--aca se escribe el codigo-->
-        <h2 class="text-center text-primary">Plan 100 días</h2>
-        <br><br>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_proyecto">Consultar proyecto</button>
+        <h2 class="text-center text-primary">Plan 100 días</h2>        
+        <br>        
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">        
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#filtroscom" aria-expanded="false" aria-controls="filtroscom">
+                <h3 class="panel-heading text-primary">Filtros</h3>
+
+              </a>
+            </h4>
+          </div>
+          <div id="filtroscom" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-xs-2 control-label">Avance</label>
+                  <div class="col-xs-10">   
+                    <select id="avance_producto" name="avance_producto" class="form-control">
+                      <option value="" selected="selected">Seleccione una opción</option>                         
+                      @foreach($arraydombobox[1] as $avance)                  
+                        <option value="{{$avance->avance_prod}}">{{$avance->avance_prod}}</option>                    
+                      @endforeach                    
+                    </select>                      
+                  </div>              
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-xs-2 control-label">Modalidad</label> 
+                  <div class="col-xs-10">   
+                    <select id="modalidad" name="modalidad" class="form-control">
+                      <option value="" selected="selected">Seleccione una opción</option>  
+                      @foreach($arraydombobox[2] as $modalidad)                  
+                        <option value="{{$modalidad->mod_foca}}">{{$modalidad->mod_foca}}</option>                    
+                      @endforeach                    
+                    </select> 
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-xs-2 control-label">Estado</label>
+                  <div class="col-xs-10">   
+                    <select id="estado" name="estado" class="form-control">
+                      <option value="" selected="selected">Seleccione una opción</option>  
+                      @foreach($arraydombobox[3] as $estado)                  
+                        <option value="{{$estado->est_proy}}">{{$estado->est_proy}}</option>                    
+                      @endforeach                    
+                    </select>  
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-xs-2 control-label">Entidad líder</label>
+                  <div class="col-xs-10">   
+                    <select required id="entidad" name="entidad" class="form-control">
+                      <option value="" selected="selected">Seleccione una opción</option>  
+                      @foreach($arraydombobox[4] as $entilider)                  
+                        <option value="{{$entilider->enti_lider}}">{{$entilider->enti_lider}}</option>                    
+                      @endforeach                    
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-xs-2 control-label">Línea del proyecto</label> 
+                  <div class="col-xs-10">   
+                    <select required id="linea" name="linea" class="form-control">
+                      <option value="" selected="selected">Seleccione una opción</option>  
+                      @foreach($arraydombobox[5] as $lineaproy)                  
+                        <option value="{{$lineaproy->linea_proy}}">{{$lineaproy->linea_proy}}</option>                    
+                      @endforeach                    
+                    </select> 
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-xs-2 control-label">Departamento</label> 
+                  <div class="col-xs-10">   
+                    <select id="deptos" name="deptos" class="form-control" onchange="filter_municipality()">
+                      <option value="" selected="selected">Seleccione una opción</option>  
+                      @foreach($arraydombobox[0] as $pro)                  
+                        <option value="{{$pro->COD_DPTO}}">{{$pro->NOM_DPTO}}</option>                    
+                      @endforeach                    
+                    </select> 
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword" class="col-xs-2 control-label">Municipio</label> 
+                  <div class="col-xs-10">   
+                    <select id="municipios" name="municipios" class="form-control">                                       
+                    </select>
+                  </div>
+                </div>
+              <button type="button" id="genfiltros" data-toggle="tooltip" data-placement="top" title="Click para Filtrar" class="btn btn-primary">Filtrar información</button>
+              <button type="button" id="borrarfiltro" class="btn btn-primary">Reiniciar filtros</button>
+              <br>
+              </form>
+            </div>
+          </div>
+        </div>        
+      </div>
+        
+        
+<!--        
+        <pre>
+          <div id="map"></div>
+            <script>
+            var map = L.map('map').setView([4.5, -74.1], 6);
+            L.esri.basemapLayer("Gray").addTo(map);
+            //L.esri.dynamicMapLayer("http://services.nationalmap.gov/arcgis/rest/services/3DEPElevationIndex/MapServer/0", { opacity : 1}).addTo(map);
+            var servicioarcgis = new L.esri.FeatureLayer("http://arcgisserver.unodc.org.co/arcgis/rest/services/prueba/MyMapService/MapServer/0").addTo(map);
+            </script>
+        </pre>
+-->        
+        <br>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_proyecto">Consultar proyecto Seleccionado</button>
         <!--Aca inicia el modal para cargar nuevo proyecto-->
         <!-- Modal -->
         <div class="modal fade" id="consultar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -150,7 +272,7 @@
               <th class="text-center">Avance</th>                          
             </tr>
           </thead>
-          <tbody>            
+          <tbody id="tbody_proyectos">            
             @foreach($proyectos as $pro)
               <tr id="{{$pro->id}}">
                 <td >{{$pro->NOM_DPTO}}</td>
@@ -205,38 +327,124 @@
   @parent
     <script>
       $(document).ready(function() {          
-          //para que los menus pequeño y grande funcione
+          //para que los menus pequeño y grande funcione          
           $( "#art" ).addClass("active");
           $( "#artdashboardmenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
-          $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
-          $( "#mensajeestatus" ).fadeOut(5000);
-          $("#mensajeestatus").fadeOut(5000);
-          $('#tabla_proyectos').DataTable();
-      });
+          $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");                   
+          
 
+      });
+      var table = $('#tabla_proyectos').DataTable();
       //funcion que filtra los municipios por departamentos
       //------------------------------------------    
 
+      $("#borrarfiltro").on('click', function(){
+        location.reload();
+      });
+      $("#genfiltros").on('click', function(){
+        if(($('#avance_producto').val()=='') && ($('#modalidad').val()=='') && ($('#entidad').val()=='') && ($('#estado').val()=='') && ($('#linea').val()=='') && ($('#deptos').val()=='')){
+          $("#mensajeesta").fadeIn(1);
+          $("#mensajeesta").empty();
+          $("#mensajeesta").append('<br><div class="col-sm-1"></div><div id = "mensajeestatus" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i> Debe seleccionar algun filtro</div><div class="col-sm-1"></div>');
+          $( "#mensajeesta" ).fadeOut(5000);
+          $('#tabla_proyectos').DataTable().clear(); 
+          $('#tabla_proyectos').DataTable().destroy();
+          
+        } else {
+          info = [];
+          info[0] = document.getElementById("avance_producto").value;
+          info[1] = document.getElementById("modalidad").value;
+          info[2] = document.getElementById("estado").value;
+          info[3] = document.getElementById("entidad").value;
+          info[4] = document.getElementById("linea").value;
+          info[5] = document.getElementById("deptos").value;
+          info[6] = document.getElementById("municipios").value;
+          //console.log(info);
+         
+          $.ajax({
+              url:"artplan100/filtrarplan",
+              type:"POST",
+              data: {info:info},
+              dataType:'json',
+            success:function(data1){
+              //console.log(data1);
+              if (data1.length>0) {
+                $("#mensajeesta").fadeIn(1);
+                $("#mensajeesta").empty();
+                $("#mensajeesta").append('<br><div class="col-sm-1"></div><div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-success"></i> Se encontró <strong>'+data1.length+'</strong> registro(s)</div><div class="col-sm-1"></div>');
+                $( "#mensajeesta" ).fadeOut(5000);
+                //$("#tbody_proyectos").empty();
+                var codtablagen = '';
+                for (var i = 0; i < data1.length; i++) {
+                  codtablagen=codtablagen+'<tr id="'+data1[i].id+'"><td>'+data1[i].NOM_DPTO+'</td><td>'+data1[i].NOM_MPIO+'</td><td>'+data1[i].vereda+'</td><td>'+data1[i].nom_proy+'</td><td>'+data1[i].mod_foca+'</td><td><div class="progress" style="margin-bottom: 0px">';
+                  if(data1[i].avance_prod >=75)
+                  {
+                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>';
+                  }else if(data1[i].avance_prod >=25) {
+                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>'; 
+                  }else {
+                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>';
+                  }
+                  codtablagen=codtablagen+'</div></td></tr>';
+                }
+                //console.log(codtablagen);
+                //$("#tbody_proyectos").append(codtablagen);                
+                $('#tabla_proyectos').DataTable().clear(); 
+                $('#tabla_proyectos').DataTable().destroy();
+                $('#tabla_proyectos').find('tbody').append(codtablagen);
+                $('#tabla_proyectos').DataTable().draw(); 
+                
+              } else {
+                $("#mensajeesta").fadeIn(1);
+                $("#mensajeesta").empty();
+                $("#mensajeesta").append('<br><div class="col-sm-1"></div><div id = "mensajeestatus" class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button><i class="bg-danger"></i> No hay registros con esa búsqueda</div><div class="col-sm-1"></div>');
+                $( "#mensajeesta" ).fadeOut(5000);
+                $('#tabla_proyectos').DataTable().clear(); 
+                $('#tabla_proyectos').DataTable().destroy();
+              }
+              
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax 
+        }
+      });
+      function filter_municipality(){
+        var deptos=document.getElementById("deptos").value;
+        $.ajax({
+            url:"artplan100/municipiostabla",
+            type:"POST",
+            data:{depto: deptos},
+            dataType:'json',
+            success:function(data){                                                
+                $("#municipios").empty();
+                $("#municipios").append('<option value="" selected="selected">Seleccione una opción</option>');
+                for (var i = 0; i < data.length; i++) {
+                    $("#municipios").append("<option value=\""+data[i].COD_DANE+"\">"+data[i].NOM_MPIO_1+"</option>");
+                    //console.log(data[i].COD_DANE)
+                }                                
+            },
+            error:function(){alert('error');}
+        });//Termina Ajax listadoproini
+      };
       var Format = wNumb({
         prefix: '$ ',
         decimals: 0,
         thousand: '.'
       });
-
-      var table = $('#tabla_proyectos').DataTable();
+      
       $('#tabla_proyectos tbody').on('click', 'tr', function () {
-          if ( $(this).hasClass('active') ) {
+          
+          
+          if ($(this).hasClass('active') ) {
               $(this).removeClass('active');
-              $("#btnedipro").prop('disabled', true);
-              $("#btndeletepro").prop('disabled', true);
+
           } else {
               table.$('tr.active').removeClass('active');
+              $('#tabla_proyectos >tbody >tr').removeClass('active');
               $(this).addClass('active');
-              var id=$(this);
-              $("#btnedipro").prop('disabled', false);
-              $("#btndeletepro").prop('disabled', false);
+              var id=$(this);              
               //Consulta ajax para traer los atributos editables del proyecto
               //var num=($('td', this).eq(0).text());
               var id=$(this);

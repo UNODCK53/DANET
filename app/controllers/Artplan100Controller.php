@@ -161,25 +161,108 @@ class Artplan100Controller extends BaseController {
 	{		
 		/*Consulta de los proyectos existentes en la base de datos*/
 		$proyectos =DB::table('MODART_P100DIAS')
-					  ->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
-					  ->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
-					  ->where('reg_eliminado','=','0')
-					  ->get();	
+			->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+			->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
+			->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
+			->where('reg_eliminado','=','0')
+			->get();
+				
 		
-		return View::make('moduloart/plancienrrconsulproy', array('proyectos' => $proyectos));
-	}
+		$departamentos =DB::table('MODART_P100DIAS')
+		 	->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+		 	->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
+		 	->select('DEPARTAMENTOS.NOM_DPTO','DEPARTAMENTOS.COD_DPTO')
+		 	->where('reg_eliminado','=','0')
+		  	->groupBy('DEPARTAMENTOS.NOM_DPTO','DEPARTAMENTOS.COD_DPTO')
+		  	->get();
+		$avance =DB::table('MODART_P100DIAS')		 		
+		 	->select('avance_prod')
+		 	->where('reg_eliminado','=','0')
+		  	->groupBy('avance_prod')
+		  	->get();
+		$modalidad =DB::table('MODART_P100DIAS')		 		
+		 	->select('mod_foca')
+		 	->where('reg_eliminado','=','0')
+		  	->groupBy('mod_foca')
+		  	->get();
+		$estado =DB::table('MODART_P100DIAS')		 		
+		 	->select('est_proy')
+		 	->where('reg_eliminado','=','0')
+		  	->groupBy('est_proy')
+		  	->get();
+		$entilider =DB::table('MODART_P100DIAS')		 		
+		 	->select('enti_lider')
+		 	->where('reg_eliminado','=','0')
+		  	->groupBy('enti_lider')
+		  	->get();
+		$lineaproy =DB::table('MODART_P100DIAS')		 		
+		 	->select('linea_proy')
+		 	->where('reg_eliminado','=','0')
+		  	->groupBy('linea_proy')
+		  	->get();
 
+		$arraydombobox= array($departamentos, $avance, $modalidad, $estado, $entilider, $lineaproy);		
+		return View::make('moduloart.plancienrrconsulproy', array('proyectos' => $proyectos), array('arraydombobox' => $arraydombobox));
+
+		//return View::make('moduloart/plancienrrconsulproy', array('departamentos' => $departamentos), array('proyectos' => $proyectos));
+	}
+	public function postMunicipiostabla()
+	{
+		$depto=Input::get('depto');		
+		$municipios =DB::table('MODART_P100DIAS')		 	
+		 	->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
+		 	->select('MUNICIPIOS.COD_DANE','MUNICIPIOS.NOM_MPIO_1')
+		 	->where('reg_eliminado','=','0')
+		 	->where('COD_DPTO','=',$depto)
+		  	->groupBy('MUNICIPIOS.COD_DANE','MUNICIPIOS.NOM_MPIO_1')
+		  	->get();
+		return $municipios;
+	}
+	public function postFiltrarplan(){	
+
+		$info=Input::get('info');
+		$contador=0;		
+		$ms=[];
+		$filtrosplan = array("avance_prod=", "mod_foca='", "est_proy='", "enti_lider='", "linea_proy='", "cod_depto=", "cod_mpio=");
+		for ($i=0; $i < count($info); $i++) { 
+			if ($info[$i] !='') {
+				$ms[$contador]=	$filtrosplan[$i].$info[$i];				
+				if ($filtrosplan[$i] =="mod_foca='" OR $filtrosplan[$i] =="est_proy='" OR $filtrosplan[$i] =="enti_lider='" OR $filtrosplan[$i] =="linea_proy='") {
+					$ms[$contador]=	$filtrosplan[$i].$info[$i]."'";				
+				}
+				$contador=$contador+1;
+			}
+				
+		}
+		$ms1='';
+		for ($i=0; $i < count($ms); $i++) { 
+			$ms1=$ms1.$ms[$i];			
+			if ($i<>count($ms)-1) {
+				$ms1=$ms1.' AND ';
+			}
+		}
+		$editartabla =DB::table('MODART_P100DIAS')	
+			->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+			->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')					  
+			->select(db::raw('id,DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda, nom_proy,mod_foca,enti_lider,linea_proy,alcance,pob_bene,est_proy,fecha_inicio, fecha_fin,avance_pres, avance_prod,costo_estim, costo_ejec'))
+			->whereRaw($ms1)
+			->get();
+		
+		
+		
+		
+		return  Response::json($editartabla);
+		//return  Response::json(array('grafica'=>$grafica,'nombre'=>$label,'arrayvda'=>$arrayvda,'arraymonitor'=>$arraymonitor,'arraydpto'=>$arraydpto,'arraymuni'=>$arraymuni));
+	}
 	public function postConsultar(){
 		//THIS CONTROLLER LOAD THE INFORMATION TO EDIT MODAL 
 		$proyecto=Input::get('proyecto');
 		$editar =DB::table('MODART_P100DIAS')	
-					  ->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')					  
-					  ->select(db::raw('id,DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda, nom_proy,mod_foca,enti_lider,linea_proy,alcance,pob_bene,est_proy,fecha_inicio, fecha_fin,avance_pres, avance_prod,costo_estim, costo_ejec'))
-					  ->where('id','=',$proyecto)
-					  ->get();	
-
+			->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+			->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')					  
+			->select(db::raw('id,DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda, nom_proy,mod_foca,enti_lider,linea_proy,alcance,pob_bene,est_proy,fecha_inicio, fecha_fin,avance_pres, avance_prod,costo_estim, costo_ejec'))
+			->where('id','=',$proyecto)
+			->get();
 		return $editar;
 	}
 }

@@ -134,10 +134,10 @@
                           <option value="Ministerio de Defensa">Ministerio de Defensa</option>
                           <option value="Ministerio de Educación">Ministerio de Educación</option>
                           <option value="Ministerio de Justicia">Ministerio de Justicia</option>
-                          <option value="Ministerio de Minas ">Ministerio de Minas </option>
+                          <option value="Ministerio de Minas">Ministerio de Minas</option>
                           <option value="Ministerio de Tecnologías de la Información y las Comunicaciones">Ministerio de Tecnologías de la Información y las Comunicaciones</option>
                           <option value="Ministerio de Trabajo">Ministerio de Trabajo</option>
-                          <option value="Ministerio de Transporte ">Ministerio de Transporte </option>
+                          <option value="Ministerio de Transporte">Ministerio de Transporte</option>
                           <option value="Ministerio de Vivienda, Ciudad y Territorio">Ministerio de Vivienda, Ciudad y Territorio</option>
                           <option value="Ministerio del Interior">Ministerio del Interior</option>
                           <option value="Ministerior de Agricultura">Ministerior de Agricultura</option>
@@ -150,9 +150,9 @@
                       <select required id="linea" name="linea" class="form-control">
                           <option selected disabled>Seleccione una opción</option>
                           <option value="Acciones para la reparación de sujetos colectivos">Acciones para la reparación de sujetos colectivos</option>
-                          <option value="Acompañamiento técnico y capacitaciones del Sector Lácteo ">Acompañamiento técnico y capacitaciones del Sector Lácteo </option>
+                          <option value="Acompañamiento técnico y capacitaciones del Sector Lácteo">Acompañamiento técnico y capacitaciones del Sector Lácteo</option>
                           <option value="Acompañamiento territorial para el Gobierno en Línea">Acompañamiento territorial para el Gobierno en Línea</option>
-                          <option value="Activación del Centro Estratégico Operacional integral contra las drogas ilícitas (CEO) ">Activación del Centro Estratégico Operacional integral contra las drogas ilícitas (CEO) </option>
+                          <option value="Activación del Centro Estratégico Operacional integral contra las drogas ilícitas (CEO)">Activación del Centro Estratégico Operacional integral contra las drogas ilícitas (CEO)</option>
                           <option value="Adjudicación de baldíos a entidades de derecho público">Adjudicación de baldíos a entidades de derecho público</option>
                           <option value="Alianzas Productivas">Alianzas Productivas</option>
                           <option value="Ampliación planta tratamiento de agua potable">Ampliación planta tratamiento de agua potable</option>
@@ -175,7 +175,7 @@
                           <option value="Empleo Temporal">Empleo Temporal</option>
                           <option value="Empleos verdes y culturales">Empleos verdes y culturales</option>
                           <option value="Encadenamiento productivo comerciantes informales de combustible">Encadenamiento productivo comerciantes informales de combustible</option>
-                          <option value="Esquema de marca social ">Esquema de marca social </option>
+                          <option value="Esquema de marca social">Esquema de marca social</option>
                           <option value="Estaciones hidrológicas o metereológicas">Estaciones hidrológicas o metereológicas</option>
                           <option value="Ferias de trámites">Ferias de trámites</option>
                           <option value="Formación de formadores">Formación de formadores</option>
@@ -183,19 +183,18 @@
                           <option value="Formulación POMCA">Formulación POMCA</option>
                           <option value="Fortalecimiento de Juntas de Acción Comunal">Fortalecimiento de Juntas de Acción Comunal</option>
                           <option value="Fortalecimiento De La Producción Agropecuaria">Fortalecimiento De La Producción Agropecuaria</option>
-                          <option value="Fortalecimiento De La Producción Agropecuaria ">Fortalecimiento De La Producción Agropecuaria </option>
-                          <option value="Fortalecimiento Productivo y Empresarial de Pueblos indígenas ">Fortalecimiento Productivo y Empresarial de Pueblos indígenas </option>
+                          <option value="Fortalecimiento Productivo y Empresarial de Pueblos indígenas">Fortalecimiento Productivo y Empresarial de Pueblos indígenas</option>
                           <option value="Fortalecimiento reservas alimentarias">Fortalecimiento reservas alimentarias</option>
                           <option value="Generación de capacidad institucional territorial para la prevención y atención de emergencias">Generación de capacidad institucional territorial para la prevención y atención de emergencias</option>
                           <option value="Granja integral autosostenible - adulto mayor">Granja integral autosostenible - adulto mayor</option>
                           <option value="Implementación de sistemas  agroforestales como modelo finca tradicional">Implementación de sistemas  agroforestales como modelo finca tradicional</option>
                           <option value="Implementación modelo de ganadería">Implementación modelo de ganadería</option>
                           <option value="Inclusión Productiva/MiNegocio">Inclusión Productiva/MiNegocio</option>
-                          <option value="Informes de seguimiento y verificación de hechos de violencia en ZVTN que puedan llegar a generar emergencias humanitarias ">Informes de seguimiento y verificación de hechos de violencia en ZVTN que puedan llegar a generar emergencias humanitarias </option>
+                          <option value="Informes de seguimiento y verificación de hechos de violencia en ZVTN que puedan llegar a generar emergencias humanitarias">Informes de seguimiento y verificación de hechos de violencia en ZVTN que puedan llegar a generar emergencias humanitarias</option>
                           <option value="Infraestructura - Habilitabilidad">Infraestructura - Habilitabilidad</option>
-                          <option value="Infraestructura cultural - Entrega   Biblioteca Municipal">Infraestructura cultural - Entrega   Biblioteca Municipal</option>
+                          <option value="Infraestructura cultural - Entrega Biblioteca Municipal">Infraestructura cultural - Entrega Biblioteca Municipal</option>
                           <option value="Infraestructura Primera infancia">Infraestructura Primera infancia</option>
-                          <option value="Infraestructura- Vías y Transporte">Infraestructura- Vías y Transporte</option>
+                          <option value="Infraestructura - Vías y Transporte">Infraestructura - Vías y Transporte</option>
                           <option value="Intervención en centro de salud">Intervención en centro de salud</option>
                           <option value="Intervención en vivienda, acueducto o alcantarillado">Intervención en vivienda, acueducto o alcantarillado</option>
                           <option value="Jornadas socio-culturales">Jornadas socio-culturales</option>
@@ -213,7 +212,7 @@
                           <option value="Piloto mejoras infraestructura">Piloto mejoras infraestructura</option>
                           <option value="Plan maestro de alcantarillado">Plan maestro de alcantarillado</option>
                           <option value="Plan Nacional de música para la Reconciliación - Batuta">Plan Nacional de música para la Reconciliación - Batuta</option>
-                          <option value="Planes viales participativos ">Planes viales participativos </option>
+                          <option value="Planes viales participativos">Planes viales participativos</option>
                           <option value="Producción de alimentos para el autoconsumo y educación nutricional">Producción de alimentos para el autoconsumo y educación nutricional</option>
                           <option value="Proyecto integral de abastecimiento de agua">Proyecto integral de abastecimiento de agua</option>
                           <option value="Proyecto reactivar">Proyecto reactivar</option>
@@ -224,7 +223,7 @@
                           <option value="Reparaciones colectivas">Reparaciones colectivas</option>
                           <option value="Reparaciones individuales">Reparaciones individuales</option>
                           <option value="Sistema acueducto interveredal">Sistema acueducto interveredal</option>
-                          <option value="Sistemas Locales de Justicia, incluyendo movilidad ">Sistemas Locales de Justicia, incluyendo movilidad </option>
+                          <option value="Sistemas Locales de Justicia, incluyendo movilidad">Sistemas Locales de Justicia, incluyendo movilidad</option>
                           <option value="Solicitud y entrega de libros">Solicitud y entrega de libros</option>
                           <option value="Somos Rurales">Somos Rurales</option>
                           <option value="Sumando Paz">Sumando Paz</option>
