@@ -67,6 +67,7 @@ class ArtdashboardController extends BaseController {
 	public function Preload()//funcion que precarga los datos de los indicadores  veredales y las categorias
 	{    
 		
+		//LOAD ALERTAS
 
 		$CATEGORIA = DB::table('MODART_ALERTAS_CATEGORIA')
 			->select('id','nombre')
@@ -105,6 +106,20 @@ class ArtdashboardController extends BaseController {
 			->take(100)
 			->get();
 
+		//LOAD INFO PIC
+
+		$obra_priori=DB::table('MODART_PIC_PROYPRIORIZ')
+			->count();
+			
+			
+
+		// LOAD INFO CULTIVOS ILICITOS
+		$coca_simci=DB::table('MUNICIPIOS')
+			->select(DB::raw('round(C_2015,2)as C_2015'))			
+			->sum('C_2015');
+
+		//LOAD INFO PARA MUNICIPIOS
+
 		$datos_muni=DB::table('MUNICIPIOS')
 			->select('PDET','ZVTN','DAILCD','COD_DANE')
 			->where('PDET','!=',0)
@@ -123,7 +138,7 @@ class ArtdashboardController extends BaseController {
 
 			$num_alerta = DB::table('MODART_ALERTAS_ALERTA')->count();
 
-		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta,'datos_muni'=>$datos_muni));		
+		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta,'datos_muni'=>$datos_muni,'obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci));		
 	}
 	
 

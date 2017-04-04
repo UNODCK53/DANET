@@ -263,9 +263,14 @@ input[type="number"] {
             </div><!-- /.final modal-->
         <!--aca se termina el contenedor de mapa y alertas-->  
         <!--aca se incio el contenedor de la informacion de avance-->
-        <div id="avance" class="container col-xs-12" style="padding-top: 15px; display: none;">
-          <div class="alert alert-info" role="alert" id="titulo"></div>
-          <div class="panel panel-primary">
+        <div id="avance" class="container col-xs-12" style="padding-top: 15px; display: block;">
+          <div></div>
+          <div class="panel panel-primary" role="alert">
+            <div class="panel-heading">
+              <h1 id="titulo" class="panel-title" style="text-align: center; font-size: 30px">Reporte Nacional</h1>
+            </div>
+          </div>
+          <div id="municipal" class="panel panel-primary" style="display: none;">
             <div class="panel-heading">
               <h3 class="panel-title">Caracterización municipal</h3>
             </div>
@@ -289,7 +294,7 @@ input[type="number"] {
                 <div class="col-xs-12"><br><br></div>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center" >
-                  <font size="50" id="obra_priori">0</font>
+                  <font size="50" id="obra_priori">{{$obra_priori}}</font>
                 </div>
                 <div class="col-xs-6" align="center">
                   Obras priorizadas
@@ -376,7 +381,7 @@ input[type="number"] {
 
                   <h3>Cultivos ilícitos </h3>                                    
                   <div class="col-xs-5"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-                  <div class="col-xs-7" align="center"><font size="50"id="coca_simci">0 Ha</font><br>Identificadas</div>
+                  <div class="col-xs-7" align="center"><font style="font-size: 30px" ="" id="coca_simci">{{round($coca_simci,2)}} Ha</font><br>Identificadas</div>
                   <h4>Fuente: 2015 SIMCI - UNODC</h4>
 
                   <h3>Reducción de la oferta </h3>                                    

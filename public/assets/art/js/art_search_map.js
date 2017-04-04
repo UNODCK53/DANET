@@ -22,7 +22,6 @@ municipios_js.ids(function (error, ids, response) {
     
 }); 
 
-
 //MAPAS BASE
 var topoMap_osm1=L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>', maxZoom: 15 , minZoom: 5
@@ -60,7 +59,7 @@ function graficadeptoregalias(datos){
         mpiosPDET_js= L.geoJson(mpiosPDET, {style: estilo_municipios_PDET, onEachFeature: interaccion_mpios_PDET}); 
         mpiosZVTN_js= L.geoJson(mpiosZVTN, {style: estilo_municipios_ZVTN, onEachFeature: interaccion_mpios_ZVTN}); 
         mpiosDAILCD_js= L.geoJson(mpiosDAILCD, {style: estilo_municipios_DAILCD, onEachFeature: interaccion_mpios_DAILCD}); 
-        map = new L.Map('map', {center: [4,-74], zoom: 5, zoomControl: true, attributionControl: false,layers: [topoMap_osm1,mpiosZVTN_js]});
+        map = new L.Map('map', {center: [4,-74], zoom: 5, zoomControl: false, attributionControl: false,layers: [topoMap_osm1,mpiosZVTN_js]});
 
         //Layers
 		var style_colombia = {"color": "#202020", "weight": 1.5, "opacity": 0.9 };
@@ -83,7 +82,7 @@ function graficadeptoregalias(datos){
             "Mapa satelital" :  googleLayer_satellite
 		    };
 
-		L.control.layers(baseMaps, overlayMaps).addTo(map);
+		L.control.layers(baseMaps).addTo(map);
 
 		//SECCION DE FUNCIONES
 
@@ -204,28 +203,141 @@ function graficadeptoregalias(datos){
 		        }
 			});	
 		};
-
 	}
+	var buttons = L.control({position: 'topleft'});
+	buttons.onAdd = function (map) {
+	  this._div = L.DomUtil.create('div', 'leyend'); // create a div with a class "query"
+	  this._div.id = "buttons_div";
+	  return this._div; 
+	};
+	var texto_production= '<button id="switch_pedt" type="button" class="btn btn-default" onclick="change_production(this)">PEDT</button> <button id="switch_zvtn" type="button" class="btn btn-primary" onclick="change_production(this)">ZVTN</button> <button id="switch_dailcd" type="button" class="btn btn-default" onclick="change_production(this)">DAILCD</button>'
+	buttons.addTo(map);
+	$("#buttons_div").html(texto_production);
+
+	L.control.zoom({
+    	position:'topleft'
+	}).addTo(map);
 }
 
 function search(cod,mpio, depto){	
-			var tittle="Reporte de avance del municipio de " + mpio + ", "+depto
-			var texto='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/DNP/'+cod+'.pdf"><img src="assets/art/img/dnp.png" alt="No images" class="img-rounded" style="height: 75px"></a></div> <div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/detallada/'+cod+'.pdf"><img src="assets/art/img/detallada.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/poblacional/'+cod+'.pdf"><img src="assets/art/img/poblacional.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>    <div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Social/'+cod+'.pdf"><img src="assets/art/img/social.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Inversion/'+cod+'.pdf"><img src="assets/art/img/inversion.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/ZVT/'+cod+'.pdf"><img src="assets/art/img/zv.png" alt="No images" class="img-rounded" style="height: 75px"></a></div><div class="col-xs-12 col-sm-6 col-md-2"><a target="_blank" href="assets/art/documentos/Infografias/Mapas/'+cod+'.pdf"><img src="assets/art/img/mapa.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>'
-			$("#avance").show();
-			$('#titulo').html(tittle)
-			$('#panel_fichas').html(texto)
-			
-			$.ajax({url:"artdashboard/pic",type:"POST",data:{indi:cod},dataType:'json',
-			      success:function(data){
-			        $('#obra_priori').html(data['obra_priori'])
-			        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha")
-			        
-			     
-			      },
-			      error:function(){alert('error');}
-			  });//Termina Ajax
-		}
+	var tittle="Reporte de avance - " + mpio + ", "+depto
+	var DNP=existeUrl('assets/art/documentos/Infografias/DNP/'+cod+'.pdf');
+	var detallada=existeUrl('assets/art/documentos/Infografias/detallada/'+cod+'.pdf');
+	var poblacional=existeUrl('assets/art/documentos/Infografias/poblacional/'+cod+'.pdf');
+	var Social=existeUrl('assets/art/documentos/Infografias/Social/'+cod+'.pdf');
+	var Inversion=existeUrl('assets/art/documentos/Infografias/Inversion/'+cod+'.pdf');
+	var ZVT=existeUrl('assets/art/documentos/Infografias/ZVT/'+cod+'.pdf');
+	var Mapas=existeUrl('assets/art/documentos/Infografias/Mapas/'+cod+'.pdf');
+	var texto2=""
+	if(DNP){
+		texto2+='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/DNP/'+cod+'.pdf"><img src="assets/art/img/dnp.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>';
+	};
+	if(detallada){
+		texto2+='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/detallada/'+cod+'.pdf"><img src="assets/art/img/detallada.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>';
+	};
+	if(poblacional){
+		texto2+='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/poblacional/'+cod+'.pdf"><img src="assets/art/img/poblacional.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>';
+	};
+	if(Social){
+		texto2+='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Social/'+cod+'.pdf"><img src="assets/art/img/social.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>';
+	};
+	if(Inversion){
+		texto2+='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/Inversion/'+cod+'.pdf"><img src="assets/art/img/inversion.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>';
+	};
+	if(ZVT){
+		texto2+='<div class="col-xs-12 col-sm-6 col-md-1"><a target="_blank" href="assets/art/documentos/Infografias/ZVT/'+cod+'.pdf"><img src="assets/art/img/zv.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>';
+	};
+	if(Mapas){
+		texto2+='<div class="col-xs-12 col-sm-6 col-md-2"><a target="_blank" href="assets/art/documentos/Infografias/Mapas/'+cod+'.pdf"><img src="assets/art/img/mapa.png" alt="No images" class="img-rounded" style="height: 75px"></a></div>';
+	};
+	
+	$("#municipal").show();
+	$('#titulo').html(tittle)
+	$('#panel_fichas').html(texto2)
+	
+	$.ajax({
+		url:"artdashboard/pic",
+		type:"POST",data:{indi:cod},
+		dataType:'json',
+	      success:function(data){
+	      	
+	        $('#obra_priori').html(data['obra_priori'])
+	        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha")
+	      },
+	      error:function(){alert('error');}
+	  });//Termina Ajax
+};
+
+function existeUrl(url) {
+   var http = new XMLHttpRequest();
+   http.open('HEAD', url, false);
+   http.send();
+   return http.status!=404;
+}
 
 
+//Button
+
+function change_production(e){
+    if(e.id=="switch_pedt"){
+        if($("#switch_pedt").hasClass("btn-primary")){
+            $("#switch_pedt").removeClass("btn-primary").addClass("btn-default");
+            map.removeLayer(mpiosPDET_js);
+        } else {
+            $("#switch_pedt").removeClass("btn-default").addClass("btn-primary");
+            if($("#switch_zvtn").hasClass("btn-primary")){
+                $("#switch_zvtn").removeClass("btn-primary").addClass("btn-default");
+                $("#switch_dailcd").removeClass("btn-primary").addClass("btn-default");
+                map.removeLayer(mpiosZVTN_js);                
+                map.removeLayer(mpiosDAILCD_js);                
+            } else {
+            	$("#switch_zvtn").removeClass("btn-primary").addClass("btn-default");
+                $("#switch_dailcd").removeClass("btn-primary").addClass("btn-default");
+                map.removeLayer(mpiosZVTN_js);                
+                map.removeLayer(mpiosDAILCD_js);                
+            }
+            mpiosPDET_js.addTo(map);
+        }  
+    } else if(e.id=="switch_zvtn") {
+        if($("#switch_zvtn").hasClass("btn-primary")){
+            $("#switch_zvtn").removeClass("btn-primary").addClass("btn-default");
+            map.removeLayer(mpiosZVTN_js);
+        } else {
+            $("#switch_zvtn").removeClass("btn-default").addClass("btn-primary");
+            if($("#switch_pedt").hasClass("btn-primary")){
+                $("#switch_pedt").removeClass("btn-primary").addClass("btn-default");
+                $("#switch_dailcd").removeClass("btn-primary").addClass("btn-default");
+            	map.removeLayer(mpiosDAILCD_js);
+            	map.removeLayer(mpiosPDET_js);                
+            } else {
+            	$("#switch_pedt").removeClass("btn-primary").addClass("btn-default");
+                $("#switch_dailcd").removeClass("btn-primary").addClass("btn-default");
+            	map.removeLayer(mpiosDAILCD_js);            	
+            	map.removeLayer(mpiosPDET_js);
+                
+            }
+            mpiosZVTN_js.addTo(map);
+        }  
+    } else {
+        if($("#switch_dailcd").hasClass("btn-primary")){
+            $("#switch_dailcd").removeClass("btn-primary").addClass("btn-default");
+            map.removeLayer(mpiosDAILCD_js);
+        } else {
+            $("#switch_dailcd").removeClass("btn-default").addClass("btn-primary");
+            if($("#switch_pedt").hasClass("btn-primary")){
+                $("#switch_pedt").removeClass("btn-primary").addClass("btn-default");
+            	$("#switch_zvtn").removeClass("btn-primary").addClass("btn-default");
+                map.removeLayer(mpiosZVTN_js);
+	            map.removeLayer(mpiosPDET_js);
+            } else {
+            	$("#switch_pedt").removeClass("btn-primary").addClass("btn-default");
+            	$("#switch_zvtn").removeClass("btn-primary").addClass("btn-default");
+                map.removeLayer(mpiosZVTN_js);
+	            map.removeLayer(mpiosPDET_js);
+            }
+            mpiosDAILCD_js.addTo(map);
+        }  
+    }
+};
 
 
