@@ -595,7 +595,6 @@
                     $('input:radio[name="Tableroedi"]').filter('[value='+data[0].id_tablero+']').attr('checked', true);
                     $("#metodoedi").val(data[0].id_metodo);
                     metod_selec=data[0].id_metodo;
-                    console.log(data[0].c2+ data[0].c3+data[0].c4)
                     if (metod_selec==1){
                         $('label[for="rangoslabeledi"]').css("visibility","visible");
                         $("#rangosedi").css("visibility","visible");

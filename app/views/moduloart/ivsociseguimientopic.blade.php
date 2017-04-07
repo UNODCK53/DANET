@@ -542,7 +542,6 @@
                
                  
                 success:function(data){
-                  console.log(data['array_viable_estado'])
                         array_viable_file=data['array_viable_id'];
                         array_viable_info=data['array_viable_info'];
                         var  divs= $('<div>');

@@ -845,6 +845,7 @@
         $("#terr").css("display","none");
         $("#select_terr").css("display","none");
         $("#nucleo").empty();
+        $("#nucleo").append("<option value=''>Seleccione una</option>");
         $('#mpios').empty();
         $("#mpios").append("<option value=''>Seleccione uno</option>");
         $("#ranking").empty();
