@@ -174,6 +174,7 @@ Route::group(array('before' => 'auth'), function()
   //Plan 51/50
   Route::get('plan50consulproy', array('before'=>'MenuARTConsultaPlan50', 'uses' => 'ArtpicController@plan50_ini_consulta'));  
   Route::get('plan50rrcargaproy', array('before'=>'MenuARTCargaEditarPlan50', 'uses' => 'ArtpicController@plan50_ini'));
+  Route::get('Excelpic50','ArtpicController@Excelpic50');
 //  Route::get('plan50consulproy', 'ArtpicController@plan50_ini_consulta');
 //  Route::get('plan50rrcargaproy', 'ArtpicController@plan50_ini');
 

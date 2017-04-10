@@ -625,9 +625,11 @@ class ArtpicController extends BaseController {
 			$excel->sheet('Fichas de iniciativas',function($sheet)
 			{
 				$data = array();
-				$results = DB::select(
-					"select 
-	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal,terr.[Resguardo Indígena] as Resguardo_Indigena ,terr.[Concejo Comunitario] as Consejo_Comunitario,terr.Vereda
+				$results = DB::select("select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario,Veredas 
+from(select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario from(
+
+select 
+	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal, Resguardos_Indigenas
 from 
 	(select
 		intervencion,cate.nombre as cate,tabla1.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal,Estado_validacion,Observaciones
@@ -638,7 +640,7 @@ from
 			(select 
 				MODART_PIC_PROYPRIORIZ.id_proy ,concat('PIC_',MODART_PIC_PROYPRIORIZ.cod_nucleo,MODART_PIC_PROYPRIORIZ.id_proy)as ID,MUNICIPIOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO_1,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario,MODART_PIC_SUBCATEGORIA.nombre as subcategoria,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nombre_iniciativa, alcance as Alcance,MODART_PIC_ESTADOPROY.nombre as Estado_iniciativa,prec_estim as Precio_Estimado, CONVERT(VARCHAR,fecha_ingreso,103) as Fecha_priorizacion, ranking,cofinanc as Valor_cofinanciado,acta,case when id_viabi=1 then 'En estudio' else case when id_viabi=2 then 'Válido' else 'No válido' end end as Estado_validacion,obs as Observaciones
 			from 
-				MODART_PIC_PROYPRIORIZ inner join MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_PROYPRIORIZ.cod_mpio inner join users on users.id = MODART_PIC_PROYPRIORIZ.id_usuario inner join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id = MODART_PIC_PROYPRIORIZ.id_subcat inner join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo = MODART_PIC_PROYPRIORIZ.cod_nucleo inner join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id = MODART_PIC_PROYPRIORIZ.estado_proy where MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id.") as proy 
+				MODART_PIC_PROYPRIORIZ inner join MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_PROYPRIORIZ.cod_mpio inner join users on users.id = MODART_PIC_PROYPRIORIZ.id_usuario inner join MODART_PIC_SUBCATEGORIA on MODART_PIC_SUBCATEGORIA.id = MODART_PIC_PROYPRIORIZ.id_subcat inner join MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo = MODART_PIC_PROYPRIORIZ.cod_nucleo inner join MODART_PIC_ESTADOPROY on MODART_PIC_ESTADOPROY.id = MODART_PIC_PROYPRIORIZ.estado_proy and MODART_PIC_PROYPRIORIZ.id_usuario=".Auth::user()->id.") as proy 
 		left join 
 		(select 
 			MODART_PIC_SUBSUBCATEGORIA.nombre, MODART_PIC_SUBSUBCATPASO.id_proy 
@@ -652,12 +654,68 @@ from
 			MODART_PIC_SUBCATEGORIA inner join MODART_PIC_PROYPRIORIZ on MODART_PIC_PROYPRIORIZ.id_subcat = MODART_PIC_SUBCATEGORIA.id inner join MODART_PIC_CATEGORIA on MODART_PIC_CATEGORIA.id = MODART_PIC_SUBCATEGORIA.id_categ) as cate
 		on tabla1.id_proy=cate.id_proy) as tabla3 
 		left join 
-		(select 
-			id_proy,[Resguardo Indígena],[Concejo Comunitario],[Vereda] 
-		from  
-			(select MODART_PIC_TIPOTERRPASO.id_proy, MODART_PIC_TIPOTERR.id,MODART_PIC_TIPOTERR.nombre from MODART_PIC_TIPOTERRPASO inner join MODART_PIC_TIPOTERR on MODART_PIC_TIPOTERR.id = MODART_PIC_TIPOTERRPASO.id_tipterr)as tabla1
-		pivot (count(id)  FOR nombre in ([Resguardo Indígena],[Concejo Comunitario],[Vereda]))as d) as terr 
-		on tabla3.id_proy=terr.id_proy order by auto desc");
+				(Select t3.id_proy,
+				   Left(t3.t2,Len(t3.t2)-1) As 'Resguardos_Indigenas'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=1) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t2
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t3) as t4 on t4.id_proy=tabla3.id_proy)as t5
+			left join 
+				(Select t7.id_proy,
+				   Left(t7.t6,Len(t7.t6)-1) As 'Concejo_Comunitario'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=2) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t6
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t7) as t7 on t7.id_proy=t5.auto) as t8
+			left join 
+				(Select t10.id_proy,
+				   Left(t10.t9,Len(t10.t9)-1) As 'Veredas'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=3) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t9
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t10) as t11 on t11.id_proy=t8.auto order by auto desc");
 
 
 				foreach ($results as $result) {
@@ -751,6 +809,28 @@ from
 				$arraytipoterr=array_map(create_function('$item','return $item->nombre;'),$tipoterr);
 				$arraytipoter = implode(",", $arraytipoterr);
 
+			$nomter = DB::select("Select 
+				   Left(t3.t2,Len(t3.t2)-1) As 'nom_terr'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where id_proy=". Input::get('proy').") ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t2
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where id_proy=". Input::get('proy').") ST2
+					) as t3");
+			$nomterr=array_map(create_function('$item','return $item->nom_terr;'),$nomter);//extract value from object query		
+
 			$cate = DB::table('MODART_PIC_SUBCATEGORIA')
 				->join('MODART_PIC_PROYPRIORIZ' , 'MODART_PIC_PROYPRIORIZ.id_subcat','=','MODART_PIC_SUBCATEGORIA.id')
 				->join('MODART_PIC_CATEGORIA' , 'MODART_PIC_CATEGORIA.id','=','MODART_PIC_SUBCATEGORIA.id_categ')
@@ -776,7 +856,7 @@ from
 			
 
 
-		return  array('arrayprio' => $arrayproy,'arraysubsubcate'=>$arraysubsubcate,'arraytipoterr'=>$arraytipoter,'cate'=>$cate,'url'=>$url,'nom_crite'=>$nom_crite);		
+		return  array('arrayprio' => $arrayproy,'arraysubsubcate'=>$arraysubsubcate,'arraytipoterr'=>$arraytipoter,'cate'=>$cate,'url'=>$url,'nom_crite'=>$nom_crite,'nomter'=>$nomter);		
     }
 
 
@@ -791,8 +871,11 @@ from
 			{
 				$data = array();
 				$results = DB::select(
-					"select TOP 2000
-	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal,terr.[Resguardo Indígena] as Resguardo_Indigena ,terr.[Concejo Comunitario] as Consejo_Comunitario,terr.Vereda
+					"select top 2000 auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario,Veredas 
+from(select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario from(
+
+select 
+	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal, Resguardos_Indigenas
 from 
 	(select
 		intervencion,cate.nombre as cate,tabla1.id_proy,ID,Nombre_iniciativa,Alcance,usuario,subcategoria,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking,Fecha_priorizacion,NOM_DPTO,NOM_MPIO_1,nucleo_veredal,Estado_validacion,Observaciones
@@ -817,12 +900,68 @@ from
 			MODART_PIC_SUBCATEGORIA inner join MODART_PIC_PROYPRIORIZ on MODART_PIC_PROYPRIORIZ.id_subcat = MODART_PIC_SUBCATEGORIA.id inner join MODART_PIC_CATEGORIA on MODART_PIC_CATEGORIA.id = MODART_PIC_SUBCATEGORIA.id_categ) as cate
 		on tabla1.id_proy=cate.id_proy) as tabla3 
 		left join 
-		(select 
-			id_proy,[Resguardo Indígena],[Concejo Comunitario],[Vereda] 
-		from  
-			(select MODART_PIC_TIPOTERRPASO.id_proy, MODART_PIC_TIPOTERR.id,MODART_PIC_TIPOTERR.nombre from MODART_PIC_TIPOTERRPASO inner join MODART_PIC_TIPOTERR on MODART_PIC_TIPOTERR.id = MODART_PIC_TIPOTERRPASO.id_tipterr)as tabla1
-		pivot (count(id)  FOR nombre in ([Resguardo Indígena],[Concejo Comunitario],[Vereda]))as d) as terr 
-		on tabla3.id_proy=terr.id_proy order by auto desc ");
+				(Select t3.id_proy,
+				   Left(t3.t2,Len(t3.t2)-1) As 'Resguardos_Indigenas'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=1) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t2
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t3) as t4 on t4.id_proy=tabla3.id_proy)as t5
+			left join 
+				(Select t7.id_proy,
+				   Left(t7.t6,Len(t7.t6)-1) As 'Concejo_Comunitario'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=2) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t6
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t7) as t7 on t7.id_proy=t5.auto) as t8
+			left join 
+				(Select t10.id_proy,
+				   Left(t10.t9,Len(t10.t9)-1) As 'Veredas'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=3) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t9
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t10) as t11 on t11.id_proy=t8.auto order by auto desc");
 
 
 				foreach ($results as $result) {
@@ -1508,7 +1647,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				    	);
 		    	}
 
-		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',Input::get('ediidproy'))->delete();
+		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',$id)->delete();
 
 		    	if (count(Input::get('nom_terrediiden'))>0){
 			    	for ($i = 0; $i < count(Input::get('nom_terrediiden')); $i++) {
@@ -1581,7 +1720,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				    	);
 		    	}
 
-		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',Input::get('ediidproy'))->delete();
+		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',$id)->delete();
 
 		    	if (count(Input::get('nom_terrediestr'))>0){
 			    	for ($i = 0; $i < count(Input::get('nom_terrediestr')); $i++) {
@@ -1690,7 +1829,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				    	);
 		    	}
 
-		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',Input::get('ediidproy'))->delete();
+		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',$id)->delete();
 
 		    	if (count(Input::get('nom_terredieje'))>0){
 			    	for ($i = 0; $i < count(Input::get('nom_terredieje')); $i++) {
@@ -1761,12 +1900,12 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	public function plan50_ini_consulta()
 	{		
 		/*Consulta de los proyectos existentes en la base de datos*/
-		$proyectos =DB::table('MODART_PIC_P5150_GEO')
-					  ->join('DEPARTAMENTOS','MODART_PIC_P5150_GEO.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_PIC_P5150_GEO.cod_mpio','=','MUNICIPIOS.COD_DANE')	
-					  ->select(db::raw('OBJECTID, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
-					  ->where('reg_eliminado','=','0')
-					  ->get();	
+
+		$proyectos = DB::table('MODART_PIC_P5150_GEO')
+		->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150_GEO.cod_mpio')
+		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150_GEO.cod_nucleo')	
+		->select(DB::raw("concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_inicio,103) as fecha_inicio,CONVERT(VARCHAR(10),fecha_inicio_2,103) as fecha_inicio_2,CONVERT(VARCHAR(10),fecha_fin,103) as fecha_fin,CONVERT(VARCHAR(10),fecha_fin_2,103) as fecha_fin_2"),'avance_pres','avance_prod','costo_estim','costo_ejec','longitud','coord_ini','coord_fin','pob_bene','documento','alcance_2','alcance_3','enti_lider','linea_proy') 
+		->get();
 		
 		return View::make('moduloart/ivplan50consulproy', array('proyectos' => $proyectos));
 	}
@@ -1774,15 +1913,152 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	public function postConsultarPlan50(){
 		//THIS CONTROLLER LOAD THE INFORMATION TO EDIT MODAL 
 		$proyecto=Input::get('proyecto');
-		$editar =DB::table('MODART_PIC_P5150_GEO')	
-					  ->join('DEPARTAMENTOS','MODART_PIC_P5150_GEO.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_PIC_P5150_GEO.cod_mpio','=','MUNICIPIOS.COD_DANE')					  
-					  ->select(db::raw('OBJECTID,DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda, nom_proy,mod_foca,enti_lider,linea_proy,alcance,pob_bene,est_proy,fecha_inicio, fecha_fin,avance_pres, avance_prod,costo_estim, costo_ejec'))
-					  ->where('OBJECTID','=',$proyecto)
-					  ->get();	
+		$editar = DB::table('MODART_PIC_P5150_GEO')
+			->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150_GEO.cod_mpio')
+			->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150_GEO.cod_nucleo')	
+			->select(DB::raw("concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_inicio,103) as fecha_inicio,CONVERT(VARCHAR(10),fecha_inicio_2,103) as fecha_inicio_2,CONVERT(VARCHAR(10),fecha_fin,103) as fecha_fin,CONVERT(VARCHAR(10),fecha_fin_2,103) as fecha_fin_2"),'avance_pres','avance_prod','costo_estim','costo_ejec','longitud','coord_ini','coord_fin','pob_bene','documento','alcance_2','alcance_3','enti_lider','linea_proy') 
+		   ->where('OBJECTID','=',$proyecto)
+		   ->get();	
 
-		return $editar;
+	$tipoter = DB::table('MODART_PIC_P5150_TIPOTERRPASO')
+		 	
+			->select('MODART_PIC_TIPOTERR.nombre')
+			->join('MODART_PIC_TIPOTERR','MODART_PIC_TIPOTERR.id','=','MODART_PIC_P5150_TIPOTERRPASO.id_tipterr')
+			->where('id_proy','=', $proyecto)
+			->get();
+			$terr=array_map(create_function('$item','return $item->nombre;'),$tipoter);//extract value from object query	
+
+		
+	$nomter = DB::select("Select 
+				   Left(t3.t2,Len(t3.t2)-1) As 'nom_terr'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where id_proy=". $proyecto.") ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t2
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t3");
+			$nomterr=array_map(create_function('$item','return $item->nom_terr;'),$nomter);//extract value from object query	
+
+		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr);
 	}
+
+
+	public function Excelpic50()
+	{	
+		
+
+
+		Excel::create('P5150_',function($excel)
+		{
+			$excel->sheet('Proyectos',function($sheet)
+			{
+				$data = array();
+				$results = DB::select(
+					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Concejo_Comunitario,Veredas,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Entidad_lider,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada
+from 
+	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Entidad_lider,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas,Concejo_Comunitario
+		from (select auto,ID,Departamento,Municipios,COD_DANE,usuario,nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Entidad_lider,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas
+			from (select 
+				OBJECTID as auto,concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID,MUNICIPIOS.NOM_DPTO  as Departamento,MUNICIPIOS.NOM_MPIO_1 as Municipios,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario ,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nom_proy_identi,nom_proy_2 as Nom_proy_estruct,nom_proy_3 as Nom_proy_ejecuci,enti_lider as Entidad_lider,linea_proy as Linea_del_proyecto,alcance as Alcance_en_identi,alcance_2 as Alcance_en_estruct,alcance_3 as Alcance_en_ejecuci,est_proy as Estado_actual,CONVERT(VARCHAR,fecha_inicio,103) as Fecha_estimada_ejecucion,CONVERT(VARCHAR,fecha_fin,103) as Fecha_estimada_finalizacion,CONVERT(VARCHAR,fecha_inicio_2,103) as Fecha_de_ejecucion,CONVERT(VARCHAR,fecha_fin_2,103) as Fecha_finalizacion,avance_pres as Avance_presupuestal,avance_prod as Avance_del_producto,costo_estim as Costo_estimado,costo_ejec as Costo_final,longitud as Longitud_tramo,coord_ini,coord_fin,pob_bene as Poblacion_beneficiada 
+			from MODART_PIC_P5150_GEO 
+			inner join 
+				MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_P5150_GEO.cod_mpio 
+			inner join 
+				users on users.id = MODART_PIC_P5150_GEO.id_usuario 
+			inner join 
+				MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo = MODART_PIC_P5150_GEO.cod_nucleo)as t1
+
+			left join 
+				(Select t3.id_proy,
+				   Left(t3.t2,Len(t3.t2)-1) As 'Resguardos_Indigenas'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=1) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t2
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t3) as t4 on t4.id_proy=t1.auto)as t5
+			left join 
+				(Select t7.id_proy,
+				   Left(t7.t6,Len(t7.t6)-1) As 'Concejo_Comunitario'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=2) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t6
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t7) as t7 on t7.id_proy=t5.auto) as t8
+			left join 
+				(Select t10.id_proy,
+				   Left(t10.t9,Len(t10.t9)-1) As 'Veredas'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr + ',' AS [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=3) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t9
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t10) as t11 on t11.id_proy=t8.auto order by auto desc ");
+
+
+				foreach ($results as $result) {
+					$data[] = (array)$result;
+				}  	
+				$sheet->with($data);
+				$sheet->freezeFirstRow();
+				$sheet->setAutoFilter();
+				$sheet->cells('A1:AE1', function($cells) {
+		    	$cells->setBackground('#dadae3');
+				});
+
+			
+			})->download('xlsx');
+		});
+    }
 
 
 }

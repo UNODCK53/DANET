@@ -184,7 +184,11 @@
                             <tr>
                               <td>Tipo de territorio</td>
                               <td id="terr"></td>
-                            </tr>             
+                            </tr>    
+                            <tr>
+                              <td>Territorios</td>
+                              <td id="nom_terr"></td>
+                            </tr>          
                           </tbody>  
                           </thead>
 
@@ -281,6 +285,8 @@
                     $("#mpio").html(data['arrayprio'][0].NOM_MPIO_1);
                     $("#nucleo ").html(data['arrayprio'][0].nucleo_veredal);
                     $("#terr").html(data['arraytipoterr']);
+                    $("#nom_terr").html('');
+                    $("#nom_terr").html(data['nomter'][0]["nom_terr"]);
                     obs=data['arrayprio'][0].obs;
                     },
                   error:function(){alert('error');}
