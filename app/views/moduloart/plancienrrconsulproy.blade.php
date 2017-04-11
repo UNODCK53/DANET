@@ -475,11 +475,11 @@
                   codtablagen=codtablagen+'<tr id="'+data1[i].id+'"><td>'+data1[i].NOM_DPTO+'</td><td>'+data1[i].NOM_MPIO+'</td><td>'+data1[i].vereda+'</td><td>'+data1[i].nom_proy+'</td><td>'+data1[i].mod_foca+'</td><td><div class="progress" style="margin-bottom: 0px">';
                   if(data1[i].avance_prod >=75)
                   {
-                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>';
+                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>';
                   }else if(data1[i].avance_prod >=25) {
-                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>'; 
+                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>'; 
                   }else {
-                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>';
+                    codtablagen=codtablagen+'<div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>';
                   }
                   codtablagen=codtablagen+'</div></td></tr>';
                 }
@@ -517,7 +517,7 @@
                   map.removeControl(legend);
                 }                
                 $('#map').show(); 
-                map.setView([4.5, -74.1], 5);
+                //map.setView([4.5, -74.1], 5);
                 base.addTo(map);
                 
                 for (var i = 0; i < departamentos.features.length; i++) {
@@ -551,6 +551,7 @@
                     var div = L.DomUtil.create('div', 'info legend'),                        
                     labels = [];
                     // loop through our density intervals and generate a label with a colored square for each interval
+                    div.innerHTML="<strong>N° de Proyectos</strong><br>"
                     for (var i = 0; i < scalas.length; i++) {
                       div.innerHTML +=
                         '<i style="background:' + scalas[i].hex + '"></i> ' +

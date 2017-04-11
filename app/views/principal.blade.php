@@ -214,7 +214,7 @@ $menuguardaun=false;
   </div>
   @endif
   <br><!--Agregar al penúltimo div para el salto contenedores-->
- @if(Auth::user()->grupo=="10" and (Auth::user()->level=="10"||Auth::user()->level=="11"))
+ @if(Auth::user()->grupo=="10" || Auth::user()->grupo=="1")
   <div class="container" id="sha">
       <div class="row">
         <h2 class="text-center text-primary">Agencia de Renovación territorial</h2>
