@@ -724,7 +724,7 @@ from
 				$sheet->with($data);
 				$sheet->freezeFirstRow();
 				$sheet->setAutoFilter();
-				$sheet->cells('A1:R1', function($cells) {
+				$sheet->cells('A1:U1', function($cells) {
 		    	$cells->setBackground('#dadae3');
 				});
 
@@ -970,7 +970,7 @@ from
 				$sheet->with($data);
 				$sheet->freezeFirstRow();
 				$sheet->setAutoFilter();
-				$sheet->cells('A1:R1', function($cells) {
+				$sheet->cells('A1:U1', function($cells) {
 		    	$cells->setBackground('#dadae3');
 				});
 
@@ -1020,7 +1020,6 @@ public function seguimiento()
 			->where('id_viabi','=',1)
 			->where('id_usuario','=',Auth::user()->id)
 			->orderby('id_proy','desc')
-
 			->get();	
 
 			$arrayindipic_recupe = DB::table('MODART_PIC_PROYPRIORIZ')	
@@ -1116,7 +1115,8 @@ public function seguimiento()
 					$insert=DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy', '=', Input::get('proy'))->where('id_crittod','=',Input::get('id_viable')[$i])->update(
 		    			array(
 		    				'url' => 'No aplica',
-		    				'estado' => 'No aplica'
+		    				'estado' => 'No aplica',
+			    			'obs' => Input::get('obs_input')
 		    				)
 		    			);
 				}else{

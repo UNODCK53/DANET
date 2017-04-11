@@ -178,9 +178,12 @@
                         {{ Form::text('fecha', Input::old('fecha'), ['class' => 'form-control', 'id'=>'datepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div> 
                       <div class="form-group">
-                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto y 10 muy bajo</label>
+                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto y 20 muy bajo</label>
                         <select name="checkranking" id="ranking" class="form-control" required title="Si el valor no se encuentra, es porque ya existe un proyecto con ese ranking en el núcleo"> 
                           <option value="">Seleccione uno </option>
+                          <?php for ($i=1; $i <=20 ; $i++) { ?>
+                          <option value=<?php echo $i; ?>><?php echo $i; ?></option>
+                          <?php } ?>
                           </select>
                       </div>
                       <div class="form-group" >
@@ -405,8 +408,13 @@
                         {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div>
                       <div class="form-group">
-                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy bajo - 5 muy alto</label>
-                        <select name="edicheckranking" id="ediranking" class="form-control" required title="Si el valor no se encuentra, es porque ya existe un proyecto con ese ranking en el núcleo"> 
+                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto - 20 muy bajo</label>
+                        <select name="edicheckranking" id="ediranking" class="form-control" required > 
+                          <option value="">Seleccione uno </option>
+                          <?php for ($i=1; $i <=20 ; $i++) { ?>
+                          <option value=<?php echo $i; ?>><?php echo $i; ?></option>
+                          <?php } ?>
+                          </select>
                           </select>
                       </div>
                       <div class="col-sm-12"><br></div>
@@ -848,8 +856,7 @@
         $("#nucleo").append("<option value=''>Seleccione una</option>");
         $('#mpios').empty();
         $("#mpios").append("<option value=''>Seleccione uno</option>");
-        $("#ranking").empty();
-      $("#ranking").append("<option value=''>Seleccione uno</option>");
+        
          $.ajax({url:"artpic/mpios",type:"POST",data:{depto:$('#depto').val()},dataType:'json',//llama al controlador siscadi/siscadirepdpto que trae los valores necesario para la grafica
           success:function(data1){
             $.each(data1.arraympios, function(nom,datos){
@@ -868,8 +875,7 @@
           $("#select_terr").css("display","none");
         $('#nucleo').empty();
         $("#nucleo").append("<option value=''>Seleccione una</option>");
-        $("#ranking").empty();
-        $("#ranking").append("<option value=''>Seleccione uno</option>");
+        
          $.ajax({url:"artpic/nucleo",type:"POST",data:{mpio:$('#mpios').val()},dataType:'json',//llama al controlador siscadi/siscadirepdpto que trae los valores necesario para la grafica
           success:function(data1){
 
@@ -916,7 +922,7 @@ $("#nucleo").change(function(){
     $("#terr").css("display","block");
   
       var nucleo=$(this).val();
-      $("#ranking").empty();
+      /*$("#ranking").empty();
       $("#ranking").append("<option value=''>Seleccione uno</option>");
       $.ajax({url:"artpic/ranking",type:"POST",data:{nucleo:nucleo},dataType:'json',
         success:function(data){
@@ -926,7 +932,7 @@ $("#nucleo").change(function(){
            
         },
         error:function(){alert('error');}
-    });//Termina Ajax
+    });//Termina Ajax*/
   }
 });
 
@@ -1277,9 +1283,7 @@ $("#editipoterr").change(function(){
 
                     $("#edidatepicker").val(data['arrayproy'][0].fecha_ingreso);
 
-
-
-                    $("#ediranking").empty();
+                    /*$("#ediranking").empty();
                     var valida=0;
                       $.each(data['arrayrankingedi'], function(datos,nom){
                           if ((nom>data['arrayproy'][0].ranking) && valida==0){
@@ -1287,9 +1291,8 @@ $("#editipoterr").change(function(){
                             valida++;
                           }
                           $("#ediranking").append("<option value=\""+nom+"\">"+nom+"</option>");
-                        });
+                        });*/
 
-                        console.log(data['arrayproy'][0].ranking)
                     $("#ediranking").val(data['arrayproy'][0].ranking);
 
                     $("#IDdele").val(data['arrayproy'][0].ID);
@@ -1306,10 +1309,6 @@ $("#editipoterr").change(function(){
               });//Termina Ajax
             }
           });
-
-
-
-
 
 $('#editar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
    $(this).find('form').trigger('reset');
