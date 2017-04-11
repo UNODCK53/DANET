@@ -542,7 +542,6 @@
                
                  
                 success:function(data){
-                  console.log(data['array_viable_estado'])
                         array_viable_file=data['array_viable_id'];
                         array_viable_info=data['array_viable_info'];
                         var  divs= $('<div>');
@@ -613,10 +612,10 @@
                         div.append(span);
                         div1.append(div);
                         if(borr==1){
-                        span1.append(a1);
-                        div3.append(span1);
-                        div1.append(div3);
-                      }
+                          span1.append(a1);
+                          div3.append(span1);
+                          div1.append(div3);
+                        }
                         var div4 = document.createElement("div");
                         div4.className ="col-sm-1";
                         var span2 = document.createElement("span");
@@ -700,6 +699,30 @@
                         div2.append(div1);
                         divs.append(div2);
 
+                        if (data['array_viable'][i]=='Canteras para extracción de materiales pétreos'){
+                          var div1 = document.createElement("div");
+                          div1.className ="row";
+                          div1.id="obs";
+                          div1.style="padding: 0;margin: 0;background:"+color+";display:none;"; 
+                          var Label = document.createElement("label");
+                          Label.innerHTML="Observaciones del porque no aplcia:";
+                          var input=document.createElement("input");
+                          input.setAttribute("type", "text");
+                          input.className ="form-control";
+                          input.id="obs_input";
+                          input.name="obs_input";
+                          if (data['array_viable_obs'][0]==null){var obs="";}else{var obs=data['array_viable_obs'][0];}
+                          input.setAttribute("value", obs);
+                          input.style="padding: 0;margin: 0;background:"+color+";";
+                          input.setAttribute("placeholder"," Ingrese observación");
+                          div1.append(Label);
+                          div1.append(input);
+                          divs.append(div1);
+                          if(data['array_viable_estado'][i]=="No aplica"){
+                           div1.style="padding: 0;margin: 0;background:"+color+";"; 
+                          }
+                        }
+
                         var div1 = document.createElement("div");
                         div1.className ="row";
                         div1.id="info-"+i;
@@ -750,11 +773,22 @@
           if($(this).val()==1){
             $('#'+id_carga).prop('required',true);
             $('#'+id_carga).css("display","block");
+            $('#obs').css("display","none");
+            $('#obs_input').prop('required',false);
             
-          }else{
+          }else if($(this).val()==2){
             $('#'+id_carga).prop('required',false);
             $('#'+id_carga).css("display","none");
+            $('#obs').css("display","none");
+            $('#obs_input').prop('required',false);
+          }else{
+            $('#obs').css("display","block");
+            $('#obs_input').prop('required',true);
+            $('#'+id_carga).css("display","none");
+            $('#'+id_carga).prop('required',false);
           }
+
+
         }
 
         

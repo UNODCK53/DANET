@@ -35,158 +35,335 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
-      <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-        <!--aca se escribe el codigo-->
-        <h2 class="text-center text-primary">Plan 51/50 </h2>
-        <br><br>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_proyecto">Consultar proyecto</button>
-        <!--Aca inicia el modal para cargar nuevo proyecto-->
-        <!-- Modal -->
-        <div class="modal fade" id="consultar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Ficha de proyecto - Plan 51/50 </h4>
-              </div>
-              <div class="modal-body">
-              <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                <thead>
-                <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >
-                  <th class="text-center">Varibale</th>    
-                  <th class="text-center">Descripción</th>
-                </tr>
-                <tbody>
-                  <tr>
-                    <td>Departamento</td>
-                    <td id="depto"></td>
-                  </tr>
-                  <tr>
-                    <td>Municipio</td>
-                    <td id="mpio"></td>
-                  </tr>
-                  <tr>
-                    <td>Vereda</td>
-                    <td id="vereda"></td>
-                  </tr>
-                  <tr>
-                    <td>Nombre del proyecto</td>
-                    <td id="nom_proy"></td>
-                  </tr>
-                  <tr>
-                    <td>Modalidad de focalización</td>
-                    <td id="mod_foca"></td>
-                  </tr>
-                  <tr>
-                    <td>Entidad líder</td>
-                    <td id="enti_lider"></td>
-                  </tr>
-                  <tr>
-                    <td>Línea del proyecto</td>
-                    <td id="linea_proy"></td>
-                  </tr>
-                  <tr>
-                    <td>Alcance</td>
-                    <td id="alcance"></td>
-                  </tr>
-                  <tr>
-                    <td>Población beneficiaria</td>
-                    <td id="pob_bene"></td>
-                  </tr>
-                  <tr>
-                    <td>Estado del proyecto</td>
-                    <td id="est_proy"></td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de inicio</td>
-                    <td id="fecha_inicio"></td>
-                  </tr>
-                  <tr>
-                    <td>Fecha finalización</td>
-                    <td id="fecha_fin"></td>
-                  </tr>
-                  <tr>
-                    <td>Avance presupuestal</td>
-                    <td id="avance_pres"></td>
-                  </tr>
-                  <tr>
-                    <td>Avance producto</td>
-                    <td id="avance_prod"></td>
-                  </tr>
-                  <tr>
-                    <td>Costo estimado</td>
-                    <td id="costo_estim"></td>
-                  </tr>
-                  <tr>
-                    <td>Costo Ejecutado</td>
-                    <td id="costo_ejec"></td>
-                  </tr>
-                </tbody>  
-                </thead>
-
-              </table>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>                
-              </div>
-              
-            </div>
-          </div>
-        </div>
-        <!--Aca finaliza el modal para cargar nuevo proyecto-->
-        
-        <!--Acá inicia la tabla de proyectos-->
-        <h4>Listado de proyectos</h4>       
-
+<!--aca se escribe el codigo-->
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <h2 class="text-center text-primary">Consulta PIC</h2>
+        <br>
+        <p class="lead text-justify">A continuación se presenta el avance de los proyectos de pequeña infraestructura comunitaria-PIC para su consulta.</p>  
+    </div>  
+    <div class="col-sm-1"></div>
+    </div>
+    <div class="row">
+    <div class="col-sm-1"></div>
+      <div class="col-sm-8">
+        <button id="consultar" disabled="disabled" type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_norma">Consultar Proyecto</button>
+      </div>
+      <div class="col-sm-2">
+        <a href='Excelpic50'><img class="img-responsive" src='assets/img/excel.png'></img></a>   
+      </div>
+    </div>
+     <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <h2 class="text-center text-primary">Proyectos</h2>
         <table id="tabla_proyectos" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
           <thead>  
             <tr class="well text-primary" data-toggle="tooltip" data-placement="top" >
+              <th class="text-center">ID</th>
               <th class="text-center">Departamento</th>
               <th class="text-center">Municipio</th>
               <th class="text-center">Vereda(s)</th>
               <th class="text-center">Nombre del proyecto</th>
-              <th class="text-center">Modalidad</th>
-              <th class="text-center">Avance</th>                          
+              <th class="text-center">Estado</th>                       
             </tr>
           </thead>
           <tbody>            
             @foreach($proyectos as $pro)
-              <tr id="{{$pro->id}}">
-                <td >{{$pro->NOM_DPTO}}</td>
-                <td >{{$pro->NOM_MPIO}}</td>
-                <td >{{$pro->vereda}}</td>
+              <tr id="{{$pro->OBJECTID}}">
+                <td >{{$pro->ID}}</td>
+                <td >{{$pro->cod_depto}}</td>
+                <td >{{$pro->cod_mpio}}</td>
+                <td >{{$pro->nom_nucleo}}</td>
                 <td >{{$pro->nom_proy}}</td>
-                <td >{{$pro->mod_foca}}</td>
-                <td>
-                <div class="progress" style="margin-bottom: 0px">                    
-                    @if($pro->avance_prod >=75)
-                    <div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black ">
-                      {{$pro->avance_prod}}%
-                    </div>
-                    @elseif($pro->avance_prod >=25) 
-                    <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black ">
-                      {{$pro->avance_prod}}%
-                    </div> 
-                    @else
-                    <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$pro->avance_prod}}%;color:black ">
-                      {{$pro->avance_prod}}%
-                    </div> 
-                    @endif
-                </div>                
-                </td>                                              
+                <td >{{$pro->est_proy}}</td>                                              
               </tr>            
             @endforeach    
           </tbody>
-        </table>
-        <!--Acá termina la tabla de proyectos-->       
-        <!--fin del codigo-->
+        </table>  
+        </div>        
+      <div class="col-sm-1"></div>  
+      <!--Aca inicia el modal para cargar nuevo proyecto-->
+        <!-- Modal -->
+        <div class="modal fade" id="consultar_norma" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="PIC_95001011039">Consulta del Proyecto </h4>
+              </div>
+                <div class="modal-body">
+                    <div class="tabbable"> <!-- Only required for left/right tabs -->
+                    <ul id="tab_estado" class="nav nav-tabs">
+                    <li><a href="#tab1" data-toggle="tab">Indentificación</a></li>
+                    <li><a href="#tab2" data-toggle="tab">Estructuración</a></li>
+                    <li><a href="#tab3" data-toggle="tab">Ejecución</a></li>
+                    </ul>
+                    <div class="tab-content">
+                    <div class="tab-pane active" id="tab1" style="overflow-y: scroll; width: auto; max-height: 734px;">
+                        <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                          <thead>
+                          <tr class="text-primary" data-toggle="tooltip" data-placement="top" >
+                            <th class="text-center">Item</th>    
+                            <th class="text-center">Valor</th>
+                          </tr>
+                          <tbody>
+                            <tr>
+                              <td>ID</td>
+                              <td id="id-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Departamento</td>
+                              <td id="dpto-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Municipios</td>
+                              <td id="mpios-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Núcelo veredal</td>
+                              <td id="nuleo-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Estado actual del proyecto</td>
+                              <td id="estado-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Tipo de territorio</td>
+                              <td id="tiopoterr-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Nombre de territorios</td>
+                              <td id="nomterr-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Nombre del proyecto</td>
+                              <td id="nomproy-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Alcance definido en identificación</td>
+                              <td id="alcance-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Entidad Líder</td>
+                              <td id="entidad-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Línea de proyecto</td>
+                              <td id="linea-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Fecha estimada para inicio de la ejecución</td>
+                              <td id="fechaini-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>Fecha estimada para el final de la ejecución</td>
+                              <td id="fechafin-ide"></td>
+                            </tr>
+                            <tr>
+                              <td>documento de validación del proyecto</td>
+                              <td> 
+                                <span class="col-xs-1">
+                                  <a id="acta-ide" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-success" role="button"></a>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>  
+                          </thead>
+
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab2" style="overflow-y: scroll; width: auto; max-height: 734px;">
+                       <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                          <thead>
+                          <tr class="text-primary" data-toggle="tooltip" data-placement="top" >
+                            <th class="text-center">Item</th>    
+                            <th class="text-center">Valor</th>
+                          </tr>
+                          <tbody>
+                            <tr>
+                              <td>ID</td>
+                              <td id="id-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Departamento</td>
+                              <td id="dpto-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Municipios</td>
+                              <td id="mpios-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Núcelo veredal</td>
+                              <td id="nuleo-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Estado actual del proyecto</td>
+                              <td id="estado-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Tipo de territorio</td>
+                              <td id="tiopoterr-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Nombre de territorios</td>
+                              <td id="nomterr-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Nombre del proyecto</td>
+                              <td id="nomproy-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Alcance definido en identificación</td>
+                              <td id="alcance-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Entidad Líder</td>
+                              <td id="entidad-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Línea de proyecto</td>
+                              <td id="linea-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Costo estimado del proyecto</td>
+                              <td id="costo-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Fecha estimada para inicio de la ejecución</td>
+                              <td id="fechaini-est"></td>
+                            </tr>
+                            <tr>
+                              <td>Fecha estimada para el final de la ejecución</td>
+                              <td id="fechafin-est"></td>
+                            </tr>
+                            <tr>
+                              <td>documento de validación del proyecto</td>
+                              <td> 
+                                <span class="col-xs-1">
+                                  <a id="acta-est" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-success" role="button"></a>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>  
+                          </thead>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab3" style="overflow-y: scroll; width: auto; max-height: 734px;">
+                       <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                          <thead>
+                          <tr class="text-primary" data-toggle="tooltip" data-placement="top" >
+                            <th class="text-center">Item</th>    
+                            <th class="text-center">Valor</th>
+                          </tr>
+                          <tbody>
+                            <tr>
+                              <td>ID</td>
+                              <td id="id-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Departamento</td>
+                              <td id="dpto-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Municipios</td>
+                              <td id="mpios-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Núcelo veredal</td>
+                              <td id="nuleo-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Estado actual del proyecto</td>
+                              <td id="estado-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Tipo de territorio</td>
+                              <td id="tiopoterr-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Nombre de territorios</td>
+                              <td id="nomterr-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Nombre del proyecto</td>
+                              <td id="nomproy-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Alcance definido en identificación</td>
+                              <td id="alcance-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Entidad Líder</td>
+                              <td id="entidad-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Línea de proyecto</td>
+                              <td id="linea-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Costo del proyecto</td>
+                              <td id="costo-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Población beneficiada</td>
+                              <td id="pob-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Avance presupuestal</td>
+                              <td id="presu-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Avance del producto</td>
+                              <td id="prod-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Longitud del tramo a intervenir</td>
+                              <td id="long-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Fecha de inicio de la ejecución</td>
+                              <td id="fechaini-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Fecha del final de la ejecución</td>
+                              <td id="fechafin-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Documento de validación del proyecto</td>
+                              <td> 
+                                <span class="col-xs-1">
+                                  <a id="acta-eje" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-success" role="button"></a>
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Coordenadas iniciales del proyecto</td>
+                              <td id="coorini-eje"></td>
+                            </tr>
+                            <tr>
+                              <td>Coordenadas finales del proyecto</td>
+                              <td id="coorfin-eje"></td>
+                            </tr>
+                          </tbody>  
+                          </thead>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+               </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>                
+              </div>
+            </div>
+          </div>
         </div>
-      <div class="col-sm-1"></div>    
+        <!--Aca finaliza el modal para cargar nuevo proyecto-->         
+<!--fin del codigo-->    
     </div>
   </div>
 
-<!--Fin del tercer contenedor--> 
+<!--Fin del tercer contenedor-->  
 
 @stop
 <!--Cierra el CONTENEDOR GENERAL-->
@@ -229,14 +406,12 @@
       $('#tabla_proyectos tbody').on('click', 'tr', function () {
           if ( $(this).hasClass('active') ) {
               $(this).removeClass('active');
-              $("#btnedipro").prop('disabled', true);
-              $("#btndeletepro").prop('disabled', true);
-          } else {
+              $("#consultar").prop('disabled', true);
+            }else {
               table.$('tr.active').removeClass('active');
               $(this).addClass('active');
+              $("#consultar").prop('disabled', false);
               var id=$(this);
-              $("#btnedipro").prop('disabled', false);
-              $("#btndeletepro").prop('disabled', false);
               //Consulta ajax para traer los atributos editables del proyecto
               //var num=($('td', this).eq(0).text());
               var id=$(this);
@@ -248,35 +423,54 @@
                   data:{proyecto: num},
                   dataType:'json',
                   success:function(data){
-                      console.log(data[0]);
-                      var date_1=data[0].fecha_inicio.split(" ");
-                      var date_2=data[0].fecha_fin.split(" ");
-                      var val_format_1=Format.to(Number(data[0].avance_pres));
-                      var val_format_2=Format.to(Number(data[0].costo_estim));
-                      var val_format_3=Format.to(Number(data[0].costo_ejec));
-                      if(data[0].avance_prod>=75){
-                      var avance='<div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:'+ data[0].avance_prod +'%; ">'+data[0].avance_prod+ '%</div>'  
-                      } else if (data[0].avance_prod>=25){
-                      var avance='<div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:'+ data[0].avance_prod +'%; ">'+data[0].avance_prod+ '%</div>'  
-                      } else {
-                      var avance='<div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:'+ data[0].avance_prod +'%; ">'+data[0].avance_prod+ '%</div>'
-                      }
-                      $("#depto").html(data[0].NOM_DPTO);
-                      $("#mpio").html(data[0].NOM_MPIO);
-                      $("#vereda").html(data[0].vereda);
-                      $("#nom_proy").html(data[0].nom_proy);
-                      $("#mod_foca").html(data[0].mod_foca);
-                      $("#enti_lider").html(data[0].enti_lider);
-                      $("#linea_proy").html(data[0].linea_proy);
-                      $("#alcance").html(data[0].alcance);
-                      $("#pob_bene").html(data[0].pob_bene);
-                      $("#est_proy").html(data[0].est_proy);
-                      $("#fecha_inicio").html(date_1[0]);
-                      $("#fecha_fin").html(date_2[0]);
-                      $("#avance_pres").html(val_format_1);
-                      $("#avance_prod").html(avance);
-                      $("#costo_estim").html(val_format_2);
-                      $("#costo_ejec").html(val_format_3);
+                     if (data['todo'][0].est_proy=='Ejecución'){
+                      $('#tab_estado a[href="#tab3"]').tab('show');
+                    }else if(data['todo'][0].est_proy=='Estructuración'){
+                      $('#tab_estado a[href="#tab2"]').tab('show');
+                    }else if (data['todo'][0].est_proy=='Identificación'){
+                      $('#tab_estado a[href="#tab1"]').tab('show');
+                    }
+                     $('[id^=id]').html(data['todo'][0].ID);
+                     $('[id^=dpto]').html(data['todo'][0].cod_depto);
+                     $('[id^=mpios]').html(data['todo'][0].cod_mpio);
+                     $('[id^=nuleo]').html(data['todo'][0].nom_nucleo);
+                     $('[id^=estado]').html(data['todo'][0].est_proy);
+                     $('[id^=tiopoterr]').html(data['tipoterr'].toString());
+                     $('[id^=nomterr]').html(data['arraynomter']);
+                     $('[id^=nomproy]').html(data['todo'][0].nom_proy);
+                     $('#alcance-ide').html(data['todo'][0].alcance);
+                     $('#alcance-est').html(data['todo'][0].alcance_2);
+                     $('#alcance-eje').html(data['todo'][0].alcance_3);
+                     $('[id^=entidad]').html(data['todo'][0].enti_lider);
+                     $('[id^=linea]').html(data['todo'][0].linea_proy);
+                     $('#costo-est').html(data['todo'][0].costo_estim);
+                     $('#costo-eje').html(data['todo'][0].costo_ejec);
+                     $('#pob-eje').html(data['todo'][0].pob_bene);
+                     $('#presu-eje').html(data['todo'][0].avance_pres);
+                     $('#prod-eje').html(data['todo'][0].avance_prod);
+                     $('#long-eje').html(data['todo'][0].longitud);
+                     $('#fechaini-ide').html(data['todo'][0].fecha_inicio);
+                     $('#fechaini-est').html(data['todo'][0].fecha_inicio);
+                     $('#fechaini-eje').html(data['todo'][0].fecha_inicio_2);
+                     $('#fechafin-ide').html(data['todo'][0].fecha_fin);
+                     $('#fechafin-est').html(data['todo'][0].fecha_fin);
+                     $('#fechafin-eje').html(data['todo'][0].fecha_fin_2);
+                     $('#coorini-eje').html(data['todo'][0].coord_ini);
+                     $('#coorfin-eje').html(data['todo'][0].coord_fin);
+                     if( data['todo'][0].documento==""||  data['todo'][0].documento==null){
+                          $('[id^=acta]').attr('disabled', true);
+                          $('[id^=acta]').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
+                          $('[id^=acta]').attr("title", "No hay documento cargado");
+                          $('[id^=acta]').removeAttr("href");
+                          $('[id^=acta]').removeAttr("target");
+                        }else{
+                         $('[id^=acta]').attr("href", data['todo'][0].documento);
+                         $('[id^=acta]').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
+                         $('[id^=acta]').attr("target", "_blank");
+                         $('[id^=acta]').attr('disabled', false);
+                        }
+
+
                   },
                   error:function(){alert('error');}
               });//fin de la consulta ajax (Editar proceso)

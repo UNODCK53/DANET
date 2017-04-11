@@ -69,9 +69,9 @@ function graficadeptoregalias(datos){
 
 
 		var overlayMaps = {
-		    "Municipios PEDT": mpiosPDET_js,
+		   // "Municipios PEDT": mpiosPDET_js,
             "Municipios ZVTN": mpiosZVTN_js,
-            "Municipios DAILCD": mpiosDAILCD_js
+           // "Municipios DAILCD": mpiosDAILCD_js
 		};
 
 		//Capas de seleccion unica
