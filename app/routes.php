@@ -166,7 +166,10 @@ Route::group(array('before' => 'auth'), function()
 
   //Normatividad  
   Route::get('normtabindicador', array('before'=>'MenuARTTableroNorma', 'uses' => 'ArtnormatividadController@consultanorma'));
-  Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', 'uses' => 'ArtnormatividadController@carganorma'));  
+  Route::get('normcarganorma', array('before'=>'MenuARTCargaEditarNorma', 'uses' => 'ArtnormatividadController@carganorma'));
+  Route::get('normreportnorma', array('before'=>'MenuARTReporteNorma', function(){return View::make('moduloart/normreportnorma');}));
+  //Route::get('normreportnorma', array('before'=>'MenuARTReporteNorma', 'uses' => 'ArtnormatividadController@nombrecontroladorque va a usar'));
+    
   //Plan 100 dias y Respuesta Rapida  
   Route::get('plancienrrconsulproy', array('before'=>'MenuARTConsultaPlanRR', 'uses' => 'Artplan100Controller@plan100_ini_consulta'));  
   Route::get('plancienrrcargaproy', array('before'=>'MenuARTCargaEditarPlanRR', 'uses' => 'Artplan100Controller@plan100_ini'));

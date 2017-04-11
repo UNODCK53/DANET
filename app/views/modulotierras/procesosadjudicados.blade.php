@@ -80,7 +80,7 @@
       <form role="form" action="tierras/editar-proceso" method="post" id="formEdit">
         <!-- Standard button -->
         <button id="btnedipro" title="Presione para activar la edicion del estudio juridico" disabled="disabled" type="submit" type="button" class="btn btn-primary">Editar Proceso</button>
-        <input id="proceso" type="hidden" class="form-control" name="proceso">
+        <input id="proceso" type="text" class="form-control" name="proceso">
       </div>
       <div class="col-sm-1"></div>
     </div>

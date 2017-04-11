@@ -131,7 +131,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
 //variables menú ART
-$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false; $menuartmapazv=false; $menuartmapaivsocial=false;
+$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartreportenorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false; $menuartconsultaplan50=false; $menuartcargaeditarplan50=false;$menuartmapazv=false; $menuartmapaivsocial=false;
 
 $artdashboard=false;$artmapa=false;$artcensofami=false;
 //variables BID
@@ -191,8 +191,11 @@ $menuguardaun=false;
     if(($acceso->id_vista=="6141")&&($acceso->acces=="1")){$menuartmapazv=true;}
     if(($acceso->id_vista=="6311")&&($acceso->acces=="1")){$menuartcargaeditarnorma=true;}
     if(($acceso->id_vista=="6321")&&($acceso->acces=="1")){$menuarttableronorma=true;}
+    if(($acceso->id_vista=="6331")&&($acceso->acces=="1")){$menuartreportenorma=true;}
     if(($acceso->id_vista=="6411")&&($acceso->acces=="1")){$menuartcargaeditarplanrr=true;}
     if(($acceso->id_vista=="6421")&&($acceso->acces=="1")){$menuartconsultaplanrr=true;}
+    if(($acceso->id_vista=="6511")&&($acceso->acces=="1")){$menuartconsultaplan50=true;}
+    if(($acceso->id_vista=="6521")&&($acceso->acces=="1")){$menuartcargaeditarplan50=true;}
     if(($acceso->id_vista=="7111")&&($acceso->acces=="1")){$menubidcargaeditarorganiz=true;}
     if(($acceso->id_vista=="7131")&&($acceso->acces=="1")){$menubidlineabase=true;}
     if(($acceso->id_vista=="7132")&&($acceso->acces=="1")){$menubidmapaorg=true;}
@@ -334,7 +337,7 @@ $menuguardaun=false;
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción documentos si no es el administrador-->
-        @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartmapazv)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)) <!--Oculta la opción art si no es el administrador-->
+        @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartmapazv)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartreportenorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)||($menuartconsultaplan50)||($menuartcargaeditarplan50)) <!--Oculta la opción art si no es el administrador-->  
           <li class="dropdown" id="art" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">                      
               <li><a align="center"><b>ART-Inteverción Social</b></a></li>
@@ -392,6 +395,10 @@ $menuguardaun=false;
                   <li class="divider"></li><li class="divider"></li>
               <li><a align="center"><b>Normatividad</b></a></li>
                   <li class="divider"></li>
+                  @if($menuartreportenorma)
+                  <li id="normreportnormamenu"><a href="<?=URL::to('normreportnorma'); ?>"><span class="glyphicon glyphicon-ok"></span> Reporte normatividad</a></li>
+                  @endif 
+                  <li class="divider"></li>
                   @if($menuarttableronorma)
                   <li id="normtabindicadormenu"><a href="<?=URL::to('normtabindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Tablero Indicador</a></li>
                   @endif                  
@@ -408,6 +415,16 @@ $menuguardaun=false;
                   <li class="divider"></li>
                   @if($menuartcargaeditarplanrr)
                   <li id="plancienrrcargaproymenu"><a href="<?=URL::to('plancienrrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+                  @endif
+                  <li class="divider"></li><li class="divider"></li>
+                <li><a align="center"><b>Plan 51/50</b></a></li>
+                  <li class="divider"></li>
+                  @if($menuartconsultaplan50)
+                  <li id="plan50consultamenu"><a href="<?=URL::to('plan50consulproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Consultar Proyectos</a></li>
+                  @endif
+                  <li class="divider"></li>
+                  @if($menuartcargaeditarplan50)
+                  <li id="plan50cargaeditarmenu"><a href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
                   @endif
             </ul>
           </li>
@@ -564,9 +581,14 @@ $menuguardaun=false;
             </ul>
           </li>
         @endif
-        @if(($menuartcargaeditarnorma)||($menuarttableronorma)) <!--Oculta la opción art si no es el administrador-->
+        @if(($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartreportenorma)) <!--Oculta la opción art si no es el administrador-->
           <li class="dropdown" id="" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Normatividad<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
+              <li><a align="center"><b>Reportes</b></a></li>
+              @if($menuartreportenorma)
+              <li id="normreportnormamenu"><a href="<?=URL::to('normreportnorma'); ?>"><span class="glyphicon glyphicon-ok"></span> Reporte normatividad</a></li>
+              @endif
+              <li class="divider"></li>
               <li><a align="center"><b>Consulta</b></a></li>
               @if($menuarttableronorma)
               <li id="normtabindicadormenu"><a href="<?=URL::to('normtabindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Tablero Indicador</a></li>
@@ -590,6 +612,21 @@ $menuguardaun=false;
               <li><a align="center"><b>Carga</b></a></li>
               @if($menuartcargaeditarplanrr)
               <li id="plancienrrcargaproymenu"><a href="<?=URL::to('plancienrrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+              @endif
+            </ul>
+          </li>         
+        @endif
+        @if(($menuartconsultaplan50)||($menuartcargaeditarplan50)) <!--Oculta la opción art si no es el administrador-->
+          <li class="dropdown" id="" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Plan 51/50<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a align="center"><b>Consulta</b></a></li>
+              @if($menuartconsultaplan50)
+              <li id="plan50consultamenu"><a href="<?=URL::to('plan50consulproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Consultar Proyectos</a></li>
+              @endif
+              <li class="divider"></li>
+              <li><a align="center"><b>Carga</b></a></li>
+              @if($menuartcargaeditarplan50)
+              <li id="plan50cargaeditarmenu"><a href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
               @endif
             </ul>
           </li>         
@@ -742,7 +779,7 @@ $menuguardaun=false;
                 </ul>
               </li>
               @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
-              @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuartmapazv)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)) <!--Oculta la opción art si no es el administrador-->
+              @if(($menuartcarguefamilias)||($menuartfichapriorizacionproy)||($menuartseguimientopic)||($menuartdashboard)||($menuartcensofamilias)||($menuartdiagnosticofamiliar)||($menuartconsultapic)||($menuartmapaivsocial)||($menuartcargaindicador)||($menuartseguimientoindicador)||($menuarttableropresidente)||($menuarttablerogeneral)||($menuarttablerodetallado)||($menuartmapazv)||($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartreportenorma)||($menuartcargaeditarplanrr)||($menuartconsultaplanrr)||($menuartconsultaplan50)||($menuartcargaeditarplan50)) <!--Oculta la opción art si no es el administrador-->
                 <li class="dropdown"><a id="artmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ART<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <!--espacio de ART-Intervención Social-->
@@ -799,6 +836,10 @@ $menuguardaun=false;
                       <li class="divider"></li>
                     <!--espacio de Normatividad-->
                     <li><a align="center"><b>Normatividad</b></a></li>
+                      @if($menuartreportenorma)
+                      <li><a id="normreportnormamenupeq" href="<?=URL::to('normreportnorma'); ?>"><span class="glyphicon glyphicon-ok"></span> Reporte normatividad</a></li>                     
+                      @endif
+                      <li class="divider"></li>
                       @if($menuarttableronorma)
                       <li><a id="normtabindicadormenupeq" href="<?=URL::to('normtabindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Tablero Indicador</a></li>                     
                       @endif
@@ -815,6 +856,16 @@ $menuguardaun=false;
                       <li class="divider"></li>
                       @if($menuartcargaeditarplanrr)
                       <li><a id="plancienrrcargaproymenupeq" href="<?=URL::to('plancienrrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+                      @endif
+                      <li class="divider"></li>
+                      <!--espacio de Plan 51/50-->
+                    <li><a align="center"><b>Plan 51/50</b></a></li>
+                      @if($menuartconsultaplan50)
+                      <li><a id="plan50consultamenupeq" href="<?=URL::to('plan50consulproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Consultar Proyectos</a></li>
+                      @endif
+                      <li class="divider"></li>
+                      @if($menuartcargaeditarplan50)
+                      <li><a id="plan50cargaeditarmenupeq" href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
                       @endif
                       <li class="divider"></li>
                   </ul>
@@ -970,11 +1021,14 @@ $menuguardaun=false;
                     @endif                                       
                   </ul>
                 </li>
-              @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
-              @if(($menuartcargaeditarnorma)||($menuarttableronorma))<!--Oculta la opción art si no es el administrador-->
+              @endif<!--Finaliza Ocultar la opción zona veredal si no es el administrador-->
+              @if(($menuartcargaeditarnorma)||($menuarttableronorma)||($menuartreportenorma))<!--Oculta la opción art si no es el administrador-->
                 <li  class="dropdown"><a id="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Normatividad<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <!--espacio de administracion-->
+                    <li><a align="center"><b>Reportes</b></a></li>
+                    @if($menuartreportenorma)
+                      <li><a id="normreportnormamenupeq" href="<?=URL::to('normreportnorma'); ?>"><span class="glyphicon glyphicon-ok"></span> Reporte normatividad</a></li>                     
+                    @endif
                     <li><a align="center"><b>Consulta</b></a></li>
                     @if($menuarttableronorma)
                       <li><a id="normtabindicadormenupeq" href="<?=URL::to('normtabindicador'); ?>"><span class="glyphicon glyphicon-ok"></span> Tablero Indicador</a></li>                     
@@ -985,7 +1039,7 @@ $menuguardaun=false;
                     @endif                                                         
                   </ul>
                 </li>
-              @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
+              @endif<!--Finaliza Ocultar la opción normatividad si no es el administrador-->
               @if(($menuartcargaeditarplanrr)||($menuartconsultaplanrr))<!--Oculta la opción art si no es el administrador-->
                 <li  class="dropdown"><a id="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Plan 100 dias y RR<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
@@ -1000,7 +1054,22 @@ $menuguardaun=false;
                     @endif                                                        
                   </ul>
                 </li>
-              @endif<!--Finaliza Ocultar la opción Geoapi si no es el administrador-->
+              @endif<!--Finaliza Ocultar la opción plan 100 dias y RR si no es el administrador-->
+              @if(($menuartconsultaplan50)||($menuartcargaeditarplan50))<!--Oculta la opción art si no es el administrador-->
+                <li  class="dropdown"><a id="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Plan 51/50<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <!--espacio de administracion-->
+                    <li><a align="center"><b>Consulta</b></a></li>
+                    @if($menuartconsultaplan50)
+                      <li><a id="plan50consultamenupeq" href="<?=URL::to('plan50consulproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Consultar Proyectos</a></li>                     
+                    @endif                                  
+                    <li><a align="center"><b>Carga</b></a></li>
+                    @if($menuartcargaeditarplan50)
+                      <li><a id="plan50cargaeditarmenupeq" href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+                    @endif                                                        
+                  </ul>
+                </li>
+              @endif<!--Finaliza Ocultar la opción Plan 51/50 si no es el administrador-->
             @endif      
             </ul><!-- fin de menu con submenu -->
           </div><!-- /.navbar-collapse -->

@@ -8,22 +8,47 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
     <style>          
       #map {
         width: 100%;
         height: 400px;
         margin:0 auto 0 auto;
         position: relative;
-        top: 1%;        
-        }
+        top: 1%;
+        display: none;        
+      }
+      .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+      }
+      .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+      }
+      .legend {
+            line-height: 18px;
+            color: #555;
+      }
+      .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+      }
   </style>
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
   <script src="assets/art/js/wNumb.js"></script>
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
-  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.3/esri-leaflet.js"></script>    
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+  
   @parent
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
@@ -45,9 +70,6 @@
   @parent  
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
-    <div class="row" id="mensajeesta">           
-    </div>
-
     <div class="row">
       <div class="col-sm-1"></div>
         <div class="col-sm-10 col-xs-12">
@@ -59,7 +81,7 @@
           <div class="panel-heading" role="tab" id="headingTwo">
             <h4 class="panel-title">
               <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#filtroscom" aria-expanded="false" aria-controls="filtroscom">
-                <h3 class="panel-heading text-primary">Filtros</h3>
+                <h3 class="panel-heading text-primary"><span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span> Filtros</h3>
 
               </a>
             </h4>
@@ -148,20 +170,7 @@
           </div>
         </div>        
       </div>
-        
-        
-<!--        
-        <pre>
-          <div id="map"></div>
-            <script>
-            var map = L.map('map').setView([4.5, -74.1], 6);
-            L.esri.basemapLayer("Gray").addTo(map);
-            //L.esri.dynamicMapLayer("http://services.nationalmap.gov/arcgis/rest/services/3DEPElevationIndex/MapServer/0", { opacity : 1}).addTo(map);
-            var servicioarcgis = new L.esri.FeatureLayer("http://arcgisserver.unodc.org.co/arcgis/rest/services/prueba/MyMapService/MapServer/0").addTo(map);
-            </script>
-        </pre>
--->        
-        <br>
+        <div id="mensajeesta"></div>         
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#consultar_proyecto">Consultar proyecto Seleccionado</button>
         <!--Aca inicia el modal para cargar nuevo proyecto-->
         <!-- Modal -->
@@ -306,7 +315,18 @@
         </div>
       <div class="col-sm-1"></div>    
     </div>
+    <div class="row">
+      <div class="col-sm-1"></div>
+        <div class="col-sm-10 col-xs-12">
+          <pre>
+            <div id="map"></div>              
+          </pre>      
+          <br>
+        </div>
+      <div class="col-sm-1"></div> 
+    </div>
   </div>
+
 
 <!--Fin del tercer contenedor--> 
 
@@ -325,6 +345,8 @@
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('jsbody')
   @parent
+    <script type="text/javascript" charset="utf-8" src="assets/art/js/DPTOS_SIMPLIFY.js"></script>
+    <script type="text/javascript" charset="utf-8" src="assets/art/js/MPIOS_SIMPLIFY.js"></script>
     <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione          
@@ -336,6 +358,76 @@
           
 
       });
+      var mapainicial=0;
+      var map = L.map('map');
+      var base = L.esri.basemapLayer("Gray");
+      var legend;
+      function stylepoly(feature) {
+        return {
+            weight: 1.2,
+            fillOpacity: 0.25,
+            color: '#B4A07D'
+        };
+      };
+      function stylepresuppoly(feature) {              
+        return {
+            weight: 1.2,
+            opacity: 1,
+            color: '#B4A07D',
+            fillOpacity: 0.7,
+            fillColor: getColor(feature.properties.cantproy)
+        };
+      }                
+      var dataAray = ["#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#fee08b", "#fdae61", "#f46d43", "#d53e4f"];
+
+      function getColor(d) {        
+            return d > scalas[6].max && d <= scalas[7].max ? dataAray[7] :
+                d > scalas[5].max && d <= scalas[6].max ? dataAray[6] :
+                d > scalas[4].max && d <= scalas[5].max ? dataAray[5] :
+                d > scalas[3].max && d <= scalas[4].max ? dataAray[4] :
+                d > scalas[2].max && d <= scalas[3].max ? dataAray[3] :
+                d > scalas[1].max && d <= scalas[2].max ? dataAray[2] :
+                d > scalas[0].max && d <= scalas[1].max ? dataAray[1] :
+                dataAray[0];
+        };
+
+      function getScales(dataArray, min, max) {
+        scales = [];
+        scalas = [];
+        if (max == 0) return scales;
+        var startLog = Math.log(min);
+        var totalColors = dataArray.length;
+        //console.log("totalColors");
+        //console.log(totalColors);
+        var index = 0;
+        if (min == max) {
+            min = 0;
+            startLog = 0;
+        } else {
+
+            totalColors--;
+            index = 1;
+            scales.push({
+                range: 1,
+                min: 0,
+                max: min,
+
+                hex: dataArray[0]
+            });
+        }
+        var factor = (Math.log(max) - startLog) / totalColors;
+        var start = min;
+        for (; index < dataArray.length; index++) {
+            scales.push({
+                range: index + 1,
+                min: start,
+                max: start = Math.round(Math.exp(startLog += factor)),
+                hex: dataArray[index]
+            });
+        }
+        scales[scales.length - 1].max++;        
+        return scales;
+      }
       var table = $('#tabla_proyectos').DataTable();
       //funcion que filtra los municipios por departamentos
       //------------------------------------------    
@@ -351,6 +443,7 @@
           $( "#mensajeesta" ).fadeOut(5000);
           $('#tabla_proyectos').DataTable().clear(); 
           $('#tabla_proyectos').DataTable().destroy();
+          $('#map').hide();
           
         } else {
           info = [];
@@ -369,7 +462,7 @@
               data: {info:info},
               dataType:'json',
             success:function(data1){
-              //console.log(data1);
+              //console.log(data1);              
               if (data1.length>0) {
                 $("#mensajeesta").fadeIn(1);
                 $("#mensajeesta").empty();
@@ -377,6 +470,7 @@
                 $( "#mensajeesta" ).fadeOut(5000);
                 //$("#tbody_proyectos").empty();
                 var codtablagen = '';
+                
                 for (var i = 0; i < data1.length; i++) {
                   codtablagen=codtablagen+'<tr id="'+data1[i].id+'"><td>'+data1[i].NOM_DPTO+'</td><td>'+data1[i].NOM_MPIO+'</td><td>'+data1[i].vereda+'</td><td>'+data1[i].nom_proy+'</td><td>'+data1[i].mod_foca+'</td><td><div class="progress" style="margin-bottom: 0px">';
                   if(data1[i].avance_prod >=75)
@@ -389,13 +483,88 @@
                   }
                   codtablagen=codtablagen+'</div></td></tr>';
                 }
+                
+                
+                objdepto = {};
+                for (var i = 0; i < data1.length; ++i) {
+                    if (!objdepto[data1[i].cod_depto])
+                        objdepto[data1[i].cod_depto] = 0;
+                    ++objdepto[data1[i].cod_depto];
+                }
+                //console.log(objdepto);
+                var contdeptos = Object.keys(objdepto).map(function (key) {
+                    return objdepto[key];
+                });
+                var mincontdeptos = Math.min.apply(null, contdeptos);
+                var maxcontdeptos = Math.max.apply(null, contdeptos);
+                //console.log(mincontdeptos);
+                //console.log(maxcontdeptos);
+
+                scalas = getScales(dataAray, mincontdeptos, maxcontdeptos);
+                //console.log(scalas);               
+
                 //console.log(codtablagen);
                 //$("#tbody_proyectos").append(codtablagen);                
                 $('#tabla_proyectos').DataTable().clear(); 
                 $('#tabla_proyectos').DataTable().destroy();
                 $('#tabla_proyectos').find('tbody').append(codtablagen);
-                $('#tabla_proyectos').DataTable().draw(); 
+                $('#tabla_proyectos').DataTable().draw();
                 
+                //visualizar mapa
+                if (mapainicial==1) {
+                  
+                  map.removeLayer(deptos_js);
+                  map.removeControl(legend);
+                }                
+                $('#map').show(); 
+                map.setView([4.5, -74.1], 5);
+                base.addTo(map);
+                
+                for (var i = 0; i < departamentos.features.length; i++) {
+                  departamentos.features[i].properties.cantproy=0;
+                  $.each( objdepto, function( key, value ) {
+                    if (departamentos.features[i].properties.COD_DPTO==key) {
+                      departamentos.features[i].properties.cantproy=value;
+                    }                   
+                  });                  
+                }
+                //console.log(departamentos);
+                var departamentos1=[];
+                //delete departamentos1.features;
+                var contador = 0;
+                for (var i = 0; i < departamentos.features.length; i++) {
+                  if (departamentos.features[i].properties.cantproy != 0) {
+                    departamentos1[contador]=departamentos.features[i];
+                    contador=contador+1;
+                  }                                        
+                }
+                //console.log(departamentos1);
+                deptos_js=[];
+                deptos_js = L.geoJson(departamentos1, {                    
+                  onEachFeature: interaccion_deptosimbo,
+                  precision: 5,
+                  style: stylepresuppoly
+                }).addTo(map);                
+
+                legend = L.control({position: 'bottomright'});
+                legend.onAdd = function (map) {
+                    var div = L.DomUtil.create('div', 'info legend'),                        
+                    labels = [];
+                    // loop through our density intervals and generate a label with a colored square for each interval
+                    for (var i = 0; i < scalas.length; i++) {
+                      div.innerHTML +=
+                        '<i style="background:' + scalas[i].hex + '"></i> ' +
+                        scalas[i].min + (scalas[i].max ? '&ndash;' + scalas[i].max + '<br>' : '+');
+                    }
+                    return div;
+                };
+                legend.addTo(map);
+                function interaccion_deptosimbo(feature, layer) {                  
+                  var texto = '<strong>'+feature.properties.NOM_DPTO+'</strong><br>N° de Proyectos:<strong>'+feature.properties.cantproy+'</strong>';
+                  layer.bindPopup(texto);                  
+                };
+                map.fitBounds(deptos_js.getBounds());
+                mapainicial=1;                 
               } else {
                 $("#mensajeesta").fadeIn(1);
                 $("#mensajeesta").empty();
@@ -403,6 +572,7 @@
                 $( "#mensajeesta" ).fadeOut(5000);
                 $('#tabla_proyectos').DataTable().clear(); 
                 $('#tabla_proyectos').DataTable().destroy();
+                $('#map').hide();
               }
               
             },
@@ -434,8 +604,7 @@
         thousand: '.'
       });
       
-      $('#tabla_proyectos tbody').on('click', 'tr', function () {
-          
+      $('#tabla_proyectos tbody').on('click', 'tr', function () {         
           
           if ($(this).hasClass('active') ) {
               $(this).removeClass('active');
@@ -490,7 +659,8 @@
               });//fin de la consulta ajax (Editar proceso)
           }
       });//Termina tbody
-    </script>    
+    </script>
+    
 @stop
 
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

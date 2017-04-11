@@ -315,7 +315,7 @@ class TierrasController extends BaseController {
 
     public function postEditarProceso()
 	{
-		Session::put('procesoi',Input::get('proceso'));
+		Session::put('procesoi',Input::get('proceso'));		
 		return Redirect::to('procesos_adjudicados_editar');
 	}
 
@@ -331,8 +331,8 @@ class TierrasController extends BaseController {
 		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3');
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
-		$arrayprocestado = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '.$idpro);
-		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT id_proceso,id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
+		$arrayprocestado = DB::select("SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '".$idpro."'");
+		$arrayprocdocu = DB::select("select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT id_proceso,id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_proceso= '".$idpro."') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento");
 		$arraydocumento = DB::table('MODTIERRAS_CONCEPDOCUMENTO')
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.id_concepto','=', $arrayproceso[0]->conceptojuridico)
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.requieredocu','=','1')
