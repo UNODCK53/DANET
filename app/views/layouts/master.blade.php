@@ -424,7 +424,7 @@ $menuguardaun=false;
                   @endif
                   <li class="divider"></li>
                   @if($menuartcargaeditarplan50)
-                  <li id="plan50cargaeditarmenu"><a href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+                  <li id="plan50cargaeditarmenu"><a href="<?=URL::to('plan50cargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
                   @endif
             </ul>
           </li>
@@ -626,7 +626,7 @@ $menuguardaun=false;
               <li class="divider"></li>
               <li><a align="center"><b>Carga</b></a></li>
               @if($menuartcargaeditarplan50)
-              <li id="plan50cargaeditarmenu"><a href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+              <li id="plan50cargaeditarmenu"><a href="<?=URL::to('plan50cargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
               @endif
             </ul>
           </li>         
@@ -865,7 +865,7 @@ $menuguardaun=false;
                       @endif
                       <li class="divider"></li>
                       @if($menuartcargaeditarplan50)
-                      <li><a id="plan50cargaeditarmenupeq" href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+                      <li><a id="plan50cargaeditarmenupeq" href="<?=URL::to('plan50cargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
                       @endif
                       <li class="divider"></li>
                   </ul>
@@ -1065,7 +1065,7 @@ $menuguardaun=false;
                     @endif                                  
                     <li><a align="center"><b>Carga</b></a></li>
                     @if($menuartcargaeditarplan50)
-                      <li><a id="plan50cargaeditarmenupeq" href="<?=URL::to('plan50rrcargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
+                      <li><a id="plan50cargaeditarmenupeq" href="<?=URL::to('plan50cargaproy'); ?>"><span class="glyphicon glyphicon-ok"></span> Cargar proyectos</a></li>
                     @endif                                                        
                   </ul>
                 </li>
