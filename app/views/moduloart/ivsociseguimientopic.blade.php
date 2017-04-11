@@ -160,6 +160,8 @@
                 </div>
                 <div class="col-sm-12" id="terr">
                 </div>
+                <div class="col-sm-12" id="nom_terr">
+                </div>
                 <div class="col-sm-12" id="categoria">
                 </div>
                 <div class="col-sm-12" id="subcategoria">
@@ -509,7 +511,9 @@
                     $("#nucleo ").html("<strong>Núcleo veredal: </strong>"+data['arrayprio'][0].nucleo_veredal);
                     $("#terr").html("<strong>Tipo de territorio: </strong>"+data['arraytipoterr']);
                     $("#acta").html('<div class="col-xs-2" style="padding-left:0"><strong>Acta: </strong> </div><div class="col-xs-1" ><span > <a target="_blank" href='+ data["arrayprio"][0].acta+' class="glyphicon glyphicon-download-alt btn btn-success" role="button"></a></span>');
-                    $("#alcance").html("<strong>Alcance: </strong>"+data['arrayprio'][0].Alcance);          
+                    $("#alcance").html("<strong>Alcance: </strong>"+data['arrayprio'][0].Alcance);  
+                    $("#nom_terr").html("<strong>Territorios: </strong>"+data['nomter'][0]['nom_terr']); 
+                           
                     },
                   error:function(){alert('error');}
               });//Termina Ajax

@@ -112,19 +112,19 @@
                 <div class="modal-body">
                   <form role="form" action="artpic/crear-proyecto" method="post" id="crearindi" enctype="multipart/form-data" >
                       <div class="form-group">
-                        {{Form::label('deptolabel','Departamento:',['class' => 'control-label'])}}
+                        <b>Departamento:<font color="red">*</font></b>
                         {{Form::select('depto', $arraydepto, '', ['class' => 'form-control', 'id'=>'depto','required'=>'true'])}}
                       </div>
 
                       <div class="form-group">
-                         {{Form::label('mpiolable','Municipio:',['class' => 'control-label'])}}
+                        <b>Municipio:<font color="red">*</font></b>
                           <select name="mpios" id="mpios" class="form-control" required> 
                             <option value=''>Seleccione uno</option>
                           </select>
 
                       </div>
                       <div class="form-group">
-                        {{Form::label('nucleolable','Núcleo veredal:',['class' => 'control-label'])}}
+                        <b>Núcleo veredal:<font color="red">*</font></b>
                         <select name="nucleo" id="nucleo" class="form-control" required> 
                             <option value=''>Seleccione uno</option>
                           </select>
@@ -135,16 +135,16 @@
                       </div>
 
                       <div class="form-group" style='display:none' id="terr">
-                        {{Form::label('tipoterrlable','Tipo de territorio:',['class' => 'control-label'])}}
+                        <b>Tipo de territorio:<font color="red">*</font></b>
                         {{Form::select ('tipoterr[]', $arraytipoterr, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'tipoterr','required'=>'true'])}}
                       </div> 
                       <div class="form-group" style='display:none' id="select_terr">
-                        {{Form::label('nom_terrlable','Nombre de territorios:',['class' => 'control-label'])}}
-                        <select name="nom_terr[]" id="nom_terr" class="form-control"  multiple> 
+                        <b>Nombre de territorios:<font color="red">*</font></b>
+                        <select name="nom_terr[]" id="nom_terr" class="form-control"  required multiple> 
                           </select>
                       </div>
                       <div id="supcate" class="form-group">
-                         {{Form::label('nom_supcatelable','Subcategoría:',['class' => 'control-label'])}}
+                        <b>Subcategoría:<font color="red">*</font></b>
                         <select name="nom_supcate" id="nom_supcate" class="form-control" required>
                            <option value="">Seleccione subcategoria </option>
                             <?php foreach($arraycate as $key=>$val): ?>
@@ -158,27 +158,27 @@
                         </select>     
                       </div>
                       <div class="form-group" >
-                        {{Form::label('subsubcatelable','Intervención:',['id'=>'subsubcatelable','class' => 'control-label','style'=>'display:none'])}}
+                        <b id='subsubcatelable' style='display:none'>Intervención:<font color="red">*</font></b>
                         {{Form::select ('subsubcate[]', $arraysubsubcate,'', ['class' => 'form-control', 'id'=>'subsubcate','required'=>'true','style'=>'display:none'])}}
                       </div> 
                       <div class="form-group">
-                        {{Form::label('nomproylable','Nombre de la iniciativa:',['class' => 'control-label'])}}
+                        <b>Nombre de la iniciativa:<font color="red">*</font></b>
                         {{ Form::text('nomproy', Input::old('nomproy'), ['class' => 'form-control', 'id'=>'nomproy','required'=>'true']) }}
                       </div> 
                       <div class="form-group">
-                        {{Form::label('alcancelable','Alcance de la iniciativa:',['class' => 'control-label'])}}
+                        <b>Alcance de la iniciativa:<font color="red">*</font></b>
                         {{ Form::textarea('alcance', null, ['class' => 'form-control', 'id'=>'alcance','required'=>'true']) }}
                       </div> 
                       <div class="form-group">
-                        {{Form::label('estadolabel','Estado de la iniciativa:',['class' => 'control-label'])}}
+                        <b>Estado de la iniciativa:<font color="red">*</font></b>
                         {{Form::select('estado', $arrayestado, '', ['class' => 'form-control', 'id'=>'estado','required'=>'true'])}}
                       </div>
                       <div class="form-group" >
-                        {{Form::label('fechalable','Fecha de taller de priorización de la iniciativa:',['class' => 'control-label'])}}
+                        <b>Fecha de taller de priorización de la iniciativa:<font color="red">*</font></b>
                         {{ Form::text('fecha', Input::old('fecha'), ['class' => 'form-control', 'id'=>'datepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div> 
                       <div class="form-group">
-                        <label for="rankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto y 20 muy bajo</label>
+                        <b>Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto y 20 muy bajo<font color="red">*</font></b>
                         <select name="checkranking" id="ranking" class="form-control" required title="Si el valor no se encuentra, es porque ya existe un proyecto con ese ranking en el núcleo"> 
                           <option value="">Seleccione uno </option>
                           <?php for ($i=1; $i <=20 ; $i++) { ?>
@@ -187,127 +187,127 @@
                           </select>
                       </div>
                       <div class="form-group" >
-                        {{Form::label('actalable','Adjuntar acta de priorización :',['class' => 'control-label'])}}
+                        <b>Adjuntar acta de priorización:<font color="red">*</font></b>
                         {{ Form::file('acta', ['class' => 'form-control', 'id'=>'acta','required'=>'true','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
                       </div>
                       <div class="form-group">
-                        {{Form::label('preciolable','Precio estimado PIC:',['class' => 'control-label'])}}
-                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'ej: $30.000.000'])}}
+                        <b>Precio estimado PIC:<font color="red">*</font></b>
+                        {{ Form::text('precio','', ['class' => 'form-control', 'id'=>'precio','required'=>'true','onchange'=>'precio_change(this)', 'placeholder'=>'ej: 15000000'])}}
                       </div>
                       <div class="checkbox-group">
-                        {{Form::label('cofinalable','La iniciativa tiene cofinanciación:',['class' => 'control-label'])}}
+                        <b>La iniciativa tiene cofinanciación:<font color="red">*</font></b>
                         <div class="form-group" id="radioperidiocidadid">
                           <input type="radio" name="radiocofin" id="cofin1" value="1" required> Si
                           <input type="radio" name="radiocofin" id="cofin2" value="2"> No
                         </div>
                       </div>
                       <div class="form-group" >
-                        {{Form::label('sociolable','Elija el o los confinaciadores:',['id'=>'sociolable','class' => 'control-label','style'=>'display:none'])}}
+                        <b id='sociolable' style='display:none'>Elija el o los confinaciadores:<font color="red">*</font></b>
                         {{Form::select ('socio[]', $arraysocio, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'socio','style'=>'display:none'])}}
                       </div>
                       <div class="form-group col-sm-12" >
                         <div class="form-group col-sm-4" id="div-1" style='display:none'>
-                          {{Form::label('lables-1','ART:',['id'=>'lables-1','class' => 'control-label'])}}
+                          {{Form::label('lables-1','ART:',['id'=>'lables-1','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-1','', ['class' => 'form-control', 'id'=>'s-1','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-2" style='display:none'>
-                          {{Form::label('lables-2','Alcaldía:',['id'=>'lables-2','class' => 'control-label'])}}
+                          {{Form::label('lables-2','Alcaldía:',['id'=>'lables-2','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-2','', ['class' => 'form-control', 'id'=>'s-2','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-3" style='display:none'>
-                          {{Form::label('lables-3','CAR:',['id'=>'lables-3','class' => 'control-label'])}}
+                          {{Form::label('lables-3','CAR:',['id'=>'lables-3','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-3','', ['class' => 'form-control', 'id'=>'s-3','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-4" style='display:none'>
-                          {{Form::label('lables-4','DPS:',['id'=>'lables-4','class' => 'control-label'])}}
+                          {{Form::label('lables-4','DPS:',['id'=>'lables-4','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-4','', ['class' => 'form-control', 'id'=>'s-4','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-5" style='display:none'>
-                          {{Form::label('lables-5','Gobernación:',['id'=>'lables-5','class' => 'control-label'])}}
+                          {{Form::label('lables-5','Gobernación:',['id'=>'lables-5','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-5','', ['class' => 'form-control', 'id'=>'s-5','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-6" style='display:none'>
-                          {{Form::label('lables-6','JAC:',['id'=>'lables-6','class' => 'control-label'])}}
+                          {{Form::label('lables-6','JAC:',['id'=>'lables-6','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-6','', ['class' => 'form-control', 'id'=>'s-6','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-7" style='display:none'>
-                          {{Form::label('lables-7','Min Agricultura  :',['id'=>'lables-7','class' => 'control-label'])}}
+                          {{Form::label('lables-7','Min Agricultura  :',['id'=>'lables-7','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-7','', ['class' => 'form-control', 'id'=>'s-7','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-8" style='display:none'>
-                          {{Form::label('lables-8','Min Ambiente:',['id'=>'lables-8','class' => 'control-label'])}}
+                          {{Form::label('lables-8','Min Ambiente:',['id'=>'lables-8','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-8','', ['class' => 'form-control', 'id'=>'s-8','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-9" style='display:none'>
-                          {{Form::label('lables-9','Min CIT:',['id'=>'lables-9','class' => 'control-label'])}}
+                          {{Form::label('lables-9','Min CIT:',['id'=>'lables-9','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-9','', ['class' => 'form-control', 'id'=>'s-9','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-10" style='display:none'>
-                          {{Form::label('lables-10','Min Cultura:',['id'=>'lables-10','class' => 'control-label'])}}
+                          {{Form::label('lables-10','Min Cultura:',['id'=>'lables-10','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-10','', ['class' => 'form-control', 'id'=>'s-10','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-11" style='display:none'>
-                          {{Form::label('lables-11','Min Defensa:',['id'=>'lables-11','class' => 'control-label'])}}
+                          {{Form::label('lables-11','Min Defensa:',['id'=>'lables-11','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-11','', ['class' => 'form-control', 'id'=>'s-11','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-12" style='display:none'>
-                          {{Form::label('lables-12','Min Educación:',['id'=>'lables-12','class' => 'control-label'])}}
+                          {{Form::label('lables-12','Min Educación:',['id'=>'lables-12','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-12','', ['class' => 'form-control', 'id'=>'s-12','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-13" style='display:none'>
-                          {{Form::label('lables-13','Min Hacienda:',['id'=>'lables-13','class' => 'control-label'])}}
+                          {{Form::label('lables-13','Min Hacienda:',['id'=>'lables-13','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-13','', ['class' => 'form-control', 'id'=>'s-13','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-14" style='display:none'>
-                          {{Form::label('lables-14','Min Justicia:',['id'=>'lables-14','class' => 'control-label'])}}
+                          {{Form::label('lables-14','Min Justicia:',['id'=>'lables-14','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-14','', ['class' => 'form-control', 'id'=>'s-14','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-15" style='display:none'>
-                          {{Form::label('lables-15','Min TIC:',['id'=>'lables-15','class' => 'control-label'])}}
+                          {{Form::label('lables-15','Min TIC:',['id'=>'lables-15','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-15','', ['class' => 'form-control', 'id'=>'s-15','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-16" style='display:none'>
-                          {{Form::label('lables-16','Min Minas:',['id'=>'lables-16','class' => 'control-label'])}}
+                          {{Form::label('lables-16','Min Minas:',['id'=>'lables-16','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-16','', ['class' => 'form-control', 'id'=>'s-16','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-17" style='display:none'>
-                          {{Form::label('lables-17','Cancilleria:',['id'=>'lables-17','class' => 'control-label'])}}
+                          {{Form::label('lables-17','Cancilleria:',['id'=>'lables-17','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-17','', ['class' => 'form-control', 'id'=>'s-17','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-18" style='display:none'>
-                          {{Form::label('lables-18','Min Salud:',['id'=>'lables-18','class' => 'control-label'])}}
+                          {{Form::label('lables-18','Min Salud:',['id'=>'lables-18','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-18','', ['class' => 'form-control', 'id'=>'s-18','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-19" style='display:none'>
-                          {{Form::label('lables-19','Min Trabajo:',['id'=>'lables-19','class' => 'control-label'])}}
+                          {{Form::label('lables-19','Min Trabajo:',['id'=>'lables-19','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-19','', ['class' => 'form-control', 'id'=>'s-19','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-20" style='display:none'>
-                          {{Form::label('lables-20','Min Transporte:',['id'=>'lables-20','class' => 'control-label'])}}
+                          {{Form::label('lables-20','Min Transporte:',['id'=>'lables-20','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-20','', ['class' => 'form-control', 'id'=>'s-20','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-21" style='display:none'>
-                          {{Form::label('lables-21','Min Vivienda:',['id'=>'lables-21','class' => 'control-label'])}}
+                          {{Form::label('lables-21','Min Vivienda:',['id'=>'lables-21','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-21','', ['class' => 'form-control', 'id'=>'s-21','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-22" style='display:none'>
-                          {{Form::label('lables-22','Min Interior:',['id'=>'lables-22','class' => 'control-label'])}}
+                          {{Form::label('lables-22','Min Interior:',['id'=>'lables-22','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-22','', ['class' => 'form-control', 'id'=>'s-22','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-23" style='display:none'>
-                          {{Form::label('lables-23','Org. comunitarias:',['id'=>'lables-23','class' => 'control-label'])}}
+                          {{Form::label('lables-23','Org. comunitarias:',['id'=>'lables-23','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-23','', ['class' => 'form-control', 'id'=>'s-23','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)',])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-24" style='display:none'>
-                          {{Form::label('lables-24','Org internacionales:',['id'=>'lables-24','class' => 'control-label'])}}
+                          {{Form::label('lables-24','Org internacionales:',['id'=>'lables-24','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-24','', ['class' => 'form-control', 'id'=>'s-24','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)',])}}
                         </div>
                         <div class="form-group col-sm-4" id="div-25" style='display:none'>
-                          {{Form::label('lables-25','Otro:',['id'=>'lables-25','class' => 'control-label'])}}
+                          {{Form::label('lables-25','Otro:',['id'=>'lables-25','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('s-25','', ['class' => 'form-control', 'id'=>'s-25','placeholder'=>'$ cofinanciado','onchange'=>'precio_change(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="divotro" style='display:none'>
-                          {{Form::label('otrolables','Defina Otro:',['id'=>'otrolables','class' => 'control-label'])}}
+                          {{Form::label('otrolables','Defina Otro:',['id'=>'otrolables','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('otro','', ['class' => 'form-control', 'id'=>'otro'])}}
                         </div>
                       </div> 
@@ -348,33 +348,33 @@
                             <input  id = "ID" name = "ID" class="form-control" type="text" disabled ></input>            
                       </div>
                       <div class="form-group">
-                        {{Form::label('edideptolabel','Departamento',['class' => 'control-label'])}}
+                        {{Form::label('edideptolabel','Departamento',['class' => 'control-label'])}}<font color="red">*</font>
                         {{ Form::text('edidepto', Input::old('edidepto'), ['class' => 'form-control', 'id'=>'edidepto','required'=>'true','readonly'=>'true']) }}
                         <input  id = "edidepto2" name = "edidepto2" class="form-control" type="hidden"  ></input> 
                       </div>
 
                       <div class="form-group">
-                        {{Form::label('edimpioslable','Municipios:',['class' => 'control-label'])}}
+                        {{Form::label('edimpioslable','Municipios:',['class' => 'control-label'])}}<font color="red">*</font>
                         {{ Form::text('edimpios', Input::old('edimpios'), ['class' => 'form-control', 'id'=>'edimpios','required'=>'true','readonly'=>'true']) }}
                          <input  id = "edimpios2" name = "edimpios2" class="form-control" type="hidden"  ></input> 
                       </div>
                       <div class="form-group">
-                        {{Form::label('edinucleolable','Núcleo veredal:',['class' => 'control-label'])}}
+                        {{Form::label('edinucleolable','Núcleo veredal:',['class' => 'control-label'])}}<font color="red">*</font>
                         {{ Form::text('edinucleo', Input::old('edinucleo'), ['class' => 'form-control', 'id'=>'edinucleo','required'=>'true','readonly'=>'true']) }}
                         <input  id = "edinucleo2" name = "edinucleo2" class="form-control" type="hidden"  ></input> 
                       </div>
 
                       <div class="form-group" >
-                        {{Form::label('editipoterrlable','Tipo de territorio:',['class' => 'control-label'])}}
+                        {{Form::label('editipoterrlable','Tipo de territorio:',['class' => 'control-label'])}}<font color="red">*</font>
                         {{Form::select('editipoterr[]', $arraytipoterr, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'editipoterr','required'=>'true'])}}
                       </div> 
                       <div class="form-group"  id="select_terredi">
-                        {{Form::label('nom_terrlableedi','Nombre de territorios:',['class' => 'control-label'])}}
-                        <select name="nom_terredi[]" id="nom_terredi" class="form-control" multiple> 
+                        {{Form::label('nom_terrlableedi','Nombre de territorios:',['class' => 'control-label'])}}<font color="red">*</font>
+                        <select name="nom_terredi[]" id="nom_terredi" class="form-control" multiple required> 
                           </select>
                       </div>
                       <div id="supcate" class="form-group">
-                         {{Form::label('edinom_supcatelable','Subcategoría:',['class' => 'control-label'])}}
+                         {{Form::label('edinom_supcatelable','Subcategoría:',['class' => 'control-label'])}}<font color="red">*</font>
                         <select name="edinom_supcate" id="edinom_supcate" class="form-control">
                            <option value="">Seleccione subcategoria </option>
                             <?php foreach($arraycate as $key=>$val): ?>
@@ -388,27 +388,27 @@
                         </select>     
                       </div>
                       <div class="form-group" >
-                        {{Form::label('edisubsubcatelable','Intervención:',['id'=>'edisubsubcatelable','class' => 'control-label'])}}
+                        {{Form::label('edisubsubcatelable','Intervención:',['id'=>'edisubsubcatelable','class' => 'control-label'])}}<font color="red">*</font>
                         {{Form::select ('edisubsubcate[]', $arraysubsubcate, '', ['class' => 'form-control', 'id'=>'edisubsubcate','required'=>'true'])}}
                       </div> 
                       <div class="form-group">
-                        {{Form::label('edinomproylable','Nombre de la iniciativa:',['class' => 'control-label'])}}
+                        {{Form::label('edinomproylable','Nombre de la iniciativa:',['class' => 'control-label'])}}<font color="red">*</font>
                         {{ Form::text('edinomproy', Input::old('nomproy'), ['class' => 'form-control', 'id'=>'edinomproy','required'=>'true']) }}
                       </div> 
                       <div class="form-group">
-                        {{Form::label('edialcancelable','Alcance de la iniciativa:',['class' => 'control-label'])}}
+                        {{Form::label('edialcancelable','Alcance de la iniciativa:',['class' => 'control-label'])}}<font color="red">*</font>
                         {{ Form::textarea('edialcance', null, ['class' => 'form-control', 'id'=>'edialcance','required'=>'true']) }}
                       </div> 
                       <div class="form-group">
-                        {{Form::label('ediestadolabel','Estado de la iniciativa',['class' => 'control-label'])}}
+                        {{Form::label('ediestadolabel','Estado de la iniciativa',['class' => 'control-label'])}}<font color="red">*</font>
                         {{Form::select('ediestado', $arrayestado, '', ['class' => 'form-control', 'id'=>'ediestado','required'=>'true'])}}
                       </div>
                       <div class="form-group" >
-                        {{Form::label('edifechalable','Fecha de taller de priorización de la iniciativa:',['class' => 'control-label'])}}
+                        {{Form::label('edifechalable','Fecha de taller de priorización de la iniciativa:',['class' => 'control-label'])}}<font color="red">*</font>
                         {{ Form::text('edifecha', Input::old('edifecha'), ['class' => 'form-control', 'id'=>'edidatepicker','required'=>'true','onchange'=>'fecha_change(this)']) }}
                       </div>
                       <div class="form-group">
-                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto - 20 muy bajo</label>
+                        <label for="edirankinglable" class="control-label">Ranking de la iniciativa (Valor según la matriz de priorización del acta):<br/> 1 muy alto - 20 muy bajo</label><font color="red">*</font>
                         <select name="edicheckranking" id="ediranking" class="form-control" required > 
                           <option value="">Seleccione uno </option>
                           <?php for ($i=1; $i <=20 ; $i++) { ?>
@@ -430,7 +430,7 @@
                     </div>
                     <div class="form-group col-sm-12" style="padding: 0;">
                       <div class="form-group col-sm-3" style="padding: 0;">
-                        {{Form::label('actalableedi','Desea editar el acta anterior:',['class' => 'control-label'])}}
+                        <b >Desea editar el acta anterior:<font color="red">*</font></b>
                       </div>
                       <div class="form-group col-sm-3" style="right-padding: 0;">
                         <div id="edicheckediacta">
@@ -443,123 +443,123 @@
                       </div>
                     </div>
                       <div class="form-group">
-                        {{Form::label('edipreciolable','Precio estimado PIC:',['class' => 'control-label'])}}
+                        {{Form::label('edipreciolable','Precio estimado PIC:',['class' => 'control-label'])}}<font color="red">*</font>
                         {{ Form::text('ediprecio','', ['class' => 'form-control', 'id'=>'ediprecio','required'=>'true','onchange'=>'precio_change2(this)'])}}
                       </div>
                       <div class="checkbox-group">
-                        {{Form::label('cofinalable','La iniciativa tiene cofinanciación:',['class' => 'control-label'])}}
+                        {{Form::label('cofinalable','La iniciativa tiene cofinanciación:',['class' => 'control-label'])}}<font color="red">*</font>
                         <div class="form-group" id="radioperidiocidadid">
                           <input type="radio" name="ediradiocofin" id="edicofin1" value="1" required> Si
                           <input type="radio" name="ediradiocofin" id="edicofin2" value="2"> No
                         </div>
                       </div>
                       <div class="form-group" >
-                        {{Form::label('edisociolable','Elija el o los confinaciadores:',['id'=>'edisociolable','class' => 'control-label','style'=>'display:none'])}}
+                        <b id='edisociolable' style='display:none'>Elija el o los confinaciadores:<font color="red">*</font></b>
                         {{Form::select ('edisocio[]', $arraysocio, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'edisocio','style'=>'display:none'])}}
                       </div>
                       <div class="form-group col-sm-12" >
                         <div class="form-group col-sm-4" id="edidiv-1" style='display:none'>
-                          {{Form::label('edilables-1','ART:',['id'=>'edilables-1','class' => 'control-label'])}}
+                          {{Form::label('edilables-1','ART:',['id'=>'edilables-1','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-1','', ['class' => 'form-control', 'id'=>'edis-1','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-2" style='display:none'>
-                          {{Form::label('edilables-2','Alcaldía:',['id'=>'edilables-2','class' => 'control-label'])}}
+                          {{Form::label('edilables-2','Alcaldía:',['id'=>'edilables-2','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-2','', ['class' => 'form-control', 'id'=>'edis-2','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-3" style='display:none'>
-                          {{Form::label('edilables-3','CAR:',['id'=>'edilables-3','class' => 'control-label'])}}
+                          {{Form::label('edilables-3','CAR:',['id'=>'edilables-3','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-3','', ['class' => 'form-control', 'id'=>'edis-3','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-4" style='display:none'>
-                          {{Form::label('edilables-4','DPS:',['id'=>'edilables-4','class' => 'control-label'])}}
+                          {{Form::label('edilables-4','DPS:',['id'=>'edilables-4','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-4','', ['class' => 'form-control', 'id'=>'edis-4','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-5" style='display:none'>
-                          {{Form::label('edilables-5','Gobernación:',['id'=>'edilables-5','class' => 'control-label'])}}
+                          {{Form::label('edilables-5','Gobernación:',['id'=>'edilables-5','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-5','', ['class' => 'form-control', 'id'=>'edis-5','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-6" style='display:none'>
-                          {{Form::label('edilables-6','JAC:',['id'=>'edilables-6','class' => 'control-label'])}}
+                          {{Form::label('edilables-6','JAC:',['id'=>'edilables-6','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-6','', ['class' => 'form-control', 'id'=>'edis-6','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-7" style='display:none'>
-                          {{Form::label('edilables-7','Min Agricultura  :',['id'=>'edilables-7','class' => 'control-label'])}}
+                          {{Form::label('edilables-7','Min Agricultura  :',['id'=>'edilables-7','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-7','', ['class' => 'form-control', 'id'=>'edis-7','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-8" style='display:none'>
-                          {{Form::label('edilables-8','Min Ambiente:',['id'=>'edilables-8','class' => 'control-label'])}}
+                          {{Form::label('edilables-8','Min Ambiente:',['id'=>'edilables-8','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-8','', ['class' => 'form-control', 'id'=>'edis-8','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-9" style='display:none'>
-                          {{Form::label('edilables-9','Min CIT:',['id'=>'edilables-9','class' => 'control-label'])}}
+                          {{Form::label('edilables-9','Min CIT:',['id'=>'edilables-9','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-9','', ['class' => 'form-control', 'id'=>'edis-9','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-10" style='display:none'>
-                          {{Form::label('edilables-10','Min Cultura:',['id'=>'edilables-10','class' => 'control-label'])}}
+                          {{Form::label('edilables-10','Min Cultura:',['id'=>'edilables-10','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-10','', ['class' => 'form-control', 'id'=>'edis-10','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-11" style='display:none'>
-                          {{Form::label('edilables-11','Min Defensa:',['id'=>'edilables-11','class' => 'control-label'])}}
+                          {{Form::label('edilables-11','Min Defensa:',['id'=>'edilables-11','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-11','', ['class' => 'form-control', 'id'=>'edis-11','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-12" style='display:none'>
-                          {{Form::label('edilables-12','Min Educación:',['id'=>'edilables-12','class' => 'control-label'])}}
+                          {{Form::label('edilables-12','Min Educación:',['id'=>'edilables-12','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-12','', ['class' => 'form-control', 'id'=>'edis-12','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-13" style='display:none'>
-                          {{Form::label('edilables-13','Min Hacienda:',['id'=>'edilables-13','class' => 'control-label'])}}
+                          {{Form::label('edilables-13','Min Hacienda:',['id'=>'edilables-13','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-13','', ['class' => 'form-control', 'id'=>'edis-13','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-14" style='display:none'>
-                          {{Form::label('edilables-14','Min Justicia:',['id'=>'edilables-14','class' => 'control-label'])}}
+                          {{Form::label('edilables-14','Min Justicia:',['id'=>'edilables-14','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-14','', ['class' => 'form-control', 'id'=>'edis-14','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-15" style='display:none'>
-                          {{Form::label('edilables-15','Min TIC:',['id'=>'edilables-15','class' => 'control-label'])}}
+                          {{Form::label('edilables-15','Min TIC:',['id'=>'edilables-15','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-15','', ['class' => 'form-control', 'id'=>'edis-15','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-16" style='display:none'>
-                          {{Form::label('edilables-16','Min Minas:',['id'=>'edilables-16','class' => 'control-label'])}}
+                          {{Form::label('edilables-16','Min Minas:',['id'=>'edilables-16','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-16','', ['class' => 'form-control', 'id'=>'edis-16','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-17" style='display:none'>
-                          {{Form::label('edilables-17','Cancilleria:',['id'=>'edilables-17','class' => 'control-label'])}}
+                          {{Form::label('edilables-17','Cancilleria:',['id'=>'edilables-17','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-17','', ['class' => 'form-control', 'id'=>'edis-17','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-18" style='display:none'>
-                          {{Form::label('edilables-18','Min Salud:',['id'=>'edilables-18','class' => 'control-label'])}}
+                          {{Form::label('edilables-18','Min Salud:',['id'=>'edilables-18','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-18','', ['class' => 'form-control', 'id'=>'edis-18','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-19" style='display:none'>
-                          {{Form::label('edilables-19','Min Trabajo:',['id'=>'edilables-19','class' => 'control-label'])}}
+                          {{Form::label('edilables-19','Min Trabajo:',['id'=>'edilables-19','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-19','', ['class' => 'form-control', 'id'=>'edis-19','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-20" style='display:none'>
-                          {{Form::label('edilables-20','Min Transporte:',['id'=>'edilables-20','class' => 'control-label'])}}
+                          {{Form::label('edilables-20','Min Transporte:',['id'=>'edilables-20','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-20','', ['class' => 'form-control', 'id'=>'edis-20','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-21" style='display:none'>
-                          {{Form::label('edilables-21','Min Vivienda:',['id'=>'edilables-21','class' => 'control-label'])}}
+                          {{Form::label('edilables-21','Min Vivienda:',['id'=>'edilables-21','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-21','', ['class' => 'form-control', 'id'=>'edis-21','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-22" style='display:none'>
-                          {{Form::label('edilables-22','Min Interior:',['id'=>'edilables-22','class' => 'control-label'])}}
+                          {{Form::label('edilables-22','Min Interior:',['id'=>'edilables-22','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-22','', ['class' => 'form-control', 'id'=>'edis-22','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-23" style='display:none'>
-                          {{Form::label('edilables-23','Org. comunitarias:',['id'=>'edilables-23','class' => 'control-label'])}}
+                          {{Form::label('edilables-23','Org. comunitarias:',['id'=>'edilables-23','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-23','', ['class' => 'form-control', 'id'=>'edis-23','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)',])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-24" style='display:none'>
-                          {{Form::label('edilables-24','Org internacionales:',['id'=>'edilables-24','class' => 'control-label'])}}
+                          {{Form::label('edilables-24','Org internacionales:',['id'=>'edilables-24','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-24','', ['class' => 'form-control', 'id'=>'edis-24','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)',])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidiv-25" style='display:none'>
-                          {{Form::label('edilables-25','Otro:',['id'=>'edilables-25','class' => 'control-label'])}}
+                          {{Form::label('edilables-25','Otro:',['id'=>'edilables-25','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('edis-25','', ['class' => 'form-control', 'id'=>'edis-25','placeholder'=>'$ cofinanciado','onchange'=>'precio_change2(this)'])}}
                         </div>
                         <div class="form-group col-sm-4" id="edidivotro" style='display:none'>
-                          {{Form::label('ediotrolables','Defina Otro:',['id'=>'ediotrolables','class' => 'control-label'])}}
+                          {{Form::label('ediotrolables','Defina Otro:',['id'=>'ediotrolables','class' => 'control-label'])}}<font color="red">*</font>
                           {{ Form::text('ediotro','', ['class' => 'form-control', 'id'=>'ediotro'])}}
                         </div>
                       </div> 
@@ -735,7 +735,7 @@
           });  
 
           if (a.id=='precio' || a.id=='ediprecio'){
-              if (a.value>=30000000 && a.value<=450000000){
+              if (a.value>=10000000 && a.value<=450000000){
                   if ($('input[type=radio][name=radiocofin]:checked').val()==1){
                     for (var i = 0; i < $('#socio').val().length; i++) {
                       var id_socio=$('#socio').val()[i];
@@ -750,7 +750,7 @@
                   }
                   $('#cofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#precio').val().replace(/[$ .]/gi,""))))));
               }else{
-                alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
+                alert('El valor debe ser mayor o igual a $10.000.000 y menor a $450.000.000 millones');
                $(a).val('');
              }
           }else{
@@ -795,7 +795,7 @@
               thousand: '.'
           });  
           if (a.id=='ediprecio' || a.id=='ediprecio'){
-              if (a.value>=30000000 && a.value<=450000000){
+              if (a.value>=10000000 && a.value<=450000000){
                   if ($('input[type=radio][name=ediradiocofin]:checked').val()==1){
                     for (var i = 0; i < $('#edisocio').val().length; i++) {
                       var id_socio=$('#edisocio').val()[i];
@@ -810,7 +810,7 @@
                   }
                   $('#edicofi_preci').val(Format.to(Number(parseFloat(total) + parseFloat(($('#ediprecio').val().replace(/[$ .]/gi,""))))));
                   }else{
-                      alert('El valor debe ser mayor o igual a $30.000.000 y menor a $450.000.000 millones');
+                      alert('El valor debe ser mayor o igual a $10.000.000 y menor a $450.000.000 millones');
                      $(a).val('');
                    }
           }else{

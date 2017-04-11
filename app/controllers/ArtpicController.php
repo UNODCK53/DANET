@@ -307,9 +307,11 @@ class ArtpicController extends BaseController {
 				{
 					  $arrares[$pro->cod_vda] = $pro->nom_terr;
 				}
-				array_push($arratodoterr, $arrares);
-				array_push($arratodoterrtipo, "Resguardos indígenas:");
-		
+				if (empty($Resguardo)) {
+				}else{
+					array_push($arratodoterr, $arrares);
+					array_push($arratodoterrtipo, "Resguardos indígenas:");
+				}
 			}else if (Input::get('tipoterr')[$i]==2){
 				$concejo = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
@@ -321,8 +323,11 @@ class ArtpicController extends BaseController {
 				{
 					 $arraccj[$pro->cod_vda] = $pro->nom_terr;
 				}
-				array_push($arratodoterr, $arraccj);
-				array_push($arratodoterrtipo, "Consejos cumunitarios:");
+				if (empty($concejo)) {
+				}else{
+					array_push($arratodoterr, $arraccj);
+					array_push($arratodoterrtipo, "Consejos cumunitarios:");
+				}
 			}else{
 				$veredas = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
@@ -340,7 +345,7 @@ class ArtpicController extends BaseController {
 				}else{
 				array_push($arratodoterr, $arravds);
 				array_push($arratodoterrtipo, "Veredas:");
-			}
+				}
 			}
 
 			
@@ -1062,11 +1067,26 @@ public function seguimiento()
 			->where('id_proy','=',Input::get('proy'))
 			->sum('estado_proy');
 
+		$tipoterr = DB::table('MODART_PIC_TIPOTERRPASO')
+				->select('id_tipterr')
+				->where('id_tipterr','<',3)
+				->where('id_proy','=',Input::get('proy'))
+				->get();
+
+		if(empty($tipoterr)){
+			$tipo=1;
+		}else{
+			$tipo=3;
+		}
+				
+
+
 		$id_viabi = DB::table('MODART_PIC_VIABILIZACION')
 			->join('MODART_PIC_CRITERIOS','MODART_PIC_CRITERIOS.id','=','MODART_PIC_VIABILIZACION.id_crite')
 			->select('MODART_PIC_VIABILIZACION.id','MODART_PIC_CRITERIOS.nombre','id_crite','info')
 			->where('id_subcat','=',$sub_cate)
 			->orWhere('id_estad','=',$estado)
+			->orWhere('id_terr','=',$tipo)
 			->get();
 
 			
@@ -1092,6 +1112,16 @@ public function seguimiento()
 		    	);
 			}
 			
+		}elseif($crea>count($array_viable))
+		{
+			DB::table('MODART_PIC_CRITERIOSTODOS')->where('id_proy','=',Input::get('proy'))->where('id_crittod','=',89)->delete();
+		}elseif ($crea<count($array_viable)) {
+			DB::table('MODART_PIC_CRITERIOSTODOS')->insert(
+			    	array(
+			    		'id_proy' => Input::get('proy'),
+			    		'id_crittod' => 89
+			    	)
+		    	);
 		}
 
 		$file = DB::table('MODART_PIC_CRITERIOSTODOS')

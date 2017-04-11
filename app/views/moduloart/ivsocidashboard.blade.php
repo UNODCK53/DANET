@@ -172,7 +172,7 @@ input[type="number"] {
                   <div class="modal-body">
                     <form role="form" action="artdashboard/nueva-alerta" method="post" id="crearalerta" enctype="multipart/form-data" >
                       <div id="supcate" class="form-group">
-                         {{Form::label('nom_subcatelable','Subcategoría:',['class' => 'control-label'])}}
+                        <b>Subcategoría:<font color="red">*</font></b>
                         <select name="nom_subcate" id="nom_subcate" class="form-control" required>
                            <option value="">Seleccione una </option>
                             <?php foreach($arraycate as $key=>$val): ?>
@@ -187,12 +187,12 @@ input[type="number"] {
                       </div>
                       <div class="form-group" id="intimidacion" style='display:none'>
                         <div class="form-group" >
-                          {{Form::label('subsubcatelable','Persona víctima de intimidación:',['class' => 'control-label'])}}
+                          <b>Persona víctima de intimidación:<font color="red">*</font></b>
                           {{Form::select('subsubcate', $arraysubsubcate, '', ['class' => 'form-control', 'id'=>'subsubcate'])}}
                         </div> 
                       </div>
                       <div class="form-group">
-                        {{Form::label('semaforolable','Escoja prioridad de la alerta:',['class' => 'control-label'])}}
+                        <b>Escoja prioridad de la alerta:<font color="red">*</font></b>
                         <select class="form-control selectpicker" required name="semaforo">
                           <option value="">Seleccione una </option>
                           <option data-icon="glyphicon glyphicon-exclamation-sign icon-rojo" value='4'>Rojo</option>
@@ -201,12 +201,12 @@ input[type="number"] {
                         </select>
                        </div> 
                        <div class="form-group">
-                        {{Form::label('descripcionlable','Descripción de la alerta:',['class' => 'control-label'])}}
+                        <b>Descripción de la alerta:<font color="red">*</font></b>
                         <i id="texto">0</i> caracteres
                         {{ Form::textarea('descripcion', null, ['MAXLENGTH'=>'140','rows'=>'4','class' => 'form-control', 'id'=>'descripcion','required'=>'true','onKeyDown'=>"cuenta()",'onKeyUp'=>"cuenta()"]) }}
                       </div>
                       <div class="checkbox-group">
-                        {{Form::label('coordelable','Tiene las coordenadas de la alerta?',['class' => 'control-label'])}}
+                        <b>Tiene las coordenadas de la alerta?<font color="red">*</font></b>
                         <div class="form-group" id="coorderadio">
                           <input type="radio" name="coorde" id="coorde1" value="1" required> Si
                           <input type="radio" name="coorde" id="coorde2" value="2"> No
@@ -219,15 +219,15 @@ input[type="number"] {
                           {{Form::label('Latlable','Latitud:',['class' => 'control-label'])}}
                           </div>
                           <div class="form-group col-sm-4 " >
-                            Grados:
+                            Grados:<font color="red">*</font>
                             {{ Form::number('lat_gra','', ['class' => 'form-control', 'id'=>'lat_grado','placeholder'=>'4','onchange'=>'coorden(this)'])}} 
                           </div>
                           <div class="form-group col-sm-4 " >
-                            Minutos:
+                            Minutos:<font color="red">*</font>
                           {{ Form::number('lat_min','', ['class' => 'form-control', 'id'=>'lat_min','placeholder'=>'35','onchange'=>'coorden(this)'])}}
                           </div>
                           <div class="form-group col-sm-4 " >
-                            Segundos:
+                            Segundos:<font color="red">*</font>
                           {{ Form::number('lat_seg','', ['class' => 'form-control', 'id'=>'lat_seg','placeholder'=>'40','onchange'=>'coorden(this)'])}}
                           </div>
                         </div>
@@ -236,15 +236,15 @@ input[type="number"] {
                           {{Form::label('Longlable','Longitud:',['class' => 'control-label'])}}
                           </div>
                           <div class="form-group col-sm-4 " >
-                            Grados:
+                            Grados:<font color="red">*</font>
                           {{ Form::number('long_gra','', ['class' => 'form-control', 'id'=>'long_gra','placeholder'=>'-74','onchange'=>'coorden(this)'])}}
                           </div>
                           <div class="form-group col-sm-4 " >
-                             Minutos:
+                             Minutos:<font color="red">*</font>
                           {{ Form::number('long_min','', ['class' => 'form-control', 'id'=>'long_min','placeholder'=>'35','onchange'=>'coorden(this)'])}}
                           </div>
                           <div class="form-group col-sm-4 " >
-                            Segundos:
+                            Segundos:<font color="red">*</font>
                           {{ Form::number('long_seg','', ['class' => 'form-control', 'id'=>'long_seg','placeholder'=>'40','onchange'=>'coorden(this)'])}}
                         </div>
                         </div>
