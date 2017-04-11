@@ -1548,7 +1548,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 
 
 
-		return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus'); 
+		return Redirect::to('plan50cargaproy')->with('status', 'ok_estatus'); 
 	}
 
 	public function postEditarPlan50(){
@@ -1713,9 +1713,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	    }		
 
 		if($edit>0){
-			return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('plan50rrcargaproy')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'error_estatus_editar'); 
 		}
 		
 	}
@@ -1786,9 +1786,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	    }			
 
 		if($edit>0){
-			return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('plan50rrcargaproy')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'error_estatus_editar'); 
 		}
 		
 	}
@@ -1895,9 +1895,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	    }		
 
 		if($edit>0){
-			return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus_editar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'ok_estatus_editar'); 
 		} else {
-			return Redirect::to('plan50rrcargaproy')->with('status', 'error_estatus_editar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'error_estatus_editar'); 
 		}
 		
 	}
@@ -1905,9 +1905,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		$borrar=DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID',Input::get('deleteproy'))->delete();
 		
 		if($borrar>0){
-			return Redirect::to('plan50rrcargaproy')->with('status', 'ok_estatus_borrar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'ok_estatus_borrar'); 
 		} else {
-			return Redirect::to('plan50rrcargaproy')->with('status', 'error_estatus_borrar'); 
+			return Redirect::to('plan50cargaproy')->with('status', 'error_estatus_borrar'); 
 		}
 	}
 
