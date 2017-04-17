@@ -104,8 +104,24 @@
                 <div class="col-xs-12" align="center">
                   Precio PIC estimado del proyecto seleccionado
                 </div>
-            </div>   
+            </div>  
             <div class="col-sm-3">
+                 <div class="col-xs-12" align="center" >
+                  <font size="6" id="num_viab_proy">0</font>
+                </div>
+                <div class="col-xs-12" align="center">
+                  No. proyectos validados / No. iniciativas priorizadas para este núcleo
+                </div>
+            </div> 
+            <div class="col-sm-3">
+                 <div class="col-xs-12" align="center" >
+                  <font size="6" id="pre_viab_proy">0</font>
+                </div>
+                <div class="col-xs-12" align="center">
+                  Sumatoria de Precios PIC para proyectos validados en este núcleo + Precio PIC del proyecto seleccionado
+                </div>
+            </div>
+            <!-- <div class="col-sm-3">
                  <div class="col-xs-12" align="center" >
                   <font size="6" id="pre_viab">0</font>
                 </div>
@@ -120,32 +136,12 @@
                 <div class="col-xs-12" align="center">
                   Sumatoria de precios PIC para iniciativas priorizadas en este núcleo
                 </div>
-            </div> 
+            </div>  -->
             
             <div class="col-sm-2"></div> 
         </div>
         <br>
-        <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-3">
-                 <div class="col-xs-12" align="center" >
-                  <font size="6" id="num_viab_proy">0</font>
-                </div>
-                <div class="col-xs-12" align="center">
-                  No. proyectos validados/No. iniciativas priorizadas para este núcleo
-                </div>
-            </div>
-            <div class="col-sm-3"></div>
-            <div class="col-sm-3">
-                 <div class="col-xs-12" align="center" >
-                  <font size="6" id="pre_viab_proy">0</font>
-                </div>
-                <div class="col-xs-12" align="center">
-                  Sumatoria de Precios PIC para proyectos validados en este núcleo + Precio PIC del proyecto seleccionado
-                </div>
-            </div>
-            <div class="col-sm-1"></div>
-          </div>
+ 
           <hr>
           <div class="row">
             <div class="col-sm-1"></div>
@@ -196,6 +192,9 @@
             <div class="col-sm-1"> </div>
             <div class="col-sm-10">
               <div class="col-sm-12" id="alcance"></div>
+              <div class="alert alert-danger col-sm-12" id="alert" style='display:none'>
+                <strong>Alerta!</strong> Éste proyecto no puede validarse porque con él se supera los 450 millones del núcleo veredal 
+              </div>
             </div>
             <div class="col-sm-1"></div>
           </div>
@@ -462,8 +461,8 @@
               $.ajax({url:"artpic/proyecto-para-viavilizar",type:"POST",data:{proy:num,nucleo:nucleo},dataType:'json',//funcion q validad si el proyecto ya teiene todos los criterios cargados y habilida el boton viavilizar. ademas carga los datos de realcion
                   success:function(data){
                     $("#pre_proy").html(Format.to(Number(data['precio'])));
-                    $("#pre_prior").html(Format.to(Number(data['precio_nucleo'][0]['prec_estim'])));
-                    $("#pre_viab").html(Format.to(Number(data['precio_nucleo_viablilizados'][0]['prec_estim'])));
+                    //$("#pre_prior").html(Format.to(Number(data['precio_nucleo'][0]['prec_estim'])));
+                    //$("#pre_viab").html(Format.to(Number(data['precio_nucleo_viablilizados'][0]['prec_estim'])));
                     if(data['precio_nucleo_viablilizados'][0]['prec_estim'] == null){
                       var valor=parseFloat(0)+parseFloat(data['precio']);
                       $("#pre_viab_proy").html(Format.to(Number(valor)));
@@ -472,20 +471,32 @@
                       $("#pre_viab_proy").html(Format.to(Number(valor)));
                     }
 
-                    if (valor>450000000){
+                    if (valor>=350000000){
                       $("#pre_viab_proy").css("color","red");
 
+                    }else if(valor<350000000 && valor>=250000000){
+                      $("#pre_viab_proy").css("color","orange");
                     }else{
                       $("#pre_viab_proy").css("color","black");
                     }
+
                     $("#num_viab_proy").html(data['precio_nucleo_viablilizados'][0]['cuenta']+"/"+data['precio_nucleo'][0]['cuenta'])
 
                     if (data['numero']>0){
                        $("#viable").prop('disabled', false);
                        $('#viabilizar_tittle').text("¿Desea validar el proyecto PIC_"+nucleo+num+"?");
                        $('#id_proy_viab').val(num);
+                       if (valor>=450000000){
+                        $("#viable").prop('disabled', true);
+                        $("#alert").css("display","block");
+                        $('#alert').html("<strong>Alerta!</strong> Éste proyecto no puede validarse porque con él se supera los 450 millones del núcleo veredal "+ nucleo_nom);
+                      }else{
+                        $("#viable").prop('disabled', false);
+                        $("#alert").css("display","none");
+                      }
                     }else{
                          $("#viable").prop('disabled', true);
+                         $("#alert").css("display","none");
                     }
 
                   },

@@ -1357,6 +1357,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					  ->join('DEPARTAMENTOS','MODART_PIC_P5150_GEO.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
 					  ->join('MUNICIPIOS','MODART_PIC_P5150_GEO.cod_mpio','=','MUNICIPIOS.COD_DANE')	
 					  ->select(db::raw("OBJECTID,concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as IDs, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,cod_nucleo,nom_proy,est_proy"))
+					  ->where('MODART_PIC_P5150_GEO.id_usuario','=',Auth::user()->id)
 					  ->get();
 		$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
 			->select('id_nucleo','nombre')
