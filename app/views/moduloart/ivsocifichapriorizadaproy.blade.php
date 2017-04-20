@@ -339,7 +339,7 @@
                   <h4 class="modal-title" id="Editar_tittle">Editar iniciativa-PIC</h4>
                 </div>
                 <div class="modal-body">
-                  <form role="form" action="artpic/editar-proyecto" method="post" id="crearindi" enctype="multipart/form-data" >
+                  <form role="form" action="artpic/editar-proyecto" method="post" id="ediindi" enctype="multipart/form-data" >
                       <div class="form-group">
                         <input  id = "ediidproy" name = "ediidproy" class="form-control" type="hidden" required="true" ></input>               
                       </div>
@@ -938,7 +938,7 @@ $("#nucleo").change(function(){
 
 
 $("#tipoterr").change(function(){
-
+  $('[id^=tipoterr_comple-]').remove();
   var tipoterr=$(this).val();
   var nucleo=$("#nucleo").val();
   if(tipoterr==null){
@@ -949,18 +949,50 @@ $("#tipoterr").change(function(){
     $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
         success:function(data){
           for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
-             $("#nom_terr").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
-
+            var OPTGROUP=document.createElement("OPTGROUP");
+            OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
+            if (data['arratodoterrtipo'][i]=="Resguardos indígenas:"){
+              OPTGROUP.id='1';
+            }else if(data['arratodoterrtipo'][i]=="Consejos cumunitarios:"){
+              OPTGROUP.id='2';
+            }else if(data['arratodoterrtipo'][i]=="Veredas:"){
+               OPTGROUP.id='3';
+            }
             $.each(data['arraynom_terri'][i], function(datos,nom){
-                $("#nom_terr").append("<option value=\""+datos+"\">"+nom+"</option>");
+                var x = document.createElement("OPTION");
+                x.setAttribute("value", datos);
+                var t = document.createTextNode(nom);
+                x.appendChild(t);
+                OPTGROUP.append(x);
               });
-          };
+           $("#nom_terr").append(OPTGROUP);
+         }
            
         },
         error:function(){alert('error');}
     });//Termina Ajax
   }
 });
+  
+    $("#nom_terr").change(function(){
+      $('[id^=tipoterr_comple-]').remove();
+      $("#nom_terr option:selected").each(function () {
+          var $this = $(this);
+          
+          var input=document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.name="tipoterr_comple[]";
+          input.id="tipoterr_comple-"+$this.val();
+          if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+            input.value=1;
+          }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+            input.value=2;
+          }else{
+             input.value=3;
+          }
+          document.getElementById("crearindi").append(input);
+        });      
+    });
 
     
     $("#nom_supcate").change(function(){
@@ -1147,18 +1179,51 @@ $("#editipoterr").change(function(){
     $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
         success:function(data){
           for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
-             $("#nom_terredi").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
-
+            var OPTGROUP=document.createElement("OPTGROUP");
+            OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
+            if (data['arratodoterrtipo'][i]=="Resguardos indígenas:"){
+              OPTGROUP.id='1-eje';
+            }else if(data['arratodoterrtipo'][i]=="Consejos cumunitarios:"){
+              OPTGROUP.id='2-eje';
+            }else if(data['arratodoterrtipo'][i]=="Veredas:"){
+               OPTGROUP.id='3-eje';
+            }
             $.each(data['arraynom_terri'][i], function(datos,nom){
-                $("#nom_terredi").append("<option value=\""+datos+"\">"+nom+"</option>");
+                var x = document.createElement("OPTION");
+                x.setAttribute("value", datos);
+                var t = document.createTextNode(nom);
+                x.appendChild(t);
+                OPTGROUP.append(x);
               });
-          };
+           $("#nom_terredi").append(OPTGROUP);
+         }
            
         },
         error:function(){alert('error');}
     });//Termina Ajax
   }
 });
+
+
+$("#nom_terredi").change(function(){
+      $('[id^=tipoterr_comple-]').remove();
+      $("#nom_terredi option:selected").each(function () {
+          var $this = $(this);
+          
+          var input=document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.name="tipoterr_comple[]";
+          input.id="tipoterr_comple-"+$this.val();
+          if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+            input.value=1;
+          }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+            input.value=2;
+          }else{
+             input.value=3;
+          }
+          document.getElementById("ediindi").append(input);
+        });      
+    });
 //##### fin de funciones para editar proyecto ###########
 
     
@@ -1197,22 +1262,39 @@ $("#editipoterr").change(function(){
                     });
                     $('#editipoterr').val(tipoterr);
                     $("#nom_terredi").empty();
-
                     for (var i = 0; i < Object.keys(data['arratodoterredi']).length; i++) {
-                      $("#nom_terredi").append("<optgroup label=\""+data['arratodoterrtipoedi'][i]+"\">"+i+"</optgroup>");
+                      var OPTGROUP=document.createElement("OPTGROUP");
+                      OPTGROUP.setAttribute("label", data['arratodoterrtipoedi'][i]);
+                      if (data['arratodoterrtipoedi'][i]=="Resguardos indígenas:"){
+                        OPTGROUP.id='1-ide';
+                      }else if(data['arratodoterrtipoedi'][i]=="Consejos cumunitarios:"){
+                        OPTGROUP.id='2-ide';
+                      }else if(data['arratodoterrtipoedi'][i]=="Veredas:"){
+                         OPTGROUP.id='3-ide';
+                      }
+                      
                       $.each(data['arratodoterredi'][i], function(datos,nom){
-                          $("#nom_terredi").append("<option value=\""+datos+"\">"+nom+"</option>");
+                          var x = document.createElement("OPTION");
+                          x.setAttribute("value", datos);
+                          var t = document.createTextNode(nom);
+                          x.appendChild(t);
+                          OPTGROUP.append(x);
                         });
-                    };
+                     $("#nom_terredi").append(OPTGROUP);
+                   }
 
                     var nameterr = [];
-                    if(data.arraynomter!=""){
-                      $.each(data.arraynomter, function(nom,datos){
-                           nameterr.push(nom.toString());
+                    if(data['arraynomter']!=""){
+                      $.each(data['arraynomter'], function(datos){
+                           if (data['arraynomter'][datos]["tipo_terr"]==1){
+                              $('#1-ide option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==2){
+                              $('#2-ide option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==3){
+                              $('#3-ide option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }
                       });
                     }
-
-                    $('#nom_terredi').val(nameterr);
                     $("#edinom_supcate").val(data['arrayproy'][0].id_subcat);
                     var selected = $(':selected', $("#edinom_supcate"));
                     var categoria=selected.closest('optgroup').attr('label');

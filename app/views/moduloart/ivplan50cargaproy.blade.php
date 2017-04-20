@@ -93,7 +93,7 @@
           <button id="btndeletepro" disabled="disabled" data-target="#borrar_proyecto"  data-toggle="modal" type="button" class="btn btn-danger">Borrar proyecto</button>          
           <!--Aca inicia el modal para cargar nuevo proyecto-->
           <!-- Modal -->
-          <div class="modal fade" id="cargar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal fade" id="cargar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -137,7 +137,7 @@
                         <input required id="nombre" name="nombre" type="text" class="form-control" placeholder="Text input">
                       </div>
                       <div class="form-group">
-                        <b>Entidad Líder<font color="red">*</font></b>
+                        <b>Actores para implementación<font color="red">*</font></b>
                         <select required id="entidad" name="entidad" class="form-control">
                             <option selected value="">Seleccione una opción</option>
                             <option value="Alcaldía municipal">Alcaldía municipal</option>
@@ -327,6 +327,10 @@
                         </div>
                         </div>
                       </div>
+                      <div id="label_pobla" style='display:none' class="row" >
+                        <b style="padding: 15px;">Ingrese el número de población beneficiada para cada territorio seleccionado:</b>
+                        <br><br>
+                      </div> 
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -339,7 +343,7 @@
           <!--Aca finaliza el modal para cargar nuevo proyecto-->
 
           <!--Aca inicia el modal para borrar proyecto-->
-          <div class="modal fade bs-example-modal-sm" id="borrar_proyecto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+          <div class="modal fade bs-example-modal-sm" id="borrar_proyecto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-sm" role="document">
               <div class="modal-content">
                   <div class="modal-header">
@@ -480,7 +484,7 @@
                               {{ Form::textarea('alcanceediiden', Input::old('alcanceediiden'), ['class' => 'form-control', 'id'=>'alcanceediiden','required'=>'true']) }}
                             </div>
                             <div class="form-group">
-                              <b>Entidad Líder<font color="red">*</font></b>
+                              <b>Actores para implementación<font color="red">*</font></b>
                               <select required id="entidadediiden" name="entidadediiden" class="form-control">
                                   <option selected value="">Seleccione una opción</option>
                                   <option value="Alcaldía municipal">Alcaldía municipal</option>
@@ -599,7 +603,7 @@
                               {{ Form::textarea('alcanceediestr', Input::old('alcanceediestr'), ['class' => 'form-control', 'id'=>'alcanceediestr','required'=>'true']) }}
                             </div>
                             <div class="form-group">
-                              <b>Entidad Líder<font color="red">*</font></b>
+                              <b>Actores para implementación<font color="red">*</font></b>
                               <select required id="entidadediestr" name="entidadediestr" class="form-control">
                                   <option selected value="">Seleccione una opción</option>
                                   <option value="Alcaldía municipal">Alcaldía municipal</option>
@@ -669,7 +673,7 @@
 
 
                     <div class="tab-pane active" id="tab3">
-                        <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data">
+                        <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data" id="edi_form">
                           <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
@@ -722,7 +726,7 @@
                               {{ Form::textarea('alcanceedieje', Input::old('alcanceedieje'), ['class' => 'form-control', 'id'=>'alcanceedieje','required'=>'true']) }}
                             </div>
                             <div class="form-group">
-                              <b>Entidad Líder<font color="red">*</font></b>
+                              <b>Actores para implementación<font color="red">*</font></b>
                               <select required id="entidadedieje" name="entidadedieje" class="form-control">
                                   <option selected value="">Seleccione una opción</option>
                                   <option value="Alcaldía municipal">Alcaldía municipal</option>
@@ -890,6 +894,10 @@
                               </div>
                               </div>
                             </div>
+                            <div class="row" id="label_pobla-eje" >
+                              <b style="padding: 15px;" >Ingrese el número de población beneficiada para cada territorio seleccionado:</b>
+                              <br><br>
+                            </div> 
                           </div>
 
                       <div class="modal-footer">
@@ -1015,24 +1023,69 @@
            $('[id^=inden-]').css("display","none");
            $('[id^=fecha-]').css("display","none");
            $('[id^=cor-]').css("display","block");
+           $('#label_pobla').css("display","block");
+            var ids=$("#nom_terr").val();
+            var  text=$('#nom_terr option:selected').text().split(" ");
+            $('[id^=pobl-]').remove();
+            $('[id^=tipoterr_comple-]').remove();
+            if ($("#estado").val()=="Ejecución"){
+                $("#nom_terr option:selected").each(function () {
+                  var $this = $(this);
+                  var div = document.createElement("div");
+                  div.className ="form-group col-sm-4";
+                  div.id ="pobl-"+$this.val();
+                  var Label = document.createElement("label");
+                  Label.innerHTML= "<b>"+$this.text()+"</b>";
+                  var input=document.createElement("input");
+                  input.setAttribute("type", "number");
+                  input.className ="form-control";
+                  input.id=$this.val();
+                  input.name="pob_bene_ter[]";
+                  input.setAttribute("placeholder","# de población");
+                  div.append(Label);
+                  div.append(input);
+                  document.getElementById("label_pobla").append(div);
+                  var input=document.createElement("input");
+                  input.setAttribute("type", "hidden");
+                  input.name="tipoterr_comple[]";
+                  input.id="tipoterr_comple-"+$this.val();
+                  if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                    input.value=1;
+                  }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                    input.value=2;
+                  }else{
+                     input.value=3;
+                  }
+                  document.getElementById("label_pobla").append(input);
+                });
+            }
         }else if($("#estado").val()==''){
           $('[id^=eje-]').css("display","none");
           $('[id^=est-]').css("display","none");
           $('[id^=inden-]').css("display","none");
           $('[id^=fecha-]').css("display","none");
           $('[id^=cor-]').css("display","none");
+          $('#label_pobla').css("display","none");
+          $('[id^=pobl-]').remove();
+          $('[id^=tipoterr_comple-]').remove();
         }else if ($("#estado").val()=='Identificación'){
           $('[id^=eje-]').css("display","none");
           $('[id^=est-]').css("display","none");
           $('[id^=inden-]').css("display","block");
           $('[id^=fecha-]').css("display","block");
           $('[id^=cor-]').css("display","none");
+          $('#label_pobla').css("display","none");
+          $('[id^=pobl-]').remove();
+          $('[id^=tipoterr_comple-]').remove();
         }else{
           $('[id^=fecha-]').css("display","block");
           $('[id^=eje-]').css("display","none");
           $('[id^=inden-]').css("display","none");
           $('[id^=est-]').css("display","block");
           $('[id^=cor-]').css("display","none");
+          $('#label_pobla').css("display","none");
+          $('[id^=pobl-]').remove();
+          $('[id^=tipoterr_comple-]').remove();
         }
      });
 
@@ -1046,19 +1099,61 @@
         $('#nom_terr').empty();
         $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
             success:function(data){
-              console.log(data)
               for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
-                 $("#nom_terr").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
-
+                  var OPTGROUP=document.createElement("OPTGROUP");
+                  OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
-                    $("#nom_terr").append("<option value=\""+datos+"\">"+nom+"</option>");
+                    var x = document.createElement("OPTION");
+                    x.setAttribute("value", datos);
+                    var t = document.createTextNode(nom);
+                    x.appendChild(t);
+                    OPTGROUP.append(x);
                   });
+                 $("#nom_terr").append(OPTGROUP);
               };
                
             },
             error:function(){alert('error');}
         });//Termina Ajax
       }
+    }); 
+
+    $("#nom_terr").change(function() {
+        var ids=$("#nom_terr").val();
+        var  text=$('#nom_terr option:selected').text().split(" ");
+        $('[id^=pobl-]').remove();
+        $('[id^=tipoterr_comple-]').remove();
+        if ($("#estado").val()=="Ejecución"){
+            $("#nom_terr option:selected").each(function () {
+              var $this = $(this);
+              var div = document.createElement("div");
+              div.className ="form-group col-sm-4";
+              div.id ="pobl-"+$this.val();
+              var Label = document.createElement("label");
+              Label.innerHTML= "<b>"+$this.text()+"</b>";
+              var input=document.createElement("input");
+              input.setAttribute("type", "number");
+              input.className ="form-control";
+              input.id=$this.val();
+              input.name="pob_bene_ter[]";
+              input.setAttribute("placeholder","# de población");
+              div.append(Label);
+              div.append(input);
+              document.getElementById("label_pobla").append(div);
+              var input=document.createElement("input");
+              input.setAttribute("type", "hidden");
+              input.name="tipoterr_comple[]";
+              input.id="tipoterr_comple-"+$this.val();
+              if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                input.value=1;
+              }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                input.value=2;
+              }else{
+                 input.value=3;
+              }
+              document.getElementById("label_pobla").append(input);
+            });
+        }
     });
 
     $('input[type=radio][name=coorde]').change(function() {
@@ -1171,18 +1266,40 @@
 
                     $("#nom_terrediiden").empty();
                     for (var i = 0; i < Object.keys(data['arratodoterredi']).length; i++) {
-                      $("#nom_terrediiden").append("<optgroup label=\""+data['arratodoterrtipoedi'][i]+"\">"+i+"</optgroup>");
+                      var OPTGROUP=document.createElement("OPTGROUP");
+                      OPTGROUP.setAttribute("label", data['arratodoterrtipoedi'][i]);
+                      if (data['arratodoterrtipoedi'][i]=="Resguardos indígenas:"){
+                        OPTGROUP.id='1-ide';
+                      }else if(data['arratodoterrtipoedi'][i]=="Consejos cumunitarios:"){
+                        OPTGROUP.id='2-ide';
+                      }else if(data['arratodoterrtipoedi'][i]=="Veredas:"){
+                         OPTGROUP.id='3-ide';
+                      }
+
                       $.each(data['arratodoterredi'][i], function(datos,nom){
-                          $("#nom_terrediiden").append("<option value=\""+datos+"\">"+nom+"</option>");
+                          var x = document.createElement("OPTION");
+                          x.setAttribute("value", datos);
+                          var t = document.createTextNode(nom);
+                          x.appendChild(t);
+                          OPTGROUP.append(x);
                         });
-                    };
+                     $("#nom_terrediiden").append(OPTGROUP);
+                   }
+
                     var nameterr = [];
                     if(data['arraynomter']!=""){
-                      $.each(data['arraynomter'], function(nom,datos){
-                           nameterr.push(nom.toString());
+                      $.each(data['arraynomter'], function(datos){
+                           if (data['arraynomter'][datos]["tipo_terr"]==1){
+                              $('#1-ide option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==2){
+                              $('#2-ide option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==3){
+                              $('#3-ide option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }
                       });
                     }
-                    $('#nom_terrediiden').val(nameterr);
+                    //$('#nom_terrediiden').val(nameterr);
+                    
                     $('#lineaediiden').val(data['arrayproy'][0].linea_proy);
                     $('#entidadediiden').val(data['arrayproy'][0].enti_lider);
                     $('#nombreediiden').val(data['arrayproy'][0].nom_proy);
@@ -1208,18 +1325,39 @@
 
                     $("#nom_terrediestr").empty();
                     for (var i = 0; i < Object.keys(data['arratodoterredi']).length; i++) {
-                      $("#nom_terrediestr").append("<optgroup label=\""+data['arratodoterrtipoedi'][i]+"\">"+i+"</optgroup>");
+                      var OPTGROUP=document.createElement("OPTGROUP");
+                      OPTGROUP.setAttribute("label", data['arratodoterrtipoedi'][i]);
+                      if (data['arratodoterrtipoedi'][i]=="Resguardos indígenas:"){
+                        OPTGROUP.id='1-est';
+                      }else if(data['arratodoterrtipoedi'][i]=="Consejos cumunitarios:"){
+                        OPTGROUP.id='2-est';
+                      }else if(data['arratodoterrtipoedi'][i]=="Veredas:"){
+                         OPTGROUP.id='3-est';
+                      }
                       $.each(data['arratodoterredi'][i], function(datos,nom){
-                          $("#nom_terrediestr").append("<option value=\""+datos+"\">"+nom+"</option>");
+                          var x = document.createElement("OPTION");
+                          x.setAttribute("value", datos);
+                          var t = document.createTextNode(nom);
+                          x.appendChild(t);
+                          OPTGROUP.append(x);
                         });
-                    };
+                     $("#nom_terrediestr").append(OPTGROUP);
+                   }
+
+                    
                     var nameterr = [];
                     if(data['arraynomter']!=""){
-                      $.each(data['arraynomter'], function(nom,datos){
-                           nameterr.push(nom.toString());
+                      $.each(data['arraynomter'], function(datos){
+                           if (data['arraynomter'][datos]["tipo_terr"]==1){
+                              $('#1-est option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==2){
+                              $('#2-est option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==3){
+                              $('#3-est option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }
                       });
                     }
-                    $('#nom_terrediestr').val(nameterr);
+                    //$('#nom_terrediestr').val(nameterr);
                     $('#lineaediestr').val(data['arrayproy'][0].linea_proy);
                     $('#entidadediestr').val(data['arrayproy'][0].enti_lider);
                     $('#nombreediestr').val(data['arrayproy'][0].nom_proy_2);
@@ -1246,18 +1384,38 @@
 
                     $("#nom_terredieje").empty();
                     for (var i = 0; i < Object.keys(data['arratodoterredi']).length; i++) {
-                      $("#nom_terredieje").append("<optgroup label=\""+data['arratodoterrtipoedi'][i]+"\">"+i+"</optgroup>");
+                      var OPTGROUP=document.createElement("OPTGROUP");
+                      OPTGROUP.setAttribute("label", data['arratodoterrtipoedi'][i]);
+                      if (data['arratodoterrtipoedi'][i]=="Resguardos indígenas:"){
+                        OPTGROUP.id='1-eje';
+                      }else if(data['arratodoterrtipoedi'][i]=="Consejos cumunitarios:"){
+                        OPTGROUP.id='2-eje';
+                      }else if(data['arratodoterrtipoedi'][i]=="Veredas:"){
+                         OPTGROUP.id='3-eje';
+                      }
                       $.each(data['arratodoterredi'][i], function(datos,nom){
-                          $("#nom_terredieje").append("<option value=\""+datos+"\">"+nom+"</option>");
+                          var x = document.createElement("OPTION");
+                          x.setAttribute("value", datos);
+                          var t = document.createTextNode(nom);
+                          x.appendChild(t);
+                          OPTGROUP.append(x);
                         });
-                    };
+                     $("#nom_terredieje").append(OPTGROUP);
+                   }
+                    
                     var nameterr = [];
-                    if(data['arraynomter']!=""){
-                      $.each(data['arraynomter'], function(nom,datos){
-                           nameterr.push(nom.toString());
+                     if(data['arraynomter']!=""){
+                      $.each(data['arraynomter'], function(datos){
+                           if (data['arraynomter'][datos]["tipo_terr"]==1){
+                              $('#1-eje option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==2){
+                              $('#2-eje option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }else if(data['arraynomter'][datos]["tipo_terr"]==3){
+                              $('#3-eje option[value='+data['arraynomter'][datos]["id_terr"]+']').prop('selected', true);
+                           }
                       });
                     }
-                    $('#nom_terredieje').val(nameterr);
+                    //$('#nom_terredieje').val(nameterr);
                     $('#lineaedieje').val(data['arrayproy'][0].linea_proy);
                     $('#entidadedieje').val(data['arrayproy'][0].enti_lider);
                     $('#nombreedieje').val(data['arrayproy'][0].nom_proy_3);
@@ -1347,6 +1505,47 @@
                        }
                      };
 
+
+
+                     $('[id^=pobl-]').remove();
+                    $('[id^=tipoterr_comple-]').remove();
+
+                     $("#nom_terredieje option:selected").each(function () {
+                      var $this = $(this);
+                      var div = document.createElement("div");
+                      div.className ="form-group col-sm-4";
+                      div.id ="pobl-"+$this.val();
+                      var Label = document.createElement("label");
+                      Label.innerHTML= "<b>"+$this.text()+"</b>";
+                      var input=document.createElement("input");
+                      input.setAttribute("type", "number");
+                      input.className ="form-control";
+                      input.id=$this.val();
+                      $.each(data['arraynomter'], function(datos){
+                          if ($this.val()==data['arraynomter'][datos]["id_terr"]){
+                           
+                            input.value=data['arraynomter'][datos]["pobla"];
+                          }
+                      });
+                      input.name="pob_bene_ter[]";
+                      input.setAttribute("placeholder","# de población");
+                      div.append(Label);
+                      div.append(input);
+                      document.getElementById("label_pobla-eje").append(div);
+                      var input=document.createElement("input");
+                      input.setAttribute("type", "hidden");
+                      input.name="tipoterr_comple[]";
+                      input.id="tipoterr_comple-"+$this.val();
+                      if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                        input.value=1;
+                      }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                        input.value=2;
+                      }else{
+                         input.value=3;
+                      }
+                      document.getElementById("label_pobla-eje").append(input);
+                    });
+
                     //fin del formulario de ejecucion
 
 
@@ -1423,12 +1622,19 @@
         $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
             success:function(data){
               for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
-                 $("#nom_terrediiden").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
 
+                 var OPTGROUP=document.createElement("OPTGROUP");
+                  OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
-                    $("#nom_terrediiden").append("<option value=\""+datos+"\">"+nom+"</option>");
+                    var x = document.createElement("OPTION");
+                    x.setAttribute("value", datos);
+                    var t = document.createTextNode(nom);
+                    x.appendChild(t);
+                    OPTGROUP.append(x);
                   });
+                 $("#nom_terrediiden").append(OPTGROUP);
               };
+                
                
             },
             error:function(){alert('error');}
@@ -1446,11 +1652,16 @@
         $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
             success:function(data){
               for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
-                 $("#nom_terrediestr").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
-
+                 var OPTGROUP=document.createElement("OPTGROUP");
+                  OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
-                    $("#nom_terrediestr").append("<option value=\""+datos+"\">"+nom+"</option>");
+                    var x = document.createElement("OPTION");
+                    x.setAttribute("value", datos);
+                    var t = document.createTextNode(nom);
+                    x.appendChild(t);
+                    OPTGROUP.append(x);
                   });
+                 $("#nom_terrediestr").append(OPTGROUP);
               };
                
             },
@@ -1459,6 +1670,8 @@
       }
     });
   $("#tipoterredieje").change(function(){
+      $('[id^=pobl-]').remove();
+      $('[id^=tipoterr_comple-]').remove();
       var tipoterr=$(this).val();
       var nucleo=$("#nucleoedieje2").val();
       if(tipoterr==null){
@@ -1466,14 +1679,20 @@
       }else{
         $("#tipoterredieje").css("display","block");
         $('#nom_terredieje').empty();
+
         $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
             success:function(data){
               for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
-                 $("#nom_terredieje").append("<optgroup label=\""+data['arratodoterrtipo'][i]+"\">"+i+"</optgroup>");
-
+                 var OPTGROUP=document.createElement("OPTGROUP");
+                  OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
-                    $("#nom_terredieje").append("<option value=\""+datos+"\">"+nom+"</option>");
+                    var x = document.createElement("OPTION");
+                    x.setAttribute("value", datos);
+                    var t = document.createTextNode(nom);
+                    x.appendChild(t);
+                    OPTGROUP.append(x);
                   });
+                 $("#nom_terredieje").append(OPTGROUP);
               };
                
             },
@@ -1507,7 +1726,6 @@
 
     $('input[type=radio][name^=docradio]').change(function() {
         var id=this.id.substring(9,12);
-        console.log(id)
         if (this.value == 1) {
            $("#doc_carga"+id).css("display","block");
            $("#doc"+id).prop('required',true);
@@ -1554,6 +1772,59 @@
         }
      });
 
+  $("#nom_terredieje").change(function() {
+        var ids=$("#nom_terredieje").val();
+        var  text=$('#nom_terredieje option:selected').text().split(" ");
+        $('[id^=pobl-]').remove();
+        $('[id^=tipoterr_comple-]').remove();
+        if ($("#estadoedieje").val()=="Ejecución"){
+            $("#nom_terredieje option:selected").each(function () {
+              var $this = $(this);
+              var div = document.createElement("div");
+              div.className ="form-group col-sm-4";
+              div.id ="pobl-"+$this.val();
+              var Label = document.createElement("label");
+              Label.innerHTML= "<b>"+$this.text()+"</b>";
+              var input=document.createElement("input");
+              input.setAttribute("type", "number");
+              input.className ="form-control";
+              input.id=$this.val();
+              input.name="pob_bene_ter[]";
+              input.setAttribute("placeholder","# de población");
+              div.append(Label);
+              div.append(input);
+              document.getElementById("label_pobla-eje").append(div);
+              var input=document.createElement("input");
+              input.setAttribute("type", "hidden");
+              input.name="tipoterr_comple[]";
+              input.id="tipoterr_comple-"+$this.val();
+              if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                input.value=1;
+              }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                input.value=2;
+              }else{
+                 input.value=3;
+              }
+              document.getElementById("label_pobla-eje").append(input);
+            });
+        }
+    });
+
+
+$('#cargar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+   $(this).find('form').trigger('reset');
+    table.$('tr.active').removeClass('active');
+})
+
+$('#borrar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+   $(this).find('form').trigger('reset');
+    table.$('tr.active').removeClass('active');
+})
+
+$('#editar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+   $(this).find('form').trigger('reset');
+    table.$('tr.active').removeClass('active');
+})
 
 //finalizacion de funciones de edicion para el estado de identificación  
 </script>    

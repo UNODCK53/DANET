@@ -182,7 +182,7 @@ class ArtpicController extends BaseController {
 					    	array(
 					    		'id_proy' => $idmaximo,
 					    		'id_terr' => Input::get('nom_terr')[$i],
-					    		'tipo_terr'=> Input::get('tipoterr')[$i]
+					    		'tipo_terr'=> Input::get('tipoterr_comple')[$i]
 
 					    		)
 					    	);
@@ -300,7 +300,6 @@ class ArtpicController extends BaseController {
 				$Resguardo = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',Input::get('nucleo'))
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($Resguardo as $pro)
@@ -316,7 +315,6 @@ class ArtpicController extends BaseController {
 				$concejo = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',Input::get('nucleo'))
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($concejo as $pro)
@@ -332,7 +330,6 @@ class ArtpicController extends BaseController {
 				$veredas = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',Input::get('nucleo'))
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 
@@ -405,7 +402,6 @@ class ArtpicController extends BaseController {
 				$veredas = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',$nucl)
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($veredas as $pro)
@@ -419,7 +415,6 @@ class ArtpicController extends BaseController {
 				$concejo = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',$nucl)
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($concejo as $pro)
@@ -432,14 +427,13 @@ class ArtpicController extends BaseController {
 				$Resguardo = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',$nucl)
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($Resguardo as $pro)
 				{
 					  $arrares[$pro->cod_vda] = $pro->nom_terr;
 				}
-				//array_push($arratodoterredi, $arrares);
+				array_push($arratodoterredi, $arrares);
 				array_push($arratodoterrtipoedi, "Resguardos indígenas:");
 			}
 		}
@@ -495,7 +489,7 @@ class ArtpicController extends BaseController {
 		}		
 
 
-		return  array('arrayproy' => $arrayproy,'arraytipoterr'=>$arraytipoter,'arraysubsubcate'=>$arraysubsubcate,'arraysocio'=>$arraysocio,'arraysociootro'=>$arraysociootro,'arraynomter'=>$arraynomter,'arratodoterredi'=>$arratodoterredi,'arratodoterrtipoedi'=>$arratodoterrtipoedi,'arrayrankingedi'=>$arrayranking);	
+		return  array('arrayproy' => $arrayproy,'arraytipoterr'=>$arraytipoter,'arraysubsubcate'=>$arraysubsubcate,'arraysocio'=>$arraysocio,'arraysociootro'=>$arraysociootro,'arraynomter'=>$nomter,'arratodoterredi'=>$arratodoterredi,'arratodoterrtipoedi'=>$arratodoterrtipoedi,'arrayrankingedi'=>$arrayranking);	
 
 	}
 
@@ -568,7 +562,7 @@ class ArtpicController extends BaseController {
 					    	array(
 					    		'id_proy' => Input::get('ediidproy'),
 					    		'id_terr' => Input::get('nom_terredi')[$i],
-					    		'tipo_terr'=> Input::get('editipoterr')[$i]
+					    		'tipo_terr'=> Input::get('tipoterr_comple')[$i]
 
 					    		)
 					    	);
@@ -1383,7 +1377,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	public function postMunicipiosPlan50()
 	{
 		$depto=Input::get('depto');
-		$municipios = DB::select('SELECT COD_DANE, NOM_MPIO_1 FROM MUNICIPIOS where (DAILCD=1 or ZVTN=1) and COD_DPTO='.$depto.'order by NOM_MPIO_1 asc');
+		$municipios = DB::select('SELECT COD_DANE, NOM_MPIO_1 FROM MUNICIPIOS where (PDET=1 or ZVTN=1) and COD_DPTO='.$depto.'order by NOM_MPIO_1 asc');
 		return $municipios;
 	}
 
@@ -1512,7 +1506,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					    	array(
 					    		'id_proy' => $idmaximo,
 					    		'id_terr' => Input::get('nom_terr')[$i],
-					    		'tipo_terr'=> Input::get('tipoterr')[$i]
+					    		'tipo_terr'=> Input::get('tipoterr_comple')[$i],
+					    		'pobla'=> Input::get('pob_bene_ter')[$i]
+
 
 					    		)
 					    	);
@@ -1580,7 +1576,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			$terr=array_map(create_function('$item','return $item->id_tipterr;'),$tipoter);//extract value from object query	
 
 		$nomter = DB::table('MODART_PIC_P5150_PROYECTOTERRI')
-			->select('id_proy','id_terr','tipo_terr')
+			->select('id_proy','id_terr','tipo_terr','pobla')
 			->where('id_proy','=', Input::get('proy'))
 			->get();
 			
@@ -1602,7 +1598,6 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				$veredas = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',$nucl)
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($veredas as $pro)
@@ -1616,7 +1611,6 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				$concejo = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',$nucl)
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($concejo as $pro)
@@ -1629,7 +1623,6 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				$Resguardo = DB::table('MODART_PIC_VEREDAS')
 				->select('cod_vda','nom_terr')
 				->where('cod_nucleo','=',$nucl)
-				->where('ZVT','=',true)
 				->orderby('nom_terr','asc')
 				->get();
 				foreach($Resguardo as $pro)
@@ -1645,7 +1638,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 
 		
 
-		return array('arrayproy'=>$arrayproy,'terr'=>$terr,'arratodoterredi'=>$arratodoterredi,'arratodoterrtipoedi'=>$arratodoterrtipoedi,'arraynomter'=>$arraynomter);
+		return array('arrayproy'=>$arrayproy,'terr'=>$terr,'arratodoterredi'=>$arratodoterredi,'arratodoterrtipoedi'=>$arratodoterrtipoedi,'arraynomter'=>$nomter);
 	}
 
 	public function postEdiProyP50Iden(){
@@ -1868,7 +1861,8 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					    	array(
 					    		'id_proy' => $id,
 					    		'id_terr' => Input::get('nom_terredieje')[$i],
-					    		'tipo_terr'=> Input::get('tipoterredieje')[$i]
+					    		'tipo_terr'=> Input::get('tipoterr_comple')[$i],
+					    		'pobla'=> Input::get('pob_bene_ter')[$i]
 
 					    		)
 					    	);
@@ -1997,12 +1991,12 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			{
 				$data = array();
 				$results = DB::select(
-					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Concejo_Comunitario,Veredas,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Entidad_lider,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada
+					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Concejo_Comunitario,Veredas,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada
 from 
-	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Entidad_lider,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas,Concejo_Comunitario
-		from (select auto,ID,Departamento,Municipios,COD_DANE,usuario,nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Entidad_lider,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas
+	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas,Concejo_Comunitario
+		from (select auto,ID,Departamento,Municipios,COD_DANE,usuario,nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas
 			from (select 
-				OBJECTID as auto,concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID,MUNICIPIOS.NOM_DPTO  as Departamento,MUNICIPIOS.NOM_MPIO_1 as Municipios,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario ,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nom_proy_identi,nom_proy_2 as Nom_proy_estruct,nom_proy_3 as Nom_proy_ejecuci,enti_lider as Entidad_lider,linea_proy as Linea_del_proyecto,alcance as Alcance_en_identi,alcance_2 as Alcance_en_estruct,alcance_3 as Alcance_en_ejecuci,est_proy as Estado_actual,CONVERT(VARCHAR,fecha_inicio,103) as Fecha_estimada_ejecucion,CONVERT(VARCHAR,fecha_fin,103) as Fecha_estimada_finalizacion,CONVERT(VARCHAR,fecha_inicio_2,103) as Fecha_de_ejecucion,CONVERT(VARCHAR,fecha_fin_2,103) as Fecha_finalizacion,avance_pres as Avance_presupuestal,avance_prod as Avance_del_producto,costo_estim as Costo_estimado,costo_ejec as Costo_final,longitud as Longitud_tramo,coord_ini,coord_fin,pob_bene as Poblacion_beneficiada 
+				OBJECTID as auto,concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID,MUNICIPIOS.NOM_DPTO  as Departamento,MUNICIPIOS.NOM_MPIO_1 as Municipios,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario ,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nom_proy_identi,nom_proy_2 as Nom_proy_estruct,nom_proy_3 as Nom_proy_ejecuci,enti_lider as Actores_para_implementacion,linea_proy as Linea_del_proyecto,alcance as Alcance_en_identi,alcance_2 as Alcance_en_estruct,alcance_3 as Alcance_en_ejecuci,est_proy as Estado_actual,CONVERT(VARCHAR,fecha_inicio,103) as Fecha_estimada_ejecucion,CONVERT(VARCHAR,fecha_fin,103) as Fecha_estimada_finalizacion,CONVERT(VARCHAR,fecha_inicio_2,103) as Fecha_de_ejecucion,CONVERT(VARCHAR,fecha_fin_2,103) as Fecha_finalizacion,avance_pres as Avance_presupuestal,avance_prod as Avance_del_producto,costo_estim as Costo_estimado,costo_ejec as Costo_final,longitud as Longitud_tramo,coord_ini,coord_fin,pob_bene as Poblacion_beneficiada 
 			from MODART_PIC_P5150_GEO 
 			inner join 
 				MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_P5150_GEO.cod_mpio 
