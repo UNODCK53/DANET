@@ -310,6 +310,10 @@
                               <td id="pob-eje"></td>
                             </tr>
                             <tr>
+                              <td>Población beneficiada por territorio</td>
+                              <td id="pob_terr-eje"></td>
+                            </tr>
+                            <tr>
                               <td>Avance presupuestal</td>
                               <td id="presu-eje"></td>
                             </tr>
@@ -446,6 +450,8 @@
                      $('#costo-est').html(data['todo'][0].costo_estim);
                      $('#costo-eje').html(data['todo'][0].costo_ejec);
                      $('#pob-eje').html(data['todo'][0].pob_bene);
+                     $('#pob_terr-eje').html(data['pobla_bene']);
+                     
                      $('#presu-eje').html(data['todo'][0].avance_pres);
                      $('#prod-eje').html(data['todo'][0].avance_prod);
                      $('#long-eje').html(data['todo'][0].longitud);

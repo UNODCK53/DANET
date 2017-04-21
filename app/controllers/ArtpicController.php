@@ -1478,7 +1478,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    		'avance_pres' =>  Input::get('ava_presu'),
 		    		'alcance_2' => $alcance,
 		    		'alcance_3' => $alcance,
-		    		'pob_bene' => Input::get('pob_bene'),
+		    		'pob_bene' => array_sum(Input::get('pob_bene_ter')) ,
 		    		'avance_prod' => $ava_product,
 		    		'longitud' => $long,
 		    		'costo_estim' =>$costo,
@@ -1829,7 +1829,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    		'linea_proy' =>  Input::get('lineaedieje'),
 		    		'est_proy' =>  Input::get('estadoedieje'),
 		    		'costo_ejec' => preg_replace("/[. $]/","",Input::get('cost_proyedieje')),
-		    		'pob_bene' =>  Input::get('pob_beneedieje'),
+		    		'pob_bene' =>  array_sum(Input::get('pob_bene_ter')),
 		    		'avance_pres' =>  Input::get('ava_presuedieje'),
 		    		'avance_prod' =>  Input::get('ava_productedieje'),
 		    		'longitud' =>  Input::get('longedieje'),
@@ -1976,7 +1976,29 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					) as t3");
 			$nomterr=array_map(create_function('$item','return $item->nom_terr;'),$nomter);//extract value from object query	
 
-		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr);
+	$bene = DB::select("Select 
+				   Left(t3.t2,Len(t3.t2)-1) As 'nom_terr'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.nom_terr +' ('AS [text()],ST1.pobla AS [text()],' beneficiarios), ' as [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr,pobla
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where id_proy=". $proyecto.") ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.tipo_terr,ST1.nom_terr
+								For XML PATH ('')
+							) as t2
+						From (SELECT id_proy,nom_terr
+									FROM MODART_PIC_P5150_PROYECTOTERRI 
+									join MODART_PIC_VEREDAS 
+									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
+					) as t3");
+			$pobla_bene=array_map(create_function('$item','return $item->nom_terr;'),$bene);//extract value from object query			
+
+		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr,'pobla_bene'=>$pobla_bene);
 	}
 
 
@@ -1991,7 +2013,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			{
 				$data = array();
 				$results = DB::select(
-					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Concejo_Comunitario,Veredas,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada
+					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Concejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin
 from 
 	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas,Concejo_Comunitario
 		from (select auto,ID,Departamento,Municipios,COD_DANE,usuario,nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas
@@ -2012,8 +2034,8 @@ from
 					(
 						Select distinct ST2.id_proy, 
 							(
-								Select ST1.nom_terr + ',' AS [text()]
-								From (SELECT id_proy,nom_terr,tipo_terr
+								Select ST1.nom_terr +' ('AS [text()],ST1.pobla AS [text()],' beneficiarios), ' as [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr,pobla
 									FROM MODART_PIC_P5150_PROYECTOTERRI 
 									join MODART_PIC_VEREDAS 
 									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=1) ST1
@@ -2033,8 +2055,8 @@ from
 					(
 						Select distinct ST2.id_proy, 
 							(
-								Select ST1.nom_terr + ',' AS [text()]
-								From (SELECT id_proy,nom_terr,tipo_terr
+								Select ST1.nom_terr +' ('AS [text()],ST1.pobla AS [text()],' beneficiarios), ' as [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr,pobla
 									FROM MODART_PIC_P5150_PROYECTOTERRI 
 									join MODART_PIC_VEREDAS 
 									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=2) ST1
@@ -2054,8 +2076,8 @@ from
 					(
 						Select distinct ST2.id_proy, 
 							(
-								Select ST1.nom_terr + ',' AS [text()]
-								From (SELECT id_proy,nom_terr,tipo_terr
+								Select ST1.nom_terr +' ('AS [text()],ST1.pobla AS [text()],' beneficiarios), ' as [text()]
+								From (SELECT id_proy,nom_terr,tipo_terr,pobla
 									FROM MODART_PIC_P5150_PROYECTOTERRI 
 									join MODART_PIC_VEREDAS 
 									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda where tipo_terr=3) ST1

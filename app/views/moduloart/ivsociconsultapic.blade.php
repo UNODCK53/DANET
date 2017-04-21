@@ -12,7 +12,12 @@
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')   
-<script src="assets/art/js/wNumb.js"></script>    
+<script src="assets/art/js/wNumb.js"></script>   
+<style>
+.glyphicon {
+    font-size: 20px;
+} 
+</style>
   @parent
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
@@ -297,7 +302,7 @@
       $('#consultar').on('click',function () {//function que crea los criterios y precarga los acrvhivos segun condicionales de criterios en un modal
              
             if (esta_via==1){
-              var estado="<ul style='padding-top:10px;padding-left: 15px'> <li>El estado del proyecto es en: <strong>Estudio</strong> (<span class='glyphicon glyphicon-alert' aria-hidden='true' style='color:orange'>)</li></<ul>";
+              var estado="<ul style='padding-top:10px;padding-left: 15px'> <li>El estado del proyecto es en: <strong>Estudio</strong> (<span class='glyphicon glyphicon-alert' aria-hidden='true' style='color:orange'></span> )</li></<ul>";
               var observa="";
             }else if(esta_via==2){
                var estado="<ul style='padding-top:10px;padding-left: 15px'> <li>El estado del proyecto es: <strong>Válido</strong> (<span class='glyphicon glyphicon-ok-sign' aria-hidden='true' style='color:green'></span>)</li></<ul>";

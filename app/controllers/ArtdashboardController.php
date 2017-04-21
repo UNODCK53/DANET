@@ -102,6 +102,7 @@ class ArtdashboardController extends BaseController {
 			->join('MODART_ALERTAS_SUBCATEGORIA','MODART_ALERTAS_SUBCATEGORIA.id','=','MODART_ALERTAS_ALERTA.subcategoria')
 			->leftJoin('MODART_ALERTAS_SUBSUBCATE','MODART_ALERTAS_SUBSUBCATE.id','=','MODART_ALERTAS_ALERTA.subsubcateg') 
 			->join('users','users.id','=','MODART_ALERTAS_ALERTA.USUARIO')	
+			->where ('users.id','!=',1)
 			->orderby('created_at','desc')
 			->take(100)
 			->get();
@@ -136,7 +137,7 @@ class ArtdashboardController extends BaseController {
 			$SEMAFORO=array_map(create_function('$item','return $item->SEMAFORO;'),$alerta);//extract value from object query
 			$array_alerta=array($categoria,$subcategoria,$subsubcateg,$descripcion,$created_at,$USUARIO,$SEMAFORO);
 
-			$num_alerta = DB::table('MODART_ALERTAS_ALERTA')->count();
+			$num_alerta = DB::table('MODART_ALERTAS_ALERTA')->where ('usuario','!=',1)->count();
 
 		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta,'datos_muni'=>$datos_muni,'obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci));		
 	}

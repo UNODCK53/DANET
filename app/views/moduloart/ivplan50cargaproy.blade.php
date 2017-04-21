@@ -196,9 +196,8 @@
                         <b>Alcance definido en ejecución<font color="red">*</font></b>
                         <textarea  id="alcance3" name="alcance3" class="form-control" rows="3"></textarea>
                       </div>
-                      <div class="form-group" id="eje-2" style='display:none'>
-                        <b>Población beneficiada</b>
-                        {{Form::number('pob_bene','', ['class' => 'form-control', 'id'=>'pob_bene'])}}
+                      <div class="form-group" id="eje-2">
+                        {{Form::hidden('pob_bene','', ['class' => 'form-control', 'id'=>'pob_bene'])}}
                       </div>
                       <div class="form-group" id="eje-3" style='display:none'>
                         <b>Avance presupuestal<font color="red">*</font></b>
@@ -1028,7 +1027,7 @@
             var  text=$('#nom_terr option:selected').text().split(" ");
             $('[id^=pobl-]').remove();
             $('[id^=tipoterr_comple-]').remove();
-            if ($("#estado").val()=="Ejecución"){
+            if ($("#estado").val()=="Ejecución"){//crea imput de poblacion beneficiada cuando se cambia al esatdo ejecucion
                 $("#nom_terr option:selected").each(function () {
                   var $this = $(this);
                   var div = document.createElement("div");
@@ -1100,7 +1099,7 @@
         $.ajax({url:"artpic/admi-terr",type:"POST",data:{nucleo:nucleo,tipoterr:tipoterr},dataType:'json',
             success:function(data){
               for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
-                  var OPTGROUP=document.createElement("OPTGROUP");
+                  var OPTGROUP=document.createElement("OPTGROUP");//funcion para crear select con agrupacion
                   OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
                     var x = document.createElement("OPTION");
@@ -1124,7 +1123,7 @@
         $('[id^=pobl-]').remove();
         $('[id^=tipoterr_comple-]').remove();
         if ($("#estado").val()=="Ejecución"){
-            $("#nom_terr option:selected").each(function () {
+            $("#nom_terr option:selected").each(function () {//crea input de poblacion beneficiada cuando se cambian los territorios
               var $this = $(this);
               var div = document.createElement("div");
               div.className ="form-group col-sm-4";
