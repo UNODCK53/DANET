@@ -303,10 +303,10 @@ $menuguardaun=false;
                 <!--espacio de procesos-->
                 <li><a align="center"><b>Procesos</b></a></li>
               @if($menucargaini)
-                <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span> Carga Inicial</a></li>
+                <li id="tierrascargainicial"><a href="<?=URL::to('carga_inicial'); ?>"> <span class='glyphicon glyphicon-ok'></span> Asignación de procesos</a></li>
               @endif
               @if($menuprocadj)
-                <li id="tierrascargaproceso"><a href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
+                <li id="tierrascargaproceso"><a href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Edición de procesos</a></li>
               @endif
               @if($menulevtopo)
                 <li id="tierraslevtopo"><a href="<?=URL::to('levantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
@@ -758,10 +758,10 @@ $menuguardaun=false;
                     <!--espacio de procesos-->
                     <li><a align="center"><b>Procesos</b></a></li>
                     @if($menucargaini)
-                      <li><a id="tierrascarinimenupeq" href="<?=URL::to('carga_inicial'); ?>"> <span class="glyphicon glyphicon-ok"></span> Carga Inicial</a></li>
+                      <li><a id="tierrascarinimenupeq" href="<?=URL::to('carga_inicial'); ?>"> <span class="glyphicon glyphicon-ok"></span> Asignación de procesos</a></li>
                     @endif
                     @if($menuprocadj)  
-                      <li><a id="tierrasestjurmenupeq" href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Procesos Adjudicados</a></li>
+                      <li><a id="tierrasestjurmenupeq" href="<?=URL::to('procesos_adjudicados'); ?>"> <span class="glyphicon glyphicon-ok"></span> Edición de procesos</a></li>
                     @endif
                     @if($menulevtopo)
                       <li><a id="tierraslevtopmenupeq" href="<?=URL::to('levantamiento_topografico'); ?>"><span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>

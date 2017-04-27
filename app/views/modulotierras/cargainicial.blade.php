@@ -61,7 +61,7 @@
       <div class="col-sm-1"></div>
       <div class="col-sm-9">
         <!-- Standard button -->
-        <button id="btnedijuri" title="Presione para adjudicarse el proceso" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Adjudicarse proceso</button>
+        <button id="btnedijuri" title="Presione para adjudicarse el proceso" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Asignarse proceso</button>
       </div>
       <div class="col-sm-1"><a href='excelcar'><img class="img-responsive" src='assets/img/excel.png'></img></a></div>
       <div class="col-sm-1"></div>
@@ -75,9 +75,9 @@
           <thead>
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
+              <th class="text-center">Municipio</th>
               <th class="text-center">Vereda</th>
               <th class="text-center">Nombre del predio</th>
-              <th class="text-center">Dirección Notificación</th>
               <th class="text-center">Nombre</th>
               <th class="text-center">Cédula</th>
               <th class="text-center">Teléfono</th>
@@ -88,16 +88,24 @@
             @foreach($arrayproini as $pro)
               <tr id="{{$pro->id_proceso}}">
                 <td >{{$pro->id_proceso}}</td>
+                <td >{{$pro->NOM_MPIO}}</td>
                 <td >{{$pro->nombre1}}</td>
-                <td >{{$pro->nombrepredio}}</td>
-                <td >{{$pro->direccionnotificacion}}</td>
+                <td >{{$pro->nombrepredio}}</td>                
                 <td >{{$pro->nombre}}</td>
                 <td >{{$pro->cedula}}</td>
                 <td >{{$pro->telefono}}</td>
                 @if ($pro->areaprediopreliminar==NULL)
                 <td >0</td>
                 @elseif ($pro->areaprediopreliminar<>NULL)
-                <td >{{(double)$pro->areaprediopreliminar}}</td>
+                  @if($pro->unidadesarea==1)
+                  <td >{{(double)$pro->areaprediopreliminar}} ha</td>
+                  @elseif($pro->unidadesarea==2)
+                  <td >{{(double)$pro->areaprediopreliminar}} fan</td>
+                  @elseif($pro->unidadesarea==3)
+                  <td >{{(double)$pro->areaprediopreliminar}} m<sup>2</sup></td>
+                  @else
+                  <td >Ns/Nr</td>
+                  @endif
                 @endif
               </tr>
             @endforeach
@@ -224,7 +232,7 @@
             <input id="modcedula" type="number" class="form-control" name="modcedula">
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label">Genero:</label><br>
+            <label for="Proceso" class="control-label">Género:</label><br>
             <input type="radio" name="modgenero" id="modgenerom" value="1"> Masculino
             <input type="radio" name="modgenero" id="modgenerof" value="2"> Femenino
           </div>
@@ -234,7 +242,7 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="submit" class="btn btn-primary">Confirmar Estudio Jurídico</button>
       </div>
         </form>

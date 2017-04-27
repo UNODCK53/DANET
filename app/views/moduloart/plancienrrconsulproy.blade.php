@@ -206,6 +206,10 @@
                     <td id="nom_proy"></td>
                   </tr>
                   <tr>
+                    <td>Descripción</td>
+                    <td id="descripcion"></td>
+                  </tr>
+                  <tr>
                     <td>Modalidad de focalización</td>
                     <td id="mod_foca"></td>
                   </tr>
@@ -220,6 +224,10 @@
                   <tr>
                     <td>Alcance</td>
                     <td id="alcance"></td>
+                  </tr>
+                  <tr>
+                    <td>Información alcance proyecto</td>
+                    <td id="inf_alcanceproyc"></td>
                   </tr>
                   <tr>
                     <td>Población beneficiaria</td>
@@ -246,6 +254,11 @@
                     <td id="avance_prod"></td>
                   </tr>
                   <tr>
+                    <td>Descripción avance producto</td>
+                    <td id="descr_avance_prod"></td>
+                  </tr>
+                  
+                  <tr>
                     <td>Costo estimado</td>
                     <td id="costo_estim"></td>
                   </tr>
@@ -253,6 +266,39 @@
                     <td>Costo Ejecutado</td>
                     <td id="costo_ejec"></td>
                   </tr>
+                  <tr>
+                    <td>Inversión estimada</td>
+                    <td id="inver_estim"></td>
+                  </tr>
+                  <tr>
+                    <td>Contacto</td>
+                    <td id="contactoterr"></td>
+                  </tr>
+                  <tr>
+                    <td>Teléfono contacto</td>
+                    <td id="tel_contactoterr"></td>
+                  </tr>
+                  <tr>
+                    <td>Administración municipal</td>
+                    <td id="admon_municipal"></td>
+                  </tr>
+                  <tr>
+                    <td>Evidencia en el territorio</td>
+                    <td id="evidencia_terr"></td>
+                  </tr>
+                  <tr>
+                    <td>Verificación</td>
+                    <td id="verificacion"></td>
+                  </tr>
+                  <tr>
+                    <td>Observaciones</td>
+                    <td id="observaciones"></td>
+                  </tr>
+                  <tr>
+                    <td>Observaciones 2</td>
+                    <td id="observaciones2"></td>
+                  </tr>
+
                 </tbody>  
                 </thead>
 
@@ -278,7 +324,10 @@
               <th class="text-center">Vereda(s)</th>
               <th class="text-center">Nombre del proyecto</th>
               <th class="text-center">Modalidad</th>
-              <th class="text-center">Avance</th>                          
+              <th class="text-center">Contacto</th>                          
+              <th class="text-center">Teléfono</th> 
+              <th class="text-center">Avance</th>
+                                       
             </tr>
           </thead>
           <tbody id="tbody_proyectos">            
@@ -289,6 +338,8 @@
                 <td >{{$pro->vereda}}</td>
                 <td >{{$pro->nom_proy}}</td>
                 <td >{{$pro->mod_foca}}</td>
+                <td >{{$pro->contactoterr}}</td>
+                <td >{{$pro->tel_contactoterr}}</td>
                 <td>
                 <div class="progress" style="margin-bottom: 0px">                    
                     @if($pro->avance_prod >=75)
@@ -632,6 +683,7 @@
                       var val_format_1=Format.to(Number(data[0].avance_pres));
                       var val_format_2=Format.to(Number(data[0].costo_estim));
                       var val_format_3=Format.to(Number(data[0].costo_ejec));
+                      var val_format_4=Format.to(Number(data[0].inver_estim));
                       if(data[0].avance_prod>=75){
                       var avance='<div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:'+ data[0].avance_prod +'%; ">'+data[0].avance_prod+ '%</div>'  
                       } else if (data[0].avance_prod>=25){
@@ -643,6 +695,7 @@
                       $("#mpio").html(data[0].NOM_MPIO);
                       $("#vereda").html(data[0].vereda);
                       $("#nom_proy").html(data[0].nom_proy);
+                      $("#descripcion").html(data[0].descripcion);
                       $("#mod_foca").html(data[0].mod_foca);
                       $("#enti_lider").html(data[0].enti_lider);
                       $("#linea_proy").html(data[0].linea_proy);
@@ -653,8 +706,18 @@
                       $("#fecha_fin").html(date_2[0]);
                       $("#avance_pres").html(val_format_1);
                       $("#avance_prod").html(avance);
+                      $("#descr_avance_prod").html(data[0].descr_avance_prod);
                       $("#costo_estim").html(val_format_2);
                       $("#costo_ejec").html(val_format_3);
+                      $("#inver_estim").html(val_format_4);
+                      $("#observaciones").html(data[0].observaciones);
+                      $("#observaciones2").html(data[0].observaciones2);
+                      $("#inf_alcanceproyc").html(data[0].inf_alcanceproyc);
+                      $("#contactoterr").html(data[0].contactoterr);
+                      $("#tel_contactoterr").html(data[0].tel_contactoterr);
+                      $("#admon_municipal").html(data[0].admon_municipal);
+                      $("#evidencia_terr").html(data[0].evidencia_terr);
+                      $("#verificacion").html(data[0].verificacion);
                   },
                   error:function(){alert('error');}
               });//fin de la consulta ajax (Editar proceso)
