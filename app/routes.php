@@ -186,7 +186,7 @@ Route::group(array('before' => 'auth'), function()
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas para módulo de DAILD
-  Route::get('acuerdoscolectivos', array('before'=>'MenuARTConsultaAcuerdoscolecDAILD', function(){return View::make('modulodaild/acuerdoscolectivos');}));
+  Route::get('acuerdoscolectivos', array('before'=>'MenuARTConsultaAcuerdoscolecDAILD', 'uses' => 'ArtdaildController@DaildPreload'));  
   //Termina rutas para el módulo de DAILD
   //--------------------------------------------------------------------------------------------------------------------------
     //Rutas para módulo de BID  
