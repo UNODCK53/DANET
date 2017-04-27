@@ -10,7 +10,8 @@
   @parent
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
-@section('js')     
+@section('js') 
+<script src="assets/art/js/wNumb.js"></script>      
   @parent
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
@@ -41,10 +42,56 @@
           <div class="col-sm-10">
               <h2 class="text-center text-primary">Consulta Dirección para la Atención Integral de la Lucha Contra las Drogas</h2>
               <br>
-              <p class="lead text-justify">A continuación se presenta el resumen de la implementación de acuerdos para la sustitución de cultivos ilícitos.</p>  
+              
           </div>  
           <div class="col-sm-1"></div>
         </div>
+        <div class="row">
+          <div id="reporte">
+            <div  class="panel panel-default">
+              <div class="panel-body">
+                <h5 class="text-center text-primary">A continuación se presenta el resumen de la implementación de acuerdos para la sustitución de cultivos ilícitos.</h5>
+               <br>
+                <div class="row" > 
+                    <div class="col-sm-3">
+                         <div class="col-xs-12" align="center" >
+                          <font size="6" id="v_acu"></font>
+                        </div>
+                        <div class="col-xs-12" align="center">
+                          Total de Acuerdos
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                         <div class="col-xs-12" align="center" >
+                          <font size="6" id="v_ter"></font>
+                        </div>
+                        <div class="col-xs-12" align="center">
+                          Número de territorios con Acuerdos
+                        </div>
+                    </div>  
+                    <div class="col-sm-3">
+                         <div class="col-xs-12" align="center" >
+                          <font size="6" id="v_fami">0</font>
+                        </div>
+                        <div class="col-xs-12" align="center">
+                          Número de familias en los Acuerdos
+                        </div>
+                    </div> 
+                    <div class="col-sm-3">
+                         <div class="col-xs-12" align="center" >
+                          <font size="6" id="v_has">0</font>
+                        </div>
+                        <div class="col-xs-12" align="center">
+                          Total de hectáreas a sustituir en los Acuerdos
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-sm-1"></div>
           <div class="col-sm-8">
@@ -52,6 +99,7 @@
           </div>
           <div class="col-sm-2"></div>
         </div>
+
         <div class="row">
           <div class="col-sm-1"></div>
           <div class="col-sm-10">
@@ -151,7 +199,17 @@
           $( "#mensajeestatus" ).fadeOut(5000); 
           table=$('#tabla_daild').DataTable({
             "scrollX": true,
-          });                
+          });        
+          var Format = wNumb({
+              decimals: 0,
+              thousand: '.'
+          }); 
+          var arreglo=<?php echo json_encode($arraygeneral[0])?> ;
+          var acu=<?php echo json_encode($arrayacuerdos[0])?> ;
+          $("#v_acu").html(Format.to(Number(acu['acu'])));   
+          $("#v_ter").html(Format.to(Number(arreglo['veredadaild'])));   
+          $("#v_fami").html(Format.to(Number(arreglo['familias'])));  
+          $("#v_has").html(Format.to(Number(arreglo['has']))); 
       });      
 
       $('#tabla_daild tbody').on('click', 'tr', function () {

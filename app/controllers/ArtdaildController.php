@@ -19,8 +19,14 @@ class ArtdaildController extends BaseController {
 			->orderby('mpio','asc')
 			->get();
 
+		$arraygeneral = DB::table('MODART_DAILD_ACUERDOSCOLEC')	
+			->select( DB::raw("count(veredadaild) as veredadaild,  sum(familias) AS familias,sum(hectareas) AS has"))
+			->get();	
+
+		$arrayacuerdos = DB::select("select count(id_acuerdo) as acu from (SELECT id_acuerdo FROM MODART_DAILD_ACUERDOSCOLEC group by id_acuerdo) as t");
+
 		
-		return View::make('moduloart/vista1',array('arraydaild' => $arraydaild));
+		return View::make('modulodaild/acuerdoscolectivos',array('arraydaild' => $arraydaild,'arraygeneral' => $arraygeneral,'arrayacuerdos'=>$arrayacuerdos));
 	}
 
 	public function postDaildConsulta()
