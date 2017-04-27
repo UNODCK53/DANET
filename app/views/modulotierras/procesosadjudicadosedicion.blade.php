@@ -192,6 +192,22 @@
               @endif
           @endforeach
         </p>
+        @if (empty($arraydombobox[9]))
+          <form role="form" action="tierras/rfichacaract" method="POST" id="formEdit">
+            <input type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
+            <button type="submit" title="Presione para generar la ficha al proceso" class="btn btn-primary">Generar ficha de caracterización</button>
+          </form>
+        @endif
+        @if (!empty($arraydombobox[9]))
+          @foreach($arraydombobox[9] as $fichacaracta)
+            @if ($fichacaracta->fichacaract == 0)
+            <form role="form" action="tierras/rfichacaract" method="POST" id="formEdit">
+              <input type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
+              <button type="submit" title="Presione para generar la ficha al proceso" class="btn btn-primary">Generar ficha de caracterización</button>
+            </form>
+            @endif
+          @endforeach
+        @endif
       </blockquote>
 
       <?php $uno=0; ?>
@@ -203,10 +219,10 @@
                   <div class="col-sm-12 form-group">
                     <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
         @foreach($arraydombobox[5] as $procdocu)
-        @if (($procdocu->id_documento != 23) and ($procdocu->id_documento != 24) and ($procdocu->id_documento != 25) and ($procdocu->id_documento != 2))
+          @if (($procdocu->id_documento != 23) and ($procdocu->id_documento != 24) and ($procdocu->id_documento != 25) and ($procdocu->id_documento != 2))
                     <input id="moddownload" type="image" name="moddownload" src="assets/img/pdf.png" value='{{$procdocu->id_documento}}'>
                     <spam>{{$procdocu->concepto}}</spam><br>
-        @endif
+          @endif
         @endforeach
                   </div>
             </form>

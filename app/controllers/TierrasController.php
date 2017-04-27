@@ -12,7 +12,7 @@ class TierrasController extends BaseController {
 	{
 		$arrayproini = DB::table('Vista pro_ini_con_datgeo')->get();
 		$arrayconcepto = DB::table('MODTIERRAS_CONCEPTO')->get();
-		$arrayrespgeografico = DB::table('users')->where('grupo','=',3)->where('level','=',3)->select('id','name','last_name','grupo','level')->get();
+		$arrayrespgeografico = DB::table('users')->where('grupo','=',3)->where('level','=',3)->where('estado','=','1')->select('id','name','last_name','grupo','level')->get();
 		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);		
 		return View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arraydombobox' => $arraydombobox));
 	}
@@ -45,6 +45,7 @@ class TierrasController extends BaseController {
 		    array(
 		    		'OBJECTID'  => ($idmaximo+1),
 		    		'id_proceso' => Input::get('modnp'),
+		    		'id_procesoinicial' => Input::get('procesoinicial'),
 		    		'conceptojuridico' => Input::get('modconcpjuri'),
 		    		'obsconceptojuridico' => Input::get('modobsconcjuri'),
 		    	  	'areapredioformalizada' => Input::get('modareafor'),
@@ -328,7 +329,7 @@ class TierrasController extends BaseController {
 		
 		$arrayproceso = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->get();
 
-		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3');
+		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3 and estado=1');
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
 		$arrayprocestado = DB::select("SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '".$idpro."'");
@@ -363,11 +364,44 @@ class TierrasController extends BaseController {
 		}
 		else{
 			$mapa=false;
-		}
-		$arraydombobox= array($arrayconcepto, $arrayrespgeografico, $arraydocumento, $arrayestado, $arrayprocestado, $arrayprocdocu, $shp, $tabla, $mapa);
+		}		
+		
+		$arrayfichacaract = DB::select("select max(t.doc) as fichacaract from (SELECT id_proceso ,case when id_documento=27 then 1 else 0 end as doc FROM MODTIERRAS_PROCDOCUMENTOS  where id_proceso ='".$idpro."')as t  group by t.id_proceso");
+
+		$arraydombobox = array($arrayconcepto, $arrayrespgeografico, $arraydocumento, $arrayestado, $arrayprocestado, $arrayprocdocu, $shp, $tabla, $mapa, $arrayfichacaract);		
+		
+		//return Response::json($arraydombobox);
 		Session::forget('procesoi');
 		return View::make('modulotierras.procesosadjudicadosedicion', array('arrayproceso' => $arrayproceso), array('arraydombobox' => $arraydombobox));
 	}
+	public function postRfichacaract()
+	{	
+		$procesokey = DB::select("SELECT id_procesoinicial FROM MODTIERRAS_PROCESO WHERE id_proceso='".Input::get('modnp')."'");
+		$N = $procesokey[0]->id_procesoinicial;		
+		$ruta="W:\\WEBS\\danet\\public\\RPortable";
+		//$ruta="C:\\xampp\\htdocs\\DANET\\public\\RPortable";
+		$rstudio = $ruta.'\\App\\R-Portable\\bin\\x64\\Rscript.exe '.$ruta.'\\prog_correr\\knit_R_rep_tierras_1.R '.$N;
+		$shellresult = shell_exec($rstudio);
+		
+		while(!File::exists(public_path().'\procesos\\'.Input::get('modnp').'\\'.Input::get('modnp').'_FC.pdf')) 
+		{
+		    sleep(1);
+		}
+		   
+		$fecha = date("Y-m-d H:i:s");
+		DB::table('MODTIERRAS_PROCDOCUMENTOS')->insert(
+	    	array(
+	    		'id_proceso' => Input::get('modnp'),
+	    		'id_documento' => 27,
+	    		'rutadocu' => public_path().'\procesos\\'.Input::get('modnp').'\\'.Input::get('modnp').'_FC.pdf',
+	    		'created_at' => $fecha,
+    			'updated_at' => $fecha
+	    	)
+		);
+					    		    
+		
+		return Redirect::to('procesos_adjudicados')->with('status', 'ok_fc');        
+    }
 	
 	public function postAdjuntarDocu()
 	{		
@@ -384,7 +418,7 @@ class TierrasController extends BaseController {
 		}
 
 		//aca comienza los controladores para adjuntar documentos		
-		$arraydocurevision = DB::select('SELECT * FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_documento ='.Input::get('modocu').' AND id_proceso ='.Input::get('modnp'));
+		$arraydocurevision = DB::select("SELECT * FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_documento =".Input::get('modocu')." AND id_proceso ='".Input::get('modnp')."'");
 		
 		
 		if (empty($arraydocurevision)) {
@@ -777,7 +811,7 @@ class TierrasController extends BaseController {
        	return Response::download($file);
         }
         else {
-        	$arraydocuruta = DB::select('SELECT rutadocu FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso = '.Input::get('modnp').'AND id_documento = '.Input::get('moddownload'));
+        	$arraydocuruta = DB::select("SELECT rutadocu FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso = '".Input::get('modnp')."' AND id_documento = ".Input::get('moddownload'));
         	$file = $arraydocuruta[0]->rutadocu;
        	return Response::download($file);
         }
@@ -818,11 +852,11 @@ class TierrasController extends BaseController {
 		->select('OBJECTID','id_proceso','conceptojuridico','obsconceptojuridico','areapredioformalizada','unidadareaprediofor','longitud','latitud','fechainspeccionocular','viabilidad','obsviabilidad','requierevisinsp','respjuridico','requiererespgeo','respgeografico','created_at','updated_at','vereda','nombrepredio','direccionnotificacion','nombre','cedula','telefono','Shape')
 		->get();
 		
-		$arrayrespgeografico = DB::table('users')->where('grupo','=','3')->where('level','=','3')->select('id','name','last_name','grupo','level')->get();
+		$arrayrespgeografico = DB::table('users')->where('grupo','=','3')->where('level','=','3')->where('estado','=','1')->select('id','name','last_name','grupo','level')->get();
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
-		$arrayprocestado = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '.$idpro);
-		$arrayprocdocu = DB::select('select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT id_proceso, id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_proceso= '.$idpro.') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento');
+		$arrayprocestado = DB::select("SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '".$idpro."'");
+		$arrayprocdocu = DB::select("SELECT PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto FROM ( SELECT id_proceso, id_documento FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_proceso= '".$idpro."') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento");
 		$arraydocumento = DB::table('MODTIERRAS_CONCEPDOCUMENTO')
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.id_concepto','=', $arrayproceso[0]->conceptojuridico)
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.requieredocu','=','1')

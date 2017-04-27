@@ -120,7 +120,8 @@
         <form role="form" action="tierras/crear-proceso" method="get" id="formEdit">
           <div class="form-group">
             <label for="Proceso" class="control-label">NP:</label>
-            <input id="modnp" type="number" class="form-control" name="modnp" readonly >
+            <input id="modnp" type="text" class="form-control" name="modnp" readonly >
+            <input id="procesoinicial" type="hidden" class="form-control" name="procesoinicial">
           </div>
           <div class="form-group">
             <label for="proceso" class="control-label">Concepto jurídico:</label>
@@ -309,6 +310,7 @@
             $.ajax({url:"tierras/listadoproinimodal",type:"POST",data:{numerpro:$('td', this).eq(0).text()},dataType:'json',
               success:function(data){
                 $("#modnp").val(data[0][0].id_proceso);
+                $("#procesoinicial").val(data[0][0].id_procesoinicial);
                 $("#modnompred").val(data[0][0].nombrepredio);
                 $("#moddirnoti").val(data[0][0].direccionnotificacion);
                 $("#modnombre").val(data[0][0].nombre);

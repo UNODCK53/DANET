@@ -71,6 +71,12 @@
       <i class="bg-danger"></i> El documento NO se adjuntó</div>
       <div class="col-sm-1"></div>
       @endif
+      @if($status=='ok_fc')
+      <div class="col-sm-1"></div>    
+      <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+      <i class="bg-success"></i> Se generó exitosamente la ficha de caracterización</div>
+      <div class="col-sm-1"></div>
+      @endif
 
     </div>
 
@@ -80,7 +86,7 @@
       <form role="form" action="tierras/editar-proceso" method="post" id="formEdit">
         <!-- Standard button -->
         <button id="btnedipro" title="Presione para activar la edicion del estudio juridico" disabled="disabled" type="submit" type="button" class="btn btn-primary">Editar Proceso</button>
-        <input id="proceso" type="text" class="form-control" name="proceso">
+        <input id="proceso" type="hidden" class="form-control" name="proceso">
       </div>
       <div class="col-sm-1"></div>
     </div>

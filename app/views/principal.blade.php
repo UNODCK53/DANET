@@ -35,9 +35,11 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
 //variables menú ART
-$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false;
+$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartreportenorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false; $menuartconsultaplan50=false; $menuartcargaeditarplan50=false; $menuartconsultaacuerdoscolecdaild=false; $menuartmapazv=false; $menuartmapaivsocial=false;
 
 $artdashboard=false;$artmapa=false;$artcensofami=false;
+//variables BID
+$menubidcargaeditarorganiz=false;$menubidlineabase=false;$menubidmapaorg=false;$menubidindicadores=false;
 //variables guardaun
 $menuguardaun=false;
 //foreach para habilitar las variables para el menú general
@@ -84,15 +86,25 @@ $menuguardaun=false;
     if(($acceso->id_vista=="6132")&&($acceso->acces=="1")){$menuartcensofamilias=true;}
     if(($acceso->id_vista=="6133")&&($acceso->acces=="1")){$menuartdiagnosticofamiliar=true;}
     if(($acceso->id_vista=="6134")&&($acceso->acces=="1")){$menuartconsultapic=true;}
+    if(($acceso->id_vista=="6141")&&($acceso->acces=="1")){$menuartmapaivsocial=true;}
     if(($acceso->id_vista=="6211")&&($acceso->acces=="1")){$menuartcargaindicador=true;}
     if(($acceso->id_vista=="6212")&&($acceso->acces=="1")){$menuartseguimientoindicador=true;}
     if(($acceso->id_vista=="6221")&&($acceso->acces=="1")){$menuarttableropresidente=true;}
     if(($acceso->id_vista=="6222")&&($acceso->acces=="1")){$menuarttablerogeneral=true;}
     if(($acceso->id_vista=="6223")&&($acceso->acces=="1")){$menuarttablerodetallado=true;}
+    if(($acceso->id_vista=="6141")&&($acceso->acces=="1")){$menuartmapazv=true;}
     if(($acceso->id_vista=="6311")&&($acceso->acces=="1")){$menuartcargaeditarnorma=true;}
     if(($acceso->id_vista=="6321")&&($acceso->acces=="1")){$menuarttableronorma=true;}
+    if(($acceso->id_vista=="6331")&&($acceso->acces=="1")){$menuartreportenorma=true;}
     if(($acceso->id_vista=="6411")&&($acceso->acces=="1")){$menuartcargaeditarplanrr=true;}
     if(($acceso->id_vista=="6421")&&($acceso->acces=="1")){$menuartconsultaplanrr=true;}
+    if(($acceso->id_vista=="6511")&&($acceso->acces=="1")){$menuartconsultaplan50=true;}
+    if(($acceso->id_vista=="6521")&&($acceso->acces=="1")){$menuartcargaeditarplan50=true;}
+    if(($acceso->id_vista=="6621")&&($acceso->acces=="1")){$menuartconsultaacuerdoscolecdaild=true;}
+    if(($acceso->id_vista=="7111")&&($acceso->acces=="1")){$menubidcargaeditarorganiz=true;}
+    if(($acceso->id_vista=="7131")&&($acceso->acces=="1")){$menubidlineabase=true;}
+    if(($acceso->id_vista=="7132")&&($acceso->acces=="1")){$menubidmapaorg=true;}
+    if(($acceso->id_vista=="7133")&&($acceso->acces=="1")){$menubidindicadores=true;}
     if(($acceso->id_vista=="9999")&&($acceso->acces=="1")){$menuguardaun=true;}
  }
  ?>

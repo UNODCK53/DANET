@@ -709,7 +709,19 @@ Route::filter('MenuARTConsultaPlan50', function ()
       return Redirect::to('principal');
    }
 });
-
+Route::filter('MenuARTConsultaAcuerdoscolecDAILD', function ()
+{
+   $acc=(Session::get('acc'));
+   $p=0;
+   foreach ($acc as $acceso) {
+      if(($acceso->id_vista=="6621")&&($acceso->acces=="1")){
+         $p=1;
+      }
+   }   
+   if($p==0){
+      return Redirect::to('principal');
+   }
+});
 //Finaliza filtros módulo ART
 //--------------------------------------------------------------------------------------------------------------------------
 //Inicia filtros módulo BID

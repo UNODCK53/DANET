@@ -131,7 +131,7 @@ $menucarguedocu=false;$menuconsuldocu=false;$menurepordocu=false;
 //variables menú geoapi
 $menugeoapitecsaf=false;$menugeoapieliminreg=false;$menugeoapivisorterri=false;$menugeoapivisorbenef=false;$menugeoapirepordistorg=false;$menugeoapirepordistterri=false;$menugeoapirepordistlp=false;$menugeoapireporanalesp=false;$menugeoapireporregrepetidos=false;$menugeoapirepornovt1=false;$menugeoapirepornovt2=false;$menugeoapirepornovt3=false;
 //variables menú ART
-$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartreportenorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false; $menuartconsultaplan50=false; $menuartcargaeditarplan50=false;$menuartmapazv=false; $menuartmapaivsocial=false;
+$menuartcarguefamilias=false; $menuartfichapriorizacionproy=false; $menuartseguimientopic=false; $menuartdashboard=false; $menuartcensofamilias=false; $menuartdiagnosticofamiliar=false; $menuartconsultapic=false;$menuartcargaindicador=false; $menuartseguimientoindicador=false; $menuarttableropresidente=false; $menuarttablerogeneral=false; $menuarttablerodetallado=false; $menuartcargaeditarnorma=false; $menuarttableronorma=false; $menuartreportenorma=false; $menuartcargaeditarplanrr=false; $menuartconsultaplanrr=false; $menuartconsultaplan50=false; $menuartcargaeditarplan50=false; $menuartconsultaacuerdoscolecdaild=false; $menuartmapazv=false; $menuartmapaivsocial=false;
 
 $artdashboard=false;$artmapa=false;$artcensofami=false;
 //variables BID
@@ -196,6 +196,7 @@ $menuguardaun=false;
     if(($acceso->id_vista=="6421")&&($acceso->acces=="1")){$menuartconsultaplanrr=true;}
     if(($acceso->id_vista=="6511")&&($acceso->acces=="1")){$menuartconsultaplan50=true;}
     if(($acceso->id_vista=="6521")&&($acceso->acces=="1")){$menuartcargaeditarplan50=true;}
+    if(($acceso->id_vista=="6621")&&($acceso->acces=="1")){$menuartconsultaacuerdoscolecdaild=true;}
     if(($acceso->id_vista=="7111")&&($acceso->acces=="1")){$menubidcargaeditarorganiz=true;}
     if(($acceso->id_vista=="7131")&&($acceso->acces=="1")){$menubidlineabase=true;}
     if(($acceso->id_vista=="7132")&&($acceso->acces=="1")){$menubidmapaorg=true;}
@@ -429,6 +430,18 @@ $menuguardaun=false;
             </ul>
           </li>
         @endif<!--Finaliza Ocultar la opción ART si no es el administrador-->
+        @if(($menuartconsultaacuerdoscolecdaild))<!--Oculta la opción DAILD si no es el administrador--> 
+          <li class="dropdown" id="daild" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DAILD <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <!--espacio de Consulta-->
+              <li><a align="center"><b>Consulta</b></a></li>
+              @if($menuartconsultaacuerdoscolecdaild)
+              <li id="acuerdoscolectivosmenu"><a href="<?=URL::to('acuerdoscolectivos'); ?>"><span class="glyphicon glyphicon-ok"></span> Acuerdos Colectivos</a></li>
+              @endif                             
+              <!--Termina espacio de Cargue-->
+            </ul>
+          </li>
+        @endif <!--Finaliza Ocultar la opción DAILD si no es el administrador-->
         @if(($menugeoapitecsaf)||($menugeoapieliminreg)||($menugeoapivisorterri)||($menugeoapivisorbenef)||($menugeoapirepordistorg)||($menugeoapirepordistterri)||($menugeoapirepordistlp)||($menugeoapireporanalesp)||($menugeoapireporregrepetidos)||($menugeoapirepornovt1)||($menugeoapirepornovt2)||($menugeoapirepornovt3)) 
         <!--Oculta la opción geoapi si no es el administrador-->
           <li id="geoapi" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GeoApi<span class="caret"></span></a>
@@ -871,6 +884,19 @@ $menuguardaun=false;
                   </ul>
                 </li>
               @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
+              @if(($menuartconsultaacuerdoscolecdaild))<!--Oculta la opción BID si no es el administrador--> 
+                <li  class="dropdown"><a id="daildmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DAILD<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <!--espacio de Consulta-->
+                    <li><a align="center"><b>Consulta</b></a></li>
+                    @if($menuartconsultaacuerdoscolecdaild)
+                      <li><a id="acuerdoscolectivosmenupeq" href="<?=URL::to('acuerdoscolectivos'); ?>"><span class="glyphicon glyphicon-ok"></span> Acuerdos Colectivos</a></li>
+                    @endif                                        
+                      <li class="divider"></li>
+                      <!--Termina espacio de Carga-->                      
+                  </ul>
+                </li>
+              @endif <!--Finaliza Ocultar la opción BID si no es el administrador-->
               @if(($menugeoapitecsaf)||($menugeoapieliminreg)||($menugeoapivisorterri)||($menugeoapivisorbenef)||($menugeoapirepordistorg)||($menugeoapirepordistterri)||($menugeoapirepordistlp)||($menugeoapireporanalesp)||($menugeoapireporregrepetidos)||($menugeoapirepornovt1)||($menugeoapirepornovt2)||($menugeoapirepornovt3)) 
               <!--Oculta la opción geoapi si no es el administrador-->                
                 <li  class="dropdown"><a id="geoapimenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GeoApi<span class="caret"></span></a>
