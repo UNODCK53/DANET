@@ -15,7 +15,7 @@ class Artplan100Controller extends BaseController {
 		$proyectos =DB::table('MODART_P100DIAS')
 					  ->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
 					  ->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
-					  ->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
+					  ->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod,contactoterr,tel_contactoterr'))
 					  ->where('reg_eliminado','=','0')
 					  ->get();
 		return View::make('moduloart/plancienrrcargaproy', array('departamentos' => $departamentos), array('proyectos' => $proyectos));
@@ -163,7 +163,7 @@ class Artplan100Controller extends BaseController {
 		$proyectos =DB::table('MODART_P100DIAS')
 			->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
 			->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')	
-			->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod'))
+			->select(db::raw('id, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda,nom_proy,mod_foca,avance_prod,contactoterr,tel_contactoterr'))
 			->where('reg_eliminado','=','0')
 			->get();				
 		
@@ -261,7 +261,7 @@ class Artplan100Controller extends BaseController {
 		$editar =DB::table('MODART_P100DIAS')	
 			->join('DEPARTAMENTOS','MODART_P100DIAS.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
 			->join('MUNICIPIOS','MODART_P100DIAS.cod_mpio','=','MUNICIPIOS.COD_DANE')					  
-			->select(db::raw('id,DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda, nom_proy,mod_foca,enti_lider,linea_proy,alcance,pob_bene,est_proy,fecha_inicio, fecha_fin,avance_pres, avance_prod, costo_ejec'))
+			->select(db::raw('id,DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,vereda, nom_proy,mod_foca,enti_lider,linea_proy,alcance,pob_bene,est_proy,fecha_inicio, fecha_fin,avance_pres, avance_prod, costo_ejec,descripcion,descr_avance_prod,inver_estim,observaciones,observaciones2,inf_alcanceproyc,contactoterr,tel_contactoterr,admon_municipal,evidencia_terr,verificacion'))
 			->where('id','=',$proyecto)
 			->get();
 		return $editar;

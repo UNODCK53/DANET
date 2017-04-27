@@ -179,10 +179,15 @@ Route::group(array('before' => 'auth'), function()
   Route::get('plan50consulproy', array('before'=>'MenuARTConsultaPlan50', 'uses' => 'ArtpicController@plan50_ini_consulta'));  
   Route::get('plan50cargaproy', array('before'=>'MenuARTCargaEditarPlan50', 'uses' => 'ArtpicController@plan50_ini'));
   Route::get('Excelpic50','ArtpicController@Excelpic50');
+
 //  Route::get('plan50consulproy', 'ArtpicController@plan50_ini_consulta');
 //  Route::get('plan50rrcargaproy', 'ArtpicController@plan50_ini');
 
   //Termina rutas para el módulo de ART
+  //--------------------------------------------------------------------------------------------------------------------------
+  //Rutas para módulo de DAILD
+  Route::get('acuerdoscolectivos', array('before'=>'MenuARTConsultaAcuerdoscolecDAILD', function(){return View::make('modulodaild/acuerdoscolectivos');}));
+  //Termina rutas para el módulo de DAILD
   //--------------------------------------------------------------------------------------------------------------------------
     //Rutas para módulo de BID  
   Route::get('cargaorganizacion', 'bidController@cargapublic_ini');  
