@@ -200,11 +200,11 @@
                         {{Form::hidden('pob_bene','', ['class' => 'form-control', 'id'=>'pob_bene'])}}
                       </div>
                       <div class="form-group" id="eje-3" style='display:none'>
-                        <b>Avance presupuestal<font color="red">*</font></b>
+                        <b>Avance de ejecución presupuestal<font color="red">*</font></b>
                         {{Form::number('ava_presu','', ['class' => 'form-control', 'id'=>'ava_presu'])}}
                       </div>
                       <div class="form-group" id="eje-4" style='display:none'>
-                        <b>Avance producto<font color="red">*</font></b>
+                        <b>Avance físico del proyecto<font color="red">*</font></b>
                         {{Form::number('ava_product','', ['class' => 'form-control', 'id'=>'ava_product'])}}
                       </div>
                       <div class="form-group" id="eje-5" style='display:none'>
@@ -750,15 +750,14 @@
                               </select>
                             </div>
                             <div class="form-group">
-                              <b>Población beneficiada</b>
-                              {{Form::number('pob_beneedieje','', ['class' => 'form-control', 'id'=>'pob_beneedieje'])}}
+                              {{Form::hidden ('pob_beneedieje','', ['class' => 'form-control', 'id'=>'pob_beneedieje'])}}
                             </div>
                             <div class="form-group" >
-                              <b>Avance presupuestal<font color="red">*</font></b>
+                              <b>Avance de ejecución presupuestal<font color="red">*</font></b>
                               {{Form::number('ava_presuedieje','', ['class' => 'form-control', 'id'=>'ava_presuedieje','required'=>'true'])}}
                             </div>
                             <div class="form-group">
-                              <b>Avance producto<font color="red">*</font></b>
+                              <b>Avance físico del proyecto<font color="red">*</font></b>
                               {{Form::number('ava_productedieje','', ['class' => 'form-control', 'id'=>'ava_productedieje','required'=>'true'])}}
                             </div>
                             <div class="form-group">
@@ -1023,6 +1022,21 @@
            $('[id^=fecha-]').css("display","none");
            $('[id^=cor-]').css("display","block");
            $('#label_pobla').css("display","block");
+           $('#alcance').prop('required',false);
+           $('#alcance2').prop('required',false);
+           $('#alcance3').prop('required',true);
+           $('#fecha_inicio').prop('required',false);
+           $('#fecha_final').prop('required',false);
+           $('#fecha_inicio2').prop('required',true);
+           $('#fecha_final2').prop('required',true);
+           $('#cost_esti').prop('required',false);
+           $('#cost_proy').prop('required',true);
+           $('#ava_presu').prop('required',true);
+           $('#ava_product').prop('required',true);
+           $('#long').prop('required',true);
+           $('#coorde1').prop('required',true);
+           $('#coorde1_fin').prop('required',true);
+           
             var ids=$("#nom_terr").val();
             var  text=$('#nom_terr option:selected').text().split(" ");
             $('[id^=pobl-]').remove();
@@ -1067,7 +1081,36 @@
           $('#label_pobla').css("display","none");
           $('[id^=pobl-]').remove();
           $('[id^=tipoterr_comple-]').remove();
+          $('#alcance').prop('required',false);
+           $('#alcance2').prop('required',false);
+           $('#alcance3').prop('required',false);
+           $('#fecha_inicio').prop('required',false);
+           $('#fecha_final').prop('required',false);
+           $('#fecha_inicio2').prop('required',false);
+           $('#fecha_final2').prop('required',false);
+           $('#cost_esti').prop('required',false);
+           $('#cost_proy').prop('required',false);
+           $('#ava_presu').prop('required',false);
+           $('#ava_product').prop('required',false);
+           $('#long').prop('required',false);
+           $('#coorde1').prop('required',false);
+           $('#coorde1_fin').prop('required',false);
         }else if ($("#estado").val()=='Identificación'){
+           $('#alcance').prop('required',true);
+           $('#alcance2').prop('required',false);
+           $('#alcance3').prop('required',false);
+           $('#fecha_inicio').prop('required',true);
+           $('#fecha_final').prop('required',true);
+           $('#fecha_inicio2').prop('required',false);
+           $('#fecha_final2').prop('required',false);
+           $('#cost_esti').prop('required',false);
+           $('#cost_proy').prop('required',false);
+           $('#ava_presu').prop('required',false);
+           $('#ava_product').prop('required',false);
+           $('#long').prop('required',false);
+           $('#coorde1').prop('required',false);
+           $('#coorde1_fin').prop('required',false);
+
           $('[id^=eje-]').css("display","none");
           $('[id^=est-]').css("display","none");
           $('[id^=inden-]').css("display","block");
@@ -1077,6 +1120,21 @@
           $('[id^=pobl-]').remove();
           $('[id^=tipoterr_comple-]').remove();
         }else{
+           $('#alcance').prop('required',false);
+           $('#alcance2').prop('required',true);
+           $('#alcance3').prop('required',false);
+           $('#fecha_inicio').prop('required',true);
+           $('#fecha_final').prop('required',true);
+           $('#fecha_inicio2').prop('required',false);
+           $('#fecha_final2').prop('required',false);
+           $('#cost_esti').prop('required',true);
+           $('#cost_proy').prop('required',false);
+           $('#ava_presu').prop('required',false);
+           $('#ava_product').prop('required',false);
+           $('#long').prop('required',false);
+           $('#coorde1').prop('required',false);
+           $('#coorde1_fin').prop('required',false);
+
           $('[id^=fecha-]').css("display","block");
           $('[id^=eje-]').css("display","none");
           $('[id^=inden-]').css("display","none");

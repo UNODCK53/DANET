@@ -59,7 +59,8 @@ Route::controller('artzvtn','ArtzvtnController');
 Route::controller('artpic','ArtpicController');
 Route::controller('artplan100','Artplan100Controller');
 Route::controller('artnormatividad','ArtnormatividadController');  
-Route::controller('bid','bidController');  
+Route::controller('bid','bidController'); 
+Route::controller('artdaild','ArtdaildController'); 
 
 Route::controller('password', 'RemindersController');
 Route::get('forgotpassword', 'RemindersController@getRemind');
@@ -208,7 +209,7 @@ Route::group(array('before' => 'auth'), function()
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
 Route::get('vista3','TierrasController@PruebaPro');
-Route::get('vista1',function(){return View::make('vista1');});  
+Route::get('vista1','ArtdaildController@DaildPreload');  
 Route::get('master_docu','DocumentosController@Masterdocu');
 Route::get('error', function(){return View::make('error');});
   
