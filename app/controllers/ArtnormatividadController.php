@@ -225,7 +225,17 @@ class ArtnormatividadController extends BaseController {
 
 		$a_corte = DB::select("SELECT   (SELECT COUNT(*) AS encons FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_encons=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) encons   , (SELECT COUNT(*) AS prodjud FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_prodjud=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) prodjud   , (SELECT COUNT(*) AS tab_ajus FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_ajus=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) ajust   , (SELECT COUNT(*) AS tab_ultrev FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_ultrev=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) revis   , (SELECT COUNT(*) AS tab_expe FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_expe=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) exped   , (SELECT COUNT(*) AS tab_csivi FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_csivi=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) csivi   , (SELECT COUNT(*) AS tab_hacie FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_hacie=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) haciend   , (SELECT COUNT(*) AS tab_social FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_social=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) sociali   , (SELECT COUNT(*) AS id_consprev FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (id_consprev=3 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) consprev   , (SELECT COUNT(*) AS tab_defexp FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_defexp=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) expedi   , (SELECT COUNT(*) AS tab_congrefir FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE ((tab_congre=1 or tab_firma=1) AND fecha_corte='".$ultimo_corte[0]->fecha_corte."')) congrefir   , (SELECT COUNT(*) AS tab_sancpres FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_sancpres=1 and fecha_corte='".$ultimo_corte[0]->fecha_corte."')) tab_sancpres");
 
-		return View::make('moduloart/normreportnorma', array('array' => $fecha_corte,'consulta' => $a_hoy, 'consulta2' => $a_corte, 'ultimo_corte' => $ultimo_corte));
+		$reporte_tipo = DB::table('MODART_NORM_NORMAS')							
+					   ->join('MODART_NORM_TIPO','MODART_NORM_NORMAS.id_tipo','=','MODART_NORM_TIPO.id')
+					   ->select(DB::RAW('MODART_NORM_TIPO.nombre,count([id_tipo]) as suma'))
+					   ->groupby('id_tipo','MODART_NORM_TIPO.nombre')							
+					   ->get();
+
+		$num_registros = DB::table('MODART_NORM_NORMAS')
+					   ->select(DB::RAW('count([id_tipo]) as suma'))
+					   ->get();
+
+		return View::make('moduloart/normreportnorma', array('array' => $fecha_corte,'consulta' => $a_hoy, 'consulta2' => $a_corte, 'ultimo_corte' => $ultimo_corte,'reporte_tipo'=>$reporte_tipo, 'num_registros'=>$num_registros));
 	}
 
 	public function postReporteCorte(){
@@ -239,7 +249,7 @@ class ArtnormatividadController extends BaseController {
 
 		$a_corte = DB::select("SELECT   (SELECT COUNT(*) AS encons FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_encons=1 and fecha_corte='".$fecha_corte."')) encons   , (SELECT COUNT(*) AS prodjud FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_prodjud=1 and fecha_corte='".$fecha_corte."')) prodjud   , (SELECT COUNT(*) AS tab_ajus FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_ajus=1 and fecha_corte='".$fecha_corte."')) ajust   , (SELECT COUNT(*) AS tab_ultrev FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_ultrev=1 and fecha_corte='".$fecha_corte."')) revis   , (SELECT COUNT(*) AS tab_expe FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_expe=1 and fecha_corte='".$fecha_corte."')) exped   , (SELECT COUNT(*) AS tab_csivi FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_csivi=1 and fecha_corte='".$fecha_corte."')) csivi   , (SELECT COUNT(*) AS tab_hacie FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_hacie=1 and fecha_corte='".$fecha_corte."')) haciend   , (SELECT COUNT(*) AS tab_social FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_social=1 and fecha_corte='".$fecha_corte."')) sociali   , (SELECT COUNT(*) AS id_consprev FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (id_consprev=3 and fecha_corte='".$fecha_corte."')) consprev   , (SELECT COUNT(*) AS tab_defexp FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_defexp=1 and fecha_corte='".$fecha_corte."')) expedi   , (SELECT COUNT(*) AS tab_congrefir FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE ((tab_congre=1 or tab_firma=1) AND fecha_corte='".$fecha_corte."')) congrefir   , (SELECT COUNT(*) AS tab_sancpres FROM DABASE.sde.MODART_NORM_NORMASCORTE WHERE (tab_sancpres=1 and fecha_corte='".$fecha_corte."')) tab_sancpres");
 
-		return array('array' => $fecha_corte, 'consulta2' => $a_corte, 'ultimo_corte' => $fecha_corte);
+		return array('array' => $fecha_corte, 'consulta2' => $a_corte, 'ultimo_corte' => json_encode($fecha_corte));
 	}
 }
 ?>
