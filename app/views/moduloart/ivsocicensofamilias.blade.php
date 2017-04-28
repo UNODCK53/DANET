@@ -35,9 +35,15 @@
   <div class="container" id="sha">
     <div class="row">
 <!--aca se escribe el codigo-->
-               <div class="col-sm-2">
-        <a href='reporte_encu'><img class="img-responsive" src='assets/img/excel.png'></img></a>   
-      </div>
+    <h2 class="text-center text-primary">Censo de familias</h2>
+	<br><br>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <b class="lead text-justify">Reporte de sincronización de encuestas de diagnóstioco de hogar y Anexo de Tierras   </b>
+      <a class="glyphicon glyphicon-download-alt btn btn-success" title="Descarque el archvio del Criterio" href="\art\Rep_encuestas.pdf" target="_blank"></a>
+    </div>
+    <div class="col-sm-1"></div>
+	<br><br><hr>
 <!--fin del codigo-->    
     </div>
   </div>

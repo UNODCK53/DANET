@@ -260,9 +260,20 @@ function search(cod,mpio, depto){
 		type:"POST",data:{indi:cod},
 		dataType:'json',
 	      success:function(data){
-	      	
-	        $('#obra_priori').html(data['obra_priori'])
-	        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha")
+	      	$('#fami_art').html("0");
+            $('#obra_priori').html("0");
+	        $('#obra_priori').html(data['obra_priori']);
+	        $('#coca_simci').html("0 ha");
+	        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha");
+	        $('#coca_daild').html("0 ha");
+	        $('#coca_daild').html(parseFloat(data['arraydaild'][0]['has']).toFixed(2)+" ha");
+	        $('#familias_daild').html("0");
+	        $('#familias_daild').html(data['arraydaild'][0]['familias']);
+	        $.each(data['arraydash1'], function(id,objet){
+              if (objet['id_dash']=="1"){//condicional para cada indicador del dashboard
+              	$('#fami_art').html(objet['valor']);
+              }
+            });
 	      },
 	      error:function(){alert('error');}
 	  });//Termina Ajax

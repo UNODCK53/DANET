@@ -139,6 +139,7 @@ class ArtdashboardController extends BaseController {
 
 			$num_alerta = DB::table('MODART_ALERTAS_ALERTA')->where ('usuario','!=',1)->count();
 
+		
 		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta,'datos_muni'=>$datos_muni,'obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci));		
 	}
 	
@@ -154,7 +155,18 @@ public function postPic()//funcion que precarga los datos de los indicadores  ve
 			->where('COD_DANE','=',Input::get('indi'))
 			->sum('C_2015');
 
-		return array('obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci);
+		$arraydaild = DB::table('MODART_DAILD_ACUERDOSCOLEC')	
+			->select(DB::raw("ISNULL(sum(familias),0) AS familias,ISNULL(sum(hectareas),0) AS has"))
+			->where('mpio','=',Input::get('indi'))
+			->groupby('mpio')
+			->get();
+
+		$arraydash1 = DB::table('MODART_DASHBOARD')	
+			->select('id_dash','valor')
+			->where('cod_dane','=',Input::get('indi'))
+			->get();
+
+		return array('obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci,'arraydaild'=>$arraydaild,'arraydash1'=>$arraydash1);
 			
 	}	
 
