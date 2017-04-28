@@ -158,5 +158,25 @@ public function postPic()//funcion que precarga los datos de los indicadores  ve
 			
 	}	
 
+public function DiagFamiPreload()
+	{
+		
+		return View::make('moduloart/ivsocicensofamilias');
+	}
+
+public function DiagFamiReporte()
+	{
+			
+		//$ruta="W:\\WEBS\\danet\\public\\RPortable";
+		$ruta="C:\\xampp\\htdocs\\DANET\\public\\RPortable";
+		$rstudio = $ruta.'\\App\\R-Portable\\bin\\x64\\Rscript.exe '.$ruta.'\\prog_correr\\art\\encuestas\\knit_R_encuetas.R ';
+		$shellresult = shell_exec($rstudio);
+
+		
+
+	
+		
+	}
+
 }
 ?>

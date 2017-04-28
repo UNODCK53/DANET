@@ -147,7 +147,7 @@ Route::group(array('before' => 'auth'), function()
   //Rutas para módulo de ART
     //Inversion Social    
   Route::get('ivsocidashboard', array('before'=>'MenuARTDashBoard', 'uses' => 'ArtdashboardController@Preload'));
-  Route::get('ivsocicensofamilias', array('before'=>'MenuARTCensoFamilias', function(){return View::make('moduloart/ivsocicensofamilias');}));
+  Route::get('ivsocicensofamilias', array('before'=>'MenuARTCensoFamilias', 'uses' => 'ArtdashboardController@DiagFamiPreload'));
   //Route::get('ivsocidiagnosticofamiliar', array('before'=>'MenuARTDiagnosticoFamiliar', function(){return View::make('moduloart/ivsocidiagnosticofamiliar');}));
   Route::get('ivsocidiagnosticofamiliar', array('before' => 'EstadisticaSISCADI', 'uses' => 'SiscadiController@siscadi_repestadistic'));
   Route::get('ivsociconsultapic', array('before'=>'MenuARTConsultaPIC', 'uses' => 'ArtpicController@consultapic'));
@@ -182,6 +182,9 @@ Route::group(array('before' => 'auth'), function()
 
 //  Route::get('plan50consulproy', 'ArtpicController@plan50_ini_consulta');
 //  Route::get('plan50rrcargaproy', 'ArtpicController@plan50_ini');
+
+  //diagnostico familiar
+  Route::get('reporte_encu','ArtdashboardController@DiagFamiReporte');
 
   //Termina rutas para el módulo de ART
   //--------------------------------------------------------------------------------------------------------------------------

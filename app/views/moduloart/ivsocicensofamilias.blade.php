@@ -35,7 +35,9 @@
   <div class="container" id="sha">
     <div class="row">
 <!--aca se escribe el codigo-->
-               
+               <div class="col-sm-2">
+        <a href='reporte_encu'><img class="img-responsive" src='assets/img/excel.png'></img></a>   
+      </div>
 <!--fin del codigo-->    
     </div>
   </div>
