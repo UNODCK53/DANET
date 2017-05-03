@@ -73,6 +73,32 @@
       </div>
       <div class="col-sm-1"></div>
     </div>
+    <br>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <div class="row">
+        <div id="reporte" style="display: none">
+          <div  class="panel panel-default">
+            <div class="panel-body">
+              <h3 class="text-center text-primary">Ficha técnica de las encuentas con los cuales se generaron los siguientes inidcadores.</h3>
+             <br>
+             <div class="col-sm-1"></div>
+             <div class="col-sm-10">
+             <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" id="table_consulta">
+                <thead>
+                </thead>
+                <tbody id="body_table_consulta">
+                </tbody> 
+              </table>
+              </div>
+              <div class="col-sm-1"></div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-1"></div>
     <!--espacio para hacer las graficas--> 
     <div id="titulo" class="text-center"><h1>INDICADORES POBLACIONALES</h1></div>
     <div class="row">          
@@ -196,15 +222,24 @@
       <div class="col-sm-6" id="containerw"></div>      
       <div class="col-sm-1"></div>
     </div>
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-3" id="containerespe"></div>
+      <div class="col-sm-3" id="containerpeces"></div>
+      <div class="col-sm-3" id="containerganado"></div>      
+      <div class="col-sm-1"></div>
+    </div>
+    
     <div id="titulo" class="text-center"><h1>TERRITORIO Y MEDIO AMBIENTE</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>
-      <div class="col-sm-10" id="containerx"></div>      
+      <div class="col-sm-10" id="containerdondevive"></div>      
       <div class="col-sm-1"></div>
     </div>
     <div class="row">         
-      <div class="col-sm-1"></div>      
-      <div class="col-sm-10" id="containery"></div>
+      <div class="col-sm-1"></div>   
+      <div class="col-sm-5" id="containerx"></div>     
+      <div class="col-sm-5" id="containery"></div>
       <div class="col-sm-1"></div>
     </div>
     <div class="row">     
@@ -366,7 +401,8 @@
       });//Termina change selvda
       //evento click de generar graficass
       $("#genestadistic").on('click', function(){
-        $('#genestadisticpdf').show();        
+        $('#genestadisticpdf').show();  
+        $('#reporte').css("display","block");
         $.ajax({
           url:"siscadi/reporestadtotal",
           type:"POST",
@@ -374,6 +410,84 @@
           dataType:'json',
           
           success:function(data){
+            //se actuliaza la ficah tecnica
+            $('#table_consulta').empty();
+
+            var thead = document.createElement("thead");
+
+            var y = document.createElement("TR");
+            y.className="text-primary";
+            y.setAttribute("data-toggle","tooltip");
+            y.setAttribute("data-placement","top");
+            thead.appendChild(y);
+
+            var th = document.createElement("TH");
+            var t = document.createTextNode("No. de encuestas");
+            th.appendChild(t);
+            y.appendChild(th);
+            thead.appendChild(y);
+          
+            var th = document.createElement("TH");
+            var t = document.createTextNode("Fecha de recolección");
+            th.appendChild(t);
+            y.appendChild(th);
+            thead.appendChild(y);
+
+            var th = document.createElement("TH");
+            var t = document.createTextNode("Endidad que realizó la recolección");
+            th.appendChild(t);
+            y.appendChild(th);
+            thead.appendChild(y);
+
+            var th = document.createElement("TH");
+            var t = document.createTextNode("Método de recolección");
+            th.appendChild(t);
+            y.appendChild(th);
+            thead.appendChild(y);
+            document.getElementById('table_consulta').appendChild(thead);
+
+            var tbody = document.createElement("tbody");
+            tbody.setAttribute("id", "body_table_consulta");
+            document.getElementById('table_consulta').appendChild(tbody);
+
+            
+              var y = document.createElement("TR");
+              y.setAttribute("id", "ID1");
+              document.getElementById("body_table_consulta").appendChild(y);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode(data['ficha_tecnica'][0]);
+              z.appendChild(t);
+              document.getElementById("ID1").appendChild(z);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode("Desde "+data['ficha_tecnica'][1][1]+" hasta "+data['ficha_tecnica'][1][0]);
+              z.appendChild(t);
+              document.getElementById("ID1").appendChild(z);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode(data['ficha_tecnica'][2]);
+              z.appendChild(t);
+              document.getElementById("ID1").appendChild(z);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode(data['ficha_tecnica'][3]);
+              z.appendChild(t);
+              document.getElementById("ID1").appendChild(z);
+            
+
+         
+          if ( $.fn.dataTable.isDataTable( '#table_consulta' ) ) {
+            table2.destroy();
+            table2 = $('#table_consulta').DataTable( {
+              } );
+          }else {
+            table2 = $('#table_consulta').DataTable( {
+            });
+          }
+
+            //ficha tecnica 
+
             $(".text-center").show();
             $('#subtitulo1').show();
             $('#subtitulo2').show();
@@ -387,6 +501,9 @@
               },
               title: {
                   text: '1. Población por grupo de edades'
+              },
+              subtitle: {
+                  text: 'Población total: '+data['ficha_pobla_edad'][0]+" <br> ("+data['ficha_pobla_edad'][1]+ " hombres y "+ data['ficha_pobla_edad'][2]+" mujeres)"
               },
               credits: {
                 enabled: false
@@ -445,6 +562,9 @@
               },
               title: {
                   text: '2. Jefatura de hogar por grupo de edades'
+              },
+              subtitle: {
+                  text: 'Total de hogares: '+data['ficha_jefatu_edad'][0]+" <br>("+data['ficha_jefatu_edad'][1]+ " Jefatura masculina y "+ data['ficha_jefatu_edad'][2]+" Jefatura femenina)"
               },
               credits: {
                 enabled: false
@@ -607,7 +727,7 @@
                   data: Object.values(data.razones)
               }]
             });
-            document.getElementById("containerf").innerHTML = '<p class="text-justify">El <b>'+data.embarazoparto+'%</b> de las mujeres se encuentran en estado de embarazo o están lactando.</p><p class="text-justify">El <b>'+data.discapacidad+'%</b> de la población presenta alguna discapacidad.</p><p class="text-justify">El <b>'+data.analfabetismotot+'%</b> de la población mayor de 15 años encuestada no sabe leer, ni escribir.  <b>'+data.analfabetismomtot+'%</b> Mujeres – <b>'+data.analfabetismohtot+'%</b> Hombres</p><p class="text-justify">Promedio de personas en los hogares encuestados <b>'+data.promperhoga+'</b></p>';
+            document.getElementById("containerf").innerHTML = '<p class="text-justify">El <b>'+data.embarazoparto+'%</b> de las mujeres se encuentran en estado de embarazo o están lactando.</p><p class="text-justify">El <b>'+data.discapacidad+'%</b> de la población presenta alguna discapacidad.</p><p class="text-justify">El <b>'+data.analfabetismotot+'%</b> de la población mayor de 15 años encuestada no sabe leer, ni escribir.  <b>'+data.analfabetismomtot+'%</b> Mujeres – <b>'+data.analfabetismohtot+'%</b> Hombres</p><p class="text-justify">Promedio de personas en los hogares encuestados <b>'+data.promperhoga+'</b></p><p class="text-justify">El <b>'+data.primer_infancia+'% </b> de la población de los hogares encuestados está en la primera infancia</p>';
 
             $('#containerg').highcharts({              
               chart: {
@@ -1127,6 +1247,140 @@
                   data: Object.values(data.ventasproduc)
               }]
             });     
+            
+            $('#containerespe').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '4. Población con actividad productiva de Especies menores'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{point.percentage:.0f}%'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.espemenores
+              }]
+            }); 
+
+            $('#containerpeces').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '5. Población con actividad productiva de Pisicultura'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{point.percentage:.0f}%'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.peces
+              }]
+            }); 
+
+
+            $('#containerganado').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '6. Población con actividad productiva de Ganadería'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{point.percentage:.0f}%'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.ganado
+              }]
+            }); 
+
+            $('#containerdondevive').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: '1. Distribución porcentual del lugar en donde vive'
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.0f} %'                         
+                      }
+                  }
+              },
+              series: [{
+                  name: '->',
+                  colorByPoint: true,
+                  data: data.donde_vive
+              }]
+            });
+
             $('#containerx').highcharts({
               chart: {
                   plotBackgroundColor: null,
@@ -1135,7 +1389,7 @@
                   type: 'pie'
               },
               title: {
-                  text: '1. Relación de tenencia de la tierra según los encuestados'
+                  text: '2. Relación de tenencia de la tierra según los encuestados'
               },
               credits: {
                 enabled: false
@@ -1159,6 +1413,7 @@
                   data: data.relacionprediotot
               }]
             });
+
             $('#containery').highcharts({
               chart: {
                   plotBackgroundColor: null,
@@ -1167,7 +1422,7 @@
                   type: 'pie'
               },
               title: {
-                  text: '2. Participación en procesos de formalización de la propiedad'
+                  text: '3. Participación en procesos de formalización de la propiedad'
               },
               credits: {
                 enabled: false
@@ -1196,7 +1451,7 @@
                   type: 'bar'
               },
               title: {
-                text: '3. Participación en actividades relacionadas con la conservación'
+                text: '4. Participación en actividades relacionadas con la conservación'
               },              
               credits: {
                 enabled: false
@@ -1237,7 +1492,7 @@
                   type: 'bar'
               },
               title: {
-                text: '4. Acuerdos ambientales que existen en la comunidad'
+                text: '5. Acuerdos ambientales que existen en la comunidad'
               },              
               credits: {
                 enabled: false
@@ -1278,7 +1533,7 @@
                   type: 'bar'
               },
               title: {
-                text: '5. Implementación de prácticas agrícolas'
+                text: '6. Implementación de prácticas agrícolas'
               },              
               credits: {
                 enabled: false

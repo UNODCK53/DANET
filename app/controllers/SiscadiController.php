@@ -1526,6 +1526,27 @@ class SiscadiController extends BaseController {
 					break;
 			}
 		}
+
+		$fechamin_EBDT[]=null;
+		$fechamax_EBDT[]=null;
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$fechamin_EBDT[$i] = $estadEBDT[$i]['Fecha_Desde'];		
+			$fechamax_EBDT[$i] = $estadEBDT[$i]['Fecha_Hasta'];					
+		}
+		$fechas_EBDT=array(max($fechamax_EBDT),min($fechamin_EBDT));
+
+		$Fuente_EBDT[]=null;
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$Fuente_EBDT[$i] = $estadEBDT[$i]['Fuente'];	
+		}
+		$Metodo_EBDT[]=null;
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$Metodo_EBDT[$i] = $estadEBDT[$i]['Metodo'];	
+		}
+
+		
+		$ficha_tecnica=array(count($estadEBDT),$fechas_EBDT,array_values(array_unique($Fuente_EBDT)),array_values(array_unique($Metodo_EBDT)));
+
 		$estadEDTP[] = null;		
 		$a = 0;
 		for ($i=0; $i < count($jsonarraypoblacion2); $i++) { 
@@ -1582,7 +1603,12 @@ class SiscadiController extends BaseController {
 					break;
 			}
 		}
+
+
 		//1. Población por grupo de edades
+
+		
+
 		$masculino = 0;
 		$Masc1 = $Masc2 = $Masc3 = $Masc4 = $Masc5 = $Masc6 = $Masc7 = $Masc8 = $Masc9 = $Masc10 = $Masc11 = $Masc12 = $Masc13 = $Masc14 = $Masc15 = $Masc16 = $Masc17 = 0;
 		$femenino = 0;
@@ -1704,6 +1730,7 @@ class SiscadiController extends BaseController {
 		$masculino1 = [$Masc1, $Masc2, $Masc3, $Masc4, $Masc5, $Masc6, $Masc7, $Masc8, $Masc9, $Masc10, $Masc11, $Masc12, $Masc13, $Masc14, $Masc15, $Masc16, $Masc17];
 		$femenino1 = [$Femn1, $Femn2, $Femn3, $Femn4, $Femn5, $Femn6, $Femn7, $Femn8, $Femn9, $Femn10, $Femn11, $Femn12, $Femn13, $Femn14, $Femn15, $Femn16, $Femn17];
 
+		$ficha_pobla_edad=array(count($estadEDTP),$masculino,$femenino);
 		//2. Jefatura de hogar por grupo de edades
 
 		$categories = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80 + '];
@@ -1827,6 +1854,8 @@ class SiscadiController extends BaseController {
 		
 		$masculino2 = [$Masc1, $Masc2, $Masc3, $Masc4, $Masc5, $Masc6, $Masc7, $Masc8, $Masc9, $Masc10, $Masc11, $Masc12, $Masc13, $Masc14, $Masc15, $Masc16, $Masc17];
 		$femenino2 = [$Femn1, $Femn2, $Femn3, $Femn4, $Femn5, $Femn6, $Femn7, $Femn8, $Femn9, $Femn10, $Femn11, $Femn12, $Femn13, $Femn14, $Femn15, $Femn16, $Femn17];
+
+		$ficha_jefatu_edad=array(count($estadEBDT),$masculino,$femenino);
 		
 		//4. Autoreconocimiento étnico
 				
@@ -1902,7 +1931,7 @@ class SiscadiController extends BaseController {
 		}
 		$discapacidadtot = round(($discapacidad/count($estadEDTP))*100);
 
-		$analfabeh = $analfabem = $mayoraquince = $analfabetismohtot = $analfabetismomtot = $analfabetismotot = $entro = 0;
+		$analfabeh = $analfabem = $mayoraquince = $analfabetismohtot = $analfabetismomtot = $analfabetismotot = $entro = $primer_infancia=0;
 		for ($i=0; $i < count($estadEDTP); $i++) { 
 			if ($estadEDTP[$i]['Edad']>15) {
 				$mayoraquince =1+$mayoraquince;
@@ -1912,9 +1941,14 @@ class SiscadiController extends BaseController {
 			}
 			if ($estadEDTP[$i]['Analfabetismo']==1 && $estadEDTP[$i]['Genero']=='Femenino') {
 				$analfabem = 1+$analfabem;	
-			}			
+			}	
+			if ($estadEDTP[$i]['Edad']<=5) {
+				$primer_infancia =1+$primer_infancia;
+			}
+
 		}
 
+		$primer_infancia=round((($primer_infancia)/count($estadEDTP))*100);
 
 		$analfabetismotot = round((($analfabeh+$analfabem)/$mayoraquince)*100);
 		
@@ -2422,7 +2456,78 @@ class SiscadiController extends BaseController {
 		$ventasproduc = array('A su organización productiva' => round(($Ventas_a/count($estadEBDT))*100), 'A otra organización productiva' => round(($Ventas_b/count($estadEBDT))*100), 'A intermediarios' => round(($Ventas_c/count($estadEBDT))*100), 'Al consumidor final' => round(($Ventas_d/count($estadEBDT))*100), 'Comercio al por menor (plaza, galería)' => round(($Ventas_e/count($estadEBDT))*100), 'Otros' => round(($Ventas_f/count($estadEBDT))*100), 'No vende' => round(($Ventas_g/count($estadEBDT))*100), 'Ns/Nr' => round(($Ventas_h/count($estadEBDT))*100), 'NA' => round(($Ventas_i/count($estadEBDT))*100));
 		arsort($ventasproduc);
 
+
+
+		//4. Pie de especies menores
+		$arrayespemenore = array();		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$arrayespemenore[$i] = $estadEBDT[$i]['Especies_Menores'];		
+		}		
+		$grupoespemenore = array_count_values($arrayespemenore);
+		$a = 0;
+		arsort($grupoespemenore);
+		$espemenores = array();		
+		if (!empty($grupoespemenore)) {
+			for ($i=0; $i < count($grupoespemenore); $i++) { 				
+				$espemenores[$a]['name'] = array_keys($grupoespemenore)[$i];					
+				$espemenores[$a]['y'] = array_values($grupoespemenore)[$i];
+				$a = 1+$a;				
+			}
+		}
+
+		//5. Pie de peces
+		$arraypeces = array();		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$arraypeces[$i] = $estadEBDT[$i]['Peces'];		
+		}		
+		$grupopeces = array_count_values($arraypeces);
+		$a = 0;
+		arsort($grupopeces);
+		$peces = array();		
+		if (!empty($grupopeces)) {
+			for ($i=0; $i < count($grupopeces); $i++) { 				
+				$peces[$a]['name'] = array_keys($grupopeces)[$i];					
+				$peces[$a]['y'] = array_values($grupopeces)[$i];
+				$a = 1+$a;				
+			}
+		}
+
+		//6. Pie de peces
+		$arrayganado = array();		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$arrayganado[$i] = $estadEBDT[$i]['Ganado'];		
+		}		
+		$grupoganado = array_count_values($arrayganado);
+		$a = 0;
+		arsort($grupoganado);
+		$ganado = array();		
+		if (!empty($grupoganado)) {
+			for ($i=0; $i < count($grupoganado); $i++) { 				
+				$ganado[$a]['name'] = array_keys($grupoganado)[$i];					
+				$ganado[$a]['y'] = array_values($grupoganado)[$i];
+				$a = 1+$a;				
+			}
+		}
+
+
 //----------------------------TERRITORIO Y MEDIO AMBIENTE---------------------------------
+		$relacionVive = array();		
+		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$relacionVive[$i] = $estadEBDT[$i]['Vive'];		
+		}		
+		$relacionVivea = array_count_values($relacionVive);
+		$a = 0;
+		arsort($relacionVivea);
+		
+		$donde_vive = array();		
+		if (!empty($relacionVivea)) {
+			for ($i=0; $i < count($relacionVivea); $i++) { 				
+				$donde_vive[$a]['name'] = array_keys($relacionVivea)[$i];					
+				$donde_vive[$a]['y'] = array_values($relacionVivea)[$i];
+				$a = 1+$a;				
+			}
+		}
+
 		//1. Relación de tenencia de la tierra
 
 		$relacionpredio = array();		
@@ -2460,6 +2565,7 @@ class SiscadiController extends BaseController {
 				$a = 1+$a;				
 			}
 		}	
+
 
 		//3. Participación en actividades relacionadas con la conservación
 
@@ -2687,6 +2793,6 @@ class SiscadiController extends BaseController {
 		arsort($obtenaguaaptot);
 
 		//retorno todas las variables para las graficas  ingrepromcultcoca1
-		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot));
+		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot,'ficha_tecnica'=>$ficha_tecnica,'ficha_pobla_edad'=>$ficha_pobla_edad,'ficha_jefatu_edad'=>$ficha_jefatu_edad,'primer_infancia'=>$primer_infancia,'espemenores'=>$espemenores,'peces'=>$peces,'ganado'=>$ganado,'donde_vive'=>$donde_vive));
 	}
 }
