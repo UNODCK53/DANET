@@ -172,8 +172,28 @@ public function postPic()//funcion que precarga los datos de los indicadores  ve
 
 public function DiagFamiPreload()
 	{
-		
-		return View::make('moduloart/ivsocicensofamilias');
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+		$nacional=array( count($jsonarray_diag2), count($jsonarray_anexo2));
+
+
+		//almacena del json  los datos de depto para buscarlos y agruparlos
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			//array_push ( $deptosencu[$i] , $jsonarray2[$i]['Cod_Dpto'] );
+			$deptosencu[$i] = $jsonarray_diag2[$i]['Departamento'];		
+			$deptosencu_cod[$i] = substr($jsonarray_diag2[$i]['Cod_dane'], 0, 2);;						
+		}
+
+		$depto=array(array_values(array_unique($deptosencu)),array_values(array_unique($deptosencu_cod)));
+
+	
+
+
+		return View::make('moduloart/ivsocicensofamilias',array('nacional' => $nacional,'depto'=>$depto));
 	}
 
 public function DiagFamiReporte()
