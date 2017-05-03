@@ -2095,6 +2095,9 @@ class SiscadiController extends BaseController {
 				$Vinculacion_CI_f = 1+$Vinculacion_CI_f;	
 			}			
 		}
+		if ($relculilicisi == 0) {
+			$relculilicisi = 1;
+		}
 		
 		$vinculacionci = array('Porque era lo más rentable' => round(($Vinculacion_CI_a/$relculilicisi)*100), 'Porque no había más opciones' => round(($Vinculacion_CI_b/$relculilicisi)*100), 'Porque no había compradores para los otros productos' => round(($Vinculacion_CI_c/$relculilicisi)*100), 'Por presión de un Grupo Armado al Margen de la Ley' => round(($Vinculacion_CI_d/$relculilicisi)*100), 'Porque es lo que siempre se ha cultivado en la región' => round(($Vinculacion_CI_e/$relculilicisi)*100), 'Otra' => round(($Vinculacion_CI_f/$relculilicisi)*100));
 		arsort($vinculacionci);
@@ -2138,13 +2141,17 @@ class SiscadiController extends BaseController {
 			}			
 		}
 
+
 		$hacultiilictot = round(array_sum($hacultiilic));
 
 		//percentiles 
 		function get_percentile($percentile, $ingrepromcultcoca) {
 		    sort($ingrepromcultcoca);
 		    $index = ($percentile/100) * count($ingrepromcultcoca);
-		    if (floor($index) == $index) {
+		    if (empty($ingrepromcultcoca)) {
+		    	$result = 0;
+				//$ingrepromcultcoca[0] = 0;			
+			} else if (floor($index) == $index) {
 		         $result = ($ingrepromcultcoca[$index-1] + $ingrepromcultcoca[$index])/2;
 		    }
 		    else {
@@ -2167,7 +2174,12 @@ class SiscadiController extends BaseController {
 		 		$c = 1+$c;
 		 	}
 		 }
-		$hacultiilicprom = round((array_sum($hacultiilic1)/count($hacultiilic1)),2);		
+		if (empty($hacultiilic1)) {
+			$hacultiilicprom = 0;
+		}else {
+			$hacultiilicprom = round((array_sum($hacultiilic1)/count($hacultiilic1)),2);
+		} 
+				
 
 		$c = 0;
 		$percep75 = get_percentile(75, $ingrepromcultcoca);		
@@ -2183,11 +2195,15 @@ class SiscadiController extends BaseController {
 		 		$ingrepromcultcoca1[$c] = $ingrepromcultcoca[$i];
 		 		$c = 1+$c;
 		 	}
-		 }
-		
+		}
+		if (empty($ingrepromcultcoca1)) {
+			$ingrepromcultcocatot = 0;
+		}else {
+			//$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca)/$a)/12));		
+			$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca1)/count($ingrepromcultcoca1))/12));
+		}	
 
-		//$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca)/$a)/12));		
-		$ingrepromcultcocatot = round(((array_sum($ingrepromcultcoca1)/count($ingrepromcultcoca1))/12));
+		
 
 //----------------------------INDICADORES ECONÓMICOS---------------------------------
 		//1. Índice de pobreza multidimensional
@@ -2610,8 +2626,10 @@ class SiscadiController extends BaseController {
 		//3. Tipo de transporte utilizado
 
 		$topitransp = array();		
-		for ($i=0; $i < count($estadEBDT); $i++) { 
-			$topitransp[$i] = $estadEBDT[$i]['Tipo_transporte'];		
+		for ($i=0; $i < count($estadEBDT); $i++) {
+			if ($estadEBDT[$i]['Tipo_transporte']!='Na') {
+			 	$topitransp[$i] = $estadEBDT[$i]['Tipo_transporte'];
+			}					
 		}		
 		$topitranspa = array_count_values($topitransp);
 		$a = 0;

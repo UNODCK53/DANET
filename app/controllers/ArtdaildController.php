@@ -20,7 +20,7 @@ class ArtdaildController extends BaseController {
 			->get();
 
 		
-		return View::make('moduloart/vista1',array('arraydaild' => $arraydaild));
+		return View::make('modulodaild/acuerdoscolectivos',array('arraydaild' => $arraydaild));
 	}
 
 	public function postDaildConsulta()
