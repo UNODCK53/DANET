@@ -155,16 +155,16 @@
           </div>          
           <div class="col-sm-4 form-group">
             <label for="Proceso" class="control-label">Cédula:</label>
-            <input id="modcedula" type="number" class="form-control" name="modcedula" value='{{$pro->cedula}}'>
+            <input id="modcedula" type="text" class="form-control" name="modcedula" value='{{$pro->cedula}}' title="Cédula máximo de 10 caracteres" maxlength="13" pattern="[^a-zA-Z]+">
           </div>
           <div class="col-sm-4 form-group">
-            <label for="Proceso" class="control-label">Genero:</label><br>
+            <label for="Proceso" class="control-label">Género:</label><br>
             <input type="radio" name="modgenero" id="modgenerom" value="1"> Masculino
             <input type="radio" name="modgenero" id="modgenerof" value="2"> Femenino
           </div>
           <div class="col-sm-4 form-group">
             <label for="Proceso" class="control-label">Teléfono:</label>
-            <input id="modtelefono" type="number" class="form-control" name="modtelefono" value='{{$pro->telefono}}'>
+            <input id="modtelefono" type="text" class="form-control" name="modtelefono" value='{{$pro->telefono}}' title="Telefono máximo de 10 caracteres" name="modtelefono" maxlength="10" pattern="[^a-zA-Z]+">
           </div>                   
           <div class="form-group text-right">
             <button type="submit" class="btn btn-primary">Guardar edición general</button>
@@ -454,7 +454,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title"><strong>Cargue de Documentos</strong></h4>
             </div>
             <div class="modal-body">
@@ -481,7 +481,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Adjuntar Documento</button>
             </div>
               </form>
@@ -493,7 +493,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title"><strong>Cargue de Documentos</strong></h4>
             </div>
             <div class="modal-body">
@@ -527,7 +527,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Adjuntar Documento</button>
 
             </div>
@@ -540,7 +540,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title"><strong>Cargue de Documentos</strong></h4>
             </div>
             <div class="modal-body">
@@ -574,7 +574,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Adjuntar Documento</button>
             </div>
               </form>
@@ -586,7 +586,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title"><strong>Cargue de Documentos</strong></h4>
             </div>
             <div class="modal-body">
@@ -611,7 +611,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Adjuntar Documento</button>
             </div>
               </form>
@@ -650,6 +650,7 @@
         else{
           $('#respoviano').prop('checked', true);
           $("#obsvial").show();
+          $('#modobsviab').attr("required", "true");
         }
         $('#respoviano').click(function(){
         $("#obsvial").show();
@@ -712,6 +713,16 @@
         $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
         $( "#tierrasestjurmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Procesos Adjudicados</strong>");
         
+        $("input[name='modviable']").change(function(){ 
+          if ($(this).val() == "2") {
+            // Disable your roomnumber element here
+            $('#modobsviab').attr("required", "true");
+          } else {
+            // Re-enable here I guess
+            $('#modobsviab').removeAttr('required');
+          }
+        });
+
         var table = $('#levtopo').DataTable();
         // para el calendario interno
         $('#datepicker').datepicker({

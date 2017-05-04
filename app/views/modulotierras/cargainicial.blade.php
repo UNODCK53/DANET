@@ -35,7 +35,7 @@
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
-      <h2 class="text-center text-primary">Procesos iniciales</h2>          
+      <h2 class="text-center text-primary">Carga inicial</h2>          
       <p class="lead text-justify">En esta sección se pueden encontrar todas los procesos que han sido creados en la base de datos a partir de las fichas de caracterización. Para continuar, se requiere que cada uno de los responsables jurídicos se adjudiquen los procesos.</p>
       </div>
       <div class="col-sm-1"></div>
@@ -59,10 +59,14 @@
     </div>
     <div class="row">
       <div class="col-sm-1"></div>
+
       <div class="col-sm-9">
+      @if((Auth::user()->level=="2") || (Auth::user()->level=="1"))
         <!-- Standard button -->
         <button id="btnedijuri" title="Presione para adjudicarse el proceso" disabled="disabled" data-target="#edijuriModal"  data-toggle="modal" type="button" class="btn btn-primary">Asignarse proceso</button>
+      @endif
       </div>
+      
       <div class="col-sm-1"><a href='excelcar'><img class="img-responsive" src='assets/img/excel.png'></img></a></div>
       <div class="col-sm-1"></div>
     </div>
@@ -229,7 +233,7 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Cédula:</label>
-            <input id="modcedula" type="number" class="form-control" name="modcedula">
+            <input id="modcedula" type="text" class="form-control" name="modcedula" title="Cédula máximo de 10 caracteres" maxlength="13" pattern="[^a-zA-Z]+">
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Género:</label><br>
@@ -238,7 +242,7 @@
           </div>
           <div class="form-group">
             <label for="Proceso" class="control-label">Teléfono:</label>
-            <input id="modtelefono" type="number" class="form-control" name="modtelefono">
+            <input id="modtelefono" type="text" class="form-control" title="Telefono máximo de 10 caracteres" name="modtelefono" maxlength="10" pattern="[^a-zA-Z]+">
           </div>
       </div>
       <div class="modal-footer">
@@ -290,6 +294,15 @@
         $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
         $( "#tierrascarinimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Carga Inicial</strong>");
         $( "#mensajeestatus" ).fadeOut(5000);
+        $("input[name='modviable']").change(function(){ 
+          if ($(this).val() == "2") {
+            // Disable your roomnumber element here
+            $('#modobsviab').attr("required", "true");
+          } else {
+            // Re-enable here I guess
+            $('#modobsviab').removeAttr('required');
+          }
+        });
         // para el calendario interno
         $('#datepicker').datepicker({
           format: "yyyy-mm-dd",

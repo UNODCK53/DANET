@@ -525,7 +525,7 @@ class TierrasController extends BaseController {
 		    		'requierevisinsp'=>Input::get('modradiovisinsp')
 		    )					
 		);
-		$estadocambio = DB::select('SELECT * FROM MODTIERRAS_PROCESTADO where id_proceso ='.Input::get('modnp').' and id_estado = 5' );
+		$estadocambio = DB::select("SELECT * FROM MODTIERRAS_PROCESTADO where id_proceso ='".Input::get('modnp')."' and id_estado = 5" );
 		if (empty($estadocambio)) {
 			DB::table('MODTIERRAS_PROCESTADO')->insert(
 			    	array(
