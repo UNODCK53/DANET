@@ -229,7 +229,7 @@ $menuguardaun=false;
  @if(Auth::user()->grupo=="10" || Auth::user()->grupo=="1")
   <div class="container" id="sha">
       <div class="row">
-        <h2 class="text-center text-primary">Agencia de Renovación territorial</h2>
+        <h2 class="text-center text-primary">Agencia de Renovación del Territorio</h2>
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">

@@ -221,12 +221,16 @@
       <div class="col-sm-4" id="containerv"></div>
       <div class="col-sm-6" id="containerw"></div>      
       <div class="col-sm-1"></div>
+    </div>    
+    <div class="row">     
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5" id="containerespe"></div>
+      <div class="col-sm-5" id="containerpeces"></div>      
+      <div class="col-sm-1"></div>
     </div>
     <div class="row">     
       <div class="col-sm-1"></div>
-      <div class="col-sm-3" id="containerespe"></div>
-      <div class="col-sm-3" id="containerpeces"></div>
-      <div class="col-sm-3" id="containerganado"></div>      
+      <div class="col-sm-10" id="containerganado"></div>      
       <div class="col-sm-1"></div>
     </div>
     
@@ -1256,7 +1260,7 @@
                   type: 'pie'
               },
               title: {
-                  text: '4. Población con actividad productiva de Especies menores'
+                  text: '4. Especies menores para el autoconsumo'
               },
               credits: {
                 enabled: false
@@ -1289,7 +1293,7 @@
                   type: 'pie'
               },
               title: {
-                  text: '5. Población con actividad productiva de Pisicultura'
+                  text: '5. Piscicultura para el autoconsumo'
               },
               credits: {
                 enabled: false
@@ -1323,7 +1327,7 @@
                   type: 'pie'
               },
               title: {
-                  text: '6. Población con actividad productiva de Ganadería'
+                  text: '6. Ganadería para el autoconsumo'
               },
               credits: {
                 enabled: false
@@ -1356,7 +1360,7 @@
                   type: 'pie'
               },
               title: {
-                  text: '1. Distribución porcentual del lugar en donde vive'
+                  text: '1. Lugar de residencia, población encuestada'
               },
               credits: {
                 enabled: false
