@@ -158,7 +158,6 @@ public function postPic()//funcion que precarga los datos de los indicadores  ve
 		$arraydaild = DB::table('MODART_DAILD_ACUERDOSCOLEC')	
 			->select(DB::raw("ISNULL(sum(familias),0) AS familias,ISNULL(sum(hectareas),0) AS has"))
 			->where('mpio','=',Input::get('indi'))
-			->groupby('mpio')
 			->get();
 
 		$arraydash1 = DB::table('MODART_DASHBOARD')	

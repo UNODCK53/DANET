@@ -297,7 +297,7 @@ input[type="number"] {
                   <font size="50" id="obra_priori">0</font>
                 </div>
                 <div class="col-xs-6" align="center">
-                  Obras priorizadas
+                  Obras priorizadas (PIC)
                 </div>
                 <div class="col-xs-12"><br><br></div>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/pp.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
