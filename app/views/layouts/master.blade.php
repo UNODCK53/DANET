@@ -347,10 +347,10 @@ $menuguardaun=false;
                   <li id="ivsocidashboardmenu"><a href="<?=URL::to('ivsocidashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>
                   @endif
                   @if($menuartcensofamilias)
-                  <li id="ivsocicensofamiliasmenu"><a href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Censo Familias</a></li>
+                  <li id="ivsocicensofamiliasmenu"><a href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar sincronización</a></li>
                   @endif
                   @if($menuartdiagnosticofamiliar)
-                  <li id="ivsocidiagnosticofamiliarmenu"><a href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
+                  <li id="ivsocidiagnosticofamiliarmenu"><a href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar estadísticas</a></li>
                   @endif
                   @if($menuartconsultapic)
                   <li id="ivsociconsultapicmenu"><a href="<?=URL::to('ivsociconsultapic'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta PIC</a></li>
@@ -538,10 +538,10 @@ $menuguardaun=false;
               <li id="ivsocidashboardmenu"><a href="<?=URL::to('ivsocidashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>              
               @endif
               @if($menuartcensofamilias)
-              <li id="ivsocicensofamiliasmenu"><a href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Censo Familias</a></li>              
+              <li id="ivsocicensofamiliasmenu"><a href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar sincronización</a></li>              
               @endif
               @if($menuartdiagnosticofamiliar)                
-              <li id="ivsocidiagnosticofamiliarmenu"><a href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
+              <li id="ivsocidiagnosticofamiliarmenu"><a href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar estadísticas</a></li>
               @endif
               @if($menuartconsultapic)
               <li id="ivsociconsultapicmenu"><a href="<?=URL::to('ivsociconsultapic'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta PIC</a></li>              
@@ -801,10 +801,10 @@ $menuguardaun=false;
                       <li><a id="ivsocidashboardmenupeq" href="<?=URL::to('ivsocidashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>
                       @endif
                       @if($menuartcensofamilias)
-                      <li><a id="ivsocicensofamiliasmenupeq" href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Censo Familias</a></li>
+                      <li><a id="ivsocicensofamiliasmenupeq" href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar sincronización</a></li>
                       @endif
                       @if($menuartdiagnosticofamiliar)
-                      <li><a id="ivsocidiagnosticofamiliarmenupeq" href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
+                      <li><a id="ivsocidiagnosticofamiliarmenupeq" href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar estadísticas</a></li>
                       @endif
                       @if($menuartconsultapic)
                       <li><a id="ivsociconsultapicmenupeq" href="<?=URL::to('ivsociconsultapic'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta PIC</a></li>                      
@@ -995,10 +995,10 @@ $menuguardaun=false;
                       <li><a id="ivsocidashboardmenupeq" href="<?=URL::to('ivsocidashboard'); ?>"><span class="glyphicon glyphicon-ok"></span> Dashboard</a></li>
                     @endif
                     @if($menuartcensofamilias)
-                      <li><a id="ivsocicensofamiliasmenupeq" href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Censo Familias</a></li>
+                      <li><a id="ivsocicensofamiliasmenupeq" href="<?=URL::to('ivsocicensofamilias'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar sincronización</a></li>
                     @endif
                     @if($menuartdiagnosticofamiliar)
-                      <li><a id="ivsocidiagnosticofamiliarmenupeq" href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar</a></li>
+                      <li><a id="ivsocidiagnosticofamiliarmenupeq" href="<?=URL::to('ivsocidiagnosticofamiliar'); ?>"><span class="glyphicon glyphicon-ok"></span> Diagnóstico familiar estadísticas</a></li>
                     @endif
                     @if($menuartconsultapic)                      
                       <li><a id="ivsociconsultapicmenupeq" href="<?=URL::to('ivsociconsultapic'); ?>"><span class="glyphicon glyphicon-ok"></span> Consulta PIC</a></li>                     

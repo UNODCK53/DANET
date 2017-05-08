@@ -37,14 +37,16 @@
 <!--aca se escribe el codigo-->
     <h2 class="text-center text-primary">Censo de familias</h2>
 	<br><br>
+  <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
-      <b class="lead text-justify">Reporte de sincronización de encuestas de diagnóstioco de hogar y Anexo de Tierras   </b>
+      <b class="lead text-justify">Descargar el reporte de sincronización de encuestas de diagnóstioco de hogar y Anexo de Tierras   </b>
       <a class="glyphicon glyphicon-download-alt btn btn-success" title="Descarque el archvio del Criterio" href="\art\Rep_encuestas.pdf" target="_blank"></a>
     </div>
     <div class="col-sm-1"></div>
+  </div>
 	<br><br><hr>
-  <h3 class="text-center text-primary">Resultados detalaldos de recolección de encuestas digitales</h3>
+  <h3 class="text-center text-primary">Resultados detallados de recolección de encuestas digitales</h3>
   <br>
   <div class="row"> 
     <div class="col-sm-1"></div> 
@@ -52,7 +54,7 @@
         <label id="labelindicador" for="Proceso" class="control-label">Tipo de Indicadores:</label>
     </div> 
     <div class="col-sm-2">
-          <input type="radio" name="indicador" id="indicador1" value="1" required>General
+          <input type="radio" name="indicador" id="indicador1" value="1" required>Por Unidad Administrativa
     </div> 
     <div class="col-sm-1"></div> 
     <div class="col-sm-2">
@@ -146,10 +148,10 @@
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
           $( "#art" ).addClass("active");
-          $( "#artdashboardmenu" ).addClass("active");
+          $( "#ivsocicensofamiliasmenu" ).addClass("active");
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
-          $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
+          $( "#ivsocicensofamiliasmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Diagnóstico familiar sincronización</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
       });
 
