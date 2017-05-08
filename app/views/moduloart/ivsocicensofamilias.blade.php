@@ -68,21 +68,9 @@
         <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
         <select id="seldpto" class="form-control" name="seldpto">
           <option value="" selected="selected">Por favor seleccione</option>
-<?php 
-          function sortByOrder($a, $b) {
-    return $a['order'] - $b['order'];
-}
-
-usort($depto[0], 'sortByOrder');?>
-
-
-          <script>console.log(<?php print_r(sort($depto[0])); ?>)</script>
-          <script>console.log(<?php print_r($depto[0]);?>)</script>
-          <?php 
-          sort($depto[0]);
-          for ($i=0; $i <count($depto[0]) ; $i++) { ?>
-           <option value=<?php echo $depto[1][$i]?>><?php echo $depto[0][$i]?></option>
-          <?php } ?>
+          @foreach($depto as $key=>$val) 
+             <option value="{{$key}}"> {{$val}}</option>                    
+          @endforeach 
         </select>
     </div>  
     <div class="col-sm-3" id="General-mpio"style="display:none;">
@@ -104,6 +92,9 @@ usort($depto[0], 'sortByOrder');?>
         <label id="labelmonitor" for="Proceso" class="control-label">Usuario:</label>
         <select id="selmonitor" class="form-control" name="selmonitor">
             <option value="" selected="selected">Por favor seleccione</option>
+          @foreach($usuario as $key=>$val) 
+             <option value="{{$key}}"> {{$val}}</option>                    
+          @endforeach 
         </select>
       </div>
       <div class="col-sm-2" id="Usuario-depto"style="display:none;">
@@ -125,7 +116,7 @@ usort($depto[0], 'sortByOrder');?>
   </div> 
   <br><br>
   <div class="col-sm-12">
-    <div id="container" class="col-sm-7"></div>
+    <div id="container" class="col-sm-12"></div>
     <div class="col-sm-1"></div>
     <div id="map" class="col-sm-4"></div>
   </div>
@@ -160,16 +151,21 @@ usort($depto[0], 'sortByOrder');?>
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#artdashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
-          console.log(<?php echo json_encode($depto); ?>)
       });
 
       $('input:radio[name=indicador]').change(function() {
         var indi = document.querySelector('input[name="indicador"]:checked').value;
         if(indi=='1'){
+          $("#container").attr('class', 'col-sm-12');
           $("#General").css("display","block");
           $("#General-depto").css("display","block");
           $("#Usuario").css("display","none");
           $("#Usuario-usuar").css("display","none");
+
+          $('#seldpto').val("");
+          $("#General-mpio").css("display","none");
+          $("#General-vda").css("display","none");
+
 
           nacional=<?php echo json_encode($nacional); ?>;
           Highcharts.chart('container', {
@@ -177,7 +173,7 @@ usort($depto[0], 'sortByOrder');?>
                   type: 'column'
               },
               title: {
-                  text: 'Total de encuentas realzadas a nivel nacional, 2017'
+                  text: 'Total de encuestas realizadas a nivel nacional, 2017'
               },
               xAxis: {
                   type: 'category'
@@ -219,59 +215,972 @@ usort($depto[0], 'sortByOrder');?>
               }]
           });
         }else{
+          $("#container").attr('class', 'col-sm-12');
           $("#Usuario").css("display","block");
           $("#Usuario-usuar").css("display","block");
           $("#General").css("display","none");
           $("#General-depto").css("display","none");
+
+          $('#selmonitor').val("");
+          $("#Usuario-depto").css("display","none");
+          $("#Usuario-mpio").css("display","none");
+          $("#Usuario-vda").css("display","none");
+
+          usuario_datos=<?php echo $usuario_datos; ?>;
           Highcharts.chart('container', {
-
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: 'Solar Employment Growth by Sector, 2010-2016'
+                text: 'Encuestas realizadas por Usuario a nivel Nacional'
             },
-
-            subtitle: {
-                text: 'Source: thesolarfoundation.com'
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
             },
-
             yAxis: {
+                min: 0,
                 title: {
-                    text: 'Number of Employees'
+                    text: '# de encuestas'
                 }
             },
             legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
+                enabled: false
             },
-
-            plotOptions: {
-                series: {
-                    pointStart: 2010
+            plotOptions:{
+                series:{
+                    turboThreshold:0//larger threshold or set to 0 to disable
                 }
             },
-
+            tooltip: {
+                pointFormat: 'Encuestas realizadas: <b>{point.y}</b>'
+            },
             series: [{
-                name: 'Installation',
-                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-            }, {
-                name: 'Manufacturing',
-                data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-            }, {
-                name: 'Sales & Distribution',
-                data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-            }, {
-                name: 'Project Development',
-                data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-            }, {
-                name: 'Other',
-                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                name: 'Usuario',
+                data: usuario_datos
             }]
-
-        });
+          });
         }
       });
+//## graficas general
+      //grafica segun departamento      
+      $("#seldpto").change(function(){
+        if($('#seldpto').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
+        {
+            $("#General-mpio").css("display","none");
+            $("#General-vda").css("display","none");
+            var nacional=<?php echo json_encode($nacional); ?>;
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas a nivel nacional, 2017'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
 
-      
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: nacional[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: nacional[1]
+                    }]
+                }]
+            });
+           
+        }else{
+            $("#General-vda").css("display","none");
+          //crea la grafica a un nivel mas detalaldo
+          $.ajax({url:"artdashboard/diag-fami-gene-depto",type:"POST",data:{depto:$('#seldpto').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#General-mpio").css("display","block");
+              $("#selmpio").empty();
+              $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selmpio").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#seldpto option:selected").text()+', 2017'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage seldpto
+
+      //grafica segun municipio      
+      $("#selmpio").change(function(){
+        if($('#selmpio').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
+        {
+          $("#General-vda").css("display","none");
+           $.ajax({url:"artdashboard/diag-fami-gene-depto",type:"POST",data:{depto:$('#seldpto').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#General-mpio").css("display","block");
+              $("#selmpio").empty();
+              $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selmpio").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#seldpto option:selected").text()+', 2017'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+           
+        }else{
+          //crea la grafica a un nivel mas detalaldo
+          $.ajax({url:"artdashboard/diag-fami-gene-muni",type:"POST",data:{depto:$('#selmpio').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#General-vda").css("display","block");
+              $("#selvda").empty();
+              $("#selvda").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selvda").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selmpio option:selected").text()+' ('+$("#seldpto option:selected").text()+'), 2017'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage selmpio
+
+
+      //grafica segun vereda      
+      $("#selvda").change(function(){
+        if($('#selvda').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
+        {
+           $.ajax({url:"artdashboard/diag-fami-gene-muni",type:"POST",data:{depto:$('#selmpio').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#General-vda").css("display","block");
+              $("#selvda").empty();
+              $("#selvda").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selvda").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selmpio option:selected").text()+' ('+$("#seldpto option:selected").text()+'), 2017'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+           
+        }else{
+          //crea la grafica a un nivel mas detalaldo
+          $.ajax({url:"artdashboard/diag-fami-gene-vda",type:"POST",data:{depto:$('#selvda').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              console.log(data1)
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selvda option:selected").text()+' ('+$("#selmpio option:selected").text()+', '+$("#seldpto option:selected").text()+'), 2017'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage selmpio
+//### fin de graficas general
+
+//### inicio de graficas por usuario
+
+    //grafica segun departamento      
+      $("#selmonitor").change(function(){
+        if($('#selmonitor').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
+        {
+             $("#container").attr('class', 'col-sm-12');
+              $("#Usuario-depto").css("display","none");
+              $("#Usuario-mpio").css("display","none");
+              $("#Usuario-vda").css("display","none");
+
+              usuario_datos=<?php echo $usuario_datos; ?>;
+              Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Encuestas realizadas por Usuario a nivel Nacional'
+                },
+                xAxis: {
+                    type: 'category',
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '# de encuestas'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions:{
+                    series:{
+                        turboThreshold:0//larger threshold or set to 0 to disable
+                    }
+                },
+                tooltip: {
+                    pointFormat: 'Encuestas realizadas: <b>{point.y}</b>'
+                },
+                series: [{
+                    name: 'Usuario',
+                    data: usuario_datos
+                }]
+              });
+           
+        }else{
+            $("#Usuario-depto").css("display","block");
+              $("#Usuario-mpio").css("display","none");
+              $("#Usuario-vda").css("display","none");
+          //crea la grafica a un nivel mas detalaldo
+          $.ajax({url:"artdashboard/diag-fami-usua-usua",type:"POST",data:{usuario:$('#selmonitor').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#seldptomoni").empty();
+              $("#seldptomoni").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['depto'], function(nom,datos){
+                $("#seldptomoni").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val'];
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selmonitor option:selected").text()+', 2017'
+                },
+                
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage seldpto
+
+    //grafica segun departamento      
+      $("#seldptomoni").change(function(){
+        if($('#seldptomoni').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
+        {
+            $("#Usuario-mpio").css("display","none");
+            $("#Usuario-vda").css("display","none");
+
+          $.ajax({url:"artdashboard/diag-fami-usua-usua",type:"POST",data:{usuario:$('#selmonitor').val(),depto:$('#seldptomoni').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#seldptomoni").empty();
+              $("#seldptomoni").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['depto'], function(nom,datos){
+                $("#seldptomoni").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val'];
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selmonitor option:selected").text()+', 2017'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+           
+        }else{
+            $("#Usuario-mpio").css("display","block");
+              $("#Usuario-vda").css("display","none");
+          //crea la grafica a un nivel mas detalaldo
+          $.ajax({url:"artdashboard/diag-fami-usua-depto",type:"POST",data:{usuario:$('#selmonitor').val(),depto:$('#seldptomoni').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#selmpiomoni").empty();
+              $("#selmpiomoni").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selmpiomoni").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#seldptomoni option:selected").text()+', 2017'
+                },
+                subtitle: {
+                    text: 'Realizadas por:'+$("#selmonitor option:selected").text()
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage seldpto
+
+      //grafica segun municipio      
+      $("#selmpiomoni").change(function(){
+        if($('#selmpiomoni').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
+        {
+          $("#Usuario-vda").css("display","none");
+           $.ajax({url:"artdashboard/diag-fami-usua-depto",type:"POST",data:{usuario:$('#selmonitor').val(),depto:$('#seldptomoni').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#selmpiomoni").empty();
+              $("#selmpiomoni").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selmpiomoni").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#seldptomoni option:selected").text()+', 2017'
+                },
+                subtitle: {
+                    text: 'Realizadas por:'+$("#selmonitor option:selected").text()
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+           
+        }else{
+          //crea la grafica a un nivel mas detalaldo
+          $.ajax({url:"artdashboard/diag-fami-usua-muni",type:"POST",data:{usuario:$('#selmonitor').val(),depto:$('#selmpiomoni').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#Usuario-vda").css("display","block");
+              $("#selvdamoni").empty();
+              $("#selvdamoni").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selvdamoni").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selmpiomoni option:selected").text()+' ('+$("#seldptomoni option:selected").text()+'), 2017'
+                },
+                subtitle: {
+                    text: 'Realizadas por:'+$("#selmonitor option:selected").text()
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage selmpio
+
+
+      //grafica segun vereda      
+      $("#selvdamoni").change(function(){
+        if($('#selvdamoni').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
+        {
+           $.ajax({url:"artdashboard/diag-fami-usua-muni",type:"POST",data:{usuario:$('#selmonitor').val(),depto:$('#selmpiomoni').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              $("#Usuario-vda").css("display","block");
+              $("#selvdamoni").empty();
+              $("#selvdamoni").append("<option value=''>Por favor seleccione</option>");
+              $.each(data1['muni'], function(nom,datos){
+                $("#selvdamoni").append("<option value=\""+nom+"\">"+datos+"</option>");
+              });
+
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selmpiomoni option:selected").text()+' ('+$("#seldptomoni option:selected").text()+'), 2017'
+                },
+                subtitle: {
+                    text: 'Realizadas por:'+$("#selmonitor option:selected").text()
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+           
+        }else{
+          //crea la grafica a un nivel mas detalaldo
+          $.ajax({url:"artdashboard/diag-fami-usua-vda",type:"POST",data:{usuario:$('#selmonitor').val(),depto:$('#selvdamoni').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
+            success:function(data1){
+              console.log(data1)
+             var depto_val=data1['depto_val']; 
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total de encuestas realizadas en '+$("#selvdamoni option:selected").text()+' ('+$("#selmpiomoni option:selected").text()+', '+$("#seldptomoni option:selected").text()+'), 2017'
+                },
+                subtitle: {
+                    text: 'Realizadas por:'+$("#selmonitor option:selected").text()
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: '# de encuestas'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> encuestas<br/>'
+                },
+
+                series: [{
+                    name: 'Encuestas capturadas en campo',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Diagnóstico del hogar para renovación y transformación integral',
+                        y: depto_val[0]
+                    }, {
+                        name: 'Anexo línea base para formalización de tierras',
+                        y: depto_val[1]
+                    }]
+                }]
+            });
+              
+         //Termina function highchart
+            },
+            error:function(){alert('error');}
+          });//Termina Ajax prueva
+        }
+      });//Termina chage selmpio
+//### fin de graficas por usuario
     </script>    
 @stop
 

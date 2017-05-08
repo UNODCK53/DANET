@@ -179,35 +179,270 @@ public function DiagFamiPreload()
 
 		$nacional=array( count($jsonarray_diag2), count($jsonarray_anexo2));
 
-
+		$array_usuario=array();
 		//almacena del json  los datos de depto para buscarlos y agruparlos
 		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
 			//array_push ( $deptosencu[$i] , $jsonarray2[$i]['Cod_Dpto'] );
-			$deptosencu[$i] = $jsonarray_diag2[$i]['Departamento'];		
-			$deptosencu_cod[$i] = substr($jsonarray_diag2[$i]['Cod_dane'], 0, 2);;						
+			$deptosencu[substr($jsonarray_diag2[$i]['Cod_dane'], 0, 2)] = $jsonarray_diag2[$i]['Departamento'];
+			$usuarisencu[$jsonarray_diag2[$i]['Usuario']] = $jsonarray_diag2[$i]['Usuario'];			
+			array_push($array_usuario ,$jsonarray_diag2[$i]['Usuario']);
+		}
+		asort($deptosencu);
+		asort($usuarisencu);
+
+		$usuarisencusuma=array_count_values($array_usuario);
+		asort($usuarisencusuma);
+		$usuario=array();
+		
+
+		 foreach ($usuarisencusuma as $key => $value) {
+		 	$usu=array($key,$value);
+		 	array_push ($usuario,$usu);
+		 }
+
+
+
+		return View::make('moduloart/ivsocicensofamilias',array('nacional' => $nacional,'depto'=>$deptosencu,'usuario'=>$usuarisencu,'usuario_datos'=>json_encode($usuario)));
+	}
+//inicio Funciones de graficas general
+public function postDiagFamiGeneDepto()
+	{	
+		$depto=Input::get('depto') ;
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+
+		//almacena del json  los datos de depto para buscarlos y agruparlos
+		$num_diagn_depto=0;
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			if(substr($jsonarray_diag2[$i]['Cod_dane'], 0, 2) ==$depto){
+				$deptosencu[$jsonarray_diag2[$i]['Cod_dane']] = $jsonarray_diag2[$i]['Municipio'];
+				$num_diagn_depto=1+$num_diagn_depto;
+			}				
+		}
+		asort($deptosencu);
+
+		$num_anexo_depto=0;
+		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
+
+			if($jsonarray_anexo2[$j]['Cod_dane']!='NULL'){
+				if(substr($jsonarray_anexo2[$j]['Cod_dane'], 0, 2) ==$depto){
+					$num_anexo_depto=1+$num_anexo_depto;
+				}
+			}
+			
+		}
+		$deptos=array( $num_diagn_depto, $num_anexo_depto);
+		return array('muni'=>$deptosencu,'depto_val'=>$deptos);
+	}
+
+public function postDiagFamiGeneMuni()
+	{	
+		$depto=Input::get('depto') ;
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+
+		//almacena del json  los datos de depto para buscarlos y agruparlos
+		$num_diagn_depto=0;
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			if($jsonarray_diag2[$i]['Cod_dane'] ==$depto){
+				$deptosencu[$jsonarray_diag2[$i]['Cod_vda']] = $jsonarray_diag2[$i]['Vereda'];
+				$num_diagn_depto=1+$num_diagn_depto;
+			}				
+		}
+		asort($deptosencu);
+
+		$num_anexo_depto=0;
+		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
+
+			if($jsonarray_anexo2[$j]['Cod_vda']!='NULL'){
+				if($jsonarray_anexo2[$j]['Cod_dane'] ==$depto){
+					$num_anexo_depto=1+$num_anexo_depto;
+				}
+			}
+			
+		}
+		$deptos=array( $num_diagn_depto, $num_anexo_depto);
+		return array('muni'=>$deptosencu,'depto_val'=>$deptos);
+	}	
+
+public function postDiagFamiGeneVda()
+	{	
+		$depto=Input::get('depto') ;
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+
+		//almacena del json  los datos de depto para buscarlos y agruparlos
+		$num_diagn_depto=0;
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			if($jsonarray_diag2[$i]['Cod_vda'] ==$depto){
+				$num_diagn_depto=1+$num_diagn_depto;
+			}				
 		}
 
-		$depto=array(array_values(array_unique($deptosencu)),array_values(array_unique($deptosencu_cod)));
+		$num_anexo_depto=0;
+		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
 
-	
-
-
-		return View::make('moduloart/ivsocicensofamilias',array('nacional' => $nacional,'depto'=>$depto));
-	}
-
-public function DiagFamiReporte()
-	{
+			if($jsonarray_anexo2[$j]['Cod_vda']!='NULL'){
+				if($jsonarray_anexo2[$j]['Cod_vda'] ==$depto){
+					$num_anexo_depto=1+$num_anexo_depto;
+				}
+			}
 			
-		//$ruta="W:\\WEBS\\danet\\public\\RPortable";
-		$ruta="C:\\xampp\\htdocs\\DANET\\public\\RPortable";
-		$rstudio = $ruta.'\\App\\R-Portable\\bin\\x64\\Rscript.exe '.$ruta.'\\prog_correr\\art\\encuestas\\knit_R_encuetas.R ';
-		$shellresult = shell_exec($rstudio);
+		}
+		$deptos=array( $num_diagn_depto, $num_anexo_depto);
+		return array('depto_val'=>$deptos);
+	}
+	//fin Funciones de graficas general
 
-		
+//inicio Funciones de graficas usuario
 
-	
-		
+public function postDiagFamiUsuaUsua()
+	{	
+		$usuario=Input::get('usuario');
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+
+		//almacena del json  los datos de usuario para buscarlos y agruparlos
+		$num_diagn_depto=0;
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			if($jsonarray_diag2[$i]['Usuario']==$usuario){
+				$deptosencu[substr($jsonarray_diag2[$i]['Cod_dane'], 0, 2)] = $jsonarray_diag2[$i]['Departamento'];
+				$num_diagn_depto=1+$num_diagn_depto;
+			}				
+		}
+		asort($deptosencu);
+
+		$num_anexo_depto=0;
+		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
+			if($jsonarray_anexo2[$j]['Cod_dane']!='NULL'){
+				if($jsonarray_anexo2[$j]['Usuario']==$usuario){
+					$num_anexo_depto=1+$num_anexo_depto;
+				}
+			}	
+		}
+
+		$deptos=array($num_diagn_depto, $num_anexo_depto);
+		return array('depto'=>$deptosencu,'depto_val'=>$deptos);
 	}
 
+public function postDiagFamiUsuaDepto()
+	{	
+		$depto=Input::get('depto') ;
+		$usuario=Input::get('usuario');
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+
+		//almacena del json  los datos de depto para buscarlos y agruparlos
+		$num_diagn_depto=0;
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			if(substr($jsonarray_diag2[$i]['Cod_dane'], 0, 2) ==$depto && $jsonarray_diag2[$i]['Usuario']==$usuario){
+				$deptosencu[$jsonarray_diag2[$i]['Cod_dane']] = $jsonarray_diag2[$i]['Municipio'];
+				$num_diagn_depto=1+$num_diagn_depto;
+			}				
+		}
+		asort($deptosencu);
+
+		$num_anexo_depto=0;
+		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
+
+			if($jsonarray_anexo2[$j]['Cod_dane']!='NULL'){
+				if(substr($jsonarray_anexo2[$j]['Cod_dane'], 0, 2) ==$depto && $jsonarray_anexo2[$j]['Usuario']==$usuario){
+					$num_anexo_depto=1+$num_anexo_depto;
+				}
+			}
+			
+		}
+		$deptos=array( $num_diagn_depto, $num_anexo_depto);
+		return array('muni'=>$deptosencu,'depto_val'=>$deptos);
+	}
+
+public function postDiagFamiUsuaMuni()
+	{	
+		$depto=Input::get('depto') ;
+		$usuario=Input::get('usuario');
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+
+		//almacena del json  los datos de depto para buscarlos y agruparlos
+		$num_diagn_depto=0;
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			if($jsonarray_diag2[$i]['Cod_dane'] ==$depto && $jsonarray_diag2[$i]['Usuario']==$usuario){
+				$deptosencu[$jsonarray_diag2[$i]['Cod_vda']] = $jsonarray_diag2[$i]['Vereda'];
+				$num_diagn_depto=1+$num_diagn_depto;
+			}				
+		}
+		asort($deptosencu);
+
+		$num_anexo_depto=0;
+		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
+
+			if($jsonarray_anexo2[$j]['Cod_vda']!='NULL'){
+				if($jsonarray_anexo2[$j]['Cod_dane'] ==$depto && $jsonarray_anexo2[$j]['Usuario']==$usuario){
+					$num_anexo_depto=1+$num_anexo_depto;
+				}
+			}
+			
+		}
+		$deptos=array( $num_diagn_depto, $num_anexo_depto);
+		return array('muni'=>$deptosencu,'depto_val'=>$deptos);
+	}	
+
+public function postDiagFamiUsuaVda()
+	{	
+		$depto=Input::get('depto') ;
+		$usuario=Input::get('usuario');
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = json_decode($jsonarray_diag, true);
+
+		$jsonarray_anexo = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_anexo.json'));
+		$jsonarray_anexo2 = json_decode($jsonarray_anexo, true);
+
+
+		//almacena del json  los datos de depto para buscarlos y agruparlos
+		$num_diagn_depto=0;
+		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
+			if($jsonarray_diag2[$i]['Cod_vda'] ==$depto && $jsonarray_diag2[$i]['Usuario']==$usuario){
+				$num_diagn_depto=1+$num_diagn_depto;
+			}				
+		}
+
+		$num_anexo_depto=0;
+		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
+
+			if($jsonarray_anexo2[$j]['Cod_vda']!='NULL'){
+				if($jsonarray_anexo2[$j]['Cod_vda'] ==$depto && $jsonarray_anexo2[$j]['Usuario']==$usuario){
+					$num_anexo_depto=1+$num_anexo_depto;
+				}
+			}
+			
+		}
+		$deptos=array( $num_diagn_depto, $num_anexo_depto);
+		return array('depto_val'=>$deptos);
+	}
+	//fin Funciones de graficas general	
 }
 ?>
