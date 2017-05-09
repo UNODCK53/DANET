@@ -97,19 +97,19 @@
               <tr id="{{$proceso->id_proceso}}">
                 <td>{{$proceso->id_proceso}}</td>
                 @if($proceso->nov1>=1)
-                  <td align="center"><p style="display:none;">{{$proceso->nov1}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov1}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                  <td align="center"><p style="display:none;">{{$proceso->nov1}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov1}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                 @endif
                 @if($proceso->nov2>=1)
-                  <td align="center"><p style="display:none;">{{$proceso->nov2}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov2}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                  <td align="center"><p style="display:none;">{{$proceso->nov2}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov2}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                 @endif
                 @if($proceso->nov3>=1)
-                  <td align="center"><p style="display:none;">{{$proceso->nov3}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov3}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                  <td align="center"><p style="display:none;">{{$proceso->nov3}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov3}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                 @endif
                 @if($proceso->nov4>=1)
-                  <td align="center"><p style="display:none;">{{$proceso->nov4}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov4}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                  <td align="center"><p style="display:none;">{{$proceso->nov4}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov4}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td>
                 @endif
                 @if($proceso->nov5>=1)
-                  <td align="center"><p style="display:none;">{{$proceso->nov5}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov5}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:green"></span></td>
+                  <td align="center"><p style="display:none;">{{$proceso->nov5}}</p><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red"></span></td> @else <td align="center"><p style="display:none;">{{$proceso->nov5}}</p><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green"></span></td>
                 @endif
               </tr>
             @endforeach 

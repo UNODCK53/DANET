@@ -1907,8 +1907,13 @@ class SiscadiController extends BaseController {
 				$Razones_f = 1+$Razones_f;	
 			}
 		}
-		$Razones = array('Porque su familia vivía en el municipio' => round(($Razones_a/$naciompio)*100), 'Porque encontró una opción de trabajo en actividades lícitas' => round(($Razones_b/$naciompio)*100), 'Porque fue desplazado por la violencia donde vivía' => round(($Razones_c/$naciompio)*100), 'Por posibilidades de generar ingresos de la explotación minera' => round(($Razones_d/$naciompio)*100), 'Por posibilidades de generar ingresos relacionados con los cultivos ilícitos' => round(($Razones_e/$naciompio)*100), 'Otras' => round(($Razones_f/$naciompio)*100) );
-		arsort($Razones);
+		if (empty($naciompio)) {
+			$Razones = array('Porque su familia vivía en el municipio' => 0, 'Porque encontró una opción de trabajo en actividades lícitas' => 0, 'Porque fue desplazado por la violencia donde vivía' => 0, 'Por posibilidades de generar ingresos de la explotación minera' => 0, 'Por posibilidades de generar ingresos relacionados con los cultivos ilícitos' => 0, 'Otras' => 0);
+		}else {
+			$Razones = array('Porque su familia vivía en el municipio' => round(($Razones_a/$naciompio)*100), 'Porque encontró una opción de trabajo en actividades lícitas' => round(($Razones_b/$naciompio)*100), 'Porque fue desplazado por la violencia donde vivía' => round(($Razones_c/$naciompio)*100), 'Por posibilidades de generar ingresos de la explotación minera' => round(($Razones_d/$naciompio)*100), 'Por posibilidades de generar ingresos relacionados con los cultivos ilícitos' => round(($Razones_e/$naciompio)*100), 'Otras' => round(($Razones_f/$naciompio)*100) );
+			arsort($Razones);
+		} 
+		
 		//6. preguntas de texto
 		$embarazoparto = $mujeresparto = 0;
 		//&& ($estadEDTP[$i]['Embarazo_Parto']=='Embarazo' || $estadEDTP[$i]['Embarazo_Parto']=='Embarazo y Lactancia' || $estadEDTP[$i]['Embarazo_Parto']=='Lactando')
@@ -1921,7 +1926,12 @@ class SiscadiController extends BaseController {
 				}	
 			}			
 		}
-		$embarazopartotot = round(($embarazoparto/$mujeresparto)*100);
+		if (empty($mujeresparto)) {
+			$embarazopartotot = 0;
+		}else {
+			$embarazopartotot = round(($embarazoparto/$mujeresparto)*100);
+		} 
+		
 
 		$discapacidad = 0;		
 		for ($i=0; $i < count($estadEDTP); $i++) { 
@@ -2308,9 +2318,23 @@ class SiscadiController extends BaseController {
 			}
 		}
 		$sgssstot = round((array_sum(array_count_values($sgsss))/count($estadEDTP))*100);
-		$poblestudiatot = round(($b/$c)*100);
-		$infantrabaja = round(($e/$d)*100);
-		$edadtrabaja = round(($g/$f)*100);
+		
+		if (empty($c)) {
+			$poblestudiatot = 0;
+		}else {
+			$poblestudiatot = round(($b/$c)*100);
+		} 		
+		if (empty($d)) {
+			$infantrabaja = 0;
+		}else {
+			$infantrabaja = round(($e/$d)*100);
+		} 
+		if (empty($f)) {
+			$edadtrabaja = 0;
+		}else {
+			$edadtrabaja = round(($g/$f)*100);
+		} 
+		
 
 		// acceso salud
 		$saludhogar = array();

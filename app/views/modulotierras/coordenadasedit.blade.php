@@ -56,7 +56,8 @@
       <form role="form" action="tierras/guardar-coordenadas" method="post" id="formconsulcoord">
         <div class="col-sm-10">
           <!-- Standard button -->
-          <button id="btnguardcoord" title="Presione para editar una novedad" disabled="disabled" type="submit" type="button" class="btn btn-primary">Guardar coordenada seleccionada</button>
+          <button id="btnguardcoord" title="Presione para editar una novedad" disabled="disabled" type="submit" type="button" class="btn btn-success">Validar coordenada seleccionada</button>
+          <button id="btnatras" title="Presione para volver" type="button" class="btn btn-primary">Atras</button>
           <input id="keyodk" type="hidden" class="form-control" name="keyodk">
         </div>
         <div class="col-sm-1"></div>
@@ -90,7 +91,7 @@
                         @elseif ($procesonovedad->novedad==4)
                           <div class="bg-danger">Precisión de coordenadas es baja</div>
                          @elseif ($procesonovedad->novedad==5)
-                          <div class="bg-danger">Proceso repetido</div>
+                          <div class="bg-danger">Proceso con coordenadas repetidas</div>
                         @endif                          
                     @endif
                   @endforeach
@@ -149,6 +150,9 @@
         $( "#tierrascoordmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Validación de Coordenadas</strong>");
         $( "#mensajeestatus" ).fadeOut(5000);
         var table = $('#tablacoordenadas').DataTable();
+        $("#btnatras").click(function(){
+            location.reload();
+        });
         $('#tablacoordenadas tbody').on('click', 'tr', function () {
           if ( $(this).hasClass('active') ) {
             $(this).removeClass('active');
@@ -184,164 +188,6 @@
           }
         });
       });
-
-      /*
-      
-        $('#latgrados').keyup(function(){
-          $('#lonsegundos').val("");
-          var latgrados = $('#latgrados').val();
-          var sur = document.getElementById('radiosur').checked;
-          if((sur==true)&&(latgrados>0)){
-            $('#a').text("Los grados deben ser negativos");
-            $("#a").show();
-            $('#latgrados').val("");
-          }
-          else{
-            $('#latminutos').prop('disabled', false);
-            $("#a").hide();
-          }
-        });
-        $('#latgrados').keyup(function(){
-          var latgrados = $('#latgrados').val();
-          var norte = document.getElementById('radionorte').checked;
-          if((norte==true)&&(latgrados<0)){
-            $('#b').text("Los grados deben ser positivos");
-            $("#b").show();
-            $('#latgrados').val("");
-          }
-          else{
-            $('#latminutos').prop('disabled', false);
-            $("#b").hide();
-          }
-        });
-        $('#radionorte').change(function(){
-          $('#latgrados').val("");
-          $('#lonsegundos').val("");
-        });
-        $('#radiosur').change(function(){
-          $('#latgrados').val("");
-          $('#lonsegundos').val("");
-        });
-        $('#latminutos').keyup(function(){
-          $('#lonsegundos').val("");
-        });
-        $('#latsegundos').keyup(function(){
-          $('#lonsegundos').val("");
-        });
-        $('#longrados').blur(function(){
-          $('#lonsegundos').val("");
-          var a = $('#longrados').val();
-          var c = -80;
-          var d = -67;
-          if((a<c)||(a>d))
-          {
-            $('#f').text("Rango valido -80° y -67°");
-            $("#f").show();
-          }
-          else{
-            $("#f").hide();
-          }
-        });
-        $('#longrados').keyup(function(){
-          $('#lonsegundos').val("");
-        });
-        $('#lonminutos').keyup(function(){
-          $('#lonsegundos').val("");
-        });
-        $('#lonsegundos').keyup(function(){
-          if(validacion() == true){
-            var latGG = $('#latgrados').val();
-            var latMM = $('#latminutos').val();
-            var latSS = $('#latsegundos').val();
-            var longGG = $('#longrados').val();
-            var longMM = $('#lonminutos').val();
-            var longSS = $('#lonsegundos').val();
-            var sur = document.getElementById('radiosur').checked;
-            var norte = document.getElementById('radionorte').checked;
-            if(sur==true){
-              Lat=parseInt(latGG)-parseFloat(latMM/60)-parseFloat(latSS/3600);
-            }
-            if(norte==true){
-              var Lat = parseInt(latGG)+parseFloat(latMM/60)+parseFloat(latSS/3600);
-            }
-            var Long = parseInt(longGG)-parseFloat(longMM/60)-parseFloat(longSS/3600);
-            if((norte==true)||(sur==true)){
-              $("#c").hide();
-              try {
-                map.removeLayer(marker);
-                var Limites=[[parseFloat(Lat) + 0.5, parseFloat(Long) - 0.5],[parseFloat(Lat) - 0.5, parseFloat(Long) + 0.5]]
-                marker = new L.Marker([Lat,Long], {draggable:true});
-                map.addLayer(marker);
-                map.fitBounds(Limites);
-              }
-              catch(err) {
-                var Limites=[[parseFloat(Lat) + 0.5, parseFloat(Long) - 0.5],[parseFloat(Lat) - 0.5, parseFloat(Long) + 0.5]]
-                marker = new L.Marker([Lat,Long]);
-                map.addLayer(marker);
-                map.fitBounds(Limites);
-              }
-            }
-            else{
-              $('#c').text("Seleccione latitud");
-              $("#c").show();
-            }
-          }
-          else{
-            $('#lonsegundos').val("");
-          }
-        });
-      });
-      function validacion() {
-        var latGG = $('#latgrados').val();
-        var latMM = $('#latminutos').val();
-        var latSS = $('#latsegundos').val();
-        var longGG = $('#longrados').val();
-        var longMM = $('#lonminutos').val();
-        var longSS = $('#lonsegundos').val();
-        var sur = document.getElementById('radiosur').checked;
-        var norte = document.getElementById('radionorte').checked;
-        if((norte==false)&&(sur==false)){
-          $('#c').text("Seleccione latitud");
-          $("#c").show();
-          $("#c").fadeOut(5000);
-          return false;
-        }
-        else if(latGG ==""){
-          $('#a').text("Escriba la latitud");
-          $("#a").show();
-          $("#a").fadeOut(5000);
-        }
-        else if(latMM ==""){
-          $('#d').text("Escriba los minutos");
-          $("#d").show();
-          $("#d").fadeOut(5000);
-        }
-        else if(latSS ==""){
-          $('#e').text("Escriba los minutos");
-          $("#e").show();
-          $("#e").fadeOut(5000);
-        }
-        else if(longGG ==""){
-          $('#f').text("Escriba la latitud");
-          $("#f").show();
-          $("#f").fadeOut(5000);
-        }
-        else if(longMM ==""){
-          $('#g').text("Escriba los minutos");
-          $("#g").show();
-          $("#g").fadeOut(5000);
-        }
-        else if(longSS ==""){
-          $('#h').text("Escriba los segundos");
-          $("#h").show();
-          $("#h").fadeOut(5000);
-        }
-        else{
-          return true;
-        }
-      }
-    */
-
     </script>
 @stop
 @endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->
