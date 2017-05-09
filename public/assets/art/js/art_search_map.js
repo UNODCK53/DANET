@@ -210,7 +210,7 @@ function graficadeptoregalias(datos){
 	  this._div.id = "buttons_div";
 	  return this._div; 
 	};
-	var texto_production= '<button id="switch_pedt" type="button" class="btn btn-default" onclick="change_production(this)">PEDT</button> <button id="switch_zvtn" type="button" class="btn btn-primary" onclick="change_production(this)">ZVTN</button> <button id="switch_dailcd" type="button" class="btn btn-default" onclick="change_production(this)">DAILCD</button>'
+	var texto_production= '<button id="switch_pedt" type="button" class="btn btn-default" data-toggle="tooltip" title="Programas de Desarrollo con Enfoque Territorial" onclick="change_production(this)">PDET</button> <button id="switch_zvtn" type="button" class="btn btn-primary" data-toggle="tooltip" title="Zonas Veredales de Transición y Normalización" onclick="change_production(this)">ZVTN</button> <button id="switch_dailcd" type="button" class="btn btn-default" data-toggle="tooltip" title="Dirección para la Atención Integral de la Lucha contra las Drogras" onclick="change_production(this)">DAILCD</button>'
 	buttons.addTo(map);
 	$("#buttons_div").html(texto_production);
 

@@ -289,7 +289,7 @@ input[type="number"] {
                 <br>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center">
-                  <font size="50" id="fami_art">{{$diag_familias}} </font><br>Familias<br>censadas
+                  <font size="50" id="fami_art">{{$diag_familias}} </font><br>Familias<br>caracterizadas
                 </div>
                 <div class="col-xs-12"><br><br></div>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
