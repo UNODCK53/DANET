@@ -8,6 +8,7 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
+  <link rel="stylesheet" href="assets/css/L.Control.Basemaps.css" />  
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
   <style>
     #map {      
@@ -23,6 +24,7 @@
   @parent
   <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
   <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.3/esri-leaflet.js"></script>
+  <script src="assets/js/L.Control.Basemaps-min.js"></script> 
 @stop
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
 @section('scripthead')
@@ -47,7 +49,7 @@
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-xs-12 col-sm-10">                  
-        <h1 class="text-center text-primary">SELECCIONE 1 DE {{count($arrayeditcoordenainsumos[1])}} COORDENADAS REALES DEL PROCESO: {{$arrayeditcoordenainsumos[0][0]->id_proceso}}</h1>
+        <h1 class="text-center text-primary">Seleccione 1 de {{count($arrayeditcoordenainsumos[1])}} coordenadas reales del proceso: {{$arrayeditcoordenainsumos[0][0]->id_proceso}}</h1>
       </div>  
       <div class="col-sm-1"></div>
     </div>
@@ -120,7 +122,20 @@
         <div id="map"></div>
           <script>
             var map = L.map('map').setView([4.5, -74.1], 5);
-            L.esri.basemapLayer("Gray").addTo(map);
+
+            var basemaps2 = [
+              L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom:4, maxZoom: 15}),
+              L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{minZoom:4, maxZoom: 15,    subdomains:['mt0','mt1','mt2','mt3']})
+            ];
+
+            map.addControl(L.control.basemaps({
+              basemaps: basemaps2,
+              position: 'bottomright',
+              tileX: 0,  // tile X coordinate
+              tileY: 0,  // tile Y coordinate
+              tileZ: 1   // tile zoom level
+            }));
+            //L.esri.basemapLayer("Gray").addTo(map);
           </script>          
       </div>
       <div class="col-sm-1"></div>
@@ -139,6 +154,7 @@
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
+
     <script>
       $(document).ready(function(){
         //para que los menus pequeño y grande funcione

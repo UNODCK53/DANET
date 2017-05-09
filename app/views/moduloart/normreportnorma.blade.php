@@ -47,7 +47,7 @@
             <thead>
               <tr class="well text-primary">
                 <th style="text-align: center;">Tipo</th>
-                <th id="fecha_corte_tittle" style="text-align: center;">Registros</th>
+                <th style="text-align: center;">Registros</th>
               </tr>
             </thead>
             <tbody>

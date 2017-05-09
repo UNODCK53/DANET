@@ -219,7 +219,7 @@ class ArtnormatividadController extends BaseController {
 							->groupby('fecha_corte')							
 							->get();
 
-		$ultimo_corte = DB::select("SELECT convert(varchar(10),  MAX(fecha_corte), 112) as fecha_corte FROM DABASE.sde.MODART_NORM_NORMASCORTE"); 
+		$ultimo_corte = DB::select("SELECT convert(varchar(10),  MAX(fecha_corte), 112) as fecha_corte FROM DABASE.sde.MODART_NORM_NORMAS"); 
 
 		$a_hoy = DB::select("SELECT   (SELECT COUNT(*) AS encons FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_encons=1)) encons   , (SELECT COUNT(*) AS prodjud FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_prodjud=1)) prodjud   , (SELECT COUNT(*) AS tab_ajus FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_ajus=1)) ajust   , (SELECT COUNT(*) AS tab_ultrev FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_ultrev=1)) revis   , (SELECT COUNT(*) AS tab_expe FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_expe=1)) exped   , (SELECT COUNT(*) AS tab_csivi FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_csivi=1)) csivi   , (SELECT COUNT(*) AS tab_hacie FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_hacie=1)) haciend   , (SELECT COUNT(*) AS tab_social FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_social=1)) sociali   , (SELECT COUNT(*) AS id_consprev FROM DABASE.sde.MODART_NORM_NORMAS WHERE (id_consprev=3)) consprev   , (SELECT COUNT(*) AS tab_defexp FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_defexp=1)) expedi   , (SELECT COUNT(*) AS tab_congrefir FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_congre=1 or tab_firma=1)) congrefir   , (SELECT COUNT(*) AS tab_sancpres FROM DABASE.sde.MODART_NORM_NORMAS WHERE (tab_sancpres=1)) tab_sancpres");
 
