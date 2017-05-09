@@ -119,6 +119,15 @@ class ArtdashboardController extends BaseController {
 			->select(DB::raw('round(C_2015,2)as C_2015'))			
 			->sum('C_2015');
 
+		// LOAD INFO DAICLD
+		$dailcd=DB::table('MODART_DAILD_ACUERDOSCOLEC')
+			->select(DB::raw('round(sum(hectareas),2)as has,sum(familias) as familias '))			
+			->get();
+
+		//diagnostico de hogar
+		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
+		$jsonarray_diag2 = count(json_decode($jsonarray_diag, true));	
+
 		//LOAD INFO PARA MUNICIPIOS
 
 		$datos_muni=DB::table('MUNICIPIOS')
@@ -140,7 +149,7 @@ class ArtdashboardController extends BaseController {
 			$num_alerta = DB::table('MODART_ALERTAS_ALERTA')->where ('usuario','!=',1)->count();
 
 		
-		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta,'datos_muni'=>$datos_muni,'obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci));		
+		return View::make('moduloart.ivsocidashboard', array('arraycate' => $result_cate,'arraysubcate' => $SUBCATEGORIA,'arraysubsubcate'=>$arraysubsubcate,'array_alerta'=>$array_alerta,'num_alerta'=>$num_alerta,'datos_muni'=>$datos_muni,'obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci,'dailcd'=>$dailcd,'diag_familias'=>$jsonarray_diag2));		
 	}
 	
 

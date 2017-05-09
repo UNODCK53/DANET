@@ -289,12 +289,12 @@ input[type="number"] {
                 <br>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center">
-                  <font size="50" id="fami_art">0 </font><br>Familias<br>censadas
+                  <font size="50" id="fami_art">{{$diag_familias}} </font><br>Familias<br>censadas
                 </div>
                 <div class="col-xs-12"><br><br></div>
                 <div class="col-xs-6" align="center"><img src="assets/art/img/obras.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                 <div class="col-xs-6" align="center" >
-                  <font size="50" id="obra_priori">0</font>
+                  <font size="50" id="obra_priori">{{$obra_priori}}</font>
                 </div>
                 <div class="col-xs-6" align="center">
                   Obras priorizadas (PIC)
@@ -381,7 +381,7 @@ input[type="number"] {
 
                   <h3>Cultivos ilícitos </h3>                                    
                   <div class="col-xs-5"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
-                  <div class="col-xs-7" align="center"><font style="font-size: 30px" id="coca_simci">0 Ha</font><br>Identificadas</div>
+                  <div class="col-xs-7" align="center"><font style="font-size: 30px" id="coca_simci">{{round($coca_simci,2)}} Ha</font><br>Identificadas</div>
                   <h4>Fuente: 2015 SIMCI - UNODC</h4>
 
                   <h3>Reducción de la oferta </h3>                                    
@@ -698,7 +698,8 @@ input[type="number"] {
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#ivsocidashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
-          
+          $( "#coca_daild").html({{json_encode($dailcd)}}[0]['has']);
+          $( "#familias_daild").html({{json_encode($dailcd)}}[0]['familias']);
          
       });
 
