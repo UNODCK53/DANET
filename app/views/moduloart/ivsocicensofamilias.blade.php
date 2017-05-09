@@ -35,12 +35,12 @@
   <div class="container" id="sha">
     <div class="row">
 <!--aca se escribe el codigo-->
-    <h2 class="text-center text-primary">Censo de familias</h2>
+    <h2 class="text-center text-primary">Diagnóstico familiar <br> Estado de sincronización de encuestas digitales</h2>
 	<br><br>
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
-      <b class="lead text-justify">Descargar el reporte de sincronización de encuestas de diagnóstioco de hogar y Anexo de Tierras   </b>
+      <b class="lead text-justify">Descargar el reporte de sincronización de encuestas de diagnóstico de hogar y Anexo de Tierras   </b>
       <a class="glyphicon glyphicon-download-alt btn btn-success" title="Descarque el archvio del Criterio" href="\art\Rep_encuestas.pdf" target="_blank"></a>
     </div>
     <div class="col-sm-1"></div>
@@ -114,7 +114,16 @@
           <select id="selvdamoni" class="form-control" name="selvdamoni">
           </select>
       </div>  
-      <div class="col-sm-1"></div>  
+      <div class="col-sm-1"></div> 
+      
+      <div class="col-sm-12"> 
+        <div class="col-sm-1"></div>  
+        <div class="col-sm-10">
+          <br>
+          <b>Nota:</b> Las encuestas de Anexo que no aparezcan en alguna escala administrativa es debido a que no se ha podido enlazar con la sus respectivas encuentas del Diagnóstico del hogar. Esto se ve mas en detalle en el reporte de sincronización
+        </div>
+        <div class="col-sm-1"></div>  
+    </div>
   </div> 
   <br><br>
   <div class="col-sm-12">
@@ -122,6 +131,7 @@
     <div class="col-sm-1"></div>
     <div id="map" class="col-sm-4"></div>
   </div>
+  
 <!--fin del codigo-->    
     </div>
   </div>
