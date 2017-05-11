@@ -403,6 +403,7 @@
           document.getElementById("genestadistic").innerHTML = "Reporte Veredal";
         }
       });//Termina change selvda
+
       //evento click de generar graficass
       $("#genestadistic").on('click', function(){
         $('#genestadisticpdf').show();  
@@ -416,6 +417,7 @@
           success:function(data){
             //se actuliaza la ficah tecnica
             $('#table_consulta').empty();
+            console.log(data['ficha_tecnica'])
 
             var thead = document.createElement("thead");
 
@@ -454,49 +456,63 @@
             tbody.setAttribute("id", "body_table_consulta");
             document.getElementById('table_consulta').appendChild(tbody);
 
-            
-              var y = document.createElement("TR");
-              y.setAttribute("id", "ID1");
-              document.getElementById("body_table_consulta").appendChild(y);
-
-              var z = document.createElement("TD");
-              var t = document.createTextNode(data['ficha_tecnica'][0]);
-              z.appendChild(t);
-              document.getElementById("ID1").appendChild(z);
-
-              var z = document.createElement("TD");
-              var t = document.createTextNode("Desde "+data['ficha_tecnica'][1][1]+" hasta "+data['ficha_tecnica'][1][0]);
-              z.appendChild(t);
-              document.getElementById("ID1").appendChild(z);
-
-              var z = document.createElement("TD");
-              var t = document.createTextNode(data['ficha_tecnica'][2]);
-              z.appendChild(t);
-              document.getElementById("ID1").appendChild(z);
-
-              var z = document.createElement("TD");
-              var t = document.createTextNode(data['ficha_tecnica'][3]);
-              z.appendChild(t);
-              document.getElementById("ID1").appendChild(z);
-            
-
-         
-          if ( $.fn.dataTable.isDataTable( '#table_consulta' ) ) {
-            table2.destroy();
-            table2 = $('#table_consulta').DataTable( {
-              } );
-          }else {
-            table2 = $('#table_consulta').DataTable( {
-            });
-          }
-
             //ficha tecnica 
 
             $(".text-center").show();
             $('#subtitulo1').show();
             $('#subtitulo2').show();
-            
-            console.log(data);
+            var obj=data['ficha_tecnica'];
+            Object.keys(obj).forEach(function(key) {
+              var Fecha_desde=[];
+              var Fecha_Hasta=[];
+              var metodo="";
+                Object.keys(key).forEach(function(key2) {
+                  if (obj[key][key2]){
+                    Fecha_desde.push(new Date(obj[key][key2]['Fecha_Desde'] + ' 20:00:00'));
+                    Fecha_Hasta.push(new Date(obj[key][key2]['Fecha_Hasta'] + ' 20:00:00'));
+                    metodo=obj[key][key2]['Metodo']
+
+                  }
+                });
+              var maxFecha_desde_array=new Date(Math.max.apply(null,Fecha_Hasta));
+              var minFecha_desde_array=new Date(Math.min.apply(null,Fecha_desde));
+              var maxFecha_desde=maxFecha_desde_array.getUTCFullYear() +"-"+ (maxFecha_desde_array.getUTCMonth()+1) +"-"+ maxFecha_desde_array.getUTCDate();
+              var minFecha_desde=minFecha_desde_array.getUTCFullYear() +"-"+ (minFecha_desde_array.getUTCMonth()+1) +"-"+ minFecha_desde_array.getUTCDate();
+
+              var y = document.createElement("TR");
+              y.setAttribute("id", key);
+              document.getElementById("body_table_consulta").appendChild(y);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode(Object.keys(obj[key]).length);
+              z.appendChild(t);
+              document.getElementById(key).appendChild(z);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode("Desde "+minFecha_desde+" hasta "+maxFecha_desde);
+              z.appendChild(t);
+              document.getElementById(key).appendChild(z);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode(key);
+              z.appendChild(t);
+              document.getElementById(key).appendChild(z);
+
+              var z = document.createElement("TD");
+              var t = document.createTextNode(metodo);
+              z.appendChild(t);
+              document.getElementById(key).appendChild(z);
+
+            });
+
+            if ( $.fn.dataTable.isDataTable( '#table_consulta' ) ) {
+              table2.destroy();
+              table2 = $('#table_consulta').DataTable( {
+                } );
+            }else {
+              table2 = $('#table_consulta').DataTable( {
+              });
+            }
             var categories = data.categories;
             chart1 = Highcharts.chart('containera', {
             //$('#containera').highcharts({

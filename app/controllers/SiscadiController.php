@@ -1527,8 +1527,10 @@ class SiscadiController extends BaseController {
 			}
 		}
 
-		$fechamin_EBDT[]=null;
-		$fechamax_EBDT[]=null;
+
+		//datos para la ficha tecnica
+		$ficha_tecnica=array();
+		$todo[]=null;
 		for ($i=0; $i < count($estadEBDT); $i++) { 
 			$fechamin_EBDT[$i] = $estadEBDT[$i]['Fecha_Desde'];		
 			$fechamax_EBDT[$i] = $estadEBDT[$i]['Fecha_Hasta'];					
@@ -1539,14 +1541,15 @@ class SiscadiController extends BaseController {
 		for ($i=0; $i < count($estadEBDT); $i++) { 
 			$Fuente_EBDT[$i] = $estadEBDT[$i]['Fuente'];	
 		}
-		$Metodo_EBDT[]=null;
-		for ($i=0; $i < count($estadEBDT); $i++) { 
-			$Metodo_EBDT[$i] = $estadEBDT[$i]['Metodo'];	
+
+		for ($i=0; $i <count(array_unique($Fuente_EBDT)) ; $i++) { 
+			for ($j=0; $j < count($estadEBDT); $j++) { 
+				if(array_unique($Fuente_EBDT)[$i]==$estadEBDT[$j]['Fuente']){
+					$ficha_tecnica[array_unique($Fuente_EBDT)[$i]][$j]=$estadEBDT[$j];
+				}
+			}
 		}
-
-		
-		$ficha_tecnica=array(count($estadEBDT),$fechas_EBDT,array_values(array_unique($Fuente_EBDT)),array_values(array_unique($Metodo_EBDT)));
-
+		//fin de la ficha tecnica
 		$estadEDTP[] = null;		
 		$a = 0;
 		for ($i=0; $i < count($jsonarraypoblacion2); $i++) { 
