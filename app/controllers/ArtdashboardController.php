@@ -188,30 +188,64 @@ public function DiagFamiPreload()
 
 		$nacional=array( count($jsonarray_diag2), count($jsonarray_anexo2));
 
+		$array_usuario_anexo=array();
+		for ($j=0; $j <count($jsonarray_anexo2) ; $j++) { 
+				array_push($array_usuario_anexo ,$jsonarray_anexo2[$j]['Usuario']);
+			}	
+		$usuarisencusuma_anexo=array_count_values($array_usuario_anexo);
+
 		$array_usuario=array();
 		//almacena del json  los datos de depto para buscarlos y agruparlos
 		for ($i=0; $i < count($jsonarray_diag2); $i++) { 
 			//array_push ( $deptosencu[$i] , $jsonarray2[$i]['Cod_Dpto'] );
 			$deptosencu[substr($jsonarray_diag2[$i]['Cod_dane'], 0, 2)] = $jsonarray_diag2[$i]['Departamento'];
-			$usuarisencu[$jsonarray_diag2[$i]['Usuario']] = $jsonarray_diag2[$i]['Usuario'];			
+			$usuarisencu[$jsonarray_diag2[$i]['Usuario']] = $jsonarray_diag2[$i]['Usuario'];	
 			array_push($array_usuario ,$jsonarray_diag2[$i]['Usuario']);
 		}
 		asort($deptosencu);
 		asort($usuarisencu);
 
 		$usuarisencusuma=array_count_values($array_usuario);
-		asort($usuarisencusuma);
+		$array_usuarios_todo_name=array();
+		$array_usuarios_todo_value=array();
+
+		foreach ($usuarisencusuma as $key => $value) {
+			$count=0;
+			for ($i=0; $i <count($usuarisencusuma_anexo) ; $i++) { 
+					
+					$todo=array();
+				if($key==array_keys($usuarisencusuma_anexo)[$i]){
+					$todo=array($key,$value+array_values($usuarisencusuma_anexo)[$i]);
+					array_push($array_usuarios_todo_name ,$key);
+					array_push($array_usuarios_todo_value ,$value+array_values($usuarisencusuma_anexo)[$i]);
+					$count=1;
+				}
+			}
+			$todo=array();
+			if ($count==0) {
+				$todo=array($key,$value);
+				array_push($array_usuarios_todo_name ,$key);
+				array_push($array_usuarios_todo_value ,$value);
+			}
+			
+		}
+
+
+		$usuarisencusuma=array_count_values($array_usuario);
+		asort($array_usuarios_todo_value);
+
 		$usuario=array();
-		
+		$max=max($array_usuarios_todo_value);
 
-		 foreach ($usuarisencusuma as $key => $value) {
-		 	$usu=array($key,$value);
-		 	array_push ($usuario,$usu);
-		 }
+		foreach ($array_usuarios_todo_value as $key => $value){
+				if ($key ==array_keys($array_usuarios_todo_name)[$key]) {
+				array_push ($usuario,array($array_usuarios_todo_name[$key],$array_usuarios_todo_value[$key]));
+				}	
+			
+			
+		}
 
-
-
-		return View::make('moduloart/ivsocicensofamilias',array('nacional' => $nacional,'depto'=>$deptosencu,'usuario'=>$usuarisencu,'usuario_datos'=>json_encode($usuario)));
+		return View::make('moduloart/ivsocicensofamilias',array('nacional' => $nacional,'depto'=>$deptosencu,'usuario'=>$usuarisencu,'usuario_datos'=>json_encode($usuario),'max'=>$max));
 	}
 //inicio Funciones de graficas general
 public function postDiagFamiGeneDepto()
@@ -338,16 +372,21 @@ public function postDiagFamiUsuaUsua()
 		asort($deptosencu);
 
 		$num_anexo_depto=0;
+		$data_null=0;
 		for ($j=0; $j < count($jsonarray_anexo2); $j++) { 
 			if($jsonarray_anexo2[$j]['Cod_dane']!='NULL'){
 				if($jsonarray_anexo2[$j]['Usuario']==$usuario){
 					$num_anexo_depto=1+$num_anexo_depto;
 				}
+			}else{
+				if($jsonarray_anexo2[$j]['Usuario']==$usuario){
+					$data_null=1+$data_null;
+				}
 			}	
 		}
 
 		$deptos=array($num_diagn_depto, $num_anexo_depto);
-		return array('depto'=>$deptosencu,'depto_val'=>$deptos);
+		return array('depto'=>$deptosencu,'depto_val'=>$deptos,'data_null'=>$data_null);
 	}
 
 public function postDiagFamiUsuaDepto()

@@ -86,6 +86,14 @@
         </select>
     </div> 
     <div class="col-sm-1"></div>
+    <div class="col-sm-12"> 
+        <div class="col-sm-1"></div>  
+        <div class="col-sm-10" id="nota-gene" style="display:none;">
+          <br>
+          <b>Nota:</b> Las encuestas de Anexo que no aparezcan es debido a que no se ha podido enlazar con la sus respectivas encuentas del Diagnóstico del hogar. Esto se ve mas en detalle en el reporte de sincronización
+        </div>
+        <div class="col-sm-1"></div>  
+    </div>
   </div>
 
   <div class="row" id="Usuario" style="display:none;">       
@@ -118,9 +126,7 @@
       
       <div class="col-sm-12"> 
         <div class="col-sm-1"></div>  
-        <div class="col-sm-10">
-          <br>
-          <b>Nota:</b> Las encuestas de Anexo que no aparezcan en alguna escala administrativa es debido a que no se ha podido enlazar con la sus respectivas encuentas del Diagnóstico del hogar. Esto se ve mas en detalle en el reporte de sincronización
+        <div class="col-sm-10" id="nota-usu" style="display:none;">
         </div>
         <div class="col-sm-1"></div>  
     </div>
@@ -153,7 +159,9 @@
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('jsbody')
   @parent
-  <script src="assets/js/highcharts/highcharts.js"></script>
+   <script src="assets/js/jquery.js"></script>
+  <script src="assets/js/highcharts/highstock.js"></script>
+
     <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
@@ -163,6 +171,8 @@
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#ivsocicensofamiliasmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Diagnóstico familiar sincronización</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
+          
+          console.log(<?php echo json_encode($usuario_datos); ?>)
       });
 
       $('input:radio[name=indicador]').change(function() {
@@ -180,7 +190,7 @@
 
 
           nacional=<?php echo json_encode($nacional); ?>;
-          Highcharts.chart('container', {
+          $('#container').highcharts({
               chart: {
                   type: 'column'
               },
@@ -239,15 +249,21 @@
           $("#Usuario-vda").css("display","none");
 
           usuario_datos=<?php echo $usuario_datos; ?>;
-          Highcharts.chart('container', {
+          
+          $('#container').highcharts({
             chart: {
                 type: 'column'
             },
             title: {
                 text: 'Encuestas realizadas por Usuario a nivel Nacional'
             },
+            subtitle: {
+                text: 'Use la barra horizontal para ver mas usuarios'
+            },
             xAxis: {
                 type: 'category',
+                min:0,
+                max:40,
                 labels: {
                     rotation: -45,
                     style: {
@@ -256,8 +272,12 @@
                     }
                 }
             },
+            scrollbar: {
+                enabled: true
+            },
             yAxis: {
                 min: 0,
+                max:<?php echo $max; ?>,
                 title: {
                     text: '# de encuestas'
                 }
@@ -276,19 +296,38 @@
             series: [{
                 name: 'Usuario',
                 data: usuario_datos
-            }]
+            }],
+            scrollbar: {
+                enabled: true,
+                barBackgroundColor: 'gray',
+                barBorderRadius: 7,
+                barBorderWidth: 0,
+                buttonBackgroundColor: 'gray',
+                buttonBorderWidth: 0,
+                buttonArrowColor: 'yellow',
+                buttonBorderRadius: 7,
+                rifleColor: 'yellow',
+                trackBackgroundColor: 'white',
+                trackBorderWidth: 1,
+                trackBorderColor: 'silver',
+                trackBorderRadius: 7
+            }
           });
+
         }
       });
 //## graficas general
       //grafica segun departamento      
       $("#seldpto").change(function(){
+
+            $("#General-vda")
         if($('#seldpto').val()=='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no vuelve a calcular la grafica anterior
         {
             $("#General-mpio").css("display","none");
             $("#General-vda").css("display","none");
+            $("#nota-gene").css("display","none");
             var nacional=<?php echo json_encode($nacional); ?>;
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -337,6 +376,7 @@
            
         }else{
             $("#General-vda").css("display","none");
+            $("#nota-gene").css("display","block");
           //crea la grafica a un nivel mas detalaldo
           $.ajax({url:"artdashboard/diag-fami-gene-depto",type:"POST",data:{depto:$('#seldpto').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
             success:function(data1){
@@ -348,7 +388,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -417,7 +457,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -481,7 +521,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -550,7 +590,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -608,7 +648,7 @@
             success:function(data1){
               console.log(data1)
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -673,17 +713,23 @@
               $("#Usuario-depto").css("display","none");
               $("#Usuario-mpio").css("display","none");
               $("#Usuario-vda").css("display","none");
+              $("#nota-usu").css("display","none");
 
               usuario_datos=<?php echo $usuario_datos; ?>;
-              Highcharts.chart('container', {
+              $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
                 title: {
                     text: 'Encuestas realizadas por Usuario a nivel Nacional'
                 },
+                subtitle: {
+                    text:  'Use la barra horizontal para ver mas usuarios'
+                },
                 xAxis: {
                     type: 'category',
+                    min:0,
+                    max:30,
                     labels: {
                         rotation: -45,
                         style: {
@@ -692,8 +738,12 @@
                         }
                     }
                 },
+                scrollbar: {
+                    enabled: true
+                },
                 yAxis: {
                     min: 0,
+                    max:<?php echo $max; ?>,
                     title: {
                         text: '# de encuestas'
                     }
@@ -712,16 +762,41 @@
                 series: [{
                     name: 'Usuario',
                     data: usuario_datos
-                }]
+                }],
+                scrollbar: {
+                    enabled: true,
+                    barBackgroundColor: 'gray',
+                    barBorderRadius: 7,
+                    barBorderWidth: 0,
+                    buttonBackgroundColor: 'gray',
+                    buttonBorderWidth: 0,
+                    buttonArrowColor: 'yellow',
+                    buttonBorderRadius: 7,
+                    rifleColor: 'yellow',
+                    trackBackgroundColor: 'white',
+                    trackBorderWidth: 1,
+                    trackBorderColor: 'silver',
+                    trackBorderRadius: 7
+                }
               });
            
         }else{
             $("#Usuario-depto").css("display","block");
               $("#Usuario-mpio").css("display","none");
               $("#Usuario-vda").css("display","none");
+              $("#nota-usu").css("display","block");
+
           //crea la grafica a un nivel mas detalaldo
           $.ajax({url:"artdashboard/diag-fami-usua-usua",type:"POST",data:{usuario:$('#selmonitor').val()},dataType:'json',//llama al controlador siscadi/siscadiinter que trae los valores necesario para la grafica
             success:function(data1){
+              if (data1['data_null']==1){
+                $("#nota-usu").html("<br><b>Nota:</b> Este usuario tiene <strong>"+data1['data_null']+" encuesta</strong> del Anexo que no puede ser enlazada con la encuesta de diagnóstico, por este motivo no son contabilizadas en la gráfica ");
+              }else if (data1['data_null']>1){
+                $("#nota-usu").html("<br><b>Nota:</b> Este usuario tiene <strong>"+data1['data_null']+" encuestas</strong> del Anexo que no pueden ser enlazadas con las encuestas de diagnóstico, por este motivo no son contabilizadas en la gráfica ");
+              }else{
+                $("#nota-usu").css("display","none");
+              }
+              
               $("#seldptomoni").empty();
               $("#seldptomoni").append("<option value=''>Por favor seleccione</option>");
               $.each(data1['depto'], function(nom,datos){
@@ -729,7 +804,7 @@
               });
 
              var depto_val=data1['depto_val'];
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -800,7 +875,7 @@
               });
 
              var depto_val=data1['depto_val'];
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -865,7 +940,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -936,7 +1011,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -1003,7 +1078,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -1075,7 +1150,7 @@
               });
 
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -1136,7 +1211,7 @@
             success:function(data1){
               console.log(data1)
              var depto_val=data1['depto_val']; 
-            Highcharts.chart('container', {
+            $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
