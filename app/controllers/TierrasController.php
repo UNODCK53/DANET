@@ -819,6 +819,11 @@ class TierrasController extends BaseController {
 
     public function ReporNumPro()
 	{
+
+		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
+		->select('nom_dpto','cod_dpto')
+		->groupBy('nom_dpto','cod_dpto')
+		->get();
 		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
 		->join('MODTIERRAS_CONCEPTO', 'MODTIERRAS_CONCEPTO.id_concepto','=','MODTIERRAS_PROCESO.conceptojuridico')
 		->select('MODTIERRAS_CONCEPTO.subconcepto as name',DB::raw('count(MODTIERRAS_PROCESO.conceptojuridico) as y'))
@@ -826,7 +831,7 @@ class TierrasController extends BaseController {
 		->get();
 		$numpro = DB::table('MODTIERRAS_PROCESO')->count('conceptojuridico');
 		//return $numpro;
-		return View::make('modulotierras.repornumproc', array('arraynumpro' => $arraynumpro),array('numpro' => $numpro));
+		return View::make('modulotierras.repornumproc', array('arraydpto'=>$arraydpto,'arraynumpro' => $arraynumpro),array('numpro' => $numpro));
 	}
 
     public function Generarpfd()
@@ -1017,6 +1022,55 @@ class TierrasController extends BaseController {
 		$resul=$diferencia->format('%y años, %m meses, %d días, %r%a total días');
 
 		return $resul;		
+	}
+
+	public function postReporprocesosmpio(){
+		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
+		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
+		->join('MODTIERRAS_CONCEPTO', 'MODTIERRAS_CONCEPTO.id_concepto','=','MODTIERRAS_PROCESO.conceptojuridico')
+		->select('MODTIERRAS_CONCEPTO.subconcepto as name',DB::raw('count(MODTIERRAS_PROCESO.conceptojuridico) as y'))
+		->groupBy('MODTIERRAS_CONCEPTO.subconcepto')
+		->where(DB::raw('left(id_proceso,2)'),'=',Input::get('dpto'))
+		->get();
+		$numpro = DB::table('MODTIERRAS_PROCESO')
+					->select('MODTIERRAS_PROCESO.id_proceso')
+					->where(DB::raw('left(id_proceso,2)'),'=',Input::get('dpto'))
+					->get();	
+		$arrayvial=array($arraympio,$arraynumpro,$numpro);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporprocesosvda()
+	{		
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
+		->join('MODTIERRAS_CONCEPTO', 'MODTIERRAS_CONCEPTO.id_concepto','=','MODTIERRAS_PROCESO.conceptojuridico')
+		->select('MODTIERRAS_CONCEPTO.subconcepto as name',DB::raw('count(MODTIERRAS_PROCESO.conceptojuridico) as y'))
+		->groupBy('MODTIERRAS_CONCEPTO.subconcepto')
+		->where(DB::raw('left(id_proceso,5)'),'=',Input::get('mpio'))
+		->get();
+		$numpro = DB::table('MODTIERRAS_PROCESO')
+					->select('MODTIERRAS_PROCESO.id_proceso')
+					->where(DB::raw('left(id_proceso,5)'),'=',Input::get('mpio'))
+					->get();
+		$arrayvial=array($arrayvda,$arraynumpro,$numpro);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporprocesosvdadet()
+	{	
+		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
+		->join('MODTIERRAS_CONCEPTO', 'MODTIERRAS_CONCEPTO.id_concepto','=','MODTIERRAS_PROCESO.conceptojuridico')
+		->select('MODTIERRAS_CONCEPTO.subconcepto as name',DB::raw('count(MODTIERRAS_PROCESO.conceptojuridico) as y'))
+		->groupBy('MODTIERRAS_CONCEPTO.subconcepto')
+		->where(DB::raw('left(id_proceso,8)'),'=',Input::get('mpio'))
+		->get();
+		$numpro = DB::table('MODTIERRAS_PROCESO')
+					->select('MODTIERRAS_PROCESO.id_proceso')
+					->where(DB::raw('left(id_proceso,8)'),'=',Input::get('mpio'))
+					->get();
+		$arrayvial=array($arraynumpro,$numpro);
+		return Response::json($arrayvial);
 	}
 }
 ?>

@@ -79,16 +79,50 @@
 <!--aca se escribe el codigo-->
       <div class="col-sm-1">
       </div>
-      <div class="col-sm-4">
-        <br><br>
-        <p class="lead text-justify">A la fecha del reporte se encuentran {{$numpro}} procesos, ditribuidos como los presenta la gráfica 1.1.</p>
-      </div>
-      <div class="col-sm-6">
-        <div id="container" style="min-width: 310px; height: 350px; max-width: 600px; margin: 0 auto"></div>
-        <p class="text-center">Gráfica 1.1</p>
+      <div class="col-sm-10">
+        <div class="col-sm-4">
+          <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
+          <select id="seldpto" class="form-control" name="seldpto">
+            <option value="" selected="selected">Por favor seleccione</option>
+            @foreach($arraydpto as $pro)
+                <option value="{{$pro->cod_dpto}}">{{$pro->nom_dpto}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
+            <select id="selmpio" class="form-control" name="selmpio">
+            </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelvda" for="Proceso" class="control-label">Vereda:</label>
+            <select id="selvda" class="form-control" name="selvda">
+            </select>
+        </div>        
       </div>
       <div class="col-sm-1">
       </div>
+      <div class="col-sm-12" style="height: 20px">
+      </div>
+      <div class="col-sm-1">
+      </div>
+      <div class="col-sm-10">
+        <h2 id="title_reporte" style="text-align: center;">Reporte Nacional</h2>
+        <div class="col-sm-4">
+          <br><br>
+          <p id="nota" class="lead text-justify">A la fecha del reporte se encuentran {{$numpro}} procesos, ditribuidos como los presenta la gráfica 1.1.</p>
+        </div>
+        <div class="col-sm-8">
+          <div id="container" style="min-width: 310px; height: 350px; max-width: 600px; margin: 0 auto"></div>
+          <p class="text-center">Gráfica 1.1</p>
+        </div>
+      </div>
+      <div class="col-sm-1">
+      </div>
+
+      
+      
+      
 <!--fin del codigo-->    
     </div>
     <div class="row">
@@ -144,12 +178,228 @@
   });
   $(document).ready(function() {
     //para que los menus pequeño y grande funcione
-    $( "#tierras" ).addClass("active");
-    $( "#tierrasrepornumproc" ).addClass("active");
-    $( "#iniciomenupeq" ).html("<small> INICIO</small>");
-    $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
-    $( "#tierrasrepornumprocmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Número de procesos</strong>");
-    $( "#mensajeestatus" ).fadeOut(5000);
+    $("#tierras").addClass("active");
+    $("#tierrasrepornumproc").addClass("active");
+    $("#iniciomenupeq").html("<small> INICIO</small>");
+    $("#tierrasmenupeq").html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
+    $("#tierrasrepornumprocmenupeq").html("<strong><span class='glyphicon glyphicon-ok'></span>Número de procesos</strong>");
+    $("#mensajeestatus").fadeOut(5000);
+    $("#labelmpio").hide();
+    $("#selmpio").hide();
+    $("#labelvda").hide();
+    $("#selvda").hide();
+    $("#labelvda").hide();
+    $("#seldpto").change(function(){
+    if((($('#seldpto').val()=='')&&($('#selmpio').val()!=''))||(($('#seldpto').val()=='')&&($('#selmpio').val()=='')))
+      {
+        location.reload();
+      } else{
+        $.ajax({url:"tierras/reporprocesosmpio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+          success:function(data1){
+            $("#title_reporte").html(("Reporte - "+ $('#seldpto').find('option:selected').text()))
+            $("#labelmpio").show();
+            $("#selmpio").show();
+            $("#selmpio").empty();
+            $("#selvda").empty();
+            $("#selvda").hide();
+            $("#labelvda").hide();
+            $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+            $.each(data1[0], function(nom,datos){
+              $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+            });
+            var nota="A la fecha del reporte se encuentran "+ data1[2].length + " procesos, ditribuidos como los presenta la gráfica 1.1."
+            $('#nota').html(nota)
+            var arreglo=[]
+            for(var i = 0; i < data1[1].length; i++){
+              arreglo[i]=[data1[1][i].name,Number(data1[1][i].y)]
+            }
+            $('#container').highcharts({
+              chart:{type:'pie',options3d:{enabled:true,alpha: 45,beta:0}},
+              title:{text:'Procesos por Concepto Jurídico'},
+              tooltip:{pointFormat:'{series.name}: <b>{point.y:.0f}</b>'},
+              plotOptions:{
+                pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                  dataLabels:{
+                    enabled:true,
+                    format:'<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor)||'black'}
+                  }
+                }
+              },
+              series:[{
+                name: "No. de Procesos",
+                colorByPoint: true,
+                data: arreglo,
+              }]
+            });
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax prueva
+      }
+    });
+    $("#selmpio").change(function(){
+      if($('#selmpio').val()==''){
+        $.ajax({url:"tierras/reporprocesosmpio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+          success:function(data1){
+            $("#title_reporte").html(("Reporte - "+ $('#seldpto').find('option:selected').text()))
+            $("#labelmpio").show();
+            $("#selmpio").show();
+            $("#selmpio").empty();
+            $("#selvda").empty();
+            $("#selvda").hide();
+            $("#labelvda").hide();
+            $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+            $.each(data1[0], function(nom,datos){
+              $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+            });
+            var nota="A la fecha del reporte se encuentran "+ data1[2].length + " procesos, ditribuidos como los presenta la gráfica 1.1."
+            $('#nota').html(nota)
+            var arreglo=[]
+            for(var i = 0; i < data1[1].length; i++){
+              arreglo[i]=[data1[1][i].name,Number(data1[1][i].y)]
+            }
+            $('#container').highcharts({
+              chart:{type:'pie',options3d:{enabled:true,alpha: 45,beta:0}},
+              title:{text:'Procesos por Concepto Jurídico'},
+              tooltip:{pointFormat:'{series.name}: <b>{point.y:.0f}</b>'},
+              plotOptions:{
+                pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                  dataLabels:{
+                    enabled:true,
+                    format:'<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor)||'black'}
+                  }
+                }
+              },
+              series:[{
+                name: "No. de Procesos",
+                colorByPoint: true,
+                data: arreglo,
+              }]
+            });
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax prueva
+      }
+      else{        
+        $.ajax({url:"tierras/reporprocesosvda",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
+          success:function(data1){
+            $("#title_reporte").html(("Reporte - "+ $('#selmpio').find('option:selected').text()))
+            $("#labelvda").show();
+            $("#selvda").show();
+            $("#selvda").empty();
+            $("#selvda").append("<option value=''>Por favor seleccione</option>");
+            [].forEach.call(data1[0],function(datos){
+              $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+            });
+            var nota="A la fecha del reporte se encuentran "+ data1[2].length + " procesos, ditribuidos como los presenta la gráfica 1.1."
+            $('#nota').html(nota)
+            var arreglo=[]
+            for(var i = 0; i < data1[1].length; i++){
+              arreglo[i]=[data1[1][i].name,Number(data1[1][i].y)]
+            }
+            $('#container').highcharts({
+              chart:{type:'pie',options3d:{enabled:true,alpha: 45,beta:0}},
+              title:{text:'Procesos por Concepto Jurídico'},
+              tooltip:{pointFormat:'{series.name}: <b>{point.y:.0f}</b>'},
+              plotOptions:{
+                pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                  dataLabels:{
+                    enabled:true,
+                    format:'<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor)||'black'}
+                  }
+                }
+              },
+              series:[{
+                name: "No. de Procesos",
+                colorByPoint: true,
+                data: arreglo,
+              }]
+            });
+            //console.log(valores)
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax prueva
+      }
+    });
+    $("#selvda").change(function(){
+      if($('#selvda').val()==''){
+        $.ajax({url:"tierras/reporprocesosvda",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
+          success:function(data1){
+            $("#title_reporte").html(("Reporte - "+ $('#selmpio').find('option:selected').text()))
+            $("#labelvda").show();
+            $("#selvda").show();
+            $("#selvda").empty();
+            $("#selvda").append("<option value=''>Por favor seleccione</option>");
+            [].forEach.call(data1[0],function(datos){
+              $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+            });
+            var nota="A la fecha del reporte se encuentran "+ data1[2].length + " procesos, ditribuidos como los presenta la gráfica 1.1."
+            $('#nota').html(nota)
+            var arreglo=[]
+            for(var i = 0; i < data1[1].length; i++){
+              arreglo[i]=[data1[1][i].name,Number(data1[1][i].y)]
+            }
+            $('#container').highcharts({
+              chart:{type:'pie',options3d:{enabled:true,alpha: 45,beta:0}},
+              title:{text:'Procesos por Concepto Jurídico'},
+              tooltip:{pointFormat:'{series.name}: <b>{point.y:.0f}</b>'},
+              plotOptions:{
+                pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                  dataLabels:{
+                    enabled:true,
+                    format:'<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor)||'black'}
+                  }
+                }
+              },
+              series:[{
+                name: "No. de Procesos",
+                colorByPoint: true,
+                data: arreglo,
+              }]
+            });
+            //console.log(valores)
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax prueva
+      } else {
+        $.ajax({url:"tierras/reporprocesosvdadet",type:"POST",data:{mpio:$('#selvda').val()},dataType:'json',
+          success:function(data1){
+            $("#title_reporte").html(("Reporte - "+ $('#selvda').find('option:selected').text()))
+            var nota="A la fecha del reporte se encuentran "+ data1[1].length + " procesos, ditribuidos como los presenta la gráfica 1.1."
+            $('#nota').html(nota)
+            var arreglo=[]
+            for(var i = 0; i < data1[0].length; i++){
+              arreglo[i]=[data1[0][i].name,Number(data1[0][i].y)]
+            }
+            $('#container').highcharts({
+              chart:{type:'pie',options3d:{enabled:true,alpha: 45,beta:0}},
+              title:{text:'Procesos por Concepto Jurídico'},
+              tooltip:{pointFormat:'{series.name}: <b>{point.y:.0f}</b>'},
+              plotOptions:{
+                pie:{allowPointSelect:true,cursor:'pointer',depth:35,
+                  dataLabels:{
+                    enabled:true,
+                    format:'<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor)||'black'}
+                  }
+                }
+              },
+              series:[{
+                name: "No. de Procesos",
+                colorByPoint: true,
+                data: arreglo,
+              }]
+            });
+            //console.log(valores)
+          },
+          error:function(){alert('error');}
+        });//Termina Ajax prueva
+      }
+    });
+
     $('#btimpr').click(function(){
       $('#btimpr').hide();
       $("#firmapro").show();
