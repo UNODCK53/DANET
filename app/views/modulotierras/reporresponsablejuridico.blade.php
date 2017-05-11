@@ -33,9 +33,41 @@
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
     <div class="row">
-<!--aca se escribe el codigo-->
-<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-<!--fin del codigo-->    
+      <!--aca se escribe el codigo-->
+      <div class="row">
+        <br>
+        <p class="lead text-center">DISTRIBUCIÓN DE PROCESOS ASIGNADOS POR RESPONSABLE JURÍDICO</p>
+      </div>
+      <div class="col-sm-1">
+      </div>
+      <div class="col-sm-10">
+        <div class="col-sm-4">
+          <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
+          <select id="seldpto" class="form-control" name="seldpto">
+            <option value="" selected="selected">Por favor seleccione</option>
+            @foreach($arraydpto as $pro)
+                <option value="{{$pro->cod_dpto}}">{{$pro->nom_dpto}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
+            <select id="selmpio" class="form-control" name="selmpio">
+            </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelvda" for="Proceso" class="control-label">Vereda:</label>
+            <select id="selvda" class="form-control" name="selvda">
+            </select>
+        </div>  
+      </div>
+      <div class="col-sm-1">
+      </div>
+      <div class="col-sm-12" style="height: 20px">
+      </div>
+      <h2 id="title_reporte" style="text-align: center;">Reporte Nacional</h2>
+      <div id="container" ></div>
+      <!--fin del codigo-->    
     </div>
   </div>
 <!--Fin del tercer contenedor--> 
@@ -65,7 +97,7 @@
               }
           },
           title: {
-              text: 'Procesos adjudicados por abogado'
+              text: ''
           },
           tooltip: {
               pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
@@ -87,7 +119,7 @@
               colorByPoint: true,
               data: [
               @foreach($arrayrj as $arraygra)
-              {{'{name:'}}{{'"'.$arraygra->name.'"'}}{{',y:'}}{{$arraygra->y}}{{','}}{{'},'}}
+              {{'{name:'}}{{'"'.$arraygra->name." ".$arraygra->last_name.'"'}}{{',y:'}}{{$arraygra->y}}{{','}}{{'},'}}
               @endforeach
               ]
           }]
@@ -101,6 +133,281 @@
           $( "#tierrasmenupeq" ).html("<strong>MÓDULO TIERRAS<span class='caret'></span></strong>");
           $( "#tierrasreporesjurimenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Responsable Jurídico</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
+          $("#labelmpio").hide();
+          $("#selmpio").hide();
+          $("#labelvda").hide();
+          $("#selvda").hide();
+          $("#labelvda").hide();
+          $("#seldpto").change(function(){
+            if((($('#seldpto').val()=='')&&($('#selmpio').val()!=''))||(($('#seldpto').val()=='')&&($('#selmpio').val()=='')))
+              {
+                location.reload();
+              } else{
+                $.ajax({url:"tierras/reporjuridicompio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+                  success:function(data1){
+                    $("#title_reporte").html(("Reporte - "+ $('#seldpto').find('option:selected').text()))
+                    $("#labelmpio").show();
+                    $("#selmpio").show();
+                    $("#selmpio").empty();
+                    $("#selvda").empty();
+                    $("#selvda").hide();
+                    $("#labelvda").hide();
+                    $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+                    $.each(data1[0], function(nom,datos){
+                      $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+                    });
+                    var arreglo=[]
+                    for(var i = 0; i < data1[1].length; i++){
+                      arreglo[i]=[(data1[1][i].name + " " + data1[1][i].last_name),Number(data1[1][i].y)]
+                    }
+                    console.log(arreglo)
+                    $('#container').highcharts({
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: ''
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                    style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'}
+                                }
+                            }
+                        },
+                        series: [{
+                            name: "No. de Procesos",
+                            colorByPoint: true,
+                            data: arreglo
+                        }]
+                    });
+                    
+                  },
+                  error:function(){alert('error');}
+                });//Termina Ajax prueva
+            }
+          });
+          $("#selmpio").change(function(){
+            if($('#selmpio').val()==''){
+              $.ajax({url:"tierras/reporjuridicompio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+                success:function(data1){
+                  $("#title_reporte").html(("Reporte - "+ $('#seldpto').find('option:selected').text()))
+                  $("#labelmpio").show();
+                  $("#selmpio").show();
+                  $("#selmpio").empty();
+                  $("#selvda").empty();
+                  $("#selvda").hide();
+                  $("#labelvda").hide();
+                  $("#selmpio").append("<option value=''>Por favor seleccione</option>");
+                  $.each(data1[0], function(nom,datos){
+                    $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
+                  });
+                  var arreglo=[]
+                  for(var i = 0; i < data1[1].length; i++){
+                    arreglo[i]=[(data1[1][i].name + " " + data1[1][i].last_name),Number(data1[1][i].y)]
+                  }
+                  $('#container').highcharts({
+                      chart: {
+                          type: 'pie',
+                          options3d: {
+                              enabled: true,
+                              alpha: 45,
+                              beta: 0
+                          }
+                      },
+                      title: {
+                          text: ''
+                      },
+                      tooltip: {
+                          pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
+                      },
+                      plotOptions: {
+                          pie: {
+                              allowPointSelect: true,
+                              cursor: 'pointer',
+                              depth: 35,
+                              dataLabels: {
+                                  enabled: true,
+                                  format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                  style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'}
+                              }
+                          }
+                      },
+                      series: [{
+                          name: "No. de Procesos",
+                          colorByPoint: true,
+                          data: arreglo
+                      }]
+                  });
+                },
+                error:function(){alert('error');}
+              });//Termina Ajax prueba
+            }
+            else{        
+              $.ajax({url:"tierras/reporjuridicovda",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
+                success:function(data1){
+                  $("#title_reporte").html(("Reporte - "+ $('#selmpio').find('option:selected').text()))
+                  $("#labelvda").show();
+                  $("#selvda").show();
+                  $("#selvda").empty();
+                  $("#selvda").append("<option value=''>Por favor seleccione</option>");
+                  [].forEach.call(data1[0],function(datos){
+                    $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+                  });
+                  var arreglo=[]
+                  for(var i = 0; i < data1[1].length; i++){
+                    arreglo[i]=[(data1[1][i].name + " " + data1[1][i].last_name),Number(data1[1][i].y)]
+                  }
+                  $('#container').highcharts({
+                      chart: {
+                          type: 'pie',
+                          options3d: {
+                              enabled: true,
+                              alpha: 45,
+                              beta: 0
+                          }
+                      },
+                      title: {
+                          text: ''
+                      },
+                      tooltip: {
+                          pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
+                      },
+                      plotOptions: {
+                          pie: {
+                              allowPointSelect: true,
+                              cursor: 'pointer',
+                              depth: 35,
+                              dataLabels: {
+                                  enabled: true,
+                                  format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                  style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'}
+                              }
+                          }
+                      },
+                      series: [{
+                          name: "No. de Procesos",
+                          colorByPoint: true,
+                          data: arreglo
+                      }]
+                  });
+                },
+                error:function(){alert('error');}
+              });//Termina Ajax prueba
+            }
+          });
+          $("#selvda").change(function(){
+            if($('#selvda').val()==''){
+              $.ajax({url:"tierras/reporjuridicovda",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
+                success:function(data1){
+                  $("#title_reporte").html(("Reporte - "+ $('#selmpio').find('option:selected').text()))
+                  $("#labelvda").show();
+                  $("#selvda").show();
+                  $("#selvda").empty();
+                  $("#selvda").append("<option value=''>Por favor seleccione</option>");
+                  [].forEach.call(data1[0],function(datos){
+                    $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+                  });
+                  var arreglo=[]
+                  for(var i = 0; i < data1[1].length; i++){
+                    arreglo[i]=[(data1[1][i].name + " " + data1[1][i].last_name),Number(data1[1][i].y)]
+                  }
+                  $('#container').highcharts({
+                      chart: {
+                          type: 'pie',
+                          options3d: {
+                              enabled: true,
+                              alpha: 45,
+                              beta: 0
+                          }
+                      },
+                      title: {
+                          text: ''
+                      },
+                      tooltip: {
+                          pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
+                      },
+                      plotOptions: {
+                          pie: {
+                              allowPointSelect: true,
+                              cursor: 'pointer',
+                              depth: 35,
+                              dataLabels: {
+                                  enabled: true,
+                                  format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                  style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'}
+                              }
+                          }
+                      },
+                      series: [{
+                          name: "No. de Procesos",
+                          colorByPoint: true,
+                          data: arreglo
+                      }]
+                  });
+                },
+                error:function(){alert('error');}
+              });//Termina Ajax
+            } else {
+              $.ajax({url:"tierras/reporjuridicovdadet",type:"POST",data:{mpio:$('#selvda').val()},dataType:'json',
+                success:function(data1){
+                  $("#title_reporte").html(("Reporte - "+ $('#selvda').find('option:selected').text()))
+                  var arreglo=[]
+                  for(var i = 0; i < data1[0].length; i++){
+                    arreglo[i]=[(data1[0][i].name + " " + data1[0][i].last_name),Number(data1[0][i].y)]
+                  }
+                  $('#container').highcharts({
+                      chart: {
+                          type: 'pie',
+                          options3d: {
+                              enabled: true,
+                              alpha: 45,
+                              beta: 0
+                          }
+                      },
+                      title: {
+                          text: ''
+                      },
+                      tooltip: {
+                          pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
+                      },
+                      plotOptions: {
+                          pie: {
+                              allowPointSelect: true,
+                              cursor: 'pointer',
+                              depth: 35,
+                              dataLabels: {
+                                  enabled: true,
+                                  format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                  style:{textShadow:'',color:(Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'}
+                              }
+                          }
+                      },
+                      series: [{
+                          name: "No. de Procesos",
+                          colorByPoint: true,
+                          data: arreglo
+                      }]
+                  });
+                  //console.log(valores)
+                },
+                error:function(){alert('error');}
+              });//Termina Ajax prueva
+            }
+          });
       });
     </script>
 @stop

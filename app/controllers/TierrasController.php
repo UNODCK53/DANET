@@ -559,14 +559,20 @@ class TierrasController extends BaseController {
 
 	public function ResponsableJuridico()
 	{
+		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
+		->select('nom_dpto','cod_dpto')
+		->groupBy('nom_dpto','cod_dpto')
+		->get();
+
 		$arrayrj = DB::table('MODTIERRAS_PROCESO')
 		->join('users', 'users.id','=','MODTIERRAS_PROCESO.respjuridico')
 		->where('users.level','=',2)
 		->where('users.grupo','=',3)
-		->select('users.name',DB::raw('count(*) as y, users.name'))
-		->groupBy('users.name')
+		->select('users.name','users.last_name',DB::raw('count(*) as y, users.name'))
+		->groupBy('users.name','users.last_name')
 		->get();
-		return View::make('modulotierras.reporresponsablejuridico', array('arrayrj' => $arrayrj));
+
+		return View::make('modulotierras.reporresponsablejuridico', array('arraydpto'=>$arraydpto,'arrayrj' => $arrayrj));
 	}
 
 	public function RLevantamientoTopogragfico()
@@ -1072,5 +1078,54 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arraynumpro,$numpro);
 		return Response::json($arrayvial);
 	}
+
+	public function postReporjuridicompio(){
+		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
+
+		$arrayrj = DB::table('MODTIERRAS_PROCESO')
+				   ->join('users', 'users.id','=','MODTIERRAS_PROCESO.respjuridico')
+				   ->where('users.level','=',2)
+				   ->where('users.grupo','=',3)
+				   ->where(DB::raw('left(id_proceso,2)'),'=',Input::get('dpto'))
+				   ->select('users.name','users.last_name',DB::raw('count(*) as y, users.name'))
+				   ->groupBy('users.name','users.last_name')
+				   ->get();
+			
+		$arrayvial=array($arraympio,$arrayrj);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporjuridicovda()
+	{		
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		
+		$arrayrj = DB::table('MODTIERRAS_PROCESO')
+				   ->join('users', 'users.id','=','MODTIERRAS_PROCESO.respjuridico')
+				   ->where('users.level','=',2)
+				   ->where('users.grupo','=',3)
+				   ->where(DB::raw('left(id_proceso,5)'),'=',Input::get('mpio'))
+				   ->select('users.name','users.last_name',DB::raw('count(*) as y, users.name'))
+				   ->groupBy('users.name','users.last_name')
+				   ->get();
+		
+		$arrayvial=array($arrayvda,$arrayrj);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporjuridicovdadet()
+	{	
+		$arrayrj = DB::table('MODTIERRAS_PROCESO')
+				   ->join('users', 'users.id','=','MODTIERRAS_PROCESO.respjuridico')
+				   ->where('users.level','=',2)
+				   ->where('users.grupo','=',3)
+				   ->where(DB::raw('left(id_proceso,8)'),'=',Input::get('mpio'))
+				   ->select('users.name','users.last_name',DB::raw('count(*) as y, users.name'))
+				   ->groupBy('users.name','users.last_name')
+				   ->get();
+		
+		$arrayvial=array($arrayrj);
+		return Response::json($arrayvial);
+	}
+	
 }
 ?>
