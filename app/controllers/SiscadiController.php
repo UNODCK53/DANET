@@ -1530,12 +1530,6 @@ class SiscadiController extends BaseController {
 
 		//datos para la ficha tecnica
 		$ficha_tecnica=array();
-		$todo[]=null;
-		for ($i=0; $i < count($estadEBDT); $i++) { 
-			$fechamin_EBDT[$i] = $estadEBDT[$i]['Fecha_Desde'];		
-			$fechamax_EBDT[$i] = $estadEBDT[$i]['Fecha_Hasta'];					
-		}
-		$fechas_EBDT=array(max($fechamax_EBDT),min($fechamin_EBDT));
 
 		$Fuente_EBDT[]=null;
 		for ($i=0; $i < count($estadEBDT); $i++) { 
@@ -1544,8 +1538,8 @@ class SiscadiController extends BaseController {
 
 		for ($i=0; $i <count(array_unique($Fuente_EBDT)) ; $i++) { 
 			for ($j=0; $j < count($estadEBDT); $j++) { 
-				if(array_unique($Fuente_EBDT)[$i]==$estadEBDT[$j]['Fuente']){
-					$ficha_tecnica[array_unique($Fuente_EBDT)[$i]][$j]=$estadEBDT[$j];
+				if(array_values(array_unique($Fuente_EBDT))[$i]==$estadEBDT[$j]['Fuente']){
+					$ficha_tecnica[array_values(array_unique($Fuente_EBDT))[$i]][$j]=$estadEBDT[$j];
 				}
 			}
 		}

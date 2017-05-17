@@ -466,18 +466,19 @@
               var Fecha_desde=[];
               var Fecha_Hasta=[];
               var metodo="";
-                Object.keys(key).forEach(function(key2) {
+                Object.keys(data['ficha_tecnica'][key]).forEach(function(key2) {
+                  
                   if (obj[key][key2]){
-                    Fecha_desde.push(new Date(obj[key][key2]['Fecha_Desde'] + ' 20:00:00'));
-                    Fecha_Hasta.push(new Date(obj[key][key2]['Fecha_Hasta'] + ' 20:00:00'));
+                    Fecha_desde.push(new Date(obj[key][key2]['Fecha_Desde']));
+                    Fecha_Hasta.push(new Date(obj[key][key2]['Fecha_Hasta'] ));
                     metodo=obj[key][key2]['Metodo']
-
                   }
                 });
+
               var maxFecha_desde_array=new Date(Math.max.apply(null,Fecha_Hasta));
               var minFecha_desde_array=new Date(Math.min.apply(null,Fecha_desde));
-              var maxFecha_desde=maxFecha_desde_array.getUTCFullYear() +"-"+ (maxFecha_desde_array.getUTCMonth()+1) +"-"+ maxFecha_desde_array.getUTCDate();
-              var minFecha_desde=minFecha_desde_array.getUTCFullYear() +"-"+ (minFecha_desde_array.getUTCMonth()+1) +"-"+ minFecha_desde_array.getUTCDate();
+              var maxFecha_desde=maxFecha_desde_array.getUTCDate() +"-"+ (maxFecha_desde_array.getUTCMonth()+1) +"-"+ maxFecha_desde_array.getUTCFullYear();
+              var minFecha_desde=minFecha_desde_array.getUTCDate() +"-"+ (minFecha_desde_array.getUTCMonth()+1) +"-"+ minFecha_desde_array.getUTCFullYear();
 
               var y = document.createElement("TR");
               y.setAttribute("id", key);
@@ -489,7 +490,7 @@
               document.getElementById(key).appendChild(z);
 
               var z = document.createElement("TD");
-              var t = document.createTextNode("Desde "+minFecha_desde+" hasta "+maxFecha_desde);
+              var t = document.createTextNode("Desde el "+minFecha_desde+" hasta el "+maxFecha_desde);
               z.appendChild(t);
               document.getElementById(key).appendChild(z);
 

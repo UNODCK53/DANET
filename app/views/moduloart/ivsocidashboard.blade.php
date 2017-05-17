@@ -383,19 +383,19 @@ input[type="number"] {
                   <div class="col-xs-5"><img src="assets/art/img/cultivos.png" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                   <div class="col-xs-7" align="center"><font style="font-size: 30px" id="coca_simci">{{round($coca_simci,2)}} Ha</font><br>Identificadas</div>
                   <h4>Fuente: 2015 SIMCI - UNODC</h4>
-
-                  <h3>Reducción de la oferta </h3>                                    
+                  <br>
+                  <h3>Reducción de la oferta* </h3>                                    
                   <table class="table table-hover">
                     <tr>
                       <td>Laboratorios destruidos</td>
-                      <td>0</td>
+                      <td id="lab_destruidos">0</td>
                     </tr>
                     <tr>
                       <td>Toneladas incautadas</td>
-                      <td>0</td>
+                      <td id="incautaciones">0</td>
                     </tr>
                   </table>
-                  Fuente: Policia Nacional
+                  <font size="1.5">*Fuente: 2016, Ministerio de Defensa Nacional (Policía Nacional - Dirección Antinarcóticos, Ejército, Armada y fuerza Aérea)</font>
                 </div>  
 
                 <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
@@ -698,8 +698,10 @@ input[type="number"] {
           $( "#artmenupeq" ).html("<strong>ART<span class='caret'></span></strong>");
           $( "#ivsocidashboardmenupeq" ).html("<strong><span class='glyphicon glyphicon-ok'></span>Dashboard</strong>");
           $( "#mensajeestatus" ).fadeOut(5000);
-          $( "#coca_daild").html({{json_encode($dailcd)}}[0]['has']);
-          $( "#familias_daild").html({{json_encode($dailcd)}}[0]['familias']);
+          $( "#coca_daild").html({{json_encode($dailcd)}}[0][0]['has']);
+          $( "#familias_daild").html({{json_encode($dailcd)}}[0][0]['familias']);
+          $( "#lab_destruidos").html({{json_encode($dailcd)}}[1]);
+          $( "#incautaciones").html({{json_encode($dailcd)}}[2]);
          
       });
 

@@ -120,9 +120,21 @@ class ArtdashboardController extends BaseController {
 			->sum('C_2015');
 
 		// LOAD INFO DAICLD
-		$dailcd=DB::table('MODART_DAILD_ACUERDOSCOLEC')
+		$dailcd1=DB::table('MODART_DAILD_ACUERDOSCOLEC')
 			->select(DB::raw('round(sum(hectareas),2)as has,sum(familias) as familias '))			
 			->get();
+			
+			
+		$jsonarray_labo_incauta = utf8_encode (file_get_contents(public_path().'\assets\art\js\Labo_incauta.json'));
+		$jsonarray_labo_incauta2 = json_decode($jsonarray_labo_incauta, true);
+		$Laboratotios=0;
+		$incautaciones=0;
+		for ($j=0; $j <count($jsonarray_labo_incauta2) ; $j++) { 
+				
+				$Laboratotios=$Laboratotios+$jsonarray_labo_incauta2[$j]['laboratorios'];
+				$incautaciones=$incautaciones+$jsonarray_labo_incauta2[$j]['incautaciones'];
+			}	
+		$dailcd=array($dailcd1,$Laboratotios,$incautaciones);
 
 		//diagnostico de hogar
 		$jsonarray_diag = utf8_encode (file_get_contents(public_path().'\assets\art\js\encuentas_diagnostico.json'));
@@ -169,12 +181,27 @@ public function postPic()//funcion que precarga los datos de los indicadores  ve
 			->where('mpio','=',Input::get('indi'))
 			->get();
 
+		$jsonarray_labo_incauta = utf8_encode (file_get_contents(public_path().'\assets\art\js\Labo_incauta.json'));
+		$jsonarray_labo_incauta2 = json_decode($jsonarray_labo_incauta, true);
+
+		$Laboratotios=0;
+		$incautaciones=0;
+		for ($j=0; $j <count($jsonarray_labo_incauta2) ; $j++) { 
+				if ($jsonarray_labo_incauta2[$j]['CODMPIO']==Input::get('indi')){
+					$Laboratotios=$jsonarray_labo_incauta2[$j]['laboratorios'];
+					$incautaciones=$jsonarray_labo_incauta2[$j]['incautaciones'];
+				}
+				
+			}	
+		$dailcd=array($arraydaild,$Laboratotios,$incautaciones);
+
+
 		$arraydash1 = DB::table('MODART_DASHBOARD')	
 			->select('id_dash','valor')
 			->where('cod_dane','=',Input::get('indi'))
 			->get();
 
-		return array('obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci,'arraydaild'=>$arraydaild,'arraydash1'=>$arraydash1);
+		return array('obra_priori'=>$obra_priori,'coca_simci'=>$coca_simci,'arraydaild'=>$dailcd,'arraydash1'=>$arraydash1);
 			
 	}	
 
@@ -238,12 +265,12 @@ public function DiagFamiPreload()
 		$max=max($array_usuarios_todo_value);
 
 		foreach ($array_usuarios_todo_value as $key => $value){
-				if ($key ==array_keys($array_usuarios_todo_name)[$key]) {
-				array_push ($usuario,array($array_usuarios_todo_name[$key],$array_usuarios_todo_value[$key]));
-				}	
-			
-			
+			if ($key ==array_keys($array_usuarios_todo_name)[$key]) {
+			array_push ($usuario,array($array_usuarios_todo_name[$key],$array_usuarios_todo_value[$key]));
+			}	
 		}
+
+		
 
 		return View::make('moduloart/ivsocicensofamilias',array('nacional' => $nacional,'depto'=>$deptosencu,'usuario'=>$usuarisencu,'usuario_datos'=>json_encode($usuario),'max'=>$max));
 	}

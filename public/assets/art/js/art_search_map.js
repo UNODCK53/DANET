@@ -266,9 +266,13 @@ function search(cod,mpio, depto){
 	        $('#coca_simci').html("0 ha");
 	        $('#coca_simci').html(parseFloat(data['coca_simci']).toFixed(2)+" ha");
 	        $('#coca_daild').html("0 ha");
-	        $('#coca_daild').html(parseFloat(data['arraydaild'][0]['has']).toFixed(2)+" ha");
+	        $('#coca_daild').html(parseFloat(data['arraydaild'][0][0]['has']).toFixed(2)+" ha");
 	        $('#familias_daild').html("0");
-	        $('#familias_daild').html(data['arraydaild'][0]['familias']);
+	        $('#familias_daild').html(data['arraydaild'][0][0]['familias']);
+	        $('#lab_destruidos').html("0");
+	        $('#lab_destruidos').html(data['arraydaild'][1]);
+	        $('#incautaciones').html("0");
+	        $('#incautaciones').html(data['arraydaild'][2]);
 	        $.each(data['arraydash1'], function(id,objet){
               if (objet['id_dash']=="1"){//condicional para cada indicador del dashboard
               	$('#fami_art').html(objet['valor']);
