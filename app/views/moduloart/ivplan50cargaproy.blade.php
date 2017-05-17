@@ -1161,8 +1161,8 @@
                   OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
                     var x = document.createElement("OPTION");
-                    x.setAttribute("value", datos);
-                    var t = document.createTextNode(nom);
+                    x.setAttribute("value",nom);
+                    var t = document.createTextNode( datos);
                     x.appendChild(t);
                     OPTGROUP.append(x);
                   });
@@ -1684,8 +1684,8 @@
                   OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
                     var x = document.createElement("OPTION");
-                    x.setAttribute("value", datos);
-                    var t = document.createTextNode(nom);
+                    x.setAttribute("value", nom);
+                    var t = document.createTextNode(datos);
                     x.appendChild(t);
                     OPTGROUP.append(x);
                   });
@@ -1713,8 +1713,8 @@
                   OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
                     var x = document.createElement("OPTION");
-                    x.setAttribute("value", datos);
-                    var t = document.createTextNode(nom);
+                    x.setAttribute("value", nom);
+                    var t = document.createTextNode(datos);
                     x.appendChild(t);
                     OPTGROUP.append(x);
                   });
@@ -1744,8 +1744,8 @@
                   OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
                     var x = document.createElement("OPTION");
-                    x.setAttribute("value", datos);
-                    var t = document.createTextNode(nom);
+                    x.setAttribute("value", nom);
+                    var t = document.createTextNode(datos);
                     x.appendChild(t);
                     OPTGROUP.append(x);
                   });

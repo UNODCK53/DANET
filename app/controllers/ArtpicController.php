@@ -304,7 +304,7 @@ class ArtpicController extends BaseController {
 				->get();
 				foreach($Resguardo as $pro)
 				{
-					  $arrares[$pro->cod_vda] = $pro->nom_terr;
+					  $arrares[$pro->nom_terr] = $pro->cod_vda;
 				}
 				if (empty($Resguardo)) {
 				}else{
@@ -319,7 +319,7 @@ class ArtpicController extends BaseController {
 				->get();
 				foreach($concejo as $pro)
 				{
-					 $arraccj[$pro->cod_vda] = $pro->nom_terr;
+					 $arraccj[$pro->nom_terr] = $pro->cod_vda;
 				}
 				if (empty($concejo)) {
 				}else{
@@ -335,7 +335,7 @@ class ArtpicController extends BaseController {
 
 				foreach($veredas as $pro)
 				{
-					  $arravds[$pro->cod_vda] = $pro->nom_terr;
+					  $arravds[$pro->nom_terr] = $pro->cod_vda;
 				}
 
 				if (empty($veredas)) {

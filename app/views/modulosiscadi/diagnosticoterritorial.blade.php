@@ -463,17 +463,17 @@
             $('#subtitulo2').show();
             var obj=data['ficha_tecnica'];
             Object.keys(obj).forEach(function(key) {
-              var Fecha_desde=[];
-              var Fecha_Hasta=[];
-              var metodo="";
-                Object.keys(data['ficha_tecnica'][key]).forEach(function(key2) {
-                  
-                  if (obj[key][key2]){
-                    Fecha_desde.push(new Date(obj[key][key2]['Fecha_Desde']));
-                    Fecha_Hasta.push(new Date(obj[key][key2]['Fecha_Hasta'] ));
-                    metodo=obj[key][key2]['Metodo']
-                  }
-                });
+            var Fecha_desde=[];
+            var Fecha_Hasta=[];
+            var metodo="";
+              Object.keys(data['ficha_tecnica'][key]).forEach(function(key2) {
+                
+                if (obj[key][key2]){
+                  Fecha_desde.push(new Date(obj[key][key2]['Fecha_Desde']));
+                  Fecha_Hasta.push(new Date(obj[key][key2]['Fecha_Hasta'] ));
+                  metodo=obj[key][key2]['Metodo']
+                }
+              });
 
               var maxFecha_desde_array=new Date(Math.max.apply(null,Fecha_Hasta));
               var minFecha_desde_array=new Date(Math.min.apply(null,Fecha_desde));
