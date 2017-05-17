@@ -1536,10 +1536,12 @@ class SiscadiController extends BaseController {
 			$Fuente_EBDT[$i] = $estadEBDT[$i]['Fuente'];	
 		}
 
-		for ($i=0; $i <count(array_unique($Fuente_EBDT)) ; $i++) { 
+		$Fuente_unica=array_unique($Fuente_EBDT);
+		for ($i=0; $i <count($Fuente_unica) ; $i++) { 
 			for ($j=0; $j < count($estadEBDT); $j++) { 
-				if(array_values(array_unique($Fuente_EBDT))[$i]==$estadEBDT[$j]['Fuente']){
-					$ficha_tecnica[array_values(array_unique($Fuente_EBDT))[$i]][$j]=$estadEBDT[$j];
+				$Fuente_unica_value=array_values($Fuente_unica);
+				if($Fuente_unica_value[$i]==$estadEBDT[$j]['Fuente']){
+					$ficha_tecnica[$Fuente_unica_value[$i]][$j]=$estadEBDT[$j];
 				}
 			}
 		}
