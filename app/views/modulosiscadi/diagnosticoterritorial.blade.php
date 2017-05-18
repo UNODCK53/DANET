@@ -100,7 +100,7 @@
     </div>
     <div class="col-sm-1"></div>
     <!--espacio para hacer las graficas--> 
-    <div id="titulo" class="text-center"><h1>INDICADORES POBLACIONALES</h1></div>
+    <div id="titulo-1" class="text-center"><h1>INDICADORES POBLACIONALES</h1></div>
     <div class="row">          
       <div class="col-sm-1"></div>
       <div class="col-sm-5" id="containera"></div>
@@ -119,7 +119,7 @@
       <div class="col-sm-3" id="containerf"></div>
       <div class="col-sm-1"></div>
     </div>
-    <div id="titulo" class="text-center"><h1>INDICADORES DE CAPITAL SOCIAL</h1></div>
+    <div id="titulo-2" class="text-center"><h1>INDICADORES DE CAPITAL SOCIAL</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>
       <div class="col-sm-5" id="containerg"></div>
@@ -132,7 +132,7 @@
       <div class="col-sm-5" id="containerj"></div>
       <div class="col-sm-1"></div>
     </div>
-    <div id="titulo" class="text-center"><h1>RELACIÓN CON CULTIVOS ILÍCITOS</h1></div>
+    <div id="titulo-3" class="text-center"><h1>RELACIÓN CON CULTIVOS ILÍCITOS</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>
       <div class="col-sm-5" id="containerk"></div>
@@ -145,7 +145,7 @@
       <div class="col-sm-5" id="containern"></div>
       <div class="col-sm-1"></div>
     </div>
-    <div id="titulo" class="text-center"><h1>INDICADORES ECONÓMICOS</h1></div>
+    <div id="titulo-4" class="text-center"><h1>INDICADORES ECONÓMICOS</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>      
       <div  id="subtitulo1" style="display: none" class="col-sm-10"><h4>1. Índice de pobreza multidimensional</h4><blockquote><p>El Índice de Pobreza Multidimensional (IPM) busca realizar un análisis de pobreza desde la perspectiva de múltiples dimensiones asociadas a las privaciones de las personas. Las variables definidas para el cálculo del IPM están enmarcadas en cuatro dimensiones: educación, salud, infancia y adolescencia y condiciones de la vivienda, las cuales fueron diseñadas para determinar condiciones de pobreza de hogares rurales colombianos vinculados a los programas de desarrollo alternativo. Se considera un hogar multidimensionalmente pobre si está privado de un tercio de las dimensiones de los indicadores ponderados.</p></blockquote></div>
@@ -210,7 +210,7 @@
       <div class="col-sm-10" id="containert"></div>      
       <div class="col-sm-1"></div>
     </div>
-    <div id="titulo" class="text-center"><h1>ACTIVIDADES PRODUCTIVAS</h1></div>
+    <div id="titulo-5" class="text-center"><h1>ACTIVIDADES PRODUCTIVAS</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>
       <div class="col-sm-10 text-center" id="containeru"></div>      
@@ -234,7 +234,7 @@
       <div class="col-sm-1"></div>
     </div>
     
-    <div id="titulo" class="text-center"><h1>TERRITORIO Y MEDIO AMBIENTE</h1></div>
+    <div id="titulo-6" class="text-center"><h1>TERRITORIO Y MEDIO AMBIENTE</h1></div>
     <div class="row">         
       <div class="col-sm-1"></div>
       <div class="col-sm-10" id="containerdondevive"></div>      
@@ -257,7 +257,7 @@
       <div class="col-sm-10" id="containerab"></div>
       <div class="col-sm-1"></div>
     </div>
-    <div id="titulo" class="text-center"><h1>INFRAESTRUCTURA VEREDAL</h1></div>
+    <div id="titulo-7" class="text-center"><h1>INFRAESTRUCTURA VEREDAL</h1></div>
     <div class="row">     
       <div class="col-sm-1"></div>
       <div class="col-sm-5" id="containerac"></div>
@@ -327,7 +327,7 @@
       $("#selmpio").hide();
       $("#labelvda").hide();
       $("#selvda").hide();
-      $(".text-center").hide();
+      $('[id^=titulo-]').hide();
       
       //funcion de cambio del combo depto
       $("#seldpto").change(function(){  
@@ -458,7 +458,7 @@
 
             //ficha tecnica 
 
-            $(".text-center").show();
+            $('[id^=titulo-]').show();
             $('#subtitulo1').show();
             $('#subtitulo2').show();
             var obj=data['ficha_tecnica'];
