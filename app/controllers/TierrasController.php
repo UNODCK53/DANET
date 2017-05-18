@@ -577,12 +577,32 @@ class TierrasController extends BaseController {
 
 	public function RLevantamientoTopogragfico()
 	{
+		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
+		->select('nom_dpto','cod_dpto')
+		->groupBy('nom_dpto','cod_dpto')
+		->get();
+		
 		$arraylt = DB::table('MODTIERRAS_PROCESO')
 		->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
 		->groupBy('requiererespgeo')
 		->get();
+
+		$arrayrlt = DB::table('MODTIERRAS_PROCESO')
+		->join('users','users.id','=','MODTIERRAS_PROCESO.respgeografico')
+		->select(DB::RAW('count(id_proceso) as procesos, name,last_name'))
+		->where('requiererespgeo','=','1')
+		->groupby('name','last_name')
+		->get();
+
+		$arraydepto_num = DB::table('MODTIERRAS_PROCESO')
+						->join('DEPARTAMENTOS','DEPARTAMENTOS.COD_DPTO','=',DB::RAW('left(id_proceso,2)'))
+						->select(DB::RAW('left(id_proceso,2) as depto,NOM_DPTO, count(requiererespgeo) as procesos'))
+						->where('requiererespgeo','=','1')
+						->groupby(DB::RAW('left(id_proceso,2), NOM_DPTO'))
+						->get();
+
 		//return $arraylt;
-		return View::make('modulotierras.reporlevantamientotopografico', array('arraylt' => $arraylt));
+		return View::make('modulotierras.reporlevantamientotopografico', array('arraydpto'=>$arraydpto,'arraylt' => $arraylt ,'arrayrlt'=>$arrayrlt, 'arraydepto_num'=>$arraydepto_num));
 	}
 
 	public function ReporAreaLevantada()
@@ -1126,6 +1146,97 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayrj);
 		return Response::json($arrayvial);
 	}
+	
+	public function postReporlevantamientompio(){
+		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
+		
+		$arrayrlt = DB::table('MODTIERRAS_PROCESO')
+					->join('users','users.id','=','MODTIERRAS_PROCESO.respgeografico')
+					->select(DB::RAW('count(id_proceso) as procesos, name,last_name, respgeografico'))
+					->where('requiererespgeo','=','1')
+					->where(DB::RAW('left(id_proceso,2)'),'=',Input::get('dpto'))
+					->groupby('name','last_name','respgeografico')
+					->get();
+
+		$arrayrlt_ok = DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESTADO','MODTIERRAS_PROCESTADO.id_proceso','=','MODTIERRAS_PROCESO.id_proceso')
+					->select(DB::RAW('count(requiererespgeo) as procesos, respgeografico'))
+					->where('requiererespgeo','=','1')
+					->where('MODTIERRAS_PROCESTADO.id_estado','=','2')
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->groupby('respgeografico')
+					->get();
+
+		$arraylt = DB::table('MODTIERRAS_PROCESO')
+					->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->groupBy('requiererespgeo')
+					->get();
+
+		$arrayvial=array($arraympio, $arrayrlt, $arrayrlt_ok, $arraylt);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporlevantamientovda(){
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		
+		$arrayrlt = DB::table('MODTIERRAS_PROCESO')
+					->join('users','users.id','=','MODTIERRAS_PROCESO.respgeografico')
+					->select(DB::RAW('count(id_proceso) as procesos, name,last_name, respgeografico'))
+					->where('requiererespgeo','=','1')
+					->where(DB::RAW('left(id_proceso,5)'),'=',Input::get('mpio'))
+					->groupby('name','last_name','respgeografico')
+					->get();
+
+		$arrayrlt_ok = DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESTADO','MODTIERRAS_PROCESTADO.id_proceso','=','MODTIERRAS_PROCESO.id_proceso')
+					->select(DB::RAW('count(requiererespgeo) as procesos, respgeografico'))
+					->where('requiererespgeo','=','1')
+					->where('MODTIERRAS_PROCESTADO.id_estado','=','2')
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->groupby('respgeografico')
+					->get();
+
+		$arraylt = DB::table('MODTIERRAS_PROCESO')
+					->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->groupBy('requiererespgeo')
+					->get();
+
+		$arrayvial=array($arrayvda, $arrayrlt, $arrayrlt_ok, $arraylt);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporlevantamientovdadet(){
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		
+		$arrayrlt = DB::table('MODTIERRAS_PROCESO')
+					->join('users','users.id','=','MODTIERRAS_PROCESO.respgeografico')
+					->select(DB::RAW('count(id_proceso) as procesos, name,last_name, respgeografico'))
+					->where('requiererespgeo','=','1')
+					->where(DB::RAW('left(id_proceso,8)'),'=',Input::get('mpio'))
+					->groupby('name','last_name','respgeografico')
+					->get();
+
+		$arrayrlt_ok = DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESTADO','MODTIERRAS_PROCESTADO.id_proceso','=','MODTIERRAS_PROCESO.id_proceso')
+					->select(DB::RAW('count(requiererespgeo) as procesos, respgeografico'))
+					->where('requiererespgeo','=','1')
+					->where('MODTIERRAS_PROCESTADO.id_estado','=','2')
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('mpio'))
+					->groupby('respgeografico')
+					->get();
+
+		$arraylt = DB::table('MODTIERRAS_PROCESO')
+					->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('mpio'))
+					->groupBy('requiererespgeo')
+					->get();
+
+		$arrayvial=array($arrayvda, $arrayrlt, $arrayrlt_ok, $arraylt);
+		return Response::json($arrayvial);
+	}
+
 	
 }
 ?>
