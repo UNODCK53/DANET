@@ -80,7 +80,7 @@
         <div id="reporte" style="display: none">
           <div  class="panel panel-default">
             <div class="panel-body">
-              <h3 class="text-center text-primary">Ficha técnica de las encuentas con los cuales se generaron los siguientes inidcadores.</h3>
+              <h3 class="text-center text-primary">Ficha técnica de las encuestas con los cuales se generaron los siguientes indicadores.</h3>
              <br>
              <div class="col-sm-1"></div>
              <div class="col-sm-10">
