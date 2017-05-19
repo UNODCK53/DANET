@@ -35,6 +35,10 @@
     <div class="row">
 <!--aca se escribe el codigo-->
     <br>
+    <div class="row">
+      <br>
+      <p class="lead text-center">DISTRIBUCIÓN DE PROCESOS POR ÁREA LEVANTADA</p>
+    </div>
       <div class="col-sm-1"></div>
       <div class="col-sm-3">
         <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
@@ -82,30 +86,49 @@
     <script>
     $(function(){
       $('#container').highcharts({
-        chart:{
-          type:'pie',
-          options3d:{enabled:true,alpha:45,beta:0}
+        chart: {
+            type: 'column'
         },
-        title:{text:'Área formalizada Nacional'},
-        tooltip:{pointFormat:'{series.name}:<b>{point.percentage:.1f} %</b>'},
-        plotOptions:{
-          pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-            dataLabels:{
-              enabled:true,
-              format:'<b>{point.name}</b>: {point.y:.2f} ha',
-              style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: [
+                'Predios con levantamieto topográfico',
+            ]
+        },
+        yAxis: [{
+            min: 0,
+            title: {
+                text: 'Hectáreas'
             }
-          }
+        }],
+        legend: {
+            shadow: false
         },
-        series:[{
-          name: "Área",
-          colorByPoint: true,
-          data:[            
-            {{'["Área total preliminar",'.$arraytotal[0].'],'}}
-            {{'["Área total formalizada",'.$arraytotal[1].']'}} 
-          ]
+        tooltip: {
+            shared: true
+        },
+        plotOptions: {
+            column: {
+                grouping: false,
+                shadow: false,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Área preliminar',
+            color: 'rgba(124,181,236,1)',
+            data: [{{$arraytotal[0]}}],
+            pointPadding: 0.3,
+            
+        }, {
+            name: 'Área Formalizada',
+            color: 'rgba(22,88,154,0.9)',
+            data: [{{$arraytotal[1]}}],
+            pointPadding: 0.4,       
         }]
-      });
+      });  
     });//Termina function highchart
     $(document).ready(function() {
       $("#tierras").addClass("active");

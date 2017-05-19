@@ -35,32 +35,48 @@
     <div class="row">
 <!--aca se escribe el codigo-->
     <br>
+      <div class="row">
+        <br>
+        <p class="lead text-center">DISTRIBUCIÓN DE PROCESOS POR ESTADO</p>
+      </div>
       <div class="col-sm-1"></div>
-      <div class="col-sm-3">
-        <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
-          <select id="seldpto" class="form-control" name="seldpto">
-              <option value="" selected="selected">Por favor seleccione</option>
-              @foreach($arraydpto as $pro)
-                  <option value="{{$pro->cod_dpto}}">{{$pro->nom_dpto}}</option>
-              @endforeach
-          </select>
-      </div>
-      <div class="col-sm-3">
-        <label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
-          <select id="selmpio" class="form-control" name="selmpio">
-          </select>
-      </div>
-      <div class="col-sm-3">
-        <label id="labelvda" for="Proceso" class="control-label">Vereda:</label>
-          <select id="selvda" class="form-control" name="selvda">
-          </select>
+      <div class="col-sm-10">
+        <div class="col-sm-4">
+          <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
+            <select id="seldpto" class="form-control" name="seldpto">
+                <option value="" selected="selected">Por favor seleccione</option>
+                @foreach($arraydpto as $pro)
+                    <option value="{{$pro->cod_dpto}}">{{$pro->nom_dpto}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
+            <select id="selmpio" class="form-control" name="selmpio">
+            </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelvda" for="Proceso" class="control-label">Vereda:</label>
+            <select id="selvda" class="form-control" name="selvda">
+            </select>
+        </div>
       </div> 
       <div class="col-sm-1"></div>
     </div>
     <div class="row">
       <br>
       <div class="col-sm-1"></div>
-      <div class="col-sm-10" id="container" style="min-width: 310px; height: 400px; max-width: auto; margin: 0 auto"></div>
+      <div class="col-sm-10">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Procesos por estado</h3>
+          </div>
+          <div class="panel-body">
+            <div id="container"></div>
+          </div>
+        </div>
+      </div>      
+      
       <div class="col-sm-1"></div>
     </div>
   <br/>
@@ -87,7 +103,7 @@
   $(function(){
     $('#container').highcharts({
       chart:{type:'column'},
-      title:{text:'Procesos por estado'},
+      title:{text:''},
       subtitle:{text:'Resultados Nacionales'},
       xAxis:{
         categories:[
@@ -150,7 +166,7 @@
             });
             $('#container').highcharts({
               chart:{type:'column'},
-              title:{text:'Procesos por estado'},
+              title:{text:''},
               subtitle:{text:'Resultados por departamento'},
               xAxis:{
                 categories:[
@@ -198,7 +214,7 @@
           });
           $('#container').highcharts({
             chart:{type:'column'},
-            title:{text:'Procesos por estado'},
+            title:{text:''},
             subtitle:{text:'Resultados por departamento'},
             xAxis:{
               categories:[
@@ -242,7 +258,7 @@
             //console.log(valores)
             $('#container').highcharts({
             chart:{type:'column'},
-            title:{text:'Procesos por estado'},
+            title:{text:''},
             subtitle:{text:'Resultados por municipio'},
             xAxis:{
               categories:[
@@ -289,7 +305,7 @@
             //console.log(valores)
             $('#container').highcharts({
             chart:{type:'column'},
-            title:{text:'Procesos por estado'},
+            title:{text:''},
             subtitle:{text:'Resultados por municipio'},
             xAxis:{
               categories:[
@@ -325,7 +341,7 @@
           success:function(data){
             $('#container').highcharts({
             chart:{type:'column'},
-            title:{text:'Procesos por estado'},
+            title:{text:''},
             subtitle:{text:'Resultados por vereda'},
             xAxis:{
               categories:[

@@ -65,15 +65,16 @@
   @parent  
 <!--tercer contenedor pie de página-->
   <div class="container" id="sha">
-    <div id="btimpr"class="row">
+    <div id="btimpr"class="row" style="display: none">
       <br>
       <div class="col-sm-1">
       </div>
       <button title="Imprimir" type="button" class="btn btn-primary">Imprimir</button>
     </div>
+    <br>
     <div class="row">
       <br>
-      <p class="lead text-center">PROCESOS DE FORMALIZACIÓN DE TIERRAS</p>
+      <p class="lead text-center">DISTRIBUCIÓN DE PROCESOS POR RUTA DE FORMALIZACIÓN</p>
     </div>
     <div class="row">
 <!--aca se escribe el codigo-->
@@ -108,14 +109,22 @@
       </div>
       <div class="col-sm-10">
         <h2 id="title_reporte" style="text-align: center;">Reporte Nacional</h2>
-        <div class="col-sm-4">
-          <br><br>
-          <p id="nota" class="lead text-justify">A la fecha del reporte se encuentran {{$numpro}} procesos, ditribuidos como los presenta la gráfica 1.1.</p>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Procesos por concepto jurídico</h3>
+          </div>
+          <div class="panel-body">
+            <div class="col-sm-4">
+              <br><br>
+              <p id="nota" class="lead text-justify">A la fecha del reporte se encuentran {{$numpro}} procesos, ditribuidos como los presenta la gráfica 1.1.</p>
+            </div>
+            <div class="col-sm-8">
+              <div id="container" style="min-width: 310px; height: 350px; max-width: 600px; margin: 0 auto"></div>
+              <p class="text-center">Gráfica 1.1</p>
+            </div>
+          </div>
         </div>
-        <div class="col-sm-8">
-          <div id="container" style="min-width: 310px; height: 350px; max-width: 600px; margin: 0 auto"></div>
-          <p class="text-center">Gráfica 1.1</p>
-        </div>
+        
       </div>
       <div class="col-sm-1">
       </div>
