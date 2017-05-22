@@ -208,19 +208,12 @@
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('js')
   @parent
-   <script src="assets/js/highcharts/highcharts.js"></script>
-  <script src="assets/js/highcharts/highcharts-3d.js"></script>
-  <script src="assets/js/highcharts/exporting.js"></script>
-  <script src="assets/js/highcharts/heatmap.js"></script>
-  <script src="assets/js/highcharts/treemap.js"></script>
-  <script src="assets/js/highcharts/drilldown.js"></script>
-  <script src="assets/js/highcharts/highmaps.js"></script>
-  <script src="assets/js/highcharts/data.js"></script>
-  <script src="assets/js/highcharts/map.js"></script>
-
-
-
-
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+<script src="https://code.highcharts.com/modules/treemap.js"></script>
+<script src="https://code.highcharts.com/maps/modules/drilldown.js"></script>
+<script src="//code.highcharts.com/maps/modules/map.js"></script>
 
   <script>
  
@@ -905,6 +898,8 @@ $.getJSON('assets/geojson/SISCADI/SISCADI_dptos_geo.js', function (geojson) {
       {
         $.ajax({url:"siscadi/siscadimision",type:"POST",data:{mision:$('#selmision').val(),intervencion:$('#selintervencion').val()},dataType:'json',//llama al controlador siscadi/siscadimision que trae los valores necesario para la grafica
           success:function(data1){
+
+            console.log(data1)
             $("#labeldpto").show();
             $("#seldpto").show(); 
             $("#seldpto").empty();

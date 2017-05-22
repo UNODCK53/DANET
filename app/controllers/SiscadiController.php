@@ -759,7 +759,7 @@ class SiscadiController extends BaseController {
 		}
 		//Codigo para  grafica de mision "linea base" mision="p"
 
-		$arraygrafica_p_depto = DB::select(" select bene.COD_DPTO,bene.NOM_DPTO as name,(comite.Comite+Bene.Beneficiarios)as value from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite full join (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join	(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene on comite.COD_DPTO=Bene.COD_DPTO order By bene.NOM_DPTO asc");// arrgelo con los datos de encuestas por departamento 
+		$arraygrafica_p_depto = DB::select(" select bene.COD_DPTO,bene.NOM_DPTO as name,(comite.Comite+Bene.Beneficiarios)as value from  (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo,sum(depto.sum_tipo)  as Comite from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Comite' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as comite full join (select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo ,sum(depto.sum_tipo) as Beneficiarios from DEPARTAMENTOS join	(select MUNICIPIOS.COD_DPTO,muni.tipo,sum(muni.num_tipo)as sum_tipo from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE, ([MODSISCADI_ENCUESTAS].tipo) as tipo,count([MODSISCADI_ENCUESTAS].tipo)as num_tipo FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_VEREDAS.intervencion='".$intervencion."' and  MODSISCADI_ENCUESTAS.mision='p' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios' and MODSISCADI_ENCUESTAS.intervencion='".$intervencion."' and MODSISCADI_ENCUESTAS.piloto='No' group By MODSISCADI_VEREDAS.COD_DANE, [MODSISCADI_ENCUESTAS].tipo) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO, muni.tipo) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.tipo) as Bene on comite.COD_DPTO=Bene.COD_DPTO order By bene.NOM_DPTO asc");// arrgelo con los datos de encuestas por departamento 
 
 		$grafica_p_depto=array();				
 		foreach($arraygrafica_p_depto as $category):// crea arreglo con dos atributos cod_depto, el nombre y encuestas
@@ -2428,56 +2428,88 @@ class SiscadiController extends BaseController {
 
 		//2. Acceso a capacitaciones y/o asistencia técnica
 		
-		$Acceso_cat_a = $Acceso_cat_b = $Acceso_cat_c = 0;	
+		$Acceso_cat_a = $Acceso_cat_b = $Acceso_cat_c = $Acceso_cat_count=0;	
 		for ($i=0; $i < count($estadEBDT); $i++) { 
+			 $Acceso_cat_total=0;
 			if ($estadEBDT[$i]['Acceso_cat_a']==1) {
 				$Acceso_cat_a = 1+$Acceso_cat_a;	
+				$Acceso_cat_total = 1+$Acceso_cat_total;
+				
 			}
 			if ($estadEBDT[$i]['Acceso_cat_b']==1) {
 				$Acceso_cat_b = 1+$Acceso_cat_b;	
+				$Acceso_cat_total = 1+$Acceso_cat_total;
 			}
 			if ($estadEBDT[$i]['Acceso_cat_c']==1) {
-				$Acceso_cat_c = 1+$Acceso_cat_c;	
+				$Acceso_cat_c = 1+$Acceso_cat_c;
+				$Acceso_cat_total = 1+$Acceso_cat_total;	
 			}
-			
+			if ($Acceso_cat_total>0){
+				$Acceso_cat_count = 1+$Acceso_cat_count;	
+			}
 		}
-		$accesocat = array('Asistencia técnica' => round(($Acceso_cat_a/count($estadEBDT))*100), 'Capacitaciones' => round(($Acceso_cat_b/count($estadEBDT))*100), 'Ninguno' => round(($Acceso_cat_c/count($estadEBDT))*100));
+		if ($Acceso_cat_count!=0) {
+		$accesocat = array('Asistencia técnica' => round(($Acceso_cat_a/$Acceso_cat_count)*100), 'Capacitaciones' => round(($Acceso_cat_b/$Acceso_cat_count)*100), 'Ninguno' => round(($Acceso_cat_c/$Acceso_cat_count)*100));
 		ksort($accesocat);
+		}else{
+			$accesocat = array('Asistencia técnica' => 0, 'Capacitaciones' => 0, 'Ninguno' => 0);
+		}
 
 		//3. Venta de productos de las actividades productivas
 
-		$Ventas_a = $Ventas_b = $Ventas_c = $Ventas_d = $Ventas_e = $Ventas_f = $Ventas_g = $Ventas_h = $Ventas_i = 0;	
+		$Ventas_a = $Ventas_b = $Ventas_c = $Ventas_d = $Ventas_e = $Ventas_f = $Ventas_g = $Ventas_h = $Ventas_i =  $Ventas_count=0;	
 		for ($i=0; $i < count($estadEBDT); $i++) { 
+			$Ventas_total=0;
 			if ($estadEBDT[$i]['Ventas_a']==1) {
 				$Ventas_a = 1+$Ventas_a;	
+				$Ventas_total = 1+$Ventas_total;	
 			}
 			if ($estadEBDT[$i]['Ventas_b']==1) {
 				$Ventas_b = 1+$Ventas_b;	
+				$Ventas_total = 1+$Ventas_total;
 			}
 			if ($estadEBDT[$i]['Ventas_c']==1) {
 				$Ventas_c = 1+$Ventas_c;	
+				$Ventas_total = 1+$Ventas_total;
 			}
 			if ($estadEBDT[$i]['Ventas_d']==1) {
 				$Ventas_d = 1+$Ventas_d;	
+				$Ventas_total = 1+$Ventas_total;
 			}
 			if ($estadEBDT[$i]['Ventas_e']==1) {
 				$Ventas_e = 1+$Ventas_e;	
+				$Ventas_total = 1+$Ventas_total;
 			}
 			if ($estadEBDT[$i]['Ventas_f']==1) {
 				$Ventas_f = 1+$Ventas_f;	
+				$Ventas_total = 1+$Ventas_total;
 			}
 			if ($estadEBDT[$i]['Ventas_g']==1) {
 				$Ventas_g = 1+$Ventas_g;	
+				$Ventas_total = 1+$Ventas_total;
 			}
 			if ($estadEBDT[$i]['Ventas_h']==1) {
-				$Ventas_h = 1+$Ventas_h;	
+				$Ventas_h = 1+$Ventas_h;
+				$Ventas_total = 1+$Ventas_total;	
 			}
 			if ($estadEBDT[$i]['Ventas_i']==1) {
 				$Ventas_i = 1+$Ventas_i;	
+				$Ventas_total = 1+$Ventas_total;
+			}
+			if ($Ventas_total>0){
+				$Ventas_count = 1+$Ventas_count;	
 			}
 		}
-		$ventasproduc = array('A su organización productiva' => round(($Ventas_a/count($estadEBDT))*100), 'A otra organización productiva' => round(($Ventas_b/count($estadEBDT))*100), 'A intermediarios' => round(($Ventas_c/count($estadEBDT))*100), 'Al consumidor final' => round(($Ventas_d/count($estadEBDT))*100), 'Comercio al por menor (plaza, galería)' => round(($Ventas_e/count($estadEBDT))*100), 'Otros' => round(($Ventas_f/count($estadEBDT))*100), 'No vende' => round(($Ventas_g/count($estadEBDT))*100), 'Ns/Nr' => round(($Ventas_h/count($estadEBDT))*100), 'NA' => round(($Ventas_i/count($estadEBDT))*100));
+
+		if ($Ventas_count!=0) {
+		$ventasproduc = array('A su organización productiva' => round(($Ventas_a/$Ventas_count)*100), 'A otra organización productiva' => round(($Ventas_b/$Ventas_count)*100), 'A intermediarios' => round(($Ventas_c/$Ventas_count)*100), 'Al consumidor final' => round(($Ventas_d/$Ventas_count)*100), 'Comercio al por menor (plaza, galería)' => round(($Ventas_e/$Ventas_count)*100), 'Otros' => round(($Ventas_f/$Ventas_count)*100), 'No vende' => round(($Ventas_g/$Ventas_count)*100), 'Ns/Nr' => round(($Ventas_h/$Ventas_count)*100), 'NA' => round(($Ventas_i/$Ventas_count)*100));
 		arsort($ventasproduc);
+		}else{
+			$ventasproduc = array('A su organización productiva' => 0, 'A otra organización productiva' => 0, 'A intermediarios' => 0, 'Al consumidor final' => 0, 'Comercio al por menor (plaza, galería)' => 0, 'Otros' => 0, 'No vende' =>0, 'Ns/Nr' => 0, 'NA' => 0);
+		}
+
+
+		
 
 
 
