@@ -113,12 +113,12 @@
             <textarea id="modobsviab" name="modobsviab" class="form-control">{{$pro->obsviabilidad}}</textarea>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label" >Requiere responsable geográfico:</label><br>
+            <label for="Proceso" class="control-label" >Requiere levantamiento topográfico:</label><br>
             <input type="radio" name="modradiorespogeo" id="respogeosi" value="1"> SI
             <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
           </div>
           <div class="form-group" id="respongeo">
-            <label for="Proceso" class="control-label">Responsable geográfico:</label>
+            <label for="Proceso" class="control-label">Topógrafo responsable:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo" >
                 <option value="" selected="selected">Por favor seleccione</option>
                 @foreach($arraydombobox[1] as $geo)
@@ -175,7 +175,7 @@
       </div>
       <hr>
       <blockquote>
-        <p align="justify">Documentos sugeridos para adjuntar al proceso: </p>
+        <h3 class="text-primary">DOCUMENTOS SUGERIDOS PARA EL PROCESO:</h3>
         <p align="justify">
           @foreach($arraydombobox[2] as $docunecesario)
               <?php $encontro=0; ?>
@@ -203,18 +203,20 @@
             @if ($fichacaracta->fichacaract == 0)
             <form role="form" action="tierras/rfichacaract" method="POST" id="formEdit">
               <input type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
-              <button type="submit" title="Presione para generar la ficha al proceso" class="btn btn-primary">Generar ficha de caracterización</button>
+              <button type="submit" title="Presione para generar la ficha al proceso" class="btn btn-primary">Generar ficha de caracterización</button>              
             </form>
             @endif
           @endforeach
         @endif
+        <br>
+        <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Anexar documentos</button>
       </blockquote>
 
       <?php $uno=0; ?>
       <div class="row">
           <div class="col-sm-1"></div>
             <div class="col-sm-10">
-            <h3 class="text-primary">ANEXAR DOCUMENTOS SUGERIDOS PARA EL PROCESO:</h3>
+            
             <form role="form" action="tierras/downloadfile" method="get" id="formEdit">
                   <div class="col-sm-12 form-group">
                     <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}'>
@@ -226,18 +228,22 @@
         @endforeach
                   </div>
             </form>
-            <button id="btndocu" title="Presione para adjuntar documento al proceso" data-target="#docModal"  data-toggle="modal" type="button" class="btn btn-primary">Anexar documentos</button>
+            
             </div>
           <div class="col-sm-1"></div>
         </div>
 
         <hr>
+        <blockquote>
+        <h3 class="text-primary">DOCUMENTOS INDISPENSABLES PARA EL PROCESO:</h3>
+        </blockquote>
       @foreach($arraydombobox[4] as $estadoproceso)
         @if (($estadoproceso->id_estado == 2 )&&($arrayproceso[0]->requiererespgeo == 1))
           @if ($pro->conceptojuridico <= 6)
             <div class="row">
               <div class="col-sm-1"></div>
               <div class="col-sm-10">
+
                   @if($arraydombobox[8])
                   <h3 class="text-primary">LEVANTAMIENTO TOPOGRÁFICO:</h3>
                   <form role="form" action="tierras/downloadfile" method="get" id="formEdit">

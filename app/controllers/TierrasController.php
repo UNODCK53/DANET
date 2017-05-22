@@ -11,7 +11,9 @@ class TierrasController extends BaseController {
 	public function ListadoProini()
 	{
 		$arrayproini = DB::table('Vista pro_ini_con_datgeo')->get();
-		$arrayconcepto = DB::table('MODTIERRAS_CONCEPTO')->get();
+		$arrayconcepto = DB::table('MODTIERRAS_CONCEPTO')
+						->orderBy('concepto')
+						->get();
 		$arrayrespgeografico = DB::table('users')->where('grupo','=',3)->where('level','=',3)->where('estado','=','1')->select('id','name','last_name','grupo','level')->get();
 		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);		
 		return View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arraydombobox' => $arraydombobox));
@@ -209,7 +211,10 @@ class TierrasController extends BaseController {
 	public function ListadoLevtopo()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
-		$arraylevtopo = DB::select('SELECT * FROM MODTIERRAS_PROCESO WHERE requiererespgeo=1 and respgeografico ='.Auth::user()->id.' AND NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESTADO WHERE MODTIERRAS_PROCESO.id_proceso=MODTIERRAS_PROCESTADO.id_proceso AND MODTIERRAS_PROCESTADO.id_estado=2)' );	
+		
+		$arraylevtopo = DB::select('SELECT id_proceso,vereda,NOM_MPIO,MODTIERRAS_VEREDAS.NOM_TERR,nombrepredio,conceptojuridico, nombre, cedula, areapredioformalizada, unidadareaprediofor FROM MODTIERRAS_PROCESO JOIN MODTIERRAS_VEREDAS on MODTIERRAS_VEREDAS.COD_UNODC=MODTIERRAS_PROCESO.vereda WHERE requiererespgeo=1 and respgeografico ='.Auth::user()->id.' AND NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESTADO WHERE MODTIERRAS_PROCESO.id_proceso=MODTIERRAS_PROCESTADO.id_proceso AND MODTIERRAS_PROCESTADO.id_estado=2)');
+
+		
 		//return $arraylevtopo;
 		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo));
 	}
@@ -330,7 +335,7 @@ class TierrasController extends BaseController {
 		$arrayproceso = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->get();
 
 		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3 and estado=1');
-		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO');
+		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO order By concepto');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
 		$arrayprocestado = DB::select("SELECT * FROM MODTIERRAS_PROCESTADO WHERE id_proceso = '".$idpro."'");
 		$arrayprocdocu = DB::select("select PROCDOCUMENTOS.id_proceso as id_proceso, PROCDOCUMENTOS.id_documento as id_documento,MODTIERRAS_DOCUMENTOS.concepto as concepto from ( SELECT id_proceso,id_documento FROM MODTIERRAS_PROCDOCUMENTOS where id_proceso= '".$idpro."') as PROCDOCUMENTOS Inner join MODTIERRAS_DOCUMENTOS on PROCDOCUMENTOS.id_documento=MODTIERRAS_DOCUMENTOS.id_documento");
@@ -339,6 +344,7 @@ class TierrasController extends BaseController {
 		->where ('MODTIERRAS_CONCEPDOCUMENTO.requieredocu','=','1')
 		->join('MODTIERRAS_DOCUMENTOS', 'MODTIERRAS_DOCUMENTOS.id_documento','=','MODTIERRAS_CONCEPDOCUMENTO.id_documento')
 		->select('MODTIERRAS_DOCUMENTOS.id_documento', 'MODTIERRAS_DOCUMENTOS.concepto','MODTIERRAS_DOCUMENTOS.avredocu')
+		->orderBy('MODTIERRAS_DOCUMENTOS.concepto')
 		->get();
 		
 		$path = public_path().'\procesos\\'.$idpro.'\\'.$idpro.'_LT_SHP.rar';
@@ -787,7 +793,11 @@ class TierrasController extends BaseController {
 			if(empty($arraypro2[$i])){$arrayvial2[$i] = 0;}
 				else{$arrayvial2[$i]=(int)$arraypro2[$i][0]->total;}
 		}
-		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')
+				->where('cod_mpio','=',Input::get('mpio'))
+				->select('nombre1','cod_unodc')
+				->orderBy('nombre1')
+				->get();
 		$arrayvial=array($arrayvda,$arrayvial1,$arrayvial2);
 		return Response::json($arrayvial);
 	}
@@ -1068,7 +1078,11 @@ class TierrasController extends BaseController {
 
 	public function postReporprocesosvda()
 	{		
-		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')
+					->where('cod_mpio','=',Input::get('mpio'))
+					->select('nombre1','cod_unodc')
+					->orderBy('nombre1')
+					->get();
 		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
 		->join('MODTIERRAS_CONCEPTO', 'MODTIERRAS_CONCEPTO.id_concepto','=','MODTIERRAS_PROCESO.conceptojuridico')
 		->select('MODTIERRAS_CONCEPTO.subconcepto as name',DB::raw('count(MODTIERRAS_PROCESO.conceptojuridico) as y'))

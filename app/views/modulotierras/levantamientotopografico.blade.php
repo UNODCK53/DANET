@@ -71,6 +71,7 @@
           <thead>
             <tr class="well text-primary ">
               <th class="text-center">Proceso</th>
+              <th class="text-center">Municipio</th>
               <th class="text-center">Vereda</th>
               <th class="text-center">Nombre del predio</th>
               <th class="text-center">Nombre</th>
@@ -83,14 +84,23 @@
             @foreach($arraylevtopo as $pro)
               <tr id="{{$pro->id_proceso}}">
                 <td >{{$pro->id_proceso}}</td>
-                <td >{{$pro->vereda}}</td>
+                <td >{{$pro->NOM_MPIO}}</td>                
+                <td >{{$pro->NOM_TERR}}</td>
                 <td >{{$pro->nombrepredio}}</td>
                 <td >{{$pro->nombre}}</td>
                 <td >{{$pro->cedula}}</td>
                 @if ($pro->areapredioformalizada==NULL)
                 <td >0</td>
                 @elseif ($pro->areapredioformalizada<>NULL)
-                <td >{{(double)$pro->areapredioformalizada}}</td>
+                  @if($pro->unidadareaprediofor==1)
+                  <td >{{(double)$pro->areapredioformalizada}} ha</td>
+                  @elseif($pro->unidadareaprediofor==2)
+                  <td >{{(double)$pro->areapredioformalizada}} fan</td>
+                  @elseif($pro->unidadareaprediofor==3)
+                  <td >{{(double)$pro->areapredioformalizada}} m<sup>2</sup></td>
+                  @else
+                  <td >Ns/Nr</td>
+                  @endif
                 @endif
                 <td hidden>{{$pro->conceptojuridico}}</td>
               </tr>
@@ -131,7 +141,7 @@
           <input id="modconcep" type="hidden" class="form-control" name="modconcep">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="submit" class="btn btn-primary" id="btsumit">Adjuntar Documentos</button>
       </div>
         </form>

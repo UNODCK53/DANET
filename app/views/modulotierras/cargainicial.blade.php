@@ -35,7 +35,7 @@
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
-      <h2 class="text-center text-primary">Carga inicial</h2>          
+      <h2 class="text-center text-primary">Asignación de procesos</h2>          
       <p class="lead text-justify">En esta sección se pueden encontrar todas los procesos que han sido creados en la base de datos a partir de las fichas de caracterización. Para continuar, se requiere que cada uno de los responsables jurídicos se adjudiquen los procesos.</p>
       </div>
       <div class="col-sm-1"></div>
@@ -186,12 +186,12 @@
             <textarea id="modobsviab" name="modobsviab" class="form-control"></textarea>
           </div>
           <div class="form-group">
-            <label for="Proceso" class="control-label" >Requiere responsable Geográfico:</label><br>
+            <label for="Proceso" class="control-label" >Requiere levantamiento topográfico:</label><br>
             <input type="radio" name="modradiorespogeo" id="respogeosi" value="1" checked> SI
             <input type="radio" name="modradiorespogeo" id="respogeono" value="2"> NO<br>
           </div>
           <div class="form-group" id="respongeo">
-            <label for="Proceso" class="control-label">Responsable Geográfico:</label>
+            <label for="Proceso" class="control-label">Topógrafo responsable:</label>
             <select id="modrepogeo" class="form-control" name="modrepogeo" required>
                 <option value="" selected="selected">Por favor seleccione</option>
               @foreach($arraydombobox[1] as $geo)

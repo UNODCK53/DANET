@@ -281,7 +281,7 @@ $menuguardaun=false;
                 <li id="tierrasreporestado"><a href="<?=URL::to('reporte_estado'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
               @endif
               @if($menurepnumpro)
-                <li id="tierrasrepornumproc"><a href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Número de Procesos</a></li>
+                <li id="tierrasrepornumproc"><a href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Concepto Jurídico</a></li>
               @endif
               @if($menureplevtopo)
                 <li id="tierrasreporlevtop"><a href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
@@ -736,7 +736,7 @@ $menuguardaun=false;
                     <li><a id="tierrasreporestadomenupeq" href="<?=URL::to('reporte_estado'); ?>"> <span class="glyphicon glyphicon-ok"></span> Estado</a></li>
                     @endif
                     @if($menurepnumpro)
-                    <li><a id="tierrasrepornumprocmenupeq" href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Número de Procesos</a></li>
+                    <li><a id="tierrasrepornumprocmenupeq" href="<?=URL::to('reporte_numero_proceso'); ?>"> <span class="glyphicon glyphicon-ok"></span> Concepto Jurídico</a></li>
                     @endif
                     @if($menureplevtopo)
                     <li><a id="tierrasreporlevtopmenupeq" href="<?=URL::to('reporte_lavantamiento_topografico'); ?>"> <span class="glyphicon glyphicon-ok"></span> Levantamiento Topográfico</a></li>
