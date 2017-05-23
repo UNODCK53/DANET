@@ -373,6 +373,10 @@
                         <select name="nom_terredi[]" id="nom_terredi" class="form-control" multiple required> 
                           </select>
                       </div>
+                      <div class="form-group" style='display:none'>
+                        
+                        {{Form::select('tipoterredi_comple[]',$arraytipoterr, '', ['multiple'=>'multiple','class' => 'form-control', 'id'=>'tipoterredi_comple'])}}
+                      </div> 
                       <div id="supcate" class="form-group">
                          {{Form::label('edinom_supcatelable','Subcategoría:',['class' => 'control-label'])}}<font color="red">*</font>
                         <select name="edinom_supcate" id="edinom_supcate" class="form-control">
@@ -435,11 +439,11 @@
                       <div class="form-group col-sm-3" style="right-padding: 0;">
                         <div id="edicheckediacta">
                           <input type="radio" name="ediacta" value="1" required> Si
-                          <input type="radio" name="ediacta" value="2"> No
+                          <input type="radio" name="ediacta" value="2" checked="checked" > No
                         </div>
                       </div>
                       <div class="form-group col-sm-6" style="padding: 0;display:none"id= 'div_acta'>
-                        {{ Form::file('actaedi', ['class' => 'form-control', 'id'=>'actaedi','required'=>'true','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
+                        {{ Form::file('actaedi', ['class' => 'form-control', 'id'=>'actaedi','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
                       </div>
                     </div>
                       <div class="form-group">
@@ -1206,14 +1210,14 @@ $("#editipoterr").change(function(){
 
 
 $("#nom_terredi").change(function(){
-      $('[id^=tipoterr_comple-]').remove();
+      $('[id^=tipoterredi_comple-]').remove();
       $("#nom_terredi option:selected").each(function () {
           var $this = $(this);
           
           var input=document.createElement("input");
           input.setAttribute("type", "hidden");
-          input.name="tipoterr_comple[]";
-          input.id="tipoterr_comple-"+$this.val();
+          input.name="tipoterredi_comple[]";
+          input.id="tipoterredi_comple-"+$this.val();
           if ($(this).parent().attr("label")=="Resguardos indígenas:"){
             input.value=1;
           }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
@@ -1222,7 +1226,8 @@ $("#nom_terredi").change(function(){
              input.value=3;
           }
           document.getElementById("ediindi").append(input);
-        });      
+        });    
+
     });
 //##### fin de funciones para editar proyecto ###########
 
@@ -1248,6 +1253,7 @@ $("#nom_terredi").change(function(){
               var num =$('tr', this).context.id;
               $.ajax({url:"artpic/tablaproy",type:"POST",data:{proy:num},dataType:'json',
                   success:function(data){ 
+                    console.log(data)
                     $('[id^=edidiv-]').css("display","none");
                     $("#ID").val(data['arrayproy'][0].ID);
                     $("#ediidproy").val(data['arrayproy'][0].id_proy);
@@ -1261,6 +1267,7 @@ $("#nom_terredi").change(function(){
                          tipoterr.push(datos.toString());
                     });
                     $('#editipoterr').val(tipoterr);
+                    
                     $("#nom_terredi").empty();
                     for (var i = 0; i < Object.keys(data['arratodoterredi']).length; i++) {
                       var OPTGROUP=document.createElement("OPTGROUP");
@@ -1295,6 +1302,22 @@ $("#nom_terredi").change(function(){
                            }
                       });
                     }
+                    $("#nom_terredi option:selected").each(function () {
+                        var $this = $(this);
+                        var input=document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.name="tipoterredi_comple[]";
+                        input.id="tipoterredi_comple-"+$this.val();
+                        if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                          input.value=1;
+                        }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                          input.value=2;
+                        }else{
+                           input.value=3;
+                        }
+                        document.getElementById("ediindi").append(input);
+                      });  
+
                     $("#edinom_supcate").val(data['arrayproy'][0].id_subcat);
                     var selected = $(':selected', $("#edinom_supcate"));
                     var categoria=selected.closest('optgroup').attr('label');

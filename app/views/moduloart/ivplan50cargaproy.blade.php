@@ -101,7 +101,7 @@
                   <h4 class="modal-title" id="myModalLabel">Ficha de proyecto: Plan 51/50</h4>
                 </div>
                 <div class="modal-body">
-                    <form role="form" action="artpic/cargar-proyecto-plan50" method="post" onsubmit="return validar(this)" id="cargarproy" enctype="multipart/form-data" > 
+                    <form role="form" action="artpic/cargar-proyecto-plan50" method="post" id="cargarproy" enctype="multipart/form-data" > 
                       <div class="form-group">
                         <b>Departamento<font color="red">*</font></b>
                         <select required id="depto" name="depto" class="form-control" onchange="filter_municipality()">
@@ -134,7 +134,7 @@
                       </div>
                       <div class="form-group">
                         <b>Nombre del proyecto<font color="red">*</font></b>
-                        <input required id="nombre" name="nombre" type="text" class="form-control" placeholder="Text input">
+                        <input required id="nombre" name="nombre" type="text" class="form-control" placeholder="Ingrese el nombre del proyecto">
                       </div>
                       <div class="form-group">
                         <b>Actores para implementación<font color="red">*</font></b>
@@ -227,12 +227,12 @@
                       </div>
                       <div class="form-group" id="eje-8" style='display:none'>
                          <b>Costo del proyecto<font color="red">*</font></b>
-                        {{ Form::text('cost_proy','', ['class' => 'form-control', 'id'=>'cost_proy','placeholder'=>'$','onchange'=>'precio_change(this)'])}}
+                        {{ Form::text('cost_proy','', ['class' => 'form-control', 'id'=>'cost_proy','placeholder'=>'$','onchange'=>'current(this)'])}}
                       </div>
                       
                       <div class="form-group" id="est-2" style='display:none'>
                          <b>Costo estimado del proyecto<font color="red">*</font></b>
-                        {{ Form::text('cost_esti','', ['class' => 'form-control', 'id'=>'cost_esti','placeholder'=>'$','onchange'=>'precio_change(this)'])}}
+                        {{ Form::text('cost_esti','', ['class' => 'form-control', 'id'=>'cost_esti','placeholder'=>'$','onchange'=>'current(this)'])}}
                       </div>
                       <div class="form-group" >
                         <b>Documento de validación del proyecto</b>
@@ -332,7 +332,7 @@
                       </div> 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                   <button type="submit" class="btn btn-primary">Crear proyecto</button>
                 </div>
                 </form>
@@ -350,7 +350,7 @@
                       <h4 class="modal-title" id="borrar_tittle">Borrar proyecto</h4>
                   </div>
                   <div class="modal-body">
-                  <form role="form" action="artpic/borrar-proyecto-plan50" method="post" id="cargarproy" enctype="multipart/form-data">
+                  <form role="form" action="artpic/borrar-proyecto-plan50" method="post" id="deleteproy" enctype="multipart/form-data">
                    <div class="form-group">
                       <input  id = "deleteproy" name = "deleteproy" class="form-control" type="hidden" ></input>
                       <div class="form-group">
@@ -367,7 +367,7 @@
                     </div>
                   
                   <div class="modal-footer" style="margin-bottom: 5px">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                       <button type="submit" class="btn btn-primary">Borrar proyecto</button>
                   </div>
                   </form>
@@ -418,19 +418,19 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Segumiento del Proyecto </h4>
+                <h4 class="modal-title">Seguimiento del Proyecto </h4>
               </div>
                 <div class="modal-body">
                     <div class="tabbable"> <!-- Only required for left/right tabs -->
                     <ul id="estado_tab" class="nav nav-tabs">
-                    <li><a href="#tab1" data-toggle="tab">Indentificación</a></li>
-                    <li><a href="#tab2" data-toggle="tab">Estructuración</a></li>
-                    <li><a href="#tab3" data-toggle="tab">Ejecución</a></li>
+                    <li><a href="#tab1" >Indentificación</a></li>
+                    <li><a href="#tab2" >Estructuración</a></li>
+                    <li><a href="#tab3" >Ejecución</a></li>
                     </ul>
                   </div>
                     <div class="tab-content">
-                      <div class="tab-pane active" id="tab1">
-                        <form role="form" action="artpic/edi-proy-p50-iden" method="post" enctype="multipart/form-data">
+                      <div class="tab-pane" id="tab1">
+                        <form role="form" action="artpic/edi-proy-p50-iden" method="post" enctype="multipart/form-data" id="edi-form-iden">
                           <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
@@ -541,7 +541,7 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Editar proyecto</button>
                           </div>
                         </form>
@@ -549,7 +549,7 @@
 
 
                       <div class="tab-pane active" id="tab2">
-                        <form role="form" action="artpic/edi-proy-p50-estr" method="post" enctype="multipart/form-data">
+                        <form role="form" action="artpic/edi-proy-p50-estr" method="post" enctype="multipart/form-data" id="edi-form-estr">
                           <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
@@ -664,7 +664,7 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Editar proyecto</button>
                           </div>
                         </form>
@@ -672,7 +672,7 @@
 
 
                     <div class="tab-pane active" id="tab3">
-                        <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data" id="edi_form">
+                        <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data" id="edi-form-eje">
                           <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
@@ -899,7 +899,7 @@
                           </div>
 
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Editar proyecto</button>
                       </div>
                     </form>
@@ -942,6 +942,12 @@
             language: "es",
             autoclose: true,
             todayBtn: "linked"
+          });
+
+          Format = wNumb({
+              prefix: '$ ',
+              decimals: 0,
+              thousand: '.'
           });
 
 
@@ -1040,7 +1046,6 @@
             var ids=$("#nom_terr").val();
             var  text=$('#nom_terr option:selected').text().split(" ");
             $('[id^=pobl-]').remove();
-            $('[id^=tipoterr_comple-]').remove();
             if ($("#estado").val()=="Ejecución"){//crea imput de poblacion beneficiada cuando se cambia al esatdo ejecucion
                 $("#nom_terr option:selected").each(function () {
                   var $this = $(this);
@@ -1051,6 +1056,7 @@
                   Label.innerHTML= "<b>"+$this.text()+"</b>";
                   var input=document.createElement("input");
                   input.setAttribute("type", "number");
+                  input.setAttribute("min", "0");
                   input.className ="form-control";
                   input.id=$this.val();
                   input.name="pob_bene_ter[]";
@@ -1058,18 +1064,7 @@
                   div.append(Label);
                   div.append(input);
                   document.getElementById("label_pobla").append(div);
-                  var input=document.createElement("input");
-                  input.setAttribute("type", "hidden");
-                  input.name="tipoterr_comple[]";
-                  input.id="tipoterr_comple-"+$this.val();
-                  if ($(this).parent().attr("label")=="Resguardos indígenas:"){
-                    input.value=1;
-                  }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
-                    input.value=2;
-                  }else{
-                     input.value=3;
-                  }
-                  document.getElementById("label_pobla").append(input);
+                 
                 });
             }
         }else if($("#estado").val()==''){
@@ -1080,7 +1075,6 @@
           $('[id^=cor-]').css("display","none");
           $('#label_pobla').css("display","none");
           $('[id^=pobl-]').remove();
-          $('[id^=tipoterr_comple-]').remove();
           $('#alcance').prop('required',false);
            $('#alcance2').prop('required',false);
            $('#alcance3').prop('required',false);
@@ -1118,7 +1112,6 @@
           $('[id^=cor-]').css("display","none");
           $('#label_pobla').css("display","none");
           $('[id^=pobl-]').remove();
-          $('[id^=tipoterr_comple-]').remove();
         }else{
            $('#alcance').prop('required',false);
            $('#alcance2').prop('required',true);
@@ -1142,7 +1135,6 @@
           $('[id^=cor-]').css("display","none");
           $('#label_pobla').css("display","none");
           $('[id^=pobl-]').remove();
-          $('[id^=tipoterr_comple-]').remove();
         }
      });
 
@@ -1190,6 +1182,7 @@
               Label.innerHTML= "<b>"+$this.text()+"</b>";
               var input=document.createElement("input");
               input.setAttribute("type", "number");
+              input.setAttribute("min", "0");
               input.className ="form-control";
               input.id=$this.val();
               input.name="pob_bene_ter[]";
@@ -1197,20 +1190,27 @@
               div.append(Label);
               div.append(input);
               document.getElementById("label_pobla").append(div);
-              var input=document.createElement("input");
-              input.setAttribute("type", "hidden");
-              input.name="tipoterr_comple[]";
-              input.id="tipoterr_comple-"+$this.val();
-              if ($(this).parent().attr("label")=="Resguardos indígenas:"){
-                input.value=1;
-              }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
-                input.value=2;
-              }else{
-                 input.value=3;
-              }
-              document.getElementById("label_pobla").append(input);
+              
             });
         }
+          $("#nom_terr option:selected").each(function () {
+          var $this = $(this);
+
+          var input=document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.name="tipoterr_comple[]";
+          input.id="tipoterr_comple-"+$this.val();
+          if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+            input.value=1;
+          }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+            input.value=2;
+          }else{
+             input.value=3;
+          }
+          document.getElementById("cargarproy").append(input);
+        });
+          console.log($('#tipoterr_comple').val())
+        
     });
 
     $('input[type=radio][name=coorde]').change(function() {
@@ -1259,12 +1259,8 @@
 
 
     function current(e){
-        var val=document.getElementById(e.id).value;            
-        var Format = wNumb({
-            prefix: '$ ',
-            decimals: 0,
-            thousand: '.'
-        });        
+      console.log('asd')
+        var val=document.getElementById(e.id).value;          
         val_format=Format.to(Number(val))
         if(val_format==false){
             document.getElementById(e.id).value="";
@@ -1296,7 +1292,7 @@
                 data:{proy: num},
                 dataType:'json',
                 success:function(data){
-
+                  console.log(data)
                     if (data['arrayproy'][0].est_proy=='Ejecución'){
                       $('#estado_tab a[href="#tab3"]').tab('show');
                     }else if(data['arrayproy'][0].est_proy=='Estructuración'){
@@ -1355,8 +1351,24 @@
                            }
                       });
                     }
-                    //$('#nom_terrediiden').val(nameterr);
-                    
+
+
+                    $("#nom_terrediiden option:selected").each(function () {
+                        var $this = $(this);
+                        var input=document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.name="tipoterredi_comple[]";
+                        input.id="tipoterredi_comple-"+$this.val();
+                        if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                          input.value=1;
+                        }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                          input.value=2;
+                        }else{
+                           input.value=3;
+                        }
+                        document.getElementById('edi-form-iden').append(input);
+                      });
+
                     $('#lineaediiden').val(data['arrayproy'][0].linea_proy);
                     $('#entidadediiden').val(data['arrayproy'][0].enti_lider);
                     $('#nombreediiden').val(data['arrayproy'][0].nom_proy);
@@ -1414,7 +1426,21 @@
                            }
                       });
                     }
-                    //$('#nom_terrediestr').val(nameterr);
+                    $("#nom_terrediestr option:selected").each(function () {
+                        var $this = $(this);
+                        var input=document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.name="tipoterredi_comple[]";
+                        input.id="tipoterredi_comple-"+$this.val();
+                        if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                          input.value=1;
+                        }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                          input.value=2;
+                        }else{
+                           input.value=3;
+                        }
+                        document.getElementById('edi-form-estr').append(input);
+                      });
                     $('#lineaediestr').val(data['arrayproy'][0].linea_proy);
                     $('#entidadediestr').val(data['arrayproy'][0].enti_lider);
                     $('#nombreediestr').val(data['arrayproy'][0].nom_proy_2);
@@ -1422,10 +1448,11 @@
                     $('#alcanceediestr').val(data['arrayproy'][0].alcance_2);
                     $('#fecha_inicioediestr').val(data['arrayproy'][0].fecha_inicio);
                     $('#fecha_finalediestr').val(data['arrayproy'][0].fecha_fin);
-                    $('#cost_proyediestr').val(data['arrayproy'][0].costo_estim);
+                    $('#cost_proyediestr').val(Format.to(Number(data['arrayproy'][0].costo_estim)));
                     //fin del formulario de estructuracion
 
                     //inidicio del formulario de ejecucion
+                    
                     $("#ediidproyedieje").val(num);  
                     $("#IDedieje").val(data['arrayproy'][0].ID);   
                     $("#deptoedieje").val(data['arrayproy'][0].cod_depto);              
@@ -1472,6 +1499,21 @@
                            }
                       });
                     }
+                    $("#nom_terredieje option:selected").each(function () {
+                        var $this = $(this);
+                        var input=document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.name="tipoterredi_comple[]";
+                        input.id="tipoterredi_comple-"+$this.val();
+                        if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+                          input.value=1;
+                        }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+                          input.value=2;
+                        }else{
+                           input.value=3;
+                        }
+                        document.getElementById('edi-form-eje').append(input);
+                      });
                     //$('#nom_terredieje').val(nameterr);
                     $('#lineaedieje').val(data['arrayproy'][0].linea_proy);
                     $('#entidadedieje').val(data['arrayproy'][0].enti_lider);
@@ -1484,7 +1526,7 @@
                     $('#pob_beneedieje').val(data['arrayproy'][0].pob_bene);
                     $('#fecha_inicio2edieje').val(data['arrayproy'][0].fecha_inicio_2);
                     $('#fecha_final2edieje').val(data['arrayproy'][0].fecha_fin_2);
-                    $('#cost_proyedieje').val(data['arrayproy'][0].costo_ejec);
+                    $('#cost_proyedieje').val(Format.to(Number(data['arrayproy'][0].costo_ejec)));
                     $("#deletedocedieje").attr('name', num);
                     $("#deletedocediide").attr('name', num);
                     $("#deletedocediest").attr('name', num);
@@ -1500,6 +1542,7 @@
                          $('[id^=docedi]').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
                          $('[id^=docedi]').attr("target", "_blank");
                          $('[id^=docedi]').attr('disabled', false);
+                         $('[id^=docradio2]').attr('checked', 'checked');
                         }
                     
 
@@ -1515,10 +1558,10 @@
                           $("#long_min_iniedieje").prop('required',true); 
                           $("#long_sed_iniedieje").prop('required',true); 
                           if (i==0){
-                           var g2=Math.trunc(coor_ini[i]);
-                           var m2=Math.trunc((parseFloat(coor_ini[i])-parseInt(g2))*60);
-                           var s2=Math.round(((Math.abs((parseFloat(coor_ini[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
-                            $('#long_gra_iniedieje').val(g2);
+                           var g2=Math.trunc(-1*coor_ini[i]);
+                           var m2=Math.trunc((parseFloat(-1*coor_ini[i])-parseInt(g2))*60);
+                           var s2=Math.round(((Math.abs((parseFloat(-1*coor_ini[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
+                            $('#long_gra_iniedieje').val(-1*g2);
                             $('#long_min_iniedieje').val(m2);
                             $('#long_seg_iniedieje').val(s2);
 
@@ -1545,10 +1588,11 @@
                           $("#long_min_finedieje").prop('required',true); 
                           $("#long_sed_finedieje").prop('required',true); 
                           if (i==0){
-                               var g2=Math.trunc(coor_fin[i]);
-                               var m2=Math.trunc((parseFloat(coor_fin[i])-parseInt(g2))*60);
-                               var s2=Math.round(((Math.abs((parseFloat(coor_fin[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
-                                $('#long_gra_finedieje').val(g2);
+
+                               var g2=Math.trunc(-1*coor_fin[i]);
+                               var m2=Math.trunc((parseFloat(-1*coor_fin[i])-parseInt(g2))*60);
+                               var s2=Math.round(((Math.abs((parseFloat(-1*coor_fin[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
+                                $('#long_gra_finedieje').val(-1*g2);
                                 $('#long_min_finedieje').val(m2);
                                 $('#long_seg_finedieje').val(s2);                    
                           }else{
@@ -1565,7 +1609,7 @@
 
 
                      $('[id^=pobl-]').remove();
-                    $('[id^=tipoterr_comple-]').remove();
+                     $('[id^=tipoterr_comple-]').remove();
 
                      $("#nom_terredieje option:selected").each(function () {
                       var $this = $(this);
@@ -1576,6 +1620,7 @@
                       Label.innerHTML= "<b>"+$this.text()+"</b>";
                       var input=document.createElement("input");
                       input.setAttribute("type", "number");
+                      input.setAttribute("min", "0");
                       input.className ="form-control";
                       input.id=$this.val();
                       $.each(data['arraynomter'], function(datos){
@@ -1618,15 +1663,6 @@
         }
     });//Termina tbody
 
-    function precio_change(a) {
-          var total=0;
-           var Format = wNumb({
-              prefix: '$ ',
-              decimals: 0,
-              thousand: '.'
-          }); 
-    }
-
     function borr_crit(e) {
           var id=e.id.substring(6,15);
           $.ajax({url:"artpic/borrar-doc-plan50",type:"POST",data:{proy:e.name},dataType:'json',
@@ -1649,12 +1685,12 @@
          }
 
          if ((e.id.substring(0,9)=='lat_grado') && (e.value<-4 || e.value>=13)){
-         alert("Ingrese un valor entre -4 y 13 grados ");
+         alert("Ingrese un valor entre -3 y 12 grados ");
          e.value="";
          }
 
          if ((e.id.substring(0,8)=='long_gra') && (e.value<-80 || e.value>=-67)){
-         alert("Ingrese un valor entre -80 y -67 grados ");
+         alert("Ingrese un valor entre -79 y -66 grados ");
          e.value="";
          }
 
@@ -1698,6 +1734,29 @@
         });//Termina Ajax
       }
     });
+
+    $("#nom_terrediiden").change(function(){
+      $('[id^=tipoterredi_comple-]').remove();
+      $("#nom_terrediiden option:selected").each(function () {
+          var $this = $(this);
+          
+          var input=document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.name="tipoterredi_comple[]";
+          input.id="tipoterredi_comple-"+$this.val();
+          if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+            input.value=1;
+          }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+            input.value=2;
+          }else{
+             input.value=3;
+          }
+          document.getElementById("edi-form-iden").append(input);
+        });    
+
+    });
+
+//funciones de edicion para el estado de estructutra
   $("#tipoterrediestr").change(function(){
       var tipoterr=$(this).val();
       var nucleo=$("#nucleoediestr2").val();
@@ -1726,6 +1785,29 @@
         });//Termina Ajax
       }
     });
+
+    $("#nom_terrediestr").change(function(){
+      $('[id^=tipoterredi_comple-]').remove();
+      $("#nom_terrediestr option:selected").each(function () {
+          var $this = $(this);
+          
+          var input=document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.name="tipoterredi_comple[]";
+          input.id="tipoterredi_comple-"+$this.val();
+          if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+            input.value=1;
+          }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+            input.value=2;
+          }else{
+             input.value=3;
+          }
+          document.getElementById("edi-form-estr").append(input);
+        });    
+
+    });
+
+//funciones de edicion para el estado de ejecucion
   $("#tipoterredieje").change(function(){
       $('[id^=pobl-]').remove();
       $('[id^=tipoterr_comple-]').remove();
@@ -1756,6 +1838,28 @@
             error:function(){alert('error');}
         });//Termina Ajax
       }
+    });
+
+
+$("#nom_terredieje").change(function(){
+      $('[id^=tipoterredi_comple-]').remove();
+      $("#nom_terredieje option:selected").each(function () {
+          var $this = $(this);
+          
+          var input=document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.name="tipoterredi_comple[]";
+          input.id="tipoterredi_comple-"+$this.val();
+          if ($(this).parent().attr("label")=="Resguardos indígenas:"){
+            input.value=1;
+          }else if($(this).parent().attr("label")=="Consejos cumunitarios:"){
+            input.value=2;
+          }else{
+             input.value=3;
+          }
+          document.getElementById("edi-form-eje").append(input);
+        });    
+
     });
 
     $('input[type=radio][name=coordeedieje]').change(function() {
@@ -1844,6 +1948,7 @@
               Label.innerHTML= "<b>"+$this.text()+"</b>";
               var input=document.createElement("input");
               input.setAttribute("type", "number");
+              input.setAttribute("min", "0");
               input.className ="form-control";
               input.id=$this.val();
               input.name="pob_bene_ter[]";

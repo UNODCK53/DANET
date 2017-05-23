@@ -562,7 +562,7 @@ class ArtpicController extends BaseController {
 					    	array(
 					    		'id_proy' => Input::get('ediidproy'),
 					    		'id_terr' => Input::get('nom_terredi')[$i],
-					    		'tipo_terr'=> Input::get('tipoterr_comple')[$i]
+					    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i]
 
 					    		)
 					    	);
@@ -624,8 +624,8 @@ class ArtpicController extends BaseController {
 			$excel->sheet('Fichas de iniciativas',function($sheet)
 			{
 				$data = array();
-				$results = DB::select("select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario,Veredas 
-from(select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario from(
+				$results = DB::select("select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Consejo_Comunitario,Veredas 
+from(select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Consejo_Comunitario from(
 
 select 
 	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal, Resguardos_Indigenas
@@ -675,7 +675,7 @@ from
 					) as t3) as t4 on t4.id_proy=tabla3.id_proy)as t5
 			left join 
 				(Select t7.id_proy,
-				   Left(t7.t6,Len(t7.t6)-1) As 'Concejo_Comunitario'
+				   Left(t7.t6,Len(t7.t6)-1) As 'Consejo_Comunitario'
 				From
 					(
 						Select distinct ST2.id_proy, 
@@ -870,8 +870,8 @@ from
 			{
 				$data = array();
 				$results = DB::select(
-					"select top 2000 auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario,Veredas 
-from(select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Concejo_Comunitario from(
+					"select top 2000 auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Consejo_Comunitario,Veredas 
+from(select auto,ID,Nombre_iniciativa,Alcance,Categoria,Subcategoria,Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,Responsable,Departamento,Municipio,nucleo_veredal, Resguardos_Indigenas,Consejo_Comunitario from(
 
 select 
 	tabla3.id_proy as auto,ID,Nombre_iniciativa,Alcance,cate as Categoria,subcategoria as Subcategoria,intervencion as Intervencion,Estado_iniciativa,Precio_Estimado,Valor_cofinanciado,ranking as Ranking,Fecha_priorizacion,Estado_validacion,Observaciones,usuario as Responsable,NOM_DPTO as Departamento,NOM_MPIO_1 as Municipio,nucleo_veredal, Resguardos_Indigenas
@@ -921,7 +921,7 @@ from
 					) as t3) as t4 on t4.id_proy=tabla3.id_proy)as t5
 			left join 
 				(Select t7.id_proy,
-				   Left(t7.t6,Len(t7.t6)-1) As 'Concejo_Comunitario'
+				   Left(t7.t6,Len(t7.t6)-1) As 'Consejo_Comunitario'
 				From
 					(
 						Select distinct ST2.id_proy, 
@@ -1406,6 +1406,12 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		}else {
 			$cost_proy=Input::get('cost_proy');
 		}
+		if (empty(Input::get('pob_bene_ter'))) {
+			$sum_pobla=null;
+		}else {
+			$sum_pobla=array_sum(Input::get('pob_bene_ter'));
+		}
+		
 
 		if(Input::get('estado')=="Ejecución"){
 			$fecha1=Input::get('fecha_inicio2');
@@ -1478,11 +1484,11 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    		'avance_pres' =>  Input::get('ava_presu'),
 		    		'alcance_2' => $alcance,
 		    		'alcance_3' => $alcance,
-		    		'pob_bene' => array_sum(Input::get('pob_bene_ter')) ,
+		    		'pob_bene' => $sum_pobla ,
 		    		'avance_prod' => $ava_product,
 		    		'longitud' => $long,
-		    		'costo_estim' =>$costo,
-		    		'costo_ejec' =>$costo,
+		    		'costo_estim' =>preg_replace("/[. $]/","",$costo),
+		    		'costo_ejec' =>preg_replace("/[. $]/","",$costo),
 		    		'coord_ini' =>$coor_ini,
 		    		'coord_fin' =>$coor_fin,
 		    		//'created_at' => $fecha,
@@ -1679,7 +1685,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					    	array(
 					    		'id_proy' => $id,
 					    		'id_terr' => Input::get('nom_terrediiden')[$i],
-					    		'tipo_terr'=> Input::get('tipoterrediiden')[$i]
+					    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i]
 
 					    		)
 					    	);
@@ -1752,7 +1758,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					    	array(
 					    		'id_proy' => $id,
 					    		'id_terr' => Input::get('nom_terrediestr')[$i],
-					    		'tipo_terr'=> Input::get('tipoterrediestr')[$i]
+					    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i]
 
 					    		)
 					    	);
@@ -1861,7 +1867,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					    	array(
 					    		'id_proy' => $id,
 					    		'id_terr' => Input::get('nom_terredieje')[$i],
-					    		'tipo_terr'=> Input::get('tipoterr_comple')[$i],
+					    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i],
 					    		'pobla'=> Input::get('pob_bene_ter')[$i]
 
 					    		)
@@ -2013,9 +2019,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			{
 				$data = array();
 				$results = DB::select(
-					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Concejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin
+					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Consejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin
 from 
-	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas,Concejo_Comunitario
+	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas,Consejo_Comunitario
 		from (select auto,ID,Departamento,Municipios,COD_DANE,usuario,nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas
 			from (select 
 				OBJECTID as auto,concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID,MUNICIPIOS.NOM_DPTO  as Departamento,MUNICIPIOS.NOM_MPIO_1 as Municipios,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario ,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nom_proy_identi,nom_proy_2 as Nom_proy_estruct,nom_proy_3 as Nom_proy_ejecuci,enti_lider as Actores_para_implementacion,linea_proy as Linea_del_proyecto,alcance as Alcance_en_identi,alcance_2 as Alcance_en_estruct,alcance_3 as Alcance_en_ejecuci,est_proy as Estado_actual,CONVERT(VARCHAR,fecha_inicio,103) as Fecha_estimada_ejecucion,CONVERT(VARCHAR,fecha_fin,103) as Fecha_estimada_finalizacion,CONVERT(VARCHAR,fecha_inicio_2,103) as Fecha_de_ejecucion,CONVERT(VARCHAR,fecha_fin_2,103) as Fecha_finalizacion,avance_pres as Avance_presupuestal,avance_prod as Avance_del_producto,costo_estim as Costo_estimado,costo_ejec as Costo_final,longitud as Longitud_tramo,coord_ini,coord_fin,pob_bene as Poblacion_beneficiada 
@@ -2050,7 +2056,7 @@ from
 					) as t3) as t4 on t4.id_proy=t1.auto)as t5
 			left join 
 				(Select t7.id_proy,
-				   Left(t7.t6,Len(t7.t6)-1) As 'Concejo_Comunitario'
+				   Left(t7.t6,Len(t7.t6)-1) As 'Consejo_Comunitario'
 				From
 					(
 						Select distinct ST2.id_proy, 

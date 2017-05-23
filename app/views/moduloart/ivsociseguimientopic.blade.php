@@ -486,7 +486,7 @@
                        $("#viable").prop('disabled', false);
                        $('#viabilizar_tittle').text("¿Desea validar el proyecto PIC_"+nucleo+num+"?");
                        $('#id_proy_viab').val(num);
-                       if (valor>=450000000){
+                       if (valor>450000000){
                         $("#viable").prop('disabled', true);
                         $("#alert").css("display","block");
                         $('#alert').html("<strong>Alerta!</strong> Éste proyecto no puede validarse porque con él se supera los 450 millones del núcleo veredal "+ nucleo_nom);
