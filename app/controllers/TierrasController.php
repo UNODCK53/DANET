@@ -1087,8 +1087,55 @@ class TierrasController extends BaseController {
 		->select('genero',DB::raw('count(*) as y, genero'))
 		->groupBy('genero')
 		->get();
-		return View::make('modulotierras.reporgenero', array('arraygen' => $arraygen));
+		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
+		->select('nom_dpto','cod_dpto')
+		->groupBy('nom_dpto','cod_dpto')
+		->get();
+		return View::make('modulotierras.reporgenero',array('arraydpto' => $arraydpto), array('arraygen' => $arraygen));
 	}
+
+	public function postReporgenerompio()
+	{	
+		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
+
+		$arraygen=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+		->get();
+		
+		$arrayvial=array($arraympio, $arraygen);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporgenerovda()
+	{	
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+
+		$arraygen=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+		->get();
+		
+		$arrayvial=array($arrayvda, $arraygen);
+		return Response::json($arrayvial);
+	}
+
+	public function postReporgenerovdadet()
+	{			
+
+		$arraygen=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+		->get();
+		
+		$arrayvial=array($arraygen);
+		return Response::json($arrayvial);
+	}
+
+
 	public function Reportiempo()
 	{		
 		$arraytiempo=DB::table('MODTIERRAS_PROCESO')
@@ -1304,6 +1351,8 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvda, $arrayrlt, $arrayrlt_ok, $arraylt);
 		return Response::json($arrayvial);
 	}
+
+
 
 	
 }
