@@ -37,33 +37,47 @@
     <br>
     <div class="row">
       <br>
-      <p class="lead text-center">DISTRIBUCIÓN DE PROCESOS POR ÁREA LEVANTADA</p>
+      <p class="lead text-center">RELACIÓN DE ÁREA FORMALIZADA</p>
     </div>
       <div class="col-sm-1"></div>
-      <div class="col-sm-3">
-        <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
-          <select id="seldpto" class="form-control" name="seldpto">
-              <option value="" selected="selected">Por favor seleccione</option>
-              @foreach($arraydpto as $pro)
-                  <option value="{{$pro->cod_dpto}}">{{$pro->nom_dpto}}</option>
-              @endforeach
-          </select>
-      </div>
-      <div class="col-sm-3">
-        <label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
-          <select id="selmpio" class="form-control" name="selmpio">
-          </select>
-      </div>
-      <div class="col-sm-3">
-        <label id="labelvda" for="Proceso" class="control-label">Vereda:</label>
-          <select id="selvda" class="form-control" name="selvda">
-          </select>
+      <div class="col-sm-10">
+        <div class="col-sm-4">
+          <label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
+            <select id="seldpto" class="form-control" name="seldpto">
+                <option value="" selected="selected">Por favor seleccione</option>
+                @foreach($arraydpto as $pro)
+                    <option value="{{$pro->cod_dpto}}">{{$pro->nom_dpto}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
+            <select id="selmpio" class="form-control" name="selmpio">
+            </select>
+        </div>
+        <div class="col-sm-4">
+          <label id="labelvda" for="Proceso" class="control-label">Vereda:</label>
+            <select id="selvda" class="form-control" name="selvda">
+            </select>
+        </div>
       </div> 
       <div class="col-sm-1"></div>
     </div>
     <div class="row">
       <br>
-      <div id="container" style="min-width: 400px; height: 400px; max-width: 650px; margin: 0 auto"></div>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Área Preliminar - Área Formalizada</h3>
+          </div>
+          <div class="panel-body">
+            <div id="container"></div>
+          </div>
+        </div>
+      </div>      
+      
+      <div class="col-sm-1"></div>
     </div>
 <br/>
 <!--fin del codigo-->    
@@ -84,6 +98,11 @@
 <script src="assets/js/highcharts/highcharts.js"></script>
 <script src="assets/js/highcharts/exporting.js"></script>
     <script>
+    var ha={{json_encode($arraytotal[0])}}
+    var fa={{json_encode($arraytotal[1])}}
+    var m={{json_encode($arraytotal[2])}}
+    var preliminar=ha[0].area_p+(fa[0].area_p*0.644)+(m[0].area_p*0.0001)
+    var formalizada=ha[0].area_f+(fa[0].area_f*0.644)+(m[0].area_f*0.0001)
     $(function(){
       $('#container').highcharts({
         chart: {
@@ -94,7 +113,7 @@
         },
         xAxis: {
             categories: [
-                'Predios con levantamieto topográfico',
+                '<b>Formalización de tierras</b>',
             ]
         },
         yAxis: [{
@@ -107,7 +126,9 @@
             shadow: false
         },
         tooltip: {
-            shared: true
+            shared: true,
+            pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.0f} Ha</b></td></tr><br>',
         },
         plotOptions: {
             column: {
@@ -117,15 +138,15 @@
             }
         },
         series: [{
-            name: 'Área preliminar',
+            name: 'Área Preliminar',
             color: 'rgba(124,181,236,1)',
-            data: [{{$arraytotal[0]}}],
+            data: [Number(preliminar)],
             pointPadding: 0.3,
             
         }, {
             name: 'Área Formalizada',
             color: 'rgba(22,88,154,0.9)',
-            data: [{{$arraytotal[1]}}],
+            data: [Number(formalizada)],
             pointPadding: 0.4,       
         }]
       });  
@@ -158,28 +179,57 @@
               $.each(data1[0], function(nom,datos){
                 $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
               });
+              var ha=data1[1];
+              var fa=data1[2];
+              var m=data1[3];
+              var preliminar=ha[0].area_p+(fa[0].area_p*0.644)+(m[0].area_p*0.0001)
+              var formalizada=ha[0].area_f+(fa[0].area_f*0.644)+(m[0].area_f*0.0001)
               $('#container').highcharts({
-                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                chart: {
+                    type: 'column'
                 },
-                title:{text:'Área formalizada Departamental'},
-                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'
+                title: {
+                    text: ''
                 },
-                plotOptions:{
-                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
-                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                xAxis: {
+                    categories: [
+                        '<b>Formalización de tierras</b>',
+                    ]
+                },
+                yAxis: [{
+                    min: 0,
+                    title: {
+                        text: 'Hectáreas'
                     }
-                  }
+                }],
+                legend: {
+                    shadow: false
                 },
-                series:[{
-                  name:"Área",
-                  colorByPoint: true,
-                  data: [{name: "Área total preliminar",
-                    y: Number(data1[1])},
-                    {name: "Área total formalizada",
-                    y: Number(data1[2])}]
+                tooltip: {
+                    shared: true,
+                    pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} Ha</b></td></tr><br>',
+                },
+                plotOptions: {
+                    column: {
+                        grouping: false,
+                        shadow: false,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Área Preliminar',
+                    color: 'rgba(124,181,236,1)',
+                    data: [Number(preliminar)],
+                    pointPadding: 0.3,
+                    
+                }, {
+                    name: 'Área Formalizada',
+                    color: 'rgba(22,88,154,0.9)',
+                    data: [Number(formalizada)],
+                    pointPadding: 0.4,       
                 }]
-              });//Termina highchart
+              });
             },
             error:function(){alert('error');}
           });//Termina Ajax prueva
@@ -195,32 +245,62 @@
               $("#selmpio").empty();
               $("#selvda").empty();
               $("#selvda").hide();
+              $("#labelvda").hide();
               $("#selmpio").append("<option value=''>Por favor seleccione</option>");
               $.each(data1[0], function(nom,datos){
                 $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
               });
+              var ha=data1[1];
+              var fa=data1[2];
+              var m=data1[3];
+              var preliminar=ha[0].area_p+(fa[0].area_p*0.644)+(m[0].area_p*0.0001)
+              var formalizada=ha[0].area_f+(fa[0].area_f*0.644)+(m[0].area_f*0.0001)
               $('#container').highcharts({
-                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                chart: {
+                    type: 'column'
                 },
-                title:{text:'Área formalizada Departamental'},
-                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'
+                title: {
+                    text: ''
                 },
-                plotOptions:{
-                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
-                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                xAxis: {
+                    categories: [
+                        '<b>Formalización de tierras</b>',
+                    ]
+                },
+                yAxis: [{
+                    min: 0,
+                    title: {
+                        text: 'Hectáreas'
                     }
-                  }
+                }],
+                legend: {
+                    shadow: false
                 },
-                series:[{
-                  name:"Área",
-                  colorByPoint: true,
-                  data: [{name: "Área total preliminar",
-                    y: Number(data1[1])},
-                    {name: "Área total formalizada",
-                    y: Number(data1[2])}]
+                tooltip: {
+                    shared: true,
+                    pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} Ha</b></td></tr><br>',
+                },
+                plotOptions: {
+                    column: {
+                        grouping: false,
+                        shadow: false,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Área Preliminar',
+                    color: 'rgba(124,181,236,1)',
+                    data: [Number(preliminar)],
+                    pointPadding: 0.3,
+                    
+                }, {
+                    name: 'Área Formalizada',
+                    color: 'rgba(22,88,154,0.9)',
+                    data: [Number(formalizada)],
+                    pointPadding: 0.4,       
                 }]
-              });//Termina highchart
+              });
             },
             error:function(){alert('error');}
           });//Termina Ajax prueva
@@ -235,29 +315,57 @@
               [].forEach.call(data[0],function(datos){
                 $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
               });
-              //console.log(valores)
+              var ha=data[1];
+              var fa=data[2];
+              var m=data[3];
+              var preliminar=ha[0].area_p+(fa[0].area_p*0.644)+(m[0].area_p*0.0001)
+              var formalizada=ha[0].area_f+(fa[0].area_f*0.644)+(m[0].area_f*0.0001)
               $('#container').highcharts({
-                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                chart: {
+                    type: 'column'
                 },
-                title:{text:'Área formalizada Municipal'},
-                tooltip:{pointFormat:'{series.name}: <b>{point.percentage:.1f} %</b>'},
-                plotOptions:{
-                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
-                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        '<b>Formalización de tierras</b>',
+                    ]
+                },
+                yAxis: [{
+                    min: 0,
+                    title: {
+                        text: 'Hectáreas'
                     }
-                  }
+                }],
+                legend: {
+                    shadow: false
                 },
-                series:[{
-                  name: "Área",
-                  colorByPoint:true,
-                  data: [{name:"Área total preliminar",
-                    y:Number(data[1]),
-                    selected:true},
-                    {name:"Área total formalizada",
-                    y:Number(data[2])}]
+                tooltip: {
+                    shared: true,
+                    pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} Ha</b></td></tr><br>',
+                },
+                plotOptions: {
+                    column: {
+                        grouping: false,
+                        shadow: false,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Área Preliminar',
+                    color: 'rgba(124,181,236,1)',
+                    data: [Number(preliminar)],
+                    pointPadding: 0.3,
+                    
+                }, {
+                    name: 'Área Formalizada',
+                    color: 'rgba(22,88,154,0.9)',
+                    data: [Number(formalizada)],
+                    pointPadding: 0.4,       
                 }]
-              });//Termina highchart
+              });
             },
             error:function(){alert('error');}
           });//Termina Ajax prueva
@@ -266,38 +374,62 @@
       $("#selvda").change(function(){
         if($('#selvda').val()=='')
         {
-          $.ajax({url:"tierras/reporarealevantadavda",type:"POST",data:{mpio:$('#selmpio').val()},dataType:'json',
-            success:function(data){
-              $("#labelvda").show();
-              $("#selvda").show();
-              $("#selvda").empty();
-              $("#selvda").append("<option value=''>Por favor seleccione</option>");
-              [].forEach.call(data[0],function(datos){
-                $("#selvda").append("<option value=\""+datos.cod_unodc+"\">"+datos.nombre1+"</option>");
+          $.ajax({url:"tierras/reporarealevantadampio",type:"POST",data:{dpto:$('#seldpto').val()},dataType:'json',
+            success:function(data1){
+              $.each(data1[0], function(nom,datos){
+                $("#selmpio").append("<option value=\""+datos.cod_mpio+"\">"+datos.nom_mpio+"</option>");
               });
-              //console.log(valores)
+              var ha=data1[1];
+              var fa=data1[2];
+              var m=data1[3];
+              var preliminar=ha[0].area_p+(fa[0].area_p*0.644)+(m[0].area_p*0.0001)
+              var formalizada=ha[0].area_f+(fa[0].area_f*0.644)+(m[0].area_f*0.0001)
               $('#container').highcharts({
-                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                chart: {
+                    type: 'column'
                 },
-                title:{text:'Área formalizada Municipal'},
-                tooltip:{pointFormat:'{series.name}:<b>{point.percentage:.1f} %</b>'},
-                plotOptions:{
-                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
-                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        '<b>Formalización de tierras</b>',
+                    ]
+                },
+                yAxis: [{
+                    min: 0,
+                    title: {
+                        text: 'Hectáreas'
                     }
-                  }
+                }],
+                legend: {
+                    shadow: false
                 },
-                series:[{
-                  name: "Área",
-                  colorByPoint:true,
-                  data: [{name:"Área total preliminar",
-                    y:Number(data[1]),
-                    selected:true},
-                    {name:"Área total formalizada",
-                    y:Number(data[2])}]
+                tooltip: {
+                    shared: true,
+                    pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} Ha</b></td></tr><br>',
+                },
+                plotOptions: {
+                    column: {
+                        grouping: false,
+                        shadow: false,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Área Preliminar',
+                    color: 'rgba(124,181,236,1)',
+                    data: [Number(preliminar)],
+                    pointPadding: 0.3,
+                    
+                }, {
+                    name: 'Área Formalizada',
+                    color: 'rgba(22,88,154,0.9)',
+                    data: [Number(formalizada)],
+                    pointPadding: 0.4,       
                 }]
-              });//Termina highchart
+              });
             },
             error:function(){alert('error');}
           });//Termina Ajax prueva
@@ -305,28 +437,57 @@
         else{
           $.ajax({url:"tierras/reporarealevantadavdadet",type:"POST",data:{vda:$('#selvda').val()},dataType:'json',
             success:function(data3){
+              var ha=data3[0];
+              var fa=data3[1];
+              var m=data3[2];
+              var preliminar=ha[0].area_p+(fa[0].area_p*0.644)+(m[0].area_p*0.0001)
+              var formalizada=ha[0].area_f+(fa[0].area_f*0.644)+(m[0].area_f*0.0001)
               $('#container').highcharts({
-                chart:{type:'pie',options3d:{enabled:true,alpha:45,beta:0}
+                chart: {
+                    type: 'column'
                 },
-                title:{text:'Área formalizada Veredal'},
-                tooltip:{pointFormat:'{series.name}:<b>{point.percentage:.1f} %</b>'},
-                plotOptions:{
-                  pie:{allowPointSelect:true,cursor:'pointer',depth:35,
-                    dataLabels:{enabled:true,format:'<b>{point.name}</b>: {point.y:.2f} ha',
-                      style:{textShadow:'',color:(Highcharts.theme&&Highcharts.theme.contrastTextColor)||'black'}
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        '<b>Formalización de tierras</b>',
+                    ]
+                },
+                yAxis: [{
+                    min: 0,
+                    title: {
+                        text: 'Hectáreas'
                     }
-                  }
+                }],
+                legend: {
+                    shadow: false
                 },
-                series:[{
-                  name:"Área",
-                  colorByPoint:true,
-                  data:[{name:"Área total preliminar",
-                    y:Number(data3[0]),
-                    selected:true},
-                    {name:"Área total formalizada",
-                    y:Number(data3[1])}]
+                tooltip: {
+                    shared: true,
+                    pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} Ha</b></td></tr><br>',
+                },
+                plotOptions: {
+                    column: {
+                        grouping: false,
+                        shadow: false,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Área Preliminar',
+                    color: 'rgba(124,181,236,1)',
+                    data: [Number(preliminar)],
+                    pointPadding: 0.3,
+                    
+                }, {
+                    name: 'Área Formalizada',
+                    color: 'rgba(22,88,154,0.9)',
+                    data: [Number(formalizada)],
+                    pointPadding: 0.4,       
                 }]
-              });//Termina highchart
+              });
             },
             error:function(){alert('error');}
           });//Termina Ajax prueva

@@ -619,69 +619,123 @@ class TierrasController extends BaseController {
 		->groupBy('nom_dpto','cod_dpto')
 		->get();
 
-		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
-		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('unidadesarea','=',3)->sum('areaprediopreliminar');
-		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
+		$hectareas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',1)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
+					->get();
 
-		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
-		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
-		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
-		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
+		$fanegadas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',2)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
+					->get();
 
-		
-		$arraytotal = array($arrayapp,$arrayapf);
+		$metros=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',3)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
+					->get();
+
+		$arraytotal = array($hectareas,$fanegadas,$metros);
 		//return $arrayapp;
 		return View::make('modulotierras.reporareareportada', array('arraydpto' => $arraydpto), array('arraytotal' => $arraytotal));
 	}
 
 	public function postReporarealevantadampio()
 	{
-		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
-		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
-
-		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
-		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
-		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
-		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
-
 		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->orderBy('nom_mpio','asc')->get();
-		$arrayt=array($arraympio, $arrayapp, $arrayapf);
+
+		$hectareas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',1)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->get();
+
+		$fanegadas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',2)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->get();
+
+		$metros=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',3)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->get();
+
+		$arrayt=array($arraympio, $hectareas,$fanegadas,$metros);
 		return Response::json($arrayt);
 	}
 
 	public function postReporarealevantadavda()
 	{
-		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
-		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',3)->sum('areaprediopreliminar');
-		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
-
-		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
-		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
-		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
-		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
-
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->orderBy('nombre1','asc')->get();
-		$arrayt=array($arrayvda, $arrayapp, $arrayapf);
+
+		$hectareas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',1)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->get();
+
+		$fanegadas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',2)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->get();
+
+		$metros=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',3)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->get();
+
+		$arrayt=array($arrayvda, $hectareas,$fanegadas,$metros);
 		return Response::json($arrayt);
 	}
 
 	public function postReporarealevantadavdadet()
 	{
-		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',1)->sum('areaprediopreliminar');
-		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',3)->sum('areaprediopreliminar');
-		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
+		$hectareas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',1)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+					->get();
 
-		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
-		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
-		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
-		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
+		$fanegadas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',2)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+					->get();
 
-		$arrayt=array($arrayapp, $arrayapf);
+		$metros=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',3)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+					->get();
+
+		$arrayt=array($hectareas,$fanegadas,$metros);
 		return Response::json($arrayt);
 	}
 

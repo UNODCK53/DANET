@@ -160,7 +160,7 @@
                     for(var i = 0; i < data1[1].length; i++){
                       arreglo[i]=[(data1[1][i].name + " " + data1[1][i].last_name),Number(data1[1][i].y)]
                     }
-                    console.log(arreglo)
+                    console.log(data1)
                     $('#container').highcharts({
                         chart: {
                             type: 'pie',
