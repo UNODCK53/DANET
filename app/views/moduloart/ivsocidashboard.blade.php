@@ -314,12 +314,7 @@ input[type="number"] {
               <!--Inicio seccion Indicadores  -->
               <div class="col-xs-6">
                 <h3>Indicadores</h3>
-                Familias caracterizadas
-                <div class="progress">
-                    <div class="progress-bar progress-bar-danger progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                      0%
-                    </div>
-                </div>
+                
                 Obras con proyecto estructurado vs obras priorizadas por la comunidad
                 <div class="progress">
                   <div class="progress-bar progress-bar-warning progress-bar-striped col-xs-12" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
