@@ -692,6 +692,7 @@ class SiscadiController extends BaseController {
 
 		$intervencion = DB::table('MODSISCADI_ENCUESTAS')
 			->max('intervencion');
+		$intervencion = 2014;//para mostar la intervencion 2014 que esta mas completa
 		$mision = DB::table('MODSISCADI_MISION')
 			->select('mision')
 			->get();
@@ -748,6 +749,7 @@ class SiscadiController extends BaseController {
 	{	
 		$intervencion = DB::table('MODSISCADI_ENCUESTAS')
 			->max('intervencion');
+			$intervencion = 2014;//para mostar la intervencion 2014 que esta mas completa
 		$mision = DB::table('MODSISCADI_MISION')
 			->select('mision')
 			->get();

@@ -138,107 +138,44 @@
                       </div>
                       <div class="form-group">
                         <b>Actores para implementación<font color="red">*</font></b>
-                        <select required id="entidad" name="entidad" class="form-control">
-                            <option selected value="">Seleccione una opción</option>
+                        <select required id="entidad" name="entidad[]" class="form-control" multiple>
                             <option value="Alcaldía municipal">Alcaldía municipal</option>
                             <option value="Cabildo Indígena">Cabildo Indígena</option>
                             <option value="Consejo Comunitario">Consejo Comunitario</option>
-                            <option value="Gobernación departamental">Gobernación departamental</option>
                             <option value="Invías">Invías</option>
                             <option value="Junta Acción Comunal">Junta Acción Comunal</option>
-                            <option value="Ministerio de Transporte ">Ministerio de Transporte </option>
                             <option value="Organizaciones comunitarias">Organizaciones comunitarias</option>
                             <option value="Otro">Otro</option>                 
                         </select>
                       </div>
-                      <div class="form-group">
-                        <b>Línea de proyecto<font color="red">*</font></b>
-                        <select required id="linea" name="linea" class="form-control">
-                            <option selected value="">Seleccione una opción</option>
-                            <option value="Mantenimiento períodico">Mantenimiento períodico </option>
-                            <option value="Mantenimiento rutinario">Mantenimiento rutinario</option>
-                            <option value="Obras de arte">Obras de arte</option>
-                            <option value="Placa huella">Placa huella</option> 
-                        </select>
+                      <div class="form-group" id="otro" style='display:none'>
+                        <b>Defina otro actor<font color="red">*</font></b>
+                        <input  id="otro_act" name="otro_act" class="form-control" rows="3"></input>
                       </div>
                       <div class="form-group">
                         <b>Estado del proyecto<font color="red">*</font></b>
-                        <select required id="estado" name="estado" class="form-control">
-                            <option selected value="">Seleccione una opción</option>
-                            <option value="Identificación">Identificación </option>
-                            <option value="Estructuración">Estructuración</option>
-                            <option value="Ejecución">Ejecución</option>                      
+                        <select  id="estado" name="estado" class="form-control" readonly="true" disabled>
+                            <option  value="">Seleccione una opción</option>
+                            <option selected value="Identificación">Identificación </option>
+                            <!-- <option value="Estructuración">Estructuración</option>
+                            <option value="Ejecución">Ejecución</option> -->                   
                         </select>
                       </div>
-                      <div class="form-group" id="inden-1" style='display:none'>
+                      <div class="form-group" id="inden-1" <!--style='display:none'--> 
                         <b>Alcance definido en identificación<font color="red">*</font></b>
                         <textarea  id="alcance" name="alcance" class="form-control" rows="3"></textarea>
                       </div>
-                      <div class="form-group" id="est-1" style='display:none'>
-                        <b>Alcance definido en estructuración<font color="red">*</font></b>
-                        <textarea  id="alcance2" name="alcance2" class="form-control" rows="3"></textarea>
-                      </div>
-                      <div class="form-group" id="fecha-1" style='display:none'>
-                      <b>Fecha estimada para inicio de ejecución<font color="red">*</font></b>
+                      <div class="form-group" id="fecha-1" >
+                      <b>Fecha para la estructción<font color="red">*</font></b>
                         <div class="input-group date" id="datepicker-1">                      
-                          <input  id="fecha_inicio" name="fecha_inicio" type="text" class="form-control"  placeholder="Ingrese la fecha de inicio del proyecto">
+                          <input  id="fecha_inicio" name="fecha_inicio" type="text" class="form-control"  placeholder="Ingrese la fecha para la estructción del proyecto" onchange='fecha_change(this)'>
                           <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                         </div>
-                      </div>
-                      <div class="form-group" id="fecha-2" style='display:none'>
-                        <b>Fecha estimada para final de ejecución<font color="red">*</font></b>
-                        <div class="input-group date" id="datepicker-2">                      
-                          <input  id="fecha_final" name="fecha_final" type="text" class="form-control"  placeholder="Ingrese la fecha de finalización del proyecto">
-                          <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
-                        </div>
-                      </div>
-                      <div class="form-group" id="eje-1" style='display:none'>
-                        <b>Alcance definido en ejecución<font color="red">*</font></b>
-                        <textarea  id="alcance3" name="alcance3" class="form-control" rows="3"></textarea>
-                      </div>
-                      <div class="form-group" id="eje-2">
-                        {{Form::hidden('pob_bene','', ['class' => 'form-control', 'id'=>'pob_bene'])}}
-                      </div>
-                      <div class="form-group" id="eje-3" style='display:none'>
-                        <b>Avance de ejecución presupuestal<font color="red">*</font></b>
-                        {{Form::number('ava_presu','', ['class' => 'form-control', 'id'=>'ava_presu'])}}
-                      </div>
-                      <div class="form-group" id="eje-4" style='display:none'>
-                        <b>Avance físico del proyecto<font color="red">*</font></b>
-                        {{Form::number('ava_product','', ['class' => 'form-control', 'id'=>'ava_product'])}}
-                      </div>
-                      <div class="form-group" id="eje-5" style='display:none'>
-                        <b>Longitud del tramo a intervenir<font color="red">*</font></b>
-                        {{Form::number('long','', ['class' => 'form-control', 'id'=>'long'])}}
-                      </div>
-                       <div class="form-group" id="eje-6" style='display:none'>
-                         <b>Fecha de inicio de la ejecución<font color="red">*</font></b>
-                        <div class="input-group date" id="datepicker-3">                      
-                          <input  id="fecha_inicio2" name="fecha_inicio2" type="text" class="form-control" placeholder="Ingrese la fecha de inicio del proyecto">
-                          <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
-                        </div>
-                      </div>
-                      <div class="form-group" id="eje-7" style='display:none'>
-                        <b>Fecha final de la ejecución<font color="red">*</font></b>
-                        <div class="input-group date" id="datepicker-4">                      
-                          <input  id="fecha_final2" name="fecha_final2" type="text" class="form-control"  placeholder="Ingrese la fecha de finalización del proyecto">
-                          <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
-                        </div>
-                      </div>
-                      <div class="form-group" id="eje-8" style='display:none'>
-                         <b>Costo del proyecto<font color="red">*</font></b>
-                        {{ Form::text('cost_proy','', ['class' => 'form-control', 'id'=>'cost_proy','placeholder'=>'$','onchange'=>'current(this)'])}}
-                      </div>
-                      
-                      <div class="form-group" id="est-2" style='display:none'>
-                         <b>Costo estimado del proyecto<font color="red">*</font></b>
-                        {{ Form::text('cost_esti','', ['class' => 'form-control', 'id'=>'cost_esti','placeholder'=>'$','onchange'=>'current(this)'])}}
                       </div>
                       <div class="form-group" >
                         <b>Documento de validación del proyecto</b>
-                        {{ Form::file('doc', ['class' => 'form-control', 'id'=>'doc','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
+                        {{ Form::file('doc_iden', ['class' => 'form-control', 'id'=>'doc_iden','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
                       </div>
-
                       <div class="checkbox-group" id="cor-1"style='display:none'>
                         <b>Sabe las coordenadas iniciales del tramo?<font color="red">*</font></b>
                         <div class="form-group" id="coorderadio">
@@ -246,90 +183,6 @@
                           <input type="radio" name="coorde" id="coorde2" value="2"> No
                         </div>
                       </div>
-
-                      <div class="form-group"id="datos_coorde_ini" style='display:none'>
-                        <div class="form-group col-sm-6 ">
-                          <div class="form-group col-sm-12 " >
-                          {{Form::label('Latlable_ini','Latitud:',['class' => 'control-label'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Grados:
-                            {{ Form::number('lat_gra_ini','', ['class' => 'form-control', 'id'=>'lat_grado_ini','placeholder'=>'4','onchange'=>'coorden(this)'])}} 
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Minutos:
-                          {{ Form::number('lat_min_ini','', ['class' => 'form-control', 'id'=>'lat_min_ini','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Segundos:
-                          {{ Form::number('lat_seg_ini','', ['class' => 'form-control', 'id'=>'lat_seg_ini','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                          </div>
-                        </div>
-                        <div class=" form-group col-sm-6 " >
-                          <div class="form-group col-sm-12 " >
-                          {{Form::label('Longlable_ini','Longitud:',['class' => 'control-label'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Grados:
-                          {{ Form::number('long_gra_ini','', ['class' => 'form-control', 'id'=>'long_gra_ini','placeholder'=>'-74','onchange'=>'coorden(this)'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                             Minutos:
-                          {{ Form::number('long_min_ini','', ['class' => 'form-control', 'id'=>'long_min_ini','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Segundos:
-                          {{ Form::number('long_seg_ini','', ['class' => 'form-control', 'id'=>'long_seg_ini','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                        </div>
-                        </div>
-                      </div>
-                      <div class="checkbox-group" id="cor-2"style='display:none'>
-                        <b>Sabe las coordenadas finales del tramo?<font color="red">*</font></b>
-                        <div class="form-group" id="coorderadio_fin">
-                          <input type="radio" name="coorde_fin" id="coorde1_fin" value="1" > Si
-                          <input type="radio" name="coorde_fin" id="coorde2_fin" value="2"> No
-                        </div>
-                      </div>
-                      <div class="form-group"id="datos_coorde_fin" style='display:none'>
-                        <div class="form-group col-sm-6 ">
-                          <div class="form-group col-sm-12 " >
-                          {{Form::label('Latlable_fin','Latitud:',['class' => 'control-label'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Grados:
-                            {{ Form::number('lat_gra_fin','', ['class' => 'form-control', 'id'=>'lat_grado_fin','placeholder'=>'4','onchange'=>'coorden(this)'])}} 
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Minutos:
-                          {{ Form::number('lat_min_fin','', ['class' => 'form-control', 'id'=>'lat_min_fin','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Segundos:
-                          {{ Form::number('lat_seg_fin','', ['class' => 'form-control', 'id'=>'lat_seg_fin','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                          </div>
-                        </div>
-                        <div class=" form-group col-sm-6 " >
-                          <div class="form-group col-sm-12 " >
-                          {{Form::label('Longlable_fin','Longitud:',['class' => 'control-label'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Grados:
-                          {{ Form::number('long_gra_fin','', ['class' => 'form-control', 'id'=>'long_gra_fin','placeholder'=>'-74','onchange'=>'coorden(this)'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                             Minutos:
-                          {{ Form::number('long_min_fin','', ['class' => 'form-control', 'id'=>'long_min_fin','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                          </div>
-                          <div class="form-group col-sm-4 " >
-                            Segundos:
-                          {{ Form::number('long_seg_fin','', ['class' => 'form-control', 'id'=>'long_seg_fin','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                        </div>
-                        </div>
-                      </div>
-                      <div id="label_pobla" style='display:none' class="row" >
-                        <b style="padding: 15px;">Ingrese el número de población beneficiada para cada territorio seleccionado:</b>
-                        <br><br>
-                      </div> 
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -352,7 +205,7 @@
                   <div class="modal-body">
                   <form role="form" action="artpic/borrar-proyecto-plan50" method="post" id="deleteproy" enctype="multipart/form-data">
                    <div class="form-group">
-                      <input  id = "deleteproy" name = "deleteproy" class="form-control" type="hidden" ></input>
+                      <input  id = "deleteproycto" name = "deleteproy" class="form-control" type="hidden" ></input>
                       <div class="form-group">
                         <label for="IDdelelabel" class="control-label">ID</label>
                         <input  id = "IDdele" name = "IDdele" class="form-control" type="text" disabled ></input>            
@@ -420,7 +273,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Seguimiento del Proyecto </h4>
               </div>
-                <div class="modal-body">
+                <div class="modal-body" style="max-height: calc(100vh - 210px);overflow-y: auto;">
                     <div class="tabbable"> <!-- Only required for left/right tabs -->
                     <ul id="estado_tab" class="nav nav-tabs">
                     <li><a href="#tab1" >Indentificación</a></li>
@@ -461,8 +314,7 @@
                             <select required id="estadoediiden" name="estadoediiden" class="form-control">
                                 <option selected value="">Seleccione una opción</option>
                                 <option value="Identificación">Identificación </option>
-                                <option value="Estructuración">Estructuración</option>
-                                <option value="Ejecución">Ejecución</option>                      
+                                <option value="Estructuración">Estructuración</option>              
                             </select>
                             </div>
                             <div class="form-group" >
@@ -484,36 +336,23 @@
                             </div>
                             <div class="form-group">
                               <b>Actores para implementación<font color="red">*</font></b>
-                              <select required id="entidadediiden" name="entidadediiden" class="form-control">
-                                  <option selected value="">Seleccione una opción</option>
+                              <select required id="entidadediiden" name="entidadediiden[]" class="form-control" multiple>
                                   <option value="Alcaldía municipal">Alcaldía municipal</option>
                                   <option value="Cabildo Indígena">Cabildo Indígena</option>
                                   <option value="Consejo Comunitario">Consejo Comunitario</option>
-                                  <option value="Gobernación departamental">Gobernación departamental</option>
                                   <option value="Invías">Invías</option>
                                   <option value="Junta Acción Comunal">Junta Acción Comunal</option>
-                                  <option value="Ministerio de Transporte ">Ministerio de Transporte </option>
                                   <option value="Organizaciones comunitarias">Organizaciones comunitarias</option>
                                   <option value="Otro">Otro</option>                 
                               </select>
                             </div>
-                            <div class="form-group">
-                              <b>Línea de proyecto<font color="red">*</font></b>
-                              <select required id="lineaediiden" name="lineaediiden" class="form-control">
-                                  <option selected value="">Seleccione una opción</option>
-                                  <option value="Mantenimiento períodico">Mantenimiento períodico </option>
-                                  <option value="Mantenimiento rutinario">Mantenimiento rutinario</option>
-                                  <option value="Obras de arte">Obras de arte</option>
-                                  <option value="Placa huella">Placa huella</option> 
-                              </select>
+                            <div class="form-group" id="otroediiden" style='display:none'>
+                              <b>Defina otro actor<font color="red">*</font></b>
+                              <input  id="otro_actediiden" name="otro_actediiden" class="form-control" rows="3"></input>
                             </div>
                             <div class="form-group" >
-                              <b>Fecha estimada para inicio de ejecución</b>
+                              <b>Fecha para la estructción</b>
                                {{ Form::text('fecha_inicioediiden', Input::old('fecha_inicioediiden'), ['class' => 'form-control', 'id'=>'fecha_inicioediiden','required'=>'true','readonly'=>'true']) }}
-                            </div>
-                            <div class="form-group" >
-                              <b>Fecha estimada para final de ejecución</b>
-                              {{ Form::text('fecha_finalediiden', Input::old('fecha_finalediiden'), ['class' => 'form-control', 'id'=>'fecha_finalediiden','required'=>'true','readonly'=>'true']) }}
                             </div>
                             <div class="form-group col-sm-12" style="padding: 0;">
                               <div class="col-sm-9">
@@ -521,12 +360,12 @@
                               </div>
                               <div class="col-sm-1" >
                                 <span >
-                                  <a id="docediide" title="Descargar Documento" role="button"></a>
+                                  <a id="docediiden" title="Descargar Documento" role="button"></a>
                                 </span>
                               </div>
                               <div class="col-sm-1" >
                                 <span >
-                                  <a id="deletedocediide" title="Borrar Documento" class="glyphicon glyphicon glyphicon-trash btn btn-default" role="button" onclick="borr_crit(this)"></a>
+                                  <a id="deletedocediiden" title="Borrar Documento" class="glyphicon glyphicon glyphicon-trash btn btn-default" role="button" onclick="borr_crit(this)"></a>
                                 </span>
                               </div>
                             
@@ -603,53 +442,43 @@
                             </div>
                             <div class="form-group">
                               <b>Actores para implementación<font color="red">*</font></b>
-                              <select required id="entidadediestr" name="entidadediestr" class="form-control">
-                                  <option selected value="">Seleccione una opción</option>
+                              <select required id="entidadediestr" name="entidadediestr[]" class="form-control" multiple>
                                   <option value="Alcaldía municipal">Alcaldía municipal</option>
                                   <option value="Cabildo Indígena">Cabildo Indígena</option>
                                   <option value="Consejo Comunitario">Consejo Comunitario</option>
-                                  <option value="Gobernación departamental">Gobernación departamental</option>
                                   <option value="Invías">Invías</option>
                                   <option value="Junta Acción Comunal">Junta Acción Comunal</option>
-                                  <option value="Ministerio de Transporte ">Ministerio de Transporte </option>
                                   <option value="Organizaciones comunitarias">Organizaciones comunitarias</option>
                                   <option value="Otro">Otro</option>                 
                               </select>
                             </div>
-                            <div class="form-group">
-                              <b>Línea de proyecto<font color="red">*</font></b>
-                              <select required id="lineaediestr" name="lineaediestr" class="form-control">
-                                  <option selected value="">Seleccione una opción</option>
-                                  <option value="Mantenimiento períodico">Mantenimiento períodico </option>
-                                  <option value="Mantenimiento rutinario">Mantenimiento rutinario</option>
-                                  <option value="Obras de arte">Obras de arte</option>
-                                  <option value="Placa huella">Placa huella</option> 
-                              </select>
+                            <div class="form-group" id="otroediestr" style='display:none'>
+                              <b>Defina otro actor<font color="red">*</font></b>
+                              <input  id="otro_actediestr" name="otro_actediestr" class="form-control" rows="3"></input>
                             </div>
                             <div class="form-group">
                               <b>Costo Estimado<font color="red">*</font></b>
                               <input required id="cost_proyediestr" name="cost_proyediestr"onchange="current(this)" class="form-control" placeholder="Ingrese el valor del costo estimado" type="text" min="0" step="any"/>
                             </div>
-                            <div class="form-group" >
-                              <b>Fecha estimada para inicio de ejecución</b>
-                               {{ Form::text('fecha_inicioediestr', Input::old('fecha_inicioediestr'), ['class' => 'form-control', 'id'=>'fecha_inicioediestr','required'=>'true','readonly'=>'true']) }}
-                            </div>
-                            <div class="form-group" >
-                              <b>Fecha estimada para final de ejecución</b>
-                              {{ Form::text('fecha_finalediestr', Input::old('fecha_finalediestr'), ['class' => 'form-control', 'id'=>'fecha_finalediestr','required'=>'true','readonly'=>'true']) }}
+                            <div class="form-group">
+                              <b>Fecha de la firma del convenio<font color="red">*</font></b>
+                              <div class="input-group date" id="datepicker-4">                      
+                                <input  required id="fecha_inicioediestr" name="fecha_inicioediestr" type="text" class="form-control" placeholder="Ingrese la fecha de la firma del convenio" onchange='fecha_change(this)'>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
+                              </div>
                             </div>
                             <div class="form-group col-sm-12" style="padding: 0;">
                               <div class="col-sm-9">
-                              <b>Desea cargar o editar el documento de validación del proyecto:</b>
+                              <b>Desea cargar o editar el documento presupuestal del proyecto:</b>
                               </div>
                               <div class="col-sm-1" >
                                 <span >
-                                  <a id="docediest" title="Descargar Documento" role="button"></a>
+                                  <a id="docediestr" title="Descargar Documento" role="button"></a>
                                 </span>
                               </div>
                               <div class="col-sm-1" >
                                 <span >
-                                  <a id="deletedocediest" title="Borrar Documento" class="glyphicon glyphicon glyphicon-trash btn btn-default" role="button" onclick="borr_crit(this)"></a>
+                                  <a id="deletedocediestr" title="Borrar Documento" class="glyphicon glyphicon glyphicon-trash btn btn-default" role="button" onclick="borr_crit(this)"></a>
                                 </span>
                               </div>
                             
@@ -726,28 +555,19 @@
                             </div>
                             <div class="form-group">
                               <b>Actores para implementación<font color="red">*</font></b>
-                              <select required id="entidadedieje" name="entidadedieje" class="form-control">
-                                  <option selected value="">Seleccione una opción</option>
+                              <select required id="entidadediejec" name="entidadedieje[]" class="form-control" multiple>
                                   <option value="Alcaldía municipal">Alcaldía municipal</option>
                                   <option value="Cabildo Indígena">Cabildo Indígena</option>
                                   <option value="Consejo Comunitario">Consejo Comunitario</option>
-                                  <option value="Gobernación departamental">Gobernación departamental</option>
                                   <option value="Invías">Invías</option>
                                   <option value="Junta Acción Comunal">Junta Acción Comunal</option>
-                                  <option value="Ministerio de Transporte ">Ministerio de Transporte </option>
                                   <option value="Organizaciones comunitarias">Organizaciones comunitarias</option>
                                   <option value="Otro">Otro</option>                 
                               </select>
                             </div>
-                            <div class="form-group">
-                              <b>Línea de proyecto<font color="red">*</font></b>
-                              <select required id="lineaedieje" name="lineaedieje" class="form-control">
-                                  <option selected value="">Seleccione una opción</option>
-                                  <option value="Mantenimiento períodico">Mantenimiento períodico </option>
-                                  <option value="Mantenimiento rutinario">Mantenimiento rutinario</option>
-                                  <option value="Obras de arte">Obras de arte</option>
-                                  <option value="Placa huella">Placa huella</option> 
-                              </select>
+                            <div class="form-group" id="otroediejec" style='display:none'>
+                              <b>Defina otro actor<font color="red">*</font></b>
+                              <input  id="otro_actediejec" name="otro_actedieje" class="form-control" rows="3"></input>
                             </div>
                             <div class="form-group">
                               {{Form::hidden ('pob_beneedieje','', ['class' => 'form-control', 'id'=>'pob_beneedieje'])}}
@@ -760,21 +580,17 @@
                               <b>Avance físico del proyecto<font color="red">*</font></b>
                               {{Form::number('ava_productedieje','', ['class' => 'form-control', 'id'=>'ava_productedieje','required'=>'true'])}}
                             </div>
-                            <div class="form-group">
-                              <b>Longitud del tramo a intervenir<font color="red">*</font></b>
-                              {{Form::number('longedieje','', ['class' => 'form-control', 'id'=>'longedieje','required'=>'true'])}}
-                            </div>
                              <div class="form-group">
                                <b>Fecha de inicio de la ejecución<font color="red">*</font></b>
                               <div class="input-group date" id="datepicker-5">                      
-                                <input  required id="fecha_inicio2edieje" name="fecha_inicio2edieje" type="text" class="form-control"  placeholder="Ingrese la fecha de inicio del proyecto">
+                                <input  required id="fecha_inicio2edieje" name="fecha_inicio2edieje" type="text" class="form-control"  placeholder="Ingrese la fecha de inicio del proyecto" onchange='fecha_change(this)'>
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                               </div>
                             </div>
                             <div class="form-group">
                               <b>Fecha final de la ejecución<font color="red">*</font></b>
                               <div class="input-group date" id="datepicker-6">                      
-                                <input  required id="fecha_final2edieje" name="fecha_final2edieje" type="text" class="form-control" placeholder="Ingrese la fecha de finalización del proyecto">
+                                <input  required id="fecha_final2edieje" name="fecha_final2edieje" type="text" class="form-control" placeholder="Ingrese la fecha de finalización del proyecto" onchange='fecha_change(this)'>
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                               </div>
                             </div>
@@ -784,20 +600,18 @@
                             </div>
                             <div class="form-group col-sm-12" style="padding: 0;">
                               <div class="col-sm-9">
-                              <b>Desea cargar o editar el documento de validación del proyecto:</b>
+                              <b>Desea cargar o editar el acta de inicio del proyecto:</b>
                               </div>
                               <div class="col-sm-1" >
                                 <span >
-                                  <a id="docedieje" title="Descargar Documento" role="button"></a>
+                                  <a id="docediejec" title="Descargar Documento" role="button"></a>
                                 </span>
                               </div>
                               <div class="col-sm-1" >
                                 <span >
-                                  <a id="deletedocedieje" title="Borrar Documento" class="glyphicon glyphicon glyphicon-trash btn btn-default" role="button" onclick="borr_crit(this)"></a>
+                                  <a id="deletedocediejec" title="Borrar Documento" class="glyphicon glyphicon glyphicon-trash btn btn-default" role="button" onclick="borr_crit(this)"></a>
                                 </span>
                               </div>
-                            
-
                               <div class="form-group col-sm-4" id="docradioeje">
                                 <input type="radio" name="docradioeje" id="docradio1eje" value="1" required> Si
                                 <input type="radio" name="docradioeje" id="docradio2eje" value="2"> No
@@ -805,98 +619,24 @@
                               <div class="form-group col-sm-8" id="doc_cargaeje" style='display:none'>
                               {{ Form::file('doceje', ['class' => 'form-control', 'id'=>'doceje','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
                             </div>
-                            </div>
-                            <div class="checkbox-group">
-                              <b>Sabe las coordenadas iniciales del tramo?<font color="red">*</font></b>
-                              <div class="form-group" id="coorderadioedieje">
-                                <input type="radio" name="coordeedieje" id="coorde1edieje" value="1" required> Si
-                                <input type="radio" name="coordeedieje" id="coorde2edieje" value="2"> No
-                              </div>
-                            </div>
-                            <div class="form-group"id="datos_coorde_iniedieje" style='display:none'>
-                              <div class="form-group col-sm-6 ">
-                                <div class="form-group col-sm-12 " >
-                                {{Form::label('Latlable_iniedieje','Latitud:',['class' => 'control-label'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Grados:
-                                  {{ Form::number('lat_gra_iniedieje','', ['class' => 'form-control', 'id'=>'lat_grado_iniedieje','placeholder'=>'4','onchange'=>'coorden(this)'])}} 
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Minutos:
-                                {{ Form::number('lat_min_iniedieje','', ['class' => 'form-control', 'id'=>'lat_min_iniedieje','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Segundos:
-                                {{ Form::number('lat_seg_iniedieje','', ['class' => 'form-control', 'id'=>'lat_seg_iniedieje','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                                </div>
-                              </div>
-                              <div class=" form-group col-sm-6 " >
-                                <div class="form-group col-sm-12 " >
-                                {{Form::label('Longlable_iniedieje','Longitud:',['class' => 'control-label'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Grados:
-                                {{ Form::number('long_gra_iniedieje','', ['class' => 'form-control', 'id'=>'long_gra_iniedieje','placeholder'=>'-74','onchange'=>'coorden(this)'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                   Minutos:
-                                {{ Form::number('long_min_iniedieje','', ['class' => 'form-control', 'id'=>'long_min_iniedieje','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Segundos:
-                                {{ Form::number('long_seg_iniedieje','', ['class' => 'form-control', 'id'=>'long_seg_iniedieje','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                              </div>
-                              </div>
-                            </div>
-                            <div class="checkbox-group" >
-                              <b>Sabe las coordenadas finales del tramo?<font color="red">*</font></b>
-                              <div class="form-group" id="coorderadio_finedieje">
-                                <input type="radio" name="coorde_finedieje" id="coorde1_finedieje" value="1" required> Si
-                                <input type="radio" name="coorde_finedieje" id="coorde2_finedieje" value="2"> No
-                              </div>
-                            </div>
-                            <div class="form-group"id="datos_coorde_finedieje" style='display:none'>
-                              <div class="form-group col-sm-6 ">
-                                <div class="form-group col-sm-12 " >
-                                {{Form::label('Latlable_finedieje','Latitud:',['class' => 'control-label'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Grados:
-                                  {{ Form::number('lat_gra_finedieje','', ['class' => 'form-control', 'id'=>'lat_grado_finedieje','placeholder'=>'4','onchange'=>'coorden(this)'])}} 
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Minutos:
-                                {{ Form::number('lat_min_finedieje','', ['class' => 'form-control', 'id'=>'lat_min_finedieje','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Segundos:
-                                {{ Form::number('lat_seg_finedieje','', ['class' => 'form-control', 'id'=>'lat_seg_finedieje','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                                </div>
-                              </div>
-                              <div class=" form-group col-sm-6 " >
-                                <div class="form-group col-sm-12 " >
-                                {{Form::label('Longlable_finedieje','Longitud:',['class' => 'control-label'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Grados:
-                                {{ Form::number('long_gra_finedieje','', ['class' => 'form-control', 'id'=>'long_gra_finedieje','placeholder'=>'-74','onchange'=>'coorden(this)'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                   Minutos:
-                                {{ Form::number('long_min_finedieje','', ['class' => 'form-control', 'id'=>'long_min_finedieje','placeholder'=>'35','onchange'=>'coorden(this)'])}}
-                                </div>
-                                <div class="form-group col-sm-4 " >
-                                  Segundos:
-                                {{ Form::number('long_seg_finedieje','', ['class' => 'form-control', 'id'=>'long_seg_finedieje','placeholder'=>'40','onchange'=>'coorden(this)'])}}
-                              </div>
-                              </div>
-                            </div>
+                             </div> 
                             <div class="row" id="label_pobla-eje" >
                               <b style="padding: 15px;" >Ingrese el número de población beneficiada para cada territorio seleccionado:</b>
                               <br><br>
                             </div> 
-                          </div>
+
+                            <div class="form-group">
+                              <b>Seleccione el numero de tramos a intervenir:<font color="red">*</font></b>
+                              <select name="tramo" id="tramo" class="form-control" required > 
+                                <option value="">Seleccione uno </option>
+                                <?php for ($i=1; $i <=10 ; $i++) { ?>
+                                <option value=<?php echo $i; ?>><?php echo $i; ?></option>
+                                <?php } ?>
+                                </select>
+                            </div>
+                            <div class="row" id="tramos" >
+                            </div> 
+                          
 
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -1005,6 +745,92 @@
         });//Termina Ajax prueva
      
     });//Termina chage 
+    var alerta=0;
+    function fecha_change(a) {
+          
+          switch(a.id.substr(-1)) {
+              case '2':
+                  if ($('#fecha_inicio2').val()!='' && $('#fecha_final2').val()!='' ){
+                    var fecha1=new Date($('#fecha_inicio2').val().split('/')[2], $('#fecha_inicio2').val().split('/')[1] - 1, $('#fecha_inicio2').val().split('/')[0]);
+                    var fecha2=new Date($('#fecha_final2').val().split('/')[2], $('#fecha_final2').val().split('/')[1] - 1, $('#fecha_final2').val().split('/')[0]);
+                    if(fecha1 > fecha2){
+                      alert('La fecha de inicio es mayor a la fecha final');
+                      $(a).val('');
+                    }
+                  }
+
+                  break;
+
+              case 'e':
+                  if ($('#fecha_inicio2edieje').val()!='' && $('#fecha_final2edieje').val()!='' ){
+                    var fecha1=new Date($('#fecha_inicio2edieje').val().split('/')[2], $('#fecha_inicio2edieje').val().split('/')[1] - 1, $('#fecha_inicio2edieje').val().split('/')[0]);
+                    var fecha2=new Date($('#fecha_final2edieje').val().split('/')[2], $('#fecha_final2edieje').val().split('/')[1] - 1, $('#fecha_final2edieje').val().split('/')[0]);
+                    if(fecha1 > fecha2){
+                      alert('La fecha de inicio es mayor a la fecha final');
+                      $(a).val('');
+                    }
+                  }
+
+                  break;
+              
+              default:
+                  if ($('#fecha_inicio').val()!='' && $('#fecha_final').val()!='' ){
+                    var fecha1=new Date($('#fecha_inicio').val().split('/')[2], $('#fecha_inicio').val().split('/')[1] - 1, $('#fecha_inicio').val().split('/')[0]);
+                    var fecha2=new Date($('#fecha_final').val().split('/')[2], $('#fecha_final').val().split('/')[1] - 1, $('#fecha_final').val().split('/')[0]);
+                    if(fecha1 > fecha2){
+                      alert('La fecha de inicio es mayor a la fecha final');
+                      $(a).val('');
+                    }
+                  }
+          }
+
+          var today = new Date();
+          if (a.id=='fecha_inicio2' || a.id=='fecha_inicio2edieje' || a.id=='fecha_inicio'){
+             var select=new Date(a.value.split('/')[2], a.value.split('/')[1] - 1, a.value.split('/')[0]);
+             var fecha="20/02/2017";
+             var fecha_antes=new Date(fecha.split('/')[2], fecha.split('/')[1] - 1, fecha.split('/')[0]);
+            if (select>today || select<fecha_antes){
+                alerta=alerta+1;console.log(alerta);
+            }
+          }
+
+          if (alerta==3) {
+            alert('Debe seleccionar una fecha entre el 20/02/2017 y el día de hoy');
+            alerta=0;
+            $(a).val('');
+          };
+        }
+
+
+    $("#entidad").change(function(){
+        $('#entidad :selected').each(function(i, selected){ 
+        if($(selected).text()=='Otro'){
+          $("#otro").css("display","block");
+          $("#otro_act").prop('required',true);
+        }else{
+          $("#otro").css("display","none");
+          $("#otro_act").prop('required',false);
+        }
+      }); 
+    });
+
+    $('[id^=entidadedi]').change(function(){
+      var enti=$(this).attr("id").substr(-7);
+       var e=0;
+        $('#entidadedi'+$(this).attr("id").substr(-4)+' :selected').each(function(i, selected){ 
+          console.log($(selected).text())
+          if($(selected).text()=='Otro'){
+            e=1;
+          }
+        }); 
+        if(e==1){
+          $("#otro"+enti).css("display","block");
+            $("#otro_act"+enti).prop('required',true);
+          }else{
+            $("#otro"+enti).css("display","none");
+            $("#otro_act"+enti).prop('required',false);
+          }
+    });     
 
 
     $("#nucleo").change(function(){
@@ -1259,7 +1085,6 @@
 
 
     function current(e){
-      console.log('asd')
         var val=document.getElementById(e.id).value;          
         val_format=Format.to(Number(val))
         if(val_format==false){
@@ -1269,6 +1094,370 @@
             document.getElementById(e.id).value=val_format;                
         } 
     } 
+
+    $("#tramo").change(function() {//funcion que crea n tramos con sus respectivos inputs de linea de trabajo y coordenandas
+        $('[id^=tramo-]').remove();
+        var opciones=['Seleccione una opción','Mantenimiento períodico','Mantenimiento rutinario','Obras de arte','Placa huella'];
+        for (var i = 1; i <= $("#tramo").val(); i++) {//crea input de poblacion beneficiada cuando se cambian los territorios
+          //inicio de ciclo para crear los inputs de cada tramo
+              var divmayor = document.createElement("div");//div q contiene todos los input de un tramo
+                  divmayor.className ="form-group col-sm-12";
+                  divmayor.id ="tramo-"+i;
+                  var Label = document.createElement("label");
+                  Label.innerHTML= "<h4> Tramo "+i+"</h4>";
+                  Label.style="margin:0px";
+                  Label.className ="text-center text-primary";
+                  divmayor.append(Label);
+                  divmayor.append(document.createElement('br'));
+                  divmayor.append(document.createElement('br'));
+
+              var div = document.createElement("div");//div que contiene el nombre del tramo y la liean del proryecto
+                  div.className ="form-group col-sm-6";
+                      var Label1 = document.createElement("label");
+                      Label1.innerHTML= "<b>Línea de proyecto<font color='red'>*</font></b>";
+
+                      //Create and append select list
+                      var selectList = document.createElement("select");//se crea el select con las lineas para el tramo
+                      selectList.id = "linea-"+i;
+                      selectList.name = "lineas[]";
+                      selectList.className ="form-control";
+                      selectList.setAttribute("required","true");
+                      div.appendChild(selectList);
+
+                      //Create and append the options
+                      for (var j = 0; j < opciones.length; j++) {
+                          var option = document.createElement("option");
+                          if(j==0){
+                            option.value = "";
+                          }else{
+                            option.value = opciones[j];
+                          }
+                          option.text = opciones[j];
+                          selectList.appendChild(option);
+                      }
+                      
+                      div.append(Label1);
+                      div.append(selectList);
+                      divmayor.append(div);
+
+              var div = document.createElement("div");//div que contiene el nombre del tramo y la liean del proryecto
+                  div.className ="form-group col-sm-6";
+                      var Label1 = document.createElement("label");
+                      Label1.innerHTML= "<b>Longitud del tramo <font color='red'>*</font></b>";
+
+                      //Create and append select list
+                      var input = document.createElement("input");//se crea el select con las lineas para el tramo
+                      input.id = "longitud-"+i;
+                      input.name = "longitud[]";
+                      input.className ="form-control";
+                      input.setAttribute("required","true");
+                      div.appendChild(input);
+
+                      div.append(Label1);
+                      div.append(input);
+                      divmayor.append(div);
+
+
+              var div = document.createElement("div");//div con el labe de coordenadas iniciales
+                  div.className ="form-group col-sm-12";
+                  var Label = document.createElement("label");
+                  Label.innerHTML= "<b>Coordenadas inicales del tramo "+i+"</b>";
+
+              div.append(Label);
+              divmayor.append(div);
+
+                  var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de latitud  para las cooredenadas iniciales
+                      divini.className ="form-group col-sm-6";
+                      var divlable = document.createElement("div");
+                          divlable.className ="form-group col-sm-12";
+                          divlable.style="margin-bottom:0px";
+                          var lablelat = document.createElement("label");
+                              lablelat.innerHTML= "<b>Latitud</b>";
+                              lablelat.id='Lat_ini'+i;
+                          var divGrado = document.createElement("div");//div de grados
+                              divGrado.className ="form-group col-sm-3";
+                              divGrado.style="padding:1%;";
+                              divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                              var numberGrado = document.createElement("input");
+                                  numberGrado.id='lat_gra_ini'+i;
+                                  numberGrado.name='lat_gra_ini[]';
+                                  numberGrado.className ="form-control";
+                                  numberGrado.setAttribute("type", "number");
+                                  numberGrado.addEventListener("change", coorden);
+                                  numberGrado.setAttribute("title","Grados");
+                          var divmin = document.createElement("div");//div para minutos
+                              divmin.className ="form-group col-sm-3";
+                              divmin.style="padding:1%;";
+                              divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                              var numberMin = document.createElement("input");
+                                  numberMin.id='lat_min_ini'+i;
+                                  numberMin.name='lat_min_ini[]';
+                                  numberMin.className ="form-control";
+                                  numberMin.setAttribute("type", "number");
+                                  numberMin.addEventListener("change", coorden);
+                                  numberMin.setAttribute("title","Minutos");
+                          var divseg = document.createElement("div");//div para segundos
+                              divseg.className ="form-group col-sm-3";
+                              divseg.style="padding:1%;";
+                              divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                              var numberSeg = document.createElement("input");
+                                  numberSeg.id='lat_seg_ini'+i;
+                                  numberSeg.name='lat_seg_ini[]';
+                                  numberSeg.className ="form-control";
+                                  numberSeg.setAttribute("type", "number");
+                                  numberSeg.addEventListener("change", coorden);
+                                  numberSeg.setAttribute("title","Segundos");
+                          var divsigno = document.createElement("div");//div de grados
+                              divsigno.className ="form-group col-sm-2";
+                              divsigno.setAttribute("type", "number");
+                              divsigno.style="margin:0px;padding:0px;margin-top: 19px;display:none";
+                              divsigno.id="sig_lat_ini"+i;
+                              var radio= document.createElement("input");
+                                  radio.style="margin:0px;padding:0px";
+                                  radio.type = "radio";
+                                  radio.name="sig_lat_ini"+i;
+                                  radio.id="sig_lat_N_ini"+i;
+                                  radio.value='1';
+                              var radio2= document.createElement("input");
+                                  radio2.style="margin:0px;padding:0px";
+                                  radio2.type = "radio";
+                                  radio2.name="sig_lat_ini"+i;
+                                  radio2.id="sig_lat_S_ini"+i;
+                                  radio2.value='-1';
+                                  divsigno.append(radio);
+                                  divsigno.append("N");
+                                  divsigno.append(document.createElement('br'));
+                                  divsigno.append(radio2);
+                                  divsigno.append("S");
+
+                  divlable.append(lablelat);
+                  divini.append(divlable);
+
+                  divini.append(divsigno);
+
+                  divGrado.append(numberGrado);
+                  divini.append(divGrado);
+
+                  divmin.append(numberMin);
+                  divini.append(divmin);
+                  divseg.append(numberSeg);
+                  divini.append(divseg);
+
+                  divmayor.append(divini);
+
+                  var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de longitud  para las cooredenadas iniciales
+                      divini.className ="form-group col-sm-6";
+                      var divlable = document.createElement("div");
+                          divlable.className ="form-group col-sm-12";
+                          divlable.style="margin-bottom:0px";
+                          var lablelat = document.createElement("label");
+                              lablelat.innerHTML= "<b>Longitud</b>";
+                              lablelat.id='Lon_ini'+i;
+                          var divGrado = document.createElement("div");//div de grados
+                              divGrado.className ="form-group col-sm-3";
+                              divGrado.style="padding:1%;";
+                              divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                              var numberGrado = document.createElement("input");
+                                  numberGrado.id='lon_gra_ini'+i;
+                                  numberGrado.name='lon_gra_ini[]';
+                                  numberGrado.className ="form-control";
+                                  numberGrado.setAttribute("type", "number");
+                                  numberGrado.addEventListener("change", coorden);
+                                  numberGrado.setAttribute("title","Grados");
+                          var divmin = document.createElement("div");//div para minutos
+                              divmin.className ="form-group col-sm-3";
+                              divmin.style="padding:1%;";
+                              divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                              var numberMin = document.createElement("input");
+                                  numberMin.id='lon_min_ini'+i;
+                                  numberMin.name='lon_min_ini[]';
+                                  numberMin.className ="form-control";
+                                  numberMin.setAttribute("type", "number");
+                                  numberMin.addEventListener("change", coorden);
+                                  numberMin.setAttribute("title","Minutos");
+                          var divseg = document.createElement("div");//div para segundos
+                              divseg.className ="form-group col-sm-3";
+                              divseg.style="padding:1%;";
+                              divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                              var numberSeg = document.createElement("input");
+                                  numberSeg.id='lon_seg_ini'+i;
+                                  numberSeg.name='lon_seg_ini[]';
+                                  numberSeg.className ="form-control";
+                                  numberSeg.setAttribute("type", "number");
+                                  numberSeg.addEventListener("change", coorden);
+                                  numberSeg.setAttribute("title","Segundos");
+
+                  divlable.append(lablelat);
+                  divini.append(divlable);
+
+                  divGrado.append(numberGrado);
+                  divini.append(divGrado);
+
+                  divmin.append(numberMin);
+                  divini.append(divmin);
+                  divseg.append(numberSeg);
+                  divini.append(divseg);
+                  
+                  divmayor.append(divini);
+
+                  var div = document.createElement("div");//div con el labe de coordenadas finales
+                  div.className ="form-group col-sm-12";
+                  var Label = document.createElement("label");
+                  Label.innerHTML= "<b>Coordenadas finales del tramo "+i+"</b>";
+
+                  div.append(Label);
+                  divmayor.append(div);
+
+                      var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de latitud  para las cooredenadas finales
+                          divini.className ="form-group col-sm-6";
+                          var divlable = document.createElement("div");
+                              divlable.className ="form-group col-sm-12";
+                              divlable.style="margin-bottom:0px";
+                              var lablelat = document.createElement("label");
+                                  lablelat.innerHTML= "<b>Latitud</b>";
+                                  lablelat.id='Lat_fin'+i;
+                              var divGrado = document.createElement("div");//div de grados
+                                  divGrado.className ="form-group col-sm-3";
+                                  divGrado.style="padding:1%;";
+                                  divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                                  var numberGrado = document.createElement("input");
+                                      numberGrado.id='lat_gra_fin'+i;
+                                      numberGrado.name='lat_gra_fin[]';
+                                      numberGrado.className ="form-control";
+                                      numberGrado.setAttribute("type", "number");
+                                      numberGrado.addEventListener("change", coorden);
+                                      numberGrado.setAttribute("title","Grados");
+                              var divmin = document.createElement("div");//div para minutos
+                                  divmin.className ="form-group col-sm-3";
+                                  divmin.style="padding:1%;";
+                                  divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                                  var numberMin = document.createElement("input");
+                                      numberMin.id='lat_min_fin'+i;
+                                      numberMin.name='lat_min_fin[]';
+                                      numberMin.className ="form-control";
+                                      numberMin.setAttribute("type", "number");
+                                      numberMin.addEventListener("change", coorden);
+                                      numberMin.setAttribute("title","Minutos");
+                              var divseg = document.createElement("div");//div para segundos
+                                  divseg.className ="form-group col-sm-3";
+                                  divseg.style="padding:1%;";
+                                  divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                                  var numberSeg = document.createElement("input");
+                                      numberSeg.id='lat_seg_fin'+i;
+                                      numberSeg.name='lat_seg_fin[]';
+                                      numberSeg.className ="form-control";
+                                      numberSeg.setAttribute("type", "number");
+                                      numberSeg.addEventListener("change", coorden);
+                                      numberSeg.setAttribute("title","Segundos");
+                              var divsigno = document.createElement("div");//div de grados
+                                      divsigno.className ="form-group col-sm-2";
+                                      divsigno.setAttribute("type", "number");
+                                      divsigno.id="sig_lat_fin"+i;
+                                      divsigno.style="margin:0px;padding:0px;margin-top: 19px;display:none";
+                                      var radio= document.createElement("input");
+                                          radio.style="margin:0px;padding:0px";
+                                          radio.type = "radio";
+                                          radio.name="sig_lat_fin"+i;
+                                          radio.id="sig_lat_N_fin"+i;
+                                          radio.value='1';
+                                      var radio2= document.createElement("input");
+                                          radio2.style="margin:0px;padding:0px";
+                                          radio2.type = "radio";
+                                          radio2.name="sig_lat_fin"+i;
+                                          radio2.id="sig_lat_S_fin"+i;
+                                          radio2.value='-1';
+                                          divsigno.append(radio);
+                                          divsigno.append("N");
+                                          divsigno.append(document.createElement('br'));
+                                          divsigno.append(radio2);
+                                          divsigno.append("S");
+
+                      divlable.append(lablelat);
+                      divini.append(divlable);
+
+                      divini.append(divsigno);
+
+                      divGrado.append(numberGrado);
+                      divini.append(divGrado);
+
+                      divmin.append(numberMin);
+                      divini.append(divmin);
+                      divseg.append(numberSeg);
+                      divini.append(divseg);
+
+                      divmayor.append(divini);
+
+                      var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de longitud  para las cooredenadas finales
+                          divini.className ="form-group col-sm-6";
+                          var divlable = document.createElement("div");
+                              divlable.className ="form-group col-sm-12";
+                              divlable.style="margin-bottom:0px";
+                              var lablelat = document.createElement("label");
+                                  lablelat.innerHTML= "<b>Longitud</b>";
+                                  lablelat.id='Lon_fin'+i;
+                              var divGrado = document.createElement("div");//div de grados
+                                  divGrado.className ="form-group col-sm-3";
+                                  divGrado.style="padding:1%;";
+                                  divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                                  var numberGrado = document.createElement("input");
+                                      numberGrado.id='lon_gra_fin'+i;
+                                      numberGrado.name='lon_gra_fin[]';
+                                      numberGrado.className ="form-control";
+                                      numberGrado.setAttribute("type", "number");
+                                      numberGrado.addEventListener("change", coorden);
+                                      numberGrado.setAttribute("title","Grados");
+                              var divmin = document.createElement("div");//div para minutos
+                                  divmin.className ="form-group col-sm-3";
+                                  divmin.style="padding:1%;";
+                                  divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                                  var numberMin = document.createElement("input");
+                                      numberMin.id='lon_min_fin'+i;
+                                      numberMin.name='lon_min_fin[]';
+                                      numberMin.className ="form-control";
+                                      numberMin.setAttribute("type", "number");
+                                      numberMin.addEventListener("change", coorden);
+                                      numberMin.setAttribute("title","Minutos");
+                              var divseg = document.createElement("div");//div para segundos
+                                  divseg.className ="form-group col-sm-3";
+                                  divseg.style="padding:1%;";
+                                  divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                                  var numberSeg = document.createElement("input");
+                                      numberSeg.id='lon_seg_fin'+i;
+                                      numberSeg.name='lon_seg_fin[]';
+                                      numberSeg.className ="form-control";
+                                      numberSeg.setAttribute("type", "number");
+                                      numberSeg.addEventListener("change", coorden);
+                                      numberSeg.setAttribute("title","Segundos");
+
+                      divlable.append(lablelat);
+                      divini.append(divlable);
+
+                      divGrado.append(numberGrado);
+                      divini.append(divGrado);
+
+                      divmin.append(numberMin);
+                      divini.append(divmin);
+                      divseg.append(numberSeg);
+                      divini.append(divseg);
+                      
+                      divmayor.append(divini);
+                  var divhr = document.createElement("div");
+                      divhr.className ="form-group col-sm-12";
+                  var hr= document.createElement("HR");
+                  divhr.append(hr);
+                  divmayor.append(divhr);
+
+              document.getElementById("tramos").append(divmayor);//se unen todos los input al div mayor del tramo
+
+                           
+
+
+
+        }
+    }); 
+
+
+
     //Termina tbody 
     var table = $('#tabla_proyectos').DataTable();
     $('#tabla_proyectos tbody').on('click', 'tr', function () {
@@ -1315,7 +1504,34 @@
                     $.each(data['terr'], function(nom,datos){
                          tipoterr.push(datos.toString());
                     });
+
                     $('#tipoterrediiden').val(tipoterr);
+                    var arrayenti = [];
+                    var otro=0;
+                    $.each(data['entidades'], function(nom,datos){
+                      if(datos['Identificación']){
+                         arrayenti.push(datos['Identificación']);
+                         if(datos['Identificación']=='Otro'){
+                          otro=1;
+                         }
+                       }
+                    });
+                    $('#entidadediiden').val(arrayenti);
+                    if (otro==1){
+                      $('#otro_actediiden').val(data['arrayproy'][0].otro_iden);
+                      $("#otroediiden").css("display","block");
+                      $('#otro_actediiden').prop('required',true);
+                    }
+
+                    $.each(data['entidades'], function(nom,datos){
+                      if(datos['Estructuración']){
+                         arrayenti.push(datos['Estructuración']);
+                         if(datos['Estructuración']=='Otro'){
+                          otro=1;
+                         }
+                       }
+                    });
+                    $('#entidadediestr').val(arrayenti);
 
                     $("#nom_terrediiden").empty();
                     for (var i = 0; i < Object.keys(data['arratodoterredi']).length; i++) {
@@ -1370,12 +1586,28 @@
                       });
 
                     $('#lineaediiden').val(data['arrayproy'][0].linea_proy);
-                    $('#entidadediiden').val(data['arrayproy'][0].enti_lider);
                     $('#nombreediiden').val(data['arrayproy'][0].nom_proy);
                     $('#estadoediiden').val(data['arrayproy'][0].est_proy);
                     $('#alcanceediiden').val(data['arrayproy'][0].alcance);
-                    $('#fecha_inicioediiden').val(data['arrayproy'][0].fecha_inicio);
-                    $('#fecha_finalediiden').val(data['arrayproy'][0].fecha_fin);
+                    $('#fecha_inicioediiden').val(data['arrayproy'][0].fecha_iden);
+
+
+
+                    if( data['arrayproy'][0].doc_iden==""||  data['arrayproy'][0].doc_iden==null){
+                          $('#docediiden').attr('disabled', true);
+                          $('#docediiden').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
+                          $('#docediiden').attr("title", "No hay documento cargado");
+                          $('#docediiden').removeAttr("href");
+                          $('#docediiden').removeAttr("target");
+                        }else{
+                         $('#docediiden').attr("href", data['arrayproy'][0].doc_iden);
+                         $('#docediiden').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
+                         $('#docediiden').attr("target", "_blank");
+                         $('#docedi').attr('disabled', false);
+                         $('#docradio2ide').attr('checked', 'checked');
+                        }
+                    
+
                     //fin del formulario de identificacion
 
                     //inidicio del formulario de estructuracion
@@ -1441,14 +1673,44 @@
                         }
                         document.getElementById('edi-form-estr').append(input);
                       });
+                    var arrayenti = [];
+                    var otro=0;
+                    $.each(data['entidades'], function(nom,datos){
+                      if(datos['Estructuración']){
+                         arrayenti.push(datos['Estructuración']);
+                         if(datos['Estructuración']=='Otro'){
+                          otro=1;
+                         }
+                       }
+                    });
+                    $('#entidadediestr').val(arrayenti);
+
+                    if (otro==1){
+                      $('#otro_actediestr').val(data['arrayproy'][0].otro_estr);
+                      $("#otroediestr").css("display","block");
+                      $('#otro_actediestr').prop('required',true);
+                    }
+
                     $('#lineaediestr').val(data['arrayproy'][0].linea_proy);
-                    $('#entidadediestr').val(data['arrayproy'][0].enti_lider);
                     $('#nombreediestr').val(data['arrayproy'][0].nom_proy_2);
                     $('#estadoediestr').val(data['arrayproy'][0].est_proy);
                     $('#alcanceediestr').val(data['arrayproy'][0].alcance_2);
-                    $('#fecha_inicioediestr').val(data['arrayproy'][0].fecha_inicio);
-                    $('#fecha_finalediestr').val(data['arrayproy'][0].fecha_fin);
+                    $('#fecha_inicioediestr').val(data['arrayproy'][0].fecha_estr);
                     $('#cost_proyediestr').val(Format.to(Number(data['arrayproy'][0].costo_estim)));
+                    if( data['arrayproy'][0].doc_estr==""||  data['arrayproy'][0].doc_estr==null){
+                          $('#docediestr').attr('disabled', true);
+                          $('#docediestr').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
+                          $('#docediestr').attr("title", "No hay documento cargado");
+                          $('#docediestr').removeAttr("href");
+                          $('#docediestr').removeAttr("target");
+                        }else{
+                         $('#docediestr').attr("href", data['arrayproy'][0].doc_iden);
+                         $('#docediestr').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
+                         $('#docediestr').attr("target", "_blank");
+                         $('#docediestr').attr('disabled', false);
+                         $('#docradio2est').attr('checked', 'checked');
+                        }
+                    
                     //fin del formulario de estructuracion
 
                     //inidicio del formulario de ejecucion
@@ -1516,7 +1778,6 @@
                       });
                     //$('#nom_terredieje').val(nameterr);
                     $('#lineaedieje').val(data['arrayproy'][0].linea_proy);
-                    $('#entidadedieje').val(data['arrayproy'][0].enti_lider);
                     $('#nombreedieje').val(data['arrayproy'][0].nom_proy_3);
                     $('#estadoedieje').val(data['arrayproy'][0].est_proy);
                     $('#alcanceedieje').val(data['arrayproy'][0].alcance_3);
@@ -1524,90 +1785,117 @@
                     $('#ava_productedieje').val(data['arrayproy'][0].avance_prod);
                     $('#longedieje').val(data['arrayproy'][0].longitud);
                     $('#pob_beneedieje').val(data['arrayproy'][0].pob_bene);
-                    $('#fecha_inicio2edieje').val(data['arrayproy'][0].fecha_inicio_2);
-                    $('#fecha_final2edieje').val(data['arrayproy'][0].fecha_fin_2);
+                    $('#fecha_inicio2edieje').val(data['arrayproy'][0].Fec_eje_ini);
+                    $('#fecha_final2edieje').val(data['arrayproy'][0].Fec_eje_fin);
                     $('#cost_proyedieje').val(Format.to(Number(data['arrayproy'][0].costo_ejec)));
-                    $("#deletedocedieje").attr('name', num);
-                    $("#deletedocediide").attr('name', num);
-                    $("#deletedocediest").attr('name', num);
-                    if( data['arrayproy'][0].documento==""||  data['arrayproy'][0].documento==null){
+                    $('#tramo').val(data['tramos'].length);  
 
-                          $('[id^=docedi]').attr('disabled', true);
-                          $('[id^=docedi]').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
-                          $('[id^=docedi]').attr("title", "No hay documento cargado");
-                          $('[id^=docedi]').removeAttr("href");
-                          $('[id^=docedi]').removeAttr("target");
+
+                    $("#deletedocediejec").attr('name', num);
+                    $("#deletedocediiden").attr('name', num);
+                    $("#deletedocediestr").attr('name', num);
+                    if( data['arrayproy'][0].doc_ejec==""||  data['arrayproy'][0].doc_ejec==null){
+                          $('#docediejec').attr('disabled', true);
+                          $('#docediejec').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
+                          $('#docediejec').attr("title", "No hay documento cargado");
+                          $('#docediejec').removeAttr("href");
+                          $('#docediejec').removeAttr("target");
                         }else{
-                        $('[id^=docedi]').attr("href", data['arrayproy'][0].documento);
-                         $('[id^=docedi]').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
-                         $('[id^=docedi]').attr("target", "_blank");
-                         $('[id^=docedi]').attr('disabled', false);
-                         $('[id^=docradio2]').attr('checked', 'checked');
+                         $('#docediejec').attr("href", data['arrayproy'][0].doc_iden);
+                         $('#docediejec').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
+                         $('#docediejec').attr("target", "_blank");
+                         $('#docediejec').attr('disabled', false);
+                         $('#docradio2eje').attr('checked', 'checked');
                         }
-                    
-
-                     var coor_ini=data['arrayproy'][0].coord_ini.split(" ");
-                     for (var i = 0; i < coor_ini.length; i++) {
-                        if(coor_ini[i]!=""){
-                          $("#coorde1edieje").attr('checked', 'checked');
-                          $("#datos_coorde_iniedieje").css("display","block");
-                          $("#lat_grado_iniedieje").prop('required',true); 
-                          $("#lat_min_iniedieje").prop('required',true); 
-                          $("#lat_sed_iniedieje").prop('required',true); 
-                          $("#long_grado_iniedieje").prop('required',true); 
-                          $("#long_min_iniedieje").prop('required',true); 
-                          $("#long_sed_iniedieje").prop('required',true); 
-                          if (i==0){
-                           var g2=Math.trunc(-1*coor_ini[i]);
-                           var m2=Math.trunc((parseFloat(-1*coor_ini[i])-parseInt(g2))*60);
-                           var s2=Math.round(((Math.abs((parseFloat(-1*coor_ini[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
-                            $('#long_gra_iniedieje').val(-1*g2);
-                            $('#long_min_iniedieje').val(m2);
-                            $('#long_seg_iniedieje').val(s2);
-
-                          }else{
-                             var g1=Math.trunc(coor_ini[i]);
-                             var m1=Math.abs(Math.trunc((parseFloat(coor_ini[i])-parseInt(g1))*60));
-                             var s1=Math.round(((Math.abs((parseFloat(coor_ini[i])-parseInt(g1))*60)-m1)*60)* 100) / 100;
-                              $('#lat_grado_iniedieje').val(g1);
-                              $('#lat_min_iniedieje').val(m1);
-                              $('#lat_seg_iniedieje').val(s1);
+                    var arrayenti = [];
+                    var otro=0;
+                    $.each(data['entidades'], function(nom,datos){
+                      if(datos['Ejecución']){
+                         arrayenti.push(datos['Ejecución']);
+                         if(datos['Ejecución']=='Otro'){
+                          otro=1;
                          }
                        }
-                     };
+                    });
 
-                     var coor_fin=data['arrayproy'][0].coord_fin.split(" ");
-                     for (var i = 0; i < coor_fin.length; i++) {
-                        if(coor_fin[i]!=""){
-                          $("#coorde1_finedieje").attr('checked', 'checked');
-                          $("#datos_coorde_finedieje").css("display","block");
-                          $("#lat_grado_finedieje").prop('required',true); 
-                          $("#lat_min_finedieje").prop('required',true); 
-                          $("#lat_sed_finedieje").prop('required',true); 
-                          $("#long_grado_finedieje").prop('required',true); 
-                          $("#long_min_finedieje").prop('required',true); 
-                          $("#long_sed_finedieje").prop('required',true); 
-                          if (i==0){
+                    if (otro==1){
+                      $('#otro_actediejec').val(data['arrayproy'][0].otro_ejec);
+                      $("#otroediejec").css("display","block");
+                      $('#otro_actediejec').prop('required',true);
+                    }
+                    $('#entidadediejec').val(arrayenti);
 
-                               var g2=Math.trunc(-1*coor_fin[i]);
-                               var m2=Math.trunc((parseFloat(-1*coor_fin[i])-parseInt(g2))*60);
-                               var s2=Math.round(((Math.abs((parseFloat(-1*coor_fin[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
-                                $('#long_gra_finedieje').val(-1*g2);
-                                $('#long_min_finedieje').val(m2);
-                                $('#long_seg_finedieje').val(s2);                    
-                          }else{
-                             var g1=Math.trunc(coor_fin[i]);
-                             var m1=Math.abs(Math.trunc((parseFloat(coor_fin[i])-parseInt(g1))*60));
-                             var s1=Math.round(((Math.abs((parseFloat(coor_fin[i])-parseInt(g1))*60)-m1)*60)* 100) / 100;
-                              $('#lat_grado_finedieje').val(g1);
-                              $('#lat_min_finedieje').val(m1);
-                              $('#lat_seg_finedieje').val(s1);
+                    if (data['arrayproy'][0].coord_ini){
+                         var coor_ini=data['arrayproy'][0].coord_ini.split(" ");
+                         for (var i = 0; i < coor_ini.length; i++) {
+                            if(coor_ini[i]!=""){
+                              $("#coorde1edieje").attr('checked', 'checked');
+                              $("#datos_coorde_iniedieje").css("display","block");
+                              $("#lat_grado_iniedieje").prop('required',true); 
+                              $("#lat_min_iniedieje").prop('required',true); 
+                              $("#lat_sed_iniedieje").prop('required',true); 
+                              $("#long_grado_iniedieje").prop('required',true); 
+                              $("#long_min_iniedieje").prop('required',true); 
+                              $("#long_sed_iniedieje").prop('required',true); 
+                              if (i==0){
+                               var g2=Math.trunc(-1*coor_ini[i]);
+                               var m2=Math.trunc((parseFloat(-1*coor_ini[i])-parseInt(g2))*60);
+                               var s2=Math.round(((Math.abs((parseFloat(-1*coor_ini[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
+                                $('#long_gra_iniedieje').val(-1*g2);
+                                $('#long_min_iniedieje').val(m2);
+                                $('#long_seg_iniedieje').val(s2);
+
+                              }else{
+                                 var g1=Math.trunc(coor_ini[i]);
+                                 var m1=Math.abs(Math.trunc((parseFloat(coor_ini[i])-parseInt(g1))*60));
+                                 var s1=Math.round(((Math.abs((parseFloat(coor_ini[i])-parseInt(g1))*60)-m1)*60)* 100) / 100;
+                                  $('#lat_grado_iniedieje').val(g1);
+                                  $('#lat_min_iniedieje').val(m1);
+                                  $('#lat_seg_iniedieje').val(s1);
+                             }
+                           }else{
+                              $("#coorde2edieje").attr('checked', 'checked');
+                            }
+                         };
+                      }
+
+
+                    if (data['arrayproy'][0].coord_fin){  
+                       var coor_fin=data['arrayproy'][0].coord_fin.split(" ");
+                       for (var i = 0; i < coor_fin.length; i++) {
+                          if(coor_fin[i]!=""){
+                            $("#coorde1_finedieje").attr('checked', 'checked');
+                            $("#datos_coorde_finedieje").css("display","block");
+                            $("#lat_grado_finedieje").prop('required',true); 
+                            $("#lat_min_finedieje").prop('required',true); 
+                            $("#lat_sed_finedieje").prop('required',true); 
+                            $("#long_grado_finedieje").prop('required',true); 
+                            $("#long_min_finedieje").prop('required',true); 
+                            $("#long_sed_finedieje").prop('required',true); 
+                            if (i==0){
+
+                                 var g2=Math.trunc(-1*coor_fin[i]);
+                                 var m2=Math.trunc((parseFloat(-1*coor_fin[i])-parseInt(g2))*60);
+                                 var s2=Math.round(((Math.abs((parseFloat(-1*coor_fin[i])-parseInt(g2))*60)-m2)*60)* 100) / 100;
+                                  $('#long_gra_finedieje').val(-1*g2);
+                                  $('#long_min_finedieje').val(m2);
+                                  $('#long_seg_finedieje').val(s2);                    
+                            }else{
+                               var g1=Math.trunc(coor_fin[i]);
+                               var m1=Math.abs(Math.trunc((parseFloat(coor_fin[i])-parseInt(g1))*60));
+                               var s1=Math.round(((Math.abs((parseFloat(coor_fin[i])-parseInt(g1))*60)-m1)*60)* 100) / 100;
+                                $('#lat_grado_finedieje').val(g1);
+                                $('#lat_min_finedieje').val(m1);
+                                $('#lat_seg_finedieje').val(s1);
+                           }
+                         }else{
+                          $("#coorde2_finedieje").attr('checked', 'checked');
                          }
-                       }
-                     };
+                       };
+                    }
 
 
-
+                    //carga la población por cada territorio seleccionado
                      $('[id^=pobl-]').remove();
                      $('[id^=tipoterr_comple-]').remove();
 
@@ -1648,12 +1936,426 @@
                       document.getElementById("label_pobla-eje").append(input);
                     });
 
+                    
+                    //carga la infromacion para cada tramo
+                      $('[id^=tramo-]').remove();
+                      for (var i = 1; i <= data['tramos'].length; i++) {
+                        //inicio de ciclo para crear los inputs de cada tramo
+                        var opciones=['Seleccione una opción','Mantenimiento períodico','Mantenimiento rutinario','Obras de arte','Placa huella'];
+                          var divmayor = document.createElement("div");//div q contiene todos los input de un tramo
+                              divmayor.className ="form-group col-sm-12";
+                              divmayor.id ="tramo-"+i;
+                              var Label = document.createElement("label");
+                              Label.innerHTML= "<h4> Tramo "+i+"</h4>";
+                              Label.style="margin:0px";
+                              Label.className ="text-center text-primary";
+                              divmayor.append(Label);
+                              divmayor.append(document.createElement('br'));
+                              divmayor.append(document.createElement('br'));
+
+                          var div = document.createElement("div");//div que contiene el nombre del tramo y la liean del proryecto
+                              div.className ="form-group col-sm-6";
+                                  var Label1 = document.createElement("label");
+                                  Label1.innerHTML= "<b>Línea de proyecto<font color='red'>*</font></b>";
+
+                                  //Create and append select list
+                                  var selectList = document.createElement("select");//se crea el select con las lineas para el tramo
+                                  selectList.id = "linea-"+i;
+                                  selectList.name = "lineas[]";
+                                  selectList.className ="form-control";
+                                  selectList.setAttribute("required","true");
+                                  div.appendChild(selectList);
+
+                                  //Create and append the options
+                                  for (var j = 0; j < opciones.length; j++) {
+                                      var option = document.createElement("option");
+                                      if(j==0){
+                                        option.value = "";
+                                      }else{
+                                        option.value = opciones[j];
+                                      }
+                                      option.text = opciones[j];
+                                      selectList.appendChild(option);
+                                  }
+                                  
+                                  div.append(Label1);
+                                  div.append(selectList);
+                                  divmayor.append(div);
+
+                          var div = document.createElement("div");//div que contiene el nombre del tramo y la liean del proryecto
+                              div.className ="form-group col-sm-6";
+                                  var Label1 = document.createElement("label");
+                                  Label1.innerHTML= "<b>Longitud del tramo <font color='red'>*</font></b>";
+
+                                  //Create and append select list
+                                  var input = document.createElement("input");//se crea el select con las lineas para el tramo
+                                  input.id = "longitud-"+i;
+                                  input.name = "longitud[]";
+                                  input.className ="form-control";
+                                  input.setAttribute("required","true");
+                                  div.appendChild(input);
+
+                                  div.append(Label1);
+                                  div.append(input);
+                                  divmayor.append(div);
+
+
+                          var div = document.createElement("div");//div con el labe de coordenadas iniciales
+                              div.className ="form-group col-sm-12";
+                              var Label = document.createElement("label");
+                              Label.innerHTML= "<b>Coordenadas inicales del tramo "+i+"</b>";
+
+                          div.append(Label);
+                          divmayor.append(div);
+
+                              var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de latitud  para las cooredenadas iniciales
+                                  divini.className ="form-group col-sm-6";
+                                  var divlable = document.createElement("div");
+                                      divlable.className ="form-group col-sm-12";
+                                      divlable.style="margin-bottom:0px";
+                                      var lablelat = document.createElement("label");
+                                          lablelat.innerHTML= "<b>Latitud</b>";
+                                          lablelat.id='Lat_ini'+i;
+                                      var divGrado = document.createElement("div");//div de grados
+                                          divGrado.className ="form-group col-sm-3";
+                                          divGrado.style="padding:1%;";
+                                          divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                                          var numberGrado = document.createElement("input");
+                                              numberGrado.id='lat_gra_ini'+i;
+                                              numberGrado.name='lat_gra_ini[]';
+                                              numberGrado.className ="form-control";
+                                              numberGrado.setAttribute("type", "number");
+                                              numberGrado.addEventListener("change", coorden);
+                                              numberGrado.setAttribute("title","Grados");
+                                      var divmin = document.createElement("div");//div para minutos
+                                          divmin.className ="form-group col-sm-3";
+                                          divmin.style="padding:1%;";
+                                          divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                                          var numberMin = document.createElement("input");
+                                              numberMin.id='lat_min_ini'+i;
+                                              numberMin.name='lat_min_ini[]';
+                                              numberMin.className ="form-control";
+                                              numberMin.setAttribute("type", "number");
+                                              numberMin.addEventListener("change", coorden);
+                                              numberMin.setAttribute("title","Minutos");
+                                      var divseg = document.createElement("div");//div para segundos
+                                          divseg.className ="form-group col-sm-3";
+                                          divseg.style="padding:1%;";
+                                          divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                                          var numberSeg = document.createElement("input");
+                                              numberSeg.id='lat_seg_ini'+i;
+                                              numberSeg.name='lat_seg_ini[]';
+                                              numberSeg.className ="form-control";
+                                              numberSeg.setAttribute("type", "number");
+                                              numberSeg.addEventListener("change", coorden);
+                                              numberSeg.setAttribute("title","Segundos");
+                                      var divsigno = document.createElement("div");//div de grados
+                                          divsigno.className ="form-group col-sm-2";
+                                          divsigno.setAttribute("type", "number");
+                                          divsigno.style="margin:0px;padding:0px;margin-top: 19px;display:none";
+                                          divsigno.id="sig_lat_ini"+i;
+                                          var radio= document.createElement("input");
+                                              radio.style="margin:0px;padding:0px";
+                                              radio.type = "radio";
+                                              radio.name="sig_lat_ini"+i;
+                                              radio.id="sig_lat_N_ini"+i;
+                                              radio.value='1';
+                                          var radio2= document.createElement("input");
+                                              radio2.style="margin:0px;padding:0px";
+                                              radio2.type = "radio";
+                                              radio2.name="sig_lat_ini"+i;
+                                              radio2.id="sig_lat_S_ini"+i;
+                                              radio2.value='-1';
+                                              divsigno.append(radio);
+                                              divsigno.append("N");
+                                              divsigno.append(document.createElement('br'));
+                                              divsigno.append(radio2);
+                                              divsigno.append("S");
+
+                              divlable.append(lablelat);
+                              divini.append(divlable);
+
+                              divini.append(divsigno);
+
+                              divGrado.append(numberGrado);
+                              divini.append(divGrado);
+
+                              divmin.append(numberMin);
+                              divini.append(divmin);
+                              divseg.append(numberSeg);
+                              divini.append(divseg);
+
+                              divmayor.append(divini);
+
+                              var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de longitud  para las cooredenadas iniciales
+                                  divini.className ="form-group col-sm-6";
+                                  var divlable = document.createElement("div");
+                                      divlable.className ="form-group col-sm-12";
+                                      divlable.style="margin-bottom:0px";
+                                      var lablelat = document.createElement("label");
+                                          lablelat.innerHTML= "<b>Longitud</b>";
+                                          lablelat.id='Lon_ini'+i;
+                                      var divGrado = document.createElement("div");//div de grados
+                                          divGrado.className ="form-group col-sm-3";
+                                          divGrado.style="padding:1%;";
+                                          divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                                          var numberGrado = document.createElement("input");
+                                              numberGrado.id='lon_gra_ini'+i;
+                                              numberGrado.name='lon_gra_ini[]';
+                                              numberGrado.className ="form-control";
+                                              numberGrado.setAttribute("type", "number");
+                                              numberGrado.addEventListener("change", coorden);
+                                              numberGrado.setAttribute("title","Grados");
+                                      var divmin = document.createElement("div");//div para minutos
+                                          divmin.className ="form-group col-sm-3";
+                                          divmin.style="padding:1%;";
+                                          divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                                          var numberMin = document.createElement("input");
+                                              numberMin.id='lon_min_ini'+i;
+                                              numberMin.name='lon_min_ini[]';
+                                              numberMin.className ="form-control";
+                                              numberMin.setAttribute("type", "number");
+                                              numberMin.addEventListener("change", coorden);
+                                              numberMin.setAttribute("title","Minutos");
+                                      var divseg = document.createElement("div");//div para segundos
+                                          divseg.className ="form-group col-sm-3";
+                                          divseg.style="padding:1%;";
+                                          divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                                          var numberSeg = document.createElement("input");
+                                              numberSeg.id='lon_seg_ini'+i;
+                                              numberSeg.name='lon_seg_ini[]';
+                                              numberSeg.className ="form-control";
+                                              numberSeg.setAttribute("type", "number");
+                                              numberSeg.addEventListener("change", coorden);
+                                              numberSeg.setAttribute("title","Segundos");
+
+                              divlable.append(lablelat);
+                              divini.append(divlable);
+
+                              divGrado.append(numberGrado);
+                              divini.append(divGrado);
+
+                              divmin.append(numberMin);
+                              divini.append(divmin);
+                              divseg.append(numberSeg);
+                              divini.append(divseg);
+                              
+                              divmayor.append(divini);
+
+                              var div = document.createElement("div");//div con el labe de coordenadas finales
+                              div.className ="form-group col-sm-12";
+                              var Label = document.createElement("label");
+                              Label.innerHTML= "<b>Coordenadas finales del tramo "+i+"</b>";
+
+                              div.append(Label);
+                              divmayor.append(div);
+
+                                  var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de latitud  para las cooredenadas finales
+                                      divini.className ="form-group col-sm-6";
+                                      var divlable = document.createElement("div");
+                                          divlable.className ="form-group col-sm-12";
+                                          divlable.style="margin-bottom:0px";
+                                          var lablelat = document.createElement("label");
+                                              lablelat.innerHTML= "<b>Latitud</b>";
+                                              lablelat.id='Lat_fin'+i;
+                                          var divGrado = document.createElement("div");//div de grados
+                                              divGrado.className ="form-group col-sm-3";
+                                              divGrado.style="padding:1%;";
+                                              divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                                              var numberGrado = document.createElement("input");
+                                                  numberGrado.id='lat_gra_fin'+i;
+                                                  numberGrado.name='lat_gra_fin[]';
+                                                  numberGrado.className ="form-control";
+                                                  numberGrado.setAttribute("type", "number");
+                                                  numberGrado.addEventListener("change", coorden);
+                                                  numberGrado.setAttribute("title","Grados");
+                                          var divmin = document.createElement("div");//div para minutos
+                                              divmin.className ="form-group col-sm-3";
+                                              divmin.style="padding:1%;";
+                                              divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                                              var numberMin = document.createElement("input");
+                                                  numberMin.id='lat_min_fin'+i;
+                                                  numberMin.name='lat_min_fin[]';
+                                                  numberMin.className ="form-control";
+                                                  numberMin.setAttribute("type", "number");
+                                                  numberMin.addEventListener("change", coorden);
+                                                  numberMin.setAttribute("title","Minutos");
+                                          var divseg = document.createElement("div");//div para segundos
+                                              divseg.className ="form-group col-sm-3";
+                                              divseg.style="padding:1%;";
+                                              divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                                              var numberSeg = document.createElement("input");
+                                                  numberSeg.id='lat_seg_fin'+i;
+                                                  numberSeg.name='lat_seg_fin[]';
+                                                  numberSeg.className ="form-control";
+                                                  numberSeg.setAttribute("type", "number");
+                                                  numberSeg.addEventListener("change", coorden);
+                                                  numberSeg.setAttribute("title","Segundos");
+                                          var divsigno = document.createElement("div");//div de grados
+                                                  divsigno.className ="form-group col-sm-2";
+                                                  divsigno.setAttribute("type", "number");
+                                                  divsigno.id="sig_lat_fin"+i;
+                                                  divsigno.style="margin:0px;padding:0px;margin-top: 19px;display:none";
+                                                  var radio= document.createElement("input");
+                                                      radio.style="margin:0px;padding:0px";
+                                                      radio.type = "radio";
+                                                      radio.name="sig_lat_fin"+i;
+                                                      radio.id="sig_lat_N_fin"+i;
+                                                      radio.value='1';
+                                                  var radio2= document.createElement("input");
+                                                      radio2.style="margin:0px;padding:0px";
+                                                      radio2.type = "radio";
+                                                      radio2.name="sig_lat_fin"+i;
+                                                      radio2.id="sig_lat_S_fin"+i;
+                                                      radio2.value='-1';
+                                                      divsigno.append(radio);
+                                                      divsigno.append("N");
+                                                      divsigno.append(document.createElement('br'));
+                                                      divsigno.append(radio2);
+                                                      divsigno.append("S");
+
+                                  divlable.append(lablelat);
+                                  divini.append(divlable);
+
+                                  divini.append(divsigno);
+
+                                  divGrado.append(numberGrado);
+                                  divini.append(divGrado);
+
+                                  divmin.append(numberMin);
+                                  divini.append(divmin);
+                                  divseg.append(numberSeg);
+                                  divini.append(divseg);
+
+                                  divmayor.append(divini);
+
+                                  var divini = document.createElement("div");//espacio que crea el div que contiene los 3 campor de ingreso de grados minutos y segundos de longitud  para las cooredenadas finales
+                                      divini.className ="form-group col-sm-6";
+                                      var divlable = document.createElement("div");
+                                          divlable.className ="form-group col-sm-12";
+                                          divlable.style="margin-bottom:0px";
+                                          var lablelat = document.createElement("label");
+                                              lablelat.innerHTML= "<b>Longitud</b>";
+                                              lablelat.id='Lon_fin'+i;
+                                          var divGrado = document.createElement("div");//div de grados
+                                              divGrado.className ="form-group col-sm-3";
+                                              divGrado.style="padding:1%;";
+                                              divGrado.innerHTML= "<font size='2', color='#A4A4A4'>Grados</font>";
+                                              var numberGrado = document.createElement("input");
+                                                  numberGrado.id='lon_gra_fin'+i;
+                                                  numberGrado.name='lon_gra_fin[]';
+                                                  numberGrado.className ="form-control";
+                                                  numberGrado.setAttribute("type", "number");
+                                                  numberGrado.addEventListener("change", coorden);
+                                                  numberGrado.setAttribute("title","Grados");
+                                          var divmin = document.createElement("div");//div para minutos
+                                              divmin.className ="form-group col-sm-3";
+                                              divmin.style="padding:1%;";
+                                              divmin.innerHTML= "<font size='2', color='#A4A4A4'>Minutos</font>";
+                                              var numberMin = document.createElement("input");
+                                                  numberMin.id='lon_min_fin'+i;
+                                                  numberMin.name='lon_min_fin[]';
+                                                  numberMin.className ="form-control";
+                                                  numberMin.setAttribute("type", "number");
+                                                  numberMin.addEventListener("change", coorden);
+                                                  numberMin.setAttribute("title","Minutos");
+                                          var divseg = document.createElement("div");//div para segundos
+                                              divseg.className ="form-group col-sm-3";
+                                              divseg.style="padding:1%;";
+                                              divseg.innerHTML= "<font size='2', color='#A4A4A4'>Segundos</font>";
+                                              var numberSeg = document.createElement("input");
+                                                  numberSeg.id='lon_seg_fin'+i;
+                                                  numberSeg.name='lon_seg_fin[]';
+                                                  numberSeg.className ="form-control";
+                                                  numberSeg.setAttribute("type", "number");
+                                                  numberSeg.addEventListener("change", coorden);
+                                                  numberSeg.setAttribute("title","Segundos");
+
+                                  divlable.append(lablelat);
+                                  divini.append(divlable);
+
+                                  divGrado.append(numberGrado);
+                                  divini.append(divGrado);
+
+                                  divmin.append(numberMin);
+                                  divini.append(divmin);
+                                  divseg.append(numberSeg);
+                                  divini.append(divseg);
+                                  
+                                  divmayor.append(divini);
+                                  var divhr = document.createElement("div");
+                                      divhr.className ="form-group col-sm-12";
+                                  var hr= document.createElement("HR");
+                                  divhr.append(hr);
+                                  divmayor.append(divhr);
+                              document.getElementById("tramos").append(divmayor);//se unen todos los input al div mayor del tramo
+                              //fin del ciclo para crear los inputs de cada tramo
+
+                              //se llenan los campos con los datos que se encuentarn en la base de datos
+                              $('#linea-'+i).val(data['tramos'][i-1]['linea']);
+                              $('#longitud-'+i).val(data['tramos'][i-1]['longitud']);
+
+                              var lat_ini=data['tramos'][i-1]['lat_ini'];
+                              var lon_ini=Math.abs(data['tramos'][i-1]['lon_ini']);
+                              var lat_fin=data['tramos'][i-1]['lat_fin'];
+                              var lon_fin=Math.abs(data['tramos'][i-1]['lon_fin']);
+                              if(lat_ini!=null){
+                                   var g1=Math.trunc(lat_ini);
+                                   var m1=Math.abs(Math.trunc((parseFloat(lat_ini)-parseInt(g1))*60));
+                                   var s1=Math.round(((Math.abs((parseFloat(lat_ini)-parseInt(g1))*60)-m1)*60)* 100) / 100;
+                                    $('#lat_gra_ini'+i).val(g1);
+                                    $('#lat_min_ini'+i).val(m1);
+                                    $('#lat_seg_ini'+i).val(s1);
+                                    if (g1==0){
+                                      $('#sig_lat_ini'+i).css("display","block");
+                                      if (lat_ini<0){
+                                        $("#sig_lat_S_ini"+i).prop("checked", true)
+                                      }else{
+                                        $("#sig_lat_N_ini"+i).prop("checked", true)
+                                      }
+                                    }
+                              }
+                              if(lon_ini!=null){
+                                   var g2=Math.trunc(lon_ini);
+                                   var m2=Math.trunc((parseFloat(lon_ini)-parseInt(g2))*60);
+                                   var s2=Math.round(((Math.abs((parseFloat(lon_ini)-parseInt(g2))*60)-m2)*60)* 100) / 100;
+                                    $('#lon_gra_ini'+i).val(-1*g2);
+                                    $('#lon_min_ini'+i).val(m2);
+                                    $('#lon_seg_ini'+i).val(s2);  
+                              }
+                              if(lat_fin!=null){
+                                   var g1=Math.trunc(lat_fin);
+                                   var m1=Math.abs(Math.trunc((parseFloat(lat_fin)-parseInt(g1))*60));
+                                   var s1=Math.round(((Math.abs((parseFloat(lat_fin)-parseInt(g1))*60)-m1)*60)* 100) / 100;
+                                    $('#lat_gra_fin'+i).val(g1);
+                                    $('#lat_min_fin'+i).val(m1);
+                                    $('#lat_seg_fin'+i).val(s1);
+                                    if (g1==0){
+                                      $('#sig_lat_fin'+i).css("display","block");
+                                      if (lat_fin<0){
+                                        $("#sig_lat_S_fin"+i).prop("checked", true)
+                                      }else{
+                                        $("#sig_lat_N_fin"+i).prop("checked", true)
+                                      }
+                                    }
+
+                              }
+                              if(lon_fin!=null){
+                                   var g2=Math.trunc(lon_fin);
+                                   var m2=Math.trunc((parseFloat(lon_fin)-parseInt(g2))*60);
+                                   var s2=Math.round(((Math.abs((parseFloat(lon_fin)-parseInt(g2))*60)-m2)*60)* 100) / 100;
+                                    $('#lon_gra_fin'+i).val(-1*g2);
+                                    $('#lon_min_fin'+i).val(m2);
+                                    $('#lon_seg_fin'+i).val(s2);   
+                              }
+                      };
+
                     //fin del formulario de ejecucion
 
-
+                    
                     $("#IDdele").val(data['arrayproy'][0].ID);
                     $("#deletenombre").val(data['arrayproy'][0].nom_proy);
-                    $("#deleteproy").val(data['arrayproy'][0].OBJECTID);
+                    $("#deleteproycto").val(data['arrayproy'][0].OBJECTID);
                     $("#deletenucleo").val(data['arrayproy'][0].nom_nucleo);
 
                 },
@@ -1664,8 +2366,9 @@
     });//Termina tbody
 
     function borr_crit(e) {
-          var id=e.id.substring(6,15);
-          $.ajax({url:"artpic/borrar-doc-plan50",type:"POST",data:{proy:e.name},dataType:'json',
+
+          var id=e.id.substring(6,16);
+          $.ajax({url:"artpic/borrar-doc-plan50",type:"POST",data:{proy:e.name,estado:e.id.substring(12,16)},dataType:'json',
                 success:function(data){
 
                   $("#"+id).attr('class', 'glyphicon glyphicon-download-alt btn btn-default');
@@ -1678,22 +2381,56 @@
             });//Termina Ajax
         }
 
-    function coorden(e){
-        if ((e.id.substring(0,8)=='lat_min_'|| e.id.substring(0,8)=='lat_seg_' || e.id.substring(0,9)=='long_min_' || e.id.substring(0,9)=='long_seg_') && (e.value<0 || e.value>=60)){
+    function coorden(){
+      var e=$(this).attr("id").substring(0,7);
+        if ((e=='lat_min'|| e=='lat_seg' || e=='lon_min' || e=='lon_seg') && ($(this).val()<0 || $(this).val()>=60)){
          alert("Ingrese un valor entre 0 y 59 ");
-         e.value="";
+         $(this).val("");
          }
 
-         if ((e.id.substring(0,9)=='lat_grado') && (e.value<-4 || e.value>=13)){
+         if ((e=='lat_gra') && ($(this).val()<-4 || $(this).val()>=13)){
          alert("Ingrese un valor entre -3 y 12 grados ");
-         e.value="";
+         $(this).val("");
          }
-
-         if ((e.id.substring(0,8)=='long_gra') && (e.value<-80 || e.value>=-67)){
+         
+         if ((e=='lon_gra') && ($(this).val()<-80 || $(this).val()>=-67)){
          alert("Ingrese un valor entre -79 y -66 grados ");
-         e.value="";
+         $(this).val("");
          }
 
+        var id=$(this).attr("id").substring(8,13);
+        if (($("#lon_gra_"+id).val()=='' && $("#lon_min_"+id).val()=='' && $("#lon_seg_"+id).val()=='' && $("#lat_gra_"+id).val()=='' && $("#lat_min_"+id).val()=='' && $("#lat_seg_"+id).val()=='')){
+          $("#lon_gra_"+id).prop('required',false); 
+          $("#lon_min_"+id).prop('required',false); 
+          $("#lon_seg_"+id).prop('required',false); 
+          $("#lat_gra_"+id).prop('required',false); 
+          $("#lat_min_"+id).prop('required',false); 
+          $("#lat_seg_"+id).prop('required',false);
+          $("#Lat_"+id).html('<b>Latitud</b>');
+          $("#Lon_"+id).html('<b>Longitud</b>');
+        }else {
+          $("#lon_gra_"+id).prop('required',true); 
+          $("#lon_min_"+id).prop('required',true); 
+          $("#lon_seg_"+id).prop('required',true); 
+          $("#lat_gra_"+id).prop('required',true); 
+          $("#lat_min_"+id).prop('required',true); 
+          $("#lat_seg_"+id).prop('required',true);
+          $("#Lat_"+id).html('<b>Latitud</b><font color="red">*</font></b>');
+          $("#Lon_"+id).html('<b>Longitud</b><font color="red">*</font></b>');
+        }
+
+        if (e=='lat_gra' && $(this).val()==0){
+            $('#sig_lat_'+id).css("display","block");
+            $('#sig_lat_N_'+id).prop('required',true);
+         }else if (e=='lat_gra' && $(this).val()!=0){
+             $('#sig_lat_'+id).css("display","none");
+             $('#sig_lat_N_'+id).prop('required',false);
+         }
+         if (e=='lat_gra' && $(this).val()==''){
+             $('#sig_lat_'+id).css("display","none");
+             $('#sig_lat_N_'+id).prop('required',false);
+         }
+        
       }
 
 //funciones de edicion para el estado de identificación
@@ -1987,7 +2724,6 @@ $('#editar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea 
    $(this).find('form').trigger('reset');
     table.$('tr.active').removeClass('active');
 })
-
 //finalizacion de funciones de edicion para el estado de identificación  
 </script>    
 @stop
