@@ -8,7 +8,9 @@
  <!--agrega los estilos de la pagina y los meta-->
 @section('cabecera')
   @parent
-
+  <link href="assets/noUiSlider.9.2.0/nouislider.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/L.Control.Basemaps.css" />  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js') 
@@ -19,7 +21,12 @@
         -webkit-appearance: none;
         margin: 0;
     }
-   
+    .noUi-tooltip{
+        width: 40px
+    }
+    .noUi-value{
+      margin-top: 5px;
+    }
   </style>
   @parent
 @stop 
@@ -90,7 +97,7 @@
           </div>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cargar_proyecto">Crear proyecto</button>
           <button id="btnedipro" disabled="disabled" data-target="#editar_proyecto"  data-toggle="modal" type="button" class="btn btn-primary">Editar proyecto</button>
-          <button id="btndeletepro" disabled="disabled" data-target="#borrar_proyecto"  data-toggle="modal" type="button" class="btn btn-danger">Borrar proyecto</button>          
+          <button id="btndeletepro" disabled="disabled" data-target="#borrar_proyecto"  data-toggle="modal" type="button" class="btn btn-danger">Borrar proyecto</button> 
           <!--Aca inicia el modal para cargar nuevo proyecto-->
           <!-- Modal -->
           <div class="modal fade" id="cargar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
@@ -129,7 +136,7 @@
                       </div> 
                       <div class="form-group" style='display:none' id="select_terr">
                           <b>Nombre de territorios:<font color="red">*</font></b>
-                        <select name="nom_terr[]" id="nom_terr" class="form-control"  multiple> 
+                        <select name="nom_terr[]" id="nom_terr" class="form-control"  multiple required> 
                           </select>
                       </div>
                       <div class="form-group">
@@ -163,25 +170,18 @@
                       </div>
                       <div class="form-group" id="inden-1" <!--style='display:none'--> 
                         <b>Alcance definido en identificación<font color="red">*</font></b>
-                        <textarea  id="alcance" name="alcance" class="form-control" rows="3"></textarea>
+                        <textarea  id="alcance" name="alcance" class="form-control" rows="3" required></textarea>
                       </div>
                       <div class="form-group" id="fecha-1" >
-                      <b>Fecha para la estructción<font color="red">*</font></b>
+                      <b>Fecha para la estructuración<font color="red">*</font></b>
                         <div class="input-group date" id="datepicker-1">                      
-                          <input  id="fecha_inicio" name="fecha_inicio" type="text" class="form-control"  placeholder="Ingrese la fecha para la estructción del proyecto" onchange='fecha_change(this)'>
+                          <input  id="fecha_inicio" name="fecha_inicio" type="text" class="form-control"  placeholder="Ingrese la fecha para la estructuración del proyecto" onchange='fecha_change(this)' required>
                           <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                         </div>
                       </div>
                       <div class="form-group" >
-                        <b>Documento de validación del proyecto</b>
-                        {{ Form::file('doc_iden', ['class' => 'form-control', 'id'=>'doc_iden','accept'=>'.pdf','placeholder'=>'ej: acta.pdf' ]) }}
-                      </div>
-                      <div class="checkbox-group" id="cor-1"style='display:none'>
-                        <b>Sabe las coordenadas iniciales del tramo?<font color="red">*</font></b>
-                        <div class="form-group" id="coorderadio">
-                          <input type="radio" name="coorde" id="coorde1" value="1" > Si
-                          <input type="radio" name="coorde" id="coorde2" value="2"> No
-                        </div>
+                        <b>Acta de validación del proyecto<font color="red">*</font></b>
+                        {{ Form::file('doc_iden', ['class' => 'form-control', 'id'=>'doc_iden','accept'=>'.pdf','placeholder'=>'ej: acta.pdf','required'=>'true']) }}
                       </div>
                 </div>
                 <div class="modal-footer">
@@ -351,12 +351,12 @@
                               <input  id="otro_actediiden" name="otro_actediiden" class="form-control" rows="3"></input>
                             </div>
                             <div class="form-group" >
-                              <b>Fecha para la estructción</b>
+                              <b>Fecha para la estructuración</b>
                                {{ Form::text('fecha_inicioediiden', Input::old('fecha_inicioediiden'), ['class' => 'form-control', 'id'=>'fecha_inicioediiden','required'=>'true','readonly'=>'true']) }}
                             </div>
                             <div class="form-group col-sm-12" style="padding: 0;">
                               <div class="col-sm-9">
-                              <b>Desea cargar o editar el documento de validación del proyecto:</b>
+                              <b>Desea cargar o editar el acta de validación del proyecto:</b>
                               </div>
                               <div class="col-sm-1" >
                                 <span >
@@ -437,7 +437,7 @@
                               <input required id="nombreediestr" name="nombreediestr" type="text" class="form-control" placeholder="Text input" >
                             </div>
                             <div class="form-group" >
-                              <b>Alcance definido en estructuracion<font color="red">*</font></b>
+                              <b>Alcance definido en estructuración<font color="red">*</font></b>
                               {{ Form::textarea('alcanceediestr', Input::old('alcanceediestr'), ['class' => 'form-control', 'id'=>'alcanceediestr','required'=>'true']) }}
                             </div>
                             <div class="form-group">
@@ -501,8 +501,8 @@
 
 
                     <div class="tab-pane active" id="tab3">
-                        <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data" id="edi-form-eje">
-                          <div>
+                      <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data" id="edi-form-eje">
+                        <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
                               <input  id = "ediidproyedieje" name = "ediidproyedieje" class="form-control" type="hidden" required="true" ></input>               
@@ -572,13 +572,19 @@
                             <div class="form-group">
                               {{Form::hidden ('pob_beneedieje','', ['class' => 'form-control', 'id'=>'pob_beneedieje'])}}
                             </div>
-                            <div class="form-group" >
-                              <b>Avance de ejecución presupuestal<font color="red">*</font></b>
-                              {{Form::number('ava_presuedieje','', ['class' => 'form-control', 'id'=>'ava_presuedieje','required'=>'true'])}}
-                            </div>
                             <div class="form-group">
+                              <b>Costo del proyecto <font color="red">*</font></b>
+                              <input required id="cost_proyedieje" name="cost_proyedieje"onchange="current(this)" class="form-control" placeholder="Ingrese el valor del costo a ejecutar" type="text" />
+                            </div>
+                            <div class="form-group" >
+                              <div id="avance_presu"><b>Avance de ejecución presupuestal<font color="red">*</font></b></div>
+                              <input required id="ava_presuedieje" name="ava_presuedieje"onchange="current(this)" class="form-control" placeholder="Ingrese el valor del costo ejecutado" type="text" />
+                            </div>
+                            <div class="form-group" style="margin-bottom: 30px">
                               <b>Avance físico del proyecto<font color="red">*</font></b>
-                              {{Form::number('ava_productedieje','', ['class' => 'form-control', 'id'=>'ava_productedieje','required'=>'true'])}}
+                              <br><br>
+                              <div id="ava_product" class="noUi-target noUi-ltr noUi-horizontal" style="margin-left: 20px;margin-right: 25px;"></div>
+                              <input type="text" id="ava_productedieje" name="ava_productedieje" style="visibility:hidden">
                             </div>
                              <div class="form-group">
                                <b>Fecha de inicio de la ejecución<font color="red">*</font></b>
@@ -593,10 +599,6 @@
                                 <input  required id="fecha_final2edieje" name="fecha_final2edieje" type="text" class="form-control" placeholder="Ingrese la fecha de finalización del proyecto" onchange='fecha_change(this)'>
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>                      
                               </div>
-                            </div>
-                            <div class="form-group">
-                              <b>Costo del proyecto <font color="red">*</font></b>
-                              <input required id="cost_proyedieje" name="cost_proyedieje"onchange="current(this)" class="form-control" placeholder="Ingrese el valor del costo ejecutado" type="text" min="0" step="any"/>
                             </div>
                             <div class="form-group col-sm-12" style="padding: 0;">
                               <div class="col-sm-9">
@@ -628,7 +630,7 @@
                             <div class="form-group">
                               <b>Seleccione el numero de tramos a intervenir:<font color="red">*</font></b>
                               <select name="tramo" id="tramo" class="form-control" required > 
-                                <option value="">Seleccione uno </option>
+                                <option value="" selected >Seleccione uno </option>
                                 <?php for ($i=1; $i <=10 ; $i++) { ?>
                                 <option value=<?php echo $i; ?>><?php echo $i; ?></option>
                                 <?php } ?>
@@ -636,14 +638,18 @@
                             </div>
                             <div class="row" id="tramos" >
                             </div> 
-                          
-
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Editar proyecto</button>
-                      </div>
-                    </form>
-                  </div>
+                            <div>
+                            Ver tramos en el mapa
+                            <input type="button" value="Ver mapa" id="boton" onclick="map()">
+                            </div>
+                            <div id="mapid" style="min-width: 100px; height: 300px; margin-left:0px; display:none" ></div>   
+                        </div>    
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                          <button type="submit" class="btn btn-primary">Editar proyecto</button>
+                        </div>
+                      </form>
+                    </div>
                 </div>
            </div>
         </div>
@@ -664,6 +670,10 @@
 
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('jsbody')
+ <script src="assets/noUiSlider.9.2.0/nouislider.min.js"></script>
+ <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+ <script src="assets/js/L.Control.Basemaps-min.js"></script> 
+
   @parent
     <script>
       $(document).ready(function() {          
@@ -693,10 +703,121 @@
 
             $( "#mensajeestatus" ).fadeOut(5000);
             $('#tabla_proyectos').DataTable();
-
-             
+          
                
       });
+
+
+
+ bounds = new L.LatLngBounds(new L.LatLng(-7, -90), new L.LatLng(15, -50));
+        var map_alerta = L.map('mapid',{maxBounds: bounds});
+        var basemaps2 = [
+          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom:4, maxZoom: 15}),
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{minZoom:4, maxZoom: 15,    subdomains:['mt0','mt1','mt2','mt3']})
+        ];
+
+        map_alerta.addControl(L.control.basemaps({
+          basemaps: basemaps2,
+          position: 'bottomright',
+          tileX: 0,  // tile X coordinate
+          tileY: 0,  // tile Y coordinate
+          tileZ: 1   // tile zoom level
+        }));
+
+
+
+
+function map(){
+
+        setTimeout(function(){    
+                map_alerta.invalidateSize();
+            }, 1);
+           try{
+              map_alerta.removeLayer(polylines);
+            }catch(err){
+
+            }
+            var popup=[];
+
+            for (var i = 1; i <= $("#tramo").val(); i++) {//valdia que las coordenas de tramo(inicial y finales) esten todas lelnas, si no no poltea este tramo
+              if( $('#lat_gra_ini'+i).val()!='' && $('#lat_min_ini'+i).val()!='' && $('#lat_seg_ini'+i).val()!='' && $('#lon_gra_ini'+i).val()!='' && $('#lon_min_ini'+i).val()!='' && $('#lon_seg_ini'+i).val()!='' && $('#lat_gra_fin'+i).val()!='' && $('#lat_min_fin'+i).val()!='' && $('#lat_seg_fin'+i).val()!='' && $('#lon_gra_fin'+i).val()!='' && $('#lon_min_fin'+i).val()!='' && $('#lon_seg_fin'+i).val()!='' ) {
+
+                if ($('#lat_gra_ini'+i).val()<0) {//valida el signo del la latitud
+                  var Latitud=(parseInt($('#lat_gra_ini'+i).val())-parseFloat($('#lat_min_ini'+i).val()/60)-parseFloat($('#lat_seg_ini'+i).val()/3600));
+                }else{
+                  var Latitud=(parseInt($('#lat_gra_ini'+i).val())+parseFloat($('#lat_min_ini'+i).val()/60)+parseFloat($('#lat_seg_ini'+i).val()/3600));
+                  if($("input[name=sig_lat_ini"+i+"]:checked").val()=='-1'){//valida si se tiene seleccionado el signo sur cuando es latitud 0
+                     Latitud=Latitud*-1;
+                  }
+                }
+                longitud=parseInt($('#lon_gra_ini'+i).val())-parseFloat($('#lon_min_ini'+i).val()/60)-parseFloat($('#lon_seg_ini'+i).val()/3600);
+                var ini = [Math.round(Latitud*10000)/10000,Math.round(longitud*10000)/10000];
+
+                if ($('#lat_gra_fin'+i).val()<0) {//valida el signo del la latitud
+                  var Latitud=(parseInt($('#lat_gra_fin'+i).val())-parseFloat($('#lat_min_fin'+i).val()/60)-parseFloat($('#lat_seg_fin'+i).val()/3600));
+                }else{
+                  var Latitud=(parseInt($('#lat_gra_fin'+i).val())+parseFloat($('#lat_min_fin'+i).val()/60)+parseFloat($('#lat_seg_fin'+i).val()/3600));
+                  if($("input[name=sig_lat_fin"+i+"]:checked").val()=='-1'){//valida si se tiene seleccionado el signo sur cuando es latitud 0
+                     Latitud=Latitud*-1;
+                  }
+                }
+                longitud=parseInt($('#lon_gra_fin'+i).val())-parseFloat($('#lon_min_fin'+i).val()/60)-parseFloat($('#lon_seg_fin'+i).val()/3600);
+                var fin = [Math.round(Latitud*10000)/10000,Math.round(longitud*10000)/10000];
+
+                var pointList=[ini, fin];
+                colores="#"+((1<<24)*Math.random()|0).toString(16);
+                var polyline = new L.Polyline(pointList, {
+                    color: colores,
+                    weight: 3,
+                    opacity: 0.7,
+                    smoothFactor: 1
+                })
+              .bindPopup("<h3 style='text-decoration: underline;text-decoration-color: "+colores+";-webkit-text-decoration-color: "+colores+";  '>Tramo "+i+"</h3><br><b>Linea de:</b> "+$('#linea-'+i+' option:selected').text()+"<br> <b>Coordenadas tramo:</b> <br> Inicial "+ini+ " <br>final "+fin);
+              popup.push(polyline)
+
+              } 
+            }
+
+            polylines = L.layerGroup(popup);
+            polylines.addTo(map_alerta);
+            map_alerta.fitBounds(polyline.getBounds());
+
+        $("#mapid").css("display","block");
+    };
+
+
+var handlesSlider3= document.getElementById('ava_product');
+          noUiSlider.create(handlesSlider3, {
+              start: [0],
+              step: 10,
+              tooltips: true,
+              range: {
+                  'min': [  0 ],
+                  'max': [ 100 ]
+              },
+              format: wNumb({
+                  decimals: 0,
+                  postfix:'%'
+              }),
+              pips: { // Show a scale with the slider
+                mode: 'steps',
+                stepped: true,
+                density: 10,
+                format: wNumb({
+                  decimals: 0,
+                  postfix: '%'
+                })
+              }
+          });
+
+          var input1 = document.getElementById('ava_productedieje');
+          
+          handlesSlider3.noUiSlider.on('update', function( values, handle ) {
+              input1.value = values[handle];
+          });
+
+
+         
 
 //funcion que filtra los municipios por departamentos
       //------------------------------------------
@@ -746,57 +867,49 @@
      
     });//Termina chage 
     var alerta=0;
+    var alerta1=0;
     function fecha_change(a) {
           
           switch(a.id.substr(-1)) {
-              case '2':
-                  if ($('#fecha_inicio2').val()!='' && $('#fecha_final2').val()!='' ){
-                    var fecha1=new Date($('#fecha_inicio2').val().split('/')[2], $('#fecha_inicio2').val().split('/')[1] - 1, $('#fecha_inicio2').val().split('/')[0]);
-                    var fecha2=new Date($('#fecha_final2').val().split('/')[2], $('#fecha_final2').val().split('/')[1] - 1, $('#fecha_final2').val().split('/')[0]);
-                    if(fecha1 > fecha2){
-                      alert('La fecha de inicio es mayor a la fecha final');
-                      $(a).val('');
-                    }
-                  }
-
-                  break;
-
               case 'e':
                   if ($('#fecha_inicio2edieje').val()!='' && $('#fecha_final2edieje').val()!='' ){
                     var fecha1=new Date($('#fecha_inicio2edieje').val().split('/')[2], $('#fecha_inicio2edieje').val().split('/')[1] - 1, $('#fecha_inicio2edieje').val().split('/')[0]);
                     var fecha2=new Date($('#fecha_final2edieje').val().split('/')[2], $('#fecha_final2edieje').val().split('/')[1] - 1, $('#fecha_final2edieje').val().split('/')[0]);
                     if(fecha1 > fecha2){
-                      alert('La fecha de inicio es mayor a la fecha final');
+                      alert('La fecha final NO puede ser anterior a la fecha de inicio de ejecución');
                       $(a).val('');
                     }
                   }
 
                   break;
-              
-              default:
-                  if ($('#fecha_inicio').val()!='' && $('#fecha_final').val()!='' ){
-                    var fecha1=new Date($('#fecha_inicio').val().split('/')[2], $('#fecha_inicio').val().split('/')[1] - 1, $('#fecha_inicio').val().split('/')[0]);
-                    var fecha2=new Date($('#fecha_final').val().split('/')[2], $('#fecha_final').val().split('/')[1] - 1, $('#fecha_final').val().split('/')[0]);
-                    if(fecha1 > fecha2){
-                      alert('La fecha de inicio es mayor a la fecha final');
-                      $(a).val('');
-                    }
-                  }
           }
 
           var today = new Date();
-          if (a.id=='fecha_inicio2' || a.id=='fecha_inicio2edieje' || a.id=='fecha_inicio'){
+          if (a.id=='fecha_inicioediestr'){
              var select=new Date(a.value.split('/')[2], a.value.split('/')[1] - 1, a.value.split('/')[0]);
              var fecha="20/02/2017";
              var fecha_antes=new Date(fecha.split('/')[2], fecha.split('/')[1] - 1, fecha.split('/')[0]);
             if (select>today || select<fecha_antes){
-                alerta=alerta+1;console.log(alerta);
+                alerta=alerta+1;
+            }
+          }else{
+            var select=new Date(a.value.split('/')[2], a.value.split('/')[1] - 1, a.value.split('/')[0]);
+            var fecha="20/02/2017";
+            var fecha_antes=new Date(fecha.split('/')[2], fecha.split('/')[1] - 1, fecha.split('/')[0]);
+            if (select<fecha_antes){
+                alerta1=alerta1+1;
             }
           }
 
           if (alerta==3) {
             alert('Debe seleccionar una fecha entre el 20/02/2017 y el día de hoy');
             alerta=0;
+            $(a).val('');
+          };
+
+          if (alerta1==3) {
+            alert('Debe seleccionar una fecha superior al 20/02/2017');
+            alerta1=0;
             $(a).val('');
           };
         }
@@ -818,7 +931,6 @@
       var enti=$(this).attr("id").substr(-7);
        var e=0;
         $('#entidadedi'+$(this).attr("id").substr(-4)+' :selected').each(function(i, selected){ 
-          console.log($(selected).text())
           if($(selected).text()=='Otro'){
             e=1;
           }
@@ -1035,7 +1147,6 @@
           }
           document.getElementById("cargarproy").append(input);
         });
-          console.log($('#tipoterr_comple').val())
         
     });
 
@@ -1093,6 +1204,27 @@
         } else {            
             document.getElementById(e.id).value=val_format;                
         } 
+        if (val<=0 ){
+          document.getElementById(e.id).value="";
+            alert("El valor debe ser mayor a 0") 
+        }
+        var cos=Number($('#cost_proyedieje').val().replace(/[$ \.]/g, ''));
+        var ava=Number($('#ava_presuedieje').val().replace(/[$ \.]/g, ''));
+
+
+        if (cos < ava){
+          document.getElementById(e.id).value="";
+            alert("El valor de avance de ejecución no puede ser mayor al costo del proyecto") 
+        }
+
+        if (cos>0 && ava>=0){
+          var div=ava / cos * 100;
+          div=Math.round(div*100)/100;
+          $('#avance_presu').html('<b>Avance de ejecución presupuestal ('+div+'%)<font color="red">*</font></b>')
+        }else{
+          $('#avance_presu').html('<b>Avance de ejecución presupuestal<font color="red">*</font></b>')
+        }
+
     } 
 
     $("#tramo").change(function() {//funcion que crea n tramos con sus respectivos inputs de linea de trabajo y coordenandas
@@ -1143,7 +1275,7 @@
               var div = document.createElement("div");//div que contiene el nombre del tramo y la liean del proryecto
                   div.className ="form-group col-sm-6";
                       var Label1 = document.createElement("label");
-                      Label1.innerHTML= "<b>Longitud del tramo <font color='red'>*</font></b>";
+                      Label1.innerHTML= "<b>Longitud del tramo (en Km)<font color='red'>*</font></b>";
 
                       //Create and append select list
                       var input = document.createElement("input");//se crea el select con las lineas para el tramo
@@ -1481,7 +1613,7 @@
                 data:{proy: num},
                 dataType:'json',
                 success:function(data){
-                  console.log(data)
+                  //console.log(data)
                     if (data['arrayproy'][0].est_proy=='Ejecución'){
                       $('#estado_tab a[href="#tab3"]').tab('show');
                     }else if(data['arrayproy'][0].est_proy=='Estructuración'){
@@ -1781,7 +1913,7 @@
                     $('#nombreedieje').val(data['arrayproy'][0].nom_proy_3);
                     $('#estadoedieje').val(data['arrayproy'][0].est_proy);
                     $('#alcanceedieje').val(data['arrayproy'][0].alcance_3);
-                    $('#ava_presuedieje').val(data['arrayproy'][0].avance_pres);
+                    $('#ava_presuedieje').val(Format.to(Number(data['arrayproy'][0].avance_pres)));
                     $('#ava_productedieje').val(data['arrayproy'][0].avance_prod);
                     $('#longedieje').val(data['arrayproy'][0].longitud);
                     $('#pob_beneedieje').val(data['arrayproy'][0].pob_bene);
@@ -1789,7 +1921,9 @@
                     $('#fecha_final2edieje').val(data['arrayproy'][0].Fec_eje_fin);
                     $('#cost_proyedieje').val(Format.to(Number(data['arrayproy'][0].costo_ejec)));
                     $('#tramo').val(data['tramos'].length);  
-
+                    var div=data['arrayproy'][0].avance_pres / data['arrayproy'][0].costo_ejec * 100;
+                    div=Math.round(div*100)/100;
+                    $('#avance_presu').html('<b>Avance de ejecución presupuestal ('+div+'%)<font color="red">*</font></b>')
 
                     $("#deletedocediejec").attr('name', num);
                     $("#deletedocediiden").attr('name', num);
@@ -1824,6 +1958,24 @@
                       $('#otro_actediejec').prop('required',true);
                     }
                     $('#entidadediejec').val(arrayenti);
+
+                    vari=" %";
+                         handlesSlider3.noUiSlider.updateOptions({
+                            start:[data['arrayproy'][0].avance_prod],
+                            format: wNumb({
+                              decimals: 0,
+                              postfix:vari
+                            }),
+                            range: {
+                              'min': [  0 ],
+                              'max': [ 100 ]
+                          }
+                        });
+                    var input1 = document.getElementById('ava_productedieje');
+          
+                        handlesSlider3.noUiSlider.on('update', function( values, handle ) {
+                            input1.value = values[handle];
+                        });
 
                     if (data['arrayproy'][0].coord_ini){
                          var coor_ini=data['arrayproy'][0].coord_ini.split(" ");
@@ -1985,7 +2137,7 @@
                           var div = document.createElement("div");//div que contiene el nombre del tramo y la liean del proryecto
                               div.className ="form-group col-sm-6";
                                   var Label1 = document.createElement("label");
-                                  Label1.innerHTML= "<b>Longitud del tramo <font color='red'>*</font></b>";
+                                  Label1.innerHTML= "<b>Longitud del tramo (en Km)<font color='red'>*</font></b>";
 
                                   //Create and append select list
                                   var input = document.createElement("input");//se crea el select con las lineas para el tramo
@@ -2292,6 +2444,7 @@
                               //fin del ciclo para crear los inputs de cada tramo
 
                               //se llenan los campos con los datos que se encuentarn en la base de datos
+                              $("#mapid").css("display","none");
                               $('#linea-'+i).val(data['tramos'][i-1]['linea']);
                               $('#longitud-'+i).val(data['tramos'][i-1]['longitud']);
 
@@ -2299,6 +2452,15 @@
                               var lon_ini=Math.abs(data['tramos'][i-1]['lon_ini']);
                               var lat_fin=data['tramos'][i-1]['lat_fin'];
                               var lon_fin=Math.abs(data['tramos'][i-1]['lon_fin']);
+
+                               $('[id^=lat_gra]').val(null);
+                               $('[id^=lat_min]').val(null);
+                               $('[id^=lat_seg]').val(null);
+                               $('[id^=lon_gra]').val(null);
+                               $('[id^=lon_min]').val(null);
+                               $('[id^=lon_seg]').val(null);
+
+
                               if(lat_ini!=null){
                                    var g1=Math.trunc(lat_ini);
                                    var m1=Math.abs(Math.trunc((parseFloat(lat_ini)-parseInt(g1))*60));
@@ -2723,6 +2885,11 @@ $('#borrar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea 
 $('#editar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
    $(this).find('form').trigger('reset');
     table.$('tr.active').removeClass('active');
+    try{
+      map_alerta.removeLayer(polylines);
+    }catch(err){
+
+    }
 })
 //finalizacion de funciones de edicion para el estado de identificación  
 </script>    

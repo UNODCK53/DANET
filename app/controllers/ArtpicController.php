@@ -1852,8 +1852,8 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    		'est_proy' =>  Input::get('estadoedieje'),
 		    		'costo_ejec' => preg_replace("/[. $]/","",Input::get('cost_proyedieje')),
 		    		'pob_bene' =>  array_sum(Input::get('pob_bene_ter')),
-		    		'avance_pres' =>  Input::get('ava_presuedieje'),
-		    		'avance_prod' =>  Input::get('ava_productedieje'),
+		    		'avance_pres' =>  preg_replace("/[. $]/","",Input::get('ava_presuedieje')),
+		    		'avance_prod' =>  preg_replace("/[%]/","",Input::get('ava_productedieje')),
 		    		'Fec_eje_ini' =>  Input::get('fecha_inicio2edieje'),
 		    		'Fec_eje_fin' =>  Input::get('fecha_final2edieje'),
 		    		'otro_ejec'=>$otro_act,
@@ -2035,9 +2035,15 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			->select('est_proy','enti_lider')
 			->where('id_proy','=', $proyecto)
 			->get();
+
+
+	$tramos = DB::table('MODART_PIC_P5150_TRAMOSPASOGEO')
+			->select('tramo','linea','lat_ini','lon_ini','lat_fin','lon_fin','longitud')
+			->where('id_proy','=', $proyecto)
+			->get();
 			
 
-		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr,'pobla_bene'=>$pobla_bene,'entidades'=>$enti);
+		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr,'pobla_bene'=>$pobla_bene,'entidades'=>$enti,'tramos'=>$tramos);
 	}
 
 
