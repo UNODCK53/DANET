@@ -188,7 +188,7 @@
           
           </div>
         </div></a>  
-        <a href="<?=URL::to('Cooperacion_GIZ'); ?>"><div>
+        <a href="<?=URL::to('Cooperacion_GIZ'); ?>" style="display:none"><div>
           <div id="imagen1" class="col-xs-12 col-sm-3">
             <center><img src="assets/img/Circulo_GIZ.png" id="imagen" class="img-responsive" alt="cirdondeestamos"></center>
           </div>

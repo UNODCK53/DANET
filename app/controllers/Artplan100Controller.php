@@ -245,7 +245,7 @@ class Artplan100Controller extends BaseController {
 		$editartabla =DB::table('MODART_P100DIAS')	
 			->join('DPTOS_SIMPLIFY','MODART_P100DIAS.cod_depto','=','DPTOS_SIMPLIFY.COD_DPTO')
 			->join('MPIOS_SIMPLIFY','MODART_P100DIAS.cod_mpio','=','MPIOS_SIMPLIFY.COD_DANE')					  
-			->select(db::raw('id, DPTOS_SIMPLIFY.NOM_DPTO, MPIOS_SIMPLIFY.NOM_MPIO, vereda, nom_proy, mod_foca, enti_lider, linea_proy, alcance, pob_bene, est_proy, fecha_inicio, fecha_fin,avance_pres, avance_prod, costo_ejec, cod_depto, cod_mpio'))
+			->select(db::raw('id, DPTOS_SIMPLIFY.NOM_DPTO, MPIOS_SIMPLIFY.NOM_MPIO, vereda, nom_proy, mod_foca, enti_lider, linea_proy, alcance, pob_bene, est_proy, fecha_inicio, fecha_fin,avance_pres,contactoterr,tel_contactoterr,avance_prod, costo_ejec, cod_depto, cod_mpio'))
 			->whereRaw($ms1)
 			->get();
 		

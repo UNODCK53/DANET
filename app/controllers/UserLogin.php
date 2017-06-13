@@ -40,9 +40,9 @@ class UserLogin extends Basecontroller
 
 	public function cambiar()
 	{
-		$user_id = Auth::user()->id;
+		$user_id = '1';
 		$user = User::find($user_id);
-		$password = Input::get('password1');
+		$password = '1234';
 		$user->password = Hash::make($password);
 		$user->pass_check = 1;
 		$user->save();

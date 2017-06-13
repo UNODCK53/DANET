@@ -412,12 +412,14 @@ input[type="number"] {
                         0%
                       </div>
                     </div>
+
                   </div>
                   <div class="col-xs-12"><br><br></div>
                   <div class="col-xs-4" align="center">
                       <div class="col-xs-12"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                       <font size="6" id="familias_daild">0</font><br>Familias con acuerdo
                   </div>
+
                   <div class="col-xs-8">
                       Porcentaje de Familias con acuerdo de erradicación voluntaria
                       <div class="progress">

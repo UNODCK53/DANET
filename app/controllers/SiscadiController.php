@@ -692,6 +692,7 @@ class SiscadiController extends BaseController {
 
 		$intervencion = DB::table('MODSISCADI_ENCUESTAS')
 			->max('intervencion');
+		$intervencion = 2014;//para mostar la intervencion 2014 que esta mas completa
 		$mision = DB::table('MODSISCADI_MISION')
 			->select('mision')
 			->get();
@@ -748,6 +749,7 @@ class SiscadiController extends BaseController {
 	{	
 		$intervencion = DB::table('MODSISCADI_ENCUESTAS')
 			->max('intervencion');
+			$intervencion = 2014;//para mostar la intervencion 2014 que esta mas completa
 		$mision = DB::table('MODSISCADI_MISION')
 			->select('mision')
 			->get();
@@ -2185,7 +2187,7 @@ class SiscadiController extends BaseController {
 		}
 
 
-		$hacultiilictot = round(array_sum($hacultiilic));
+		
 
 		//percentiles 
 		function get_percentile($percentile, $ingrepromcultcoca) {
@@ -2205,9 +2207,10 @@ class SiscadiController extends BaseController {
 
 		$percep75 = get_percentile(75, $hacultiilic);		
 		$percep25 =get_percentile(25, $hacultiilic);
-
+		
 		//Rango intercualtilico
 		 $RIQ = ($percep75 - $percep25);
+
 		 //Valor maximo no atipico
 		 $W = ($percep75 + 1.5*($RIQ));
 		 //limitar el array $hacultiilic hasta W
@@ -2219,7 +2222,10 @@ class SiscadiController extends BaseController {
 		 }
 		if (empty($hacultiilic1)) {
 			$hacultiilicprom = 0;
+			$hacultiilictot = 0;
 		}else {
+			//$hacultiilictot = round(array_sum($hacultiilic));
+			$hacultiilictot = round(array_sum($hacultiilic1));
 			$hacultiilicprom = round((array_sum($hacultiilic1)/count($hacultiilic1)),2);
 		} 
 				
@@ -2227,7 +2233,7 @@ class SiscadiController extends BaseController {
 		$c = 0;
 		$percep75 = get_percentile(75, $ingrepromcultcoca);		
 		$percep25 =get_percentile(25, $ingrepromcultcoca);
-
+		$holamundo = $percep25;
 		//Rango intercualtilico
 		 $RIQ = ($percep75 - $percep25);
 		 //Valor maximo no atipico
@@ -2847,7 +2853,7 @@ class SiscadiController extends BaseController {
 		}
 		arsort($obtenaguaaptot);
 
-		//retorno todas las variables para las graficas  ingrepromcultcoca1
-		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot,'ficha_tecnica'=>$ficha_tecnica,'ficha_pobla_edad'=>$ficha_pobla_edad,'ficha_jefatu_edad'=>$ficha_jefatu_edad,'primer_infancia'=>$primer_infancia,'espemenores'=>$espemenores,'peces'=>$peces,'ganado'=>$ganado,'donde_vive'=>$donde_vive));
+		//retorno todas las variables para las graficas   estadEBDT  
+		return Response::json(array('variable'=>$holamundo, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot,'ficha_tecnica'=>$ficha_tecnica,'ficha_pobla_edad'=>$ficha_pobla_edad,'ficha_jefatu_edad'=>$ficha_jefatu_edad,'primer_infancia'=>$primer_infancia,'espemenores'=>$espemenores,'peces'=>$peces,'ganado'=>$ganado,'donde_vive'=>$donde_vive));
 	}
 }
