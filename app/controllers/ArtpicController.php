@@ -2035,9 +2035,15 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			->select('est_proy','enti_lider')
 			->where('id_proy','=', $proyecto)
 			->get();
+
+
+	$tramos = DB::table('MODART_PIC_P5150_TRAMOSPASOGEO')
+			->select('tramo','linea','lat_ini','lon_ini','lat_fin','lon_fin','longitud')
+			->where('id_proy','=', $proyecto)
+			->get();
 			
 
-		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr,'pobla_bene'=>$pobla_bene,'entidades'=>$enti);
+		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr,'pobla_bene'=>$pobla_bene,'entidades'=>$enti,'tramos'=>$tramos);
 	}
 
 

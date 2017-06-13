@@ -12,7 +12,9 @@
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
-<script src="assets/art/js/wNumb.js"></script>    
+<script src="assets/art/js/wNumb.js"></script> 
+<link rel="stylesheet" href="assets/css/L.Control.Basemaps.css" />  
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>   
   @parent
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
@@ -38,9 +40,9 @@
 <!--aca se escribe el codigo-->
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
-        <h2 class="text-center text-primary">Consulta PIC</h2>
+        <h2 class="text-center text-primary">Consulta Paln 51/50</h2>
         <br>
-        <p class="lead text-justify">A continuación se presenta el avance de los proyectos de pequeña infraestructura comunitaria-PIC para su consulta.</p>  
+        <p class="lead text-justify">A continuación se presentan los proyectos del Plan 51/50 para su consulta.</p>  
     </div>  
     <div class="col-sm-1"></div>
     </div>
@@ -305,9 +307,16 @@
                                 </span>
                               </td>
                             </tr>
+
+
+                            <tr>
+                              <td>Ver tramos en el mapa</td>
+                              <td><input type="button" value="Ver mapa" id="boton" onclick="map()"></td>
+                            </tr>
                           </tbody>  
                           </thead>
                         </table>
+                        <div id="mapid" style="min-width: 100px; height: 300px; margin-left:0px; display:none" ></div>
                     </div>
                   </div>
                 </div>
@@ -339,6 +348,8 @@
 
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('jsbody')
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script src="assets/js/L.Control.Basemaps-min.js"></script> 
   @parent
     <script>
       $(document).ready(function() {          
@@ -353,7 +364,31 @@
           $('#tabla_proyectos').DataTable();
       });
 
-      //funcion que filtra los municipios por departamentos
+      //funcion para el visor
+        bounds = new L.LatLngBounds(new L.LatLng(-7, -90), new L.LatLng(15, -50));
+        var map_alerta = L.map('mapid',{maxBounds: bounds});
+        var basemaps2 = [
+          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom:4, maxZoom: 15}),
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{minZoom:4, maxZoom: 15,    subdomains:['mt0','mt1','mt2','mt3']})
+        ];
+
+        map_alerta.addControl(L.control.basemaps({
+          basemaps: basemaps2,
+          position: 'bottomright',
+          tileX: 0,  // tile X coordinate
+          tileY: 0,  // tile Y coordinate
+          tileZ: 1   // tile zoom level
+        }));
+
+        function map(){
+          setTimeout(function(){    
+                map_alerta.invalidateSize();
+            }, 1);
+
+          $("#mapid").css("display","block");
+          map_alerta.fitBounds(bounds);
+        }
+    
       //------------------------------------------    
 
       var Format = wNumb({
@@ -383,7 +418,7 @@
                   data:{proyecto: num},
                   dataType:'json',
                   success:function(data){
-                    console.log(data)
+                    //console.log(data)
 
 
 
@@ -488,6 +523,45 @@
                                     $('#acta-eje').attr("target", "_blank");
                                     $('#acta-eje').attr('disabled', false);
                                 }
+
+                                
+                                $("#mapid").css("display","none");
+                                try{
+                                  map_alerta.removeLayer(polylines);
+                                }catch(err){
+
+                                }
+                                var popup=[];
+
+                                for (var j = 0; j < data['tramos'].length; j++) {//valdia que las coordenas de tramo(inicial y finales) esten todas lelnas, si no no poltea este tramo
+                                    var tramo=j+parseInt(1);
+
+                                    var Latitud=data['tramos'][j]['lat_ini'];
+                                    var longitud=data['tramos'][j]['lon_ini'];
+                                    var ini = [Math.round(Latitud*10000)/10000,Math.round(longitud*10000)/10000];
+
+                                    var Latitud2=data['tramos'][j]['lat_fin'];
+                                    var longitud2=data['tramos'][j]['lon_fin'];
+                                    var fin = [Math.round(Latitud2*10000)/10000,Math.round(longitud2*10000)/10000];
+                                    if (Latitud!=null && longitud!=null && Latitud2!=null && longitud2!=null){
+                                      var pointList=[ini, fin];
+                                      colores="#"+((1<<24)*Math.random()|0).toString(16);
+                                      var polyline = new L.Polyline(pointList, {
+                                        color: colores,
+                                        weight: 3,
+                                        opacity: 0.7,
+                                        smoothFactor: 1
+                                    })
+                                    .bindPopup("<h3 style='text-decoration: underline;text-decoration-color: "+colores+";-webkit-text-decoration-color: "+colores+";  '>Tramo "+tramo+"</h3><br><b>Linea de:</b> "+$('#linea-'+tramo+' option:selected').text()+"<br> <b>Coordenadas tramo:</b> <br> Inicial "+ini+ " <br>final "+fin);
+                                    popup.push(polyline)
+                                    }
+                                  } 
+                                
+                                polylines = L.layerGroup(popup);
+                                polylines.addTo(map_alerta);
+                                bounds=polyline.getBounds();
+
+
                                 break;
                           }
                     }
@@ -496,6 +570,17 @@
               });//fin de la consulta ajax (Editar proceso)
           }
       });//Termina tbody
+
+
+$('#consultar_norma').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+   $(this).find('table').trigger('reset');
+    table.$('tr.active').removeClass('active');
+    try{
+      map_alerta.removeLayer(polylines);
+    }catch(err){
+
+    }
+})
     </script>    
 @stop
 
