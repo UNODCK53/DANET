@@ -108,7 +108,7 @@
                   <h4 class="modal-title" id="myModalLabel">Ficha de proyecto: Plan 51/50</h4>
                 </div>
                 <div class="modal-body">
-                    <form role="form" action="artpic/cargar-proyecto-plan50" method="post" id="cargarproy" enctype="multipart/form-data" > 
+                    <form role="form" action="artpic/cargar-proyecto-plan50" method="post" id="cargarproy" name="cargarproy" enctype="multipart/form-data" onsubmit="return valida(this)"> 
                       <div class="form-group">
                         <b>Departamento<font color="red">*</font></b>
                         <select required id="depto" name="depto" class="form-control" onchange="filter_municipality()">
@@ -283,7 +283,7 @@
                   </div>
                     <div class="tab-content">
                       <div class="tab-pane" id="tab1">
-                        <form role="form" action="artpic/edi-proy-p50-iden" method="post" enctype="multipart/form-data" id="edi-form-iden">
+                        <form role="form" action="artpic/edi-proy-p50-iden" method="post" enctype="multipart/form-data" id="edi-form-iden" name="edi_form_iden" onsubmit="return valida(this)">
                           <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
@@ -388,7 +388,7 @@
 
 
                       <div class="tab-pane active" id="tab2">
-                        <form role="form" action="artpic/edi-proy-p50-estr" method="post" enctype="multipart/form-data" id="edi-form-estr">
+                        <form role="form" action="artpic/edi-proy-p50-estr" method="post" enctype="multipart/form-data" id="edi-form-estr" name="edi_form_estr" onsubmit="return valida(this)">
                           <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
@@ -501,7 +501,7 @@
 
 
                     <div class="tab-pane active" id="tab3">
-                      <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data" id="edi-form-eje">
+                      <form role="form" action="artpic/edi-proy-p50-eje" method="post" enctype="multipart/form-data" id="edi-form-eje" name="edi_form_eje" onsubmit="return valida(this)">
                         <div>
                             <!--El siguiente input es invisible para el usuario. Cotiene el id del proyecto a modificar-->
                             <div class="form-group">
@@ -1089,6 +1089,7 @@ var handlesSlider3= document.getElementById('ava_product');
               for (var i = 0; i < Object.keys(data['arraynom_terri']).length; i++) {
                   var OPTGROUP=document.createElement("OPTGROUP");//funcion para crear select con agrupacion
                   OPTGROUP.setAttribute("label", data['arratodoterrtipo'][i]);
+                  OPTGROUP.setAttribute("name", data['arratodoterrtipo'][i]);
                 $.each(data['arraynom_terri'][i], function(datos,nom){
                     var x = document.createElement("OPTION");
                     x.setAttribute("value",nom);
@@ -2871,6 +2872,46 @@ $("#nom_terredieje").change(function(){
         }
     });
 
+
+function valida(f) {
+  formulario=f.name;
+  switch(formulario) {
+    case 'cargarproy':
+        var lista = document.cargarproy.nom_terr;
+        var atr_nomterri='';
+        break;
+    case 'edi_form_iden':
+        var lista = document.edi_form_iden.nom_terrediiden;
+        var atr_nomterri='ediiden';
+        break;
+    case 'edi_form_estr':
+        var lista = document.edi_form_estr.nom_terrediestr;
+        var atr_nomterri='ediestr';
+        break;
+    case 'edi_form_eje':
+        var lista = document.edi_form_eje.nom_terredieje;
+        var atr_nomterri='edieje';
+        break;
+  } 
+
+  var label=[];
+
+  var eachGroup = lista.childNodes;
+  var count=0
+  $('#nom_terr'+atr_nomterri).find("option:selected").each(function(){
+        //optgroup label
+        label[count] = $(this).parent().attr("label");
+        count++;
+    });
+  for (var i=0;i<eachGroup.length;i++) {
+    var eachOption=eachGroup[i].label;
+    var index=label.indexOf(eachOption)
+    if (index==-1){
+      alert("No a seleccioando ningún territorio de "+eachOption.substr(0,eachOption.length-1) )
+      return false;
+    }
+  }    
+}
 
 $('#cargar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
    $(this).find('form').trigger('reset');
