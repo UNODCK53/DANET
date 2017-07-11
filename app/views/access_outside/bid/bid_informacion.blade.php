@@ -133,7 +133,7 @@
 <script>
       $(document).ready(function() {          
           //para que los menus pequeño y grande funcione
-          $( "#productos_terminados" ).addClass("active");          
+                   
           $( "#iniciomenupeq" ).html("<small> INICIO</small>");
           $( "#gizdatrelevmenupeq" ).html("<strong>Datos Relevantes</strong>");          
           $( "#mensajeestatus" ).fadeOut(5000);
