@@ -42,11 +42,17 @@
       width: 100%;
     }
 
+    .foto:hover{
+      width: 100%;
+
+    }
+
     .info{
       background: #f2f2f2;
       padding: 15px;
       margin-bottom: 15px;
       height: 380px ;
+      filter: grayscale(100%);
     }
 
     .dropdown-submenu {
@@ -57,6 +63,15 @@
         top: 0;
         left: 100%;
         margin-top: -1px;
+    }
+
+    a:link {
+      color: black;
+    }
+
+    .info:hover {
+      color: #337ab7;
+      filter: none;
     }
 
     
@@ -133,12 +148,14 @@
           <hr>
           <h1>Nuestras Actividades en zona</h1>
           @foreach($array[3] as $pro)
-          <div class="col-xs-12 col-md-3">
-            <div class="info">
-              <img class="foto" src="assets/bid/informacion/{{$pro->id}}/{{$pro->id}}.jpg">
-              <h3>{{$pro->titulo}}</h3>
-            </div>            
-          </div>
+          <a href="bid_informacion?id1={{$pro->id}}">
+            <div class="col-xs-12 col-md-3">
+              <div class="info">
+                <img class="foto" src="assets/bid/informacion/{{$pro->id}}/{{$pro->id}}.jpg">
+                <h3>{{$pro->titulo}}</h3>
+              </div>            
+            </div>
+          </a>
           @endforeach
         </div>
 

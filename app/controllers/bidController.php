@@ -583,5 +583,38 @@ class bidController extends BaseController {
 
 	//-------------------------------------------------------------------------------------
 	//-------------------------------------------------------------------------------------
+	//Esta seccion indluye los controladores de la seccion de visualizacón de informacion
+	//-------------------------------------------------------------------------------------
+
+	public function public_informacion(){
+		$departamentos = DB::table('DEPARTAMENTOS')
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+							->join('MODBID_BIDPUBLIC','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('COD_DPTO,NOM_DPTO'))	
+							->groupby('COD_DPTO','NOM_DPTO')	
+							->get();
+
+		$organizaciones = DB::table('MODBID_BIDPUBLIC')		
+							->join('MODBID_ORGANIZACION','MODBID_ORGANIZACION.nit','=','MODBID_BIDPUBLIC.nit')
+							->select(DB::RAW('MODBID_BIDPUBLIC.nit,MODBID_ORGANIZACION.acronim,MODBID_ORGANIZACION.cod_depto'))
+							->orderby('acronim')
+							->get();
+
+		$lineasproductivas = DB::table('MODBID_LINEAPRODORG')		
+							->join('MODBID_LINEAPRODEXP','MODBID_LINEAPRODEXP.id_lipex','=','MODBID_LINEAPRODORG.id_lipex')
+							->select(DB::RAW('MODBID_LINEAPRODORG.id_lipex, MODBID_LINEAPRODEXP.nombre'))
+							->where('MODBID_LINEAPRODORG.id_lipex','!=','NULL')
+							->groupby('MODBID_LINEAPRODORG.id_lipex','MODBID_LINEAPRODEXP.nombre')
+							->get();
+
+		$informacion = DB::table('MODBID_INFORMACIONPUBLIC')
+							->select(DB::RAW('TOP 8 id,titulo,texto,foto,tipo,created_at,updated_at,id_usuario,fecha_noticia,borrado'))
+							->where('id','=',Input::get('id1'))
+							->get();
+
+		$array = array($departamentos,json_encode($organizaciones), $lineasproductivas, $informacion);
+
+		return View::make('access_outside/bid/bid_informacion', array('array' =>$array));
+	}
 }
 ?>
