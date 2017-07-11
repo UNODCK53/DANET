@@ -12,7 +12,9 @@
 @stop
 <!--agrega JavaScript dentro del header a la pagina-->
 @section('js')
-<script src="assets/art/js/wNumb.js"></script>    
+<script src="assets/art/js/wNumb.js"></script> 
+<link rel="stylesheet" href="assets/css/L.Control.Basemaps.css" />  
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>   
   @parent
 @stop 
 <!--agrega script de cabecera y no de cuerpo si se necesitan-->
@@ -38,9 +40,9 @@
 <!--aca se escribe el codigo-->
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
-        <h2 class="text-center text-primary">Consulta PIC</h2>
+        <h2 class="text-center text-primary">Consulta Paln 51/50</h2>
         <br>
-        <p class="lead text-justify">A continuación se presenta el avance de los proyectos de pequeña infraestructura comunitaria-PIC para su consulta.</p>  
+        <p class="lead text-justify">A continuación se presentan los proyectos del Plan 51/50 para su consulta.</p>  
     </div>  
     <div class="col-sm-1"></div>
     </div>
@@ -75,7 +77,7 @@
                 <td >{{$pro->cod_depto}}</td>
                 <td >{{$pro->cod_mpio}}</td>
                 <td >{{$pro->nom_nucleo}}</td>
-                <td >{{$pro->nom_proy}}</td>
+                <td >{{$pro->nom_proy_3}}</td>
                 <td >{{$pro->est_proy}}</td>                                              
               </tr>            
             @endforeach    
@@ -125,10 +127,6 @@
                               <td id="nuleo-ide"></td>
                             </tr>
                             <tr>
-                              <td>Estado actual del proyecto</td>
-                              <td id="estado-ide"></td>
-                            </tr>
-                            <tr>
                               <td>Tipo de territorio</td>
                               <td id="tiopoterr-ide"></td>
                             </tr>
@@ -149,22 +147,14 @@
                               <td id="entidad-ide"></td>
                             </tr>
                             <tr>
-                              <td>Línea de proyecto</td>
-                              <td id="linea-ide"></td>
-                            </tr>
-                            <tr>
-                              <td>Fecha estimada para inicio de la ejecución</td>
+                              <td>Fecha para la estructción</td>
                               <td id="fechaini-ide"></td>
                             </tr>
                             <tr>
-                              <td>Fecha estimada para el final de la ejecución</td>
-                              <td id="fechafin-ide"></td>
-                            </tr>
-                            <tr>
-                              <td>documento de validación del proyecto</td>
+                              <td>Documento de validación del proyecto</td>
                               <td> 
                                 <span class="col-xs-1">
-                                  <a id="acta-ide" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-success" role="button"></a>
+                                  <a id="acta-ide" class="glyphicon glyphicon-download-alt btn btn-default" role="button"></a>
                                 </span>
                               </td>
                             </tr>
@@ -198,10 +188,6 @@
                               <td id="nuleo-est"></td>
                             </tr>
                             <tr>
-                              <td>Estado actual del proyecto</td>
-                              <td id="estado-est"></td>
-                            </tr>
-                            <tr>
                               <td>Tipo de territorio</td>
                               <td id="tiopoterr-est"></td>
                             </tr>
@@ -222,26 +208,18 @@
                               <td id="entidad-est"></td>
                             </tr>
                             <tr>
-                              <td>Línea de proyecto</td>
-                              <td id="linea-est"></td>
-                            </tr>
-                            <tr>
                               <td>Costo estimado del proyecto</td>
                               <td id="costo-est"></td>
                             </tr>
                             <tr>
-                              <td>Fecha estimada para inicio de la ejecución</td>
+                              <td>Fecha de la firma del convenio</td>
                               <td id="fechaini-est"></td>
                             </tr>
                             <tr>
-                              <td>Fecha estimada para el final de la ejecución</td>
-                              <td id="fechafin-est"></td>
-                            </tr>
-                            <tr>
-                              <td>documento de validación del proyecto</td>
+                              <td>Documento presupuestal del proyecto</td>
                               <td> 
                                 <span class="col-xs-1">
-                                  <a id="acta-est" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-success" role="button"></a>
+                                  <a id="acta-est" class="glyphicon glyphicon-download-alt btn btn-default" role="button"></a>
                                 </span>
                               </td>
                             </tr>
@@ -274,10 +252,6 @@
                               <td id="nuleo-eje"></td>
                             </tr>
                             <tr>
-                              <td>Estado actual del proyecto</td>
-                              <td id="estado-eje"></td>
-                            </tr>
-                            <tr>
                               <td>Tipo de territorio</td>
                               <td id="tiopoterr-eje"></td>
                             </tr>
@@ -296,10 +270,6 @@
                             <tr>
                               <td>Entidad Líder</td>
                               <td id="entidad-eje"></td>
-                            </tr>
-                            <tr>
-                              <td>Línea de proyecto</td>
-                              <td id="linea-eje"></td>
                             </tr>
                             <tr>
                               <td>Costo del proyecto</td>
@@ -322,10 +292,6 @@
                               <td id="prod-eje"></td>
                             </tr>
                             <tr>
-                              <td>Longitud del tramo a intervenir</td>
-                              <td id="long-eje"></td>
-                            </tr>
-                            <tr>
                               <td>Fecha de inicio de la ejecución</td>
                               <td id="fechaini-eje"></td>
                             </tr>
@@ -334,24 +300,23 @@
                               <td id="fechafin-eje"></td>
                             </tr>
                             <tr>
-                              <td>Documento de validación del proyecto</td>
+                              <td>Acta de inicio del proyecto</td>
                               <td> 
                                 <span class="col-xs-1">
-                                  <a id="acta-eje" target="_blank" href="" class="glyphicon glyphicon-download-alt btn btn-success" role="button"></a>
+                                  <a id="acta-eje" class="glyphicon glyphicon-download-alt btn btn-default" role="button"></a>
                                 </span>
                               </td>
                             </tr>
+
+
                             <tr>
-                              <td>Coordenadas iniciales del proyecto</td>
-                              <td id="coorini-eje"></td>
-                            </tr>
-                            <tr>
-                              <td>Coordenadas finales del proyecto</td>
-                              <td id="coorfin-eje"></td>
+                              <td>Ver tramos en el mapa</td>
+                              <td><input type="button" value="Ver mapa" id="boton" onclick="map()"></td>
                             </tr>
                           </tbody>  
                           </thead>
                         </table>
+                        <div id="mapid" style="min-width: 100px; height: 300px; margin-left:0px; display:none" ></div>
                     </div>
                   </div>
                 </div>
@@ -383,6 +348,8 @@
 
 <!--agrega JavaScript dentro del body a la pagina-->
 @section('jsbody')
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script src="assets/js/L.Control.Basemaps-min.js"></script> 
   @parent
     <script>
       $(document).ready(function() {          
@@ -397,7 +364,31 @@
           $('#tabla_proyectos').DataTable();
       });
 
-      //funcion que filtra los municipios por departamentos
+      //funcion para el visor
+        bounds = new L.LatLngBounds(new L.LatLng(-7, -90), new L.LatLng(15, -50));
+        var map_alerta = L.map('mapid',{maxBounds: bounds});
+        var basemaps2 = [
+          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom:4, maxZoom: 15}),
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{minZoom:4, maxZoom: 15,    subdomains:['mt0','mt1','mt2','mt3']})
+        ];
+
+        map_alerta.addControl(L.control.basemaps({
+          basemaps: basemaps2,
+          position: 'bottomright',
+          tileX: 0,  // tile X coordinate
+          tileY: 0,  // tile Y coordinate
+          tileZ: 1   // tile zoom level
+        }));
+
+        function map(){
+          setTimeout(function(){    
+                map_alerta.invalidateSize();
+            }, 1);
+
+          $("#mapid").css("display","block");
+          map_alerta.fitBounds(bounds);
+        }
+    
       //------------------------------------------    
 
       var Format = wNumb({
@@ -427,13 +418,21 @@
                   data:{proyecto: num},
                   dataType:'json',
                   success:function(data){
-                     if (data['todo'][0].est_proy=='Ejecución'){
+                    //console.log(data)
+
+
+
+                    if (data['todo'][0].est_proy=='Ejecución'){
+                      var estado=3;
                       $('#tab_estado a[href="#tab3"]').tab('show');
                     }else if(data['todo'][0].est_proy=='Estructuración'){
                       $('#tab_estado a[href="#tab2"]').tab('show');
+                      var estado=2;
                     }else if (data['todo'][0].est_proy=='Identificación'){
                       $('#tab_estado a[href="#tab1"]').tab('show');
+                      var estado=1;
                     }
+
                      $('[id^=id]').html(data['todo'][0].ID);
                      $('[id^=dpto]').html(data['todo'][0].cod_depto);
                      $('[id^=mpios]').html(data['todo'][0].cod_mpio);
@@ -441,47 +440,147 @@
                      $('[id^=estado]').html(data['todo'][0].est_proy);
                      $('[id^=tiopoterr]').html(data['tipoterr'].toString());
                      $('[id^=nomterr]').html(data['arraynomter']);
-                     $('[id^=nomproy]').html(data['todo'][0].nom_proy);
-                     $('#alcance-ide').html(data['todo'][0].alcance);
-                     $('#alcance-est').html(data['todo'][0].alcance_2);
-                     $('#alcance-eje').html(data['todo'][0].alcance_3);
-                     $('[id^=entidad]').html(data['todo'][0].enti_lider);
-                     $('[id^=linea]').html(data['todo'][0].linea_proy);
-                     $('#costo-est').html(data['todo'][0].costo_estim);
-                     $('#costo-eje').html(data['todo'][0].costo_ejec);
-                     $('#pob-eje').html(data['todo'][0].pob_bene);
-                     $('#pob_terr-eje').html(data['pobla_bene']);
-                     
-                     $('#presu-eje').html(data['todo'][0].avance_pres);
-                     $('#prod-eje').html(data['todo'][0].avance_prod);
-                     $('#long-eje').html(data['todo'][0].longitud);
-                     $('#fechaini-ide').html(data['todo'][0].fecha_inicio);
-                     $('#fechaini-est').html(data['todo'][0].fecha_inicio);
-                     $('#fechaini-eje').html(data['todo'][0].fecha_inicio_2);
-                     $('#fechafin-ide').html(data['todo'][0].fecha_fin);
-                     $('#fechafin-est').html(data['todo'][0].fecha_fin);
-                     $('#fechafin-eje').html(data['todo'][0].fecha_fin_2);
-                     $('#coorini-eje').html(data['todo'][0].coord_ini);
-                     $('#coorfin-eje').html(data['todo'][0].coord_fin);
-                     if( data['todo'][0].documento==""||  data['todo'][0].documento==null){
-                          $('[id^=acta]').attr('disabled', true);
-                          $('[id^=acta]').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
-                          $('[id^=acta]').attr("title", "No hay documento cargado");
-                          $('[id^=acta]').removeAttr("href");
-                          $('[id^=acta]').removeAttr("target");
-                        }else{
-                         $('[id^=acta]').attr("href", data['todo'][0].documento);
-                         $('[id^=acta]').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
-                         $('[id^=acta]').attr("target", "_blank");
-                         $('[id^=acta]').attr('disabled', false);
-                        }
+                     for (var i = 1; i <= estado; i++) {
+                          switch(i) {
+                            case 1:
+                                //se llenan los datos para identificacion
+                                 $('#nomproy-ide').html(data['todo'][0].nom_proy);
+                                 $('#alcance-ide').html(data['todo'][0].alcance);
+                                 var arrayenti = [];
+                                 $.each(data['entidades'], function(nom,datos){
+                                  if(datos['est_proy']=='Identificación'){
+                                     arrayenti.push(datos['enti_lider']);
+                                   }
+                                 });
+                                 $('#entidad-ide').html(arrayenti.toString());
+                                 $('#fechaini-ide').html(data['todo'][0].fecha_iden);
+                                 if( data['todo'][0].doc_iden=="" ||  data['todo'][0].doc_iden==null){
+                                      $('#acta-ide').attr('disabled', true);
+                                      $('#acta-ide').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
+                                      $('#acta-ide').attr("title", "No hay documento cargado");
+                                      $('#acta-ide').removeAttr("href");
+                                      $('#acta-ide').removeAttr("target");
+                                    }else{
+                                     $('#acta-ide').attr("href", data['todo'][0].doc_iden);
+                                     $('#acta-ide').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
+                                     $('#acta-ide').attr("target", "_blank");
+                                     $('#acta-ide').attr('disabled', false);
+                                    }
+                                break;
+                            case 2:
+                                //se llenan los datos para estructuracion
+                                $('#nomproy-est').html(data['todo'][0].nom_proy_2);
+                                $('#alcance-est').html(data['todo'][0].alcance_2);
+                                var arrayenti = [];
+                                $.each(data['entidades'], function(nom,datos){
+                                if(datos['est_proy']=='Estructuración'){
+                                     arrayenti.push(datos['enti_lider']);
+                                   }
+                                });
+                                $('#entidad-est').html(arrayenti.toString());
+                                $('#costo-est').html(data['todo'][0].costo_estim);
+                                $('#fechaini-est').html(data['todo'][0].fecha_estr);
+                                if( data['todo'][0].doc_estr=="" ||  data['todo'][0].doc_estr==null){
+                                    $('#acta-est').attr('disabled', true);
+                                    $('#acta-est').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
+                                    $('#acta-est').attr("title", "No hay documento cargado");
+                                    $('#acta-est').removeAttr("href");
+                                    $('#acta-est').removeAttr("target");
+                                }else{
+                                    $('#acta-est').attr("href", data['todo'][0].doc_estr);
+                                    $('#acta-est').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
+                                    $('#acta-est').attr("target", "_blank");
+                                    $('#acta-est').attr('disabled', false);
+                                }
+                                break;
+                            case 3:
+                                //se llenan los datos para ejecucion
+                                $('#nomproy-eje').html(data['todo'][0].nom_proy_3);
+                                $('#alcance-eje').html(data['todo'][0].alcance_3);
+                                var arrayenti = [];
+                                $.each(data['entidades'], function(nom,datos){
+                                if(datos['est_proy']=='Ejecución'){
+                                     arrayenti.push(datos['enti_lider']);
+                                   }
+                                });
+                                $('#entidad-eje').html(arrayenti.toString());
+                                $('#costo-eje').html(data['todo'][0].costo_ejec);
+                                $('#fechaini-eje').html(data['todo'][0].Fec_eje_fin);
+                                $('#fechafin-eje').html(data['todo'][0].Fec_eje_ini);
+                                $('#presu-eje').html(data['todo'][0].avance_pres);
+                                $('#prod-eje').html(data['todo'][0].avance_prod);
+                                $('#pob-eje').html(data['todo'][0].pob_bene);
+                                $('#pob_terr-eje').html(data['pobla_bene']);
+                                if( data['todo'][0].doc_ejec=="" ||  data['todo'][0].doc_ejec==null){
+                                    $('#acta-eje').attr('disabled', true);
+                                    $('#acta-eje').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-default ');
+                                    $('#acta-eje').attr("title", "No hay documento cargado");
+                                    $('#acta-eje').removeAttr("href");
+                                    $('#acta-eje').removeAttr("target");
+                                }else{
+                                    $('#acta-eje').attr("href", data['todo'][0].doc_ejec);
+                                    $('#acta-eje').removeClass().addClass('glyphicon glyphicon-download-alt btn btn-success ');
+                                    $('#acta-eje').attr("target", "_blank");
+                                    $('#acta-eje').attr('disabled', false);
+                                }
+
+                                
+                                $("#mapid").css("display","none");
+                                try{
+                                  map_alerta.removeLayer(polylines);
+                                }catch(err){
+
+                                }
+                                var popup=[];
+
+                                for (var j = 0; j < data['tramos'].length; j++) {//valdia que las coordenas de tramo(inicial y finales) esten todas lelnas, si no no poltea este tramo
+                                    var tramo=j+parseInt(1);
+
+                                    var Latitud=data['tramos'][j]['lat_ini'];
+                                    var longitud=data['tramos'][j]['lon_ini'];
+                                    var ini = [Math.round(Latitud*10000)/10000,Math.round(longitud*10000)/10000];
+
+                                    var Latitud2=data['tramos'][j]['lat_fin'];
+                                    var longitud2=data['tramos'][j]['lon_fin'];
+                                    var fin = [Math.round(Latitud2*10000)/10000,Math.round(longitud2*10000)/10000];
+                                    if (Latitud!=null && longitud!=null && Latitud2!=null && longitud2!=null){
+                                      var pointList=[ini, fin];
+                                      colores="#"+((1<<24)*Math.random()|0).toString(16);
+                                      var polyline = new L.Polyline(pointList, {
+                                        color: colores,
+                                        weight: 3,
+                                        opacity: 0.7,
+                                        smoothFactor: 1
+                                    })
+                                    .bindPopup("<h3 style='text-decoration: underline;text-decoration-color: "+colores+";-webkit-text-decoration-color: "+colores+";  '>Tramo "+tramo+"</h3><br><b>Linea de:</b> "+$('#linea-'+tramo+' option:selected').text()+"<br> <b>Coordenadas tramo:</b> <br> Inicial "+ini+ " <br>final "+fin);
+                                    popup.push(polyline)
+                                    }
+                                  } 
+                                
+                                polylines = L.layerGroup(popup);
+                                polylines.addTo(map_alerta);
+                                bounds=polyline.getBounds();
 
 
+                                break;
+                          }
+                    }
                   },
                   error:function(){alert('error');}
               });//fin de la consulta ajax (Editar proceso)
           }
       });//Termina tbody
+
+
+$('#consultar_norma').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
+   $(this).find('table').trigger('reset');
+    table.$('tr.active').removeClass('active');
+    try{
+      map_alerta.removeLayer(polylines);
+    }catch(err){
+
+    }
+})
     </script>    
 @stop
 

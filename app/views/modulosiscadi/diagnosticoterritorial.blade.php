@@ -417,7 +417,7 @@
           success:function(data){
             //se actuliaza la ficah tecnica
             $('#table_consulta').empty();
-            console.log(data['ficha_tecnica'])
+            console.log(data)
 
             var thead = document.createElement("thead");
 

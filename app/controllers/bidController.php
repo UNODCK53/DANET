@@ -324,9 +324,15 @@ class bidController extends BaseController {
 							->select(DB::RAW('MODBID_LINEAPRODORG.id_lipex, MODBID_LINEAPRODEXP.nombre'))
 							->where('MODBID_LINEAPRODORG.id_lipex','!=','NULL')
 							->groupby('MODBID_LINEAPRODORG.id_lipex','MODBID_LINEAPRODEXP.nombre')
-							->get();	
+							->get();
 
-		$array = array($departamentos,json_encode($organizaciones), $lineasproductivas);
+		$actividades = DB::table('MODBID_INFORMACIONPUBLIC')
+							->select(DB::RAW('TOP 8 id,titulo,texto,foto,tipo,created_at,updated_at,id_usuario,fecha_noticia,borrado'))
+							->where('borrado','=',0)
+							->orderby('created_at','DESC')
+							->get();
+
+		$array = array($departamentos,json_encode($organizaciones), $lineasproductivas, $actividades);
 
 		return View::make('access_outside/bid/bid_home_public', array('array' =>$array));
 	}
@@ -463,5 +469,119 @@ class bidController extends BaseController {
 		return View::make('access_outside/bid/bid_linea_productiva', array('array' =>$array));
 		
 	}
+	//-------------------------------------------------------------------------------------
+	//-------------------------------------------------------------------------------------
+	//Esta seccion indluye los controladores de la seccion de carga de informacion
+	//-------------------------------------------------------------------------------------
+	//Controladores para cargar la vista de carga de informacion
+	public function carganoticiaspublic_ini(){
+		$informacion=DB::table('MODBID_INFORMACIONPUBLIC')						
+						->select(DB::RAW('id,titulo,texto,foto,tipo,created_at,updated_at,id_usuario,fecha_noticia'))
+						->where('borrado','=',0)
+						->orderby('fecha_noticia')
+						->get();
+
+		return View::make('modulobid/vista1',array('informacion'=>$informacion));
+	}
+	//Controlador para cargar los datos de la informacion
+	public function postCargarInformacion(){
+		$fecha = date("Y-d-m H:i:s");
+		$registro = DB::SELECT("SELECT  ident_current('MODBID_INFORMACIONPUBLIC') AS [LastID_1]");		
+		$id_foto = (($registro[0]->LastID_1)+1).".jpg";
+				
+		DB::table('MODBID_INFORMACIONPUBLIC')->insert(
+		    	array(
+		    		'id_usuario' => Auth::user()->id,		    		
+		    		'titulo' => Input::get('titulo'),
+		    		'foto' => $id_foto,
+		    		'tipo' => Input::get('tipo'),
+		    		'texto' => Input::get('texto'),			    		
+		    		'created_at' => $fecha,
+	    			'updated_at' => $fecha,
+	    			'fecha_noticia' => Input::get('fecha_info')
+
+		    	)
+		);
+
+		$path_foto = public_path().'/assets/bid/informacion/'.(($registro[0]->LastID_1)+1)."/";
+		Input::file('foto')->move($path_foto,$id_foto);
+		return Redirect::to('vista1_bid')->with('status', 'ok_estatus');
+	}
+	
+	//Cargar seccion 
+	public function postCargarSeccion(){
+		$id_info = Input::get('id_cargar_seccion');	
+		$fecha = date("Y-d-m H:i:s");
+		$registro = DB::SELECT("SELECT  ident_current('MODBID_INFORMACIONSECCION') AS [LastID_1]");
+		$foto=Input::get('foto_seccion');
+		
+		if (empty(Input::file('foto_seccion'))){
+			$id_foto=NULL;
+			//return $id_foto;
+		} else {
+			$id_foto = $id_info.'_'.(($registro[0]->LastID_1)+1).".jpg";
+			$path_foto = public_path().'/assets/bid/informacion/'.$id_info."/";
+			Input::file('foto_seccion')->move($path_foto,$id_foto);			
+		}	
+		
+		DB::table('MODBID_INFORMACIONSECCION')->insert(
+		    	array(		    		
+		    		'id_info' => $id_info,
+		    		'id_usuario' => Auth::user()->id,		    		
+		    		'titulo' => Input::get('titulo_seccion'),
+		    		'texto' => Input::get('texto_seccion'),			    		
+		    		'created_at' => $fecha,
+	    			'updated_at' => $fecha,
+	    			'foto' => $id_foto,
+	    			'fecha_noticia'=>$fecha
+		    	)
+		);
+		return Redirect::to('vista1_bid')->with('status', 'ok_estatus_seccion');
+	}
+
+	//listado de secciones por noticia
+	public function postListaSecciones(){
+		$id=Input::get('id');
+		$lista=DB::table('MODBID_INFORMACIONSECCION')						
+						->select(DB::RAW('id,id_info,titulo,texto'))
+						->where('borrado','=',0)
+						->where('id_info','=',$id)
+						->orderby('fecha_noticia')
+						->get();
+		return $lista;
+	}
+
+	//controlador para borrar una seccion
+	public function postBorrarSeccion(){
+		$id=Input::get('id_borrar_seccion');
+		$insert=DB::table('MODBID_INFORMACIONSECCION')->where('id',$id)->update(
+			    	array(		    				    		
+			    		'borrado' =>  1,		    				    				    		
+			    	)
+				);
+		return Redirect::to('vista1_bid')->with('status', 'ok_estatus_delete_seccion');
+	}
+
+	//Controlador para borrar informacion
+	public function postBorrarInformacion(){
+		$id=Input::get('id_borrar_informacion');
+
+		$insert=DB::table('MODBID_INFORMACIONSECCION')->where('id_info',$id)->update(
+			    	array(		    				    		
+			    		'borrado' =>  1,		    				    				    		
+			    	)
+				);
+
+		$insert2=DB::table('MODBID_INFORMACIONPUBLIC')->where('id',$id)->update(
+			    	array(		    				    		
+			    		'borrado' =>  1,		    				    				    		
+			    	)
+				);
+
+		return Redirect::to('vista1_bid')->with('status', 'ok_estatus_delete_informacion');
+	}
+
+	//-------------------------------------------------------------------------------------
+	//-------------------------------------------------------------------------------------
 }
 ?>

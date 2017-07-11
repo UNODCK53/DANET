@@ -1347,11 +1347,11 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 							->orderby('NOM_DPTO','asc')
 							->get();
 		/*Consulta de los proyectos existentes en la base de datos*/
-		$proyectos =DB::table('MODART_PIC_P5150_GEO')
-					  ->join('DEPARTAMENTOS','MODART_PIC_P5150_GEO.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
-					  ->join('MUNICIPIOS','MODART_PIC_P5150_GEO.cod_mpio','=','MUNICIPIOS.COD_DANE')	
-					  ->select(db::raw("OBJECTID,concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as IDs, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,cod_nucleo,nom_proy,est_proy"))
-					  ->where('MODART_PIC_P5150_GEO.id_usuario','=',Auth::user()->id)
+		$proyectos =DB::table('MODART_PIC_P5150')
+					  ->join('DEPARTAMENTOS','MODART_PIC_P5150.cod_depto','=','DEPARTAMENTOS.COD_DPTO')
+					  ->join('MUNICIPIOS','MODART_PIC_P5150.cod_mpio','=','MUNICIPIOS.COD_DANE')	
+					  ->select(db::raw("OBJECTID,concat('P5150_',MODART_PIC_P5150.cod_nucleo,OBJECTID) as IDs, DEPARTAMENTOS.NOM_DPTO,MUNICIPIOS.NOM_MPIO,cod_nucleo,nom_proy_3 as nom_proy,est_proy"))
+					  ->where('MODART_PIC_P5150.id_usuario','=',Auth::user()->id)
 					  ->get();
 		$NUCLEOS = DB::table('MODART_PIC_NUCLEOS')
 			->select('id_nucleo','nombre')
@@ -1383,88 +1383,16 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 
 	public function postCargarProyectoPlan50(){
 
-		if (empty(Input::get('ava_product'))) {
-			$ava_product=null;
+		if (empty(Input::get('otro_act'))) {
+			$otro_act=null;
 		}else {
-			$ava_product=Input::get('ava_product');
-		}
-
-		if (empty(Input::get('long'))) {
-			$long=null;
-		}else {
-			$long=Input::get('long');
-		}
-
-		if (empty(Input::get('cost_esti'))) {
-			$cost_esti=null;
-		}else {
-			$cost_esti=Input::get('cost_esti');
-		}
-
-		if (empty(Input::get('cost_proy'))) {
-			$cost_proy=null;
-		}else {
-			$cost_proy=Input::get('cost_proy');
-		}
-		if (empty(Input::get('pob_bene_ter'))) {
-			$sum_pobla=null;
-		}else {
-			$sum_pobla=array_sum(Input::get('pob_bene_ter'));
+			$otro_act=Input::get('otro_act');
 		}
 		
-
-		if(Input::get('estado')=="Ejecución"){
-			$fecha1=Input::get('fecha_inicio2');
-			$fecha2=Input::get('fecha_final2');
-			$costo= $cost_proy;
-			$alcance=Input::get('alcance3');
-		}else if(Input::get('estado')=="Estructuración"){
-			$fecha1=Input::get('fecha_inicio');
-			$fecha2=Input::get('fecha_final');
-			$costo= $cost_esti;
-			$alcance=Input::get('alcance2');
-		}else{
-			$fecha1=Input::get('fecha_inicio');
-			$fecha2=Input::get('fecha_final');
-			$costo= $cost_esti;
-			$alcance=Input::get('alcance');
-		}
-
-		if(Input::get('coorde')==1){
-				if(Input::get('lat_gra_ini')>0){
-					$Latitud=(Input::get('lat_gra_ini')+Input::get('lat_min_ini')/60+Input::get('lat_seg_ini')/3600);
-				}else{
-					$Latitud=(Input::get('lat_gra_ini')-Input::get('lat_min_ini')/60-Input::get('lat_seg_ini')/3600);
-				}
-
-				$longitud=(Input::get('long_gra_ini')-Input::get('long_min_ini')/60-Input::get('long_seg_ini')/3600);
-				$coor_ini=$longitud." ".$Latitud;
-					
-				
-			}else{
-				$Latitud=null;
-				$longitud=null;
-				$coor_ini=$longitud." ".$Latitud;
-			}
-
-		if(Input::get('coorde_fin')==1){
-				if(Input::get('lat_gra_fin')>0){
-					$Latitud_fin=(Input::get('lat_gra_fin')+Input::get('lat_min_fin')/60+Input::get('lat_seg_fin')/3600);
-				}else{
-					$Latitud_fin=(Input::get('lat_gra_fin')-Input::get('lat_min_fin')/60-Input::get('lat_seg_fin')/3600);
-				}
-
-				$longitud_fin=(Input::get('long_gra_fin')-Input::get('long_min_fin')/60-Input::get('long_seg_fin')/3600);
-				$coor_fin=$longitud_fin." ".$Latitud_fin;
-				
-			}else{
-				$Latitud_fin=null;
-				$longitud_fin=null;
-				$coor_fin=$longitud_fin." ".$Latitud_fin;
-			}	
-
-
-		DB::table('MODART_PIC_P5150_GEO')->insert(
+		$fecha1=Input::get('fecha_inicio');
+		$alcance=Input::get('alcance');
+		
+		DB::table('MODART_PIC_P5150')->insert(
 		    	array(
 		    		'id_usuario' => Auth::user()->id,
 		    		'cod_depto' => Input::get('depto'),
@@ -1473,30 +1401,20 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    		'nom_proy' => Input::get('nombre'),
 		    		'nom_proy_2' => Input::get('nombre'),
 		    		'nom_proy_3' => Input::get('nombre'),
-		    		'enti_lider' =>  Input::get('entidad'),
-		    		'linea_proy' => Input::get('linea'),
 		    		'alcance' => $alcance,
-		    		'est_proy' =>  Input::get('estado'),
-		    		'fecha_inicio' => $fecha1,
-		    		'fecha_fin' => $fecha2,
-		    		'fecha_inicio_2' => $fecha1,
-		    		'fecha_fin_2' =>  $fecha2,
-		    		'avance_pres' =>  Input::get('ava_presu'),
+		    		'est_proy' =>  'Identificación',//Input::get('estado'),
+		    		'fecha_iden' => $fecha1,	 
 		    		'alcance_2' => $alcance,
 		    		'alcance_3' => $alcance,
-		    		'pob_bene' => $sum_pobla ,
-		    		'avance_prod' => $ava_product,
-		    		'longitud' => $long,
-		    		'costo_estim' =>preg_replace("/[. $]/","",$costo),
-		    		'costo_ejec' =>preg_replace("/[. $]/","",$costo),
-		    		'coord_ini' =>$coor_ini,
-		    		'coord_fin' =>$coor_fin,
+		    		'otro_iden'=>$otro_act,
+		    		'otro_estr'=>$otro_act,
+		    		'otro_ejec'=>$otro_act,
 		    		//'created_at' => $fecha,
 	    			//'updated_at' => $fecha
 		    	)
 		);
 
-		$idmaximo =  DB::table('MODART_PIC_P5150_GEO')->max('OBJECTID');
+		$idmaximo =  DB::table('MODART_PIC_P5150')->max('OBJECTID');
 		    	foreach (Input::get('tipoterr') as $key => $value) {
 		    		$insert2=DB::table('MODART_PIC_P5150_TIPOTERRPASO')->insert(
 				    	array(
@@ -1504,6 +1422,19 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				    		'id_tipterr' => $value
 				    		)
 				    	);
+		    	}
+		 $estado=['Identificación','Estructuración','Ejecución'];
+		    	foreach (Input::get('entidad') as $key => $value) {
+		    		for ($i=0; $i < 3; $i++) { 
+		    			$insert2=DB::table('MODART_PIC_P5150_ENTIDADESPASO')->insert(
+				    	array(
+				    		'id_proy' => $idmaximo,
+				    		'enti_lider' => $value,
+				    		'est_proy' => $estado[$i],
+				    		)
+				    	);
+		    		}
+		    		
 		    	}
 
 		    	if (count(Input::get('nom_terr')>0)){
@@ -1521,12 +1452,6 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					}
 				}
 
-		if (Input::get('coorde')==1 && Input::get('coorde_fin')==1){
-
-				$insert=DB::statement("UPDATE MODART_PIC_P5150_GEO SET Shape = (geometry::STGeomFromText('LINESTRING('+convert(varchar(20),coord_ini)+', '+convert(varchar(20),coord_fin)+')',4326) ) WHERE OBJECTID =". $idmaximo);
-			}		
-
-
 
 		$path = public_path().'\art\pic_51_50\\'.Input::get('nucleo').'\\'.Input::get('nucleo').$idmaximo;
 		$path_insert='\art\pic_51_50\\'.Input::get('nucleo').'\\'.Input::get('nucleo').$idmaximo;
@@ -1537,13 +1462,13 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			File::makeDirectory($path,  0777, true);	
 
 		}
-		if(Input::hasFile('doc')) {
+		if(Input::hasFile('doc_iden')) {
 
-				Input::file('doc')->move($path,'Act5150_'.Input::get('nucleo').$idmaximo.'.'.Input::file('doc')->getClientOriginalExtension());
+				Input::file('doc_iden')->move($path,'Act5150_'.Input::get('nucleo').$idmaximo.'_Iden.'.Input::file('doc_iden')->getClientOriginalExtension());
 
-	    		DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID', '=', $idmaximo)->update(
+	    		DB::table('MODART_PIC_P5150')->where('OBJECTID', '=', $idmaximo)->update(
 	    			array(
-	    				'documento' => $path_insert.'\\'.'Act5150_'.Input::get('nucleo').$idmaximo.'.'.Input::file('doc')->getClientOriginalExtension()
+	    				'doc_iden' => $path_insert.'\\'.'Act5150_'.Input::get('nucleo').$idmaximo.'_Iden.'.Input::file('doc_iden')->getClientOriginalExtension()
 	    				)
 	    			);
 	    }	
@@ -1557,18 +1482,31 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	public function postEditarPlan50(){
 		//THIS CONTROLLER LOAD THE INFORMATION TO EDIT MODAL 
 		$proyecto=Input::get('proyecto');
-		$arrayproy = DB::table('MODART_PIC_P5150_GEO')
-		->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150_GEO.cod_mpio')
-		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150_GEO.cod_nucleo')	
-		->select(DB::raw("concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_inicio,103) as fecha_inicio,CONVERT(VARCHAR(10),fecha_inicio_2,103) as fecha_inicio_2,CONVERT(VARCHAR(10),fecha_fin,103) as fecha_fin,CONVERT(VARCHAR(10),fecha_fin_2,103) as fecha_fin_2"),'avance_pres','avance_prod','costo_estim','costo_ejec','longitud','coord_ini','coord_fin','pob_bene','documento','alcance_2','alcance_3','enti_lider','linea_proy') 
-		->where('MODART_PIC_P5150_GEO.OBJECTID','=', Input::get('proy')) 
+		$arrayproy = DB::table('MODART_PIC_P5150')
+		->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150.cod_mpio')
+		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150.cod_nucleo')	
+		->select(DB::raw("concat('P5150_',MODART_PIC_P5150.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_iden,103) as fecha_iden,CONVERT(VARCHAR(10),fecha_estr,103) as fecha_estr, CONVERT(VARCHAR(10),Fec_eje_ini,103) as Fec_eje_ini,CONVERT(VARCHAR(10),Fec_eje_fin,103) as Fec_eje_fin"),'avance_pres','avance_prod','costo_estim','costo_ejec','pob_bene','alcance_2','alcance_3','doc_iden','otro_iden','doc_estr','otro_estr','doc_ejec','otro_ejec') 
+		->where('MODART_PIC_P5150.OBJECTID','=', Input::get('proy')) 
 		->where('id_usuario','=',Auth::user()->id)
 		->get();
 
 		foreach($arrayproy as $pro)
 			{
 				 $nucl = $pro->cod_nucleo;
+				 $estado=$pro->est_proy;
 			}
+
+		$enti = DB::table('MODART_PIC_P5150_ENTIDADESPASO')
+			->select('est_proy','enti_lider')
+			->where('id_proy','=', Input::get('proy'))
+			->get();
+		$entidades=array();	
+			foreach($enti as $pro)
+			{		
+				$arrayenti=[];
+				 $arrayenti[$pro->est_proy] = $pro->enti_lider;
+				 array_push($entidades, $arrayenti);
+			}		
 
 		$tipoter = DB::table('MODART_PIC_P5150_TIPOTERRPASO')
 			->select('id_proy','id_tipterr')
@@ -1576,7 +1514,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 			->get();
 			
 			foreach($tipoter as $pro)
-			{
+			{	
 				 $arraytipoter[$pro->id_tipterr] = $pro->id_tipterr;
 			}	
 			$terr=array_map(create_function('$item','return $item->id_tipterr;'),$tipoter);//extract value from object query	
@@ -1639,18 +1577,29 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				array_push($arratodoterrtipoedi, "Resguardos indígenas:");
 			}
 		}
+
+
+		$tramos = DB::table('MODART_PIC_P5150_TRAMOSPASOGEO')
+			->select('tramo','linea','lat_ini','lon_ini','lat_fin','lon_fin','longitud')
+			->where('id_proy','=', Input::get('proy'))
+			->get();
 		
 
 
 		
 
-		return array('arrayproy'=>$arrayproy,'terr'=>$terr,'arratodoterredi'=>$arratodoterredi,'arratodoterrtipoedi'=>$arratodoterrtipoedi,'arraynomter'=>$nomter);
+		return array('arrayproy'=>$arrayproy,'terr'=>$terr,'arratodoterredi'=>$arratodoterredi,'arratodoterrtipoedi'=>$arratodoterrtipoedi,'arraynomter'=>$nomter,'entidades'=>$entidades,'tramos'=>$tramos);
 	}
 
 	public function postEdiProyP50Iden(){
 		$id=Input::get('ediidproyediiden');
+		if (empty(Input::get('otro_actediiden'))) {
+			$otro_act=null;
+		}else {
+			$otro_act=Input::get('otro_actediiden');
+		}
 
-		$edit=DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID',$id)->update(
+		$edit=DB::table('MODART_PIC_P5150')->where('OBJECTID',$id)->update(
 		    	array(	    		
 		    		'alcance' =>  Input::get('alcanceediiden'),
 		    		'nom_proy' =>  Input::get('nombreediiden'),	
@@ -1658,9 +1607,10 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		    		'nom_proy_3' =>  Input::get('nombreediiden'),		    		
 		    		'alcance_2' =>  Input::get('alcanceediiden'),
 		    		'alcance_3' =>  Input::get('alcanceediiden'),
-		    		'enti_lider' =>  Input::get('entidadediiden'),
-		    		'linea_proy' =>  Input::get('lineaediiden'),
 		    		'est_proy' =>  Input::get('estadoediiden'),
+		    		'otro_iden'=>$otro_act,
+		    		'otro_estr'=>$otro_act,
+		    		'otro_ejec'=>$otro_act,
 		    		//'created_at' => $fecha,
 	    			//'updated_at' => $fecha
 		    	)
@@ -1677,20 +1627,34 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				    	);
 		    	}
 
-		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',$id)->delete();
+    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',$id)->delete();
 
-		    	if (count(Input::get('nom_terrediiden'))>0){
-			    	for ($i = 0; $i < count(Input::get('nom_terrediiden')); $i++) {
-					    $insert2=DB::table('MODART_PIC_P5150_PROYECTOTERRI')->insert(
-					    	array(
-					    		'id_proy' => $id,
-					    		'id_terr' => Input::get('nom_terrediiden')[$i],
-					    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i]
+    	if (count(Input::get('nom_terrediiden'))>0){
+	    	for ($i = 0; $i < count(Input::get('nom_terrediiden')); $i++) {
+			    $insert2=DB::table('MODART_PIC_P5150_PROYECTOTERRI')->insert(
+			    	array(
+			    		'id_proy' => $id,
+			    		'id_terr' => Input::get('nom_terrediiden')[$i],
+			    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i]
 
-					    		)
-					    	);
-					}
-				}
+			    		)
+			    	);
+			}
+		}
+
+		DB::table('MODART_PIC_P5150_ENTIDADESPASO')->where('id_proy',$id)->delete();
+		$estado=['Identificación','Estructuración','Ejecución'];
+		    	foreach (Input::get('entidadediiden') as $key => $value) {
+		    		for ($i=0; $i < 3; $i++) { 
+		    			$insert2=DB::table('MODART_PIC_P5150_ENTIDADESPASO')->insert(
+				    	array(
+				    		'id_proy' => $id,
+				    		'enti_lider' => $value,
+				    		'est_proy' => $estado[$i],
+				    		)
+				    	);
+		    		}
+		    	}		
 
 		$path = public_path().'\art\pic_51_50\\'.Input::get('nucleoediiden2').'\\'.Input::get('nucleoediiden2').$id;
 		$path_insert='\art\pic_51_50\\'.Input::get('nucleoediiden2').'\\'.Input::get('nucleoediiden2').$id;
@@ -1703,14 +1667,14 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		}
 		if(Input::hasFile('docide')) {
 
-				Input::file('docide')->move($path,'Act5150_'.Input::get('nucleoediiden2').$id.'.'.Input::file('docide')->getClientOriginalExtension());
+				Input::file('docide')->move($path,'Act5150_'.Input::get('nucleoediiden2').$id.'_Iden.'.Input::file('docide')->getClientOriginalExtension());
 
-	    		DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID', '=', $id)->update(
+	    		DB::table('MODART_PIC_P5150')->where('OBJECTID', '=', $id)->update(
 	    			array(
-	    				'documento' => $path_insert.'\\'.'Act5150_'.Input::get('nucleoediiden2').$id.'.'.Input::file('docide')->getClientOriginalExtension()
+	    				'doc_iden' => $path_insert.'\\'.'Act5150_'.Input::get('nucleoediiden2').$id.'_Iden.'.Input::file('docide')->getClientOriginalExtension()
 	    				)
 	    			);
-	    }		
+	    }
 
 		if($edit>0){
 			return Redirect::to('plan50cargaproy')->with('status', 'ok_estatus_editar'); 
@@ -1722,18 +1686,24 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 
 	public function postEdiProyP50Estr(){
 		$id=Input::get('ediidproyediestr');
-
-		$edit=DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID',$id)->update(
+		if (empty(Input::get('otro_actediestr'))) {
+			$otro_act=null;
+		}else {
+			$otro_act=Input::get('otro_actediestr');
+		}
+		$edit=DB::table('MODART_PIC_P5150')->where('OBJECTID',$id)->update(
 		    	array(	    		
 		    		'alcance_2' =>  Input::get('alcanceediestr'),
 		    		'nom_proy_2' =>  Input::get('nombreediestr'),	
 		    		'nom_proy_3' =>  Input::get('nombreediestr'),
 		    		'alcance_3' =>  Input::get('alcanceediestr'),
-		    		'enti_lider' =>  Input::get('entidadediestr'),
-		    		'linea_proy' =>  Input::get('lineaediestr'),
 		    		'est_proy' =>  Input::get('estadoediestr'),
 		    		'costo_estim' => preg_replace("/[. $]/","",Input::get('cost_proyediestr')),
 		    		'costo_ejec' => preg_replace("/[. $]/","",Input::get('cost_proyediestr')),
+		    		'otro_estr'=>$otro_act,
+		    		'fecha_estr' => Input::get('fecha_inicioediestr'),
+		    		'otro_ejec'=>$otro_act,
+		    		'otro_ejec'=>$otro_act,
 		    		//'created_at' => $fecha,
 	    			//'updated_at' => $fecha
 		    	)
@@ -1750,20 +1720,34 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 				    	);
 		    	}
 
-		    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',$id)->delete();
+    	DB::table('MODART_PIC_P5150_PROYECTOTERRI')->where('id_proy',$id)->delete();
 
-		    	if (count(Input::get('nom_terrediestr'))>0){
-			    	for ($i = 0; $i < count(Input::get('nom_terrediestr')); $i++) {
-					    $insert2=DB::table('MODART_PIC_P5150_PROYECTOTERRI')->insert(
-					    	array(
-					    		'id_proy' => $id,
-					    		'id_terr' => Input::get('nom_terrediestr')[$i],
-					    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i]
+    	if (count(Input::get('nom_terrediestr'))>0){
+	    	for ($i = 0; $i < count(Input::get('nom_terrediestr')); $i++) {
+			    $insert2=DB::table('MODART_PIC_P5150_PROYECTOTERRI')->insert(
+			    	array(
+			    		'id_proy' => $id,
+			    		'id_terr' => Input::get('nom_terrediestr')[$i],
+			    		'tipo_terr'=> Input::get('tipoterredi_comple')[$i]
 
-					    		)
-					    	);
-					}
-				}
+			    		)
+			    	);
+			}
+		}
+
+		DB::table('MODART_PIC_P5150_ENTIDADESPASO')->where('id_proy',$id)->where('est_proy','Ejecución')->orwhere('est_proy','Estructuración')->delete();
+		$estado=['Estructuración','Ejecución'];
+		    	foreach (Input::get('entidadediestr') as $key => $value) {
+		    		for ($i=0; $i < 2; $i++) { 
+		    			$insert2=DB::table('MODART_PIC_P5150_ENTIDADESPASO')->insert(
+				    	array(
+				    		'id_proy' => $id,
+				    		'enti_lider' => $value,
+				    		'est_proy' => $estado[$i],
+				    		)
+				    	);
+		    		}
+		    	}
 
 		$path = public_path().'\art\pic_51_50\\'.Input::get('nucleoediestr2').'\\'.Input::get('nucleoediestr2').$id;
 		$path_insert='\art\pic_51_50\\'.Input::get('nucleoediestr2').'\\'.Input::get('nucleoediestr2').$id;
@@ -1776,11 +1760,11 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		}
 		if(Input::hasFile('docest')) {
 
-				Input::file('docest')->move($path,'Act5150_'.Input::get('nucleoediestr2').$id.'.'.Input::file('docest')->getClientOriginalExtension());
+				Input::file('docest')->move($path,'Act5150_'.Input::get('nucleoediestr2').$id.'_Est.'.Input::file('docest')->getClientOriginalExtension());
 
-	    		DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID', '=', $id)->update(
+	    		DB::table('MODART_PIC_P5150')->where('OBJECTID', '=', $id)->update(
 	    			array(
-	    				'documento' => $path_insert.'\\'.'Act5150_'.Input::get('nucleoediestr2').$id.'.'.Input::file('docest')->getClientOriginalExtension()
+	    				'doc_estr' => $path_insert.'\\'.'Act5150_'.Input::get('nucleoediestr2').$id.'_Est.'.Input::file('docest')->getClientOriginalExtension()
 	    				)
 	    			);
 	    }			
@@ -1795,58 +1779,90 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 
 	public function postEdiProyP50Eje(){
 		$id=Input::get('ediidproyedieje');
-		if(Input::get('coordeedieje')==1){
-				if(Input::get('lat_gra_iniedieje')>0){
-					$Latitud=(Input::get('lat_gra_iniedieje')+Input::get('lat_min_iniedieje')/60+Input::get('lat_seg_iniedieje')/3600);
-				}else{
-					$Latitud=(Input::get('lat_gra_iniedieje')-Input::get('lat_min_iniedieje')/60-Input::get('lat_seg_iniedieje')/3600);
-				}
+		if (empty(Input::get('otro_actedieje'))) {
+			$otro_act=null;
+		}else {
+			$otro_act=Input::get('otro_actedieje');
+		}
 
-				$longitud=(Input::get('long_gra_iniedieje')-Input::get('long_min_iniedieje')/60-Input::get('long_seg_iniedieje')/3600);
-				$coor_ini=$longitud." ".$Latitud;
-					
-				
-			}else{
-				$Latitud=null;
-				$longitud=null;
-				$coor_ini=$longitud." ".$Latitud;
+		$Latitud_ini=null;
+		$longitud_ini=null;
+		$Latitud_fin=null;
+		$longitud_fin=null;
+		$corrini=0;
+		$corrfin=0;
+		DB::table('MODART_PIC_P5150_TRAMOSPASOGEO')->where('id_proy',$id)->delete();
+		for ($i = 0; $i < Input::get('tramo'); $i++) {
+
+
+			if (is_numeric  (Input::get('lat_gra_ini')[$i])){
+				//datos de coordenadas iniciales por tramo
+				if(Input::get('lat_gra_ini')[$i] >=0){
+					$Latitud_ini=(Input::get('lat_gra_ini')[$i]+Input::get('lat_min_ini')[$i]/60+Input::get('lat_seg_ini')[$i]/3600);
+					if(Input::get('sig_lat_ini'.($i+1))){
+						$Latitud_ini=$Latitud_ini*Input::get('sig_lat_ini'.($i+1));
+					}
+
+				}else{
+					$Latitud_ini=(Input::get('lat_gra_ini')[$i]-Input::get('lat_min_ini')[$i]/60-Input::get('lat_seg_ini')[$i]/3600);
+
+				}
+				$longitud_ini=(Input::get('lon_gra_ini')[$i]-Input::get('lon_min_ini')[$i]/60-Input::get('lon_seg_ini')[$i]/3600);
+				$corrini=1;
 			}
 
-		if(Input::get('coorde_finedieje')==1){
-				if(Input::get('lat_gra_finedieje')>0){
-					$Latitud_fin=(Input::get('lat_gra_finedieje')+Input::get('lat_min_finedieje')/60+Input::get('lat_seg_finedieje')/3600);
+			if (is_numeric(Input::get('lat_gra_fin')[$i])){
+				//datos de coordenadas fianles por tramo
+				if(Input::get('lat_gra_fin')[$i]>=0){
+					$Latitud_fin=(Input::get('lat_gra_fin')[$i]+Input::get('lat_min_fin')[$i]/60+Input::get('lat_seg_fin')[$i]/3600);
+					if(Input::get('sig_lat_fin'.($i+1))){
+						$Latitud_ini=$Latitud_ini*Input::get('sig_lat_fin'.($i+1));
+					}
 				}else{
-					$Latitud_fin=(Input::get('lat_gra_finedieje')-Input::get('lat_min_finedieje')/60-Input::get('lat_seg_finedieje')/3600);
+					$Latitud_fin=(Input::get('lat_gra_fin')[$i]-Input::get('lat_min_fin')[$i]/60-Input::get('lat_seg_fin')[$i]/3600);
 				}
 
-				$longitud_fin=(Input::get('long_gra_finedieje')-Input::get('long_min_finedieje')/60-Input::get('long_seg_finedieje')/3600);
-				$coor_fin=$longitud_fin." ".$Latitud_fin;
-				
-			}else{
-				$Latitud_fin=null;
-				$longitud_fin=null;
-				$coor_fin=$longitud_fin." ".$Latitud_fin;
-			}	
-		$edit=DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID',$id)->update(
+				$longitud_fin=(Input::get('lon_gra_fin')[$i]-Input::get('lon_min_fin')[$i]/60-Input::get('lon_seg_fin')[$i]/3600);
+				$corrfin=1;
+			}
+		    $insert2=DB::table('MODART_PIC_P5150_TRAMOSPASOGEO')->insert(
+		    	array(
+		    		'tramo'=>$i,
+		    		'id_proy' => $id,
+		    		'linea' => Input::get('lineas')[$i],
+		    		'lat_ini'=> $Latitud_ini,
+		    		'lon_ini'=> $longitud_ini,
+		    		'lat_fin'=> $Latitud_fin,
+		    		'lon_fin'=> $longitud_fin,
+		    		'shape'=> null,
+		    		'longitud'=>Input::get('longitud')[$i],
+		    		)
+		    	);
+		    if ($corrfin==1 && $corrini==1){
+				$coord_ini=$longitud_ini." ".$Latitud_ini;
+				$coord_fin=$longitud_fin." ".$Latitud_fin;
+				$insert=DB::statement("UPDATE MODART_PIC_P5150_TRAMOSPASOGEO SET Shape = (geometry::STGeomFromText('LINESTRING('+convert(varchar(20),'$coord_ini')+', '+convert(varchar(20),'$coord_fin')+')',4326) ) WHERE id_proy =".$id." and tramo=".$i);
+			}
+		}
+
+		$edit=DB::table('MODART_PIC_P5150')->where('OBJECTID',$id)->update(
 		    	array(	  
 		    		'nom_proy_3' =>  Input::get('nombreedieje'),  		
 		    		'alcance_3' =>  Input::get('alcanceedieje'),
-		    		'enti_lider' =>  Input::get('entidadedieje'),
-		    		'linea_proy' =>  Input::get('lineaedieje'),
 		    		'est_proy' =>  Input::get('estadoedieje'),
 		    		'costo_ejec' => preg_replace("/[. $]/","",Input::get('cost_proyedieje')),
 		    		'pob_bene' =>  array_sum(Input::get('pob_bene_ter')),
-		    		'avance_pres' =>  Input::get('ava_presuedieje'),
-		    		'avance_prod' =>  Input::get('ava_productedieje'),
-		    		'longitud' =>  Input::get('longedieje'),
-		    		'fecha_inicio_2' =>  Input::get('fecha_inicio2edieje'),
-		    		'fecha_fin_2' =>  Input::get('fecha_final2edieje'),
-		    		'coord_ini' => $coor_ini,
-		    		'coord_fin' => $coor_fin,
+		    		'avance_pres' =>  preg_replace("/[. $]/","",Input::get('ava_presuedieje')),
+		    		'avance_prod' =>  preg_replace("/[%]/","",Input::get('ava_productedieje')),
+		    		'Fec_eje_ini' =>  Input::get('fecha_inicio2edieje'),
+		    		'Fec_eje_fin' =>  Input::get('fecha_final2edieje'),
+		    		'otro_ejec'=>$otro_act,
 		    		//'created_at' => $fecha,
 	    			//'updated_at' => $fecha
 		    	)
 		);
+
+		
 
 		DB::table('MODART_PIC_P5150_TIPOTERRPASO')->where('id_proy',$id)->delete();
 		
@@ -1875,6 +1891,17 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 					}
 				}
 
+		DB::table('MODART_PIC_P5150_ENTIDADESPASO')->where('id_proy',$id)->where('est_proy','Ejecución')->delete();
+		    	foreach (Input::get('entidadedieje') as $key => $value) {
+		    			$insert2=DB::table('MODART_PIC_P5150_ENTIDADESPASO')->insert(
+				    	array(
+				    		'id_proy' => $id,
+				    		'enti_lider' => $value,
+				    		'est_proy' => 'Ejecución',
+				    		)
+				    	);
+		    	}		
+
 		$path = public_path().'\art\pic_51_50\\'.Input::get('nucleoedieje2').'\\'.Input::get('nucleoedieje2').$id;
 		$path_insert='\art\pic_51_50\\'.Input::get('nucleoedieje2').'\\'.Input::get('nucleoedieje2').$id;
 		// creacion de carpeta dependiendo del nombre del proceso
@@ -1886,11 +1913,11 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		}
 		if(Input::hasFile('doceje')) {
 
-				Input::file('doceje')->move($path,'Act5150_'.Input::get('nucleoedieje2').$id.'.'.Input::file('doceje')->getClientOriginalExtension());
+				Input::file('doceje')->move($path,'Act5150_'.Input::get('nucleoedieje2').$id.'_Eje.'.Input::file('doceje')->getClientOriginalExtension());
 
-	    		DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID', '=', $id)->update(
+	    		DB::table('MODART_PIC_P5150')->where('OBJECTID', '=', $id)->update(
 	    			array(
-	    				'documento' => $path_insert.'\\'.'Act5150_'.Input::get('nucleoedieje2').$id.'.'.Input::file('doceje')->getClientOriginalExtension()
+	    				'doc_ejec' => $path_insert.'\\'.'Act5150_'.Input::get('nucleoedieje2').$id.'_Eje.'.Input::file('doceje')->getClientOriginalExtension()
 	    				)
 	    			);
 	    }		
@@ -1903,7 +1930,7 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		
 	}
 	public function postBorrarProyectoPlan50(){
-		$borrar=DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID',Input::get('deleteproy'))->delete();
+		$borrar=DB::table('MODART_PIC_P5150')->where('OBJECTID',Input::get('deleteproy'))->delete();
 		
 		if($borrar>0){
 			return Redirect::to('plan50cargaproy')->with('status', 'ok_estatus_borrar'); 
@@ -1915,9 +1942,9 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	 public function postBorrarDocPlan50()//funcion que recupera un proyecto
 	{
 
-		$insert=DB::table('MODART_PIC_P5150_GEO')->where('OBJECTID', '=', Input::get('proy'))->update(
+		$insert=DB::table('MODART_PIC_P5150')->where('OBJECTID', '=', Input::get('proy'))->update(
 	    			array(
-	    				'documento' =>'',
+	    				'doc_'.Input::get('estado')=>'',
 	    				)
 	    			);
 		return $insert;
@@ -1932,10 +1959,10 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	{		
 		/*Consulta de los proyectos existentes en la base de datos*/
 
-		$proyectos = DB::table('MODART_PIC_P5150_GEO')
-		->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150_GEO.cod_mpio')
-		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150_GEO.cod_nucleo')	
-		->select(DB::raw("concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_inicio,103) as fecha_inicio,CONVERT(VARCHAR(10),fecha_inicio_2,103) as fecha_inicio_2,CONVERT(VARCHAR(10),fecha_fin,103) as fecha_fin,CONVERT(VARCHAR(10),fecha_fin_2,103) as fecha_fin_2"),'avance_pres','avance_prod','costo_estim','costo_ejec','longitud','coord_ini','coord_fin','pob_bene','documento','alcance_2','alcance_3','enti_lider','linea_proy') 
+		$proyectos = DB::table('MODART_PIC_P5150')
+		->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150.cod_mpio')
+		->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150.cod_nucleo')	
+		->select(DB::raw("concat('P5150_',MODART_PIC_P5150.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_iden,103) as fecha_iden,CONVERT(VARCHAR(10),fecha_estr,103) as fecha_estr, CONVERT(VARCHAR(10),Fec_eje_ini,103) as Fec_eje_ini,CONVERT(VARCHAR(10),Fec_eje_fin,103) as Fec_eje_fin"),'avance_pres','avance_prod','costo_estim','costo_ejec','pob_bene','alcance_2','alcance_3','doc_iden','otro_iden','doc_estr','otro_estr','doc_ejec','otro_ejec')
 		->get();
 		
 		return View::make('moduloart/ivplan50consulproy', array('proyectos' => $proyectos));
@@ -1944,10 +1971,10 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 	public function postConsultarPlan50(){
 		//THIS CONTROLLER LOAD THE INFORMATION TO EDIT MODAL 
 		$proyecto=Input::get('proyecto');
-		$editar = DB::table('MODART_PIC_P5150_GEO')
-			->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150_GEO.cod_mpio')
-			->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150_GEO.cod_nucleo')	
-			->select(DB::raw("concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_inicio,103) as fecha_inicio,CONVERT(VARCHAR(10),fecha_inicio_2,103) as fecha_inicio_2,CONVERT(VARCHAR(10),fecha_fin,103) as fecha_fin,CONVERT(VARCHAR(10),fecha_fin_2,103) as fecha_fin_2"),'avance_pres','avance_prod','costo_estim','costo_ejec','longitud','coord_ini','coord_fin','pob_bene','documento','alcance_2','alcance_3','enti_lider','linea_proy') 
+		$editar = DB::table('MODART_PIC_P5150')
+			->join('MUNICIPIOS','MUNICIPIOS.COD_DANE','=','MODART_PIC_P5150.cod_mpio')
+			->join('MODART_PIC_NUCLEOS','MODART_PIC_NUCLEOS.id_nucleo','=','MODART_PIC_P5150.cod_nucleo')	
+			->select(DB::raw("concat('P5150_',MODART_PIC_P5150.cod_nucleo,OBJECTID) as ID"),'OBJECTID',DB::raw("MUNICIPIOS.NOM_DPTO as cod_depto"),DB::raw("MUNICIPIOS.NOM_MPIO as cod_mpio"),DB::raw("MODART_PIC_NUCLEOS.nombre as nom_nucleo"),'cod_nucleo','id_usuario','nom_proy','nom_proy_2','nom_proy_3','alcance','est_proy',DB::raw("CONVERT(VARCHAR(10),fecha_iden,103) as fecha_iden,CONVERT(VARCHAR(10),fecha_estr,103) as fecha_estr, CONVERT(VARCHAR(10),Fec_eje_ini,103) as Fec_eje_ini,CONVERT(VARCHAR(10),Fec_eje_fin,103) as Fec_eje_fin"),'avance_pres','avance_prod','costo_estim','costo_ejec','pob_bene','alcance_2','alcance_3','doc_iden','otro_iden','doc_estr','otro_estr','doc_ejec','otro_ejec')
 		   ->where('OBJECTID','=',$proyecto)
 		   ->get();	
 
@@ -2002,9 +2029,21 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 									join MODART_PIC_VEREDAS 
 									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
 					) as t3");
-			$pobla_bene=array_map(create_function('$item','return $item->nom_terr;'),$bene);//extract value from object query			
+			$pobla_bene=array_map(create_function('$item','return $item->nom_terr;'),$bene);//extract value from object query	
 
-		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr,'pobla_bene'=>$pobla_bene);
+	$enti = DB::table('MODART_PIC_P5150_ENTIDADESPASO')
+			->select('est_proy','enti_lider')
+			->where('id_proy','=', $proyecto)
+			->get();
+
+
+	$tramos = DB::table('MODART_PIC_P5150_TRAMOSPASOGEO')
+			->select('tramo','linea','lat_ini','lon_ini','lat_fin','lon_fin','longitud')
+			->where('id_proy','=', $proyecto)
+			->get();
+			
+
+		return array('todo'=>$editar,'tipoterr'=>$terr,'arraynomter'=>$nomterr,'pobla_bene'=>$pobla_bene,'entidades'=>$enti,'tramos'=>$tramos);
 	}
 
 
@@ -2013,25 +2052,49 @@ public function postProyectoNoViavilizado()//funcion que no viabiliza un proyect
 		
 
 
-		Excel::create('P5150_',function($excel)
-		{
+		Excel::create('P5150_Proyectos',function($excel)
+		{	
+
+			$excel->sheet('Tramos',function($sheet)
+			{
+				$data= array();
+				$results =  DB::select("select auto,ID,Tramo,linea,longitud,lat_ini,lon_ini,lat_fin,lon_fin from (SELECT id_proy,tramo+1 as Tramo,linea,longitud,lat_ini,lon_ini,lat_fin,lon_fin FROM MODART_PIC_P5150_TRAMOSPASOGEO)as t2 left join (select OBJECTID as auto,concat('P5150_',MODART_PIC_P5150.cod_nucleo,OBJECTID) as ID from MODART_PIC_P5150 inner join 
+				MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_P5150.cod_mpio) as t1 on t1.auto=t2.id_proy order by auto desc, tramo asc");
+				 	
+				foreach ($results as $result) {
+					$data[] = (array)$result;
+				}  	
+				$sheet->with($data);
+				$sheet->freezeFirstRow();
+				$sheet->setAutoFilter();
+				$sheet->cells('A1:I1', function($cells) {
+		    	$cells->setBackground('#dadae3');
+				});
+			});
+			
 			$excel->sheet('Proyectos',function($sheet)
 			{
 				$data = array();
 				$results = DB::select(
-					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Consejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin
+					"select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Consejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Alcance_en_identi,Actores_en_identi,Fecha_estructción,Nom_proy_estruct,Alcance_en_estruct,Actores_en_estruct,Fecha_firma_convenio,Costo_estimado,Nom_proy_ejecuci,Alcance_en_ejecuci,Actores_en_ejecuci,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_final
+from
+(select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Consejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estructción,Fecha_firma_convenio,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Actores_en_identi,Actores_en_estruct
+from
+(select 		auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Consejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estructción,Fecha_firma_convenio,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Actores_en_identi
+from
+(select auto,ID,Departamento,Municipios,COD_DANE,Usuario,Nucleo_veredal,Resguardos_Indigenas,Consejo_Comunitario,Veredas,Poblacion_beneficiada,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estructción,Fecha_firma_convenio,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final
 from 
-	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas,Consejo_Comunitario
-		from (select auto,ID,Departamento,Municipios,COD_DANE,usuario,nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Actores_para_implementacion,Linea_del_proyecto,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estimada_ejecucion,Fecha_estimada_finalizacion,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Longitud_tramo,coord_ini,coord_fin,Poblacion_beneficiada,Resguardos_Indigenas
+	(select auto,ID,Departamento,Municipios,COD_DANE,usuario as Usuario,nucleo_veredal as Nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estructción,Fecha_firma_convenio,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Poblacion_beneficiada,Resguardos_Indigenas,Consejo_Comunitario
+		from (select auto,ID,Departamento,Municipios,COD_DANE,usuario,nucleo_veredal,Nom_proy_identi,Nom_proy_estruct,Nom_proy_ejecuci,Alcance_en_identi,Alcance_en_estruct,Alcance_en_ejecuci,Estado_actual,Fecha_estructción,Fecha_firma_convenio,Fecha_de_ejecucion,Fecha_finalizacion,Avance_presupuestal,Avance_del_producto,Costo_estimado,Costo_final,Poblacion_beneficiada,Resguardos_Indigenas
 			from (select 
-				OBJECTID as auto,concat('P5150_',MODART_PIC_P5150_GEO.cod_nucleo,OBJECTID) as ID,MUNICIPIOS.NOM_DPTO  as Departamento,MUNICIPIOS.NOM_MPIO_1 as Municipios,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario ,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nom_proy_identi,nom_proy_2 as Nom_proy_estruct,nom_proy_3 as Nom_proy_ejecuci,enti_lider as Actores_para_implementacion,linea_proy as Linea_del_proyecto,alcance as Alcance_en_identi,alcance_2 as Alcance_en_estruct,alcance_3 as Alcance_en_ejecuci,est_proy as Estado_actual,CONVERT(VARCHAR,fecha_inicio,103) as Fecha_estimada_ejecucion,CONVERT(VARCHAR,fecha_fin,103) as Fecha_estimada_finalizacion,CONVERT(VARCHAR,fecha_inicio_2,103) as Fecha_de_ejecucion,CONVERT(VARCHAR,fecha_fin_2,103) as Fecha_finalizacion,avance_pres as Avance_presupuestal,avance_prod as Avance_del_producto,costo_estim as Costo_estimado,costo_ejec as Costo_final,longitud as Longitud_tramo,coord_ini,coord_fin,pob_bene as Poblacion_beneficiada 
-			from MODART_PIC_P5150_GEO 
+				OBJECTID as auto,concat('P5150_',MODART_PIC_P5150.cod_nucleo,OBJECTID) as ID,MUNICIPIOS.NOM_DPTO  as Departamento,MUNICIPIOS.NOM_MPIO_1 as Municipios,MUNICIPIOS.COD_DANE,concat(users.name,'',users.last_name)as usuario ,MODART_PIC_NUCLEOS.nombre as nucleo_veredal,nom_proy as Nom_proy_identi,nom_proy_2 as Nom_proy_estruct,nom_proy_3 as Nom_proy_ejecuci,alcance as Alcance_en_identi,alcance_2 as Alcance_en_estruct,alcance_3 as Alcance_en_ejecuci,est_proy as Estado_actual,CONVERT(VARCHAR,fecha_iden,103) as Fecha_estructción,CONVERT(VARCHAR,fecha_estr,103) as Fecha_firma_convenio,CONVERT(VARCHAR,Fec_eje_ini,103) as Fecha_de_ejecucion,CONVERT(VARCHAR,Fec_eje_fin,103) as Fecha_finalizacion,avance_pres as Avance_presupuestal,avance_prod as Avance_del_producto,costo_estim as Costo_estimado,costo_ejec as Costo_final,pob_bene as Poblacion_beneficiada 
+			from MODART_PIC_P5150 
 			inner join 
-				MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_P5150_GEO.cod_mpio 
+				MUNICIPIOS on MUNICIPIOS.COD_DANE = MODART_PIC_P5150.cod_mpio 
 			inner join 
-				users on users.id = MODART_PIC_P5150_GEO.id_usuario 
+				users on users.id = MODART_PIC_P5150.id_usuario 
 			inner join 
-				MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo = MODART_PIC_P5150_GEO.cod_nucleo)as t1
+				MODART_PIC_NUCLEOS on MODART_PIC_NUCLEOS.id_nucleo = MODART_PIC_P5150.cod_nucleo)as t1
 
 			left join 
 				(Select t3.id_proy,
@@ -2095,22 +2158,83 @@ from
 									FROM MODART_PIC_P5150_PROYECTOTERRI 
 									join MODART_PIC_VEREDAS 
 									on MODART_PIC_P5150_PROYECTOTERRI.id_terr=MODART_PIC_VEREDAS.cod_vda) ST2
-					) as t10) as t11 on t11.id_proy=t8.auto order by auto desc ");
+					) as t10) as t11 on t11.id_proy=t8.auto ) as t12 
+			left join 
+				(Select t13.id_proy,
+				   Left(t13.t14,Len(t13.t14)-1) As 'Actores_en_identi'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.enti_lider+', ' AS [text()]
+								From (SELECT id_proy,enti_lider,est_proy
+									FROM MODART_PIC_P5150_ENTIDADESPASO where est_proy='Identificación'
+									) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.enti_lider,ST1.est_proy
+								For XML PATH ('')
+							) as t14
+						From (SELECT id_proy,est_proy
+									FROM MODART_PIC_P5150_ENTIDADESPASO  where est_proy='Identificación'
+									) ST2
+					) as t13) as t15 on t15.id_proy=t12.auto) as t16
+			left join 
+				(Select t17.id_proy,
+				   Left(t17.t18,Len(t17.t18)-1) As 'Actores_en_estruct'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.enti_lider+', ' AS [text()]
+								From (SELECT id_proy,enti_lider,est_proy
+									FROM MODART_PIC_P5150_ENTIDADESPASO where est_proy='Estructuración'
+									) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.enti_lider,ST1.est_proy
+								For XML PATH ('')
+							) as t18
+						From (SELECT id_proy,est_proy
+									FROM MODART_PIC_P5150_ENTIDADESPASO  where est_proy='Estructuración'
+									) ST2
+					) as t17) as t19 on t19.id_proy=t16.auto)as t20
+			left join 
+				(Select t21.id_proy,
+				   Left(t21.t22,Len(t21.t22)-1) As 'Actores_en_ejecuci'
+				From
+					(
+						Select distinct ST2.id_proy, 
+							(
+								Select ST1.enti_lider+', ' AS [text()]
+								From (SELECT id_proy,enti_lider,est_proy
+									FROM MODART_PIC_P5150_ENTIDADESPASO where est_proy='Ejecución'
+									) ST1
+								Where ST1.id_proy = ST2.id_proy
+								ORDER BY ST1.enti_lider,ST1.est_proy
+								For XML PATH ('')
+							) as t22
+						From (SELECT id_proy,est_proy
+									FROM MODART_PIC_P5150_ENTIDADESPASO  where est_proy='Ejecución'
+									) ST2
+					) as t21) as t23 on t23.id_proy=t20.auto
+					order by auto desc 	
+					
+					");
 
-
-				foreach ($results as $result) {
+			foreach ($results as $result) {
 					$data[] = (array)$result;
 				}  	
 				$sheet->with($data);
 				$sheet->freezeFirstRow();
 				$sheet->setAutoFilter();
-				$sheet->cells('A1:AE1', function($cells) {
+				$sheet->cells('A1:AB1', function($cells) {
 		    	$cells->setBackground('#dadae3');
 				});
+			});
+			
 
 			
-			})->download('xlsx');
-		});
+		})->download('xlsx');
+
     }
 
 

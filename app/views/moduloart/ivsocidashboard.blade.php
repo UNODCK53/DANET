@@ -392,7 +392,6 @@ input[type="number"] {
                   </table>
                   <font size="1.5">*Fuente: 2016, Ministerio de Defensa Nacional (Policía Nacional - Dirección Antinarcóticos, Ejército, Armada y fuerza Aérea)</font>
                 </div>  
-
                 <div id="familias" class="col-xs-12 col-sm-6 col-md-8" >
                   <h3>Acuerdos de erradicación voluntaria</h3>
                   <div class="col-xs-4" align="center">
@@ -412,12 +411,14 @@ input[type="number"] {
                         0%
                       </div>
                     </div>
+
                   </div>
                   <div class="col-xs-12"><br><br></div>
                   <div class="col-xs-4" align="center">
                       <div class="col-xs-12"><img src="assets/art/img/family.jpg" alt="User Avatar" class="img-rounded" style="height: 90px" ></div>
                       <font size="6" id="familias_daild">0</font><br>Familias con acuerdo
                   </div>
+
                   <div class="col-xs-8">
                       Porcentaje de Familias con acuerdo de erradicación voluntaria
                       <div class="progress">

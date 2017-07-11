@@ -513,7 +513,7 @@
               data: {info:info},
               dataType:'json',
             success:function(data1){
-              //console.log(data1);              
+              console.log(data1);              
               if (data1.length>0) {
                 $("#mensajeesta").fadeIn(1);
                 $("#mensajeesta").empty();
@@ -523,7 +523,7 @@
                 var codtablagen = '';
                 
                 for (var i = 0; i < data1.length; i++) {
-                  codtablagen=codtablagen+'<tr id="'+data1[i].id+'"><td>'+data1[i].NOM_DPTO+'</td><td>'+data1[i].NOM_MPIO+'</td><td>'+data1[i].vereda+'</td><td>'+data1[i].nom_proy+'</td><td>'+data1[i].mod_foca+'</td><td><div class="progress" style="margin-bottom: 0px">';
+                  codtablagen=codtablagen+'<tr id="'+data1[i].id+'"><td>'+data1[i].NOM_DPTO+'</td><td>'+data1[i].NOM_MPIO+'</td><td>'+data1[i].vereda+'</td><td>'+data1[i].nom_proy+'</td><td>'+data1[i].mod_foca+'</td><td>'+data1[i].contactoterr+'</td><td>'+data1[i].tel_contactoterr+'</td><td><div class="progress" style="margin-bottom: 0px">';
                   if(data1[i].avance_prod >=75)
                   {
                     codtablagen=codtablagen+'<div class="progress-bar progress-bar-success progress-bar-striped col-xs-12" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+data1[i].avance_prod+'%; ">'+data1[i].avance_prod+'%</div>';

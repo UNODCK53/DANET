@@ -40,93 +40,93 @@
           <h2 class="text-center text-primary">BID - Carga de información pública de las organizaciones</h2>
           <br><br>
           <div class="row">
-          <?php $status=Session::get('status');?>
-            @if($status=='ok_estatus')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-success"></i> El proyecto fue cargado con éxito</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='error_estatus')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-danger"></i> El proyecto NO fue creado</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='ok_estatus_editar')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-success"></i> El proyecto fue editado con éxito</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='error_estatus_editar')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-danger"></i> El proyecto NO fue editado</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='ok_estatus_borrar')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-success"></i> El proyecto fue eliminado con éxito</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='error_estatus_borrar')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-danger"></i> El proyecto NO fue eliminado</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='ok_estatus_va')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-success"></i> El valor agregado fue agregado con éxito</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='error_estatus_va')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-danger"></i> El valor agregado NO fue agregado</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='ok_estatus_borrar_lp')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-success"></i> La línea productiva fue borrada con éxito</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='error_estatus_borrar_lp')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-danger"></i> La línea productiva NO fue borrada</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='ok_estatus_borrar_va')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-success"></i> El valor agregado fue borradp con éxito</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='error_estatus_borrar_va')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-danger"></i> El valor agregado NO fue borrado</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='ok_estatus_borrar_organizacion')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-success"></i> La oranización fue borrada con éxito</div>
-            <div class="col-sm-1"></div>
-            @endif
-            @if($status=='error_estatus_borrar_organizacion')
-            <div class="col-sm-1"></div>
-            <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
-            <i class="bg-danger"></i> La organización NO fue borrada </div>
-            <div class="col-sm-1"></div>
-            @endif
-          <?php $status=0; ?>
-        </div>
+            <?php $status=Session::get('status');?>
+              @if($status=='ok_estatus')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-success"></i> El proyecto fue cargado con éxito</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='error_estatus')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-danger"></i> El proyecto NO fue creado</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='ok_estatus_editar')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-success"></i> El proyecto fue editado con éxito</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='error_estatus_editar')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-danger"></i> El proyecto NO fue editado</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='ok_estatus_borrar')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-success"></i> El proyecto fue eliminado con éxito</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='error_estatus_borrar')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-danger"></i> El proyecto NO fue eliminado</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='ok_estatus_va')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-success"></i> El valor agregado fue agregado con éxito</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='error_estatus_va')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-danger"></i> El valor agregado NO fue agregado</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='ok_estatus_borrar_lp')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-success"></i> La línea productiva fue borrada con éxito</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='error_estatus_borrar_lp')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-danger"></i> La línea productiva NO fue borrada</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='ok_estatus_borrar_va')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-success"></i> El valor agregado fue borradp con éxito</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='error_estatus_borrar_va')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-danger"></i> El valor agregado NO fue borrado</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='ok_estatus_borrar_organizacion')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus" class="alert alert-success col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-success"></i> La oranización fue borrada con éxito</div>
+              <div class="col-sm-1"></div>
+              @endif
+              @if($status=='error_estatus_borrar_organizacion')
+              <div class="col-sm-1"></div>
+              <div id = "mensajeestatus"class="alert alert-danger col-sm-10"><button class="close" data-dismiss="alert" type="button">×</button>
+              <i class="bg-danger"></i> La organización NO fue borrada </div>
+              <div class="col-sm-1"></div>
+              @endif
+            <?php $status=0; ?>
+          </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cargar_info">Cargar información</button>
             <button id="edit_banner" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_banner">Cambiar banner</button>
             <button id="edit_logo" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#editar_logo">Cambiar Logo</button>

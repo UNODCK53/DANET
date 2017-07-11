@@ -110,7 +110,7 @@
                   <h4 class="modal-title" id="myModalLabel">Ficha de iniciativa-PIC</h4>
                 </div>
                 <div class="modal-body">
-                  <form role="form" action="artpic/crear-proyecto" method="post" id="crearindi" enctype="multipart/form-data" >
+                  <form role="form" action="artpic/crear-proyecto" method="post" id="crearindi" enctype="multipart/form-data"  name="crearindi" onsubmit="return valida(this)">
                       <div class="form-group">
                         <b>Departamento:<font color="red">*</font></b>
                         {{Form::select('depto', $arraydepto, '', ['class' => 'form-control', 'id'=>'depto','required'=>'true'])}}
@@ -331,7 +331,7 @@
           </div>
           <!--Aca finaliza el modal para cargar nuevo proyecto-->
           <!--Aca inicia el modal para editar proyecto-->
-          <div class="modal fade" id="editar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
+          <div class="modal fade" id="editar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static" >
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -339,7 +339,7 @@
                   <h4 class="modal-title" id="Editar_tittle">Editar iniciativa-PIC</h4>
                 </div>
                 <div class="modal-body">
-                  <form role="form" action="artpic/editar-proyecto" method="post" id="ediindi" enctype="multipart/form-data" >
+                  <form role="form" action="artpic/editar-proyecto" method="post" id="ediindi" enctype="multipart/form-data" name="ediindi" onsubmit="return valida(this)">
                       <div class="form-group">
                         <input  id = "ediidproy" name = "ediidproy" class="form-control" type="hidden" required="true" ></input>               
                       </div>
@@ -1414,6 +1414,38 @@ $("#nom_terredi").change(function(){
               });//Termina Ajax
             }
           });
+
+function valida(f) {
+  formulario=f.name;
+  switch(formulario) {
+    case 'crearindi':
+        var lista = document.crearindi.nom_terr;
+        var atr_nomterri='';
+        break;
+    case 'ediindi':
+        var lista = document.ediindi.nom_terredi;
+        var atr_nomterri='edi';
+        break;
+  } 
+
+  var label=[];
+
+  var eachGroup = lista.childNodes;
+  var count=0
+  $('#nom_terr'+atr_nomterri).find("option:selected").each(function(){
+        //optgroup label
+        label[count] = $(this).parent().attr("label");
+        count++;
+    });
+  for (var i=0;i<eachGroup.length;i++) {
+    var eachOption=eachGroup[i].label;
+    var index=label.indexOf(eachOption)
+    if (index==-1){
+      alert("No a seleccioando ningún territorio de "+eachOption.substr(0,eachOption.length-1) )
+      return false;
+    }
+  }    
+}
 
 $('#editar_proyecto').on('hidden.bs.modal', function (e) {//funcion que resetea el modal
    $(this).find('form').trigger('reset');

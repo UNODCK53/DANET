@@ -733,6 +733,7 @@
                           div1.append(Label);
                           div1.append(input);
                           divs.append(div1);
+                          divs.append('<br>');
                           if(data['array_viable_estado'][i]=="No aplica"){
                            div1.style="padding: 0;margin: 0;background:"+color+";"; 
                           }

@@ -37,6 +37,8 @@ Route::get('/', function()
 
 //nos dirige a al contlevelador encargado de hacer la verificacion del login
 Route::post('login','UserLogin@user');
+//Route::get('cambiopass','UserLogin@cambiar');
+
 //ruta para cerrar sesión y nos redirige a la portada
 
 Route::get('logout', function()
@@ -69,7 +71,8 @@ Route::group(array('before' => 'auth'), function()
 {
   //Ruta del home si se encuentra autenticado
   Route::get('principal', function(){return View::make('principal');});
-  Route::post('cambiopass','UserLogin@cambiar');
+  Route::get('cambiopass','UserLogin@cambiar');
+  
   //--------------------------------------------------------------------------------------------------------------------------
   //Rutas módulo de tierras
   Route::group(array('before'=>'consulgentierras'), function(){
@@ -192,7 +195,8 @@ Route::group(array('before' => 'auth'), function()
   Route::get('acuerdoscolectivos', array('before'=>'MenuARTConsultaAcuerdoscolecDAILD', 'uses' => 'ArtdaildController@DaildPreload'));  
   //Termina rutas para el módulo de DAILD
   //--------------------------------------------------------------------------------------------------------------------------
-    //Rutas para módulo de BID  
+    //Rutas para módulo de BID
+  Route::get('vista1_bid', 'bidController@carganoticiaspublic_ini');  
   Route::get('cargaorganizacion', 'bidController@cargapublic_ini');  
   Route::get('bidlineabase', array('before'=>'MenuBIDLineabase', function(){return View::make('modulobid/bidlineabase');}));
   Route::get('mapaorganizacion', array('before'=>'MenuBIDMapaOrg', function(){return View::make('modulobid/mapaorganizacion');}));
