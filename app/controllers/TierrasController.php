@@ -1,12 +1,10 @@
 <?php
-
 class TierrasController extends BaseController {
 	
 	public function __construct()
 	{
 		$this->beforeFilter('auth');  //bloqueo de acceso
 	}
-
 	//despues de la funcion se pone el verbo por ejemplo getIndex
 	public function ListadoProini()
 	{
@@ -18,7 +16,6 @@ class TierrasController extends BaseController {
 		$arraydombobox= array($arrayconcepto, $arrayrespgeografico);		
 		return View::make('modulotierras.cargainicial', array('arrayproini' => $arrayproini), array('arraydombobox' => $arraydombobox));
 	}
-
 	public function postListadoproinimodal()
 	{
 		$arrayproini = DB::table('Vista pro_ini_con_datgeo')->where('id_proceso','=',Input::get('numerpro'))->get();
@@ -30,7 +27,6 @@ class TierrasController extends BaseController {
 		$arraymod = array($arrayproini, $arraydpto);
 		return Response::json($arraymod);
 	}
-
 	public function getCrearProceso()
 	{
 		//consulta a la tabla de MODTIERRAS_PROCESO
@@ -41,7 +37,6 @@ class TierrasController extends BaseController {
 		if($reqresgeo == 2){
 			$respgeografico = 0;
 		}
-
   		// insertar campos a la tabla
 	    DB::table('MODTIERRAS_PROCESO')->insert(
 		    array(
@@ -109,7 +104,6 @@ class TierrasController extends BaseController {
 	          	return Redirect::to('carga_inicial')->with('status', 'error_estatus');
 	      	}
 	}
-
 	public function postEditarprocesodatgeo()
 	{
 		$arrayproini = DB::table('Vista_proceso_con_datgeo')->where('id_proceso','=',Input::get('numerpro'))->get();
@@ -122,7 +116,6 @@ class TierrasController extends BaseController {
 		$arraymod = array($arrayproini, $arraydpto, $areapreliminar);
 		return Response::json($arraymod);
 	}
-
 	public function getEditarProceso()
 	{
 		$fecha = date("Y-m-d H:i:s");
@@ -187,10 +180,8 @@ class TierrasController extends BaseController {
 	    else{
 	    	DB::table('MODTIERRAS_PROCESTADO')->where('id_proceso', '=', $procesiid)->where('id_estado','=','2')->delete();
 	    }
-
 		return Redirect::to('procesos_adjudicados')->with('actualizar', $procesiid);
 	}
-
 	public function ListadoProceso()
 	{
 		//consulta para retornar los procesos por abogado
@@ -199,7 +190,6 @@ class TierrasController extends BaseController {
 		//return $arrayproceso;
 		return View::make('modulotierras.procesosadjudicados', array('arrayproceso' => $arrayproceso), array('arrayconcepto' => $arrayconcepto));
 	}
-
 	public function ListadoProcesogral()
 	{
 		//consulta para retornar los procesos por abogado
@@ -207,18 +197,15 @@ class TierrasController extends BaseController {
 		//return $arrayproceso;
 		return View::make('modulotierras.consultageneral', array('arrayproceso' => $arrayproceso));
 	}
-
 	public function ListadoLevtopo()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
 		
 		$arraylevtopo = DB::select('SELECT id_proceso,vereda,NOM_MPIO,MODTIERRAS_VEREDAS.NOM_TERR,nombrepredio,conceptojuridico, nombre, cedula, areapredioformalizada, unidadareaprediofor FROM MODTIERRAS_PROCESO JOIN MODTIERRAS_VEREDAS on MODTIERRAS_VEREDAS.COD_UNODC=MODTIERRAS_PROCESO.vereda WHERE requiererespgeo=1 and respgeografico ='.Auth::user()->id.' AND NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESTADO WHERE MODTIERRAS_PROCESO.id_proceso=MODTIERRAS_PROCESTADO.id_proceso AND MODTIERRAS_PROCESTADO.id_estado=2)');
-
 		
 		//return $arraylevtopo;
 		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo));
 	}
-
 	public function postAdjuntarLevtopo()
 	{		
 		$path = public_path().'\procesos\\'.Input::get('modnp');
@@ -231,7 +218,6 @@ class TierrasController extends BaseController {
 		}
 		if(Input::get('modconcep')!="6"){
 			if((Input::hasFile('modmapa')) and (Input::hasFile('modshp')) and (Input::hasFile('modtabla'))) {
-
 				Input::file('modmapa')->move($path,Input::get('modnp').'_LT_MAPA.'.Input::file('modmapa')->getClientOriginalExtension());
 	    		Input::file('modshp')->move($path,Input::get('modnp').'_LT_SHP.'.Input::file('modshp')->getClientOriginalExtension());
 	    		Input::file('modtabla')->move($path,Input::get('modnp').'_LT_TABLA.'.Input::file('modtabla')->getClientOriginalExtension());
@@ -260,7 +246,6 @@ class TierrasController extends BaseController {
 	    }
 	    else{
 	    	if((Input::hasFile('modmapa')) or (Input::hasFile('modshp')) or (Input::hasFile('modtabla'))) {
-
 				Input::file('modmapa')->move($path,Input::get('modnp').'_LT_MAPA.'.Input::file('modmapa')->getClientOriginalExtension());
 				if(Input::hasFile('modshp')){
 					Input::file('modshp')->move($path,Input::get('modnp').'_LT_SHP.'.Input::file('modshp')->getClientOriginalExtension());
@@ -297,7 +282,6 @@ class TierrasController extends BaseController {
 	    	return Redirect::to('levantamiento_topografico')->with('status', 'error_estatus');
 	    }    	
     }
-
     public function Excelcarini()
 	{	
 		Excel::create('Procesos iniciales',function($excel)
@@ -318,13 +302,11 @@ class TierrasController extends BaseController {
 			})->download('xlsx');
 		});
     }
-
     public function postEditarProceso()
 	{
 		Session::put('procesoi',Input::get('proceso'));		
 		return Redirect::to('procesos_adjudicados_editar');
 	}
-
 	public function Datosprocesos()
 	{
 		$idpro=(Session::get('procesoi'));
@@ -333,7 +315,6 @@ class TierrasController extends BaseController {
 		}
 		
 		$arrayproceso = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->get();
-
 		$arrayrespgeografico = DB::select('SELECT id,name,last_name,grupo,level FROM users WHERE grupo=3 and level=3 and estado=1');
 		$arrayconcepto = DB::select('SELECT * FROM MODTIERRAS_CONCEPTO order By concepto');
 		$arrayestado = DB::select('SELECT * FROM MODTIERRAS_ESTADO');
@@ -357,7 +338,6 @@ class TierrasController extends BaseController {
 		
 		$arraydocuruta = public_path().'\procesos\\'.$idpro.'\\'.$idpro.'_LT_TABLA.xlsx';
 		$arraydocuruta1 = public_path().'\procesos\\'.$idpro.'\\'.$idpro.'_LT_TABLA.xls';
-
         if( (File::exists($arraydocuruta)) || (File::exists($arraydocuruta1)) ){
         	$tabla=true;
         }
@@ -373,7 +353,6 @@ class TierrasController extends BaseController {
 		}		
 		
 		$arrayfichacaract = DB::select("select max(t.doc) as fichacaract from (SELECT id_proceso ,case when id_documento=27 then 1 else 0 end as doc FROM MODTIERRAS_PROCDOCUMENTOS  where id_proceso ='".$idpro."')as t  group by t.id_proceso");
-
 		$arraydombobox = array($arrayconcepto, $arrayrespgeografico, $arraydocumento, $arrayestado, $arrayprocestado, $arrayprocdocu, $shp, $tabla, $mapa, $arrayfichacaract);		
 		
 		//return Response::json($arraydombobox);
@@ -422,7 +401,6 @@ class TierrasController extends BaseController {
 		else{
 			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
 		}
-
 		//aca comienza los controladores para adjuntar documentos		
 		$arraydocurevision = DB::select("SELECT * FROM MODTIERRAS_PROCDOCUMENTOS WHERE id_documento =".Input::get('modocu')." AND id_proceso ='".Input::get('modnp')."'");
 		
@@ -431,7 +409,6 @@ class TierrasController extends BaseController {
 			if (Input::get('modsubestado') != 0) {
 			    if(Input::hasFile('modpdf')) {
 			    	Input::file('modpdf')->move($path,Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension());
-
 					$fecha = date("Y-m-d H:i:s");
 		    		DB::table('MODTIERRAS_PROCESTADO')->insert(
 				    	array(
@@ -457,9 +434,7 @@ class TierrasController extends BaseController {
 			elseif (Input::get('modsubestado') == 0) {
 				if(Input::hasFile('modpdf')) {
 			    	Input::file('modpdf')->move($path,Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension());
-
 					$fecha = date("Y-m-d H:i:s");
-
 					DB::table('MODTIERRAS_PROCDOCUMENTOS')->insert(
 				    	array(
 				    		'id_proceso' => Input::get('modnp'),
@@ -477,7 +452,6 @@ class TierrasController extends BaseController {
 			    return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_doc');	
 			}
 		} else {			
-
 			if(Input::hasFile('modpdf')) {
 			    	Input::file('modpdf')->move($path,Input::get('modnp').'_'.$arrayprocdocu[0]->avredocu.'.'.Input::file('modpdf')->getClientOriginalExtension());
 			    	$fecha = date("Y-m-d H:i:s");
@@ -512,13 +486,11 @@ class TierrasController extends BaseController {
 				            ->where('id_proceso', '=', Input::get('modnp'))
 				            ->where('id_documento', '=', Input::get('modocu'))
 			            ->update(array('updated_at'=>$fecha));
-
 		    		return Redirect::to('procesos_adjudicados')->with('documentosanexos', $procesiid);
 				}
 				return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_estatus');
 		}			
     }
-
     public function getEditarProceso2()
 	{
 		$fecha = date("Y-m-d H:i:s");
@@ -552,7 +524,6 @@ class TierrasController extends BaseController {
 		}
 		return "ERROR";
 	}
-
 	public function postProgramajax()
 	{
 		$id=(Input::get('valor'));
@@ -562,14 +533,12 @@ class TierrasController extends BaseController {
 		$arrayconsul=array($arrayproini,$arrayconcepto);
 		return Response::json($arrayconsul);
 	}
-
 	public function ResponsableJuridico()
 	{
 		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
 		->select('nom_dpto','cod_dpto')
 		->groupBy('nom_dpto','cod_dpto')
 		->get();
-
 		$arrayrj = DB::table('MODTIERRAS_PROCESO')
 		->join('users', 'users.id','=','MODTIERRAS_PROCESO.respjuridico')
 		->where('users.level','=',2)
@@ -577,10 +546,8 @@ class TierrasController extends BaseController {
 		->select('users.name','users.last_name',DB::raw('count(*) as y, users.name'))
 		->groupBy('users.name','users.last_name')
 		->get();
-
 		return View::make('modulotierras.reporresponsablejuridico', array('arraydpto'=>$arraydpto,'arrayrj' => $arrayrj));
 	}
-
 	public function RLevantamientoTopogragfico()
 	{
 		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
@@ -592,25 +559,21 @@ class TierrasController extends BaseController {
 		->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
 		->groupBy('requiererespgeo')
 		->get();
-
 		$arrayrlt = DB::table('MODTIERRAS_PROCESO')
 		->join('users','users.id','=','MODTIERRAS_PROCESO.respgeografico')
 		->select(DB::RAW('count(id_proceso) as procesos, name,last_name'))
 		->where('requiererespgeo','=','1')
 		->groupby('name','last_name')
 		->get();
-
 		$arraydepto_num = DB::table('MODTIERRAS_PROCESO')
 						->join('DEPARTAMENTOS','DEPARTAMENTOS.COD_DPTO','=',DB::RAW('left(id_proceso,2)'))
 						->select(DB::RAW('left(id_proceso,2) as depto,NOM_DPTO, count(requiererespgeo) as procesos'))
 						->where('requiererespgeo','=','1')
 						->groupby(DB::RAW('left(id_proceso,2), NOM_DPTO'))
 						->get();
-
 		//return $arraylt;
 		return View::make('modulotierras.reporlevantamientotopografico', array('arraydpto'=>$arraydpto,'arraylt' => $arraylt ,'arrayrlt'=>$arrayrlt, 'arraydepto_num'=>$arraydepto_num));
 	}
-
 	public function ReporAreaLevantada()
 	{
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
@@ -618,83 +581,108 @@ class TierrasController extends BaseController {
 		->select('nom_dpto','cod_dpto')
 		->groupBy('nom_dpto','cod_dpto')
 		->get();
-
 		$hectareas=DB::table('MODTIERRAS_PROCESO')
 					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
 					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
 					->where('unidadareaprediofor','=',1)
 					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
 					->get();
-
 		$fanegadas=DB::table('MODTIERRAS_PROCESO')
 					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
 					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
 					->where('unidadareaprediofor','=',2)
 					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
 					->get();
-
 		$metros=DB::table('MODTIERRAS_PROCESO')
 					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
 					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
 					->where('unidadareaprediofor','=',3)
 					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
 					->get();
-
 		$arraytotal = array($hectareas,$fanegadas,$metros);
 		//return $arrayapp;
 		return View::make('modulotierras.reporareareportada', array('arraydpto' => $arraydpto), array('arraytotal' => $arraytotal));
 	}
-
 	public function postReporarealevantadampio()
 	{
-		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
-		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('dpto').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
-
-		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
-		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
-		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('dpto').'%')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
-		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
-
 		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->orderBy('nom_mpio','asc')->get();
-		$arrayt=array($arraympio, $arrayapp, $arrayapf);
+		$hectareas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',1)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->get();
+		$fanegadas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',2)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->get();
+		$metros=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',3)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+					->get();
+		$arrayt=array($arraympio, $hectareas,$fanegadas,$metros);
 		return Response::json($arrayt);
 	}
-
 	public function postReporarealevantadavda()
 	{
-		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',1)->sum('areaprediopreliminar');
-		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','like',Input::get('mpio').'%')->where('unidadesarea','=',3)->sum('areaprediopreliminar');
-		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
-
-		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
-		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
-		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','like',Input::get('mpio').'%')->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
-		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
-
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->orderBy('nombre1','asc')->get();
-		$arrayt=array($arrayvda, $arrayapp, $arrayapf);
+		$hectareas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',1)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->get();
+		$fanegadas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',2)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->get();
+		$metros=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',3)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+					->get();
+		$arrayt=array($arrayvda, $hectareas,$fanegadas,$metros);
 		return Response::json($arrayt);
 	}
-
 	public function postReporarealevantadavdadet()
 	{
-		$arrayapp1 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',1)->sum('areaprediopreliminar');
-		$arrayapp2 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',2)->sum('areaprediopreliminar');
-		$arrayapp3 = DB::table('MODTIERRAS_PROCESOINICIAL')->where('vereda','=',Input::get('vda'))->where('unidadesarea','=',3)->sum('areaprediopreliminar');
-		$arrayapp=$arrayapp1+($arrayapp2*0.644)+($arrayapp3*0.0001);
-
-		$arrayapf1 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',1)->sum('areapredioformalizada');
-		$arrayapf2 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',2)->sum('areapredioformalizada');
-		$arrayapf3 = DB::table('MODTIERRAS_PROCESO')->where('vereda','=',Input::get('vda'))->where('unidadareaprediofor','=',3)->sum('areapredioformalizada');
-		$arrayapf=$arrayapf1+($arrayapf2*0.644)+($arrayapf3*0.0001);
-
-		$arrayt=array($arrayapp, $arrayapf);
+		$hectareas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',1)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',1)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+					->get();
+		$fanegadas=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',2)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',2)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+					->get();
+		$metros=DB::table('MODTIERRAS_PROCESO')
+					->join('MODTIERRAS_PROCESOINICIAL','MODTIERRAS_PROCESO.id_procesoinicial','=','MODTIERRAS_PROCESOINICIAL.id_procesoinicial')
+					->select(DB::RAW('sum(areapredioformalizada) as area_f, sum(MODTIERRAS_PROCESOINICIAL.areaprediopreliminar)  as area_p'))
+					->where('unidadareaprediofor','=',3)
+					->where('MODTIERRAS_PROCESOINICIAL.unidadesarea','=',3)
+					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+					->get();
+		$arrayt=array($hectareas,$fanegadas,$metros);
 		return Response::json($arrayt);
 	}
-
 	public function ReporEstado()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -733,7 +721,6 @@ class TierrasController extends BaseController {
 		//return $arrayvial;
 		return View::make('modulotierras.reporestado',array('arraydpto' => $arraydpto),array('arrayvial' => $arrayvial));
 	}
-
 	public function postReporestadompio()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -770,7 +757,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arraympio,$arrayvial1,$arrayvial2);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporestadovda()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -811,7 +797,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvda,$arrayvial1,$arrayvial2);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporestadovdadet()
 	{
 		//Consultas para obtener el número de procesos por estado y son viables
@@ -847,7 +832,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvial1,$arrayvial2);
 		return Response::json($arrayvial);
 	}
-
 	public function getDownloadfile()
 	{
         //PDF file is stored under project/public/download/info.pdf
@@ -862,10 +846,8 @@ class TierrasController extends BaseController {
        	return Response::download($file);
         }
     }
-
     public function ReporNumPro()
 	{
-
 		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
 		->select('nom_dpto','cod_dpto')
 		->groupBy('nom_dpto','cod_dpto')
@@ -879,19 +861,16 @@ class TierrasController extends BaseController {
 		//return $numpro;
 		return View::make('modulotierras.repornumproc', array('arraydpto'=>$arraydpto,'arraynumpro' => $arraynumpro),array('numpro' => $numpro));
 	}
-
     public function Generarpfd()
     {
     	$arraytp = DB::table('MODTIERRAS_PROCESO')->count();
     	return View::make('pdf',array('arraytp' => $arraytp));
     }
-
     public function postConsultaProceso()
 	{
 		Session::put('procesoi',Input::get('proceso'));
 		return Redirect::to('consultar_proceso');
 	}
-
     public function ConsultaDetallada()
 	{
 		$idpro=(Session::get('procesoi'));
@@ -925,7 +904,6 @@ class TierrasController extends BaseController {
 		
 		$arraydocuruta = public_path().'\procesos\\'.$idpro.'\\'.$idpro.'_LT_TABLA.xlsx';
 		$arraydocuruta1 = public_path().'\procesos\\'.$idpro.'\\'.$idpro.'_LT_TABLA.xls';
-
         if( (File::exists($arraydocuruta)) || (File::exists($arraydocuruta1)) ){
         	$tabla=true;
         }
@@ -975,7 +953,6 @@ class TierrasController extends BaseController {
 		if($idpro==''){
 			return Redirect::to('novedadesodk');
 		}
-
 		$arraydomtecnicos = DB::table('MODTIERRAS_TECNICOS')
 			->where('catastral','=',Auth::user()->id)
 			->select('cedula','nombre','estado','catastral')
@@ -985,7 +962,6 @@ class TierrasController extends BaseController {
 			->select('llave','id_proceso','novedad','longitud','latitud','validado','id_tecnico')
 			->orderBy('llave', 'asc')
 			->get();
-
 		$arrayprocesoscant=DB::table('MODTIERRAS_PROCESONOVEDAD')
 		->select('llave')
 		->where('id_proceso','=',$idpro)
@@ -994,7 +970,6 @@ class TierrasController extends BaseController {
 		$arraydomvalidacion = DB::table('MODTIERRAS_VALIDACION')			
 			->select('id','descripcion')
 			->get();
-
 		$arrayeditcoordenainsumos= array($arrayprocesos,$arrayprocesoscant,$arraydomtecnicos,$arraydomvalidacion);	
 		
 		$arrayapp = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->select('id_proceso','longitud', 'latitud')->get();				
@@ -1005,17 +980,14 @@ class TierrasController extends BaseController {
 	public function postGuardarCoordenadas()
 	{			
 		$odkkey = Input::get('keyodk');	
-
 		$arraygetcoord = DB::table('MODTIERRAS_PROCESONOVEDAD')
 			->where('llave','=',$odkkey)
 			->select('id_proceso','longitud','latitud')
 			->groupBy('llave','id_proceso','longitud','latitud')
 			->get();
-
 		DB::table('MODTIERRAS_PROCESO')
             ->where('id_proceso', $arraygetcoord[0]->id_proceso)            
             ->update(array('longitud'=>$arraygetcoord[0]->longitud, 'latitud'=>$arraygetcoord[0]->latitud,'updatedcoord'=>date("Y-m-d H:i:s"), 'respcoordmodif'=>Auth::user()->id));
-
 		//return $arraygetcoord;
 		$dat[0]=$arraygetcoord[0]->id_proceso;
 		DB::table('MODTIERRAS_PROCESONOVEDAD')
@@ -1024,7 +996,6 @@ class TierrasController extends BaseController {
         DB::table('MODTIERRAS_PROCESONOVEDAD')
             ->where('llave','=', $odkkey)            
             ->update(['validado'=>2]);
-
 		/*USP_TIERRAS_UPDATEPROCESOGEO*/		
 		$arrayclallprocedimiento = DB::statement("DECLARE @return_value int EXEC	@return_value = [USP_TIERRAS_UPDATEPROCESOGEO]	@id_proceso = N'$dat[0]' SELECT	'Return Value' = @return_value");
 		if((int)$arrayclallprocedimiento==1){
@@ -1043,7 +1014,46 @@ class TierrasController extends BaseController {
 		->select('genero',DB::raw('count(*) as y, genero'))
 		->groupBy('genero')
 		->get();
-		return View::make('modulotierras.reporgenero', array('arraygen' => $arraygen));
+		$arraydpto = DB::table('MODTIERRAS_VEREDAS')
+		->select('nom_dpto','cod_dpto')
+		->groupBy('nom_dpto','cod_dpto')
+		->get();
+		return View::make('modulotierras.reporgenero',array('arraydpto' => $arraydpto), array('arraygen' => $arraygen));
+	}
+	public function postReporgenerompio()
+	{	
+		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
+		$arraygen=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
+		->get();
+		
+		$arrayvial=array($arraympio, $arraygen);
+		return Response::json($arrayvial);
+	}
+	public function postReporgenerovda()
+	{	
+		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
+		$arraygen=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
+		->get();
+		
+		$arrayvial=array($arrayvda, $arraygen);
+		return Response::json($arrayvial);
+	}
+	public function postReporgenerovdadet()
+	{			
+		$arraygen=DB::table('MODTIERRAS_PROCESO')
+		->select('genero',DB::raw('count(*) as y, genero'))
+		->groupBy('genero')
+		->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('vda'))
+		->get();
+		
+		$arrayvial=array($arraygen);
+		return Response::json($arrayvial);
 	}
 	public function Reportiempo()
 	{		
@@ -1064,12 +1074,9 @@ class TierrasController extends BaseController {
 		$datetime1 = date_create('2016-01-01');
 		$datetime2 = date_create();
 		$diferencia = date_diff($datetime1, $datetime2);
-
 		$resul=$diferencia->format('%y años, %m meses, %d días, %r%a total días');
-
 		return $resul;		
 	}
-
 	public function postReporprocesosmpio(){
 		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
 		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
@@ -1085,7 +1092,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arraympio,$arraynumpro,$numpro);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporprocesosvda()
 	{		
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')
@@ -1106,7 +1112,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvda,$arraynumpro,$numpro);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporprocesosvdadet()
 	{	
 		$arraynumpro= DB::table('MODTIERRAS_PROCESO')
@@ -1122,10 +1127,8 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arraynumpro,$numpro);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporjuridicompio(){
 		$arraympio= DB::table('MODTIERRAS_VEREDAS')->where('cod_dpto','=',Input::get('dpto'))->select('nom_mpio','cod_mpio')->groupBy('nom_mpio','cod_mpio')->get();
-
 		$arrayrj = DB::table('MODTIERRAS_PROCESO')
 				   ->join('users', 'users.id','=','MODTIERRAS_PROCESO.respjuridico')
 				   ->where('users.level','=',2)
@@ -1138,7 +1141,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arraympio,$arrayrj);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporjuridicovda()
 	{		
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
@@ -1155,7 +1157,6 @@ class TierrasController extends BaseController {
 		$arrayvial=array($arrayvda,$arrayrj);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporjuridicovdadet()
 	{	
 		$arrayrj = DB::table('MODTIERRAS_PROCESO')
@@ -1181,7 +1182,6 @@ class TierrasController extends BaseController {
 					->where(DB::RAW('left(id_proceso,2)'),'=',Input::get('dpto'))
 					->groupby('name','last_name','respgeografico')
 					->get();
-
 		$arrayrlt_ok = DB::table('MODTIERRAS_PROCESO')
 					->join('MODTIERRAS_PROCESTADO','MODTIERRAS_PROCESTADO.id_proceso','=','MODTIERRAS_PROCESO.id_proceso')
 					->select(DB::RAW('count(requiererespgeo) as procesos, respgeografico'))
@@ -1190,17 +1190,14 @@ class TierrasController extends BaseController {
 					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
 					->groupby('respgeografico')
 					->get();
-
 		$arraylt = DB::table('MODTIERRAS_PROCESO')
 					->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
 					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,2)'),'=',Input::get('dpto'))
 					->groupBy('requiererespgeo')
 					->get();
-
 		$arrayvial=array($arraympio, $arrayrlt, $arrayrlt_ok, $arraylt);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporlevantamientovda(){
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
 		
@@ -1211,7 +1208,6 @@ class TierrasController extends BaseController {
 					->where(DB::RAW('left(id_proceso,5)'),'=',Input::get('mpio'))
 					->groupby('name','last_name','respgeografico')
 					->get();
-
 		$arrayrlt_ok = DB::table('MODTIERRAS_PROCESO')
 					->join('MODTIERRAS_PROCESTADO','MODTIERRAS_PROCESTADO.id_proceso','=','MODTIERRAS_PROCESO.id_proceso')
 					->select(DB::RAW('count(requiererespgeo) as procesos, respgeografico'))
@@ -1220,17 +1216,14 @@ class TierrasController extends BaseController {
 					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
 					->groupby('respgeografico')
 					->get();
-
 		$arraylt = DB::table('MODTIERRAS_PROCESO')
 					->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
 					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,5)'),'=',Input::get('mpio'))
 					->groupBy('requiererespgeo')
 					->get();
-
 		$arrayvial=array($arrayvda, $arrayrlt, $arrayrlt_ok, $arraylt);
 		return Response::json($arrayvial);
 	}
-
 	public function postReporlevantamientovdadet(){
 		$arrayvda=DB::table('MODTIERRAS_VEREDAS')->where('cod_mpio','=',Input::get('mpio'))->select('nombre1','cod_unodc')->get();
 		
@@ -1241,7 +1234,6 @@ class TierrasController extends BaseController {
 					->where(DB::RAW('left(id_proceso,8)'),'=',Input::get('mpio'))
 					->groupby('name','last_name','respgeografico')
 					->get();
-
 		$arrayrlt_ok = DB::table('MODTIERRAS_PROCESO')
 					->join('MODTIERRAS_PROCESTADO','MODTIERRAS_PROCESTADO.id_proceso','=','MODTIERRAS_PROCESO.id_proceso')
 					->select(DB::RAW('count(requiererespgeo) as procesos, respgeografico'))
@@ -1250,17 +1242,14 @@ class TierrasController extends BaseController {
 					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('mpio'))
 					->groupby('respgeografico')
 					->get();
-
 		$arraylt = DB::table('MODTIERRAS_PROCESO')
 					->select('requiererespgeo',DB::raw('count(*) as y, requiererespgeo'))
 					->where(DB::RAW('left(MODTIERRAS_PROCESO.id_proceso,8)'),'=',Input::get('mpio'))
 					->groupBy('requiererespgeo')
 					->get();
-
 		$arrayvial=array($arrayvda, $arrayrlt, $arrayrlt_ok, $arraylt);
 		return Response::json($arrayvial);
 	}
-
 	
 }
 ?>
