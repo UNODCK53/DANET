@@ -350,8 +350,15 @@
         //datos segun intervencion      
       $("#intervencion").change(function(){
       if($('#intervencion').val()!='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no oculta el imput siguiente
-      {
-         
+      { 
+
+         if($('#intervencion').val()=='ART'){// funcion para generar pdf de ART
+            $('#reporte_encuentas_mision').attr('action', 'siscadi/repotemisionart');//funcion para generar pdf de intervención art
+         }else{
+            $('#reporte_encuentas_mision').attr('action', 'siscadi/repotemision');//funcion para generar pdf de intervención unodc
+         }
+
+
          $.ajax({url:"siscadi/siscadirepmision",type:"POST",data:{intervencion:$('#intervencion').val()},dataType:'json',//llama al controlador siscadi/siscadirepmision que trae los valores necesario para la grafica
           success:function(data1){
             $("#mision").empty();
@@ -462,6 +469,7 @@
          
          $.ajax({url:"siscadi/siscadirepmpio",type:"POST",data:{intervencion:$('#intervencion').val(),mision:$('#mision').val(),piloto:$('#Piloto').val(),departamento:$('#cod_depto').val(),monitor:''},dataType:'json',//llama al controlador siscadi/siscadirepdpto que trae los valores necesario para la grafica
           success:function(data1){
+            console.log(data1)
             $("#cod_dane").empty();
             $("#labelcod_dane").show();
             $("#cod_dane").show();      
@@ -497,6 +505,11 @@
       $("#intervencion_gen").change(function(){
       if($('#intervencion_gen').val()!='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no oculta el imput siguiente
       {
+          if($('#intervencion_gen').val()=='ART'){// condicional que cambia la funcion del contralor dependiendo de la intervención o pdf a generar
+            $('#reporte_encuentas_general').attr('action', 'siscadi/repotegeneralart');// funcion para generar pdf de ART
+         }else{
+            $('#reporte_encuentas_general').attr('action', 'siscadi/repotegeneral');//funcion para generar pdf de intervención unodc
+         }
         
          $.ajax({url:"siscadi/siscadirepmision",type:"POST",data:{intervencion:$('#intervencion_gen').val()},dataType:'json',//llama al controlador siscadi/siscadirepmision que trae los valores necesario para la grafica
           success:function(data1){
@@ -569,8 +582,13 @@
        //datos segun intervencion      
       $("#intervencion_moni").change(function(){
       if($('#intervencion_moni').val()!='')//si selecciona una opcion diferente de "" ejecuta la nueva grafica si no oculta el imput siguiente
-      {
-         
+      { 
+          
+         if($('#intervencion_moni').val()=='ART'){// condicional que cambia la funcion del contralor dependiendo de la intervención o pdf a generar
+            $('#reporte_encuentas_monitor').attr('action', 'siscadi/repotemonitorart');// funcion para generar pdf de ART
+         }else{
+            $('#reporte_encuentas_monitor').attr('action', 'siscadi/repotemonitor');//funcion para generar pdf de intervención unodc
+         }
          $.ajax({url:"siscadi/siscadirepmision",type:"POST",data:{intervencion:$('#intervencion_moni').val()},dataType:'json',//llama al controlador siscadi/siscadirepmision que trae los valores necesario para la grafica
           success:function(data1){
             $("#mision_moni").empty();

@@ -55,12 +55,27 @@ class SiscadiController extends BaseController {
 	{
 
 		$monitor=Input::get('monitor');
-		if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
+		$intervencion=Input::get('intervencion');
+
+		// en la ART usa la capa de veredas de PIC (MODART_PIC_VEREDAS) y la unodc usa la capa de veredas de unodc (MODSISCADI_VEREDAS)
+
+		if ($intervencion=="ART"){//hace referencia a encuentas de diagnostico de hogar y anexo tierras
+			if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
+			$arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODART_PIC_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODART_PIC_VEREDAS.cod_vda  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.cod_monitor='".Input::get('monitor')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6)) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO order by DEPARTAMENTOS.NOM_DPTO asc"); //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas				
+				
+			}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
+				$arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODART_PIC_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODART_PIC_VEREDAS.cod_vda  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6)) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO order by DEPARTAMENTOS.NOM_DPTO asc"); //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas	
+
+			}
+		}else{
+			if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
 			$arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.cod_monitor='".Input::get('monitor')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO order by DEPARTAMENTOS.NOM_DPTO asc"); //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas				
 				
-		}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
-			$arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO order by DEPARTAMENTOS.NOM_DPTO asc"); //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas	
+			}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
+				$arraydpto = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO order by DEPARTAMENTOS.NOM_DPTO asc"); //crea la consulta para obtener el nombre de departamentos de a partir de los codigos almacenados en las encuestas	
+			}
 		}
+		
 		return  Response::json(array('arraydpto'=>$arraydpto));
 	}
 
@@ -68,15 +83,32 @@ class SiscadiController extends BaseController {
 	{
 
 		$monitor=Input::get('monitor');
-		if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
+		$intervencion=Input::get('intervencion');
+
+		// en la ART usa la capa de veredas de PIC (MODART_PIC_VEREDAS)
+		if ($intervencion=="ART"){//hace referencia a encuentas de diagnostico de hogar y anexo tierras
+			if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
+				
+				//Consultas para obtener los municipios segun los datos selccionados 
+				$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODART_PIC_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODART_PIC_VEREDAS.cod_vda   where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.cod_monitor='".Input::get('monitor')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODART_PIC_VEREDAS.cod_vda ) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas	
 			
-			//Consultas para obtener los municipios segun los datos selccionados 
-			$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.cod_monitor='".Input::get('monitor')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas	
-		
-		}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
+			}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
+				
+				//Consultas para obtener los municipios segun los datos selccionados 
+				$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODART_PIC_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODART_PIC_VEREDAS.cod_vda   where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODART_PIC_VEREDAS.cod_vda ) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas	
+			}
+		}else{
+			// en la unodc usa la capa de veredas de unodc (MODSISCADI_VEREDAS)
+			if ($monitor !=""){//condicional que filtra los departamentos por monitor, sirve para reporte por monitor
+				
+				//Consultas para obtener los municipios segun los datos selccionados 
+				$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.cod_monitor='".Input::get('monitor')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas	
 			
-			//Consultas para obtener los municipios segun los datos selccionados 
-			$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas	
+			}else{//condicional que no filtra los departamentos por monitor, sirve para reportes por mision y general
+				
+				//Consultas para obtener los municipios segun los datos selccionados 
+				$arraymuni = DB::select("select  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE from DEPARTAMENTOS join (select MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE FROM [MODSISCADI_ENCUESTAS] join MODSISCADI_VEREDAS on [MODSISCADI_ENCUESTAS].cod_unodc=MODSISCADI_VEREDAS.COD_UNODC  where MODSISCADI_ENCUESTAS.mision='".Input::get('mision')."' and MODSISCADI_ENCUESTAS.intervencion='".Input::get('intervencion')."' and MODSISCADI_ENCUESTAS.piloto='".Input::get('piloto')."' group By MODSISCADI_VEREDAS.COD_DANE) as muni on MUNICIPIOS.COD_DANE= muni.COD_DANE group by MUNICIPIOS.COD_DPTO,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DANE ) as depto on DEPARTAMENTOS.COD_DPTO= depto.COD_DPTO where DEPARTAMENTOS.COD_DPTO='".Input::get('departamento')."' group by  DEPARTAMENTOS.COD_DPTO,DEPARTAMENTOS.NOM_DPTO,depto.NOM_MPIO,depto.COD_DANE order by depto.NOM_MPIO asc"); //crea la consulta para obtener el nombre de municipios de a partir de los codigos almacenados en las encuestas	
+			}
 		}
 		return  Response::json(array('arraymuni'=>$arraymuni));
 	}
@@ -194,6 +226,10 @@ class SiscadiController extends BaseController {
 		$tipo="";
 		if($mision=="p"){
 			$tipo="Línea base";
+		}else if($mision=="s"){
+			$tipo="Seguimiento";
+		}if($mision=="f"){
+			$tipo="Línea final";
 		}
 		
 		//parrafo2 del pdf 
@@ -364,8 +400,13 @@ class SiscadiController extends BaseController {
 
 		$categories_bene_gen=array();//arrelo donde se almacenara el nombre del departamento, el nombre del municipio, el nombre de la vereda y la cuenta y el numero de encuestas realizadas a beneficiarios en la intervencion seleccionada
 		$categories_bene_gen2=array();
+		
 		if($mision=="p"){
-			$tipo="Línea_base";
+			$tipo="Línea base";
+		}else if($mision=="s"){
+			$tipo="Seguimiento";
+		}if($mision=="f"){
+			$tipo="Línea final";
 		}
 		
 		$tabla_encuestas_benef_gen=DB::select("select DEPARTAMENTOS.NOM_DPTO as Departamento,NOM_MPIO as Municipio,NOM_TERR as Vereda,encuestas as Encuentas from DEPARTAMENTOS join (select NOM_TERR,encuestas,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT MODSISCADI_VEREDAS.COD_DANE ,MODSISCADI_VEREDAS.NOM_TERR,COUNT(MODSISCADI_ENCUESTAS.cod_unodc) as encuestas FROM MODSISCADI_ENCUESTAS join MODSISCADI_VEREDAS on MODSISCADI_ENCUESTAS.cod_unodc=MODSISCADI_VEREDAS.COD_UNODC where MODSISCADI_ENCUESTAS.intervencion='".$inter."' and  MODSISCADI_VEREDAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' and MODSISCADI_ENCUESTAS.tipo='Beneficiarios'  group By MODSISCADI_VEREDAS.COD_DANE , MODSISCADI_VEREDAS.NOM_TERR ) as vereda on MUNICIPIOS.COD_DANE= vereda.COD_DANE) as muni	on DEPARTAMENTOS.COD_DPTO=muni.COD_DPTO order by NOM_TERR asc");		
@@ -516,6 +557,10 @@ class SiscadiController extends BaseController {
 		$tipo="";
 		if($mision=="p"){
 			$tipo="Línea base";
+		}else if($mision=="s"){
+			$tipo="Seguimiento";
+		}if($mision=="f"){
+			$tipo="Línea final";
 		}		
 		//parrafo2 del pdf 
 		$text_bene='-'.$encuestas_benef[0]["total"].' encuestas a beneficiarios - '.$tipo.' '.$inter.$texto_piloto;
@@ -2858,5 +2903,575 @@ class SiscadiController extends BaseController {
 
 		//retorno todas las variables para las graficas   estadEBDT  holamundo
 		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot,'ficha_tecnica'=>$ficha_tecnica,'ficha_pobla_edad'=>$ficha_pobla_edad,'ficha_jefatu_edad'=>$ficha_jefatu_edad,'primer_infancia'=>$primer_infancia,'espemenores'=>$espemenores,'peces'=>$peces,'ganado'=>$ganado,'donde_vive'=>$donde_vive));
+	}
+
+
+
+
+	public function getRepotemisionart()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de mision
+	{
+		$data=Input::all();//trae y agrega a $data todos los input del fromulario reporte_encuentas_mision
+		$mision=$data['mision'];
+		$inter=$data['intervencion'];
+		$cod_dane=$data['cod_dane'];
+		$cod_depto=$data['cod_depto'];
+		$piloto=$data['Piloto'];
+		$fecha_reporte=date("d")."/". date("m")."/".date("Y"); //variable con la fecha de hoy
+		$encuesta1='Diagnostico de hogares';// nombre de la pimera encuestas que se vera en el reporte del pdf (simpre debe haber datos de esta)
+		$encuesta2='Anexo de tierras' ;// nombre de la pimera encuestas que se vera en el reporte del pdf (no siempre habra datos de esta)
+				
+		$tabla_fecha=DB::table('MODSISCADI_ENCUESTAS')	
+			->select(array(DB::raw('convert(VARCHAR(19),min(MODSISCADI_ENCUESTAS.fecha),111) as f_inicio,convert(VARCHAR(19),max(MODSISCADI_ENCUESTAS.fecha),111) as f_final')))//selecciona el max y el min de las fechas (campo TODAY) en las cuales se realizaron las encuestas
+			->where('MODSISCADI_ENCUESTAS.cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->get();
+			
+
+		foreach($tabla_fecha as $category):// crea arreglo con dos atributos fecha incial y final de las encuestaspor vereda
+			$fecha=array('f_inicial'=>$category->f_inicio,'f_final'=>$category->f_final);
+		endforeach;		
+		
+		
+		$tabla_muni=DB::table('MUNICIPIOS')//crea la consulta para obtener el nombre del municipio segun el codigo seleccionado en el formulario		
+			->select('COD_DANE','NOM_MPIO')
+			->where('COD_DANE', $cod_dane)
+			->get();
+		foreach($tabla_muni as $category):// crea arreglo con el nombre del municipio
+			$muni=array('muni'=>$category->NOM_MPIO);
+		endforeach;	
+
+		$tabla_dpto=DB::table('DEPARTAMENTOS')//crea la consulta para obtener el nombre del departamento segun el codigo seleccionado en el formulario		
+			->select('COD_DPTO','NOM_DPTO')
+			->where('COD_DPTO', $cod_depto)
+			->get();
+		foreach($tabla_dpto as $category):// crea arreglo con el nombre del departamento
+			$depto=array('depto'=>$category->NOM_DPTO);
+		endforeach;
+		
+		
+		if($piloto=='Si'){
+			$texto_piloto=" (prueba piloto)";
+		}else{
+			$texto_piloto="";
+		}
+
+		//esto debe ser actualziado si se generan  nuevos tivos de misión
+		$tipo="";
+		if($mision=="p"){
+			$tipo="Línea base";
+		}else if($mision=="s"){
+			$tipo="Seguimiento";
+		}if($mision=="f"){
+			$tipo="Línea final";
+		}
+	
+
+		$encuestas=DB::table('MODSISCADI_ENCUESTAS')//query para el numero total de encuestas
+			->where('cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->select(DB::raw('count(*) as total_encuestas'))
+			->get();
+
+			foreach($encuestas as $category):// crea arreglo con el nombre del departamento
+				$total_encuestas=array('total'=>$category->total_encuestas);
+			endforeach;
+
+		$tabla_sum_encuestas_diang=DB::table('MODSISCADI_ENCUESTAS')//query para obtener el numero de encuestas para diagnostico de hogares
+			->where('cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->where('tipo', '=',$encuesta1)	
+			->select(DB::raw('count(*) as total_encuestas'))
+			->get();
+			
+
+		foreach($tabla_sum_encuestas_diang as $category):// crea arreglo con el total de encuestas realizadas a diagnostico de hogares
+			$encuestas_diang=array('total'=>$category->total_encuestas);
+		endforeach;
+		
+
+		$tabla_sum_encuestas_anexo=DB::table('MODSISCADI_ENCUESTAS')//query para obtener el numero de encuestas para anexo de tierras
+			->where('cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->where('tipo', '=',$encuesta2)	
+			->select(DB::raw('count(*) as total_encuestas'))
+			->get();
+			
+
+		foreach($tabla_sum_encuestas_anexo as $category):// crea arreglo con el total de encuestas realizadas a anexo de tierras
+			$encuestas_anexo=array('total'=>$category->total_encuestas);
+		endforeach;
+
+		//parrafo2 del pdf 
+		$text_diagn='-'.$encuestas_diang["total"].' encuestas de '.$encuesta1.' - '.$tipo.' '.$inter.$texto_piloto;
+		
+		//parrafo3 del pdf 
+		if (count($tabla_sum_encuestas_anexo)>0){// este parrafo solo aparece si existen encuestas a anexo de tierras
+			$text_anexo='-'.$encuestas_anexo["total"].' encuestas de '.$encuesta2.' - '.$tipo.' '.$inter.$texto_piloto;
+		}else{
+			$text_anexo="";
+		}
+
+		//1° estrcutura estatica de cada pdf
+			//parrafo1 del pdf 
+		$text_general='En el proceso de recolección de información en terreno realizado en el municipio de '.$muni["muni"].' ('.$depto["depto"].') en el marco de la misión '.$tipo.$texto_piloto.' del Modelo de Intervención '.$inter.'  se recopilaron '.$total_encuestas['total'].' encuestas realizadas entre el '.$fecha["f_inicial"].' y el '.$fecha["f_final"].' y discriminadas como se relaciona a continuación: ';
+
+
+		//estructura para crear pdf segun paquete TCPDF para laravel
+		//1° estrcutura estatica de cada pdf
+			Fpdf::AddPage('P','Letter');
+	        Fpdf::SetFont('Arial', 'B', 10);
+			//inserto la cabecera poniendo una imagen dentro de una celda
+			Fpdf::SetY(16);
+			Fpdf::SetX(150);
+			Fpdf::Cell(35,6,utf8_decode('Bogotá ').$fecha_reporte);//variable Cell con formato de celda(ancho, alto,texto)
+			Fpdf::SetFont('','B',14);//variable SetFon con formato del texto (tipo de letra, estilo,tamaño)
+			Fpdf::SetY(30);
+			Fpdf::SetX(50);
+			Fpdf::Cell(35,6,utf8_decode('Acta de recopilación de encuestas digitales'));
+			Fpdf::SetFont('','',11);
+			Fpdf::SetY(46);
+			Fpdf::SetX(15);
+			Fpdf::MultiCell(180,6,utf8_decode($text_general),0,'J');//variable MultiCell con formato de celda, la diferencia con Cell esque en Cell el tamaño de la celda puede ser amplido si el tamaño del texto es superior a este, mientras que con MultiCell si el tamaño del texto supeera el tamaño de la celda este crea saltos de linea y no se amplia horizontalmente (ancho, alto,texto, borde,alineacion)
+			Fpdf::SetY(70);
+			Fpdf::SetX(15);
+			Fpdf::MultiCell(180,6,utf8_decode($text_diagn),0,'L');
+
+			//atributos para crear la tabla con el contenido de diagnostico de horas
+			Fpdf::SetLeftMargin(15);
+			Fpdf::SetRightMargin(15);
+			Fpdf::SetFillColor(200,200,200);
+			Fpdf::SetFont('Arial', 'B', 8);
+			Fpdf::Cell(52,7,'Departamento','TBL',0,'C','1');
+			Fpdf::Cell(52,7,'Municipio','TB',0,'C','1');
+			Fpdf::Cell(55,7,'Vereda','TB',0,'C','1');
+			Fpdf::Cell(20,7,'Encuestas','TBR',0,'L','1');
+			Fpdf::Ln(7);
+			
+
+			// crea la consulta con la información para llenar la tabla del diagnostico de hogares
+			$tabla_encuestas_diang=DB::select("select NOM_TERR,encuestas,NOM_MPIO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select NOM_TERR,encuestas,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE ,MODART_PIC_VEREDAS.nom_terr,COUNT(MODSISCADI_ENCUESTAS.cod_unodc) as encuestas FROM MODSISCADI_ENCUESTAS join MODART_PIC_VEREDAS on MODSISCADI_ENCUESTAS.cod_unodc=MODART_PIC_VEREDAS.cod_vda where SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".$cod_dane."' and  MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' and MODSISCADI_ENCUESTAS.tipo='".$encuesta1."'  group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) , MODART_PIC_VEREDAS.nom_terr ) as vereda on MUNICIPIOS.COD_DANE= vereda.COD_DANE) as muni on DEPARTAMENTOS.COD_DPTO=muni.COD_DPTO order by NOM_TERR asc");
+
+		//crea la consulta para obtener los campos almacenados 
+		foreach($tabla_encuestas_diang as $category):// crea arreglo con dos atributos cod_unodc, el nombre de la vereda y el numero de encuestas de diganostico de hogares por vereda
+			Fpdf::SetFont('','',8);
+			Fpdf::Cell(52,5,utf8_decode($category->NOM_DPTO),'',0,'L',0);
+			Fpdf::Cell(52,5,utf8_decode($category->NOM_MPIO),'',0,'L',0);
+			Fpdf::Cell(55,5,utf8_decode($category->NOM_TERR),'',0,'L',0);
+			Fpdf::Cell(20,5,utf8_decode($category->encuestas),'',0,'C',0);
+			Fpdf::Ln(5);
+		endforeach;
+
+		if (count($tabla_sum_encuestas_anexo)>0){
+				Fpdf::SetFont('','',11);
+				Fpdf::Ln(15);
+				Fpdf::SetX(15);
+				Fpdf::MultiCell(170,6,utf8_decode($text_anexo),0,'L');// imprime el texto de anexo 
+				Fpdf::SetLeftMargin(15);
+				Fpdf::SetRightMargin(15);
+				Fpdf::SetFillColor(200,200,200);
+				Fpdf::SetFont('Arial', 'B', 8);
+				Fpdf::Cell(52,7,'Departamento','TBL',0,'C','1');
+				Fpdf::Cell(52,7,'Municipio','TB',0,'C','1');
+				Fpdf::Cell(55,7,'Vereda','TB',0,'C','1');
+				Fpdf::Cell(20,7,'Encuestas','TBR',0,'L','1');
+				Fpdf::Ln(7);
+				
+				// crea la consulta con la información para llenar la tabla del anexo de tierras
+				$tabla_encuestas_anexo=DB::select("select NOM_TERR,encuestas,NOM_MPIO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select NOM_TERR,encuestas,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE ,MODART_PIC_VEREDAS.nom_terr,COUNT(MODSISCADI_ENCUESTAS.cod_unodc) as encuestas FROM MODSISCADI_ENCUESTAS join MODART_PIC_VEREDAS on MODSISCADI_ENCUESTAS.cod_unodc=MODART_PIC_VEREDAS.cod_vda where SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".$cod_dane."' and  MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' and MODSISCADI_ENCUESTAS.tipo='".$encuesta2."' group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) , MODART_PIC_VEREDAS.nom_terr ) as vereda on MUNICIPIOS.COD_DANE= vereda.COD_DANE) as muni on DEPARTAMENTOS.COD_DPTO=muni.COD_DPTO order by NOM_TERR asc");
+
+				//crea la consulta para obtener los campos almacenados 
+				foreach($tabla_encuestas_anexo as $category):// crea arreglo con dos atributos cod_unodc, el nombre de la vereda y el numero de encuestas de anexo por vereda
+					Fpdf::SetFont('','',8);
+					Fpdf::Cell(52,5,utf8_decode($category->NOM_DPTO),'',0,'L',0);
+					Fpdf::Cell(52,5,utf8_decode($category->NOM_MPIO),'',0,'L',0);
+					Fpdf::Cell(55,5,utf8_decode($category->NOM_TERR),'',0,'L',0);
+					Fpdf::Cell(20,5,utf8_decode($category->encuestas),'',0,'C',0);
+					Fpdf::Ln(5);
+				endforeach;				
+					Fpdf::Ln(10);				
+					Fpdf::SetFont('','',10);
+					Fpdf::SetX(15);
+					Fpdf::Cell(38,6,'En constancia firman:');
+					Fpdf::SetFont('','B',10);
+					Fpdf::Ln(20);
+					Fpdf::SetX(15);
+					Fpdf::Cell(35,6,utf8_decode('Unidad de Información COL/K53'));
+					Fpdf::SetX(125);
+					Fpdf::Cell(55,6,'Unidad de Campo COL/K53');
+					Fpdf::SetFont('','',10);
+					Fpdf::Ln(10);
+					Fpdf::SetX(15);
+					Fpdf::Cell(35,6,'Nombre: ____________________');
+					Fpdf::SetX(125);
+					Fpdf::Cell(35,6,'Nombre: ____________________');
+					Fpdf::SetFont('','',10);
+					Fpdf::Ln(5);
+					Fpdf::SetX(15);
+					Fpdf::Cell(35,6,'Firma:    ____________________');
+					Fpdf::SetX(125);
+					Fpdf::Cell(35,6,'Firma:    ____________________');
+					Fpdf::Ln(5);
+				
+			}else{
+				// omite la impresion de la informacion de encuestas a comite e imprime la parte final del reporte
+				Fpdf::Ln(10);
+				Fpdf::SetFont('','',11);
+				Fpdf::SetX(15);
+				Fpdf::Cell(38,6,'En constancia firman:');
+				Fpdf::SetFont('','B',11);
+				Fpdf::Ln(20);
+				Fpdf::SetX(15);
+				Fpdf::Cell(35,6,utf8_decode('Unidad de Información COL/K53'));
+				Fpdf::SetX(125);
+				Fpdf::Cell(55,6,'Unidad de Campo COL/K53');
+				Fpdf::SetFont('','',11);
+				Fpdf::Ln(10);
+				Fpdf::SetX(15);
+				Fpdf::Cell(35,6,'Nombre: ____________________');
+				Fpdf::SetX(125);
+				Fpdf::Cell(35,6,'Nombre: ____________________');
+				Fpdf::SetFont('','',11);
+				Fpdf::Ln(5);
+				Fpdf::SetX(15);
+				Fpdf::Cell(35,6,'Firma:    ____________________');
+				Fpdf::SetX(125);
+				Fpdf::Cell(35,6,'Firma:    ____________________');
+				Fpdf::Ln(5);
+			}
+
+        Fpdf::Output($muni["muni"].'_'.$depto["depto"].'_'.$tipo.'_'.$inter.'.pdf','D');
+        exit;	
+	}
+
+	public function getRepotegeneralart()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de general
+	
+	{
+		$data=Input::all();//trae y agrega a $data todos los input del fromulario reporte_encuentas_general
+		$mision=$data['mision_gen'];
+		$inter=$data['intervencion_gen'];	
+		$piloto=$data['Piloto_gen'];
+		$encuesta1='Diagnostico de hogares';
+		$encuesta2='Anexo de tierras';		
+
+		//esto debe ser actualziado si se generan  nuevos tivos de misión
+		$tipo="";
+		if($mision=="p"){
+			$tipo="Línea base";
+		}else if($mision=="s"){
+			$tipo="Seguimiento";
+		}if($mision=="f"){
+			$tipo="Línea final";
+		}
+		
+		
+		// crea la consulta con la información para llenar la tabla del diagnostico
+		$tabla_encuestas_benef_gen=DB::select("select DEPARTAMENTOS.NOM_DPTO as Departamento,NOM_MPIO as Municipio,NOM_TERR as Vereda,encuestas as Encuentas from DEPARTAMENTOS join (select NOM_TERR,encuestas,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE ,MODART_PIC_VEREDAS.NOM_TERR,COUNT(MODSISCADI_ENCUESTAS.cod_unodc) as encuestas FROM MODSISCADI_ENCUESTAS join MODART_PIC_VEREDAS on MODSISCADI_ENCUESTAS.cod_unodc=MODART_PIC_VEREDAS.cod_vda where MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' and MODSISCADI_ENCUESTAS.tipo='".$encuesta1."' group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6)  , MODART_PIC_VEREDAS.NOM_TERR ) as vereda on MUNICIPIOS.COD_DANE= vereda.COD_DANE) as muni	on DEPARTAMENTOS.COD_DPTO=muni.COD_DPTO order by NOM_TERR asc");	
+
+		// crea la consulta con la información para llenar la tabla del anexo de tierras
+		$tabla_encuestas_ccvsc_gen=DB::select("select DEPARTAMENTOS.NOM_DPTO as Departamento,NOM_MPIO as Municipio,NOM_TERR as Vereda,encuestas as Encuentas from DEPARTAMENTOS join (select NOM_TERR,encuestas,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE ,MODART_PIC_VEREDAS.NOM_TERR,COUNT(MODSISCADI_ENCUESTAS.cod_unodc) as encuestas FROM MODSISCADI_ENCUESTAS join MODART_PIC_VEREDAS on MODSISCADI_ENCUESTAS.cod_unodc=MODART_PIC_VEREDAS.cod_vda where MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' and MODSISCADI_ENCUESTAS.tipo='".$encuesta2."'  group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) , MODART_PIC_VEREDAS.NOM_TERR ) as vereda on MUNICIPIOS.COD_DANE= vereda.COD_DANE) as muni on DEPARTAMENTOS.COD_DPTO=muni.COD_DPTO order by NOM_TERR asc");
+
+		Excel::create('Reporte_general_de_encuestas_'.$tipo.'_'.$inter,function($excel) use ($tabla_encuestas_benef_gen,$tabla_encuestas_ccvsc_gen,$encuesta1,$encuesta2)
+		{
+			$excel->sheet($encuesta1,function($sheet)  use ($tabla_encuestas_benef_gen)
+			{
+				$data = array();
+				
+				foreach ($tabla_encuestas_benef_gen as $result) {
+				$data[] = (array)$result;
+				}  	
+				$sheet->with($data);
+				$sheet->freezeFirstRow();
+				$sheet->setAutoFilter();
+				$sheet->cells('A1:D1', function($cells) {
+			    	$cells->setBackground('#dadae3');
+				});
+			});
+
+			$excel->sheet($encuesta2,function($sheet)  use ($tabla_encuestas_ccvsc_gen)
+			{
+				$data = array();
+				
+				foreach ($tabla_encuestas_ccvsc_gen as $result) {
+				$data[] = (array)$result;
+				}  	
+				$sheet->with($data);
+				$sheet->freezeFirstRow();
+				$sheet->setAutoFilter();
+				$sheet->cells('A1:D1', function($cells) {
+			    	$cells->setBackground('#dadae3');
+				});
+			});
+			
+		})->export('xls');
+	}
+
+	public function getRepotemonitorart()// funcion que se ejecuta al momento dar click  para generar el pdf de reporte de mision
+	{
+		$data=Input::all();//trae y agrega a $data todos los input del fromulario reporte_encuentas_mision
+		$mision=$data['mision_moni'];
+		$inter=$data['intervencion_moni'];
+		$cod_dane=$data['cod_dane_moni'];
+		$cod_depto=$data['cod_depto_moni'];
+		$piloto=$data['Piloto_moni'];
+		$monitor=$data['monitor'];
+		$fecha_reporte=date("d")."/". date("m")."/".date("Y"); //variable con la fecha de hoy
+		$encuesta1='Diagnostico de hogares';
+		$encuesta2='Anexo de tierras' ;
+				
+		$tabla_fecha=DB::table('MODSISCADI_ENCUESTAS')	
+			->select(array(DB::raw('convert(VARCHAR(19),min(MODSISCADI_ENCUESTAS.fecha),111) as f_inicio,convert(VARCHAR(19),max(MODSISCADI_ENCUESTAS.fecha),111) as f_final')))//selecciona el max y el min de las fechas (campo TODAY) en las cuales se realizaron las encuestas
+			->where('MODSISCADI_ENCUESTAS.cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->where('MODSISCADI_ENCUESTAS.cod_monitor',$monitor)
+			->get();
+			
+
+		foreach($tabla_fecha as $category):// crea arreglo con dos atributos fecha incial y final de las encuestaspor vereda
+			$fecha=array('f_inicial'=>$category->f_inicio,'f_final'=>$category->f_final);
+		endforeach;		
+		
+		
+		$tabla_muni=DB::table('MUNICIPIOS')//crea la consulta para obtener el nombre del municipio segun el codigo seleccionado en el formulario		
+			->select('COD_DANE','NOM_MPIO')
+			->where('COD_DANE', $cod_dane)
+			->get();
+		foreach($tabla_muni as $category):// crea arreglo con el nombre del municipio
+			$muni=array('muni'=>$category->NOM_MPIO);
+		endforeach;	
+
+		$tabla_dpto=DB::table('DEPARTAMENTOS')//crea la consulta para obtener el nombre del departamento segun el codigo seleccionado en el formulario		
+			->select('COD_DPTO','NOM_DPTO')
+			->where('COD_DPTO', $cod_depto)
+			->get();
+		foreach($tabla_dpto as $category):// crea arreglo con el nombre del departamento
+			//$muni2=array('muni'=>$category->label);
+			$depto=array('depto'=>$category->NOM_DPTO);
+		endforeach;
+		
+		
+		if($piloto=='Si'){
+			$texto_piloto=" (prueba piloto)";
+		}else{
+			$texto_piloto="";
+		}
+
+		//esto debe ser actualziado si se generan  nuevos tivos de misión
+		$tipo="";
+		if($mision=="p"){
+			$tipo="Línea base";
+		}else if($mision=="s"){
+			$tipo="Seguimiento";
+		}if($mision=="f"){
+			$tipo="Línea final";
+		}
+
+		$encuestas=DB::table('MODSISCADI_ENCUESTAS')//query para el total de encuestas
+			->where('cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->where('MODSISCADI_ENCUESTAS.cod_monitor',$monitor)
+			->select(DB::raw('count(*) as total_encuestas'))
+			->get();
+
+			foreach($encuestas as $category):// crea arreglo con el nombre del departamento
+				$total_encuestas=array('total'=>$category->total_encuestas);
+			endforeach;
+
+		$tabla_sum_encuestas_diang=DB::table('MODSISCADI_ENCUESTAS')//query para obtener el numero de encuestas para diagnostico de hogares
+			->where('cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->where('MODSISCADI_ENCUESTAS.cod_monitor',$monitor)
+			->where('tipo', '=',$encuesta1)	
+			->select(DB::raw('count(*) as total_encuestas'))
+			->get();
+			
+
+		foreach($tabla_sum_encuestas_diang as $category):// crea arreglo con el total de encuestas realizadas a diagnostico por vereda	
+			$encuestas_diang=array('total'=>$category->total_encuestas);
+		endforeach;
+		
+
+		$tabla_sum_encuestas_anexo=DB::table('MODSISCADI_ENCUESTAS')//query para obtener el numero de encuestas para anexo de hogares
+			->where('cod_unodc','like',$cod_dane.'%')
+			->where('MODSISCADI_ENCUESTAS.intervencion',$inter)
+			->where('MODSISCADI_ENCUESTAS.mision',$mision)
+			->where('MODSISCADI_ENCUESTAS.piloto',$piloto)
+			->where('MODSISCADI_ENCUESTAS.cod_monitor',$monitor)
+			->where('tipo', '=',$encuesta2)	
+			->select(DB::raw('count(*) as total_encuestas'))
+			->get();
+			
+
+		foreach($tabla_sum_encuestas_anexo as $category):// crea arreglo con el total de encuestas realizadas a anexo por vereda	
+			$encuestas_anexo=array('total'=>$category->total_encuestas);
+		endforeach;
+
+
+		$tabla_monitor=DB::table('MODSISCADI_ENCUESTAS')	//crea la consulta para obtener el nombre del monitor (tabla core)		
+			->Join('users','MODSISCADI_ENCUESTAS.cod_monitor','=','users.id')//join entre tabla dominio y tabla core de beneficiarios 
+			->where('MODSISCADI_ENCUESTAS.cod_monitor','=', $monitor)//selecciona las veredas para el codigo de municipio ingresado
+			->select('MODSISCADI_ENCUESTAS.cod_monitor','users.name','users.last_name')
+			->groupBy('MODSISCADI_ENCUESTAS.cod_monitor')
+			->groupBy('users.name')
+			->groupBy('users.last_name')
+			->get();
+			
+		foreach($tabla_monitor as $category):// crea arreglo con el nombre del monitor
+			$monitores2=array('cod_monitor'=>$category->cod_monitor,'nom_monitor'=>$category->name." ".$category->last_name);
+			$monitores3 = $category->name." ".$category->last_name;	
+		endforeach;	
+
+		//parrafo2 del pdf 
+		$text_diagn='-'.$encuestas_diang["total"].' encuestas de '.$encuesta1.' - '.$tipo.' '.$inter.$texto_piloto;
+		
+		//parrafo3 del pdf 
+		if (count($tabla_sum_encuestas_anexo)>0){// este parrafo solo aparece si existen encuestas a anexo en la mision
+			$text_anexo='-'.$encuestas_anexo["total"].' encuestas de '.$encuesta2.' - '.$tipo.' '.$inter.$texto_piloto;
+		}else{
+			$text_anexo="";
+		}
+
+		//1° estrcutura estatica de cada pdf
+			//parrafo1 del pdf 
+		$text_general='En el proceso de recolección de información en terreno realizado en el municipio de '.$muni["muni"].' ('.$depto["depto"].') en el marco de la misión '.$tipo.$texto_piloto.' del Modelo de Intervención '.$inter.', el profesional '.$monitores3.' recopiló '.$total_encuestas['total'].' encuestas realizadas entre el '.$fecha["f_inicial"].' y el '.$fecha["f_final"].' y discriminadas como se relaciona a continuación: ';
+
+
+		//estructura para crear pdf segun paquete TCPDF para laravel
+		//1° estrcutura estatica de cada pdf
+			Fpdf::AddPage('P','Letter');
+	        Fpdf::SetFont('Arial', 'B', 10);
+			//inserto la cabecera poniendo una imagen dentro de una celda
+			Fpdf::SetY(16);
+			Fpdf::SetX(150);
+			Fpdf::Cell(35,6,utf8_decode('Bogotá ').$fecha_reporte);//variable Cell con formato de celda(ancho, alto,texto)
+			Fpdf::SetFont('','B',14);//variable SetFon con formato del texto (tipo de letra, estilo,tamaño)
+			Fpdf::SetY(30);
+			Fpdf::SetX(50);
+			Fpdf::Cell(35,6,utf8_decode('Acta de recopilación de encuestas digitales'));
+			Fpdf::SetFont('','',11);
+			Fpdf::SetY(46);
+			Fpdf::SetX(15);
+			Fpdf::MultiCell(180,6,utf8_decode($text_general),0,'J');//variable MultiCell con formato de celda, la diferencia con Cell esque en Cell el tamaño de la celda puede ser amplido si el tamaño del texto es superior a este, mientras que con MultiCell si el tamaño del texto supeera el tamaño de la celda este crea saltos de linea y no se amplia horizontalmente (ancho, alto,texto, borde,alineacion)
+			Fpdf::SetY(75);
+			Fpdf::SetX(15);
+			Fpdf::MultiCell(180,6,utf8_decode($text_diagn),0,'L');
+
+			//atributos para crear la tabla con el contenido de anexo de horas
+			Fpdf::SetLeftMargin(15);
+			Fpdf::SetRightMargin(15);
+			Fpdf::SetFillColor(200,200,200);
+			Fpdf::SetFont('Arial', 'B', 8);
+			Fpdf::Cell(52,7,'Departamento','TBL',0,'C','1');
+			Fpdf::Cell(52,7,'Municipio','TB',0,'C','1');
+			Fpdf::Cell(55,7,'Vereda','TB',0,'C','1');
+			Fpdf::Cell(20,7,'Encuestas','TBR',0,'L','1');
+			Fpdf::Ln(7);
+
+			// crea la consulta con la información para llenar la tabla del diagnostico
+			$tabla_encuestas_diang=DB::select("select NOM_TERR,encuestas,NOM_MPIO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select NOM_TERR,encuestas,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE ,MODART_PIC_VEREDAS.nom_terr,COUNT(MODSISCADI_ENCUESTAS.cod_unodc) as encuestas FROM MODSISCADI_ENCUESTAS join MODART_PIC_VEREDAS on MODSISCADI_ENCUESTAS.cod_unodc=MODART_PIC_VEREDAS.cod_vda where SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".$cod_dane."' and  MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' and MODSISCADI_ENCUESTAS.tipo='".$encuesta1."' and MODSISCADI_ENCUESTAS.cod_monitor='".$monitor."'  group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) , MODART_PIC_VEREDAS.nom_terr ) as vereda on MUNICIPIOS.COD_DANE= vereda.COD_DANE) as muni on DEPARTAMENTOS.COD_DPTO=muni.COD_DPTO order by NOM_TERR asc");
+
+		//crea la consulta para obtener los campos almacenados 
+		foreach($tabla_encuestas_diang as $category):// crea arreglo con dos atributos cod_unodc, el nombre de la vereda y el numero de encuestas de diganostico de hogares por vereda
+			Fpdf::SetFont('','',8);
+			Fpdf::Cell(52,5,utf8_decode($category->NOM_DPTO),'',0,'L',0);
+			Fpdf::Cell(52,5,utf8_decode($category->NOM_MPIO),'',0,'L',0);
+			Fpdf::Cell(55,5,utf8_decode($category->NOM_TERR),'',0,'L',0);
+			Fpdf::Cell(20,5,utf8_decode($category->encuestas),'',0,'C',0);
+			Fpdf::Ln(5);
+		endforeach;
+
+		if (count($tabla_sum_encuestas_anexo)>0){
+				Fpdf::SetFont('','',11);
+				Fpdf::Ln(15);
+				Fpdf::SetX(15);
+				Fpdf::MultiCell(170,6,utf8_decode($text_anexo),0,'L');// imprime el texto de comite 
+				Fpdf::SetLeftMargin(15);
+				Fpdf::SetRightMargin(15);
+				Fpdf::SetFillColor(200,200,200);
+				Fpdf::SetFont('Arial', 'B', 8);
+				Fpdf::Cell(52,7,'Departamento','TBL',0,'C','1');
+				Fpdf::Cell(52,7,'Municipio','TB',0,'C','1');
+				Fpdf::Cell(55,7,'Vereda','TB',0,'C','1');
+				Fpdf::Cell(20,7,'Encuestas','TBR',0,'L','1');
+				Fpdf::Ln(7);
+				
+				// crea la consulta con la información para llenar la tabla del anexo de tierras
+				$tabla_encuestas_anexo=DB::select("select NOM_TERR,encuestas,NOM_MPIO,DEPARTAMENTOS.NOM_DPTO from DEPARTAMENTOS join (select NOM_TERR,encuestas,MUNICIPIOS.NOM_MPIO,MUNICIPIOS.COD_DPTO from MUNICIPIOS join (SELECT SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) as COD_DANE ,MODART_PIC_VEREDAS.nom_terr,COUNT(MODSISCADI_ENCUESTAS.cod_unodc) as encuestas FROM MODSISCADI_ENCUESTAS join MODART_PIC_VEREDAS on MODSISCADI_ENCUESTAS.cod_unodc=MODART_PIC_VEREDAS.cod_vda where SUBSTRING(MODSISCADI_ENCUESTAS.cod_unodc,1,5)='".$cod_dane."' and  MODSISCADI_ENCUESTAS.intervencion='".$inter."' and MODSISCADI_ENCUESTAS.mision='".$mision."' and MODSISCADI_ENCUESTAS.piloto='".$piloto."' and MODSISCADI_ENCUESTAS.tipo='".$encuesta2."' and MODSISCADI_ENCUESTAS.cod_monitor='".$monitor."' group By SUBSTRING(MODART_PIC_VEREDAS.cod_vda,0,6) , MODART_PIC_VEREDAS.nom_terr ) as vereda on MUNICIPIOS.COD_DANE= vereda.COD_DANE) as muni on DEPARTAMENTOS.COD_DPTO=muni.COD_DPTO order by NOM_TERR asc");
+
+				//crea la consulta para obtener los campos almacenados 
+				foreach($tabla_encuestas_anexo as $category):// crea arreglo con dos atributos cod_unodc, el nombre de la vereda y el numero de encuestas de anexo por vereda
+					Fpdf::SetFont('','',8);
+					Fpdf::Cell(52,5,utf8_decode($category->NOM_DPTO),'',0,'L',0);
+					Fpdf::Cell(52,5,utf8_decode($category->NOM_MPIO),'',0,'L',0);
+					Fpdf::Cell(55,5,utf8_decode($category->NOM_TERR),'',0,'L',0);
+					Fpdf::Cell(20,5,utf8_decode($category->encuestas),'',0,'C',0);
+					Fpdf::Ln(5);
+				endforeach;				
+					Fpdf::Ln(10);				
+					Fpdf::SetFont('','',10);
+					Fpdf::SetX(15);
+					Fpdf::Cell(38,6,'En constancia firman:');
+					Fpdf::SetFont('','B',10);
+					Fpdf::Ln(20);
+					Fpdf::SetX(15);
+					Fpdf::Cell(35,6,utf8_decode('Unidad de Información COL/K53'));
+					Fpdf::SetX(125);
+					Fpdf::Cell(55,6,'Unidad de Campo COL/K53');
+					Fpdf::SetFont('','',10);
+					Fpdf::Ln(10);
+					Fpdf::SetX(15);
+					Fpdf::Cell(35,6,'Nombre: ____________________');
+					Fpdf::SetX(125);
+					Fpdf::Cell(35,6,'Nombre: '.$monitores3);
+					Fpdf::SetFont('','',10);
+					Fpdf::Ln(5);
+					Fpdf::SetX(15);
+					Fpdf::Cell(35,6,'Firma:    ____________________');
+					Fpdf::SetX(125);
+					Fpdf::Cell(35,6,'Firma:    ____________________');
+					Fpdf::Ln(5);
+				
+			}else{
+				// omite la impresion de la informacion de encuestas a comite e imprime la parte final del reporte
+				Fpdf::Ln(10);
+				Fpdf::SetFont('','',11);
+				Fpdf::SetX(15);
+				Fpdf::Cell(38,6,'En constancia firman:');
+				Fpdf::SetFont('','B',11);
+				Fpdf::Ln(20);
+				Fpdf::SetX(15);
+				Fpdf::Cell(35,6,utf8_decode('Unidad de Información COL/K53'));
+				Fpdf::SetX(125);
+				Fpdf::Cell(55,6,'Unidad de Campo COL/K53');
+				Fpdf::SetFont('','',11);
+				Fpdf::Ln(10);
+				Fpdf::SetX(15);
+				Fpdf::Cell(35,6,'Nombre: ____________________');
+				Fpdf::SetX(125);
+				Fpdf::Cell(35,6,'Nombre:'.$monitores3);
+				Fpdf::SetFont('','',11);
+				Fpdf::Ln(5);
+				Fpdf::SetX(15);
+				Fpdf::Cell(35,6,'Firma:    ____________________');
+				Fpdf::SetX(125);
+				Fpdf::Cell(35,6,'Firma:    ____________________');
+				Fpdf::Ln(5);
+			}
+
+        Fpdf::Output($muni["muni"].'_'.$depto["depto"].'_'.$tipo.'_'.$inter.'.pdf','D');
+        exit;	
 	}
 }
