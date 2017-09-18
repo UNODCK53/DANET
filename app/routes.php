@@ -107,9 +107,12 @@ Route::group(array('before' => 'auth'), function()
     Route::get('procesos_adjudicados_editar','TierrasController@Datosprocesos');
     //Ruta para solicitar el cambio de password
   });
-  Route::get('levantamiento_topografico', array('before' => 'levgeograficotierras', 'uses' => 'TierrasController@ListadoLevtopo'));
+    //Route::get('levantamiento_topografico', array('before' => 'editcoortierras', 'uses' => 'TierrasController@ListadoLevtopo'));
+    //Route::get('mod_coordenadas', array('before' => 'editcoortierras', 'uses' => 'TierrasController@EditCoordenadastopo'));
   //Ruta para edición de novedad de coordenadas
-  Route::group(array('before'=>'editcoortierras'), function(){    
+  Route::group(array('before'=>'editcoortierras'), function(){
+    Route::get('levantamiento_topografico','TierrasController@ListadoLevtopo');
+    Route::get('mod_coordenadas','TierrasController@EditCoordenadastopo');    
     Route::get('novedadesodk','TierrasController@UpdateProcesogeo');    
     Route::get('edit_novedad','TierrasController@EditCoordenadas');    
   }); 
@@ -222,7 +225,9 @@ Route::group(array('before' => 'auth'), function()
 // ruta al controlador restfull donde esta toda la informacion de tierras
 //Route::get('vista3','TierrasController@Listado');
 Route::get('vista3','TierrasController@PruebaPro');
-Route::get('vista1','ArtdaildController@DaildPreload');  
+Route::get('vista1','ArtdaildController@DaildPreload');
+Route::get('cosul','SiscadiController@showruteo');
+//procedimiento almacenado USP_DOCUMENTOS_BUSCAR  
 Route::get('master_docu','DocumentosController@Masterdocu');
 Route::get('error', function(){return View::make('error');});
   

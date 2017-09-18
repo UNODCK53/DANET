@@ -431,7 +431,7 @@ $menuguardaun=false;
           </li>
         @endif<!--Finaliza Ocultar la opción ART si no es el administrador-->
         @if(($menuartconsultaacuerdoscolecdaild))<!--Oculta la opción DAILD si no es el administrador--> 
-          <li class="dropdown" id="daild" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DAILD <span class="caret"></span></a>
+          <li class="dropdown" id="daild" ><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DSCI <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <!--espacio de Consulta-->
               <li><a align="center"><b>Consulta</b></a></li>
@@ -885,7 +885,7 @@ $menuguardaun=false;
                 </li>
               @endif<!--Finaliza Ocultar la opción art si no es el administrador-->
               @if(($menuartconsultaacuerdoscolecdaild))<!--Oculta la opción BID si no es el administrador--> 
-                <li  class="dropdown"><a id="daildmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DAILD<span class="caret"></span></a>
+                <li  class="dropdown"><a id="daildmenupeq" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">DSCI<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <!--espacio de Consulta-->
                     <li><a align="center"><b>Consulta</b></a></li>

@@ -2859,4 +2859,13 @@ class SiscadiController extends BaseController {
 		//retorno todas las variables para las graficas   estadEBDT  holamundo
 		return Response::json(array('variable'=>$estadEBDT, 'categories'=>$categories, 'masculino'=>round(($masculino/count($estadEBDT))*100), 'femenino'=>round(($femenino/count($estadEBDT))*100), 'masculino1'=>$masculino1, 'femenino1'=>$femenino1,'masculino2'=>$masculino2, 'femenino2'=>$femenino2, 'etnico'=>$etnico, 'naciompiono'=>$naciompiono, 'razones'=>$Razones, 'embarazoparto'=>$embarazopartotot, 'discapacidad'=>$discapacidadtot, 'analfabetismotot'=>$analfabetismotot, 'analfabetismohtot'=>$analfabetismohtot, 'analfabetismomtot'=>$analfabetismomtot, 'promperhoga'=>$promperhoga, 'espaciospart'=>$Participacion, 'actividadcomuni'=>$actividad_comunitaria, 'vinculoorg'=>$vinculo_org, 'gruporelaccomunidad'=>$gruporelaccomunidad, 'relculilici'=>$relculilici, 'vinculacionci'=>$vinculacionci, 'relacionci'=>$relacionci, 'hacultiilictot'=>$hacultiilictot, 'hacultiilicprom'=>$hacultiilicprom, 'ingrepromcultcocatot'=>$ingrepromcultcocatot, 'rangoipmtot'=>$rangoipmtot, 'pobresinotot'=>$pobresinotot, 'sgssstot'=>$sgssstot, 'poblestudiatot'=>$poblestudiatot, 'infantrabaja'=>$infantrabaja, 'edadtrabaja'=>$edadtrabaja, 'saludhogartot'=>$saludhogartot, 'energhogartot'=>$energhogartot, 'pobrepoblatot'=>$pobrepoblatot, 'huertascasetot'=>$huertascasetot, 'rangopmtot'=>$rangopmtot, 'hogarespobratot'=>$hogarespobratot, 'lineapptot'=>$lineapptot, 'haprodagrotot'=>$haprodagrotot, 'accesocat'=>$accesocat, 'ventasproduc'=>$ventasproduc, 'relacionprediotot'=>$relacionprediotot, 'formalizprediotot'=>$formalizprediotot, 'actividpartici'=>$actividpartici, 'acuerdoambien'=>$acuerdoambien, 'practicaambien'=>$practicaambien, 'viasaccesotot'=>$viasaccesotot, 'estadoviastot'=>$estadoviastot, 'topitransptot'=>$topitransptot, 'obtenaguatot'=>$obtenaguatot, 'obtenaguaaptot'=>$obtenaguaaptot,'ficha_tecnica'=>$ficha_tecnica,'ficha_pobla_edad'=>$ficha_pobla_edad,'ficha_jefatu_edad'=>$ficha_jefatu_edad,'primer_infancia'=>$primer_infancia,'espemenores'=>$espemenores,'peces'=>$peces,'ganado'=>$ganado,'donde_vive'=>$donde_vive));
 	}
+	public function showruteo()
+	{
+		$dir = '//unodc.org.co/FILES/DA/FILEUNODC2017/K53/COMPONENTE 5/CAMPO/CONSOLIDACION/ANTIOQUIA/1 DOC MISION ANTIOQUIA';
+		
+		$a = scandir($dir);
+
+		
+		return  $a;
+	}
 }

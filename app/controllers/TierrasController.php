@@ -202,9 +202,46 @@ class TierrasController extends BaseController {
 		//return 'Aqui podemos listar a los usuarios de la Base de Datos:';
 		
 		$arraylevtopo = DB::select('SELECT id_proceso,vereda,NOM_MPIO,MODTIERRAS_VEREDAS.NOM_TERR,nombrepredio,conceptojuridico, nombre, cedula, areapredioformalizada, unidadareaprediofor FROM MODTIERRAS_PROCESO JOIN MODTIERRAS_VEREDAS on MODTIERRAS_VEREDAS.COD_UNODC=MODTIERRAS_PROCESO.vereda WHERE requiererespgeo=1 and respgeografico ='.Auth::user()->id.' AND NOT EXISTS (SELECT * FROM MODTIERRAS_PROCESTADO WHERE MODTIERRAS_PROCESO.id_proceso=MODTIERRAS_PROCESTADO.id_proceso AND MODTIERRAS_PROCESTADO.id_estado=2)');
-		
+		$arrayproccoordlev = DB::select('SELECT id_proceso, longitud, latitud, viabilidad, vereda, respcoordmodif , updatedcoord FROM MODTIERRAS_PROCESO where respgeografico='.Auth::user()->id);
 		//return $arraylevtopo;
-		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo));
+		return View::make('modulotierras.levantamientotopografico', array('arraylevtopo' => $arraylevtopo), array('arrayproccoordlev' => $arrayproccoordlev));
+	}
+	public function postCoordenadasEdiciontopo()
+	{
+		Session::put('procesoi',Input::get('proceso'));		
+		return Redirect::to('mod_coordenadas');
+	}
+	public function EditCoordenadastopo()
+	{
+		$idpro=(Session::get('procesoi'));
+		if($idpro==''){
+			return Redirect::to('levantamiento_topografico');
+		}
+		$arrayapp = DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$idpro)->select('id_proceso','longitud', 'latitud')->get();
+		Session::forget('procesoi');
+		return View::make('modulotierras.coordenadasedittopo', array('arrayapp' => $arrayapp));
+	}
+	public function postGuardarCoordenadastopo()
+	{
+		$dat[0]=Input::get('idpro');
+		
+		if(Input::get('nortesur')==2){
+			$dat[2]=Input::get('latgrados')-Input::get('latminutos')/60 -Input::get('latsegundos')/3600;
+		}
+		else{
+			$dat[2]=Input::get('latgrados')+Input::get('latminutos')/60 +Input::get('latsegundos')/3600;	
+		}
+		$dat[1]=Input::get('longrados')-Input::get('lonminutos')/60 -Input::get('lonsegundos')/3600;
+		DB::table('MODTIERRAS_PROCESO')->where('id_proceso','=',$dat[0])->update(array('longitud'=>$dat[1],'latitud'=>$dat[2], 'updatedcoord'=>date("Y-m-d H:i:s") ));
+		/*USP_TIERRAS_UPDATEPROCESOGEO*/
+		$arrayclallprocedimiento = DB::statement("exec USP_TIERRAS_UPDATEPROCESOGEO $dat[0]");
+		if((int)$arrayclallprocedimiento==1){
+			$status='true';
+		}
+		else{
+			$status='false';
+		}
+		return Redirect::to('levantamiento_topografico')->with('status',$status);
 	}
 	public function postAdjuntarLevtopo()
 	{		
@@ -491,11 +528,29 @@ class TierrasController extends BaseController {
 				return Redirect::to('procesos_adjudicados')->with('documentosanexos', 'error_estatus');
 		}			
     }
-    public function getEditarProceso2()
+    public function postEditarProceso2()
 	{
 		$fecha = date("Y-m-d H:i:s");
 		$procesiid = Input::get('modnp');
-		
+
+		$path = public_path().'\procesos\\'.Input::get('modnp');
+		// creacion de carpeta dependiendo del nombre del proceso
+		if (File::exists($path)){
+						
+		}
+		else{
+			File::makeDirectory($path,  $mode = 0777, $recursive = false);	
+		}
+		if (Input::get('modradiovisinsp')==1) {
+			if(Input::hasFile('modpdf')) {				
+				Input::file('modpdf')->move($path,Input::get('modnp').'_VIO.'.Input::file('modpdf')->getClientOriginalExtension());
+			}
+		}		
+		if (Input::get('modradiovisinsp')==2) {
+			if(File::exists($path.'\\'.Input::get('modnp').'_VIO.pdf')) {				
+				File::delete($path.'\\'.Input::get('modnp').'_VIO.pdf');
+			}
+		}		
   		// insertar campos a la tabla
 	    DB::table('MODTIERRAS_PROCESO')->where('id_proceso', Input::get('modnp'))->update(	    	
 		    array(
@@ -936,7 +991,7 @@ class TierrasController extends BaseController {
 		//$arraytecnicos = DB::select("SELECT cedula,nombre,estado,catastral FROM MODTIERRAS_TECNICOS where catastral=".Auth::user()->id);
 		$arrayprocesos = DB::select("SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_TECNICOS.catastral=".Auth::user()->id." group by MODTIERRAS_PROCESONOVEDAD.id_proceso");
 		$arraynombnovedad = DB::select("SELECT id,descripcion FROM MODTIERRAS_NOVEDADES");
-		$arrayproccoord = DB::select("SELECT id_proceso, IsNull([1],0) as nov1, IsNull([2],0) as nov2, IsNull([3],0) as nov3, IsNull([4],0) as nov4, IsNull([5],0) as nov5 FROM (SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso, MODTIERRAS_PROCESONOVEDAD.novedad, MODTIERRAS_PROCESONOVEDAD.validado FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_PROCESONOVEDAD.validado=1 AND MODTIERRAS_TECNICOS.catastral=".Auth::user()->id.") as src pivot (sum(validado) FOR novedad in ([1], [2], [3], [4], [5])) as result");
+		$arrayproccoord = DB::select("SELECT id_proceso, IsNull([1],0) as nov1, IsNull([2],0) as nov2, IsNull([3],0) as nov3, IsNull([4],0) as nov4, IsNull([5],0) as nov5 FROM (SELECT MODTIERRAS_PROCESONOVEDAD.id_proceso, MODTIERRAS_PROCESONOVEDAD.novedad, MODTIERRAS_PROCESONOVEDAD.validado FROM MODTIERRAS_PROCESONOVEDAD INNER JOIN MODTIERRAS_TECNICOS ON MODTIERRAS_PROCESONOVEDAD.id_tecnico=MODTIERRAS_TECNICOS.cedula WHERE MODTIERRAS_PROCESONOVEDAD.validado=1 AND MODTIERRAS_TECNICOS.catastral=".Auth::user()->id.") as src pivot (sum(validado) FOR novedad in ([1], [2], [3], [4], [5])) as result");		
 		$arraydombobox= array($arrayprocesos,$arraynombnovedad);
 		
 		//return $arrayproccoord;		
@@ -1005,8 +1060,6 @@ class TierrasController extends BaseController {
 			$status='false';
 		}
 		return Redirect::to('novedadesodk')->with('status',$status);		
-		
-		
 	}
 	public function Reporgenero()
 	{		

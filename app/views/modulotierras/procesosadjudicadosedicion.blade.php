@@ -347,32 +347,37 @@
         <div class="col-sm-1"></div>
           <div class="col-sm-10">
           <h3 class="text-primary">VISITA DE INSPECCIÓN:</h3>
-                <form role="form" action="tierras/editar-proceso2" method="get" id="formEdit">
-                  <div class="form-group">
-                    <label for="Proceso" class="control-label">Requiere inspección: </label>
-                    @if(($pro->requierevisinsp == '1') or ($pro->requierevisinsp == ''))
-                      <input type="radio" name="modradiovisinsp" id="visinspsi" value="1" checked> SI
-                    @else
-                      <input type="radio" name="modradiovisinsp" id="visinspsi" value="1"> SI
-                    @endif
-                    @if($pro->requierevisinsp == '2')
-                      <input type="radio" name="modradiovisinsp" id="visinspno" value="2" checked> NO<br>
-                    @else
-                      <input type="radio" name="modradiovisinsp" id="visinspno" value="2" > NO<br>
-                    @endif
-                  </div>
-                  <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}' readonly>
-                  <div class="input-group date" id="datepicker">
-                    @if(($pro->requierevisinsp == '1') or ($pro->requierevisinsp == ''))
-                      <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '{{$pro->fechainspeccionocular}}' required>
-                    @else
-                      <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '' disabled>
-                    @endif
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                  </div>
-                  <br>
-                  <button type="submit" class="btn btn-primary">Guardar</button>
-                </form>
+            <form role="form" action="tierras/editar-proceso2" method="post" id="formEdit" enctype="multipart/form-data">                
+              <div class="form-group">
+                <label for="Proceso" class="control-label">Requiere inspección: </label>
+                @if(($pro->requierevisinsp == '1') or ($pro->requierevisinsp == ''))
+                  <input type="radio" name="modradiovisinsp" id="visinspsi" value="1" checked> SI
+                @else
+                  <input type="radio" name="modradiovisinsp" id="visinspsi" value="1"> SI
+                @endif
+                @if($pro->requierevisinsp == '2')
+                  <input type="radio" name="modradiovisinsp" id="visinspno" value="2" checked> NO<br>
+                @else
+                  <input type="radio" name="modradiovisinsp" id="visinspno" value="2" > NO<br>
+                @endif
+              </div>
+              <input id="modnp" type="hidden" class="form-control" name="modnp"  value='{{$pro->id_proceso}}' readonly>
+              <div class="input-group date" id="datepicker">
+                @if(($pro->requierevisinsp == '1') or ($pro->requierevisinsp == ''))
+                  <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '{{$pro->fechainspeccionocular}}' required>
+                @else
+                  <input id="modfechaocular" type="text" class="form-control" name="modfechaocular" value = '' disabled>                      
+                @endif
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+              </div> <br>
+              @if(($pro->requierevisinsp == '1') or ($pro->requierevisinsp == ''))
+                <a target="_blank" href="procesos/{{$pro->id_proceso}}/{{$pro->id_proceso}}_VIO.pdf" class="glyphicon glyphicon-download-alt btn btn-primary" role="button"></a>
+              @else
+                <input id="modpdf" type="file" class="form-control" name="modpdf" accept=".pdf" >
+              @endif                  
+              <br>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
           </div>
         <div class="col-sm-1"></div>
       </div>
